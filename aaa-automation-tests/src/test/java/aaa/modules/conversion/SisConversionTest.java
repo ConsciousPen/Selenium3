@@ -1,10 +1,15 @@
 package aaa.modules.conversion;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
+import aaa.helpers.conversion.HdesConversionData;
 import aaa.helpers.conversion.SisConversionData;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -12,6 +17,7 @@ import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -26,63 +32,63 @@ import java.time.LocalDateTime;
 public class SisConversionTest extends HomeCaDP3BaseTest {
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest1(@Optional("CA") String state, ITestContext context) {
 		sisConversion("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest2(@Optional("CA") String state, ITestContext context) {
 		sisConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest3(@Optional("CA") String state, ITestContext context) {
 		sisConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest4(@Optional("CA") String state, ITestContext context) {
 		sisConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest5(@Optional("CA") String state, ITestContext context) {
 		sisConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
-	public void sisCADP3ConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
-		sisConversion_customerDeclined("1.xml", context);
+	@Test(groups = {Groups.REGRESSION})
+	public void sisCADP3ConversionTest_renewWithLapse1(@Optional("CA") String state, ITestContext context) {
+		sisConversion_renewWithLapse("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
-	public void sisCADP3ConversionTest_customerDeclined2(@Optional("CA") String state, ITestContext context) {
-		sisConversion_customerDeclined("2.xml", context);
+	@Test(groups = {Groups.REGRESSION})
+	public void sisCADP3ConversionTest_renewWithLapse2(@Optional("CA") String state, ITestContext context) {
+		sisConversion_renewWithLapse("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
-	public void sisCADP3ConversionTest_customerDeclined3(@Optional("CA") String state, ITestContext context) {
-		sisConversion_customerDeclined("3.xml", context);
+	@Test(groups = {Groups.REGRESSION})
+	public void sisCADP3ConversionTest_renewWithLapse3(@Optional("CA") String state, ITestContext context) {
+		sisConversion_renewWithLapse("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
-	public void sisCADP3ConversionTest_customerDeclined4(@Optional("CA") String state, ITestContext context) {
-		sisConversion_customerDeclined("4.xml", context);
+	@Test(groups = {Groups.REGRESSION})
+	public void sisCADP3ConversionTest_renewWithLapse4(@Optional("CA") String state, ITestContext context) {
+		sisConversion_renewWithLapse("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
-	public void sisCADP3ConversionTest_customerDeclined5(@Optional("CA") String state, ITestContext context) {
-		sisConversion_customerDeclined("5.xml", context);
+	@Test(groups = {Groups.REGRESSION})
+	public void sisCADP3ConversionTest_renewWithLapse5(@Optional("CA") String state, ITestContext context) {
+		sisConversion_renewWithLapse("5.xml", context);
 	}
 
 	public void sisConversion(String file, ITestContext context) {
@@ -123,7 +129,7 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	public void sisConversion_customerDeclined(String file, ITestContext context) {
+	public void sisConversion_renewWithLapse(String file, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new SisConversionData(file, effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context);
@@ -138,16 +144,10 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-//		BillingSummaryPage.showPriorTerms();
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(effDate.minusYears(1));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(effDate);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(effDate));
@@ -155,8 +155,24 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-//		BillingSummaryPage.showPriorTerms();
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(effDate.minusYears(1));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1));
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+
+		SearchPage.openPolicy(policyNum);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verify(1);
+		policy.manualRenewalWithOrWithoutLapse().perform(getPolicyTD("ManualRenewalWithOrWithoutLapse", "TestData"));
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.verifyLapseExistFlagPresent();
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 }

@@ -14,6 +14,10 @@ public class Jobs {
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 
+	public static Job renewalJob = new Job("Renewal job");
+
+	public static Job renewalOfferGenerationJob = new Job("renewalOfferAsyncTaskJob");
+
 	public static Job billingInvoiceAsyncTaskJob = new Job("aaaBillingInvoiceAsyncTaskJob");
 
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
@@ -27,6 +31,8 @@ public class Jobs {
 	public static Job aaaCancellationConfirmationAsyncJob = new Job("aaaCancellationConfirmationAsyncJob");
 
 	public static Job aaaRefundDisbursementAsyncJob = new Job("aaaRefundDisbursementAsyncJob");
+
+	public static Job aaaRefundDisbursementRecieveInfoJob = new Job("aaaRefundsDisbursementReceiveInfoAsyncJob");
 
 	public static Job earnedPremiumBillGenerationJob = new Job("earnedPremiumBillGenerationJob");
 
@@ -64,7 +70,7 @@ public class Jobs {
 
 	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");
 
-	public static Job membershipRenewalBatchOrderJob = new Job("membershipRenewalBatchOrderJob");
+	public static Job aaaMembershipRenewalBatchOrderAsyncJob = new Job("aaaMembershipRenewalBatchOrderAsyncJob");
 
 	public static Job aaaRenewalReminderGenerationAsyncJob = new Job("aaaRenewalReminderGenerationAsyncJob");
 
@@ -92,11 +98,25 @@ public class Jobs {
 
 	public static Job aaaBatchMarkerJob = new Job("aaaBatchMarkerJob");
 
-	public static Job aaaCollectionCancellDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
+	public static Job aaaCollectionCancelDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
 
 	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
 
-	
+	public static Job automatedProcessingStrategyStatusUpdateJob = new Job("automatedProcessingStrategyStatusUpdateJob");
+
+	public static Job automatedProcessingBypassingAndErrorsReportGenerationJob = new Job("automatedProcessingBypassingAndErrorsReportGenerationJob");
+
+	public static Job policyAutomatedRenewalAsyncTaskGenerationJob = new Job("policyAutomatedRenewalAsyncTaskGenerationJob");
+
+	public static Job aaaMembershipRenewalBatchReceiveAsyncJob = new Job("aaaMembershipRenewalBatchReceiveAsyncJob");
+
+	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
+
+	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
+
+
+	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}

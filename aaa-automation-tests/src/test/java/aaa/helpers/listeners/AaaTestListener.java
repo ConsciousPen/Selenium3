@@ -1,9 +1,7 @@
 package aaa.helpers.listeners;
 
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.WebDriverException;
 import org.testng.ITestResult;
-import toolkit.exceptions.IstfException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
 import toolkit.webdriver.BrowserController;
@@ -22,7 +20,7 @@ public class AaaTestListener extends TestngTestListener2 {
 		try {
 			BrowserController.get().executeScript("$('#headerForm').hide();");
 			BrowserController.get().executeScript("try{document.styleSheets[0].insertRule('body:after,footer:after{display:none!important}',0);}catch(e){}");
-		} catch (IstfException | WebDriverException e) {
+		} catch (Exception e) {
 			log.debug("Error execute script for hide footer: ", e);
 		}
 	}
@@ -30,22 +28,19 @@ public class AaaTestListener extends TestngTestListener2 {
 	protected void showFooter() {
 		try {
 			BrowserController.get().executeScript("$('#headerForm').show();");
-		} catch (IstfException | WebDriverException e) {
+		} catch (Exception e) {
 			log.debug("Error execute script for show footer: ", e);
 		}
 	}
 
 	@Override
-	protected void createAuxAttachments(ITestResult result){
+	protected void createAuxAttachments(ITestResult result) {
 		if (result.getTestContext().getAttribute("attachment") != null) {
 			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER);
 		}
-
-		if (!result.isSuccess()) {
-			String appLogPath = new AppLogGrabber().grabAppLog(result);
-			if (appLogPath != null) {
-				createAttachment(result, appLogPath, Attachment.Type.APP_LOG);
-			}
+		String appLogPath = new AppLogGrabber().grabAppLog(result);
+		if (appLogPath != null) {
+			createAttachment(result, appLogPath, Attachment.Type.APP_LOG);
 		}
 	}
 }

@@ -5,14 +5,13 @@
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.webdriver.controls.Button;
-import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -48,5 +47,9 @@ public class DriverTab extends Tab {
 	
 	public MultiInstanceBeforeAssetList getActivityInformationAssetList() {
 		return getAssetList().getAsset(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION);
+	}
+
+	public static void viewDriver(int index){
+		tableDriverList.selectRow(index);
 	}
 }

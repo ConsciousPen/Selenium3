@@ -4,11 +4,12 @@
  */
 package aaa.main.modules.policy.abstract_tabs;
 
+import java.text.DecimalFormat;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -17,8 +18,6 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.text.DecimalFormat;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -35,6 +34,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Button btnOverridePremium = new Button(By.xpath("//a[@id='policyDataGatherForm:overridePremiumLinkHo' or @id='policyDataGatherForm:overridePremiumLinkPup']"));
 	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
+	public static Table tableTaxesSurchargesSummary = new Table(By.id("policyDataGatherForm:taxSummaryTable"));
 	public static Table tableTotalPremiumSummary = new Table(By.id("policyDataGatherForm:totalSummaryTable"));
 	public static Table tableTotalDwellingSummary = new Table(By.id("policyDataGatherForm:dwellingSummaryTable"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
@@ -54,6 +54,10 @@ public abstract class PropertyQuoteTab extends Tab {
 		super(mdClass);
 	}
 
+	public static Dollar getTaxesSurchargesPremium() {
+		return new Dollar(tableTaxesSurchargesSummary.getRow(1).getCell(tableTaxesSurchargesSummary.getColumnsCount()).getValue());
+	}
+	
 	public static Dollar getPolicyTermPremium() {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount()).getValue());
 	}
@@ -73,19 +77,19 @@ public abstract class PropertyQuoteTab extends Tab {
 		return new Dollar(textBoxOverrideFlatAmount.getValue());
 	}
 
-	public static Double getOverridenPremiumPercentageAmount() {
+	public static int getOverridenPremiumPercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		return new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())));
+		return (new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())))).intValue();
 	}
 
 	public static Dollar calculatedOverrideFlatAmount() {
 		return new Dollar(getPolicyDwellingPremium().getPercentage(getOverridenPremiumPercentageAmount()));
 	}
 
-	public static Double calculatedOverridePercentageAmount() {
+	public static int calculatedOverridePercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		return new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
-				(new Double(getPolicyDwellingPremium().toPlaingString())) * 100)));
+		return (new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
+				(new Double(getPolicyDwellingPremium().toPlaingString())) * 100)))).intValue();
 	}
 
 	public static Dollar getFinalTermPremium() {

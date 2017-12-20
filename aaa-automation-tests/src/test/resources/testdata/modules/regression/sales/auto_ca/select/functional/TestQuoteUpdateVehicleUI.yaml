@@ -71,7 +71,7 @@ Vehicle_3: {
   Primary Use: 'index=1',
   'Miles One-way to Work or School': '500',
   Odometer Reading: 1,
-  Odometer Reading Date: '/today'
+  Odometer Reading Date: '$<today>'
 }
 
 PremiumAndCoveragesTab: {

@@ -1,213 +1,187 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Auto Smoke tests" verbose="1" parallel="tests" thread-count="1024">
-	<listeners>
-		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
-	</listeners>
-	<parameter name="timeshift-scenario-mode" value="test" />
-
-	<test name="UT Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="UT" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelRewrite"/>
-			<class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
-		</classes>
-	</test>
-
-	<test name="AZ Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="AZ" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="CO Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="CO" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="CT Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="CT" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="DC Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="DC" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="DE Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="DE" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="ID Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="ID" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="IN Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="IN" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="KS Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="KS" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="KY Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="KY" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="MD Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="MD" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="MT Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="MT" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="NJ Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="NJ" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="NV Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="NV" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="NY Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="NY" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="OH Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="OH" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="OK Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="OK" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="OR Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="OR" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="PA Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="PA" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="SD Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="SD" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="VA Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="VA" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="WV Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="WV" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="WY Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="WY" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="CA Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="CA" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation" />
-			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig" />
-			<class name="aaa.modules.regression.service.auto_ca.select.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
-	<test name="CA Choice Auto Smoke Tests" preserve-order="true">
-		<parameter name="state" value="CA" />
-		<classes>
-			<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreation" />
-			<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig" />
-			<class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyEndorsementAdd" />
-		</classes>
-	</test>
-
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="UT Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
+        </classes>
+    </test>
+    <test name="AZ Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="CO Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="CT Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="DC Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="DE Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="ID Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="IN Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="KS Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="KY Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="MD Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="MT Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="MT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="NJ Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="NV Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="NY Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="OH Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="OH"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="OK Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="OK"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="OR Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="PA Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="SD Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="VA Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="WV Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="WY Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="WY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="CA Select Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
+    <test name="CA Choice Auto Smoke Tests" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig"/>
+            <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyEndorsementAdd"/>
+        </classes>
+    </test>
 </suite>

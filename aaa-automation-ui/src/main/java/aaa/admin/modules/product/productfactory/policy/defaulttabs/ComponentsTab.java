@@ -3,9 +3,6 @@
 package aaa.admin.modules.product.productfactory.policy.defaulttabs;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFTree;
-
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.pages.product.CommonProductFactoryPage;
 import aaa.common.Tab;
@@ -18,7 +15,6 @@ import toolkit.webdriver.controls.waiters.LocatorWaiter;
 
 public class ComponentsTab extends PFDefaultTab {
     AssetList assetListProperties;
-    PFTree tree = new PFTree(By.xpath("//*"));
 
     public static Button buttonDone = new Button(By.xpath("//form[@id='component-attributes']//button[.='Done']"));
 
@@ -30,7 +26,6 @@ public class ComponentsTab extends PFDefaultTab {
         assetList = new MultiAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
             @Override
             protected void setSectionValue(int index, TestData value) {
-                tree.setValue(value);
                 assetListProperties.fill(value);
             }
 

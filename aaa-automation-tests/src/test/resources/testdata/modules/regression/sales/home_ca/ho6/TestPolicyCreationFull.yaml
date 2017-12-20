@@ -16,14 +16,14 @@ TestDataFull: {
 GeneralTabFull: {
   PolicyInfo: {
     Policy type: 'HO6',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Lead source: 'AAA Magazines',
     },
   CurrentCarrier: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '/today:MM/dd/yyyy',
+    Base date with AAA: '$<today:MM/dd/yyyy>',
     }
 }
 
@@ -36,19 +36,9 @@ ApplicantTab: {
     }],
   AAAMembership: {
     Membership number: '4290023667710001',
-    Last name: Test,
+    Last name: Smith
     },
-  DwellingAddress: {
-    Zip code: '90201',
-    Street address 1: 265 CHIPMAN AVE,
-    Street address 2: 1,
-    Validate Address: true,
-    Validate Address Dialog: {
-      #Street number: 265,
-      #Street name: CHIPMAN AVE,
-      #Select Address: "/default"
-      }
-    },
+  DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress',
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: {
@@ -166,11 +156,7 @@ MortgageesTab: {
   "Is there any third party designee?": 'Yes',
   LegalPropetyAddress: {
     Validate Address: true,
-    Validate Address Dialog: {
-            #Street number: 265,
-            #Street name: CHIPMAN AVE,
-            #Select Address: "/default"
-            }
+    Validate Address Dialog: {}
   },
   MortgageeInformation: {
     Name: 'Chuck Norris',
@@ -198,7 +184,7 @@ MortgageesTab: {
     Street address 1: 'Power Str',
     Street address 2: '2',
     Description of interest: 'He is a very cool guy',
-    Effective Date: '/today',
+    Effective Date: '$<today>',
     },
   ThirdPartyDesignee: {
     Name: 'Chuck Norris',

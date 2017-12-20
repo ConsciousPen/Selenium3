@@ -1,0 +1,15 @@
+PurchaseTab_DC: {
+  PaymentMethods: ['@DC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'contains=Debit',
+  PaymentAllocation: {
+    Visa: '/rest'
+  }
+}
+
+DC_Visa: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4539343326426984',
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
+  }

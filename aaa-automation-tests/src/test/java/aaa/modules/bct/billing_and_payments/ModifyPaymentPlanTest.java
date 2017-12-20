@@ -21,10 +21,11 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_086_ModifyPaymentPlan(@Optional("") String state) {
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_086_ModifyPaymentPlan", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 //		int initialInstallmentsCount = BillingSummaryPage.tableInstallmentSchedule.getRowsCount();
@@ -42,19 +43,20 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_185_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
-		billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
+		billingAccount.changePaymentPlan().perform(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.valueByRegex("Standard Monthly (Renewal)");
+				.verify.value(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
 
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).setAmount(new Dollar(3)).verify(1);
 	}
 
@@ -62,21 +64,22 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_186_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
 		billingAccount.changePaymentPlan().start();
 		ChangePaymentPlanActionTab tab = new ChangePaymentPlanActionTab();
-		tab.getAssetList().getAsset(BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN).setValue("Standard Monthly (Renewal)");
+		tab.getAssetList().getAsset(BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		tab.buttonOk.click();
-		Page.dialogConfirmation.labelMessage.verify.contains("As you requested, we have changed your payment plan from Annual (Renewal) to Standard Monthly (Renewal) and your minimum due has changed. Your policy is set up on automatic payment and the new minimum due will be withdrawn from your account on or after your renewal date. An updated renewal statement will not be available. Do you agree to these changes?");
+		Page.dialogConfirmation.labelMessage.verify.contains("As you requested, we have changed your payment plan from Standard Monthly (Renewal) to Semi-Annual (Renewal) and your minimum due has changed. Your policy is set up on automatic payment and the new minimum due will be withdrawn from your account on or after your renewal date. An updated renewal statement will not be available. Do you agree to these changes?");
 		Page.dialogConfirmation.confirm();
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.valueByRegex("Standard Monthly (Renewal)");
+				.verify.value(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 				.setReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)

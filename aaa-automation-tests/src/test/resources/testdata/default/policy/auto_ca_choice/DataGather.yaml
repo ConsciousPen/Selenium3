@@ -13,11 +13,9 @@ TestData_CA: {
 }
 
 PrefillTab: {
-  First Name: Sansa,
-  Last Name: Stark,
   Zip Code: 90255,
   Address Line 1: 6586 PORCUPINE WAY,
-  Date of Birth: '/today-38y:MM/dd/yyyy',
+  Date of Birth: '$<today-38y:MM/dd/yyyy>',
   Validate Address: click,
   Validate Address Dialog: {
     },
@@ -43,12 +41,12 @@ NamedInsuredInformation: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Member Last Name: Test,
+  Member Last Name: Smith
 }
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Los Gatos - 500005341 - Los Gatos',

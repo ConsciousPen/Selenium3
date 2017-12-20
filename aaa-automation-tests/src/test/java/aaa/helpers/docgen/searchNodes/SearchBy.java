@@ -1,19 +1,23 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.AaaMarkupParser;
-import aaa.helpers.xml.models.StandardDocumentRequest;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
+import org.apache.commons.lang3.tuple.Pair;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public abstract class SearchBy<N, D> {
 	public static StandardDocumentRequestNode standardDocumentRequest = new StandardDocumentRequestNode();
-
+	private static final String CONTAINS_PREFIX = "contains=";
 	private static ThreadLocal<Map<String, String>> commonSearchCriteriaMap = ThreadLocal.withInitial(LinkedHashMap::new);
 	private ThreadLocal<Map<String, Pair<Function<D, String>, String>>> conditionsMap = ThreadLocal.withInitial(LinkedHashMap::new);
 
 	public abstract List<D> search(StandardDocumentRequest sDocumentRequest);
+
 	protected abstract String getNodePath();
 
 	@SuppressWarnings("unchecked")
@@ -66,8 +70,8 @@ public abstract class SearchBy<N, D> {
 	}
 
 	private boolean isConditionMet(String actualValue, String expectedValue) {
-		if (Objects.nonNull(actualValue) && Objects.nonNull(expectedValue) && expectedValue.startsWith(AaaMarkupParser.CONTAINS_PREFIX)) {
-			return actualValue.contains(expectedValue.replaceAll(AaaMarkupParser.CONTAINS_PREFIX, ""));
+		if (Objects.nonNull(actualValue) && Objects.nonNull(expectedValue) && expectedValue.startsWith(CONTAINS_PREFIX)) {
+			return actualValue.contains(expectedValue.replaceAll(CONTAINS_PREFIX, ""));
 		}
 		return Objects.equals(actualValue, expectedValue);
 	}

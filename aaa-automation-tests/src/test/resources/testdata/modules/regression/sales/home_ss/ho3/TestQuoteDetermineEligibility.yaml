@@ -260,15 +260,8 @@ ClaimHistory5: {
 }
 
 ClaimHistory6: {
-  Date of loss: '12/02/2014', 
-  Cause of loss: 'Hail', 
-  Amount of loss: '500', 
-  Claim status: 'Closed'
-}
-
-ClaimHistory6: {
 Add a claim: 'Yes', 
-  Date of loss: '12/02/2014', 
+  Date of loss: '12/02/2017', 
   Cause of loss: 'Hail', 
   Amount of loss: '26000', 
   Claim status: 'Closed'
@@ -306,7 +299,7 @@ AdditionalInterest1: {
   Zip code: '84003', 
   Street address 1: '265 CHIPMAN AVE', 
   Description of interest: 'test1',
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 AdditionalInterest2: {
@@ -314,7 +307,7 @@ AdditionalInterest2: {
   Zip code: '84003', 
   Street address 1: '266 CHIPMAN AVE', 
   Description of interest: 'test2',
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 AdditionalInterest3: {
@@ -322,7 +315,7 @@ AdditionalInterest3: {
   Zip code: '84003', 
   Street address 1: '267 CHIPMAN AVE', 
   Description of interest: 'test3',
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 

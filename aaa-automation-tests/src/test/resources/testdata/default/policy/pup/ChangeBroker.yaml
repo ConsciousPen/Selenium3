@@ -1,6 +1,6 @@
 TestData: {
   ChangeBrokerActionTab: {    
-    Transaction Effective Date: /today,
+    Transaction Effective Date: $<today>,
     New Broker: {
       Agency Name: Test Agency Inter
     }
@@ -9,7 +9,7 @@ TestData: {
 
 TestData_Plus1Day: {
   ChangeBrokerActionTab: {
-    Transaction Effective Date: /today+1d,
+    Transaction Effective Date: $<today+1d>,
     New Broker: {
       Agency Name: Test Agency Inter
     }

@@ -15,7 +15,6 @@
     "com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector":"/.",
 	"com.exigen.ipb.etcsa.controls.dialog.DialogAssetList":"/.",
     "com.exigen.ipb.etcsa.controls.productfactory.DatePicker": "//input",
-    "com.exigen.ipb.etcsa.controls.productfactory.ManageAttributes": "/.",
     "com.exigen.ipb.etcsa.controls.cem.campaigns.AssociateTextBox": "/.",
     #"aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList": "/.",
     "aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog": "/.",
@@ -24,6 +23,7 @@
     #"aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList": "/.",
     "aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl": "/.",
     "toolkit.webdriver.controls.DoubleTextBox": "/.",
-    "aaa.toolkit.webdriver.customcontrols.AdvancedComboBox": "//select"
+    "aaa.toolkit.webdriver.customcontrols.AdvancedComboBox": "//select",
+    "aaa.toolkit.webdriver.customcontrols.CalendarBox": "/."
   }
 }

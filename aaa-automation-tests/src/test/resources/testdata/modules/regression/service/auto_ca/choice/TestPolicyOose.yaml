@@ -34,7 +34,7 @@ VehicleTab: {
 AssignmentTab: {
   DriverVehicleRelationshipTable: [{
     Vehicle: '2012, AUDI, A3',
-    Primary Driver: 'Sansa Stark'
+    Primary Driver: 'contains=Smith',
   }]
 }
 
@@ -75,8 +75,7 @@ NamedInsuredInformation2: {
   Add: Click,
   InsuredSearchDialog: {},
   First Name: Violeta,
-  Last Name: Minolta,
-  "Home Phone #": 5554567001, 
+  Last Name: Minolta
 }
 
 PolicyInformation2: {
@@ -89,7 +88,7 @@ DriverTab2: {
   Named Insured: 'Violeta Minolta',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '/today-37y:MM/dd/yyyy',
+  Date of Birth: '$<today-37y:MM/dd/yyyy>',
   Occupation: Self Employed,
   Gender: Female,
   Marital Status: Single,

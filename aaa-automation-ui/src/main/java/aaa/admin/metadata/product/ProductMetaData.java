@@ -3,17 +3,14 @@
 package aaa.admin.metadata.product;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.controls.AdvancedSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
-import com.exigen.ipb.etcsa.controls.productfactory.ManageAttributes;
 import com.exigen.ipb.etcsa.controls.productfactory.MdCheckBox;
 import com.exigen.ipb.etcsa.controls.productfactory.ProductFactoryCheckBox;
 import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
 import com.exigen.ipb.etcsa.controls.productfactory.custom.PFComboBox;
 import com.exigen.ipb.etcsa.controls.productfactory.custom.PFTextBox;
-
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -94,7 +91,6 @@ public final class ProductMetaData {
         public static final AssetDescriptor<PFTextBox> COVERAGE_CD = declare("CoverageCd", PFTextBox.class,
                 By.xpath("//label[.='CoverageCd']//following-sibling::input"));
         public static final AssetDescriptor<PFButton> BUTTON_SAVE = declare("Button Save", PFButton.class, By.id("component-properties:save"));
-        public static final AssetDescriptor<ManageAttributes> MANAGE_ATTRIBUTES = declare("Manage Attributes", ManageAttributes.class, By.id("manage-attributes:manage"));
 
         public static final class CreateAttribute extends MetaData {
             public static final AssetDescriptor<PFTextBox> ATTRIBUTE_NAME = declare("Attribute name", PFTextBox.class, By.id("attribute-create:name"));

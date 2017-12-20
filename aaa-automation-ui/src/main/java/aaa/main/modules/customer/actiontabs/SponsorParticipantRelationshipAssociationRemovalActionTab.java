@@ -3,7 +3,6 @@
 package aaa.main.modules.customer.actiontabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
@@ -27,7 +26,7 @@ public class SponsorParticipantRelationshipAssociationRemovalActionTab extends A
     public Tab fillTab(TestData td) {
         if (td.containsKey(getMetaKey())) {
             assetList = new AssetList(By.xpath("//*[contains(@id, 'crmForm:relationshipAssociationRemovalConfirmationPopup_container')]"), metaDataClass);
-            assetList.config.applyConfiguration("ParticipantKeepHistory");
+            assetList.applyConfiguration("ParticipantKeepHistory");
             assetList.fill(td);
         }
         return this;

@@ -1,5 +1,5 @@
 {
-  "parser": "aaa.helpers.AaaMarkupParser",
+  "parser": "aaa.helpers.config.CSAAMarkupParser",
   "testDataAliases": {
     "auto_ca_choice": "default/policy/auto_ca_choice",
     "auto_ca_select": "default/policy/auto_ca_select",

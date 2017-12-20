@@ -2,20 +2,19 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import java.time.LocalDateTime;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -45,6 +44,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonCompareVersions = new Button(By.id("historyForm:compareVersions_footer"));
 	public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 	public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
+	public static Button buttonRenewalQuoteVersion = new Button(By.id("productContextInfoForm:stubRenewalQuoteVersions"));
 
 	public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
 
@@ -73,6 +73,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
 	public static Table tableTotalPremiumSummaryProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:totalSummaryTable' "
 		+ "or @id='productConsolidatedViewForm:pupCoverageDetail' " + "or @id='productConsolidatedViewForm:pupTableTotalPremium']"));
+	public static Table tableTotalStateTaxesProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:stateLocalTaxes']"));
 	public static Table tablePupPropertyInformation = new Table(By.id("productConsolidatedViewForm:body_scolumn_PupConsolidatedPropertyInfo"));
 	// cea
 	public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
@@ -86,6 +87,10 @@ public class PolicySummaryPage extends SummaryPage {
 
 	public static Dollar getTotalPremiumSummaryForProperty() {
 		return new Dollar(tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue());
+	}
+	
+	public static Dollar getTotalStateTaxesForProperty() {
+		return new Dollar(tableTotalStateTaxesProperty.getRow(1).getCell(2).getValue());
 	}
 
 	public static Dollar getProposedRenewalPremium() {

@@ -1,0 +1,32 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}  
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}
+
+EndorsementActionTab: {
+    Endorsement Date: $<today+2d>,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
+}
+
+ApplicantTab: {
+  AAA employee: 'Yes'
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Semi-Annual
+}

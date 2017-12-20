@@ -22,11 +22,10 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_032_Modify_Payment_Method(@Optional("") String state) {
-
+		mainApp().open();
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_032_ModifyPaymentMethod_PaymentPlan", "SelectPolicy").get(0);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		if (PolicySummaryPage.buttonPendedEndorsement.isEnabled()) {
 			PolicySummaryPage.buttonPendedEndorsement.click();
@@ -34,11 +33,11 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		}
 		policy.endorse().performAndFill(getTestSpecificTD("TestData"));
 		if (new ErrorTab().buttonOverride.isPresent()) {
-			policy.endorse().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
+			policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
 		}
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(BillingConstants.PaymentPlan.MONTHLY);
+		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(BillingConstants.PaymentPlan.MONTHLY_RENEWAL);
 
 	}
 }

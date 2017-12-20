@@ -62,17 +62,154 @@
         </classes>
     </test>
     
-	<test name="TestScenario1_CA_Select">
+	<test name="Document_Fulfillment_CA_Select_TestScenario1">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ca.select.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario1" />
         </classes>
     </test>
     
-	<test name="TestScenario1_CA_Choice">
+	<test name="Document_Fulfillment_CA_Select_TestScenario2">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ca.choice.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario2" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_CA_Select_TestScenario3">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario3" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_CA_Choice_TestScenario1">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario1" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_CA_Choice_TestScenario2">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario2" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_CA_Choice_TestScenario3">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario3" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_CA_Choice_TestScenario4">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario4" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_CA_Choice_TestScenario5">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario5" />
+        </classes>
+    </test>
+    
+	<!-- 
+	<test name="Document_Fulfillment_CA_Choice_TestScenario6">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario6" />
+        </classes>
+    </test>
+     -->
+     
+     <test name="Document_Fulfillment_CA_Choice_TestScenario7">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario7" />
+        </classes>
+    </test>
+     
+	<!-- 
+	<test name="Document_Fulfillment_TestScenario1">
+        <parameter name="state" value="CT,MD,MT,VA,WV" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario1" />
+        </classes>
+    </test>
+     -->
+     
+    <test name="Document_Fulfillment_TestScenario2">
+        <parameter name="state" value="AZ,IN,OH,VA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2" />
+        </classes>
+    </test>
+    
+    <test name="Document_Fulfillment_TestScenario3">
+        <parameter name="state" value="DC" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario3" />
+        </classes>
+    </test>
+     
+	<test name="Document_Fulfillment_TestScenario4">
+        <parameter name="state" value="AZ,IN,OH,VA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenario5">
+        <parameter name="state" value="DC" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario5" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenario6">
+        <parameter name="state" value="NV" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario6" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenario7">
+        <parameter name="state" value="OH" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario7" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenario8">
+        <parameter name="state" value="NV" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario8" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenarioNY">
+        <parameter name="state" value="NY" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenarioNY" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenarioCT">
+        <parameter name="state" value="CT" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenarioCT" />
+        </classes>
+    </test>
+    
+	<test name="Document_Fulfillment_TestScenarioCO">
+        <parameter name="state" value="CO" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenarioCO" />
         </classes>
     </test>
 </suite>

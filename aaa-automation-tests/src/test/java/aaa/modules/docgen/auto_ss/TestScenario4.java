@@ -1,5 +1,17 @@
 package aaa.modules.docgen.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.AA41XX;
+import static aaa.main.enums.DocGenEnum.Documents.AAGCAZ;
+import static aaa.main.enums.DocGenEnum.Documents.AASR22;
+import static aaa.main.enums.DocGenEnum.Documents.AH64XX;
+import static aaa.main.enums.DocGenEnum.Documents.AHRBXX;
+import java.time.LocalDateTime;
+import org.mortbay.log.Log;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -21,20 +33,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.mortbay.log.Log;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
-import toolkit.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
-
-import java.time.LocalDateTime;
-
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestScenario4 extends AutoSSBaseTest {
 	private String policyNumber;
@@ -150,9 +152,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1, true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		
 		CustomAssert.enableSoftMode();
 		
@@ -171,7 +173,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		
 		CustomAssert.enableSoftMode();
 		
@@ -192,8 +194,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		CustomAssert.enableSoftMode();
 		
@@ -216,8 +218,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		CustomAssert.enableSoftMode();
 		
@@ -270,7 +272,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		Log.info("Policy Update Status Date" + updatePolicyStatusDate);
 		TimeSetterUtil.getInstance().nextPhase(updatePolicyStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob, true);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -288,9 +290,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 		 getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
 		 Log.info("Policy Insurance Renewal Reminder Notice Date" + insuranceRenewalReminderDate);
 		 TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
-		 JobUtils.executeJob(Jobs.lapsedRenewalProcessJob, true);
-		 JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob, true);
-		 JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		 JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		 JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
+		 JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		CustomAssert.enableSoftMode();
 

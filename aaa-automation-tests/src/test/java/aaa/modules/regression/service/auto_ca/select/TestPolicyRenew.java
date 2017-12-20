@@ -5,7 +5,6 @@ package aaa.modules.regression.service.auto_ca.select;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -25,7 +24,7 @@ public class TestPolicyRenew extends AutoCaSelectBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
-	public void testQuoteCreation(@Optional("CA") String state) {
+	public void testPolicyRenew(@Optional("CA") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

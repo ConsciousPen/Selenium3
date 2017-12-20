@@ -15,14 +15,14 @@ TestData_CA: {
 GeneralTab: {
   PolicyInfo: {
     Policy type: 'HO4',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Lead source: 'AAA Magazines',
     },
   CurrentCarrier: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '/today:MM/dd/yyyy',
+    Base date with AAA: '$<today:MM/dd/yyyy>',
     }
 }
 
@@ -80,7 +80,7 @@ TestData_Full: {
   GeneralTab: {
     PolicyInfo: {
       Policy type: 'HO4',
-      Effective date: '/today:MM/dd/yyyy',
+      Effective date: '$<today:MM/dd/yyyy>',
       Application Type: 'New',
       Commission Type: 'New Business',
       Lead source: 'AAA Magazines',
@@ -90,7 +90,7 @@ TestData_Full: {
       Carrier name: 'AAA - NCNU',
       Policy type: 'HO4',
       Continuous years with HO insurance: '5',
-      Base date with AAA: '/today:MM/dd/yyyy',
+      Base date with AAA: '$<today:MM/dd/yyyy>',
     }
   },
 
@@ -103,7 +103,7 @@ TestData_Full: {
     }],
     AAAMembership: {
       Membership number: '4290023667710001',
-      Last name: Test,
+      Last name: Smith
     },
     DwellingAddress: {
       Zip code: '90255',

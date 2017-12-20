@@ -1,0 +1,71 @@
+package aaa.modules.regression.sales.home_ss.ho3.functional;
+
+import static aaa.common.enums.NavigationEnum.HomeSSTab.ENDORSEMENT;
+import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES;
+import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY;
+import static aaa.main.metadata.policy.HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY;
+import static aaa.main.metadata.policy.HomeSSMetaData.EndorsementTab.HS_04_61;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PersonalPropertyTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
+
+public class TestRemovingSpp extends HomeSSHO3BaseTest {
+
+    /**
+     * @author Igor Garkusha
+     * @name Test HO3 Removing SPP doesn't lower total premium
+     * @scenario 1.  Create policy with Scheduled Personal Property
+     * 2.  Create Endorse
+     * 3.  Check Boundary conditions +/-1 day
+     * 4.  Remove the Scheduled Personal Property from “Other Endorsement” tab by selecting remove on the endorsement
+     * 5.  Recalculate premium and validate if the Actual premium is subtracting the SPP amount
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-5847")
+    public void pas5847_removingSPPDoesNotLowerTotalPremium(@Optional("AZ") String state) {
+        mainApp().open();
+        createCustomerIndividual();
+        TestData testTd = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+        testTd.adjust(TestData.makeKeyPath(HomeSSMetaData.DocumentsTab.class.getSimpleName(),
+                APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel()), "true");
+        testTd = testTd.resolveLinks();
+        createPolicy(testTd);
+
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        Arrays.asList(PREMIUMS_AND_COVERAGES, ENDORSEMENT, PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY).
+                forEach(tab -> NavigationPage.toViewTab(tab.get()));
+
+        new PersonalPropertyTab().getAssetList().getAsset("Cameras", PersonalPropertyMultiAssetList.class).removeAll();
+        NavigationPage.toViewTab(ENDORSEMENT.get());
+        new EndorsementTab().tblIncludedEndorsements.getRow("Form ID", HS_04_61.getLabel()).getCell(6).
+                controls.links.get(1).click();
+        Page.dialogConfirmation.confirm();
+
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        new PremiumsAndCoveragesQuoteTab().calculatePremium();
+
+        Dollar preEndorsement = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getColumn(2).getValue().get(0));
+        Dollar actualPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getColumn(5).getValue().get(0));
+
+        assertThat(actualPremium.lessThan(preEndorsement)).as(preEndorsement + "should be less than " + actualPremium);
+
+    }
+}

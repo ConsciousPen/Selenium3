@@ -445,7 +445,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind" />
 		</classes>
 	</test>
-<!--
+
 	<test name="KY HSS Functional Tests">
 		<parameter name="state" value="KY" />
 		<classes>
@@ -476,16 +476,18 @@
 	<test name="KY PUP Functional Tests">
 		<parameter name="state" value="KY" />
 		<classes>
-			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
-			<class name="aaa.modules.regression.service.pup.TestPolicyCopy" />
-			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
-			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
-			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+		    <class name="aaa.modules.regression.sales.pup.TestPolicyBackdated" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAction" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteInitiate" />
+			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
+			<class name="aaa.modules.regression.sales.pup.TestQuotePremiumOverride" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind" />
 		</classes>
 	</test>
- -->
+
 	<test name="MD HSS Functional Tests">
 		<parameter name="state" value="MD" />
 		<classes>

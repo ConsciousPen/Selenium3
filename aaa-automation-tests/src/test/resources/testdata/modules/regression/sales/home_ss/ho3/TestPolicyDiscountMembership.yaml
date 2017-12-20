@@ -29,7 +29,7 @@ ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   #AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-  RiskMeterReport: [{Report: 'Order Report'}],
+  #RiskMeterReport: [{Report: 'Order Report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
@@ -57,7 +57,7 @@ TestData_CopyPolicy: {
 }
 
 CopyFromPolicyActionTab: {
-    Quote Effective Date: '/today'
+    Quote Effective Date: '$<today>'
 }
 
 UnderwritingAndApprovalTab: {
@@ -401,7 +401,7 @@ TestData_MembershipPending_KY: {
   PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
   UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab_KY',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab',
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
 }
@@ -551,6 +551,7 @@ ApplicantTab_NJ: {
 ReportsTab_NJ: {
   Sales Agent Agreement: 'I Agree',
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
 }

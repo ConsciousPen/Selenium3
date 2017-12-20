@@ -1,20 +1,14 @@
 package aaa.modules.docgen.auto_ss;
 
-import static aaa.main.enums.DocGenEnum.Documents.*;
+import static aaa.main.enums.DocGenEnum.Documents.AAIQAZ;
+import static aaa.main.enums.DocGenEnum.Documents.AATSXX;
 import static org.openqa.selenium.By.id;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.DataProviderFactory;
-import toolkit.datax.TestData;
-import toolkit.utils.Dollar;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Button;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -24,6 +18,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.datax.DataProviderFactory;
+import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.Button;
 
 public class TestScenario5 extends AutoSSBaseTest {
 	private String policyNumber;
@@ -115,8 +113,8 @@ public class TestScenario5 extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
 				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
 				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem),
+				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem),
+//				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
 				policyNumber);	
 		
 		CustomAssert.disableSoftMode();

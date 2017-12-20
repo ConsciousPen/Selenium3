@@ -3,7 +3,6 @@
 package aaa.main.modules.customer.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.DefaultTab;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
@@ -20,8 +19,7 @@ public class CustomerTypeTab extends DefaultTab {
     @Override
     public Tab fillTab(TestData td) {
         if (td.containsKey(getMetaKey())) {
-            assetList = new AssetList(By.xpath("//div[@id='searchForm:customerTypePopup_container' or @id='customerTypePopup_container']"), metaDataClass);
-            assetList.config.applyConfiguration("CustomerTypeTab");
+            assetList = new AssetList(By.xpath("//div[@id='searchForm:customerTypePopup_container' or @id='customerTypePopup_container']"), metaDataClass).applyConfiguration("CustomerTypeTab");
             assetList.fill(td);
         }
         return this;

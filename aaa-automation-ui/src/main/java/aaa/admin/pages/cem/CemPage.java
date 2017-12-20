@@ -3,7 +3,6 @@
 package aaa.admin.pages.cem;
 
 import org.openqa.selenium.By;
-
 import aaa.admin.metadata.cem.CemMetaData;
 import aaa.admin.pages.AdminPage;
 import toolkit.datax.TestData;
@@ -14,8 +13,7 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 public class CemPage extends AdminPage {
 
-    public static AssetList assetListSearchForm = new AssetList(By.xpath(
-            "//thead[contains(@id, 'searchTable')]"), CemMetaData.SearchByField.class);
+    public static AssetList assetListSearchForm = new AssetList(By.xpath("//thead[contains(@id, 'searchTable')]"), CemMetaData.SearchByField.class);
 
     public static Button buttonCreateNewMajorLargeAccount = new Button(By.id("createNewAccount"));
     public static Button buttonCreateNewGroup = new Button(By.id("createNewGroup"));
@@ -28,7 +26,7 @@ public class CemPage extends AdminPage {
     public static CheckBox customerUiConfiguration = new CheckBox(By.id("configForm:customerCoreUIManagement"));
 
     public static void search(TestData td) {
-        assetListSearchForm.config.applyConfiguration("CemSearch");
+        assetListSearchForm.applyConfiguration("CemSearch");
         assetListSearchForm.fill(td);
     }
 }

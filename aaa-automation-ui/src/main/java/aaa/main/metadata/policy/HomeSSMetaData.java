@@ -702,8 +702,8 @@ public final class HomeSSMetaData {
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_59 = declare("HS 04 59", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0459.class, By
 			.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_61 = declare("HS 04 61", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0461.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_61 = declare("HS 04 61", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0461.class,
+		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_65 = declare("HS 04 65", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0465.class, By
 			.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_77 = declare("HS 04 77", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0477.class, By
@@ -927,6 +927,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> COVERAGE_C_LIMIT = declare("Coverage C limit", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COVERAGE_E_LIMIT = declare("Coverage E limit", ComboBox.class, Waiters.NONE);
 		}
+
+		public static final class EndorsementHS0461 extends MetaData{}
 
 		public static final class EndorsementHS0465 extends MetaData {
 			public static final AssetDescriptor<ComboBox> MONEY_AND_BANK_NOTES = declare("Money and bank notes", ComboBox.class, Waiters.AJAX);

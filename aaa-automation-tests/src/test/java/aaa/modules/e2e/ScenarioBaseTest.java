@@ -1,5 +1,11 @@
 package aaa.modules.e2e;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -18,18 +24,9 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.verification.CustomAssert;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ScenarioBaseTest extends BaseTest {
 	protected static Logger log = LoggerFactory.getLogger(ScenarioBaseTest.class);
@@ -74,19 +71,13 @@ public class ScenarioBaseTest extends BaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 	}
 
-	protected void verifyRenewOfferGenerated(LocalDateTime policyExpDate, List<LocalDateTime> installmentDates) {
+	protected void verifyRenewOfferGenerated(List<LocalDateTime> installmentDates) {
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();
-		// TODO-dchubkov: should be deleted after investigation
-		for (int p = 1; p < BillingSummaryPage.tableInstallmentSchedule.getPagination().getPagesCount(); p++) {
-			BillingSummaryPage.tableInstallmentSchedule.getPagination().goToPage(p);
-			ScreenshotManager.getInstance().makeScreenshot(this.getClass().getSimpleName(), "verifyRenewOfferGenerated", "_page_" + p, new IstfException("InstallmentsScheduleList"));
-		}
-
 		for (int i = 1; i < installmentDates.size(); i++) { // Do not include Deposit bill
 			new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
-				.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
+					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
 		}
 		if (!getState().equals(Constants.States.CA)) {
 			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent(false);
@@ -119,8 +110,13 @@ public class ScenarioBaseTest extends BaseTest {
 		String policyNum = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.POLICY_NUM).getValue();
 		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate, policyNum);
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
+		Dollar previousTermMinDueAmount = new Dollar(0);
+		if (BillingSummaryPage.tableBillingAccountPolicies.getRow(2).isPresent()) {
+			previousTermMinDueAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue());
+		}
+		
 
-		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee);
+		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee).add(previousTermMinDueAmount);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
 	}
 

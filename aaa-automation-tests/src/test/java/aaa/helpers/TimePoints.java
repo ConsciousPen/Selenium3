@@ -6,11 +6,11 @@ import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
+import aaa.main.modules.policy.PolicyType;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -19,13 +19,20 @@ public class TimePoints {
 	public static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 	protected Logger log = LoggerFactory.getLogger(TimePoints.class);
 	protected TestData td;
+	protected PolicyType policyType;
+	protected String state;
 
 	public TimePoints(TestData td) {
+		new TimePoints(td, null,null);
+	}
+
+	public TimePoints(TestData td, PolicyType policyType, String state) {
 		this.td = td;
+		this.policyType = policyType;
+		this.state = state;
 	}
 
 	public LocalDateTime getTimepoint(LocalDateTime date, TimepointsList timePointName, Boolean applyShift) {
-		LocalDateTime returnDate = date;
 		List<String> timepoint = td.getList(timePointName.get());
 		if (timepoint.size() == 1) {
 			timepoint.add("NONE");
@@ -33,7 +40,7 @@ public class TimePoints {
 		if (timepoint.size() > 2) {
 			throw new IllegalArgumentException("Wrong timepoint entry, please check testdata");
 		}
-		returnDate = parseDate(returnDate, timepoint.get(0));
+		LocalDateTime returnDate = parseDate(date, timepoint.get(0));
 		if (applyShift) {
 			switch (timepoint.get(1).toUpperCase()) {
 				case "PREVIOUS":
@@ -52,7 +59,7 @@ public class TimePoints {
 		return returnDate;
 	}
 
-	private LocalDateTime parseDate(LocalDateTime date, String timepoint){
+	private LocalDateTime parseDate(LocalDateTime date, String timepoint) {
 		LocalDateTime returnDate = date;
 		Matcher m = Pattern.compile("([-+]?)(\\d{1,3})(\\w?)").matcher(timepoint);
 
@@ -73,6 +80,12 @@ public class TimePoints {
 			returnDate = returnDate.plus(val * signum, unit);
 		}
 		return returnDate;
+	}
+
+	private boolean isWorkingDay(LocalDateTime date, TimepointsList timePointName) {
+		LocalDateTime d = getTimepoint(date, timePointName, false);
+		// analogue of DateTimeUtils.isWorkingDay() which is private
+		return d.equals(d.with(DateTimeUtils.closestFutureWorkingDay));
 	}
 
 	public LocalDateTime getBillDueDate(LocalDateTime date) {
@@ -116,10 +129,34 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getCancellationDate(LocalDateTime date) {
+		return getCancellationDate(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getCancellationDate(LocalDateTime date, PolicyType policyType, String state) {
+		if (PolicyType.AUTO_SS.equals(policyType) && Constants.States.PA.equals(state) && !isWorkingDay(date, TimepointsList.CANCELLATION_NOTICE)) {
+			// According to 160-140PA requirement for Auto SS, PA product we should add 18 days instead of 15 if cancellation notice falls on non-working day
+			return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION_IF_CN_FALLS_ON_NWD, true);
+		} else if (PolicyType.AUTO_CA_SELECT.equals(policyType)) {
+			// Cancellation date for Auto CA policy should be calculated from cancellation notice before shift, see QC defect 44998
+			LocalDateTime cancellationNoticeWithoutShiftDate = getTimepoint(date, TimepointsList.CANCELLATION_NOTICE, false);
+			return getTimepoint(cancellationNoticeWithoutShiftDate, TimepointsList.CANCELLATION, true);
+		}
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, true);
 	}
 
 	public LocalDateTime getCancellationTransactionDate(LocalDateTime date) {
+		return getCancellationTransactionDate(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getCancellationTransactionDate(LocalDateTime date, PolicyType policyType, String state) {
+		if (PolicyType.AUTO_SS.equals(policyType) && Constants.States.PA.equals(state)  && !isWorkingDay(date, TimepointsList.CANCELLATION_NOTICE)) {
+			// According to 160-140PA requirement for Auto SS, PA product we should add 18 days instead of 15 if cancellation notice falls on non-working day
+			return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION_IF_CN_FALLS_ON_NWD, false);
+		} else if (PolicyType.AUTO_CA_SELECT.equals(policyType)) {
+			// Cancellation date for Auto CA policy should be calculated from cancellation notice before shift, see QC defect 44998
+			LocalDateTime cancellationNoticeWithoutShiftDate = getTimepoint(date, TimepointsList.CANCELLATION_NOTICE, false);
+			return getTimepoint(cancellationNoticeWithoutShiftDate, TimepointsList.CANCELLATION, false);
+		}
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, false);
 	}
 
@@ -132,19 +169,35 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getEarnedPremiumBillFirst(LocalDateTime date) {
-		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_BILL_FIRST, true);
+		return getEarnedPremiumBillFirst(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getEarnedPremiumBillFirst(LocalDateTime date, PolicyType policyType, String state) {
+		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_BILL_FIRST, true);
 	}
 
 	public LocalDateTime getEarnedPremiumBillSecond(LocalDateTime date) {
-		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_BILL_SECOND, true);
+		return getEarnedPremiumBillSecond(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getEarnedPremiumBillSecond(LocalDateTime date, PolicyType policyType, String state) {
+		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_BILL_SECOND, true);
 	}
 
 	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date) {
-		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
+		return getEarnedPremiumBillThird(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date, PolicyType policyType, String state) {
+		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
 	}
 
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date) {
-		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
+		return getEarnedPremiumWriteOff(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date, PolicyType policyType, String state) {
+		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
 	}
 
 	public LocalDateTime getPayLapsedRenewShort(LocalDateTime date) {
@@ -212,6 +265,7 @@ public class TimePoints {
 		BILL_PAYMENT("Bill payment"), //
 		UPDATE_POLICY_STATUS("Update policy status"), //
 		CANCELLATION("Cancellation"), //
+		CANCELLATION_IF_CN_FALLS_ON_NWD("Cancellation if CN falls on non-working day"), // Applicable for Auto SS, PA state only
 		CANCELLATION_NOTICE("Cancellation notice"), //
 		RENEW_CUSTOMER_DECLINE("Renew customer decline"), //
 		PAY_LAPSED_RENEW_SHORT("Pay Lapsed Renew short"), //

@@ -1,9 +1,14 @@
 package aaa.modules.e2e.templates;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -28,15 +33,9 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;
@@ -193,7 +192,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
+		verifyRenewOfferGenerated(installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 		
@@ -274,7 +273,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 	
 	protected void customerDeclineRenewal() {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -284,20 +283,20 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 		
 	protected void generateEarnedPremiumWriteOff() {
-		LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate); 
-		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOffDate); 
+		//LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate); 
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(60).with(DateTimeUtils.closestFutureWorkingDay)); 
 		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob); 
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(earnedPremiumWriteOffDate).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent(); 
 		
 		HashMap<String, String> writeOffTransaction = new HashMap<>();
-		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, earnedPremiumWriteOffDate.format(DateTimeUtils.MM_DD_YYYY));
+		//writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, earnedPremiumWriteOffDate.format(DateTimeUtils.MM_DD_YYYY));
+		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF); 
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, "(" + currentTermDueAmount.toString() + ")");
-
+		
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(writeOffTransaction).verify.present();
 	}
 	

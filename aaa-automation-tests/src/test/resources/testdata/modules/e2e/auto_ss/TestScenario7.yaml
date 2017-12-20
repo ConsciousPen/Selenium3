@@ -44,7 +44,7 @@ TestData_EndorsementRP: {
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {
-    List of Vehicle: [{}, {
+    List of Vehicle: [{}, {}, {
       'column=5': Remove,
       Confirm Remove: click
     }]
@@ -52,9 +52,7 @@ TestData_EndorsementRP: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP: {
@@ -64,14 +62,12 @@ TestData_EndorsementAP: {
   VehicleTab: {
     Add Vehicle: Click,
     Usage: Pleasure,
-    VIN: 1B3BA46K4KF440231
+    VIN: 1HGFA16526L081415
   },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 #---- Endorsement NY ----
@@ -102,9 +98,7 @@ TestData_EndorsementRP_NY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP_NY: {
@@ -114,17 +108,16 @@ TestData_EndorsementAP_NY: {
   VehicleTab: {
     Add Vehicle: Click,
     Usage: Pleasure,
-    VIN: 1B3BA46K4KF440231,
+    VIN: 1HGFA16526L081415,
     'Is this a Replacement Vehicle?': 'No'
   },
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
+
 
 #---- Endorsement VA ----
 
@@ -154,9 +147,7 @@ TestData_EndorsementRP_VA: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP_VA: {
@@ -166,13 +157,12 @@ TestData_EndorsementAP_VA: {
   VehicleTab: {
     Add Vehicle: Click,
     Usage: Pleasure,
-    VIN: 1B3BA46K4KF440231
+    VIN: 1HGFA16526L081415
   },
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
+

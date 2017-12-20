@@ -1,118 +1,118 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
-<!-- Original file name: 20170914_041400_CNV_B_HDESPROP_EXGPAS_8435_D_20171219_30000811_1086024 -->
+<!-- Original file name: 20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_9014044 -->
   <AAAHOPolicy state="Created">
     <agencyCd>500001005</agencyCd>
-    <agencyLocation>500005301</agencyLocation>
-    <agentCd>70683577</agentCd>
+    <agencyLocation>500005364</agencyLocation>
+    <agentCd>70685922</agentCd>
     <agentGeneralNumber>003</agentGeneralNumber>
     <doNotRenewInd>false</doNotRenewInd>
-    <effective>2017-08-31T00:00:00</effective>
-    <expiration>2018-08-31T00:00:00</expiration>
+    <effective>2018-01-28T00:00:00</effective>
+    <expiration>2019-01-28T00:00:00</expiration>
     <imported>CONV</imported>
     <importedFrom>HDES</importedFrom>
     <isAdditionalPolicy>true</isAdditionalPolicy>
     <leadSourceCd>25</leadSourceCd>
     <officeType>AZ Club Agent</officeType>
     <policyFormCd>HO3</policyFormCd>
-    <preConversionPolicyNumber>1086024</preConversionPolicyNumber>
-    <preConversionPolicyPremium>1196</preConversionPolicyPremium>
+    <preConversionPolicyNumber>9014044</preConversionPolicyNumber>
+    <preConversionPolicyPremium>869</preConversionPolicyPremium>
     <producerCd>500001005</producerCd>
     <productCd>AAA_HO_CA</productCd>
     <riskStateCd>CA</riskStateCd>
-    <sourcePolicyNum>1086024</sourcePolicyNum>
-    <subProducerCd>70683577</subProducerCd>
+    <sourcePolicyNum>9014044</sourcePolicyNum>
+    <subProducerCd>70685922</subProducerCd>
     <tollNumberCd>xxx</tollNumberCd>
     <underwriterCd>CSAAIB</underwriterCd>
+    <HO438BFUNSEndorsementForm state="Created"></HO438BFUNSEndorsementForm>
     <AAACeaDetailsComponent state="Created">
       <acceptCeaOffer>false</acceptCeaOffer>
       <policyType>BASIC</policyType>
     </AAACeaDetailsComponent>
     <AAAFirelineReportComponent state="Created">
-      <dwellAddressCity>KINGSBURG</dwellAddressCity>
-      <dwellAddressLine1>2180 14TH AVE</dwellAddressLine1>
+      <dwellAddressCity>LINCOLN</dwellAddressCity>
+      <dwellAddressLine1>1409 STONE HEARTH LN</dwellAddressLine1>
       <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93631</dwellAddressZip>
-      <expirationDate>2018-03-19T00:00:00</expirationDate>
-      <orderDate>2017-12-19T00:00:00</orderDate>
+      <dwellAddressZip>95648</dwellAddressZip>
+      <expirationDate>2018-03-08T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
       <status>Valid</status>
     </AAAFirelineReportComponent>
     <AAAHOCommunicationInfo state="Created">
-      <phoneNumber>5598975204</phoneNumber>
+      <phoneNumber>9164082572</phoneNumber>
       <preferredContact>homePhone</preferredContact>
-      <workPhone>5598594084</workPhone>
     </AAAHOCommunicationInfo>
     <AAAHOMembership state="Created">
       <insurerCd>Yes</insurerCd>
-      <insurerName>DEAVER</insurerName>
-      <policyNumber>4290056250596114</policyNumber>
+      <insurerName>BARTLEY</insurerName>
+      <policyNumber>4290051845344914</policyNumber>
     </AAAHOMembership>
     <AAAHONamedInsured state="Created">
       <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+      <dateOfBirth>1946-08-17T00:00:00</dateOfBirth>
       <employeeType>false</employeeType>
-      <firstName>BRADLEY</firstName>
-      <lastName>DEAVER</lastName>
+      <firstName>GEORGE</firstName>
+      <lastName>BARTLEY</lastName>
       <occupationDesc>Unknown</occupationDesc>
       <principalRoleCd>policyHolder</principalRoleCd>
       <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
       <trusteeIndicator>false</trusteeIndicator>
       <AAAHOOrderClueReport state="Created">
-        <addressLine1>2180 14TH AVE</addressLine1>
-        <city>KINGSBURG</city>
-        <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
-        <expirationDt>2018-02-17T00:00:00</expirationDt>
-        <firstName>BRADLEY</firstName>
-        <lastName>DEAVER</lastName>
+        <addressLine1>1409 STONE HEARTH LN</addressLine1>
+        <city>LINCOLN</city>
+        <dateOfBirth>1946-08-17T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>GEORGE</firstName>
+        <lastName>BARTLEY</lastName>
         <noOfClaims>0</noOfClaims>
-        <orderDate>2017-12-19T00:00:00</orderDate>
-        <postalCode>93631</postalCode>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>95648</postalCode>
         <reportExpired>false</reportExpired>
         <status>Valid</status>
       </AAAHOOrderClueReport>
       <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>2180 14TH AVE</addressLine1>
-        <city>KINGSBURG</city>
+        <addressLine1>1409 STONE HEARTH LN</addressLine1>
+        <city>LINCOLN</city>
         <countryCd>US</countryCd>
-        <postalCode>93631</postalCode>
+        <postalCode>95648</postalCode>
         <stateProvCd>CA</stateProvCd>
       </AAAInsuredPrimaryAddress>
     </AAAHONamedInsured>
     <AAAHONamedInsured state="Created">
       <aaaLegalNameIND>false</aaaLegalNameIND>
-      <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+      <dateOfBirth>1949-10-12T00:00:00</dateOfBirth>
       <employeeType>false</employeeType>
-      <firstName>KARIN</firstName>
-      <lastName>DEAVER</lastName>
+      <firstName>BARBARA</firstName>
+      <lastName>BARTLEY</lastName>
       <occupationDesc>Unknown</occupationDesc>
       <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
       <trusteeIndicator>false</trusteeIndicator>
       <AAAHOOrderClueReport state="Created">
-        <addressLine1>2180 14TH AVE</addressLine1>
-        <city>KINGSBURG</city>
-        <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
-        <expirationDt>2018-02-17T00:00:00</expirationDt>
-        <firstName>KARIN</firstName>
-        <lastName>DEAVER</lastName>
+        <addressLine1>1409 STONE HEARTH LN</addressLine1>
+        <city>LINCOLN</city>
+        <dateOfBirth>1949-10-12T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>BARBARA</firstName>
+        <lastName>BARTLEY</lastName>
         <noOfClaims>0</noOfClaims>
-        <orderDate>2017-12-19T00:00:00</orderDate>
-        <postalCode>93631</postalCode>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>95648</postalCode>
         <reportExpired>false</reportExpired>
         <status>Valid</status>
       </AAAHOOrderClueReport>
       <AAAInsuredPrimaryAddress state="Created">
-        <addressLine1>2180 14TH AVE</addressLine1>
-        <city>KINGSBURG</city>
+        <addressLine1>1409 STONE HEARTH LN</addressLine1>
+        <city>LINCOLN</city>
         <countryCd>US</countryCd>
-        <postalCode>93631</postalCode>
+        <postalCode>95648</postalCode>
         <stateProvCd>CA</stateProvCd>
       </AAAInsuredPrimaryAddress>
     </AAAHONamedInsured>
     <AAAHOOtherOrPriorPolicyComponent state="Created">
       <autoBILimit>$500,000/$500,000</autoBILimit>
       <autoPolicyPending>false</autoPolicyPending>
-      <policyEffectiveDate>2017-08-31T00:00:00</policyEffectiveDate>
-      <policyNumber>On File- Conversion</policyNumber>
+      <policyEffectiveDate>2015-11-21T00:00:00</policyEffectiveDate>
+      <policyNumber>CAAS100321095</policyNumber>
       <productCd>Auto</productCd>
       <stateCd>CA</stateCd>
     </AAAHOOtherOrPriorPolicyComponent>
@@ -123,9 +123,9 @@
       <recurringPayment>false</recurringPayment>
     </AAAHOPaymentOption>
     <AAAHOPolicyPriorCarrier state="Created">
-      <baseDate>2004-01-01T00:00:00</baseDate>
+      <baseDate>2002-01-01T00:00:00</baseDate>
       <carrierCd>1</carrierCd>
-      <noOfYearsWithHO>14</noOfYearsWithHO>
+      <noOfYearsWithHO>16</noOfYearsWithHO>
       <policyType>HO3</policyType>
     </AAAHOPolicyPriorCarrier>
     <AAAHOPreDwellingAddrExists state="Created">
@@ -133,39 +133,39 @@
     </AAAHOPreDwellingAddrExists>
     <AAAIso360ReportComponent state="Created">
       <constructionTypeCd>Frame</constructionTypeCd>
-      <dwellAddressCity>KINGSBURG</dwellAddressCity>
-      <dwellAddressLine1>2180 14TH AVE</dwellAddressLine1>
+      <dwellAddressCity>LINCOLN</dwellAddressCity>
+      <dwellAddressLine1>1409 STONE HEARTH LN</dwellAddressLine1>
       <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93631</dwellAddressZip>
-      <expirationDate>2018-02-17T00:00:00</expirationDate>
-      <isoReplacementCost>467300</isoReplacementCost>
+      <dwellAddressZip>95648</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <isoReplacementCost>343300</isoReplacementCost>
       <livingArea>9999</livingArea>
       <numberOfFamilies>1</numberOfFamilies>
       <numberOfStories>1</numberOfStories>
-      <orderDate>2017-12-19T00:00:00</orderDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
       <roofShape>Complex/Custom</roofShape>
       <roofType>Other</roofType>
       <status>Valid</status>
-      <yearBuilt>1948</yearBuilt>
+      <yearBuilt>2002</yearBuilt>
     </AAAIso360ReportComponent>
     <AAAMembershipOrder state="Created">
-      <lastName>DEAVER</lastName>
-      <membershipNumber>4290056250596114</membershipNumber>
-      <orderDate>2017-12-19T00:00:00</orderDate>
-      <receiptDate>2017-12-19T00:00:00</receiptDate>
+      <lastName>BARTLEY</lastName>
+      <membershipNumber>4290051845344914</membershipNumber>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <receiptDate>2017-12-08T00:00:00</receiptDate>
       <status>Active</status>
     </AAAMembershipOrder>
     <AAAPolicyPrintingInfoComponent state="Created">
       <suppressPrint>PD</suppressPrint>
     </AAAPolicyPrintingInfoComponent>
     <AAAPpcReportComponent state="Created">
-      <dwellAddressCity>KINGSBURG</dwellAddressCity>
-      <dwellAddressLine1>2180 14TH AVE</dwellAddressLine1>
+      <dwellAddressCity>LINCOLN</dwellAddressCity>
+      <dwellAddressLine1>1409 STONE HEARTH LN</dwellAddressLine1>
       <dwellAddressState>CA</dwellAddressState>
-      <dwellAddressZip>93631</dwellAddressZip>
-      <expirationDate>2018-02-17T00:00:00</expirationDate>
-      <orderDate>2017-12-19T00:00:00</orderDate>
-      <ppcValue>3</ppcValue>
+      <dwellAddressZip>95648</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <ppcValue>4</ppcValue>
       <status>Valid</status>
     </AAAPpcReportComponent>
     <AAASupportingDocComponent state="Created">
@@ -210,8 +210,8 @@
       <aaaFirelineScore>0</aaaFirelineScore>
       <aaanumberofResidents>9999</aaanumberofResidents>
       <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
-      <addressLine1>2180 14TH AVE</addressLine1>
-      <city>KINGSBURG</city>
+      <addressLine1>1409 STONE HEARTH LN</addressLine1>
+      <city>LINCOLN</city>
       <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
       <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
       <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
@@ -221,7 +221,7 @@
       <numberOfFamilies>1</numberOfFamilies>
       <overrideInspectionInd>true</overrideInspectionInd>
       <placementOrMatchType>Address</placementOrMatchType>
-      <postalCode>93631</postalCode>
+      <postalCode>95648</postalCode>
       <spaTubType>None</spaTubType>
       <stateProvCd>CA</stateProvCd>
       <swimPoolType>None</swimPoolType>
@@ -230,19 +230,19 @@
       <woodStoveInd>false</woodStoveInd>
       <AAACoverageA state="Created">
         <coverageCd>CovA</coverageCd>
-        <limitAmount>467300</limitAmount>
+        <limitAmount>343300</limitAmount>
       </AAACoverageA>
       <AAACoverageB state="Created">
         <coverageCd>CovB</coverageCd>
-        <limitAmount>46730</limitAmount>
+        <limitAmount>34330</limitAmount>
       </AAACoverageB>
       <AAACoverageC state="Created">
         <coverageCd>CovC</coverageCd>
-        <limitAmount>350500</limitAmount>
+        <limitAmount>257600</limitAmount>
       </AAACoverageC>
       <AAACoverageD state="Created">
         <coverageCd>CovD</coverageCd>
-        <limitAmount>187000</limitAmount>
+        <limitAmount>137500</limitAmount>
       </AAACoverageD>
       <AAACoverageE state="Created">
         <coverageCd>CovE</coverageCd>
@@ -255,60 +255,63 @@
       <AAAHOConstructionInfo state="Created">
         <aaaFoundationType>Slab</aaaFoundationType>
         <constructionTypeCd>Frame</constructionTypeCd>
-        <isoReplacementCost>467300</isoReplacementCost>
+        <isoReplacementCost>343300</isoReplacementCost>
         <livingArea>9999</livingArea>
         <numberOfStories>1</numberOfStories>
-        <replacementCost>467300</replacementCost>
+        <replacementCost>343300</replacementCost>
         <roofShape>Complex/Custom</roofShape>
         <roofType>Other</roofType>
-        <yearBuilt>1948</yearBuilt>
+        <yearBuilt>2002</yearBuilt>
       </AAAHOConstructionInfo>
+      <AAAHOMortgageeInfo state="Created">
+        <accountNumber>8001353641</accountNumber>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>FREMONT</city>
+        <mortagageeAddressLine1>PO BOX 7295</mortagageeAddressLine1>
+        <name>FREMONT BANK, ISAOA</name>
+        <postalCode>94537</postalCode>
+        <rank>1</rank>
+        <stateProvCd>CA</stateProvCd>
+        <useLegalMortgagee>false</useLegalMortgagee>
+      </AAAHOMortgageeInfo>
       <AAAPpcDetailsInfo state="Created">
         <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
         <fireDepartmentType>T</fireDepartmentType>
-        <fireDistrict>KINGSBURG</fireDistrict>
-        <oldPpcValue>3</oldPpcValue>
-        <ppcValue>3</ppcValue>
+        <fireDistrict>LINCOLN</fireDistrict>
+        <oldPpcValue>4</oldPpcValue>
+        <ppcValue>4</ppcValue>
       </AAAPpcDetailsInfo>
       <AAAPropertyDeductible state="Created">
         <coverageCd>DEDUCTIBLE</coverageCd>
-        <limitAmount>500</limitAmount>
+        <limitAmount>250</limitAmount>
       </AAAPropertyDeductible>
       <PreconfigLocation state="Created">
         <AAAHODwellAddress state="Created">
-          <addressLine1>2180 14TH AVE</addressLine1>
+          <addressLine1>1409 STONE HEARTH LN</addressLine1>
           <addressValidatedInd>Yes</addressValidatedInd>
-          <city>KINGSBURG</city>
-          <county>Fresno</county>
-          <postalCode>93631</postalCode>
+          <city>LINCOLN</city>
+          <county>Placer</county>
+          <postalCode>95648</postalCode>
           <stateProvCd>CA</stateProvCd>
         </AAAHODwellAddress>
       </PreconfigLocation>
     </AAADwellEntityComponent>
-    <HO28EndorsementForm state="Created"/>
-    <HO29EndorsementForm state="Created"/>
-    <HO59EndorsementForm state="Created"/>
-    <HO90EndorsementForm state="Created"/>
+    <HO28EndorsementForm state="Created"></HO28EndorsementForm>
+    <HO29EndorsementForm state="Created"></HO29EndorsementForm>
+    <HO90EndorsementForm state="Created"></HO90EndorsementForm>
   </AAAHOPolicy>
   <userNote>
     <category>Other</category>
     <confidential>false</confidential>
+    <title>Conversion: HO-299 applies</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>HO-299 was listed on the HDES policy at time of conversion, but the details were not converted to PAS.  Refer to Fastlane for details. HO-299 could include any of the following: 1. Chattel Mortgagee (give name, address, loan # and what the chattel is for) 2. Third, fourth, fifth Mortgagee, etc. 3. Cal Vet financed insureds 4. Animal and watercraft liability (HO 75) exclusions. 5. Named Insureds, Additional Insureds (HO 41) and Mortgagees whose names are too long. 6. Berth, slip or buoy endorsement for HO3 and HO4</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
     <title>Conversion: Mailing address validated and standardized</title>
-    <updatedOn>2017-12-19T00:00:00</updatedOn>
-    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 2180 14TH AVE  KINGSBURG CA 93631 to 2180 14TH AVE  KINGSBURG CA 93631</userText>
-  </userNote>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Date of birth defaulted</title>
-    <updatedOn>2017-12-19T00:00:00</updatedOn>
-    <userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
-  </userNote>
-  <userNote>
-    <category>Other</category>
-    <confidential>false</confidential>
-    <title>Conversion: Date of birth defaulted</title>
-    <updatedOn>2017-12-19T00:00:00</updatedOn>
-    <userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1409 STONE HEARTH LANE  LINCOLN CA 95648 to 1409 STONE HEARTH LN  LINCOLN CA 95648</userText>
   </userNote>
 </Policy>

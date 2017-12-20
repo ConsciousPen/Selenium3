@@ -1,0 +1,41 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Semi-Annual,  
+  },  
+  PurchaseTab: '@PurchaseTab'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  #Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+# ----- First Renewal -----
+TestData_FirstRenewal: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_FirstRenewal', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+PremiumAndCoveragesTab_FirstRenewal: {
+  Payment Plan: Quarterly (Renewal)
+}
+
+DocumentsAndBindTab: { 
+  GeneralInformation: {
+    Authorized By: qa
+  }
+}
+
+# ----- Second Renewal -----
+TestData_SecondRenewal: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_SecondRenewal', 
+  DocumentsAndBindTab: {}
+}
+
+PremiumAndCoveragesTab_SecondRenewal: {
+  Payment Plan: Semi-Annual (Renewal)
+}

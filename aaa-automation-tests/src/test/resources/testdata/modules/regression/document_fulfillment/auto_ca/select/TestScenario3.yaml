@@ -1,0 +1,19 @@
+TestData: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@<auto_ca_select>@DataGather@NamedInsuredInformation'],
+    AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+    ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+    PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation',
+    'Is there any Third Party Designee?': 'Yes',
+    ThirdPartyDesigneeInformation: {
+      Name: Dev,
+      Zip Code: 86021,
+      Address Line 1: 3704 ALISO DRIVE,
+      City: Omaha,
+      State: CA
+    }
+  },
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly,
+  }
+}

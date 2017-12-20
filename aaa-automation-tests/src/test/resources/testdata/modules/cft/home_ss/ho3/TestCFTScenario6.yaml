@@ -14,27 +14,32 @@ TestData: {
 }
 
 EndorsementActionTab: {
-    Endorsement Date: /today+2d,
+    Endorsement Date: $<today+2d>,
     Endorsement Reason: 'Other Interest(s)/Mortgagees'
 }
 
 TestData_OOS: {
   EndorsementActionTab: '@EndorsementActionTab_OOS',
   GeneralTab: {},
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }
 
 EndorsementActionTab_OOS: {
     Endorsement Date: /startTime+1d,
     Endorsement Reason: 'Other Interest(s)/Mortgagees'
+}
+
+ApplicantTab_DataGather: {
+  AAA employee: 'Yes'
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {

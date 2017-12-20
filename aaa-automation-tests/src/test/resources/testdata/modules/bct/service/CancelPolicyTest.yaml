@@ -1,20 +1,20 @@
 Cancellation_005: {
   CancellationActionTab: {
-    Cancellation Reason: "New Business Rescission - Underwriting Material Misrepresentation",
+    Cancellation Reason: 'index=12',
     Authorized By: QA
   }
 }
 
 Cancellation_009: {
   CancellationActionTab: {
-    Cancellation effective date: "/today",
+    Cancellation effective date: "$<today>",
     Cancellation reason: "New Business Rescission - NSF on Down Payment"
   }
 }
 
 Cancellation_013: {
   CancellationActionTab: {
-    Cancel Date: "/today",
+    Cancel Date: "$<today>",
     Cancellation Reason: "Vehicle Total Loss",
     Authorized By: QA
   }
@@ -22,7 +22,7 @@ Cancellation_013: {
 
 Cancellation_112: {
   CancellationActionTab: {
-    Cancel Date: "/today+10d",
+    Cancel Date: "$<today+10d>",
     Cancellation Reason: "Vehicle Total Loss",
     Authorized By: QA
   }

@@ -1,8 +1,6 @@
 # ------------- New Business for AZ State----------
 TestData_AZ: {
     PrefillTab: {
-    First Name: Fernando,
-    Last Name: Alonso,
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
@@ -134,8 +132,6 @@ PurchaseTab_WithAutopay: {
 
 TestData_IN: {
     PrefillTab: {
-    First Name: Harry,
-    Last Name: Kane,
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
@@ -262,8 +258,6 @@ ErrorTab_IN: {
 # ------------- New Business for PA State----------
 TestData_PA: {
     PrefillTab: {
-    First Name: Steve,
-    Last Name: Jobsik,
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
@@ -407,8 +401,6 @@ ErrorTab_PA: {
 # ------------- New Business for OK State----------
 TestData_OK: {
     PrefillTab: {
-    First Name: Phil,
-    Last Name: Jones,
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
@@ -663,7 +655,7 @@ DriverTab_Renewal: {
    addSection: "",
    Type: 'At-Fault Accident',
    Description: 'Accident (Property Damage Only)',
-   Occurrence Date: '/today-15d:MM/dd/yyyy',
+   Occurrence Date: '$<today-15d:MM/dd/yyyy>',
    Loss Payment Amount: 2000
  }
 }
@@ -706,9 +698,9 @@ AA43AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'AZ'}
   },
   AgentDetails: {
@@ -725,7 +717,7 @@ AA43AZ: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: AZ},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -742,9 +734,9 @@ AH35XX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -766,7 +758,7 @@ AH35XX_AZ: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -778,9 +770,8 @@ AASR22_AZ: {
     CoNum: {TextField: '01'},
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
 #    NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {'GOLD CANYON'},
@@ -817,8 +808,8 @@ AASR22_AZ: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Arizona'},
     SSNum: {TextField: '6789'}
   }
@@ -836,8 +827,8 @@ AA59XX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'AZ'},
@@ -872,8 +863,8 @@ AAGCAZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'}
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },  
   AgentDetails: {
     GenlAgntNum: {TextField: '500001004'},
@@ -909,10 +900,10 @@ AA52AZ: {
     AgntNum: {TextField: '500010032'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdAge: {TextField: '54'}
+    NmdInsrdAge: {TextField: '55'}
   }, 
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
@@ -938,28 +929,28 @@ AA52AZ: {
      {TextField: '500/1000'},
      {TextField: '1000/1000'}
     ],
-    VehUMPrem: [
-     {TextField: '39'},
-     {TextField: '52'},
-     {TextField: '66'},
-     {TextField: '89'},
-     {TextField: '112'},
-     {TextField: '114'},
-     {TextField: '140'},
-     {TextField: '150'},
-     {TextField: '172'}
-    ],
-    VehUIMBPrem: [
-     {TextField: '86'},
-     {TextField: '126'},
-     {TextField: '187'},
-     {TextField: '282'},
-     {TextField: '451'},
-     {TextField: '474'},
-     {TextField: '504'},
-     {TextField: '555'},
-     {TextField: '735'}
-    ],
+#    VehUMPrem: [
+#     {TextField: '39'},
+#     {TextField: '52'},
+#     {TextField: '66'},
+#     {TextField: '89'},
+#     {TextField: '112'},
+#     {TextField: '114'},
+#     {TextField: '140'},
+#     {TextField: '150'},
+#     {TextField: '172'}
+#    ],
+#    VehUIMBPrem: [
+#     {TextField: '86'},
+#     {TextField: '126'},
+#     {TextField: '187'},
+#     {TextField: '282'},
+#     {TextField: '451'},
+#     {TextField: '474'},
+#     {TextField: '504'},
+#     {TextField: '555'},
+#     {TextField: '735'}
+#    ],
     UMCovRjctFlg: {TextField: 'N'},
     UIMCovRjctFlg: {TextField: 'N'},
     UMSelCov: {TextField: '50/100'},
@@ -968,7 +959,7 @@ AA52AZ: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TermEffDt: {DateTimeField: ''},
     SgntrOnFile: {TextField: ''},
     PlcyTransCd: {TextField: '0040'},
@@ -988,8 +979,8 @@ AARFIXX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -1022,11 +1013,11 @@ AARFIXX_AZ: {
   DriverDetails: {
   DrvrTyp: {TextField: 'E'},
   DrvrFrstNm: [
-    {TextField: 'Fernando'},
+    {TextField: 'contains=Fernando'},
     {TextField: 'Maria'}
   ],
   DrvrLstNm: [
-    {TextField: 'Alonso'},
+    {TextField: 'Smith'},
     {TextField: 'Jefferson'}
   ]
   },
@@ -1052,9 +1043,8 @@ AHNBXX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
@@ -1079,8 +1069,8 @@ AA10XX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -1108,7 +1098,7 @@ AA10XX_AZ: {
     VehAddFlg: {TextField: 'Y'},
     VehManfrNm: {TextField: 'KIA'},
     VehMdelNm: {TextField: 'SOUL'},
-    VehBdyTyp: {TextField: 'WAGON 4 DOOR'},
+    VehBdyTyp: {TextField: ''},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
   ], 
@@ -1117,7 +1107,7 @@ AA10XX_AZ: {
     PlcyPrfx: {TextField: 'AZSS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'}
   }
@@ -1135,8 +1125,8 @@ AA02AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -1171,7 +1161,7 @@ AA02AZ: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -1281,8 +1271,8 @@ AA02AZ: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -1324,7 +1314,7 @@ AA02AZ: {
     ],
     PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
     TermExprDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   }
 }
 
@@ -1358,9 +1348,9 @@ AA43IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'IN'}
   },
   AgentDetails: {
@@ -1377,7 +1367,7 @@ AA43IN: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: IN},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -1394,9 +1384,9 @@ AH35XX_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -1418,7 +1408,7 @@ AH35XX_IN: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -1430,9 +1420,8 @@ AASR22_IN: {
     CoNum: {TextField: '01'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
 #    NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {'EVANSVILLE'},
@@ -1460,8 +1449,8 @@ AASR22_IN: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'IN'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Indiana'},
     SSNum: {TextField: '6789'}
   }
@@ -1479,8 +1468,8 @@ AA59XX_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'IN'},
@@ -1519,10 +1508,10 @@ AA52IN: {
     SubAgntNum: {TextField: '500010068'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdAge: {TextField: '54'}
+    NmdInsrdAge: {TextField: '55'}
   }, 
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
@@ -1542,7 +1531,7 @@ AA52IN: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'INSS'},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TermEffDt: {DateTimeField: ''},
     SgntrOnFile: {TextField: ''},
     PlcyTransCd: {TextField: '0040'},
@@ -1566,16 +1555,16 @@ AA53IN: {
     SubAgntNum: {TextField: '500010068'}
   },
   NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Harry'},
-   NmdInsrdLstNm: {TextField: 'Kane'},
-   NmdInsrdAge: {TextField: '54'}
+   NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
+   NmdInsrdAge: {TextField: '55'}
   }, 
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'IN'},
-    RjctEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    RjctEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
     SgntrOnFile: [
       {TextField: ''},
@@ -1596,8 +1585,8 @@ AARFIXX_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -1630,11 +1619,11 @@ AARFIXX_IN: {
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
     DrvrFrstNm: [
-      {TextField: 'Harry'},
+      {TextField: 'contains=Harry'},
       {TextField: 'Maria'}
     ],
     DrvrLstNm: [
-      {TextField: 'Kane'},
+      {TextField: 'Smith'},
       {TextField: 'Jefferson'}
     ]
   },
@@ -1660,9 +1649,8 @@ AHNBXX_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
@@ -1688,8 +1676,8 @@ AA10XX_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -1715,7 +1703,7 @@ AA10XX_IN: {
     PlcyPrfx: {TextField: 'INSS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'IN'}
   }
@@ -1733,8 +1721,8 @@ AA02IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -1810,8 +1798,8 @@ AA02IN: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Harry'},
-    DrvrLstNm: {TextField: 'Kane'},
+    DrvrFrstNm: {TextField: 'contains=Harry'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -1855,7 +1843,7 @@ AA02IN: {
     TermExprDt: {DateTimeField: ''},
     AmdDecTxt: {TextField: ''},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   }
 }
 
@@ -1890,9 +1878,8 @@ AHNBXX_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'PA'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
@@ -1923,9 +1910,8 @@ AH35XX_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -1947,7 +1933,7 @@ AH35XX_PA: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -1965,8 +1951,8 @@ AA59XX_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'PA'},
@@ -1995,8 +1981,8 @@ AA10PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'PA'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -2022,7 +2008,7 @@ AA10PA: {
     PlcyPrfx: {TextField: 'PASS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'PA'}
   }
@@ -2040,8 +2026,8 @@ AARFIXX_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'PA'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -2079,11 +2065,11 @@ AARFIXX_PA: {
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
     DrvrFrstNm: [
-      {TextField: 'Steve'},
+      {TextField: 'contains=Steve'},
       {TextField: 'Julia'}
     ],
     DrvrLstNm: [
-      {TextField: 'Jobsik'},
+      {TextField: 'Smith'},
       {TextField: 'Woodman'}
     ]
   },
@@ -2109,9 +2095,9 @@ AA43PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'PA'}
   },
   AgentDetails: {
@@ -2128,7 +2114,7 @@ AA43PA: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: PA},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -2148,12 +2134,12 @@ AA52UPAC: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2175,12 +2161,12 @@ AA52IPAC: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2202,12 +2188,12 @@ AASDPA: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
-  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  RnwlTrmEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2229,12 +2215,12 @@ AADNPAC: {
     AgntNum: {TextField: '500017173'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2256,12 +2242,12 @@ AADNPAD: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
-  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  RnwlTrmEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2283,12 +2269,12 @@ AADNPAE: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
-  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  RnwlTrmEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2310,8 +2296,8 @@ AALTPA: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
@@ -2333,8 +2319,8 @@ AA02PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
  NamedInsuredDetails: {
-  NmdInsrdFrstNm: {TextField: 'Steve'},
-  NmdInsrdLstNm: {TextField: 'Jobsik'},
+  NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
   NmdInsrdAddlAddr2: {TextField: ''},
   NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -2423,8 +2409,8 @@ AA02PA: {
  DriverDetails: [
   {
    DrvrTyp: {TextField: 'A'},
-   DrvrFrstNm: {TextField: 'Steve'},
-   DrvrLstNm: {TextField: 'Jobsik'},
+   DrvrFrstNm: {TextField: 'contains=Steve'},
+   DrvrLstNm: {TextField: 'Smith'},
    DrvrSeqNum: {TextField: '1'},
    DrvrDOB: {DateTimeField: "contains=1962-12-04"},
    DrvrmrtlSts: {TextField: 'Married'},
@@ -2464,7 +2450,7 @@ AA02PA: {
   PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
   TermExprDt: {DateTimeField: ''},
   TermEffDt: {DateTimeField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
 #  PlcyEndrRsn: {TextField: ''},
  }
 }
@@ -2499,9 +2485,8 @@ AH35XX_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -2523,7 +2508,7 @@ AH35XX_OK: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -2535,9 +2520,8 @@ AASR22_OK: {
     CoNum: {TextField: '01'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
 #    NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {'OKLAHOMA CITY'},
@@ -2565,8 +2549,8 @@ AASR22_OK: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Oklahoma'},
     SSNum: {TextField: '6789'}
   }
@@ -2584,9 +2568,8 @@ AHNBXX_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-#    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
@@ -2617,8 +2600,8 @@ AA59XX_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'OK'},
@@ -2653,8 +2636,8 @@ AARFIXX_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -2687,11 +2670,11 @@ AARFIXX_OK: {
   DriverDetails: {
   DrvrTyp: {TextField: 'E'},
   DrvrFrstNm: [
-    {TextField: 'Phil'},
+    {TextField: 'contains=Phil'},
     {TextField: 'Maria'}
   ],
   DrvrLstNm: [
-    {TextField: 'Jones'},
+    {TextField: 'Smith'},
     {TextField: 'Jefferson'}
   ]
   },
@@ -2717,9 +2700,9 @@ AA43OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
@@ -2736,7 +2719,7 @@ AA43OK: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -2756,9 +2739,9 @@ AA52OK: {
     SubAgntNum: {TextField: '500005452'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdAge: {TextField: '54'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: '55'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -2777,7 +2760,7 @@ AA52OK: {
   },
   form: {
     PlcyNum: {TextField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'},
@@ -2793,8 +2776,8 @@ AA10OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -2825,7 +2808,7 @@ AA10OK: {
     PlcyPrfx: {TextField: 'OKSS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'}
   }
@@ -2843,8 +2826,8 @@ AAAEOK: {
    CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Phil'},
-   NmdInsrdLstNm: {TextField: 'Jones'}
+   NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
   AgentDetails: {
     AgntNum: {TextField: '500005452'}
@@ -2870,8 +2853,8 @@ AA02OK: {
    CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -2941,8 +2924,8 @@ AA02OK: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Phil'},
-    DrvrLstNm: {TextField: 'Jones'},
+    DrvrFrstNm: {TextField: 'contains=Phil'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -2984,7 +2967,7 @@ AA02OK: {
     ],
     PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
     TermExprDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   }
 }
 
@@ -3010,8 +2993,8 @@ AASR26_AZ: {
     CoNum: {TextField: '01'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
@@ -3032,9 +3015,9 @@ AASR26_AZ: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'AZ'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Arizona'},
-    SR22FilgCancDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22FilgCancDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
@@ -3053,9 +3036,9 @@ AA43AZ_ED: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'AZ'}
   },
   AgentDetails: {
@@ -3089,9 +3072,8 @@ AH35XX_ED_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -3113,7 +3095,7 @@ AH35XX_ED_AZ: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -3131,8 +3113,8 @@ AA59XX_ED_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'AZ'},
@@ -3172,10 +3154,10 @@ AA52AZ_ED: {
     AgntNum: {TextField: '500010032'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdAge: {TextField: '54'}
+    NmdInsrdAge: {TextField: '55'}
   }, 
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
@@ -3201,28 +3183,28 @@ AA52AZ_ED: {
      {TextField: '500/1000'},
      {TextField: '1000/1000'}
     ],
-    VehUMPrem: [
-     {TextField: '41'},
-     {TextField: '55'},
-     {TextField: '69'},
-     {TextField: '95'},
-     {TextField: '120'},
-     {TextField: '123'},
-     {TextField: '152'},
-     {TextField: '163'},
-     {TextField: '187'}
-    ],
-    VehUIMBPrem: [
-     {TextField: '88'},
-     {TextField: '127'},
-     {TextField: '191'},
-     {TextField: '289'},
-     {TextField: '467'},
-     {TextField: '491'},
-     {TextField: '523'},
-     {TextField: '575'},
-     {TextField: '762'}
-    ],
+#    VehUMPrem: [
+#     {TextField: '41'},
+#     {TextField: '55'},
+#     {TextField: '69'},
+#     {TextField: '95'},
+#     {TextField: '120'},
+#     {TextField: '123'},
+#     {TextField: '152'},
+#     {TextField: '163'},
+#     {TextField: '187'}
+#    ],
+#    VehUIMBPrem: [
+#     {TextField: '88'},
+#     {TextField: '127'},
+#     {TextField: '191'},
+#     {TextField: '289'},
+#     {TextField: '467'},
+#     {TextField: '491'},
+#     {TextField: '523'},
+#     {TextField: '575'},
+#     {TextField: '762'}
+#    ],
     UMCovRjctFlg: {TextField: 'Y'},
     UIMCovRjctFlg: {TextField: 'Y'},
     UMSelCov: {TextField: '0/0'},
@@ -3245,8 +3227,8 @@ AA10XX_ED_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -3314,8 +3296,8 @@ AA02AZ_ED: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -3350,7 +3332,7 @@ AA02AZ_ED: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -3488,8 +3470,8 @@ AA02AZ_ED: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -3570,8 +3552,8 @@ AASR26_IN: {
     CoNum: {TextField: '01'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
@@ -3592,9 +3574,9 @@ AASR26_IN: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'IN'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Indiana'},
-    SR22FilgCancDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22FilgCancDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
@@ -3613,9 +3595,8 @@ AH35XX_ED_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -3637,7 +3618,7 @@ AH35XX_ED_IN: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -3655,8 +3636,8 @@ AA59XX_ED_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'IN'},
@@ -3685,8 +3666,8 @@ AA10XX_ED_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -3758,10 +3739,10 @@ AA52IN_ED: {
     SubAgntNum: {TextField: '500010068'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdAge: {TextField: '54'}
+    NmdInsrdAge: {TextField: '55'}
   }, 
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
@@ -3805,16 +3786,16 @@ AA53IN_ED: {
     SubAgntNum: {TextField: '500010068'}
   },
   NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Harry'},
-   NmdInsrdLstNm: {TextField: 'Kane'},
-   NmdInsrdAge: {TextField: '54'}
+   NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
+   NmdInsrdAge: {TextField: '55'}
   }, 
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'IN'},
-    RjctEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    RjctEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
     SgntrOnFile: [
       {TextField: ''},
@@ -3835,9 +3816,9 @@ AA43IN_ED: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'IN'}
   },
   AgentDetails: {
@@ -3883,8 +3864,8 @@ AA02IN_ED: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -3979,8 +3960,8 @@ AA02IN_ED: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Harry'},
-    DrvrLstNm: {TextField: 'Kane'},
+    DrvrFrstNm: {TextField: 'contains=Harry'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -4073,8 +4054,8 @@ AASR26_OK: {
     CoNum: {TextField: '01'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
@@ -4095,9 +4076,9 @@ AASR26_OK: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'OK'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Oklahoma'},
-    SR22FilgCancDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22FilgCancDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
@@ -4116,9 +4097,8 @@ AH35XX_ED_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -4140,7 +4120,7 @@ AH35XX_ED_OK: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -4158,8 +4138,8 @@ AA59XX_ED_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'OK'},
@@ -4218,9 +4198,9 @@ AA43OK_ED: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
@@ -4257,9 +4237,9 @@ AA52OK_ED: {
     SubAgntNum: {TextField: '500005452'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdAge: {TextField: '54'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: '55'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -4294,8 +4274,8 @@ AA10OK_ED: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -4344,8 +4324,8 @@ AA02OK_ED: {
    CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -4455,8 +4435,8 @@ AA02OK_ED: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Phil'},
-    DrvrLstNm: {TextField: 'Jones'},
+    DrvrFrstNm: {TextField: 'contains=Phil'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -4539,9 +4519,9 @@ AA43PA_ED: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
-    NmdInsrdAge: {TextField: 54},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
+    NmdInsrdAge: {TextField: 55},
     NmdInsrdStAbrv: {TextField: 'PA'}
   },
   AgentDetails: {
@@ -4575,9 +4555,8 @@ AH35XX_ED_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -4599,7 +4578,7 @@ AH35XX_ED_PA: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -4617,8 +4596,8 @@ AA59XX_ED_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'PA'},
@@ -4647,8 +4626,8 @@ AA10PA_ED: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'PA'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -4674,7 +4653,7 @@ AA10PA_ED: {
     PlcyPrfx: {TextField: 'PASS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'PA'}
   }
@@ -4719,8 +4698,8 @@ AA52IPAB: {
   AgntNum: {TextField: '500017389'}
  },
  NamedInsuredDetails: {
-  NmdInsrdFrstNm: {TextField: 'Steve'},
-  NmdInsrdLstNm: {TextField: 'Jobsik'}
+   NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
  },
  form: {
   PlcyNum: {TextField: ''}, 
@@ -4745,8 +4724,8 @@ AA52UPAB: {
   AgntNum: {TextField: '500017389'}
  },
  NamedInsuredDetails: {
-  NmdInsrdFrstNm: {TextField: 'Steve'},
-  NmdInsrdLstNm: {TextField: 'Jobsik'}
+   NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
  },
  form: {
   PlcyNum: {TextField: ''}, 
@@ -4772,8 +4751,8 @@ AAFPPA: {
   AgntNum: {TextField: '500017389'}
  },
  NamedInsuredDetails: {
-  NmdInsrdFrstNm: {TextField: 'Steve'},
-  NmdInsrdLstNm: {TextField: 'Jobsik'}
+   NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
  },
  CoverageDetails: {
   CFPTotBenAmt: {TextField: '0'},
@@ -4804,8 +4783,8 @@ AA02PA_ED: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
  NamedInsuredDetails: {
-  NmdInsrdFrstNm: {TextField: 'Steve'},
-  NmdInsrdLstNm: {TextField: 'Jobsik'},
+  NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+  NmdInsrdLstNm: {TextField: 'Smith'},
   NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
   NmdInsrdAddlAddr2: {TextField: ''},
   NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -4940,8 +4919,8 @@ AA02PA_ED: {
  DriverDetails: [
   {
    DrvrTyp: {TextField: 'A'},
-   DrvrFrstNm: {TextField: 'Steve'},
-   DrvrLstNm: {TextField: 'Jobsik'},
+   DrvrFrstNm: {TextField: 'contains=Steve'},
+   DrvrLstNm: {TextField: 'Smith'},
    DrvrSeqNum: {TextField: '1'},
    DrvrDOB: {DateTimeField: "contains=1962-12-04"},
    DrvrmrtlSts: {TextField: 'Married'},
@@ -5029,9 +5008,8 @@ AHAUXX_Renewal_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -5084,8 +5062,8 @@ AA10XX_Renewal_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -5148,8 +5126,8 @@ AA02AZ_Renewal: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -5184,7 +5162,7 @@ AA02AZ_Renewal: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -5321,8 +5299,8 @@ AA02AZ_Renewal: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -5399,9 +5377,8 @@ AHAUXX_Renewal_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -5454,8 +5431,8 @@ AA10XX_Renewal_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -5509,8 +5486,8 @@ AA02IN_Renewal: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'IN'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -5627,8 +5604,8 @@ AA02IN_Renewal: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Harry'},
-    DrvrLstNm: {TextField: 'Kane'},
+    DrvrFrstNm: {TextField: 'contains=Harry'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -5719,9 +5696,8 @@ AHAUXX_Renewal_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -5774,8 +5750,8 @@ AA10OK_Renewal: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -5834,8 +5810,8 @@ AA02OK_Renewal: {
    CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -5945,8 +5921,8 @@ AA02OK_Renewal: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Phil'},
-    DrvrLstNm: {TextField: 'Jones'},
+    DrvrFrstNm: {TextField: 'contains=Phil'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -6029,9 +6005,8 @@ AHAUXX_Renewal_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'PA'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -6084,8 +6059,8 @@ AA10PA_Renewal: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: 'PA'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -6142,8 +6117,8 @@ AADNPAD_Renewal: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
@@ -6169,8 +6144,8 @@ AADNPAE_Renewal: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
@@ -6196,8 +6171,8 @@ AADNPAC_Renewal: {
     AgntNum: {TextField: '500017173'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
@@ -6222,8 +6197,8 @@ AASDPA_Renewal: {
     AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
  form: {
   PlcyNum: {TextField: ''},
@@ -6246,8 +6221,8 @@ F122G: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdLstNm: {TextField: 'Jobsik'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
   },
   AgentDetails: {
     AgntNum: {TextField: '500017389'}
@@ -6376,8 +6351,8 @@ AA02PA_Renewal: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
  NamedInsuredDetails: {
-  NmdInsrdFrstNm: {TextField: 'Steve'},
-  NmdInsrdLstNm: {TextField: 'Jobsik'},
+  NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+  NmdInsrdLstNm: {TextField: 'Smith'},
   NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
   NmdInsrdAddlAddr2: {TextField: ''},
   NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -6512,8 +6487,8 @@ AA02PA_Renewal: {
  DriverDetails: [
   {
    DrvrTyp: {TextField: 'A'},
-   DrvrFrstNm: {TextField: 'Steve'},
-   DrvrLstNm: {TextField: 'Jobsik'},
+   DrvrFrstNm: {TextField: 'contains=Steve'},
+   DrvrLstNm: {TextField: 'Smith'},
    DrvrSeqNum: {TextField: '1'},
    DrvrDOB: {DateTimeField: "contains=1962-12-04"},
    DrvrmrtlSts: {TextField: 'Married'},
@@ -6597,9 +6572,8 @@ AH35XX_Renewal_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -6621,7 +6595,7 @@ AH35XX_Renewal_AZ: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'RNWL'},
     FutInstlDueDt: {}
   }
@@ -6645,8 +6619,8 @@ form: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
    PayPln: {TextField: 'Monthly'},
    CurRnwlAmt: {TextField: ''},
-   InstlFee: {TextField: ''},
-   OthrFee: {TextField: '0.00'},
+#   InstlFee: {TextField: ''},
+#   OthrFee: {TextField: '0.00'},
    TotNwCrgAmt: {TextField: ''},
    PlcyPayMinAmt: {TextField: ''},
    PlcyDueDt: {DateTimeField: ''},
@@ -6658,9 +6632,8 @@ form: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Fernando'},
-   NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Alonso'},
+   NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '4101 S LAST CHANCE TRL'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -6702,9 +6675,8 @@ AH35XX_Renewal_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -6726,7 +6698,7 @@ AH35XX_Renewal_IN: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'RNWL'},
     FutInstlDueDt: {}
   }
@@ -6750,8 +6722,8 @@ form: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
    PayPln: {TextField: 'Monthly'},
    CurRnwlAmt: {TextField: ''},
-   InstlFee: {TextField: ''},
-   OthrFee: {TextField: '0.00'},
+#   InstlFee: {TextField: ''},
+#   OthrFee: {TextField: '0.00'},
    TotNwCrgAmt: {TextField: ''},
    PlcyPayMinAmt: {TextField: ''},
    PlcyDueDt: {DateTimeField: ''},
@@ -6763,9 +6735,8 @@ form: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Harry'},
-   NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Kane'},
+   NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '22616 ROCKVILLE RD'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -6805,9 +6776,8 @@ AH35XX_Renewal_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -6829,7 +6799,7 @@ AH35XX_Renewal_OK: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'RNWL'},
 #    FutInstlDueDt: {}
   }
@@ -6853,8 +6823,8 @@ form: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
    PayPln: {TextField: 'Monthly'},
    CurRnwlAmt: {TextField: ''},
-   InstlFee: {TextField: ''},
-   OthrFee: {TextField: '0.00'},
+#   InstlFee: {TextField: ''},
+#   OthrFee: {TextField: '0.00'},
    TotNwCrgAmt: {TextField: ''},
    PlcyPayMinAmt: {TextField: ''},
    PlcyDueDt: {DateTimeField: ''},
@@ -6866,9 +6836,8 @@ form: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Phil'},
-   NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Jones'},
+   NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '4417 N GEORGIA AVE'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -6910,9 +6879,8 @@ AH35XX_Renewal_PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -6934,7 +6902,7 @@ AH35XX_Renewal_PA: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     TransDesc: {TextField: 'RNWL'},
 #    FutInstlDueDt: {}
   }
@@ -6958,8 +6926,8 @@ form: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
    PayPln: {TextField: 'Monthly'},
    CurRnwlAmt: {TextField: ''},
-   InstlFee: {TextField: ''},
-   OthrFee: {TextField: '0.00'},
+#   InstlFee: {TextField: ''},
+#   OthrFee: {TextField: '0.00'},
    TotNwCrgAmt: {TextField: ''},
    PlcyPayMinAmt: {TextField: ''},
    PlcyDueDt: {DateTimeField: ''},
@@ -6971,9 +6939,8 @@ form: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Steve'},
-   NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Jobsik'},
+   NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '2302 W GLENWOOD AVE'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
