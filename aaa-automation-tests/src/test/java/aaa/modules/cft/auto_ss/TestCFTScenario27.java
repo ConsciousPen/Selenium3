@@ -28,7 +28,7 @@ public class TestCFTScenario27 extends ControlledFinancialBaseTest {
 	public void cftTestScenario27(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		verifyPolicyActiveOnDD1Minus20();
-		verifyPolicyExpiredOnUpdatePolicyStatusDate();
+		verifyPolicyExpiredOnRenewCustomerDeclineDate();
 	}
 
 	@Override

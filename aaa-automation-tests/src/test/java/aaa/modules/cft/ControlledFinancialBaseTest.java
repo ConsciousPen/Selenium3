@@ -1176,9 +1176,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Verify policy status on {}", date);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertSoftly(softly -> {
-			softly.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue()).isEqualTo(policyStatus);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(policyStatus);
 		});
 		log.info("Policy status is {}", policyStatus);
 	}
