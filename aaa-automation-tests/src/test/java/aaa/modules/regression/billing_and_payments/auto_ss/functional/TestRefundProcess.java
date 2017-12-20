@@ -28,6 +28,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -51,6 +52,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -174,7 +176,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(refundAmount2));
-
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		mainApp().reopen();
@@ -365,8 +366,20 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		getResponseFromPC(paymentMethod, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		pas1939_voidedRefundTransactionCheck(new Dollar(amount), transactionDate, "Manual Refund");
+		automationRefundAfterManualFailedCheck(new Dollar(amount), transactionDate);
 		//PAS-2732 End
+
+		//PAS-455 start
+		String paymentAndRefundAmount = "9";
+		allocationPaymentPerform(paymentAndRefundAmount);
+		allocationManualRefundPerform(paymentAndRefundAmount, message);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		getResponseFromPC(paymentMethod, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber);
+		automationRefundAfterManualFailedCheck(new Dollar(paymentAndRefundAmount), transactionDate);
+		checkRefundAllocationAmount(paymentAndRefundAmount, "3");
+		//Pas-455 end
 
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(message);
@@ -683,6 +696,93 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 				+ "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '" + billingAccountNumber + "') "
 				+ "order by CREATIONDATE desc").get(0).get("TRANSACTIONNUMBER");
 		return transactionIDFromDB;
+	}
+
+	private void allocationPaymentPerform (String paymentAmount) {
+
+		String paymantMethod = "Cash";
+		String allocationPaymentAmount = "3";
+
+		billingAccount.acceptPayment().start();
+
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymantMethod);
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(paymentAmount);
+
+		BillingSummaryPage.linkAdvancedAllocation.click();
+
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).setValue(allocationPaymentAmount);
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).setValue(allocationPaymentAmount);
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).setValue(allocationPaymentAmount);
+
+		advancedAllocationsActionTab.submitTab();
+	}
+
+	private void automationRefundAfterManualFailedCheck(Dollar refundAmount, String checkDate) {
+		Map<String, String> manualRefundVoided = new HashMap<>();
+		manualRefundVoided.put(TRANSACTION_DATE, checkDate);
+		manualRefundVoided.put(TYPE, "Refund");
+		manualRefundVoided.put(SUBTYPE_REASON, "Manual Refund");
+		CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(manualRefundVoided).getIndex(), 3);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(manualRefundVoided).getCell(ACTION).verify.value("");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(manualRefundVoided).getCell(STATUS).verify.value("Voided");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(manualRefundVoided).getCell(AMOUNT).verify.value(refundAmount.toString());
+
+		Map<String, String> refundVoidedAdjustment = new HashMap<>();
+		refundVoidedAdjustment.put(TRANSACTION_DATE, checkDate);
+		refundVoidedAdjustment.put(TYPE, "Adjustment");
+		refundVoidedAdjustment.put(SUBTYPE_REASON, "Refund Payment Voided");
+		CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment).getIndex(), 2);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment).getCell(ACTION).verify.value("");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment).getCell(STATUS).verify.value("Applied");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment).getCell(AMOUNT).verify.value(refundAmount.negate().toString());
+
+		Map<String, String> automatedRefundVoidedAdjustment = new HashMap<>();
+		automatedRefundVoidedAdjustment.put(TRANSACTION_DATE, checkDate);
+		automatedRefundVoidedAdjustment.put(TYPE, "Refund");
+		automatedRefundVoidedAdjustment.put(SUBTYPE_REASON, "Automated Refund");
+		CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getIndex(), 1);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(ACTION).controls.links.get(1).verify.value("Void");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(STATUS).verify.value("Approved");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(AMOUNT).verify.value(refundAmount.toString());
+	}
+
+	private void allocationManualRefundPerform(String allocationAmount, String message){
+
+		String allocationRefundAmount = "3";
+
+		billingAccount.refund().start();
+
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(message);
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(allocationAmount);
+
+		BillingSummaryPage.linkAdvancedAllocation.click();
+
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).setValue(allocationRefundAmount);
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).setValue(allocationRefundAmount);
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).setValue(allocationRefundAmount);
+
+		advancedAllocationsActionTab.submitTab();
+	}
+
+	private void checkRefundAllocationAmount(String totalAmount, String allocationRefundAmount ) {
+
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
+
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value("Check");
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value("Processing");
+
+		BillingSummaryPage.linkAdvancedAllocation.click();
+
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel(), TextBox.class).verify.value("$" + totalAmount + ".00");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel(), TextBox.class).verify.value("$" + totalAmount + ".00");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).verify.value("$" + allocationRefundAmount + ".00");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).verify.value("$" + allocationRefundAmount + ".00");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).verify.value("$" + allocationRefundAmount + ".00");
+
+		advancedAllocationsActionTab.back();
+
+		acceptPaymentActionTab.back();
 	}
 }
 
