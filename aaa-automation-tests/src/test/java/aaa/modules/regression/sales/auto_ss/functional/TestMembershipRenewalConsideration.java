@@ -11,6 +11,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
@@ -72,16 +73,13 @@ public class TestMembershipRenewalConsideration extends AutoSSBaseTest
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7458")
     public void PAS3788_TestCase2(@Optional("") String state) {
+        LocalDateTime expirationDate;
 
         //Preconditions
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(); //This policy should not be "Active" at TimePoint1
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        mainApp().close();
+        expirationDate = handlePreconditions();
 
-        LocalDateTime timePoint1 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(63);
-        LocalDateTime timePoint2 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(48);
+        LocalDateTime timePoint1 = getTimePoints().getRenewImageGenerationDate(expirationDate).minusDays(63);
+        LocalDateTime timePoint2 = getTimePoints().getRenewImageGenerationDate(expirationDate).minusDays(48);
 
         //Main Test
         TimeSetterUtil.getInstance().nextPhase(timePoint1);
@@ -93,5 +91,15 @@ public class TestMembershipRenewalConsideration extends AutoSSBaseTest
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+    }
+
+    public LocalDateTime handlePreconditions(){
+        mainApp().open();
+        createCustomerIndividual();
+        TestData adjustedData = getTestSpecificTD("TestData_Adjusted");
+        createPolicy(getPolicyTD().adjust(adjustedData)); //This policy should not be "Active" at TimePoint1
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+        return policyExpirationDate;
     }
 }
