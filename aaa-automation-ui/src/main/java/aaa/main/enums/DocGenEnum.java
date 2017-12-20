@@ -319,7 +319,14 @@ public final class DocGenEnum {
 		ACPPNUBI(""),
 		AADNUBI(""),
 		AHPNCAA(""),
-		AA02DC("")
+		AA02DC(""),
+		AA16NV("Rejection of Medical Payments Coverage"),
+		AARIVA(""),
+		AHTPCCA(""),
+		HS_04_59("HS 04 59", ""),
+		F1455(""),
+		AH61XXA(""),
+		AA57CA(""),
 		;
 
 		private String id;

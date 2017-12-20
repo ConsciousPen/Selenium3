@@ -1,0 +1,6 @@
+TestData: {
+  ManualRenewalWithOrWithoutLapseActionTab: {
+    Revised Renewal Date: '$<today:MM/dd/yyyy>',
+    Lapse Change Reason: 'Lapse Removed: error on original lapse'
+  }
+}

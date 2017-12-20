@@ -2,9 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy.auto_ca;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -14,6 +12,8 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.datax.TestData;
 
 /**

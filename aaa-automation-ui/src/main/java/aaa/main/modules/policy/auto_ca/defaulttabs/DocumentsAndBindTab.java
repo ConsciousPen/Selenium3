@@ -30,6 +30,7 @@ public class DocumentsAndBindTab extends Tab {
 	public static Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling')]"), Waiters.AJAX);
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
+	public static Dialog confirmRenewalPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_container']");
 
 	@Override
 	public Tab submitTab() {
@@ -38,6 +39,8 @@ public class DocumentsAndBindTab extends Tab {
 			confirmPurchase.confirm();
 		} else if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
 			confirmEndorsementPurchase.confirm();
+		} else if (confirmRenewalPurchase.isPresent() && confirmRenewalPurchase.isVisible()) {
+			confirmRenewalPurchase.confirm();
 		}
 		return this;
 	}

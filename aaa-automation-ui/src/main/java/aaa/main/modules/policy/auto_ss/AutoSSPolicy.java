@@ -4,6 +4,8 @@ package aaa.main.modules.policy.auto_ss;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import aaa.utils.EntityLogger;
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;

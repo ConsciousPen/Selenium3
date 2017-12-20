@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.modules.agencyvendor.brand;
 
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.admin.modules.agencyvendor.AgencyVendor;
 import aaa.admin.modules.agencyvendor.brand.BrandActions.BrandTypeUpdate;
 import aaa.admin.modules.agencyvendor.brand.defaulttabs.BrandTab;

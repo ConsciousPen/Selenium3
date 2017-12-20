@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <suite-files>
+        <suite-file path="./auto_ca_suite.xml"/>
+        <suite-file path="./auto_ss_suite.xml"/>
+        <suite-file path="./home_ca_suite.xml"/>
+        <suite-file path="./home_ss_suite.xml"/>
+        <suite-file path="./pup_suite.xml"/>
+    </suite-files>
+</suite>

@@ -13,10 +13,25 @@ TestData_Endorsement: {
   ApplicantTab: {},
   ReportsTab: {},
   PropertyInfoTab: {
+    DwellingAddress_PropertyInfoTab: {
+      Number of family units: '4-Fourplex'
+    }, 
     PropertyValue: {
-      Coverage A - Dwelling limit: 175000, 
-      Reason replacement cost differs from the tool value: 'index=1'
-    }
+      Coverage A - Dwelling limit: 174000, 
+    }, 
+    DetachedStructures: [{
+      "Are there any detached structures on the property?": 'Yes', 
+      Rented to others: 'Yes', 
+      Description: 'Detached structure 1',
+      Limit of liability: '10000', 
+      Number of family units: '4', 
+      Number of occupants: '2'
+    }],
+    RecreationalEquipment: {
+      Swimming pool: Restricted access with slide and diving board, 
+      "Spa/hot tub": Restricted access,
+      Trampoline: Restricted access in-ground with safety net
+    },
   },
   ProductOfferingTab: {},
   EndorsementTab: {},

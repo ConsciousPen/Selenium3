@@ -21,4 +21,16 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.EnrollUsageBasedEndorsementCheck"/>
         </classes>
     </test>
+    <test name="Test Renovation Discount for KS DP3">
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts"/>
+        </classes>
+    </test>
+    <test name="Test Disable Reorder Report at Mid Term and Renewal">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
+        </classes>
+    </test>
+
 </suite>

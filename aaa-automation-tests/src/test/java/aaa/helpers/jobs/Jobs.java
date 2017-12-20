@@ -8,13 +8,9 @@ public class Jobs {
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
-			Arrays.asList(
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
+			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 
@@ -43,7 +39,7 @@ public class Jobs {
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 
 	public static Job collectionFeedBatch_earnedPremiumWriteOff = new Job("collectionFeedBatch_earnedPremiumWriteOff");
-
+	
 	public static Job earnedPremiumWriteoffProcessingJob = new Job("earnedPremiumWriteoffProcessingJob");
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
@@ -115,6 +111,9 @@ public class Jobs {
 	public static Job aaaMembershipRenewalBatchReceiveAsyncJob = new Job("aaaMembershipRenewalBatchReceiveAsyncJob");
 
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
+
+	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
+
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 

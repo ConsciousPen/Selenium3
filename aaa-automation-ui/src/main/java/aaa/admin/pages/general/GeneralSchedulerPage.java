@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
-import aaa.JobRunner;
+import aaa.utils.JobRunner;
 import aaa.admin.pages.AdminPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
@@ -60,7 +60,8 @@ public class GeneralSchedulerPage extends AdminPage {
 	    AUTOMATED_PROCESSING_BYPASSING_AND_ERRORS_REPORT_GENERATION_JOB("automatedProcessingBypassingAndErrorsReportGenerationJob"),
 	    AAA_MEMBERSHIP_RENEWAL_BATCH_RECEIVE_ASYNC_JOB("aaaMembershipRenewalBatchReceiveAsyncJob"),
 	    AAA_MEMBERSHIP_RENEWAL_BATCH_ORDER_ASYNC_JOB("aaaMembershipRenewalBatchOrderAsyncJob"),
-	    RENEWAL_IMAGE_RATING_ASYNC_TASK_JOB("renewalImageRatingAsyncTaskJob");
+	    RENEWAL_IMAGE_RATING_ASYNC_TASK_JOB("renewalImageRatingAsyncTaskJob"),
+        AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB("aaaRefundsDisbursementRejectionsAsyncJob");
 
         String id;
 

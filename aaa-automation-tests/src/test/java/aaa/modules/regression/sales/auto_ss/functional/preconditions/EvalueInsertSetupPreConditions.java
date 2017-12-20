@@ -7,6 +7,9 @@ public interface EvalueInsertSetupPreConditions {
 
 	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 
+	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
+	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
+
 	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
@@ -66,11 +69,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ "values\n"
 			+ "('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
-
-	String EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n"
-			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-			+ "values\n"
-			+ "('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
 	String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
@@ -172,4 +170,8 @@ public interface EvalueInsertSetupPreConditions {
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pendingRefund' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
+
+	String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/local/authentication'\n"
+			+ "where propertyname = 'oAuthClient.oAuthPingUri'";
 }

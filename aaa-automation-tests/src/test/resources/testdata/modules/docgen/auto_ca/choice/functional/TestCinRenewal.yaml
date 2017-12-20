@@ -1,0 +1,93 @@
+TestData_Renewal_MVR: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab_Empty', '@DriverTab_MVR'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {},
+}
+
+TestData_Renewal_CLUE: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab_Empty', '@DriverTab_CLUE'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {},
+}
+
+GeneralTab: {
+  AAAProductOwned: {
+    Current AAA Member: 'No',
+  }
+}
+
+DriverTab_MVR: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": B6526589
+}
+
+DriverTab_CLUE: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": B6526589
+}
+
+DriverTab_CLUE: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": B6526589
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Property Damage Liability: 'contains=$100,000'
+}
+
+DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+DriverTab_Empty: {
+}
