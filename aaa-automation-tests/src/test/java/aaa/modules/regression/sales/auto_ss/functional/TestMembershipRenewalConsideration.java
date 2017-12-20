@@ -73,5 +73,25 @@ public class TestMembershipRenewalConsideration extends AutoSSBaseTest
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7458")
     public void PAS3788_TestCase2(@Optional("") String state) {
 
+        //Preconditions
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(); //This policy should not be "Active" at TimePoint1
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+
+        LocalDateTime timePoint1 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(63);
+        LocalDateTime timePoint2 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(48);
+
+        //Main Test
+        TimeSetterUtil.getInstance().nextPhase(timePoint1);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+
+        TimeSetterUtil.getInstance().nextPhase(timePoint2);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 }
