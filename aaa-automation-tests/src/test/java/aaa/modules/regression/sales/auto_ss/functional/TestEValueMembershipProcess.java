@@ -47,7 +47,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
-	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements";
+	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
 
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
@@ -142,7 +142,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(false, "already activated by previous job");
 		transactionHistoryRecordCountCheck(1);
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
-		checkDocumentContentAHDRXX(policyNumber, false, false, false);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -185,7 +185,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
 		transactionHistoryRecordCountCheck(2);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
-		checkDocumentContentAHDRXX(policyNumber, true, true, true);
+		checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -228,7 +228,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
 		transactionHistoryRecordCountCheck(3);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
-		checkDocumentContentAHDRXX(policyNumber, true, true, true);
+		checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -273,7 +273,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(false, "already processed by previous job");
 		transactionHistoryRecordCountCheck(1);
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
-		checkDocumentContentAHDRXX(policyNumber, false, false, false);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -319,7 +319,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		transactionHistoryRecordCountCheck(2);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
-		checkDocumentContentAHDRXX(policyNumber, true, true, false);
+		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -367,7 +367,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
-		checkDocumentContentAHDRXX(policyNumber, true, true, false);
+		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -481,8 +481,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private void lastTransactionHistoryExit() {
-		premiumAndCoveragesTab.cancel();
-		Tab.buttonCancel.click();
+		if (Tab.buttonCancel.isPresent()) {
+			premiumAndCoveragesTab.cancel();
+			Tab.buttonCancel.click();
+		}
 	}
 
 	private void lastTransactionHistoryOpen() {
@@ -517,6 +519,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-5837")
 	public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("DC") String state) {
+		mainApp().open();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(1));
+
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
@@ -541,7 +546,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		transactionHistoryRecordCountCheck(2);
 		//BUG Membership Discount infor printed in the doc
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
-		checkDocumentContentAHDRXX(policyNumber, true, false, true);
+		//BUG PAS-7265 Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30
+		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -701,7 +707,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 	}
 
-	private void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent) {
+	private void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
@@ -713,8 +719,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				CustomAssert.assertTrue("5.0%"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
+				CustomAssert.assertTrue("Y"
+						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			} else {
 				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				CustomAssert.assertTrue("N"
+						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			}
 
 			if (isEvalueDataPresent) {
@@ -724,6 +734,22 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 								.getTextField()));
 			} else {
 				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+			}
+
+			if (isPaperlessDiscDataPresent){
+				CustomAssert.assertTrue("Y"
+						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			} else {
+				CustomAssert.assertTrue("N"
+						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			}
+
+			if (isPaperlessDlvryDataPresent){
+				CustomAssert.assertTrue("Y"
+						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			} else {
+				CustomAssert.assertTrue("N"
+						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			}
 
 		} else {

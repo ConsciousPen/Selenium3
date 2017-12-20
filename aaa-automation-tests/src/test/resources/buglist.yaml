@@ -138,6 +138,12 @@ PAS-6610:
   failures:
     - tests: [aaa.modules.deloitte.docgen.auto_ss.TestScenario4.TC01_CreatePolicy]
       messages: ['Unable to locate element']
+PAS-7341:
+  summary: "PAS18.1 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
+      messages: ['Defensive Driving Course Discount', 'expected']
 QC-26288:
   summary: "Regression: Exception on approve underwriting rule"
   reason: PROD
@@ -201,3 +207,9 @@ PAS-6539:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
       messages: ['paymentMethod']
+PAS-7265:
+  summary: "Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending]
+      messages: ['Y']

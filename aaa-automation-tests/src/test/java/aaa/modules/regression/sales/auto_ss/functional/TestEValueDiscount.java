@@ -29,7 +29,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.models.Document;
+import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -1423,6 +1423,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	private void checkBlueBoxMessagesWithDiffData(int days, String messageInfo, List<String> messageBullet, String messageInfo1, List<String> messageBullet1, String membershipOrPrior) {
+
+		int effDateWhenMembershipIsRequired = 12;
+		int effDateWhenPriorInsurIsRequired = 18;
+
 		policy.dataGather().start();
 
 		checkBlueBoxMessages(messageInfo, messageBullet);
@@ -1430,7 +1434,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(messageInfo, messageBullet);
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		checkBlueBoxMessages(messageInfo1, messageBullet1);
+		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+			checkBlueBoxMessages(messageInfo1, messageBullet1);
+		}else {
+			checkBlueBoxMessages(messageInfo, messageBullet);
+		}
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1445,7 +1453,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		checkBlueBoxMessages(messageInfo, messageBullet);
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		checkBlueBoxMessages(messageInfo1, messageBullet1);
+		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+			checkBlueBoxMessages(messageInfo1, messageBullet1);
+		}else {
+			checkBlueBoxMessages(messageInfo, messageBullet);
+		}
 
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();

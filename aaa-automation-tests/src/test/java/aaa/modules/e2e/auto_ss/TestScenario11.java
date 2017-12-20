@@ -34,7 +34,7 @@ public class TestScenario11 extends Scenario11 {
 			payFirstOffCycleBill();
 			makeSecondEndorsement();
 			generateSecondOffCycleBill();
-			paySecondOffCycleBill();
+			paySecondOffCycleBill(); 
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
