@@ -1,4 +1,4 @@
-package aaa.helpers.xml.models;
+package aaa.helpers.xml.model;
 
 import javax.xml.bind.annotation.*;
 

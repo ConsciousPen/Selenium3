@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 import org.testng.Assert;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.xml.models.Document;
+import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
