@@ -11,8 +11,8 @@
     </properties>
     <hub>
         <url>http://aws2aaaqas24.corevelocity.csaa.cloud:9999</url>
-        <min>4</min>
-        <max>4</max>
+        <min>2</min>
+        <max>2</max>
         <keywords>
             <keyword>DEV</keyword>
         </keywords>
