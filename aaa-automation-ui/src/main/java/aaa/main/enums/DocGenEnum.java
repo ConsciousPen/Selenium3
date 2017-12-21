@@ -211,7 +211,9 @@ public final class DocGenEnum {
         F122G(""),
         AAAEOK(""),
         AA52OK(""),
-        
+		AHDRXX("DISCOUNT REMOVAL AT ENDORSEMENT"),
+		AHDEXX("DISCOUNT REMOVAL AT RENEWAL"),
+
         AA11CA("California Choice Auto Insurance Application"),
         AA41CA("Non-Owner Automobile Endorsement"),
         AA43CA("Named Driver(s) Exclusion"),
@@ -322,6 +324,9 @@ public final class DocGenEnum {
 		AARIVA(""),
 		AHTPCCA(""),
 		HS_04_59("HS 04 59", ""),
+		F1455(""),
+		AH61XXA(""),
+		AA57CA(""),
 		;
 
 		private String id;

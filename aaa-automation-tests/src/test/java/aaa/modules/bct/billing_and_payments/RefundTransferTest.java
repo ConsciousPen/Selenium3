@@ -16,10 +16,11 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_037_RefundTransfer", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar refundAmount = new Dollar(500);
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
@@ -36,10 +37,11 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_038_RefundTransfer(@Optional("") String state) {
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_038_RefundTransfer", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar refundAmount = new Dollar(500);
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
