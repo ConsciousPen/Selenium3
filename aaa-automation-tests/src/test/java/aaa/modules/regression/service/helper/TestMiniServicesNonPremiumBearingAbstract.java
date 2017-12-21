@@ -33,8 +33,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected abstract AssetDescriptor<Button> getCalculatePremium();
 
 	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
-		HelperCommon helperCommon = new HelperCommon();
-
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -48,7 +46,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
 		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
 		//PAS-343 end
-
+		//VASS926232125
 		String emailAddressChanged = "osi.test@email.com";
 		String authorizedBy = "John Smith";
 		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
