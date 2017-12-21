@@ -37,12 +37,13 @@ public class BindTab extends Tab {
 	public Tab submitTab() {
 		btnPurchase.click();
 		ErrorTab errorTab = new ErrorTab();
+		confirmPurchase();
 		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME.getCode())) {
 			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME);
 			errorTab.override();
 			btnPurchase.click();
+			confirmPurchase();
 		}
-		confirmPurchase();
 		return this;
 	}
 
