@@ -15,7 +15,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class XlsUpdater {
 
 	private static final String ORIGIN_STUB_PATH = "src/test/resources/stubs/";
-	private static final String DESTINATION_STUB_PATH = "/AAA/stubs/";
+	private static final String DESTINATION_STUB_PATH = "/AAA/stubs/";//Will be moved to env properties
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
@@ -41,6 +41,7 @@ public class XlsUpdater {
 				.getCell("policyNumber")
 				.setValue(value1)
 				.save(writeFile1); //writeFile can be replaced by new File(ORIGIN_STUB_PATH + modifiedFileName1)
+		//TODO If work on the file is over, use .saveAndClose(writeFile1)
 
 		ExcelManager excel2 = new ExcelManager(readFile);
 		excel2.getSheet("PREFERENCEGROUP")
@@ -48,7 +49,7 @@ public class XlsUpdater {
 				.getRow("ID", "A10")
 				.getCell("notificationId")
 				.setValue(value2)
-				//!!!saveAndClose must be performed when done working with ExcelManager
+				//!!!saveAndClose must be performed when done working with Excel File
 				.saveAndClose(writeFile2); //writeFile can be replaced by new File(ORIGIN_STUB_PATH + modifiedFileName2)
 
 		//Write to server
