@@ -17,7 +17,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -277,8 +276,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(Dollar overpayment) {
 		LocalDateTime paymentDate = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
 		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
-		log.info("Validate Customer declined status on {}", paymentDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED).verifyPresent();
+
 	}
 
 	/**
@@ -420,9 +418,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		issuedRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void issuedRefundOnExpDatePlus25(Dollar refundAmount) {
-		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate().plusDays(25);
-		issuedRefundOnDate(refundAmount, refundDate);
+	protected void issuedRefundOnRefundDate() {
+		LocalDateTime refundDate = getTimePoints().getRefundDate(
+			getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Verify refund on {}", refundDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingPaymentsAndTransactionsVerifier()
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
+			.verifyPresent();
+		log.info("Refund presents in Payments & Other Transactions Table");
+
 	}
 
 	protected void voidRefundOnStartDatePlus25() {
@@ -781,9 +791,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Suspense refunded successfully");
 	}
 
+	protected void generateRenewalImage() {
+		LocalDateTime renewalImageDate = getTimePoints().getRenewImageGenerationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+		TimeSetterUtil.getInstance().nextPhase(renewalImageDate);
+		log.info("Renewal image generation started on {}", renewalImageDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().open();
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.DATA_GATHERING).verify(1);
+		log.info("Renewal image generated successfully");
+	}
+
 	protected void generateRenewalOffer() {
 		LocalDateTime renewalOfferDate = getTimePoints().getRenewOfferGenerationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
-		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate.plusDays(13));
+		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate);
 		log.info("Renewal offer generation started on {}", renewalOfferDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
@@ -908,10 +930,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	private void acceptTotalDuePlusOverpaymentOnDate(Dollar overpayment, LocalDateTime paymentDate) {
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		log.info("Accept overpayment action started on {}", paymentDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar amount = BillingSummaryPage.getTotalDue().add(overpayment);
+		Dollar amount = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE).getValue()).add(overpayment);
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(paymentDate)
