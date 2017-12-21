@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.Button;
@@ -28,6 +27,8 @@ public class ApplicantTab extends Tab {
 
     @Override
     public Tab submitTab() {
+    	//TODO OSI: Workaround, sometimes not navigating to next tab from first attempt
+	    btnContinue.click();
     	btnContinue.click();
         return this;
     }

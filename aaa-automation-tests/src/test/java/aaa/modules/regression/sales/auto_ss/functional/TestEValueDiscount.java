@@ -33,6 +33,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -93,6 +94,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
 
 	private GeneralTab generalTab = new GeneralTab();
+	private aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab generalTabHome = new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
 	private ErrorTab errorTab = new ErrorTab();
@@ -1344,8 +1346,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		log.info("policyNum: {}", policyNum);
 	}
 
-	public void simplifiedQuoteIssue() {
+	public String simplifiedQuoteIssue() {
 		simplifiedQuoteIssue("");
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	/**
@@ -1353,10 +1356,14 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 *
 	 * @param paymentMethod - DC - Debit Card, CC - Credit Card, ACH - EFT
 	 */
-	public void simplifiedQuoteIssue(String paymentMethod) {
+	public String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+		if(generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE.getLabel()).isPresent()){
+			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
+		} else {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+		}
 
 		for (int i = 0; i < 3; i++) {
 			if (DocumentsAndBindTab.btnPurchase.isPresent()) {
@@ -1373,6 +1380,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentMethod));
 		}
 		new PurchaseTab().fillTab(purchaseTabData).submitTab();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	public void simplifiedPendedEndorsementIssue() {

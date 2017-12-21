@@ -21,31 +21,30 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-
-public class HelperCommon{
+public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
 			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
 
-	private static String urlBuilder(String endpointUrlPart) {
-		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+	public static <T> RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
+		String requestUrl = urlBuilderAdmin(PropertyProvider.getProperty(CustomTestProperties.ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT)) + policyNumber + "/" + date;
+		RfiDocumentResponse[] result = runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
+		return result;
 	}
 
-	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
-		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
-		Application.open(swaggerUiUrl);
-		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
+	static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
+		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
+			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
+		} else {
+			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
+			request.email = emailAddressChanged;
+			request.authorizedBy = authorizedBy;
+			String requestUrl = urlBuilderDxp(PropertyProvider.getProperty(CustomTestProperties.DXP_CONTACT_INFO_UPDATE_ENDPOINT)) + policyNumber;
+			runJsonRequestPostDxp(requestUrl, request);
+		}
+	}
 
-		Waiters.SLEEP(2000).go();
-		SwaggerUiTab.policyV1Endorsements.click();
-		SwaggerUiTab.policyV1EndorsementsPost.click();
-
-		SwaggerUiTab.policyNumber.setValue(policyNumber);
-		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \""+emailAddress+"\",\n"
-				+ "  \"authorizedBy\": \""+ authorizedBy + "\"}");
-		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
-		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
-		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
-		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
+	private static String urlBuilderDxp(String endpointUrlPart) {
+		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 	}
 
 	private void authentication() {
@@ -58,7 +57,29 @@ public class HelperCommon{
 		driver.switchTo().defaultContent();
 	}
 
-	public void runJsonRequest(String url, RestBodyRequest request) {
+	private static String urlBuilderAdmin(String endpointUrlPart) {
+		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.ADMIN_PORT) + endpointUrlPart;
+	}
+
+	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
+		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
+		Application.open(swaggerUiUrl);
+		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
+
+		Waiters.SLEEP(2000).go();
+		SwaggerUiTab.policyV1Endorsements.click();
+		SwaggerUiTab.policyV1EndorsementsPost.click();
+
+		SwaggerUiTab.policyNumber.setValue(policyNumber);
+		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \"" + emailAddress + "\",\n"
+				+ "  \"authorizedBy\": \"" + authorizedBy + "\"}");
+		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
+		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
+		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
+		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
+	}
+
+	private static void runJsonRequestPostDxp(String url, RestBodyRequest request) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -86,16 +107,32 @@ public class HelperCommon{
 		}
 	}
 
-	public void executeRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
-			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
-		} else {
-			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
-			request.email = emailAddressChanged;
-			request.authorizedBy = authorizedBy;
-			String requestUrl = urlBuilder(PropertyProvider.getProperty(CustomTestProperties.DXP_CONTACT_INFO_UPDATE_ENDPOINT)) + policyNumber;
-			runJsonRequest(requestUrl, request);
+	private static <T> T runJsonRequestGetAdmin(String url, Class<T> returnClazz) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(url);
+
+			response = target
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.get();
+			T result = response.readEntity(returnClazz);
+			log.info(response.toString());
+			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+				//handle error
+				throw new IstfException(response.readEntity(String.class));
+			}
+			return result;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
 		}
 	}
-
 }

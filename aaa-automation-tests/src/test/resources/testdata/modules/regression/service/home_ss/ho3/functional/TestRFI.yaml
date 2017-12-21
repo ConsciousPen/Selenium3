@@ -1,0 +1,143 @@
+TestData1_VA: {
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_VA',
+  ApplicantTab: '@<home_ss_ho3>@DataGather@ApplicantTab_VA',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab1',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+}
+
+TestData2_VA: {
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_VA',
+  ApplicantTab: '@<home_ss_ho3>@DataGather@ApplicantTab_VA',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab2',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+}
+
+# ------------------ Tabs --------------------
+
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: '@PublicProtectionClass',
+  FireReport: {},
+  PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
+  Construction: '@Construction',
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: '@FireProtectiveDD',
+  TheftProtectiveTPDD: '@TheftProtectiveTPDD',
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+# ------------ PropertyInfo Tab --------------
+PublicProtectionClass: {
+  Fire department type: 'S - Subscription based',
+  Subscription to fire department/station: 'Yes',
+  Public protection class: '1',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: '100'
+}
+
+Construction: {
+  Year built: 1939,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Roof shape: Hip,
+  Construction type: 'Masonry',
+}
+
+FireProtectiveDD: {
+  Local fire alarm: true,
+  Central fire alarm: true
+}
+TheftProtectiveTPDD: {
+  Local theft alarm: true,
+  Central theft alarm: true
+}
+
+HomeRenovation: {
+  "Plumbing renovation": '100% Copper',
+  "Plumbing % complete": 100,
+  "Plumbing Month of completion": 12,
+  "Plumbing Year of completion": 2009,
+  "Electrical renovation": '100% Circuit/Romex',
+  "Electrical % complete": 100,
+  "Electrical Month of completion": 12,
+  "Electrical Year of completion": 2009,
+  "Roof renovation": '100% Replace',
+  "Roof % complete": 100,
+  "Roof Month of completion": 12,
+  "Roof Year of completion": 2009,
+  "Heating/cooling renovation": 'Forced Air',
+  "Heating/cooling % complete": 100,
+  "Heating/cooling Month of completion": 12,
+  "Heating/cooling Year of completion": 2009,
+  Green Home discount: 'Yes'
+}
+
+
+#===================================
+EndorsementTab: {
+  'HS 04 61': '@Endorsement_HO61'
+}
+
+Endorsement_HO61: {
+  Action: 'Add'
+}
+
+PersonalPropertyTab: {
+  Cameras: {
+   Limit of liability: '5000',
+   Description: 'aaa'
+  }
+}
+
+DocumentsTab1: {
+  DocumentsToBind: {
+    Proof of ENERGY STAR appliances or green home features: 'No',
+    Proof of central fire alarm: 'No',
+    Proof of central theft alarm: 'No',
+    "Proof of plumbing, electrical, heating/cooling system and roof renovations": 'No',
+    Proof of subscription to fire department: 'No'
+  },
+  DocumentsToIssue: {
+    Signed policy application: Not Signed
+  }
+}
+
+DocumentsTab2: {
+  DocumentsToBind: {
+    Proof of ENERGY STAR appliances or green home features: 'No',
+    Proof of central fire alarm: 'No',
+    Proof of central theft alarm: 'No',
+    Proof of home renovations for the Home Modernization discount: 'No',
+    Proof of subscription to fire department: 'No'
+  },
+  DocumentsToIssue: {
+    Signed policy application: Not Signed
+  }
+}
+
+
+
+
+
