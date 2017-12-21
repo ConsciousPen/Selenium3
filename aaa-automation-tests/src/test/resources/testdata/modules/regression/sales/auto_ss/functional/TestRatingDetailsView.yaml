@@ -11,6 +11,6 @@ Vehicle_2: {
   Other Model: 'Model',
   Other Series: 'Series',
   'Other Body Style': 'Sedan',
-  Stat Code: 'AC - Small SUV',
+  Stat Code: 'Small SUV',
   'Stated Amount': '10000',
 }

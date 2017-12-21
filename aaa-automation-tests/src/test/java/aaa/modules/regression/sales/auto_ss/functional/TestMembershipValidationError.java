@@ -11,15 +11,10 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.helpers.TestVinUploadHelper;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -116,16 +111,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		testData.adjust(generalTab.getMetaKey(),generalTabAdjusted).resolveLinks();
 		// End of General tab
 
-		// Start of  Rating DetailReports Tab
-		TestData addMemberSinceDialog = new SimpleDataProvider().adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "/today-1y:MM/dd/yyyy").adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
-		TestData aaaMembershipReportRow = new SimpleDataProvider().adjust("Action", "Add Member Since").adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
-
-		// Rating DetailReports Tab
-		TestData testDataRatingDetailReportsTab = testData.getTestData(ratingDetailReportsTab.getMetaKey())
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
-		testData.adjust(ratingDetailReportsTab.getMetaKey(), testDataRatingDetailReportsTab).resolveLinks();
-		// End of  Rating DetailReports Tab
-
-		return testData;
+		return TestVinUploadHelper.getTestDataWithMembershipSinceDate(testData);
 	}
 }

@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ca;
 
+import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
@@ -12,7 +13,6 @@ import aaa.common.pages.Page;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.auto_ca.defaulttabs.CreateQuoteVersionTab;
 import aaa.main.modules.policy.auto_ca.views.*;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
 
@@ -51,6 +51,38 @@ public final class AutoCaPolicyActions {
             	Page.dialogConfirmation.confirm();
             }
             
+            return this;
+        }
+    }
+
+    public static class PriorTermEndorsement extends PolicyActions.PriorTermEndorsement {
+
+        @Override
+        public Workspace getView() {
+            return new EndorseView();
+        }
+
+        @Override
+        public AbstractAction performAndFill(TestData td) {
+            start();
+            getView().fill(td);
+            submit();
+            new DataGather().getView().fill(td);
+            return this;
+        }
+
+        @Override
+        public AbstractAction performAndExit(TestData td) {
+            start();
+            getView().fill(td);
+            submit();
+            Tab.buttonSaveAndExit.click();
+
+            if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+                new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']")).setValue("save as incomplete");
+                Page.dialogConfirmation.confirm();
+            }
+
             return this;
         }
     }

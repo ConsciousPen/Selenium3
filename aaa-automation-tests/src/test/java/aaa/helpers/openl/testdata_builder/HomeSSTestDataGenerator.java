@@ -6,6 +6,14 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy> {
+	public HomeSSTestDataGenerator(String state) {
+		super(state);
+	}
+
+	public HomeSSTestDataGenerator(String state, TestData ratingDataPattern) {
+		super(state, ratingDataPattern);
+	}
+
 	@Override
 	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();

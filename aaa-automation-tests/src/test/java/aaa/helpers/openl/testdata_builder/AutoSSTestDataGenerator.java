@@ -1,10 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
@@ -13,13 +9,7 @@ import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurcharge;
 import toolkit.datax.DataProviderFactory;
@@ -29,6 +19,14 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPolicy> {
+
+	public AutoSSTestDataGenerator(String state) {
+		super(state);
+	}
+
+	public AutoSSTestDataGenerator(String state, TestData ratingDataPattern) {
+		super(state, ratingDataPattern);
+	}
 
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {

@@ -6,10 +6,19 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
+	AutoTestDataGenerator(String state) {
+		super(state);
+	}
+
+	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
+		super(state, ratingDataPattern);
+	}
+
 	String getDriverTabGender(String gender) {
 		if ("F".equals(gender)) {
 			return "Female";

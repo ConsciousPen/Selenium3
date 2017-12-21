@@ -213,3 +213,9 @@ PAS-7265:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending]
       messages: ['Y']
+PAS-7427:
+  summary: "Regression: The Membership Validation rule is displayed wrongly"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e]
+      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]

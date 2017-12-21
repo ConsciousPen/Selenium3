@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * With this annotation field will be excluded from ExcelUnmarshaller parsing (same as JAXB's @XmlTransient)
+ * With this annotation field will be excluded from excel file unmarshalling and will be saved in result object with default value of its type (same as JAXB's @XmlTransient)
  */
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

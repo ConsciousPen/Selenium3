@@ -5,7 +5,7 @@ import java.util.List;
 import aaa.utils.excel.bind.ExcelTableElement;
 import aaa.utils.excel.bind.ExcelTransient;
 
-public abstract class OpenLFile<P> {
+public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
 	public static final int POLICY_HEADER_ROW_NUMBER = 4;
 
@@ -49,6 +49,7 @@ public abstract class OpenLFile<P> {
 	public static final String TESTS_SHEET_NAME = "Tests";
 
 	@ExcelTableElement(sheetName = "Tests", headerRowNumber = TESTS_HEADER_ROW_NUMBER)
+	@ExcelTransient
 	protected List<OpenLTest> tests;
 
 	public List<OpenLTest> getTests() {

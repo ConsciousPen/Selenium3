@@ -44,6 +44,12 @@ public interface IPolicy {
     void createEndorsement(TestData td);
 
     /**
+     * Fill Endorsement action tab, confirm endorsement, fill policy endorsement, confirm purchase of endorsement
+     * @param td - TestData for Endorsement and data gather for endorsement. Purchase tab is not shown so shouldn't present in TestData
+     **/
+    void createPriorTermEndorsement(TestData td);
+
+    /**
      * Open Data Gathering mode, order reports, Calculate premium, stay in data gathering mode
      * @param td TODO
      */
@@ -70,6 +76,8 @@ public interface IPolicy {
     
     //Policy Actions:
     PolicyActions.Endorse endorse();
+
+    PolicyActions.PriorTermEndorsement priorTermEndorsement();
 
     PolicyActions.Renew renew();
 

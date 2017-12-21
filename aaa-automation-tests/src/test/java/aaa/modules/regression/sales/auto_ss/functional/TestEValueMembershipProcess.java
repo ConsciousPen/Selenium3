@@ -716,9 +716,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 			if (isMembershipDataPresent) {
 				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				//PAS-1549 Start
 				CustomAssert.assertTrue("5.0%"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
+				//PAS-1549 End
 				CustomAssert.assertTrue("Y"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			} else {
@@ -729,9 +731,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 			if (isEvalueDataPresent) {
 				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				//PAS-1549 Start
 				CustomAssert.assertTrue("13.5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
+				//PAS-1549 End
 			} else {
 				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
 			}

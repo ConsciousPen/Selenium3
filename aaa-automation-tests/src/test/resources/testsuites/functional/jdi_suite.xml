@@ -54,6 +54,17 @@
             </class>
         </classes>
     </test>
+    <test name="TestRefundProcessVA3">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2727_ManualChkRefundFromDe"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="TestRefundProcessVA1">
         <parameter name="state" value="VA"/>
         <classes>
@@ -121,6 +132,7 @@
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
+                    <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
@@ -268,6 +280,19 @@
                     <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
                 </methods>
             </class>
+        </classes>
+    </test>
+
+    <test name="TestRFI-AutoSS">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestRFI"/>
+        </classes>
+    </test>
+    <test name="TestRFI-Ho3SS">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestRFI"/>
         </classes>
     </test>
 </suite>

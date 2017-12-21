@@ -6,11 +6,11 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="example">
+    <test name="Renewal job adding">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+            <class name="aaa.modules.regression.preconditions.JobAdding">
                 <methods>
-                    <include name="precondJobAdding"/>
+                    <include name="renewalJobAdding"/>
                 </methods>
             </class>
         </classes>

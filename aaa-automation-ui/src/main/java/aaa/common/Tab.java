@@ -208,7 +208,14 @@ public abstract class Tab {
 	}
 
 	public Tab cancel() {
+		return cancel(false);
+	}
+
+	public Tab cancel(boolean confirmDialog) {
 		buttonCancel.click();
+		if (confirmDialog && Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			Page.dialogConfirmation.confirm();
+		}
 		return this;
 	}
 
