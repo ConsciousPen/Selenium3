@@ -226,8 +226,10 @@ public final class BillingAccountMetaData {
 
     public static final class AdvancedAllocationsActionTab extends MetaData {
         public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
-        public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
+        public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Product Subtotal", TextBox.class);
         public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
+        public static final AssetDescriptor<TextBox> NET_PREMIUM = declare("Net Premium", TextBox.class);
+        public static final AssetDescriptor<TextBox> POLICY_FEE = declare("Policy Fee", TextBox.class);
     }
 
     public static final class ChangePaymentPlanActionTab extends MetaData {

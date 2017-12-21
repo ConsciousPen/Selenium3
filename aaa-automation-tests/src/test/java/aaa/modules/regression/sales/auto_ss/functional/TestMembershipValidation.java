@@ -471,6 +471,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		if (ruleShouldFire) {
 			goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
 			errorTab.overrideAllErrors();
+			errorTab.buttonOverride.click();
 		}
 
 		new DocumentsAndBindTab().submitTab();

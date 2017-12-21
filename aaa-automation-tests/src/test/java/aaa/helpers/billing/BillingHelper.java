@@ -239,7 +239,7 @@ public final class BillingHelper {
 				pligaFeePercentage = 0.6;
 				break;
 			default :
-				pligaFeePercentage = 0.7;
+				pligaFeePercentage = 0.6;
 				log.warn(String.format("PLIGA Fee charge percent for %s year is unknown, default %s charge percent will be used for calculation.", transactionDate.getYear(), pligaFeePercentage));
 		}
 		return new Dollar(Math.round(Double.valueOf(totalPremiumAmount.getPercentage(pligaFeePercentage).toPlaingString())));
