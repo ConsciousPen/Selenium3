@@ -30,6 +30,14 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPolicy> {
 
+	public AutoSSTestDataGenerator(String state) {
+		super(state);
+	}
+
+	public AutoSSTestDataGenerator(String state, TestData ratingDataPattern) {
+		super(state, ratingDataPattern);
+	}
+
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
 		TestData td = DataProviderFactory.dataOf(

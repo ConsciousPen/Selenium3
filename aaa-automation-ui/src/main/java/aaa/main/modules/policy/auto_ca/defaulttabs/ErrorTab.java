@@ -4,9 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
-import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 
 /**

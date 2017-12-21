@@ -7,16 +7,13 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
+import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import toolkit.datax.TestData;
 
 public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy> {
-	public AutoSSPremiumCalculationTest() {
-		super(new AutoSSTestDataGenerator());
-	}
-
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
@@ -30,6 +27,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
-		verifyPremiums(fileName, AutoSSOpenLFile.class, getPolicyNumbers(policyNumbers));
+		TestDataGenerator<AutoSSOpenLPolicy> tdGenerator = new AutoSSTestDataGenerator(getState(), getRatingDataPattern());
+		verifyPremiums(fileName, AutoSSOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

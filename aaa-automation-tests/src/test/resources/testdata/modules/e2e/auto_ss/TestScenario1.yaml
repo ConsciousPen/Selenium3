@@ -16,9 +16,19 @@ TestData_Endorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
+  ErrorTab: '@ErrorTab'
 }
-
+# ---- workaround ---- remove after PAS-7427 fix
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=Membership Validation Failed",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other'
+   }]
+}
 TestData_Endorsement_VA: {
   GeneralTab: {},
   DriverTab: {},
@@ -28,7 +38,8 @@ TestData_Endorsement_VA: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
+  ErrorTab: '@ErrorTab'
 }
 
 VehicleTab: {
@@ -46,7 +57,8 @@ TestData_Endorsement_NY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
+  ErrorTab: '@ErrorTab'
 }
 
 VehicleTab_NY: {
