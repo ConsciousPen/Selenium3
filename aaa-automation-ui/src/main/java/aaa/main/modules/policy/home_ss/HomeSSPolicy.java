@@ -13,12 +13,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ProductOfferingTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import toolkit.datax.TestData;
@@ -73,6 +68,11 @@ public class HomeSSPolicy implements IPolicy {
 	}
 
 	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		priorTermEndorsement().performAndFill(td);
+	}
+
+	@Override
 	public void purchase(TestData td) {
 	    dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
@@ -112,6 +112,11 @@ public class HomeSSPolicy implements IPolicy {
 	@Override
 	public PolicyActions.Endorse endorse() {
 		return new HomeSSPolicyActions.Endorse();
+	}
+
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return new HomeSSPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override

@@ -1,0 +1,48 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <!--The tests are updating configuration on the fly and sequential execution is needed-->
+
+    <test name="PAS-2716 Update VIN Refresh Auto SS">
+        <classes>
+            <class name="aaa.modules.regression.preconditions.JobAdding">
+                <methods>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                    <include name="pas2716_BackDatedEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-2716 Update VIN Refresh CA Select">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
+                <methods>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-2716 Update VIN Refresh CA Choice">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
+                <methods>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

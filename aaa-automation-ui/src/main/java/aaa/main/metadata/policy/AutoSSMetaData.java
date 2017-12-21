@@ -347,7 +347,7 @@ public final class AutoSSMetaData {
 		}
 
 		public static final class AddMemberSinceDialog extends MetaData {
-			public static final AssetDescriptor<TextBox> MEMBER_SINCE = declare("Member Since", TextBox.class, By.xpath("//input[@id='memberSinceDateFrom:popupMemberSinceDateInputDate']"));
+			public static final AssetDescriptor<TextBox> MEMBER_SINCE = declare("Member Since", TextBox.class);
 			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.xpath("//input[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath("//input[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
 		}

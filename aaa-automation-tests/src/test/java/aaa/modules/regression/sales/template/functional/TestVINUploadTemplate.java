@@ -14,9 +14,12 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.postconditions.DatabaseCleanHelper;
@@ -32,7 +35,43 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType(),getState());
+
+	protected void pas2716_AutomatedRenewal(String policyNumber,LocalDateTime nextPhaseDate,String  vinNumber) {
+		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
+		//4. System rates renewal image according to renewal timeline
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//5. Validate vehicle was updated
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("CA_MAKE_TEXT");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+			// PAS-1487  No Match to Match but Year Doesn't Match
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
+		});
+		//  Validate vehicle information in VRD
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertSoftly(softly -> {
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Year").getCell(2).getValue()).isEqualTo("2005");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Make").getCell(2).getValue()).isEqualTo("CA_MAKE_TEXT");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Model").getCell(2).getValue()).isEqualTo("Gt");
+		});
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -55,7 +94,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
 
-		TestData testData = getTestDataWithSinceMembership(vinNumber);
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -238,11 +277,9 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * @details
 	 */
 	protected void endorsement(String vinTableFile, String vinNumber) {
-		TestData testData = getTestDataWithSinceMembership(vinNumber).resolveLinks();
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber).resolveLinks();
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(testData);
+		String policyNumber = createPreconds(testData);
 
 		vinMethods.uploadFiles(vinTableFile);
 
@@ -296,7 +333,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Custom Van");
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -372,11 +409,15 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 	}
 
-	private TestData getTestDataWithSinceMembership(String vinNumber) {
+	protected TestData getTestDataWithSinceMembershipAndSpecificVinNumber(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 		// Workaround for latest membership changes
+		return getTestWithSinceMembership(testData);
+	}
+
+	public TestData getTestWithSinceMembership(TestData testData) {
 		// Start of  MembershipTab
 		TestData addMemberSinceDialog = new SimpleDataProvider()
 				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
@@ -388,8 +429,13 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		// Adjust membershipTab
 		TestData testMembershipTab = testData.getTestData(membershipTab.getMetaKey())
 				.adjust(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
-		testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
-		return testData;
+		return testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
+	}
+
+	protected String createPreconds(TestData testData) {
+		mainApp().open();
+		createCustomerIndividual();
+		return createPolicy(testData);
 	}
 
 	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {

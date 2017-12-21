@@ -26,6 +26,8 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMembershipValidation extends AutoSSBaseTest {
+	private ErrorTab errorTab = new ErrorTab();
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test Membership validation - FN, LN and DOB don't match (New business)
@@ -454,7 +456,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	private void goToBindAndVerifyError(ErrorEnum.Errors errorCode) {
 		DocumentsAndBindTab.btnPurchase.click();
-		new ErrorTab().verify.errorsPresent(errorCode);
+		errorTab.verify.errorsPresent(errorCode);
 	}
 
 	private void validate_NewBusiness(TestData tdSpecific, Boolean ruleShouldFire) {
@@ -468,8 +470,8 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
 		if (ruleShouldFire) {
 			goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
-			new ErrorTab().overrideAllErrors();
-			new ErrorTab().buttonOverride.click();
+			errorTab.overrideAllErrors();
+			errorTab.buttonOverride.click();
 		}
 
 		new DocumentsAndBindTab().submitTab();
@@ -547,8 +549,8 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	////if rule should fire, check the error and override
 	private void checkAndOverrideErrors(boolean ruleShouldFire) {
 		if (ruleShouldFire) {
-			new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
-			new ErrorTab().overrideAllErrors();
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+			errorTab.overrideAllErrors();
 			new DocumentsAndBindTab().submitTab();
 		}
 		PolicySummaryPage.labelPolicyStatus.isVisible(); //this indicates that transaction was completed and errors was not displayed
