@@ -109,7 +109,7 @@ public class TestRFI extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-349")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
 	public void pas349_rfiAuto(@Optional("VA") String state) {
 		createQuoteWithCustomData();
 
@@ -117,6 +117,7 @@ public class TestRFI extends AutoSSBaseTest {
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		rfiDocumentContentCheck(policyNumber);
 
+		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel());
@@ -128,6 +129,7 @@ public class TestRFI extends AutoSSBaseTest {
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel());
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel());
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel());
+		//PAS-341 End
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -144,7 +146,7 @@ public class TestRFI extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-349")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
 	public void pas349_rfiNano(@Optional("VA") String state) {
 		createQuoteWithCustomDataNano(state);
 
@@ -152,8 +154,10 @@ public class TestRFI extends AutoSSBaseTest {
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		rfiDocumentContentCheckNano(policyNumber);
 
+		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
+		//PAS-341 End
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

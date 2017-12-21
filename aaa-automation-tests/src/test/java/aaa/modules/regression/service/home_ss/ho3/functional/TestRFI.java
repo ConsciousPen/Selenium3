@@ -49,7 +49,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-349")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
 	public void pas349_rfiHO3_1(@Optional("VA") String state) {
 		String yearBuilt = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), "Year built");
 		mainApp().open();
@@ -78,6 +78,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		rfiTagCheck(query, "RtCntrlAlrmForFire", "Y");
 		rfiTagCheck(query, "SubFireDepYN", "Y");
 
+		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "false");
@@ -85,6 +86,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "false");
+		//PAS-341 End
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -104,7 +106,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-349")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
 	public void pas349_rfiHO3_2(@Optional("VA") String state) {
 		String yearBuilt = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), "Year built");
 		mainApp().open();
@@ -133,6 +135,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		rfiTagCheck(query, "RtCntrlAlrmForFire", "Y");
 		rfiTagCheck(query, "SubFireDepYN", "Y");
 
+		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "false");
@@ -140,6 +143,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "false");
+		//PAS-341 End
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
