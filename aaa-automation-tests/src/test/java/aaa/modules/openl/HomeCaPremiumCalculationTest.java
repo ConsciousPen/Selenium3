@@ -7,12 +7,10 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeCaTestDataGenerator;
+import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 
 public class HomeCaPremiumCalculationTest extends OpenLRatingBaseTest<HomeCaOpenLPolicy> {
-	public HomeCaPremiumCalculationTest() {
-		super(new HomeCaTestDataGenerator());
-	}
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -22,6 +20,7 @@ public class HomeCaPremiumCalculationTest extends OpenLRatingBaseTest<HomeCaOpen
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
-		verifyPremiums(fileName, HomeCaOpenLFile.class, getPolicyNumbers(policyNumbers));
+		TestDataGenerator<HomeCaOpenLPolicy> tdGenerator = new HomeCaTestDataGenerator(getState(), getRatingDataPattern());
+		verifyPremiums(fileName, HomeCaOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

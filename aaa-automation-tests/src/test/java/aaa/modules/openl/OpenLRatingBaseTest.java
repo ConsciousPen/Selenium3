@@ -13,7 +13,6 @@ import org.testng.annotations.Parameters;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -30,11 +29,6 @@ import toolkit.exceptions.IstfException;
 public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
 	private String testsDir;
-	private TestDataGenerator<P> testDataGenerator;
-
-	public OpenLRatingBaseTest(TestDataGenerator<P> testDataGenerator) {
-		this.testDataGenerator = testDataGenerator;
-	}
 
 	protected String getTestsDir() {
 		return testsDir;
@@ -54,8 +48,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		return td;
 	}
 
-	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
-		this.testDataGenerator.setRatingDataPattern(getRatingDataPattern());
+	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
 		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass);
 
 		mainApp().open();
@@ -63,8 +56,8 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 		for (P openLPolicy : getOpenLPolicies(openLFile, policyNumbers)) {
 			log.info("Premium calculation verification initiated for test with policy number {} from {} OpenL filename", openLPolicy.getNumber(), openLFileName);
-			TestData quoteRatingData = testDataGenerator.getRatingData(openLPolicy);
-			String expectedPremium = String.valueOf(getExpectedPremium(openLFile, openLFileName, openLPolicy.getNumber()));
+			TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
+			String expectedPremium = String.valueOf(getExpectedPremium(openLFileName, openLPolicy.getNumber()));
 
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
@@ -87,19 +80,12 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		return eUnmarshaller.unmarshal(getOpenLFile(openLFileName), openLFileModelClass);
 	}
 
-	protected int getExpectedPremium(OpenLFile<P> openLFile, String openLFileName, int policyNumber) {
-		OpenLTest test = openLFile.getTests().stream().filter(t -> t.getPolicy() == policyNumber).findFirst()
-				.orElseThrow(() -> new IstfException("There is no rating test with policy number " + policyNumber));
-
-		if (test.getTotalPremium() == null) {
-			int expectedPremium;
-			ExcelManager excelManager = new ExcelManager(getOpenLFile(openLFileName));
-			TableRow row = excelManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
-			expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(ExcelCell::getIntValue).sum();
-			excelManager.close();
-			return expectedPremium;
-		}
-		return test.getTotalPremium();
+	protected int getExpectedPremium(String openLFileName, int policyNumber) {
+		ExcelManager excelManager = new ExcelManager(getOpenLFile(openLFileName));
+		TableRow row = excelManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
+		int expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(ExcelCell::getIntValue).sum();
+		excelManager.close();
+		return expectedPremium;
 	}
 
 	protected List<Integer> getPolicyNumbers(String policies) {
