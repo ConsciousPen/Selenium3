@@ -124,60 +124,59 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6587")
 	public void pas4311_pas6587_ASDLock() {
-	TestData testData = getPolicyTD();
+		TestData testData = getPolicyTD();
 
-//Add locked values to the global variable to clean them up then
+		//Add locked values to the global variable to clean them up then
 		List<String> testElements = Arrays.asList("asdTierFactor");
 		elementNames.addAll(testElements);
-//Set the lock for values DB
+		//Set the lock for values DB
 		setLockForTheElement(testElements, currentDate);
 
-//Initiate new policy and fill up to the View Rating Details screen of the P&C Page
+		//Initiate new policy and fill up to the View Rating Details screen of the P&C Page
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-//Save the ASD Tier Value to compare it with values on Renewal
+		//Save the ASD Tier Value to compare it with values on Renewal
 		String previousASDTierValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4","Advance Shopping Discount").getCell(5).getValue();
+				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
 
-//Close rating details pop-up
+		//Close rating details pop-up
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		new PremiumAndCoveragesTab().submitTab();
 
-//Issue the policy overriding all errors
+		//Issue the policy overriding all errors
 		overrideErrorsAndBind(testData);
 
-//Initiate endorsement
+		//Initiate endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-//Override the insurance score to 850; this would cause the ASD to change; if not locked
+		//Override the insurance score to 850; this would cause the ASD to change; if not locked
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		new RatingDetailReportsTab().fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
 
-//Bind the endorsement
+		//Bind the endorsement
 		PremiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 
-//Initiate Renewal Entry
+		//Initiate Renewal Entry
 		policy.renew().start();
 
-//Navigate to the View Rating Details screen of the P&C Page
+		//Navigate to the View Rating Details screen of the P&C Page
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-//Verify that values of ASD tier are locked and not changed in VRD
+		//Verify that values of ASD tier are locked and not changed in VRD
 		String renewalValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4","Advance Shopping Discount").getCell(5).getValue();
+				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
 
 		assertThat(renewalValue).isEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was locked!");
 	}
-
 
 	/**
 	 * @author Chris Johns
@@ -195,61 +194,60 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4311")
-		public void pas4311_pas6587_ASDLock_newly_locked() {
-				TestData testData = getPolicyTD();
+	public void pas4311_pas6587_ASDLock_newly_locked() {
+		TestData testData = getPolicyTD();
 
-//Add locked values to the global variable to clean them up then
+		//Add locked values to the global variable to clean them up then
 		List<String> testElements = Arrays.asList("asdTierFactor");
 		elementNames.addAll(testElements);
-//Set the lock for values DB
+		//Set the lock for values DB
 		setLockForTheElement(testElements, tomorrowDate);
 
-//Initiate new policy and fill up to the View Rating Details screen of the P&C Page
+		//Initiate new policy and fill up to the View Rating Details screen of the P&C Page
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-//Save the ASD Tier Value to compare it with values on Renewal
+		//Save the ASD Tier Value to compare it with values on Renewal
 		String previousASDTierValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4","Advance Shopping Discount").getCell(5).getValue();
+				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
 
-//Close rating details pop-up
+		//Close rating details pop-up
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		new PremiumAndCoveragesTab().submitTab();
 
-//Issue the policy
+		//Issue the policy
 		overrideErrorsAndBind(testData);
 
-//Initiate endorsement
+		//Initiate endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-//Override the insurance score to 850; this would cause the ASD to change; if not locked
+		//Override the insurance score to 850; this would cause the ASD to change; if not locked
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		new RatingDetailReportsTab().fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
 
-//Bind the endorsement
+		//Bind the endorsement
 		PremiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 
-//Initiate Renewal Entry
+		//Initiate Renewal Entry
 		policy.renew().start();
 
-//Navigate to the View Rating Details screen of the P&C Page
+		//Navigate to the View Rating Details screen of the P&C Page
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-//Verify that values of ASD tier are locked and not changed in VRD
+		//Verify that values of ASD tier are locked and not changed in VRD
 		String renewalValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4","Advance Shopping Discount").getCell(5).getValue();
+				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
 
 		assertThat(renewalValue).isNotEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was NOT locked!");
 	}
-
 
 	@AfterTest(alwaysRun = true)
 	private void cleanDB() {
