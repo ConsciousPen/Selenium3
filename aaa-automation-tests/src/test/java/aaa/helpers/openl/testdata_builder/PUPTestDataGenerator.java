@@ -6,6 +6,14 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
+	public PUPTestDataGenerator(String state) {
+		super(state);
+	}
+
+	public PUPTestDataGenerator(String state, TestData ratingDataPattern) {
+		super(state, ratingDataPattern);
+	}
+
 	@Override
 	public TestData getRatingData(PUPOpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();

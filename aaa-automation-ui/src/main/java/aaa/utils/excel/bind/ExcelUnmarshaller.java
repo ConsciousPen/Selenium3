@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.ExcelManager;
@@ -27,29 +28,34 @@ public class ExcelUnmarshaller {
 	}
 
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
-		log.debug(String.format("Getting \"%1$s\" object model from provided excel file%2$s.", excelFileModel.getSimpleName(), strictMatch ? " with strict match parsing" : ""));
+		log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
+				excelFileModel.getSimpleName(), excelFile.getAbsolutePath(), strictMatch ? "with" : "without"));
 		T excelFileInstance = getInstance(excelFileModel);
 		ExcelManager excelManager = new ExcelManager(excelFile);
 
 		for (Field tableField : getAllFields(excelFileModel, true)) {
 			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
+			ExcelTable table = getExcelTable(excelManager, tableField, tableRowFields, strictMatch);
+			tableRowFields = getFilteredFields(table, tableField, tableRowFields, strictMatch);
 
-			List<Object> tableFields = new ArrayList<>();
-			for (TableRow row : getExcelTable(excelManager, tableField)) {
+			List<Object> tableFieldsInstances = new ArrayList<>();
+			for (TableRow row : table) {
 				Object tableInstance = getInstance(getTableRowType(tableField));
 				for (Field tableRowField : tableRowFields) {
 					setFieldValue(tableRowField, tableInstance, row, strictMatch);
 				}
-				tableFields.add(tableInstance);
+				tableFieldsInstances.add(tableInstance);
 			}
-			setFieldValue(tableField, excelFileInstance, tableFields);
+			setFieldValue(tableField, excelFileInstance, tableFieldsInstances);
 		}
-		log.debug("Excel unmarshalling was successful.");
 		excelManager.close();
+
+		log.info("Excel unmarshalling was successful.");
 		return excelFileInstance;
 	}
 
-	private ExcelTable getExcelTable(ExcelManager excelManager, Field tableField) {
+	private ExcelTable getExcelTable(ExcelManager excelManager, Field tableField, List<Field> tableRowFields, boolean strictMatch) {
+		ExcelTable table;
 		int rowNumber;
 		if (tableField.isAnnotationPresent(ExcelTableElement.class)) {
 			rowNumber = tableField.getAnnotation(ExcelTableElement.class).headerRowNumber();
@@ -59,10 +65,42 @@ public class ExcelUnmarshaller {
 
 		ExcelSheet sheet = excelManager.getSheet(getSheetName(tableField));
 		if (rowNumber < 0) {
-			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
-			return sheet.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
+			List<String> headerColumnNames = getHeaderColumnNames(tableRowFields);
+			return sheet.getTable(isLowestTable(tableField), headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		}
-		return sheet.getTable(rowNumber);
+
+		table = sheet.getTable(rowNumber);
+		List<String> expectedFieldsColumns = getHeaderColumnNames(tableRowFields);
+		List<String> missingFieldColumns = table.getColumnNames().stream().filter(cn -> !expectedFieldsColumns.contains(cn)).collect(Collectors.toList());
+
+		if (!missingFieldColumns.isEmpty()) {
+			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s ",
+					table.getSheet().getSheetName(), getTableRowType(tableField).getName(), missingFieldColumns);
+			if (strictMatch) {
+				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
+			}
+			log.warn("{}. Result object will not have missed field(s)", message);
+			table.excludeColumns(missingFieldColumns.toArray(new String[missingFieldColumns.size()]));
+		}
+		return table;
+	}
+
+	private List<Field> getFilteredFields(ExcelTable table, Field tableField, List<Field> tableRowFields, boolean strictMatch) {
+		List<Field> fields = new ArrayList<>(tableRowFields);
+		List<String> expectedFieldsColumns = getHeaderColumnNames(tableRowFields);
+		List<Field> fieldsWithMissingColumns = tableRowFields.stream().filter(f -> !table.getHeader().hasColumnName(getHeaderColumnName(f))).collect(Collectors.toList());
+
+		if (!fieldsWithMissingColumns.isEmpty()) {
+			List<String> missingTableColumns = getHeaderColumnNames(fieldsWithMissingColumns);
+			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s",
+					table.getSheet().getSheetName(), missingTableColumns, getTableRowType(tableField).getName());
+			if (strictMatch) {
+				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
+			}
+			log.warn("{}. Field(s) with missed column(s) in result object will have default value(s) of appropriate type(s)", message);
+		}
+		fields.removeAll(fieldsWithMissingColumns);
+		return fields;
 	}
 
 	private <T> T getInstance(Class<T> clazz) {
@@ -122,16 +160,6 @@ public class ExcelUnmarshaller {
 
 	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row, boolean strictMatch) {
 		String columnName = getHeaderColumnName(tableRowField);
-		if (!row.hasColumnName(columnName)) {
-			String field = tableRowField.getType().getName() + " " + tableRowField.getName();
-			String className = tableInstance.getClass().getName();
-			if (strictMatch) {
-				throw new IstfException(String.format("Unable to unmarshal %1$s field in class %2$s, there is no \"%3$s\" column in table's header", field, className, columnName));
-			}
-			log.warn(String.format("There is no column \"%1$s\" in table's header for %2$s field in class %3$s, default value for this type is set", columnName, field, className));
-			return;
-		}
-
 		switch (tableRowField.getType().getName()) {
 			case "int":
 			case "Integer":
@@ -153,15 +181,16 @@ public class ExcelUnmarshaller {
 					break;
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
-				ExcelTable excelTable = getExcelTable(row.getSheet().getExcelManager(), tableRowField);
+				ExcelTable table = getExcelTable(row.getSheet().getExcelManager(), tableRowField, linkedTableRowFields, strictMatch);
 
 				List<Object> linkedTableRows = new ArrayList<>();
-				for (TableRow linkedTableRow : excelTable) {
+				for (TableRow linkedTableRow : table) {
 					Class<?> linkedTableRowClass = getTableRowType(tableRowField);
 					Object linkedTableRowInstance = getInstance(linkedTableRowClass);
 					Field primaryKeyField = getPrimaryKeyField(linkedTableRowClass);
 					List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(getPrimaryKeysSeparator(primaryKeyField)));
 					if (linkedTableRowIds.contains(getPrimaryKeyValue(primaryKeyField, linkedTableRow))) {
+						linkedTableRowFields = getFilteredFields(table, tableRowField, linkedTableRowFields, strictMatch);
 						for (Field linkedTableRowField : linkedTableRowFields) {
 							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, strictMatch);
 						}
@@ -213,8 +242,8 @@ public class ExcelUnmarshaller {
 		return (Class<?>) parameterizedType.getActualTypeArguments()[0];
 	}
 
-	private String[] getHeaderColumnNames(List<Field> tableRowFields) {
-		return tableRowFields.stream().map(this::getHeaderColumnName).toArray(String[]::new);
+	private List<String> getHeaderColumnNames(List<Field> tableRowFields) {
+		return tableRowFields.stream().map(this::getHeaderColumnName).collect(Collectors.toList());
 	}
 
 	private String getHeaderColumnName(Field tableRowField) {

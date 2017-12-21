@@ -3,10 +3,29 @@ package aaa.helpers.openl.testdata_builder;
 import java.util.Random;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.OpenLPolicy;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public abstract class TestDataGenerator<P extends OpenLPolicy> {
+	private String state;
 	private TestData ratingDataPattern;
+
+	public TestDataGenerator(String state) {
+		this(state, DataProviderFactory.emptyData());
+	}
+
+	public TestDataGenerator(String state, TestData ratingDataPattern) {
+		this.state = state;
+		this.ratingDataPattern = ratingDataPattern;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 
 	TestData getRatingDataPattern() {
 		return ratingDataPattern;
