@@ -31,7 +31,7 @@ public class RatingDetailReportsTab extends Tab {
 			getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
 					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel()).controls.links.get(1).click();
 			getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getAsset(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG)
-					.fill(createTestData());
+					.setValue(createTestData());
 		}
 		buttonNext.click();
 		return this;
@@ -39,7 +39,7 @@ public class RatingDetailReportsTab extends Tab {
 
 	private TestData createTestData() {
 		LinkedHashMap data = new LinkedHashMap();
-		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "11/14/2016");
+		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "$<today-1y:MM/dd/yyyy>");
 		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "true");
 		return new SimpleDataProvider(data);
 	}

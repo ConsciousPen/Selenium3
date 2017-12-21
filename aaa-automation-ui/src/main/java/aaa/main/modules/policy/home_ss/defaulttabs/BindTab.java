@@ -34,7 +34,7 @@ public class BindTab extends Tab {
 	public Tab submitTab() {
 		btnPurchase.click();
 		ErrorTab errorTab = new ErrorTab();
-		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME.getMessage())) {
+		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME.getCode())) {
 			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
 			errorTab.override();
 			btnPurchase.click();

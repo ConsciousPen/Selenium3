@@ -51,7 +51,7 @@ public class DocumentsAndBindTab extends Tab {
 	public Tab submitTab() {
 		btnPurchase.click();
 		ErrorTab errorTab = new ErrorTab();
-		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME.getMessage())) {
+		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME.getCode())) {
 			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME);
 			errorTab.override();
 			btnPurchase.click();
