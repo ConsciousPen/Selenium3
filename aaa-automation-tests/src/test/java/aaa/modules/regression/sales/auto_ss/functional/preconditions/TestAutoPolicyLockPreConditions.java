@@ -6,5 +6,5 @@ public interface TestAutoPolicyLockPreConditions {
 			+ "VALUES (%s,'AAAFactorsLockLookupValue','%s','TRUE',%s,null,'AAA_SS','%s')";
 
 	String DELETE_QUERY = "DELETE FROM lookupValue lv "
-			+ "WHERE lv.lookupList_id IN %s AND CODE = '%s' AND DISPLAYVALUE='TRUE' AND EFFECTIVE=%s AND RISKSTATECD='%s'";
+			+ "WHERE lv.lookupList_id IN %s AND CODE = '%s' AND DISPLAYVALUE='TRUE' AND (EFFECTIVE=%s OR EFFECTIVE=%s) AND RISKSTATECD='%s'";
 }
