@@ -40,6 +40,7 @@
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
+
         </classes>
     </test>
     <test name="PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN, PAS-1487 VIN No Match to Match but Year Doesn't Match,
@@ -48,6 +49,11 @@ PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated, PAS-6455 Ma
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload"/>
+        </classes>
+    </test>
+    <test name="PAS-6166-Verify STAT Code Symbol Pre-Ffx is Removed from STAT Code Selections on vehicle page">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVehiclePageStatCodes"/>
         </classes>
     </test>
 </suite>
