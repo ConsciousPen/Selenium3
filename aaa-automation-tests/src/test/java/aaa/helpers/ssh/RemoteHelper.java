@@ -58,6 +58,9 @@ public class RemoteHelper {
 	}
 
 	public static synchronized void uploadFile(String source, String destination) {
+		if (source == null) {
+			throw new IstfException("Stub file is NULL");
+		}
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
 		File destinationFile = new File(destination);
 		if (!isPathExist(destinationFile.getParent())) {
