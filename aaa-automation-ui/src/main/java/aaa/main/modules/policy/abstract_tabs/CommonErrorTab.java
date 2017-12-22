@@ -97,7 +97,7 @@ public abstract class CommonErrorTab extends Tab {
 			getErrorsControl().fillRow(td.adjust("Code", error.getCode()));
 		}
 		//		TODO @Aperapecha: Remove - not reqired, SubmitTab should be used instead.
-		//		buttonOverride.click();
+				buttonOverride.click();
 	}
 
 	public void overrrideErrors(List<String> errors) {

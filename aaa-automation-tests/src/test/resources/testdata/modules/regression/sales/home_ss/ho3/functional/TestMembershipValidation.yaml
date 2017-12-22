@@ -24,6 +24,7 @@ ApplicantTab: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ'
 }
 
+
 PropertyInfoTab: {
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: '@AdditionalAddress',
@@ -53,9 +54,9 @@ MortgageesTab: {
 # First name, Last name & Date of birth: Added Valid Active Membership number
 
 NamedInsured: {
-  First name: 'NAGABHUSHANAM',
-  Last name: 'VELUMULA',
-  Date of birth: 8/25/1974,
+  First name: 'Ronhald',
+  Last name: 'Ronaldjo',
+  Date of birth: 1/2/1960,
   Relationship to primary named insured:  Primary Insured,
   Social security number: 1234567890,
   Employer: '1234567890',
@@ -64,8 +65,8 @@ NamedInsured: {
 # Membership number, Last name: Added Valid Active Membership number
 AAAMembership: {
   Current AAA Member: 'Yes',
-  Membership number: '4290023667710001',
-  Last name: 'VELUMULA',
+  Membership number: '9436258506738011',
+  Last name: 'Ronaldjo',
 }
 
 DwellingAddress: {
@@ -132,4 +133,62 @@ RecreationalEquipment: {
   Swimming pool: 'index=0',
   "Spa/hot tub": 'index=0',
   Trampoline: 'index=0'
+}
+
+# --- Test Data for Dummy Number ---
+
+TestData_MembershipValidationHO3_Dummy: {
+  ApplicantTab: '@ApplicantTab_Dummy',
+}
+
+ApplicantTab_Dummy: {
+  AAAMembership: '@AAAMembership_Dummy',
+}
+
+AAAMembership_Dummy: {
+  Membership number: '9999999999999995',
+}
+
+# --- Test Data for other associated membership number members: Second Member's Data ---
+
+TestData_MembershipValidationHO3_SecondMember: {
+  ApplicantTab: '@ApplicantTab_SecondMember',
+}
+
+ApplicantTab_SecondMember: {
+  NamedInsured: '@NamedInsured_SecondMember',
+  AAAMembership: '@AAAMembership_SecondMember',
+}
+
+NamedInsured_SecondMember: {
+  First name: 'Honor',
+  Last name: 'McGrager',
+  Date of birth: 1/4/1962,
+}
+
+AAAMembership_SecondMember: {
+  Membership number: '9436258506738011',
+  Last name: 'McGrager',
+}
+
+# --- Test Data for other associated membership number members: Second Member's Data ---
+
+TestData_MembershipValidationHO3_ThirdMember: {
+  ApplicantTab: '@ApplicantTab_ThirdMember',
+}
+
+ApplicantTab_ThirdMember: {
+  NamedInsured: '@NamedInsured_ThirdMember',
+  AAAMembership: '@AAAMembership_ThirdMember',
+}
+
+NamedInsured_ThirdMember: {
+  First name: 'Anthonio',
+  Last name: 'Bandero',
+  Date of birth: 1/5/1966,
+}
+
+AAAMembership_ThirdMember: {
+  Membership number: '9436258506738011',
+  Last name: 'Bandero',
 }
