@@ -101,13 +101,11 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends AutoSSBaseTest {
 	private void autopaySavingMessageCheck(boolean isPresent, String delta) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("Annual");
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.confirm();
-		}
 		PremiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
+		//BUG PAS-7586 A popup about removal of eValue discount is shown on Endorsement wjen eValue=No and payment plan is changed from Annual to non-Annual
 		if (Page.dialogConfirmation.isPresent()) {
 			Page.dialogConfirmation.confirm();
 		}
