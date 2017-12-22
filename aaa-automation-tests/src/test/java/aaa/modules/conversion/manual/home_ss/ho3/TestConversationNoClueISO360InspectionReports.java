@@ -17,7 +17,7 @@ import aaa.modules.conversion.manual.ConvHomeSsHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestPolicyConversionWithoutOrderingClue extends ConvHomeSsHO3BaseTest {
+public class TestConversationNoClueISO360InspectionReports extends ConvHomeSsHO3BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
@@ -33,7 +33,7 @@ public class TestPolicyConversionWithoutOrderingClue extends ConvHomeSsHO3BaseTe
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-7211")
-	public void pas7211_PolicyConversionWithoutOrderingClue(@Optional("DE") String state) {
+	public void pas7211_ConversationNoClueISO360InspectionReports(@Optional("DE") String state) {
 
 		String generalTabInfo = new GeneralTab().getMetaKey();
 		String applicantTabInfo = new ApplicantTab().getMetaKey();
