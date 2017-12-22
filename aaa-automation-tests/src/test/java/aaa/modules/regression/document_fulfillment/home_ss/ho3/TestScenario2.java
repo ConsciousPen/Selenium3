@@ -1,7 +1,6 @@
 package aaa.modules.regression.document_fulfillment.home_ss.ho3;
 
 import java.time.LocalDateTime;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,8 +33,7 @@ public class TestScenario2 extends HomeSSHO3BaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-//	, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_RenewImageGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -44,24 +42,21 @@ public class TestScenario2 extends HomeSSHO3BaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-//	, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewPreviewGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-//	, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewOfferGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-//	, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_RenewaBillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
