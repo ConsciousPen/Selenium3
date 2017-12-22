@@ -7,20 +7,20 @@ import aaa.utils.excel.bind.ExcelTableElement;
 
 public class OpenLVehicle {
 	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private int number;
+	private Integer number;
 	private String airbagCode;
-	private int annualMileage;
+	private Integer annualMileage;
 	private String antiTheftString;
-	private int collSymbol;
-	private int compSymbol;
+	private Integer collSymbol;
+	private Integer compSymbol;
 	private String id;
-	private boolean isHybrid;
-	private boolean isTelematic; // OR specific
-	private int modelYear;
-	private boolean newCarAddedProtection;
+	private Boolean isHybrid;
+	private Boolean isTelematic; // OR specific
+	private Integer modelYear;
+	private Boolean newCarAddedProtection;
 	private String statCode;
 	private String usage;
-	private int vehicleAge;
+	private Integer vehicleAge;
 
 	@ExcelTableElement(sheetName = "Batch- Address", headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
@@ -31,11 +31,11 @@ public class OpenLVehicle {
 	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<OpenLDriver> ratedDriver;
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 
@@ -47,11 +47,11 @@ public class OpenLVehicle {
 		this.airbagCode = airbagCode;
 	}
 
-	public int getAnnualMileage() {
+	public Integer getAnnualMileage() {
 		return annualMileage;
 	}
 
-	public void setAnnualMileage(int annualMileage) {
+	public void setAnnualMileage(Integer annualMileage) {
 		this.annualMileage = annualMileage;
 	}
 
@@ -63,19 +63,19 @@ public class OpenLVehicle {
 		this.antiTheftString = antiTheftString;
 	}
 
-	public int getCollSymbol() {
+	public Integer getCollSymbol() {
 		return collSymbol;
 	}
 
-	public void setCollSymbol(int collSymbol) {
+	public void setCollSymbol(Integer collSymbol) {
 		this.collSymbol = collSymbol;
 	}
 
-	public int getCompSymbol() {
+	public Integer getCompSymbol() {
 		return compSymbol;
 	}
 
-	public void setCompSymbol(int compSymbol) {
+	public void setCompSymbol(Integer compSymbol) {
 		this.compSymbol = compSymbol;
 	}
 
@@ -87,35 +87,35 @@ public class OpenLVehicle {
 		this.id = id;
 	}
 
-	public boolean isHybrid() {
+	public Boolean isHybrid() {
 		return isHybrid;
 	}
 
-	public void setHybrid(boolean hybrid) {
+	public void setHybrid(Boolean hybrid) {
 		isHybrid = hybrid;
 	}
 
-	public boolean isTelematic() {
+	public Boolean isTelematic() {
 		return isTelematic;
 	}
 
-	public void setTelematic(boolean telematic) {
+	public void setTelematic(Boolean telematic) {
 		isTelematic = telematic;
 	}
 
-	public int getModelYear() {
+	public Integer getModelYear() {
 		return modelYear;
 	}
 
-	public void setModelYear(int modelYear) {
+	public void setModelYear(Integer modelYear) {
 		this.modelYear = modelYear;
 	}
 
-	public boolean isNewCarAddedProtection() {
+	public Boolean isNewCarAddedProtection() {
 		return newCarAddedProtection;
 	}
 
-	public void setNewCarAddedProtection(boolean newCarAddedProtection) {
+	public void setNewCarAddedProtection(Boolean newCarAddedProtection) {
 		this.newCarAddedProtection = newCarAddedProtection;
 	}
 
@@ -135,11 +135,11 @@ public class OpenLVehicle {
 		this.usage = usage;
 	}
 
-	public int getVehicleAge() {
+	public Integer getVehicleAge() {
 		return vehicleAge;
 	}
 
-	public void setVehicleAge(int vehicleAge) {
+	public void setVehicleAge(Integer vehicleAge) {
 		this.vehicleAge = vehicleAge;
 	}
 

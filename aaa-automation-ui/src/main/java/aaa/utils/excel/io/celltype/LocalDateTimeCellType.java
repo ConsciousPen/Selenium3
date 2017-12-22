@@ -14,10 +14,11 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.utils.excel.io.entity.ExcelCell;
 import toolkit.utils.datetime.DateTimeUtils;
 
-public class LocalDateTimeCellType extends CellType<LocalDateTime> {
+public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 	private Set<DateTimeFormatter> commonDateTimeFormatters;
 
-	public LocalDateTimeCellType() {
+	public LocalDateTimeCellType(Class<LocalDateTime> endType) {
+		super(endType);
 		commonDateTimeFormatters = new HashSet<>();
 		commonDateTimeFormatters.add(DateTimeUtils.MM_DD_YYYY);
 		commonDateTimeFormatters.add(DateTimeUtils.DD_MM_YYYY);
@@ -29,6 +30,9 @@ public class LocalDateTimeCellType extends CellType<LocalDateTime> {
 	@Override
 	public LocalDateTime getValueFrom(ExcelCell cell) {
 		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType()).isTrue();
+		if (cell.getPoiCell() == null) {
+			return null;
+		}
 		if (hasTextValue(cell)) {
 			return TimeSetterUtil.getInstance().parse(getText(cell), getFormatter(cell));
 		}
@@ -38,13 +42,13 @@ public class LocalDateTimeCellType extends CellType<LocalDateTime> {
 	@Override
 	public void setValueTo(ExcelCell cell, LocalDateTime value) {
 		Date date = Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
-		cell.getPoiCell().setCellValue(date);
+		createPoiCellIfNull(cell).getPoiCell().setCellValue(date);
 	}
 
 	@Override
 	public boolean isTypeOf(ExcelCell cell) {
 		Cell c = cell.getPoiCell();
-		return c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
+		return c == null || c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
 	}
 
 	@Override
@@ -53,10 +57,16 @@ public class LocalDateTimeCellType extends CellType<LocalDateTime> {
 	}
 
 	public DateTimeFormatter getFormatter(ExcelCell cell) {
+		String text = getText(cell);
+		if (text == null) {
+			return null;
+		}
+
 		DateTimeFormatter formatter;
 		for (DateTimeFormatter dateTimeFormatter : commonDateTimeFormatters) {
+
 			try {
-				TimeSetterUtil.getInstance().parse(getText(cell), dateTimeFormatter);
+				TimeSetterUtil.getInstance().parse(text, dateTimeFormatter);
 				return dateTimeFormatter;
 			} catch (DateTimeParseException ignore) {
 			}

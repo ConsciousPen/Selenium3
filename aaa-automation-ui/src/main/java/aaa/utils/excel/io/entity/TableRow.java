@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 public class TableRow extends ExcelRow {
@@ -88,11 +87,11 @@ public class TableRow extends ExcelRow {
 		return getCell(headerColumnName).getStringValue();
 	}
 
-	public boolean getBoolValue(String headerColumnName) {
+	public Boolean getBoolValue(String headerColumnName) {
 		return getCell(headerColumnName).getBoolValue();
 	}
 
-	public int getIntValue(String headerColumnName) {
+	public Integer getIntValue(String headerColumnName) {
 		return getCell(headerColumnName).getIntValue();
 	}
 
@@ -121,8 +120,8 @@ public class TableRow extends ExcelRow {
 	private Map<Integer, TableCell> getCellsMap() {
 		if (this.tableCells == null) {
 			this.tableCells = new HashMap<>();
-			for (Cell cell : getPoiRow()) {
-				this.tableCells.put(cell.getColumnIndex() + 1, new TableCell(cell, this));
+			for (int columnNumber : getColumnNumbers()) {
+				this.tableCells.put(columnNumber, new TableCell(getPoiRow().getCell(columnNumber - 1), this, columnNumber));
 			}
 		}
 		return new HashMap<>(this.tableCells);

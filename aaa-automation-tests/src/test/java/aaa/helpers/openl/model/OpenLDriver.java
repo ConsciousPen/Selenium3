@@ -4,31 +4,32 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLDriver {
 	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private int number;
+	private Integer number;
 	private String id;
 	private String name;
 	private String gender;
 	private String maritalStatus;
-	private int tyde;
-	private int dsr;
-	private boolean hasSR22;
-	private int driverAge;
-	private int ageBeforeEndorsement;
+	private Integer tyde;
+	private Integer dsr;
+	private Boolean hasSR22;
+	private Boolean hasFR44; // CO specific
+	private Integer driverAge;
+	private Integer ageBeforeEndorsement;
 	private String defensiveDrivingCourse;
-	private boolean cleanDriver;
-	private boolean distantStudent;
-	private boolean exposure;
-	private boolean foreignLicense;
-	private boolean goodStudent;
-	private boolean outOfStateLicenseSurcharge;
-	private boolean smartDriver;
-	private boolean unverifiableDrivingRecord;
+	private Boolean cleanDriver;
+	private Boolean distantStudent;
+	private Boolean exposure;
+	private Boolean foreignLicense;
+	private Boolean goodStudent;
+	private Boolean outOfStateLicenseSurcharge;
+	private Boolean smartDriver;
+	private Boolean unverifiableDrivingRecord;
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 
@@ -64,43 +65,43 @@ public class OpenLDriver {
 		this.maritalStatus = maritalStatus;
 	}
 
-	public int getTyde() {
+	public Integer getTyde() {
 		return tyde;
 	}
 
-	public void setTyde(int tyde) {
+	public void setTyde(Integer tyde) {
 		this.tyde = tyde;
 	}
 
-	public int getDsr() {
+	public Integer getDsr() {
 		return dsr;
 	}
 
-	public void setDsr(int dsr) {
+	public void setDsr(Integer dsr) {
 		this.dsr = dsr;
 	}
 
-	public int getDriverAge() {
+	public Integer getDriverAge() {
 		return driverAge;
 	}
 
-	public void setDriverAge(int driverAge) {
+	public void setDriverAge(Integer driverAge) {
 		this.driverAge = driverAge;
 	}
 
-	public int getAgeBeforeEndorsement() {
+	public Integer getAgeBeforeEndorsement() {
 		return ageBeforeEndorsement;
 	}
 
-	public void setAgeBeforeEndorsement(int ageBeforeEndorsement) {
+	public void setAgeBeforeEndorsement(Integer ageBeforeEndorsement) {
 		this.ageBeforeEndorsement = ageBeforeEndorsement;
 	}
 
-	public boolean isDistantStudent() {
+	public Boolean isDistantStudent() {
 		return distantStudent;
 	}
 
-	public void setDistantStudent(boolean distantStudent) {
+	public void setDistantStudent(Boolean distantStudent) {
 		this.distantStudent = distantStudent;
 	}
 
@@ -112,68 +113,76 @@ public class OpenLDriver {
 		this.defensiveDrivingCourse = defensiveDrivingCourse;
 	}
 
-	public boolean isForeignLicense() {
+	public Boolean isForeignLicense() {
 		return foreignLicense;
 	}
 
-	public void setForeignLicense(boolean foreignLicense) {
+	public void setForeignLicense(Boolean foreignLicense) {
 		this.foreignLicense = foreignLicense;
 	}
 
-	public boolean isUnverifiableDrivingRecord() {
+	public Boolean isUnverifiableDrivingRecord() {
 		return unverifiableDrivingRecord;
 	}
 
-	public void setUnverifiableDrivingRecord(boolean unverifiableDrivingRecord) {
+	public void setUnverifiableDrivingRecord(Boolean unverifiableDrivingRecord) {
 		this.unverifiableDrivingRecord = unverifiableDrivingRecord;
 	}
 
-	public boolean isOutOfStateLicenseSurcharge() {
+	public Boolean isOutOfStateLicenseSurcharge() {
 		return outOfStateLicenseSurcharge;
 	}
 
-	public void setOutOfStateLicenseSurcharge(boolean outOfStateLicenseSurcharge) {
+	public void setOutOfStateLicenseSurcharge(Boolean outOfStateLicenseSurcharge) {
 		this.outOfStateLicenseSurcharge = outOfStateLicenseSurcharge;
 	}
 
-	public boolean isExposure() {
+	public Boolean isExposure() {
 		return exposure;
 	}
 
-	public void setExposure(boolean exposure) {
+	public void setExposure(Boolean exposure) {
 		this.exposure = exposure;
 	}
 
-	public boolean isGoodStudent() {
+	public Boolean isGoodStudent() {
 		return goodStudent;
 	}
 
-	public void setGoodStudent(boolean goodStudent) {
+	public void setGoodStudent(Boolean goodStudent) {
 		this.goodStudent = goodStudent;
 	}
 
-	public boolean isSmartDriver() {
+	public Boolean isSmartDriver() {
 		return smartDriver;
 	}
 
-	public void setSmartDriver(boolean smartDriver) {
+	public void setSmartDriver(Boolean smartDriver) {
 		this.smartDriver = smartDriver;
 	}
 
-	public boolean isCleanDriver() {
+	public Boolean isCleanDriver() {
 		return cleanDriver;
 	}
 
-	public void setCleanDriver(boolean cleanDriver) {
+	public void setCleanDriver(Boolean cleanDriver) {
 		this.cleanDriver = cleanDriver;
 	}
 
-	public void setHasSR22(boolean hasSR22) {
+	public Boolean hasSR22() {
+		return hasSR22;
+	}
+
+	public void setHasSR22(Boolean hasSR22) {
 		this.hasSR22 = hasSR22;
 	}
 
-	public boolean hasSR22() {
-		return hasSR22;
+	public Boolean hasFR44() {
+		return hasFR44;
+	}
+
+	public void setHasFR44(Boolean hasFR44) {
+		this.hasFR44 = hasFR44;
 	}
 
 	@Override
