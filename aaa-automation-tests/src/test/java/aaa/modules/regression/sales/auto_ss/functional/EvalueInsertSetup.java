@@ -11,6 +11,12 @@ import toolkit.db.DBService;
 @Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
+	@Test(description = "Delete old tasks")
+	public static void deleteOldTasksUpdate() {
+		DBService.get().executeUpdate(DELETE_OLD_TASKS1);
+		DBService.get().executeUpdate(DELETE_OLD_TASKS2);
+	}
+
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
 	public static void paperlessPreferencesStubEndpointUpdate() {
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
@@ -23,15 +29,25 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for AHDRXX form generation")
 	public static void ahdrxxConfigCheckUpdate() {
-		if (!DBService.get().getValue(AHDRXX_CONFIG_CHECK).isPresent()) {
-			DBService.get().executeUpdate(AHDRXX_CONFIG_INSERT);
+		List<String> configForStatesLimits = Arrays.asList(
+				"VA"
+				, "DC");
+		for (String configForStatesLimit : configForStatesLimits) {
+			if (!DBService.get().getValue(String.format(AHDRXX_CONFIG_CHECK, configForStatesLimit)).isPresent()) {
+				DBService.get().executeUpdate(String.format(AHDRXX_CONFIG_INSERT, configForStatesLimit));
+			}
 		}
 	}
 
 	@Test(description = "Precondition for AHDEXX form generation")
 	public static void ahdexxConfigCheckUpdate() {
-		if (!DBService.get().getValue(AHDEXX_CONFIG_CHECK).isPresent()) {
-			DBService.get().executeUpdate(AHDEXX_CONFIG_INSERT);
+		List<String> configForStatesLimits = Arrays.asList(
+				"VA"
+				, "DC");
+		for (String configForStatesLimit : configForStatesLimits) {
+			if (!DBService.get().getValue(String.format(AHDEXX_CONFIG_CHECK, configForStatesLimit)).isPresent()) {
+				DBService.get().executeUpdate(String.format(AHDEXX_CONFIG_INSERT, configForStatesLimit));
+			}
 		}
 	}
 
@@ -83,11 +99,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition for eValue Channel and Territory configurations")
 	public static void eValueTerritoryChannelForVAConfigUpdate() {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
-	}
-
-	@Test(description = "Precondition for eValue Membership Eligibility configurations")
-	public static void eValueMembershipEligibilityConfigInsert() {
-		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT);
 	}
 
 	@Test(description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality")

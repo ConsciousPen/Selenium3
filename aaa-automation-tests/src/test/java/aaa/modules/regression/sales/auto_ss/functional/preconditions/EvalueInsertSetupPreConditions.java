@@ -7,6 +7,9 @@ public interface EvalueInsertSetupPreConditions {
 
 	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 
+	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
+	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
+
 	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
@@ -90,7 +93,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "    (SELECT ID \n"
 			+ "    FROM LOOKUPLIST \n"
 			+ "    WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n"
-			+ "and riskstatecd = 'VA'\n"
+			+ "and riskstatecd = '%s'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'AHDRXX'";
 
@@ -99,19 +102,19 @@ public interface EvalueInsertSetupPreConditions {
 			+ "    (SELECT ID \n"
 			+ "    FROM LOOKUPLIST \n"
 			+ "    WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n"
-			+ "and riskstatecd = 'VA'\n"
+			+ "and riskstatecd = '%s'\n"
 			+ "and productCD = 'AAA_SS'\n"
 			+ "and code = 'AHDEXX'";
 
 	String AHDRXX_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'AHDRXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+			+ "('AAARolloutEligibilityLookupValue', 'AHDRXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String AHDEXX_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n"

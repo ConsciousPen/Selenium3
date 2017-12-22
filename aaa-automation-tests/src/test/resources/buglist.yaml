@@ -198,9 +198,3 @@ PAS-6612:
     - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy, 
     aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy] 
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
-PAS-7427:
-  summary: "Regression: The Membership Validation rule is displayed wrongly"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e]
-      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]

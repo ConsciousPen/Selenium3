@@ -327,6 +327,7 @@ public final class DocGenEnum {
 		F1455(""),
 		AH61XXA(""),
 		AA57CA(""),
+		HSRMXX("")
 		;
 
 		private String id;
