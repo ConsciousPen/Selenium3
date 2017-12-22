@@ -32,7 +32,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 	/**
 	 * *@author Oleg Stasyuk
-	 * *@name Test Autopay Saving Message in P&C tab and in Pirchase flow
+	 * *@name Test Autopay Saving Message in P&C tab and in Purchase flow
 	 * *@scenario 1. Create new quote
 	 * 2. Open P&C, check that Autopay Saving Message is not shown for Annual and Monthly plan
 	 * 3. Go to Purchase flow, check that Autopay Saving Message is shown
