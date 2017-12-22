@@ -287,13 +287,13 @@
     <test name="TestRFI-AutoSS">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestRFI"/>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI"/>
         </classes>
     </test>
     <test name="TestRFI-Ho3SS">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestRFI"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>
     </test>
 </suite>

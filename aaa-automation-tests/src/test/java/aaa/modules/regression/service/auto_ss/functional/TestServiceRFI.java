@@ -26,7 +26,7 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class TestRFI extends AutoSSBaseTest {
+public class TestServiceRFI extends AutoSSBaseTest {
 
 	private final InquiryAssetList inquiryAssetList = new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoSSMetaData.GeneralTab.class);
 	private final ErrorTab errorTab = new ErrorTab();
