@@ -14,6 +14,13 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
+/**
+ * Controlled Financial Testing Scenario 33
+ * Quarterly payment plan
+ * Bill generation
+ * Refund
+ * Escheatment
+ */
 public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
@@ -23,10 +30,12 @@ public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		generateInstallmentBill(1);
 		acceptTotalDuePayment();
+		generateRenewalImage();
 		generateRenewalOffer();
 		generateRenewalOfferBill();
 		verifyRenewCustomerDecline();
-		manualRefundOnExpDatePlus25();
+
+		issuedRefundOnRefundDate();
 		verifyEscheatmentOnExpDatePlus25Plus13Months();
 	}
 

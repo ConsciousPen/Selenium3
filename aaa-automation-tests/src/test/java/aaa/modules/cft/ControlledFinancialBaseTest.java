@@ -275,8 +275,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(Dollar overpayment) {
 		LocalDateTime paymentDate = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
-		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
-
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		log.info("Accept overpayment action started on {}", paymentDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		Dollar amount = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE).getValue()).add(overpayment);
+		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(amount.negate())
+			.verifyPresent();
+		log.info("Accept overpayment action completed successfully");
 	}
 
 	/**
@@ -375,27 +386,39 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Refund action completed successfully");
 	}
 
-	protected void approveRefundTotalExpDatePlus25() {
-		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate().plusDays(25);
+	protected void approveRefundOnRenewCustomerDeclineDatePlusRefundDate() {
+		LocalDateTime refundDate = getTimePoints().getRefundDate(
+			getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Approve refund action started on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue())
-				.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
-		});
-		Dollar refundAmount = BillingSummaryPage.getTotalPaid();
-		billingAccount.approveRefund().perform(refundAmount);
+		billingAccount.approveRefund().perform(1);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(refundDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
-			.setAmount(refundAmount)
 			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED)
 			.verifyPresent();
 		log.info("Approve refund action completed successfully");
+	}
+
+	protected void pendingRefundOnRefundDate() {
+		LocalDateTime refundDate = getTimePoints().getRefundDate(
+			getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Verify refund on {}", refundDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingPendingTransactionsVerifier()
+			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
+			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
+			.setReason(BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT)
+			.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
+			.verifyPresent();
+		log.info("Refund present in Pending Transactions Table");
 	}
 
 	protected void pendingRefundOnStartDatePlus16(Dollar refundAmount) {
@@ -932,7 +955,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept overpayment action started on {}", paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar amount = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE).getValue()).add(overpayment);
+		Dollar amount = BillingSummaryPage.getTotalDue().add(overpayment);
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(paymentDate)
