@@ -19,19 +19,21 @@ import aaa.utils.excel.io.celltype.LocalDateTimeCellType;
 import aaa.utils.excel.io.celltype.StringCellType;
 
 public class ExcelCell {
-	public static final CellType<Boolean> BOOLEAN_TYPE = new BooleanCellType();
-	public static final CellType<String> STRING_TYPE = new StringCellType();
-	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType();
-	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType();
+	public static final CellType<Boolean> BOOLEAN_TYPE = new BooleanCellType(Boolean.class);
+	public static final CellType<String> STRING_TYPE = new StringCellType(String.class);
+	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType(Integer.class);
+	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
 	protected static Logger log = LoggerFactory.getLogger(ExcelCell.class);
 	protected Cell cell;
 	protected ExcelRow row;
+	protected int columnNumber;
 	protected Set<CellType<?>> cellTypes;
 
-	public ExcelCell(Cell cell, ExcelRow row) {
+	public ExcelCell(Cell cell, ExcelRow row, int columnNumber) {
 		this.cell = normalizeCell(cell);
 		this.row = row;
+		this.columnNumber = columnNumber;
 	}
 
 	public static Set<CellType<?>> getBaseTypes() {
@@ -51,7 +53,7 @@ public class ExcelCell {
 	}
 
 	public int getColumnNumber() {
-		return getPoiCell().getColumnIndex() + 1;
+		return columnNumber;
 	}
 
 	public int getRowNumber() {
@@ -78,7 +80,7 @@ public class ExcelCell {
 		return getValue(STRING_TYPE);
 	}
 
-	public int getIntValue() {
+	public Integer getIntValue() {
 		return getValue(INTEGER_TYPE);
 	}
 
@@ -88,6 +90,12 @@ public class ExcelCell {
 
 	public Cell getPoiCell() {
 		return cell;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C setPoiCell(Cell cell) {
+		this.cell = cell;
+		return (C) this;
 	}
 
 	@Override
@@ -175,8 +183,8 @@ public class ExcelCell {
 	}
 
 	private Cell normalizeCell(Cell cell) {
-		if (cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
-			FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+		if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
+			FormulaEvaluator evaluator = getRow().getSheet().getExcelManager().getWorkbook().getCreationHelper().createFormulaEvaluator();
 			return evaluator.evaluateInCell(cell);
 		}
 		return cell;

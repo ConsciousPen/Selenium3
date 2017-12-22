@@ -130,6 +130,10 @@ public class ExcelManager {
 
 	@SuppressWarnings("resource")
 	public ExcelManager close() {
+		if (!isOpened()) {
+			log.warn("Excel workbook is already closed");
+			return this;
+		}
 		try {
 			getWorkbook().close();
 			this.isOpened = false;

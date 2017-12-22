@@ -5,11 +5,11 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLPolicy {
 	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	protected int number;
+	protected Integer number;
 	protected String policyNumber;
 	protected LocalDateTime effectiveDate;
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
