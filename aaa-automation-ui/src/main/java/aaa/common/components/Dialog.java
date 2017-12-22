@@ -2,9 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.components;
 
-import aaa.common.metadata.SearchMetaData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
+import aaa.common.metadata.SearchMetaData;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
@@ -41,7 +41,7 @@ public class Dialog {
 		buttonNext = new Button(new ByChained(locator, By.xpath(".//*[@value='Next' or text()='Next']")));
 		buttonProceed = new Button(new ByChained(locator, By.xpath(".//*[@value='Proceed' or text()='Proceed']")));
 		buttonDeleteEndorsement = new Button(new ByChained(locator, By.xpath(".//*[@value='Delete Endorsement']")));
-		buttonCloseWithCross = new Button(new ByChained(locator, By.xpath(".//*[@id='policyDataGatherForm:installmentFeeDetailsPopup_header_controls']")));
+		buttonCloseWithCross = new Button(new ByChained(locator, By.xpath(".//*[@id='policyDataGatherForm:installmentFeeDetailsPopup_header_controls' or @id='purchaseForm:installmentFeeDetailsPopup_header_controls']")));
 
 		labelHeader = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_header_content')]")));
 		labelMessage = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_content_scroller') or contains(@class,'content')]"

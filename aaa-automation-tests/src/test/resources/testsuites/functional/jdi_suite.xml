@@ -296,4 +296,16 @@
             <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestRFI"/>
         </classes>
     </test>
+    <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS">
+        <parameter name="state" value="VA, PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
+        </classes>
+    </test>
+    <test name="TestInstallmentFeesPopUpAndSavingsMsg-Ho3SS">
+        <parameter name="state" value="VA, PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
+        </classes>
+    </test>
 </suite>
