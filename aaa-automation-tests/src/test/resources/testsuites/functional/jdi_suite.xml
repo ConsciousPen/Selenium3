@@ -288,7 +288,21 @@
     <test name="TestRFI-AutoSS">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI"/>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+            <methods>
+                <include name="pas349_rfiAuto"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRFI-AutoSSNano">
+        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas349_rfiNano"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="TestRFI-Ho3SS">

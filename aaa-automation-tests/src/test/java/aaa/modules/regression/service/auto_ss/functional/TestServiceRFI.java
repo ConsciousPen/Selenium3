@@ -58,6 +58,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
 		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(query, "PsnlAutoApplYN", "Y");
+		//Non-Owner Automobile Endorsement tag
+		rfiTagCheck(query, "VehTyp", "NO");
 	}
 
 	private static void rfiTagCheck(String query, String tag, String tagValue) {
@@ -140,14 +142,14 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * @name RFI
 	 * @scenario
 	 * 1.Initiate quote creation.
-	 * NANO - Auto Insurance Application
+	 * Auto Insurance Application
+	 * Non-Owner Automobile Endorsement
 	 * @details
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiNano(@Optional("VA") String state) {
+	public void pas349_rfiNano(@Optional("AZ") String state) {
 		createQuoteWithCustomDataNano(state);
 
 		CustomAssert.enableSoftMode();
@@ -157,6 +159,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel());
 		//PAS-341 End
 
 		CustomAssert.disableSoftMode();
@@ -179,7 +182,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList()
+				.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
 
