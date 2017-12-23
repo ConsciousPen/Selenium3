@@ -45,12 +45,12 @@ public class TableHeader extends ExcelRow {
 	}
 
 	@Override
-	public boolean getBoolValue(int columnNumber) {
+	public Boolean getBoolValue(int columnNumber) {
 		throw new UnsupportedOperationException("Table header cells don't have boolean values");
 	}
 
 	@Override
-	public int getIntValue(int columnNumber) {
+	public Integer getIntValue(int columnNumber) {
 		throw new UnsupportedOperationException("Table header cells don't have int values");
 	}
 

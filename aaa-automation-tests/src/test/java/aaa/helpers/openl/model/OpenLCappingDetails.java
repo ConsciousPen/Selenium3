@@ -5,16 +5,16 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLCappingDetails {
 	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private int number;
+	private Integer number;
 	private LocalDateTime plcyInceptionDate;
 	private String state;
-	private int term;
+	private Integer term;
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(Integer number) {
 		this.number = number;
 	}
 
@@ -34,11 +34,11 @@ public class OpenLCappingDetails {
 		this.state = state;
 	}
 
-	public int getTerm() {
+	public Integer getTerm() {
 		return term;
 	}
 
-	public void setTerm(int term) {
+	public void setTerm(Integer term) {
 		this.term = term;
 	}
 }
