@@ -249,7 +249,8 @@
         </classes>
     </test>
     <test name="TestNonPremiumBearingEndorsementsSS">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
+        <parameter name="state" value="VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
@@ -287,13 +288,27 @@
     <test name="TestRFI-AutoSS">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestRFI"/>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+            <methods>
+                <include name="pas349_rfiAuto"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRFI-AutoSSNano">
+        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas349_rfiNano"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="TestRFI-Ho3SS">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestRFI"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>
     </test>
 </suite>

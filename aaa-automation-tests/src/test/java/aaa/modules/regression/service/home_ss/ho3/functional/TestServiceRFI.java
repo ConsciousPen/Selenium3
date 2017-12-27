@@ -27,7 +27,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class TestRFI extends HomeSSHO3BaseTest {
+public class TestServiceRFI extends HomeSSHO3BaseTest {
 
 	private final InquiryAssetList inquiryAssetList = new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoSSMetaData.GeneralTab.class);
 	private final ErrorTab errorTab = new ErrorTab();

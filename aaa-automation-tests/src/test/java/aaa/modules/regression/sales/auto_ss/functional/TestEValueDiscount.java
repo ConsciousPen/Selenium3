@@ -1,5 +1,5 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
-* CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
+ * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
@@ -124,7 +124,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(description = "Precondition")
 	public static void paperlessPreferencesConfigCheck() {
 		CustomAssert
-				.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST)).get()
+				.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST))
+						.get()
 						.contains(APP_HOST));
 	}
 
@@ -163,7 +164,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(description = "Precondition")
 	public static void eValueMembershipConfigCheck() {
 		CustomAssert.enableSoftMode();
-		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipAcknowledgementConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipAcknowledgementConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK)
+				.isPresent());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -892,11 +894,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private void processEvalueDiscountPopUp(boolean deletePopup) {
 		CustomAssert.assertTrue(Page.dialogConfirmation.isPresent());
-		Page.dialogConfirmation.labelMessage.verify.value("BI limit of at least "+CONFIGURED_BI_LIMIT +" must be selected when eValue discount is applied. Please select Yes to confirm this change.");
-		if (deletePopup){
+		Page.dialogConfirmation.labelMessage.verify
+				.value("BI limit of at least " + CONFIGURED_BI_LIMIT + " must be selected when eValue discount is applied. Please select Yes to confirm this change.");
+		if (deletePopup) {
 			Page.dialogConfirmation.confirm();
-		}
-		else {
+		} else {
 			Page.dialogConfirmation.reject();
 		}
 	}
@@ -919,19 +921,19 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private void testRemoveEvalueDiscountPopup(RadioGroup applyEvalueDiscountAsset, ComboBox biAsset) {
 		String currentBI;
 		List<String> allValues = biAsset.getAllValues();
-		biAsset.setValue(searchBILimit(allValues,LOWER_BI_LIMIT));
+		biAsset.setValue(searchBILimit(allValues, LOWER_BI_LIMIT));
 		processEvalueDiscountPopUp(true);
 		applyEvalueDiscountAsset.verify.value("No");
-		CustomAssert.assertTrue("BI limit should be changed to lowest BI limit "+LOWER_BI_LIMIT, biAsset.getValue().contains(LOWER_BI_LIMIT));
+		CustomAssert.assertTrue("BI limit should be changed to lowest BI limit " + LOWER_BI_LIMIT, biAsset.getValue().contains(LOWER_BI_LIMIT));
 		PremiumAndCoveragesTab.calculatePremium();
 		CustomAssert.assertFalse(successfulCalculation, isTotalTermPremiumEquals0());
 		CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
 		applyEvalueDiscountAsset.setValue("Yes");
-		CustomAssert.assertTrue("BI limit should be changed to configured BI limit "+CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
-		biAsset.setValue(searchBILimit(biAsset.getAllValues(),LOWER_BI_LIMIT));
+		CustomAssert.assertTrue("BI limit should be changed to configured BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
+		biAsset.setValue(searchBILimit(biAsset.getAllValues(), LOWER_BI_LIMIT));
 		processEvalueDiscountPopUp(false);
 		applyEvalueDiscountAsset.verify.value("Yes");
-		CustomAssert.assertTrue("BI limit should be changed to prevoius BI limit "+CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
+		CustomAssert.assertTrue("BI limit should be changed to prevoius BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
 		biAsset.setValueContains(HIGHER_BI_LIMIT);
 		currentBI = biAsset.getValue();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValueContains("Semi-Annual");
@@ -960,7 +962,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		applyEvalueDiscountAsset.verify.value("No");
 		currentBI = biAsset.getValue();
 		applyEvalueDiscountAsset.setValue("Yes");
-		CustomAssert.assertTrue("BI limit shouldn't be changed as default BI limit ($100,000/$300,000) > required BI limit "+CONFIGURED_BI_LIMIT, biAsset.getValue().contains(currentBI));
+		CustomAssert.assertTrue("BI limit shouldn't be changed as default BI limit ($100,000/$300,000) > required BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(currentBI));
 		verifyBILimitCoverages(biAsset, uumbiAsset);
 		CustomAssert.assertTrue("Premium should be reseted to 0", isTotalTermPremiumEquals0());
 		PremiumAndCoveragesTab.calculatePremium();
@@ -969,7 +971,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		verifyBILimitCoverages(biAsset, uumbiAsset);
 		biAsset.setValueContains(LOWER_BI_LIMIT);
 		applyEvalueDiscountAsset.setValue("Yes");
-		CustomAssert.assertTrue("BI limit should be changed to required BI limit "+CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
+		CustomAssert.assertTrue("BI limit should be changed to required BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
 		verifyBILimitCoverages(biAsset, uumbiAsset);
 		PremiumAndCoveragesTab.calculatePremium();
 		CustomAssert.assertFalse(successfulCalculation, isTotalTermPremiumEquals0());
@@ -1358,7 +1360,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	public String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
-		if(generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE.getLabel()).isPresent()){
+		if (generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE.getLabel()).isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		} else {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -1368,13 +1370,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		for (int i = 0; i < 3; i++) {
 			if (DocumentsAndBindTab.btnPurchase.isPresent()) {
 				DocumentsAndBindTab.btnPurchase.click();
+				if (Page.dialogConfirmation.isPresent()) {
+					Page.dialogConfirmation.confirm();
+				}
 				errorTab.overrideAllErrors();
-			}
-			if (Page.dialogConfirmation.isPresent()) {
-				Page.dialogConfirmation.reject();
+				if (errorTab.buttonOverride.isPresent()) {
+					errorTab.override();
+				}
 			}
 		}
-		policy.bind().submit();
+
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
 		if (!StringUtils.isEmpty(paymentMethod)) {
 			purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentMethod));
@@ -1397,6 +1402,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		ErrorTab errorTab = new ErrorTab();
 		errorTab.overrideAllErrors();
+		if (errorTab.buttonOverride.isPresent()) {
+			errorTab.override();
+		}
 		if (DocumentsAndBindTab.btnPurchase.isPresent()) {
 			DocumentsAndBindTab.btnPurchase.click();
 			Page.dialogConfirmation.confirm();
@@ -1448,9 +1456,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(messageInfo, messageBullet);
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+		if (effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days) {
 			checkBlueBoxMessages(messageInfo1, messageBullet1);
-		}else {
+		} else {
 			checkBlueBoxMessages(messageInfo, messageBullet);
 		}
 
@@ -1467,9 +1475,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		checkBlueBoxMessages(messageInfo, messageBullet);
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+		if (effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days) {
 			checkBlueBoxMessages(messageInfo1, messageBullet1);
-		}else {
+		} else {
 			checkBlueBoxMessages(messageInfo, messageBullet);
 		}
 

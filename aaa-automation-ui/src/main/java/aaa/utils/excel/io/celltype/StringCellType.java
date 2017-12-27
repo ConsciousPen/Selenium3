@@ -5,11 +5,19 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
 import aaa.utils.excel.io.entity.ExcelCell;
 
-public class StringCellType extends CellType<String> {
+public class StringCellType extends AbstractCellType<String> {
+	public StringCellType(Class<String> endType) {
+		super(endType);
+	}
+
 	@Override
 	public String getValueFrom(ExcelCell cell) {
-		String value = "";
 		Cell c = cell.getPoiCell();
+		if (c == null) {
+			return null;
+		}
+
+		String value = "";
 		switch (c.getCellTypeEnum()) {
 			case STRING:
 				return getText(cell);
@@ -35,7 +43,7 @@ public class StringCellType extends CellType<String> {
 
 	@Override
 	public void setValueTo(ExcelCell cell, String value) {
-		cell.getPoiCell().setCellValue(value);
+		createPoiCellIfNull(cell).getPoiCell().setCellValue(value);
 	}
 
 	@Override
@@ -44,8 +52,9 @@ public class StringCellType extends CellType<String> {
 	}
 
 	@Override
-	protected String getText(ExcelCell cell) {
-		return cell.getPoiCell().getStringCellValue().replace("\n", "").trim();
+	public String getText(ExcelCell cell) {
+		Cell c = cell.getPoiCell();
+		return c == null ? null : c.getStringCellValue().replace("\n", "").trim();
 	}
 
 	@Override

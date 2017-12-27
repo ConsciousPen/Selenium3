@@ -51,7 +51,6 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return new ArrayList<>(getCellsMap().keySet());
 	}
 
-
 	public int getFirstColumnNumber() {
 		return getColumnNumbers().get(0);
 	}
@@ -95,11 +94,11 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return getCell(columnNumber).getStringValue();
 	}
 
-	public boolean getBoolValue(int columnNumber) {
+	public Boolean getBoolValue(int columnNumber) {
 		return getCell(columnNumber).getBoolValue();
 	}
 
-	public int getIntValue(int columnNumber) {
+	public Integer getIntValue(int columnNumber) {
 		return getCell(columnNumber).getIntValue();
 	}
 
@@ -161,8 +160,10 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	private Map<Integer, ExcelCell> getCellsMap() {
 		if (this.cells == null) {
 			this.cells = new HashMap<>();
-			for (Cell cell : getPoiRow()) {
-				this.cells.put(cell.getColumnIndex() + 1, new ExcelCell(cell, this));
+			Row poiRow = getPoiRow();
+			for (int i = poiRow.getFirstCellNum(); i < poiRow.getLastCellNum(); i++) {
+				Cell cell = poiRow.getCell(i);
+				this.cells.put(i + 1, new ExcelCell(cell, this, i + 1));
 			}
 		}
 		return new HashMap<>(this.cells);

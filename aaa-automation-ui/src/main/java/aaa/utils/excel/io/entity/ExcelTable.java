@@ -261,11 +261,8 @@ public class ExcelTable implements Iterable<TableRow> {
 
 		Set<String> rowValues = new HashSet<>();
 		for (Cell cell : nonEmptyCells) {
-			String cellValue = new ExcelCell(cell, new ExcelRow(headerRow, getSheet())).getStringValue();
-			if (cellValue.isEmpty()) {
-				log.warn("Table's header has empty cell value in column number {}, cells from this column will be excluded from table ExcelTable instance", cell.getColumnIndex() + 1);
-				this.columnNumbers.remove(cell.getColumnIndex() + 1);
-			} else if (rowValues.contains(cellValue)) {
+			String cellValue = new ExcelCell(cell, new ExcelRow(headerRow, getSheet()), cell.getColumnIndex() + 1).getStringValue();
+			if (rowValues.contains(cellValue)) {
 				log.warn("Table's header has duplicated cell value {} in column number {}, cells from this column will be excluded from table ExcelTable instance", cellValue,
 						cell.getColumnIndex() + 1);
 				this.columnNumbers.remove(cell.getColumnIndex() + 1);
@@ -297,9 +294,10 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	private Row removeNonTableCells(Row row) {
-		List<Cell> nonEmptyCells = getNonEmptyPoiCells(row, this.columnNumbers);
-		for (Cell cell : row) {
-			if (!nonEmptyCells.contains(cell)) {
+		List<Cell> cells = new ArrayList<>();
+		for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+			Cell cell = row.getCell(i);
+			if (!this.columnNumbers.contains(i + 1) && cell != null) {
 				row.removeCell(cell);
 			}
 		}

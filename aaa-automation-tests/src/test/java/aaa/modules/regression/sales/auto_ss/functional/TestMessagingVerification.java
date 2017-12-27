@@ -82,6 +82,9 @@ public class TestMessagingVerification extends AutoSSBaseTest {
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
 		DocumentsAndBindTab.btnPurchase.click();
 		errorTab.overrideAllErrors();
+		if(errorTab.buttonOverride.isPresent()){
+			errorTab.override();
+		}
 	}
 
 	private void makeDepositPaymentWithDCVisa() {
