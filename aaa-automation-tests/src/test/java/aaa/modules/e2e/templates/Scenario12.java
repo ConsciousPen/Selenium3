@@ -327,6 +327,12 @@ public class Scenario12 extends ScenarioBaseTest {
 		billingAccount.update().start();
 		new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(true);
 		Tab.buttonCancel.click();
+		
+		//temp verification
+		BillingSummaryPage.showPriorTerms();		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Semi-Annual").verifyPresent();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent(); 
+
 	}
 	
 	protected void payRenewalBill(){
@@ -336,6 +342,13 @@ public class Scenario12 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
+		
+		//temp verification
+		BillingSummaryPage.showPriorTerms();		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Semi-Annual").verifyPresent();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent(); 
+	
+		
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(policyExpirationDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		//verify recurring payment is not generated
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(DateTimeUtils.getCurrentDateTime())
@@ -455,7 +468,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		
 		installmentDueDates_SecondRenewal = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quarterly (Renewal) payment plan", 
+		CustomAssert.assertEquals("Billing Installments count for Semi-Annual (Renewal) payment plan", 
 				installmentsCount_SecondRenewal, installmentDueDates_SecondRenewal.size()); 
 		
 		//verifyRenewalOfferPaymentAmount(policyExpirationDate, renewOfferDate, billGenDate, installmentsCount_FirstRenewal);
@@ -466,9 +479,9 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(renewOfferDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-			.setSubtypeReason("EFT Installment Fee").verifyPresent(); 
+			.setSubtypeReason("EFT Installment Fee - Credit Card").verifyPresent(); 
 		
-		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 			
+		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).setSubtypeReason("EFT Installment Fee - Credit Card Waived").verifyPresent(); 			
 	}
 
 	protected void generateRenewalBill_FirstRenewal() {
