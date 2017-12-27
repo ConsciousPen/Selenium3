@@ -1,6 +1,7 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3.functional;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import aaa.helpers.billing.DisbursementEngineHelper;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
@@ -123,7 +123,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String fileName = "20171222_180434_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
 
-		String[] aaa= fileReaderX(LOCAL_FOLDER_PATH + fileName);
+		List records = readCSV(LOCAL_FOLDER_PATH + fileName);
+		records.get(1);
+		String[] aaa = fileReaderX(LOCAL_FOLDER_PATH + fileName);
 
 		aaa.toString();
 		DisbursementEngineHelper.readFile(DisbursementEngineHelper.DisbursementEngineFileBuilder.class, fileName);
@@ -156,7 +158,113 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		return contentLine;
 	}
 
+	public static List readCSV(String path) throws FileNotFoundException, IOException {
+		List lines = new ArrayList<>();
+		BufferedReader br = new BufferedReader(new FileReader(path));
 
+		String line = br.readLine(); // Reading header, Ignoring
+
+		while ((line = br.readLine()) != null && !line.isEmpty()) {
+			String cvsSplitBy = "|";
+			String[] fields = line.split(cvsSplitBy);
+			String recordType = fields[0];
+			String requestReferenceId = fields[1];
+			String refundType = fields[2];
+			String refundMethod = fields[3];
+			String issueDate = fields[4];
+			String agreementNumber = fields[5];
+			String agreementSourceSystem = fields[6];
+			String productType = fields[7];
+			String companyId = fields[8];
+			String insuredFirstName = fields[9];
+			String insuredLastName = fields[10];
+			DisbursementFile records = new DisbursementFile(recordType, requestReferenceId, refundType, refundMethod, issueDate, agreementNumber, agreementSourceSystem,
+					productType, companyId, insuredFirstName, insuredLastName);
+			lines.add(records);
+		}
+		br.close();
+		return lines;
+	}
+
+	private static class DisbursementFile {
+		private String recordType;
+		private String requestReferenceId;
+		private String refundType;
+		private String refundMethod;
+		private String issueDate;
+		private String agreementNumber;
+		private String agreementSourceSystem;
+		private String productType;
+		private String companyId;
+		private String insuredFirstName;
+		private String insuredLastName;
+
+		public DisbursementFile(String recordType, String requestReferenceId, String refundType, String refundMethod,
+				String issueDate, String agreementNumber, String agreementSourceSystem, String productType, String companyId, String insuredFirstName, String insuredLastName) {
+			this.recordType = recordType;
+			this.requestReferenceId = requestReferenceId;
+			this.refundType = refundType;
+			this.refundMethod = refundMethod;
+			this.issueDate = issueDate;
+			this.agreementNumber = agreementNumber;
+			this.agreementSourceSystem = agreementSourceSystem;
+			this.productType = productType;
+			this.companyId = companyId;
+			this.insuredFirstName = insuredFirstName;
+			this.insuredLastName = insuredLastName;
+
+		}
+
+		public String recordType() {
+			return recordType;
+		}
+
+		public String requestRefereceId() {
+			return requestReferenceId;
+		}
+
+		public String refundType() {
+			return refundType;
+		}
+
+		public String refundMethod() {
+			return refundMethod;
+		}
+
+		public String issueDate() {
+			return issueDate;
+		}
+
+		public String agreementNumber() {
+			return agreementNumber;
+		}
+
+		public String agreementSourceSystem() {
+			return agreementSourceSystem;
+		}
+
+		public String productType() {
+			return productType;
+		}
+
+		public String companyId() {
+			return companyId;
+		}
+
+		public String insuredFirstName() {
+			return insuredFirstName;
+		}
+
+		public String insuredLastName() {
+			return insuredLastName;
+		}
+
+		@Override
+		public String toString() {
+			return "records [recordType=" + recordType + ", requestRefereceId=" + requestReferenceId
+					+ ", refundType=" + refundType + "]";
+		}
+	}
 
 	private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
 		// if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app
