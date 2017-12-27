@@ -180,7 +180,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void generateRefund() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
