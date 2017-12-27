@@ -807,8 +807,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE =
 					declare("Medical Payments Rejection of Coverage", RadioGroup.class, Waiters.NONE, false, By.xpath("//table[@id='policyDataGatherForm:document_RMPC']"));
 			public static final AssetDescriptor<RadioGroup> PERSONAL_AUTO_APPLICATION = declare("Personal Auto Application", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS =
-					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS = declare(
+					"AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.NONE, false,
+					By.xpath("//table[@id='policyDataGatherForm:document_AAAUBI1B']"));
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class);
 			//DC
 			public static final AssetDescriptor<RadioGroup> INFORMED_CONSENT_FORM_UNINSURED_MOTORIST_COVERAGE = declare("Informed Consent Form - Uninsured Motorist Coverage", RadioGroup.class);
@@ -856,7 +857,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_COVERAGE_REJECTION_OR_ELECTION_OF_LOWER_LIMITS =
 					declare("Uninsured/Underinsured Coverage - Rejection or Election of Lower Limits", RadioGroup.class, Waiters.NONE);
 			//VA
-			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE);            //OK
+			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE, false, By.xpath("//table[@id='policyDataGatherForm:document_AHEVAXX']"));            //OK
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_LIMIT_SELECTION_FORM = declare("Uninsured/Underinsured Limit Selection Form", RadioGroup.class, Waiters.NONE);
 			//AZ
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION =

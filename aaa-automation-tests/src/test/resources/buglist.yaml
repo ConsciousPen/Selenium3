@@ -198,3 +198,9 @@ PAS-6612:
     - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy, 
     aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy] 
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
+PAS-7673:
+  summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
+      messages: ["Cannot set value of AssetList {PurchaseTab"]

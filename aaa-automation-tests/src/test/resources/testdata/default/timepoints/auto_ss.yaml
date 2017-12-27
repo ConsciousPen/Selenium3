@@ -34,7 +34,7 @@ TestData_AZ: {
   Cancellation notice: [8, NEXT],
   Cancellation: [8, NEXT],
   Renew customer decline: [15, NONE],
-  Insurance renewal reminder: [10, NEXT],
+  Insurance renewal reminder: [10, PREVIOUS],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
@@ -349,7 +349,7 @@ TestData_NY: {
   Earned premium bill second: [30, NONE],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT],
-  Insurance renewal reminder: [10, NEXT]
+  Insurance renewal reminder: [10, PREVIOUS]
 }
 
 TestData_OH: {
