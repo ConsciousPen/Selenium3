@@ -112,10 +112,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("CA") String state) {
 		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
-		String policyNumber = createPreconds(testData);
+		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 		/*
@@ -139,10 +139,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("CA") String state) {
 		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
-		String policyNumber = createPreconds(testData);
+		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 		/*
@@ -166,15 +166,22 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("CA") String state) {
 		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
-		String policyNumber = createPreconds(testData);
+		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 		/*
 		 * Automated Renewal R-35 Expiration Date
 		 */
 		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), NEW_VIN);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
+	public void pas730_MSRPRefreshCompColl(@Optional("CA") String state) {
+		MSRPRefreshCompColl(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), "8MSRP17H0V1234567");
 	}
 }

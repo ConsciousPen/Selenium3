@@ -40,7 +40,7 @@ import toolkit.webdriver.controls.TextBox;
 public class TestVINUpload extends TestVinUploadHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType(),getState());
+	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
@@ -545,6 +545,44 @@ public class TestVINUpload extends TestVinUploadHelper {
 		policy.rollOn().perform(false, false);
 
 		policy.dataGather().start();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	public void pas730_MSRPRefreshCompColl(@Optional("UT") String state) {
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "7MSRP17H0V1234567")
+				//.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()), "Passenger Van")
+				//.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Van");
+
+		precondsTestVINUpload(testData, PremiumAndCoveragesTab.class);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
+		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		VehicleTab.buttonSaveAndExit.click();
+
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		vinMethods.uploadFiles(vinTableFile);
+
+		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
+		findAndRateQuote(testData, quoteNumber);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertSoftly(softly -> {
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
+
+		});
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
 	public void killChromeDrivers() throws IOException {

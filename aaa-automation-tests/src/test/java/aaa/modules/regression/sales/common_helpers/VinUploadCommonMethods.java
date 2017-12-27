@@ -11,11 +11,9 @@ import aaa.modules.policy.PolicyBaseTest;
 public class VinUploadCommonMethods extends PolicyBaseTest {
 
 	private final String policyType;
-	private final String state;
 
-	public VinUploadCommonMethods(PolicyType policyType, String state) {
+	public VinUploadCommonMethods(PolicyType policyType) {
 		this.policyType = policyType.getShortName();
-		this.state = state;
 	}
 
 	/**
@@ -91,7 +89,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 			default:
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
-		return String.format(defaultControlFileName, state);
+		return String.format(defaultControlFileName, getState());
 	}
 
 	public enum UploadFilesTypes {

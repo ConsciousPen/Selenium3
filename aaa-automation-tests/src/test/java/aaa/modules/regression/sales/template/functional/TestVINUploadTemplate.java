@@ -35,7 +35,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType(),getState());
+	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	protected void pas2716_AutomatedRenewal(String policyNumber,LocalDateTime nextPhaseDate,String  vinNumber) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
@@ -279,7 +279,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	protected void endorsement(String vinTableFile, String vinNumber) {
 		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber).resolveLinks();
 
-		String policyNumber = createPreconds(testData);
+		String policyNumber = createPolicyPreconds(testData);
 
 		vinMethods.uploadFiles(vinTableFile);
 
@@ -333,7 +333,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Custom Van");
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -348,9 +348,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		vinMethods.uploadFiles(vinTableFile);
 
@@ -359,12 +356,49 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Regular");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
 		});
+	}
+
+	 /*
+	 Comp/Coll symbols refreshed from VIN table VIN partial match
+
+	 */
+	protected void MSRPRefreshCompColl(String vinTableFile, String vinNumber) {
+
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Van");
+
+		precondsTestVINUpload(testData, PremiumAndCoveragesTab.class);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
+		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		VehicleTab.buttonSaveAndExit.click();
+
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		vinMethods.uploadFiles(vinTableFile);
+
+		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
+		findAndRateQuote(testData, quoteNumber);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertSoftly(softly -> {
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
+
+		});
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
 	private void pas533_CommonChecks() {
@@ -432,7 +466,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		return testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
 	}
 
-	protected String createPreconds(TestData testData) {
+	protected String createPolicyPreconds(TestData testData) {
 		mainApp().open();
 		createCustomerIndividual();
 		return createPolicy(testData);
@@ -460,7 +494,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 	}
 
