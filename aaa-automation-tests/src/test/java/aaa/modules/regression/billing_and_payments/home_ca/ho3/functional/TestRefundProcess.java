@@ -1,7 +1,8 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3.functional;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
@@ -10,21 +11,16 @@ import org.apache.commons.csv.CSVRecord;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.DisbursementEngineHelper;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
@@ -42,13 +38,12 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String REMOTE_FOLDER = "/home/mp2/pas/sit/DSB_E_PASSYS_DSBCTRL_7025_D/outbound";
+	private static final String REMOTE_FOLDER_PATH = "/home/mp2/pas/sit/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
+	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
@@ -78,7 +73,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
 	public void pas7039_newDataElements(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 
-		mainApp().open();
+	/*	mainApp().open();
 		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3926232128");
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
@@ -103,10 +98,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		String afterJobFileDateTime = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
 		log.info(beforeJobFileDateTime);
-		log.info(afterJobFileDateTime);
+		log.info(afterJobFileDateTime);*/
 
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3933661307");
+		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3933661307");
 
 /*		String monitorInfo = "AAAA";
 		String monitorAddress = "AAAA";
@@ -119,15 +114,49 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		//sshControllerRemote.getFolderContent(new FilR("/d/AAA/JobFolders/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/"));*/
 
 		//TODO doesn't work in VDMs
-		RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER, 10, "VAH3933661307");
-		String neededFilePath = RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER, "csv", 10, "VAH3933661307").get(0);
+/*		RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER_PATH, 10, "VAH3933661307");
+		String neededFilePath = RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER_PATH, "csv", 10, "VAH3933661307").get(0);
+		String fileName = neededFilePath.replace(REMOTE_FOLDER_PATH, "");
 		String fileContent = RemoteHelper.getFileContent(neededFilePath);
 
-		transformToObject(fileContent).lastIndexOf(1);
+		RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);*/
+
+		String fileName = "20171222_180434_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
+
+		String[] aaa= fileReaderX(LOCAL_FOLDER_PATH + fileName);
+
+		aaa.toString();
+		DisbursementEngineHelper.readFile(DisbursementEngineHelper.DisbursementEngineFileBuilder.class, fileName);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
+
+	public static String[] fileReaderX(String filePath) {
+
+		String csvFile = filePath;
+		String line = "";
+		String cvsSplitBy = "|";
+
+		String[] contentLine = new String[0];
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				contentLine = line.split(cvsSplitBy);
+
+				System.out.println("return line" + contentLine.toString());
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return contentLine;
+	}
+
+
 
 	private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
 		// if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app

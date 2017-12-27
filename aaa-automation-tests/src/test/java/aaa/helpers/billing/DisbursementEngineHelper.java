@@ -1,9 +1,7 @@
 package aaa.helpers.billing;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.CharBuffer;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -58,7 +56,7 @@ public class DisbursementEngineHelper {
 		return file;
 	}
 
-/*	public static synchronized File readFile(DisbursementEngineFileBuilder builder, String fileNameLastPart) {
+	public static synchronized File readFile(Class<DisbursementEngineFileBuilder> builder, String fileNameLastPart) {
 		final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 		final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("MMddyyyy");
 		final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");
@@ -71,19 +69,19 @@ public class DisbursementEngineHelper {
 			file = new File(CustomLogger.getLogDirectory().concat("/DisbursementEngine_Files/"), fileName);
 			date = date.plusSeconds(1);
 		} while (file.exists());
-		file.getParentFile().mkdir();
+		/*file.getParentFile().mkdir();*/
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|{0}|ETLNONPROD|71DCF95E-C|{1}|{2}|C48192E5-E|1\n", fileNameLastPart, fileName, date.format(DATE_TIME_PATTERN));
-			br.read();
-			br.read(builder.buildData(date.format(DATE_PATTERN)));
-			br.read(builder.buildTrail());
+			br.read(CharBuffer.wrap(header));
+/*			br.read(builder.buildData(date.format(DATE_PATTERN)));
+			br.read(builder.buildTrail());*/
 			br.read();
 		} catch (IOException e) {
 			throw new IstfException(e);
 		}
 		return file;
-	}*/
+	}
 
 	public static synchronized void copyFileToServer(File file, String folderName) {
 		if (file == null)
