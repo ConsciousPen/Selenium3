@@ -100,7 +100,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		log.info(beforeJobFileDateTime);
 		log.info(afterJobFileDateTime);*/
 
-		mainApp().open();
+		//mainApp().open();
 		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3933661307");
 
 /*		String monitorInfo = "AAAA";
@@ -123,65 +123,49 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String fileName = "20171222_180434_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
 
-		List records = readCSV(LOCAL_FOLDER_PATH + fileName);
-		records.get(1);
-		String[] aaa = fileReaderX(LOCAL_FOLDER_PATH + fileName);
-
-		aaa.toString();
-		DisbursementEngineHelper.readFile(DisbursementEngineHelper.DisbursementEngineFileBuilder.class, fileName);
+		List <DisbursementFile> recordsStrnage = readCSV(LOCAL_FOLDER_PATH + fileName);
+		recordsStrnage.get(1);
+		DisbursementFile neededString = null;
+		for(DisbursementFile s:recordsStrnage){
+			if(s.getAgreementNumber().equals("VASS926232113")){
+				neededString = s;
+			}
+		}
+		neededString.getAgreementNumber();
+		//DisbursementEngineHelper.readFile(DisbursementEngineHelper.DisbursementEngineFileBuilder.class, fileName);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
-	public static String[] fileReaderX(String filePath) {
-
-		String csvFile = filePath;
-		String line = "";
-		String cvsSplitBy = "|";
-
-		String[] contentLine = new String[0];
-		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
-			while ((line = br.readLine()) != null) {
-
-				// use comma as separator
-				contentLine = line.split(cvsSplitBy);
-
-				System.out.println("return line" + contentLine.toString());
-
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return contentLine;
-	}
 
 	public static List readCSV(String path) throws FileNotFoundException, IOException {
-		List lines = new ArrayList<>();
+		List<DisbursementFile> lines = new ArrayList<>();
 		BufferedReader br = new BufferedReader(new FileReader(path));
 
 		String line = br.readLine(); // Reading header, Ignoring
-
-		while ((line = br.readLine()) != null && !line.isEmpty()) {
-			String cvsSplitBy = "|";
-			String[] fields = line.split(cvsSplitBy);
-			String recordType = fields[0];
-			String requestReferenceId = fields[1];
-			String refundType = fields[2];
-			String refundMethod = fields[3];
-			String issueDate = fields[4];
-			String agreementNumber = fields[5];
-			String agreementSourceSystem = fields[6];
-			String productType = fields[7];
-			String companyId = fields[8];
-			String insuredFirstName = fields[9];
-			String insuredLastName = fields[10];
-			DisbursementFile records = new DisbursementFile(recordType, requestReferenceId, refundType, refundMethod, issueDate, agreementNumber, agreementSourceSystem,
-					productType, companyId, insuredFirstName, insuredLastName);
-			lines.add(records);
-		}
+//String line = "";
+		try {
+			do {
+				String cvsSplitBy = "\\|";
+				String[] fields = line.split(cvsSplitBy);
+				String recordType = fields[0];
+				String requestReferenceId = fields[1];
+				String refundType = fields[2];
+				String refundMethod = fields[3];
+				String issueDate = fields[4];
+				String agreementNumber = fields[5];
+				String agreementSourceSystem = fields[6];
+				String productType = fields[7];
+				String companyId = fields[8];
+				String insuredFirstName = fields[9];
+				String insuredLastName = fields[10];
+				DisbursementFile records = new DisbursementFile(recordType, requestReferenceId, refundType, refundMethod, issueDate, agreementNumber, agreementSourceSystem,
+						productType, companyId, insuredFirstName, insuredLastName);
+				lines.add(records);
+			}
+			while ((line = br.readLine()) != null && !line.isEmpty());
+		} catch (ArrayIndexOutOfBoundsException E){ }
 		br.close();
 		return lines;
 	}
@@ -215,108 +199,59 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		}
 
-		public String recordType() {
+		public String getRecordType() {
 			return recordType;
 		}
 
-		public String requestRefereceId() {
+		public String getRequestRefereceId() {
 			return requestReferenceId;
 		}
 
-		public String refundType() {
+		public String getRefundType() {
 			return refundType;
 		}
 
-		public String refundMethod() {
+		public String getRefundMethod() {
 			return refundMethod;
 		}
 
-		public String issueDate() {
+		public String getIssueDate() {
 			return issueDate;
 		}
 
-		public String agreementNumber() {
+		public String getAgreementNumber() {
 			return agreementNumber;
 		}
 
-		public String agreementSourceSystem() {
+		public String getAgreementSourceSystem() {
 			return agreementSourceSystem;
 		}
 
-		public String productType() {
+		public String getProductType() {
 			return productType;
 		}
 
-		public String companyId() {
+		public String getCompanyId() {
 			return companyId;
 		}
 
-		public String insuredFirstName() {
+		public String getInsuredFirstName() {
 			return insuredFirstName;
 		}
 
-		public String insuredLastName() {
+		public String getInsuredLastName() {
 			return insuredLastName;
 		}
 
 		@Override
 		public String toString() {
 			return "records [recordType=" + recordType + ", requestRefereceId=" + requestReferenceId
-					+ ", refundType=" + refundType + "]";
+					+ ", refundType=" + refundType + ", refundMethod=" + refundMethod +","
+					+ " issueDate=" + issueDate +", agreementNumber=" + agreementNumber +", agreementSourceSystem=" + agreementSourceSystem
+					+ ", productType=" + productType +", companyId=" + companyId + ", productType=" + productType
+					+ ", companyId=" + companyId + ", insuredFirstName=" + insuredFirstName +", insuredLastName=" + insuredLastName +"]";
 		}
 	}
 
-	private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
-		// if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app
-		List<FinancialPSFTGLObject> objectsFromCSV;
-		try (CSVParser parser = CSVParser.parse(fileContent, CSVFormat.DEFAULT)) {
-			objectsFromCSV = new ArrayList<>();
-			FinancialPSFTGLObject object = null;
-			for (CSVRecord record : parser.getRecords()) {
-				//Each header has length == 22, footer ==56 and record == 123
-				switch (record.get(0).length()) {
-					case 22: {
-						//parse header here
-						object = new FinancialPSFTGLObject();
-						Header entryHeader = new Header();
-						entryHeader.setCode(record.get(0).substring(0, 11).trim());
-						entryHeader.setDate(record.get(0).substring(11, record.get(0).length() - 3).trim());
-						entryHeader.setNotKnownAttribute(record.get(0).substring(record.get(0).length() - 3, record.get(0).length()).trim());
-						object.setHeader(entryHeader);
-						break;
-					}
-					case 56: {
-						//parse footer here
-						Footer footer = new Footer();
-						footer.setCode(record.get(0).substring(0, 11).trim());
-						footer.setOverallExpSum(record.get(0).substring(11, 30).trim());
-						footer.setOverallSum(record.get(0).substring(30, 46).trim());
-						footer.setAmountOfRecords(record.get(0).substring(46, record.get(0).length()).trim());
-						object.setFooter(footer);
-						objectsFromCSV.add(object);
-						break;
-					}
-					case 123: {
-						//parse record body here
-						Record entryRecord = new Record();
-						entryRecord.setCode(record.get(0).substring(0, 11).trim());
-						entryRecord.setBillingAccountNumber(record.get(0).substring(11, 21).trim());
-						entryRecord.setProductCode(record.get(0).substring(21, 31).trim());
-						entryRecord.setStateInfo(record.get(0).substring(31, 43).trim());
-						entryRecord.setAmount(record.get(0).substring(43, 57).trim());
-						entryRecord.setAction(record.get(0).substring(57, 87).trim());
-						entryRecord.setActionDescription(record.get(0).substring(87, 117).trim());
-						entryRecord.setPlusMinus(record.get(0).substring(117, record.get(0).length()).trim());
-						object.getRecords().add(entryRecord);
-						break;
-					}
-					default: {
-						//ignore
-					}
-				}
-			}
-		}
-		return objectsFromCSV;
-	}
 
 }
