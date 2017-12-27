@@ -1402,7 +1402,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		ErrorTab errorTab = new ErrorTab();
 		errorTab.overrideAllErrors();
-		errorTab.override();
+		if (errorTab.buttonOverride.isPresent()) {
+			errorTab.override();
+		}
 		if (DocumentsAndBindTab.btnPurchase.isPresent()) {
 			DocumentsAndBindTab.btnPurchase.click();
 			Page.dialogConfirmation.confirm();

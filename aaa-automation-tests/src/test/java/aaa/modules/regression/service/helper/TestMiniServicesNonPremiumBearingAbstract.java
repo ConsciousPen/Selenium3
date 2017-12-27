@@ -4,6 +4,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -33,12 +34,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
 		mainApp().open();
-/*		createCustomerIndividual();
+		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		*/
-SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232114");
-String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//BUG PAS-5815 There is an extra Endorse action available for product
 		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
@@ -47,7 +46,7 @@ String policyNumber = PolicySummaryPage.getPolicyNumber();
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
 		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
 		//PAS-343 end
-		//VASS926232125
+
 		String emailAddressChanged = "osi.test@email.com";
 		String authorizedBy = "John Smith";
 		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);

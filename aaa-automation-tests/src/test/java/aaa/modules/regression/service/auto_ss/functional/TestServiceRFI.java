@@ -77,6 +77,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT).verify.value("Not Signed");
 		documentsAndBindTab.saveAndExit();
 	}
 
@@ -149,16 +150,18 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-	public void pas349_rfiNano(@Optional("AZ") String state) {
+	public void pas349_rfiNano(@Optional("NV") String state) {
 		createQuoteWithCustomDataNano(state);
 
-		CustomAssert.enableSoftMode();
+		//CustomAssert.enableSoftMode();
+		//TODO Question to Karen: IN has Uninsured Property Damage = No COverage, disabled, but required to have at least 25k
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		rfiDocumentContentCheckNano(policyNumber);
 
 		//PAS-341 Start
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
+		//TODO Question to Karen: NV returns "Non-Owner Automobile Endorsement Form" instead of "Non-Owner Automobile Endorsement"
 		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel());
 		//PAS-341 End
 
