@@ -17,5 +17,5 @@ TestData_CA: {
   Earned premium bill second: [30, NONE],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT],
-  Insurance renewal reminder: [10, NEXT]
+  Insurance renewal reminder: [10, PREVIOUS]
 }
