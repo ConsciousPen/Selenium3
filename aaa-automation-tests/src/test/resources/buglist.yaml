@@ -219,3 +219,11 @@ PAS-7427:
   failures:
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
+OSI-1111:
+  summary: "OSI: no dxp configuration"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.*,
+    aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.*,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.*]
+      messages: ["Entity input stream has already been closed."]
