@@ -44,13 +44,11 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-246"})
-	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("PA") String state) {
+	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("VA") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();
 		createQuote();
-
-		//SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232077");
 		policy.dataGather().start();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -106,9 +104,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends AutoSSBaseTest {
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
 		//BUG PAS-7586 A popup about removal of eValue discount is shown on Endorsement wjen eValue=No and payment plan is changed from Annual to non-Annual
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.confirm();
-		}
 		PremiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
 		if (isPresent) {
