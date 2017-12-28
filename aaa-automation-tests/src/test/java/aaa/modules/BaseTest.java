@@ -30,11 +30,13 @@ import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -378,6 +380,36 @@ public class BaseTest {
 		return getStateTestData(tdSpecific, tdName);
 	}
 
+	protected TestData getConversionPolicyDefaultTD() {
+		TestData td = getPolicyDefaultTD();
+
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+			td.mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel()))
+					.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()), "Yes")
+					.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Pay in Full (Renewal)")
+					.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel()), "Married");
+		}
+		else if  (getPolicyType().equals(PolicyType.HOME_SS_DP3)){
+			td.mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName(), HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel()))
+					.mask(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()))
+					.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()), "No")
+					.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Pay in Full (Renewal)")
+					.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel()), "Married");
+
+		}
+
+		return td;
+	}
+
+
+
+
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
 		if (!td.containsKey(fileName)) {
 			throw new TestDataException("Can't get test data file " + fileName);
@@ -438,6 +470,18 @@ public class BaseTest {
 		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
 				new DefaultMarkupParser().parse("$<today+35d:MM/dd/yyyy>"));
 		return initiateManualConversion(td);
+	}
+
+	protected void createConversionPolicy() {
+		createConversionPolicy(getConversionPolicyDefaultTD());
+	}
+
+	protected void createConversionPolicy(TestData td) {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		log.info("Conversion Policy Creation Started...");
+		initiateManualConversion();
+		getPolicyType().get().getDefaultView().fill(td);
+		log.info("Created Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	private void initTestDataForTest() {
