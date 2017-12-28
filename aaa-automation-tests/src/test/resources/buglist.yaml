@@ -227,3 +227,9 @@ OSI-1111:
     aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.*,
     aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.*]
       messages: ["Entity input stream has already been closed."]
+PAS-7702:
+  summary: "When issuing some policies, documents are not generated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiAuto]
+      messages: ["No value present"]

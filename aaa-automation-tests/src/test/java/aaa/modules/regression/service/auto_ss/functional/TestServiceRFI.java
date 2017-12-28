@@ -39,6 +39,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 	private static void rfiDocumentContentCheck(String policyNum) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		//BUG PAS-7702 When issuing some policies, documents are not generated
 		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
 
 		rfiTagCheck(query, "PrevInsDiscYN", "Y");
