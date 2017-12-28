@@ -329,6 +329,7 @@ public final class DocGenEnum {
 		AA57CA(""),
 		HSRMXX(""),
 		_550029("55 0029", ""),
+		_55_5100("55 5100", "")
 		;
 
 		private String id;
