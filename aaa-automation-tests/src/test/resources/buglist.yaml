@@ -233,6 +233,15 @@ OSI-1112:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
       messages: ["Timed out waiting for page load"]
+OSI-1113:
+  summary: "OSI: rummors have it that Issue link needs to be removed for Automated and Manual refunds"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck]
+      messages: ["Cannot get value of Link"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD
