@@ -227,6 +227,12 @@ OSI-1111:
     aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.*,
     aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.*]
       messages: ["Entity input stream has already been closed."]
+OSI-1112:
+  summary: "OSI: the test passes locally, but fails in Jenkins"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
+      messages: ["Timed out waiting for page load"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD

@@ -125,6 +125,19 @@
             </class>
         </classes>
     </test>
+
+    <test name="TestPaperlessPreferencesVA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
+                <methods>
+                    <include name="eValueConfigCheck"/>
+                    <include name="pas283_eValuePaperlessPreferences"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="TestPaperlessPreferencesPA">
         <parameter name="state" value="PA"/>
         <classes>
