@@ -1,26 +1,30 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3.functional;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.DisbursementEngineHelper;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
@@ -28,16 +32,17 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
-import aaa.modules.cft.csv.model.Footer;
-import aaa.modules.cft.csv.model.Header;
-import aaa.modules.cft.csv.model.Record;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
@@ -72,8 +77,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
 	public void pas7039_newDataElements(@Optional("VA") String state) throws SftpException, JSchException, IOException {
-
-	/*	mainApp().open();
+		String manualRefundAmount = "100";
+		String automatedRefundAmount = "101";
+		mainApp().open();
 		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3926232128");
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
@@ -88,170 +94,84 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		bindTab.submitTab();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.refund().manualRefundPerform("Check","100");
+		billingAccount.refund().manualRefundPerform("Check",manualRefundAmount);
 
 		//TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 
 		CustomAssert.enableSoftMode();
-		RemoteHelper.clearFolder("/AAA/JobFolders/DSB_E_PASSYS_DSBCTRL_7025_D/outbound");
-		String beforeJobFileDateTime = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+		RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-		String afterJobFileDateTime = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-		log.info(beforeJobFileDateTime);
-		log.info(afterJobFileDateTime);*/
 
-		//mainApp().open();
-		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3933661307");
+		//String policyNumber = "VAH3933661310";
+		refundRecordInFileCheck(policyNumber, "M", "CHCK", manualRefundAmount);
 
-/*		String monitorInfo = "AAAA";
-		String monitorAddress = "AAAA";
-		SSHController sshControllerRemote = new SSHController(
-				monitorAddress,
-				PropertyProvider.getProperty("test.ssh.user"),
-				PropertyProvider.getProperty("test.ssh.password"));
-		//RemoteHelper.downloadFileWithWait("/AAA/JobFolders/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/20171222_184201_DSB_E_PASSYS_DSBCTRL_7025_D.csv", "src/test/resources/stubs/", 5000);
-		//sshControllerRemote.downloadFolder(new File("/d/AAA/JobFolders/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/"), new File("src/test/resources/stubs/"));
-		//sshControllerRemote.getFolderContent(new FilR("/d/AAA/JobFolders/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/"));*/
 
-		//TODO doesn't work in VDMs
-/*		RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER_PATH, 10, "VAH3933661307");
-		String neededFilePath = RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER_PATH, "csv", 10, "VAH3933661307").get(0);
-		String fileName = neededFilePath.replace(REMOTE_FOLDER_PATH, "");
-		String fileContent = RemoteHelper.getFileContent(neededFilePath);
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
 
-		RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);*/
+		RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 
-		String fileName = "20171222_180434_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
-
-		List <DisbursementFile> recordsStrnage = readCSV(LOCAL_FOLDER_PATH + fileName);
-		recordsStrnage.get(1);
-		DisbursementFile neededString = null;
-		for(DisbursementFile s:recordsStrnage){
-			if(s.getAgreementNumber().equals("VASS926232113")){
-				neededString = s;
-			}
-		}
-		neededString.getAgreementNumber();
-		//DisbursementEngineHelper.readFile(DisbursementEngineHelper.DisbursementEngineFileBuilder.class, fileName);
+		refundRecordInFileCheck(policyNumber, "R", "CHCK", automatedRefundAmount);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
+	private void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String refundAmount) throws IOException {
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
+		//TODO missing config in PAS18.1
+		//String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
+		acceptPaymentActionTab.back();
 
-	public static List readCSV(String path) throws FileNotFoundException, IOException {
-		List<DisbursementFile> lines = new ArrayList<>();
-		BufferedReader br = new BufferedReader(new FileReader(path));
+		//TODO doesn't work in VDMs
+		RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER_PATH, 10, policyNumber);
+		String neededFilePath = RemoteHelper.waitForFilesAppearance(REMOTE_FOLDER_PATH, "csv", 10, policyNumber).get(0);
+		String fileName = neededFilePath.replace(REMOTE_FOLDER_PATH, "");
 
-		String line = br.readLine(); // Reading header, Ignoring
-//String line = "";
-		try {
-			do {
-				String cvsSplitBy = "\\|";
-				String[] fields = line.split(cvsSplitBy);
-				String recordType = fields[0];
-				String requestReferenceId = fields[1];
-				String refundType = fields[2];
-				String refundMethod = fields[3];
-				String issueDate = fields[4];
-				String agreementNumber = fields[5];
-				String agreementSourceSystem = fields[6];
-				String productType = fields[7];
-				String companyId = fields[8];
-				String insuredFirstName = fields[9];
-				String insuredLastName = fields[10];
-				DisbursementFile records = new DisbursementFile(recordType, requestReferenceId, refundType, refundMethod, issueDate, agreementNumber, agreementSourceSystem,
-						productType, companyId, insuredFirstName, insuredLastName);
-				lines.add(records);
+		RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);
+
+		//String fileName = "20171222_180434_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
+		List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
+		DisbursementEngineHelper.DisbursementFile neededLine = null;
+		for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
+			if (s.getAgreementNumber().equals(policyNumber)) {
+				neededLine = s;
 			}
-			while ((line = br.readLine()) != null && !line.isEmpty());
-		} catch (ArrayIndexOutOfBoundsException E){ }
-		br.close();
-		return lines;
+		}
+		CustomAssert.assertTrue(neededLine.getRecordType().equals("D"));
+		//TODO missing config in PAS18.1
+		//neededLine.getRequestRefereceId().equals(transactionID);
+		CustomAssert.assertTrue(neededLine.getRefundType().equals(refundType));
+		CustomAssert.assertTrue(neededLine.getRefundMethod().equals(refundMethod));
+		CustomAssert.assertTrue(neededLine.getIssueDate().equals(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy"))));
+		CustomAssert.assertTrue(neededLine.getAgreementNumber().equals(policyNumber));
+		CustomAssert.assertTrue(neededLine.getAgreementSourceSystem().equals("PAS"));
+		CustomAssert.assertTrue(neededLine.getProductType().equals("HO"));
+		CustomAssert.assertTrue(neededLine.getCompanyId().equals("4WUIC"));
+		CustomAssert.assertFalse(neededLine.getInsuredFirstName().isEmpty());
+		CustomAssert.assertFalse(neededLine.getInsuredLastName().isEmpty());
+		//TODO update once the deceased indicator is implemented
+		//CustomAssert.assertTrue(neededLine.deceasedNamedInsuredFlag.equals("Y"));
+		CustomAssert.assertTrue(neededLine.getPolicyState().equals("VA"));
+		CustomAssert.assertTrue(neededLine.getRefundAmount().equals(refundAmount+".00"));
+		CustomAssert.assertTrue(neededLine.getPayeeName().equals(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName()));
+		CustomAssert.assertFalse(neededLine.getPayeeStreetAddress1().isEmpty());
+		CustomAssert.assertFalse(neededLine.getPayeeCity().isEmpty());
+		CustomAssert.assertFalse(neededLine.getPayeeState().isEmpty());
+		CustomAssert.assertFalse(neededLine.getPayeeZip().isEmpty());
+		//TODO check CustomAssert.assertTrue(neededLine.getInsuredEmailId().contains("@"));
+		CustomAssert.assertTrue(neededLine.getCheckNumber().equals(""));
+		CustomAssert.assertTrue(neededLine.getPrinterIdentificationCode().equals("FFD"));
+		CustomAssert.assertTrue(neededLine.getRefundReason().equals("Overpayment"));
+		CustomAssert.assertTrue(neededLine.getRefundReasonDescription().equals(""));
+		CustomAssert.assertTrue(neededLine.getReferencePaymentTransactionNumber().equals(""));
+		//TODO missing config in PAS18.1
+		//CustomAssert.assertTrue(neededLine.geteRefundEligible().equals("Y"));
 	}
-
-	private static class DisbursementFile {
-		private String recordType;
-		private String requestReferenceId;
-		private String refundType;
-		private String refundMethod;
-		private String issueDate;
-		private String agreementNumber;
-		private String agreementSourceSystem;
-		private String productType;
-		private String companyId;
-		private String insuredFirstName;
-		private String insuredLastName;
-
-		public DisbursementFile(String recordType, String requestReferenceId, String refundType, String refundMethod,
-				String issueDate, String agreementNumber, String agreementSourceSystem, String productType, String companyId, String insuredFirstName, String insuredLastName) {
-			this.recordType = recordType;
-			this.requestReferenceId = requestReferenceId;
-			this.refundType = refundType;
-			this.refundMethod = refundMethod;
-			this.issueDate = issueDate;
-			this.agreementNumber = agreementNumber;
-			this.agreementSourceSystem = agreementSourceSystem;
-			this.productType = productType;
-			this.companyId = companyId;
-			this.insuredFirstName = insuredFirstName;
-			this.insuredLastName = insuredLastName;
-
-		}
-
-		public String getRecordType() {
-			return recordType;
-		}
-
-		public String getRequestRefereceId() {
-			return requestReferenceId;
-		}
-
-		public String getRefundType() {
-			return refundType;
-		}
-
-		public String getRefundMethod() {
-			return refundMethod;
-		}
-
-		public String getIssueDate() {
-			return issueDate;
-		}
-
-		public String getAgreementNumber() {
-			return agreementNumber;
-		}
-
-		public String getAgreementSourceSystem() {
-			return agreementSourceSystem;
-		}
-
-		public String getProductType() {
-			return productType;
-		}
-
-		public String getCompanyId() {
-			return companyId;
-		}
-
-		public String getInsuredFirstName() {
-			return insuredFirstName;
-		}
-
-		public String getInsuredLastName() {
-			return insuredLastName;
-		}
-
-		@Override
-		public String toString() {
-			return "records [recordType=" + recordType + ", requestRefereceId=" + requestReferenceId
-					+ ", refundType=" + refundType + ", refundMethod=" + refundMethod +","
-					+ " issueDate=" + issueDate +", agreementNumber=" + agreementNumber +", agreementSourceSystem=" + agreementSourceSystem
-					+ ", productType=" + productType +", companyId=" + companyId + ", productType=" + productType
-					+ ", companyId=" + companyId + ", insuredFirstName=" + insuredFirstName +", insuredLastName=" + insuredLastName +"]";
-		}
-	}
-
 
 }

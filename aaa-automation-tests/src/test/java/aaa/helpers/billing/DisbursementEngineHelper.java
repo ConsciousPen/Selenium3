@@ -5,6 +5,8 @@ import java.nio.CharBuffer;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import aaa.helpers.ssh.RemoteHelper;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -56,32 +58,6 @@ public class DisbursementEngineHelper {
 		return file;
 	}
 
-	public static synchronized File readFile(Class<DisbursementEngineFileBuilder> builder, String fileNameLastPart) {
-		final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-		final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("MMddyyyy");
-		final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");
-		File file;
-		String fileName;
-		LocalDateTime date = DateTimeUtils.getCurrentDateTime();
-
-		do {
-			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_" + fileNameLastPart + ".csv";
-			file = new File(CustomLogger.getLogDirectory().concat("/DisbursementEngine_Files/"), fileName);
-			date = date.plusSeconds(1);
-		} while (file.exists());
-		/*file.getParentFile().mkdir();*/
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|{0}|ETLNONPROD|71DCF95E-C|{1}|{2}|C48192E5-E|1\n", fileNameLastPart, fileName, date.format(DATE_TIME_PATTERN));
-			br.read(CharBuffer.wrap(header));
-/*			br.read(builder.buildData(date.format(DATE_PATTERN)));
-			br.read(builder.buildTrail());*/
-			br.read();
-		} catch (IOException e) {
-			throw new IstfException(e);
-		}
-		return file;
-	}
 
 	public static synchronized void copyFileToServer(File file, String folderName) {
 		if (file == null)
@@ -176,6 +152,265 @@ public class DisbursementEngineHelper {
 
 		public String buildTrail() {
 			return "T|1|" + refundAmount + "\n";
+		}
+	}
+
+	public static List readDisbursementFile(String path) throws IOException {
+		List<DisbursementFile> lines = new ArrayList<>();
+		BufferedReader br = new BufferedReader(new FileReader(path));
+
+		String line = br.readLine(); // Reading header, Ignoring
+		//String line = "";
+		try {
+			while ((line = br.readLine()) != null && !line.isEmpty()) {
+				String cvsSplitBy = "\\|";
+				String[] fields = line.split(cvsSplitBy);
+				String recordType = fields[0];
+				String requestReferenceId = fields[1];
+				String refundType = fields[2];
+				String refundMethod = fields[3];
+				String issueDate = fields[4];
+				String agreementNumber = fields[5];
+				String agreementSourceSystem = fields[6];
+				String productType = fields[7];
+				String companyId = fields[8];
+				String insuredFirstName = fields[9];
+				String insuredLastName = fields[10];
+				String additionalInsuredFirstName = fields[10];
+				String additionalInsuredLastName = fields[11];
+				String deceasedNamedInsuredFlag = fields[12];
+				String policyState = fields[13];
+				String refundAmount = fields[14];
+				String payeeName = fields[15];
+				String payeeStreetAddress1 = fields[16];
+				String payeeStreetAddress2 = fields[17];
+				String payeeCity = fields[18];
+				String payeeState = fields[19];
+				String payeeZip = fields[20];
+				String insuredEmailId = fields[21];
+				String checkNumber = fields[22];
+				String printerIdentificationCode = fields[23];
+				String refundReason = fields[24];
+				String refundReasonDescription = fields[25];
+				String referencePaymentTransactionNumber = fields[25];
+				String eRefundEligible = fields[27];
+
+				DisbursementFile records = new DisbursementFile(recordType, requestReferenceId, refundType, refundMethod, issueDate, agreementNumber, agreementSourceSystem,
+						productType, companyId, insuredFirstName, insuredLastName, additionalInsuredFirstName, additionalInsuredLastName, deceasedNamedInsuredFlag, policyState, refundAmount,
+						payeeName, payeeStreetAddress1, payeeStreetAddress2, payeeCity, payeeState, payeeZip, insuredEmailId, checkNumber, printerIdentificationCode, refundReason,
+						refundReasonDescription, referencePaymentTransactionNumber, eRefundEligible);
+				lines.add(records);
+			}
+		} catch (ArrayIndexOutOfBoundsException E) {
+		}
+		br.close();
+		return lines;
+	}
+
+	public static class DisbursementFile {
+		private String recordType;
+		private String requestReferenceId;
+		private String refundType;
+		private String refundMethod;
+		private String issueDate;
+		private String agreementNumber;
+		private String agreementSourceSystem;
+		private String productType;
+		private String companyId;
+		private String insuredFirstName;
+		private String insuredLastName;
+		private String additionalInsuredFirstName;
+		private String additionalInsuredLastName;
+		private String deceasedNamedInsuredFlag;
+		private String policyState;
+		private String refundAmount;
+		private String payeeName;
+		private String payeeStreetAddress1;
+		private String payeeStreetAddress2;
+		private String payeeCity;
+		private String payeeState;
+		private String payeeZip;
+		private String insuredEmailId;
+		private String checkNumber;
+		private String printerIdentificationCode;
+		private String refundReason;
+		private String refundReasonDescription;
+		private String referencePaymentTransactionNumber;
+		private String eRefundEligible;
+
+
+		public DisbursementFile(String recordType, String requestReferenceId, String refundType, String refundMethod,
+				String issueDate, String agreementNumber, String agreementSourceSystem, String productType, String companyId, String insuredFirstName, String insuredLastName,
+				String additionalInsuredFirstName, String additionalInsuredLastName, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
+				String payeeName, String payeeStreetAddress1, String payeeStreetAddress2, String payeeCity, String payeeState, String payeeZip, String insuredEmailId,
+				String checkNumber, String printerIdentificationCode, String refundReason, String refundReasonDescription, String referencePaymentTransactionNumber, String eRefundEligible) {
+			this.recordType = recordType;
+			this.requestReferenceId = requestReferenceId;
+			this.refundType = refundType;
+			this.refundMethod = refundMethod;
+			this.issueDate = issueDate;
+			this.agreementNumber = agreementNumber;
+			this.agreementSourceSystem = agreementSourceSystem;
+			this.productType = productType;
+			this.companyId = companyId;
+			this.insuredFirstName = insuredFirstName;
+			this.insuredLastName = insuredLastName;
+			this.additionalInsuredFirstName = additionalInsuredFirstName;
+			this.additionalInsuredLastName = additionalInsuredLastName;
+			this.deceasedNamedInsuredFlag = deceasedNamedInsuredFlag;
+			this.policyState = policyState;
+			this.refundAmount = refundAmount;
+			this.payeeName = payeeName;
+			this.payeeStreetAddress1 = payeeStreetAddress1;
+			this.payeeStreetAddress2 = payeeStreetAddress2;
+			this.payeeCity = payeeCity;
+			this.payeeState = payeeState;
+			this.payeeZip = payeeZip;
+			this.insuredEmailId = insuredEmailId;
+			this.checkNumber = checkNumber;
+			this.printerIdentificationCode = printerIdentificationCode;
+			this.refundReason = refundReason;
+			this.refundReasonDescription = refundReasonDescription;
+			this.referencePaymentTransactionNumber = referencePaymentTransactionNumber;
+			this.eRefundEligible = eRefundEligible;
+
+		}
+
+		public String getRecordType() {
+			return recordType;
+		}
+
+		public String getRequestRefereceId() {
+			return requestReferenceId;
+		}
+
+		public String getRefundType() {
+			return refundType;
+		}
+
+		public String getRefundMethod() {
+			return refundMethod;
+		}
+
+		public String getIssueDate() {
+			return issueDate;
+		}
+
+		public String getAgreementNumber() {
+			return agreementNumber;
+		}
+
+		public String getAgreementSourceSystem() {
+			return agreementSourceSystem;
+		}
+
+		public String getProductType() {
+			return productType;
+		}
+
+		public String getCompanyId() {
+			return companyId;
+		}
+
+		public String getInsuredFirstName() {
+			return insuredFirstName;
+		}
+
+		public String getInsuredLastName() {
+			return insuredLastName;
+		}
+
+		public String getRequestReferenceId() {
+			return requestReferenceId;
+		}
+
+		public String getAdditionalInsuredFirstName() {
+			return additionalInsuredFirstName;
+		}
+
+		public String getAdditionalInsuredLastName() {
+			return additionalInsuredLastName;
+		}
+
+		public String getDeceasedNamedInsuredFlag() {
+			return deceasedNamedInsuredFlag;
+		}
+
+		public String getPolicyState() {
+			return policyState;
+		}
+
+		public String getRefundAmount() {
+			return refundAmount;
+		}
+
+		public String getPayeeName() {
+			return payeeName;
+		}
+
+		public String getPayeeStreetAddress1() {
+			return payeeStreetAddress1;
+		}
+
+		public String getPayeeStreetAddress2() {
+			return payeeStreetAddress2;
+		}
+
+		public String getPayeeCity() {
+			return payeeCity;
+		}
+
+		public String getPayeeState() {
+			return payeeState;
+		}
+
+		public String getPayeeZip() {
+			return payeeZip;
+		}
+
+		public String getInsuredEmailId() {
+			return insuredEmailId;
+		}
+
+		public String getCheckNumber() {
+			return checkNumber;
+		}
+
+		public String getPrinterIdentificationCode() {
+			return printerIdentificationCode;
+		}
+
+		public String getRefundReason() {
+			return refundReason;
+		}
+
+		public String getRefundReasonDescription() {
+			return refundReasonDescription;
+		}
+
+		public String getReferencePaymentTransactionNumber() {
+			return referencePaymentTransactionNumber;
+		}
+
+		public String geteRefundEligible() {
+			return eRefundEligible;
+		}
+
+		@Override
+		public String toString() {
+			return "records [recordType=" + recordType + ", requestRefereceId=" + requestReferenceId
+					+ ", refundType=" + refundType + ", refundMethod=" + refundMethod + ","
+					+ " issueDate=" + issueDate + ", agreementNumber=" + agreementNumber + ", agreementSourceSystem=" + agreementSourceSystem
+					+ ", productType=" + productType + ", companyId=" + companyId + ", productType=" + productType
+					+ ", companyId=" + companyId + ", insuredFirstName=" + insuredFirstName + ", insuredLastName=" + insuredLastName
+					+ ", additionalInsuredFirstName=" + additionalInsuredFirstName + ", additionalInsuredLastName=" + additionalInsuredLastName + ", deceasedNamedInsuredFlag="
+					+ deceasedNamedInsuredFlag
+					+ ", policyState=" + policyState + ", refundAmount=" + refundAmount + ", payeeName=" + payeeName
+					+ ", payeeStreetAddress1=" + payeeStreetAddress1 + ", payeeStreetAddress2=" + payeeStreetAddress2 + ", payeeCity=" + payeeCity
+					+ ", payeeState=" + payeeState + ", payeeZip=" + payeeZip + ", insuredEmailId=" + insuredEmailId
+					+ ", checkNumber=" + checkNumber + ", printerIdentificationCode=" + printerIdentificationCode + ", refundReason=" + refundReason
+					+ ", refundReasonDescription=" + refundReasonDescription + ", referencePaymentTransactionNumber=" + referencePaymentTransactionNumber + ", eRefundEligible=" + eRefundEligible
+					+ "]";
 		}
 	}
 }
