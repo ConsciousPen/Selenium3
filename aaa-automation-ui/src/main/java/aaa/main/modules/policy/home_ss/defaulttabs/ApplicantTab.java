@@ -27,9 +27,11 @@ public class ApplicantTab extends Tab {
 
     @Override
     public Tab submitTab() {
-    	//TODO OSI: Workaround, sometimes not navigating to next tab from first attempt
 	    btnContinue.click();
-    	btnContinue.click();
+	    //TODO OSI: Workaround, sometimes not navigating to next tab from first attempt
+	    if(this.getAgentInfoAssetList().getAsset(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT_OF_RECORD).isPresent()){
+		    btnContinue.click();
+	    }
         return this;
     }
     
