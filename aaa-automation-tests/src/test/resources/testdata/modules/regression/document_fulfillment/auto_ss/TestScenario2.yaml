@@ -21,19 +21,16 @@ TestData_VA: {
     Comprehensive Deductible: 'contains=$750',
     Collision Deductible: 'contains=$500'
   },
-  ErrorTab: {
-    ErrorsOverride: [{
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      eValue Acknowledgement: Physically Signed
     },
-    {
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
-    }]
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    }
   },
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
 }

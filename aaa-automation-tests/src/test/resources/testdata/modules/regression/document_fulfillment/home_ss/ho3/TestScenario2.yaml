@@ -1,0 +1,27 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Bill to at renewal: Mortgagee
+}
+
+MortgageesTab: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: {
+    Name: Louie Espinoza,
+    Zip code: 85003,
+    Street address 1: 265 CHIPMAN AVE,
+    Loan number: 12345678,
+    Validate Address: '',
+    Validate Address Dialog: {}
+  }
+}
+  
+DocumentsTab: {
+  DocumentsToIssue: {
+    Signed policy application: Physically Signed
+  }
+}

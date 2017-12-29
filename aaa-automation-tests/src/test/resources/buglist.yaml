@@ -215,8 +215,12 @@ PAS-7265:
       messages: ['Y']
 PAS-7427:
   summary: "Regression: The Membership Validation rule is displayed wrongly"
+PAS-7673:
+  summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
   reason: PROD
   failures:
+    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
+      messages: ["Cannot set value of AssetList {PurchaseTab"]
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
 OSI-1111:
