@@ -258,7 +258,16 @@ public class Scenario10 extends ScenarioBaseTest {
 	
 	//For AutoSS
 	protected void payRenewalBill() {
-		payCashAndCheckBill(policyExpirationDate);
+		payCashAndCheckBill(policyExpirationDate); 
+		
+		BillingSummaryPage.showPriorTerms();		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate);
+		if (getPolicyType().isAutoPolicy()) {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+		}
+		else {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+		}
 	}
 	
 	//For AutoCA
@@ -274,8 +283,14 @@ public class Scenario10 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate);
+		//new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+		if (getPolicyType().isAutoPolicy()) {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+		}
+		else {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Eleven Pay Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+		}
 	}
 	
 	protected void generateFirstBillOfRenewal(){
