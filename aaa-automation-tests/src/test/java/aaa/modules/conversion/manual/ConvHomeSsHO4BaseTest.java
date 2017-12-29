@@ -1,9 +1,9 @@
 package aaa.modules.conversion.manual;
 
-import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.policy.HomeSSHO4BaseTest;
 import toolkit.datax.TestData;
 
-public class ConvSsHo3BaseTest extends HomeSSHO3BaseTest implements ManualConversionHelper {
+public class ConvHomeSsHO4BaseTest extends HomeSSHO4BaseTest implements ManualConversionHelper {
 
     @Override
     protected TestData prepareManualConversionTd() {

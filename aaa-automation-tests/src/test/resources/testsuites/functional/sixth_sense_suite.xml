@@ -33,7 +33,22 @@
     </test>
     <test name="Policy Conversation without ordering reports">
         <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversationNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
+        </classes>
+    </test>
+    <test name="Policy Conversation without ordering reports">
+        <classes>
+            <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
+        </classes>
+    </test>
+    <test name="Policy Conversation without ordering reports">
+        <classes>
+            <class name="aaa.modules.conversion.manual.home_ss.ho4.TestConversionNoClueISO360InspectionReports"/>
+        </classes>
+    </test>
+    <test name="Policy Conversation without ordering reports">
+        <classes>
+            <class name="aaa.modules.conversion.manual.home_ss.ho6.TestConversionNoClueISO360InspectionReports"/>
         </classes>
     </test>
 
