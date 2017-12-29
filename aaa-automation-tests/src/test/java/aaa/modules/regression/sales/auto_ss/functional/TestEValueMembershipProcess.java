@@ -55,6 +55,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
 	private ErrorTab errorTab = new ErrorTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	@Test(description = "Check membership endpoint")
 	public static void retrieveMembershipSummaryEndpointCheck() {
@@ -437,6 +438,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		membershipEligibilityEndorsementCreation(membershipStatus);
+
+
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
@@ -479,6 +487,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		}
 	}
+
+
 
 	private void lastTransactionHistoryExit() {
 		if (Tab.buttonCancel.isPresent()) {
@@ -554,10 +564,20 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private void membershipEligibilityPolicyCreation(String membershipStatus) {
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.eValueQuoteCreation();
 
+		testEValueDiscount.eValueQuoteCreation();
 		policy.dataGather().start();
+		setMembershipAndRate(membershipStatus);
+		testEValueDiscount.simplifiedQuoteIssue();
+	}
+
+	private void membershipEligibilityEndorsementCreation(String membershipStatus) {
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		setMembershipAndRate(membershipStatus);
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+	}
+
+	private void setMembershipAndRate(String membershipStatus) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		if ("Active".equals(membershipStatus)) {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
@@ -612,20 +632,18 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
-		testEValueDiscount.simplifiedQuoteIssue();
 	}
 
-	//@Test
 	private void jobsNBplus15plus30runNoChecks() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-		//JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
 		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-		//JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
+		JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
 		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
-		//JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
 	}
 
 	private void eValueDiscountStatusCheck(String policyNumber, String status) {

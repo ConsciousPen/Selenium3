@@ -320,7 +320,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		//2DD1+10 
 		LocalDateTime refundDueDate = policyExpirationDate.plusMonths(1).plusDays(10);
 		TimeSetterUtil.getInstance().nextPhase(refundDueDate);		
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum); 

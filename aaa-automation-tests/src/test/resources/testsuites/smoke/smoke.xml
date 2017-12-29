@@ -3,7 +3,7 @@
     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="methods"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
     <suite-files>
         <suite-file path="./auto_smoke.xml"/>
         <suite-file path="./property_smoke.xml"/>

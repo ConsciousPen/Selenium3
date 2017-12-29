@@ -36,17 +36,6 @@ NamedInsuredInformation2: {
   Residence: Own Home,
 }
 
-#NamedInsuredInformation3: {
-  #InsuredSearchDialog: {},
-  #First Name: John,
-  #Last Name: Smith,
-  #Base Date: $<today>,
-  #Social Security Number: 223456789,
-  #"Has lived here for less than three years?": 'No',
-  #Residence: Own Home,
-#}
-
-
 DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
