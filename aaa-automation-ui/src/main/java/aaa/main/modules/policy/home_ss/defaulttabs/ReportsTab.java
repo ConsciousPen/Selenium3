@@ -42,23 +42,23 @@ public class ReportsTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		if (getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()
-				&& StringUtils.isBlank(getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-				.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
-
-			getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(8).controls.links.get(1).click();
-			getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getAsset(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG)
-					.setValue(createTestData());
-		}
 		buttonNext.click();
 		return this;
 	}
 
 	@Override
 	public Tab fillTab(TestData td) {
-		synchronized(lock) {
+		synchronized (lock) {
 			assetList.fill(td);
+			if (td != null && td.containsKey(getMetaKey()) && getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()
+					&& StringUtils.isBlank(getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
+
+				getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+						.getCell(8).controls.links.get(1).click();
+				getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getAsset(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG)
+						.setValue(createTestData());
+			}
 		}
 		return this;
 	}
