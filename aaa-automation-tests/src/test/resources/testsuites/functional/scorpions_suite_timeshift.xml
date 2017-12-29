@@ -9,7 +9,7 @@
     <!--The tests are updating configuration on the fly and sequential execution is needed-->
     <test name="PAS-2716 Update VIN Refresh Auto SS">
         <classes>
-            <class name="aaa.modules.regression.preconditions.JobAdding">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
                 <methods>
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>

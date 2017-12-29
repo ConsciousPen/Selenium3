@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
+<suite name="Scorpions Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
     <!-- Listener commented out for local runs-->
     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
