@@ -77,9 +77,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String manualRefundAmount = "100";
         String automatedRefundAmount = "101";
         mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3950605139");
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-/*        createCustomerIndividual();
+/*        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3950605139");
+        String policyNumber = PolicySummaryPage.getPolicyNumber();*/
+        createCustomerIndividual();
         String policyNumber = createPolicy();
         log.info("policyNumber: {}", policyNumber);
 
@@ -90,7 +90,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
-        bindTab.submitTab();*/
+        bindTab.submitTab();
 
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
@@ -100,7 +100,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //CustomAssert.enableSoftMode();
         //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", manualRefundAmount,"", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC","Y", "VA", manualRefundAmount,"", "N");
 
         Dollar totalDue = BillingSummaryPage.getTotalDue();
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
@@ -109,7 +109,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", automatedRefundAmount,"", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "Y", "VA", automatedRefundAmount,"", "N");
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();

@@ -77,20 +77,20 @@ TheftProtectiveTPDD: {
 HomeRenovation: {
   "Plumbing renovation": '100% Copper',
   "Plumbing % complete": 100,
-  "Plumbing Month of completion": 12,
-  "Plumbing Year of completion": 2009,
+  "Plumbing Month of completion": 1,
+  "Plumbing Year of completion": "$<today:yyyy>",
   "Electrical renovation": '100% Circuit/Romex',
   "Electrical % complete": 100,
-  "Electrical Month of completion": 12,
-  "Electrical Year of completion": 2009,
+  "Electrical Month of completion": 1,
+  "Electrical Year of completion": "$<today:yyyy>",
   "Roof renovation": '100% Replace',
   "Roof % complete": 100,
-  "Roof Month of completion": 12,
-  "Roof Year of completion": 2009,
+  "Roof Month of completion": 1,
+  "Roof Year of completion": "$<today:yyyy>",
   "Heating/cooling renovation": 'Forced Air',
   "Heating/cooling % complete": 100,
-  "Heating/cooling Month of completion": 12,
-  "Heating/cooling Year of completion": 2009,
+  "Heating/cooling Month of completion": 1,
+  "Heating/cooling Year of completion": "$<today:yyyy>",
   Green Home discount: 'Yes'
 }
 
@@ -126,7 +126,7 @@ DocumentsTab1: {
 
 DocumentsTab2: {
   DocumentsToBind: {
-    Proof of ENERGY STAR appliances or green home features: 'No',
+    "Proof of ENERGY STAR appliances or green home features": 'No',
     Proof of central fire alarm: 'No',
     Proof of central theft alarm: 'No',
     Proof of home renovations for the Home Modernization discount: 'No',

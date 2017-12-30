@@ -7,14 +7,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.ssh.RemoteHelper;
+import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.utils.logging.CustomLogger;
 
 public class DisbursementEngineHelper {
 
-	public static String DISBURSEMENT_ENGINE_PATH = "/AAA/JobFolders/%1$s/inbound/%2$s";
+	public static final String DISBURSEMENT_ENGINE_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER)+"%1$s/inbound/%2$s";
 
 	/**
 	 * This method is used for prepare disbursement engine file with data specified by input parameters.
@@ -201,7 +203,7 @@ public class DisbursementEngineHelper {
 						refundReasonDescription, referencePaymentTransactionNumber, eRefundEligible);
 				lines.add(records);
 			}
-		} catch (ArrayIndexOutOfBoundsException E) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 		}
 		br.close();
 		return lines;
