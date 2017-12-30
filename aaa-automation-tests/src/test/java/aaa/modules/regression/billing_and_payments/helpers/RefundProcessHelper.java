@@ -122,7 +122,7 @@ public class RefundProcessHelper extends PolicyBilling {
             CustomAssert.assertEquals(neededLine.getRefundType(), refundType);
             // RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
             if (refundMethod.contains("Check")) {
-                CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
+                CustomAssert.assertEquals(neededLine.getRefundMethod(), "CHCK");
             } else if (refundMethod.contains("ACH")) {
                 CustomAssert.assertEquals(neededLine.getRefundMethod(), "EFT");
             } else if (refundMethod.contains("Card")) {

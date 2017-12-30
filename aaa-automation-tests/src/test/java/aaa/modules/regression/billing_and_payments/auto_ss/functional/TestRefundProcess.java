@@ -118,7 +118,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
     @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
-    public void pas2186_RefundProcessCheck(@Optional("VA") String state) {
+    public void pas2186_RefundProcessCheck(@Optional("VA") String state) throws IOException {
         Dollar refundAmount1 = new Dollar(25);
         Dollar refundAmount2 = new Dollar(100);
         Dollar refundAmount3 = new Dollar(100);
@@ -152,7 +152,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         acceptPaymentActionTab.cancel();
         //PAS-1462 end
 
-        billingAccount.refund().perform(tdRefund, new Dollar(refundAmount1));
+        billingAccount.refund().perform(tdRefund, refundAmount1);
 
         Map<String, String> refund1 = new HashMap<>();
         refund1.put(TRANSACTION_DATE, checkDate1);
@@ -160,6 +160,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refund1.put(SUBTYPE_REASON, "Manual Refund");
         pas453_unissuedRefundActionsCheck(refund1, true);
         unissuedRefundRecordDetailsCheck(refundAmount1, checkDate1, refund1, true);
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", paymentMethod, "PA", "4WUIC", "N", "VA", refundAmount1.toString(),"test@gmail.com", "Y");
 
         //PAS-6615 start
         getRefundTransactionID();
@@ -194,6 +195,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         pas453_unissuedRefundActionsCheck(refund2, false);
         //BUG PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change
         unissuedRefundRecordDetailsCheck(refundAmount2, checkDate2, refund2, false);
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", paymentMethod, "PA", "4WUIC", "N", "VA", refundAmount2.toString(),"test@gmail.com", "Y");
 
         //PAS-1939 Start
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund2).getCell(ACTION).controls.links.get("Void").click();
