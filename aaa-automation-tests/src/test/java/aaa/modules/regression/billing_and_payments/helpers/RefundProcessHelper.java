@@ -96,7 +96,7 @@ public class RefundProcessHelper extends PolicyBilling {
             String refundAmount, String email, String refundEligible)
             throws IOException {
         //TODO waitForFilesAppearance doesn't work in VDMs
-        /*if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {*/
+        if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
             mainApp().open();
             SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
             BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
@@ -157,6 +157,6 @@ public class RefundProcessHelper extends PolicyBilling {
             CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
             CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
             CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
-        /*}*/
+        }
     }
 }
