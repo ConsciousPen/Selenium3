@@ -60,7 +60,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountVA">
+    <test name="TestEValueDiscountVA1">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -77,11 +77,48 @@
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA2">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="eValueAcknowledgementConfigCheck"/>
+                    <include name="eValueConfigCheck"/>
+                    <include name="eValueMembershipConfigCheck"/>
+                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
+                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
+                    <include name="paperlessPreferencesConfigCheck"/>
+                    <include name="precondJobAdding"/>
+                    <include name="eValuePriorBiConfigCheck"/>
+
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
                     <include name="pas305_eValueDiscountApplied"/>
                     <include name="pas325_eValueCommissionRelatedFields"/>
                     <include name="pas436_eValueDiscountVariations"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountVA3">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="eValueAcknowledgementConfigCheck"/>
+                    <include name="eValueConfigCheck"/>
+                    <include name="eValueMembershipConfigCheck"/>
+                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
+                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
+                    <include name="paperlessPreferencesConfigCheck"/>
+                    <include name="precondJobAdding"/>
+                    <include name="eValuePriorBiConfigCheck"/>
+
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
                     <include name="pas3693_eValueConfiguration"/>

@@ -246,6 +246,12 @@ OSI-1113:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck]
       messages: ["Cannot get value of Link"]
+OSI-1114:
+  summary: "OSI: the test passes locally, but fails in Jenkins"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
+      messages: ["LoginPanel is displayed expected"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD
