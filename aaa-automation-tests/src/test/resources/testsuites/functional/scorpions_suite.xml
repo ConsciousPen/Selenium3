@@ -88,7 +88,7 @@
         </classes>
     </test>
 
-    <test name="PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
+    <test name="Auto SS PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
                 <methods>
@@ -98,7 +98,7 @@
         </classes>
     </test>
 
-    <test name="PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
+    <test name="Auto СA Select PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
@@ -108,7 +108,7 @@
         </classes>
     </test>
 
-    <test name="PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
+    <test name="Auto СA Сhoice PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>

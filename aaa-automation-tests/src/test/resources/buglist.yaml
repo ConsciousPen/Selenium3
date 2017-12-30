@@ -215,6 +215,10 @@ PAS-7265:
       messages: ['Y']
 PAS-7427:
   summary: "Regression: The Membership Validation rule is displayed wrongly"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e]
+      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
 PAS-7673:
   summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
   reason: PROD
