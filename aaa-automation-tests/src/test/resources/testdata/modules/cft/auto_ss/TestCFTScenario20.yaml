@@ -8,7 +8,15 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
+  }
 }
 
 AcceptPaymentActionTab: {

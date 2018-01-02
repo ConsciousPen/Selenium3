@@ -8,18 +8,21 @@ Endorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
+  }
 }
 
 EndorsementActionTab_Endorse: {
   Endorsement Date: $<today>,
   Endorsement Reason: Maintain Vehicle(s)
 }
-
-#DriverActivityReportsTab_Endorse: {
-#  Sales Agent Agreement: I Agree,
-#  Validate Driving History: click
-#}
 
 DriverTab_Endorse: {
     ADB Coverage: 'Yes'

@@ -11,6 +11,14 @@ TestData: {
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
   BindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
+  },
   PurchaseTab: '@PurchaseTab'
 }
 

@@ -27,6 +27,8 @@ public class TestCFTScenario23 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario23(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
+		generateRenewalImage();
+		generateRenewalOffer();
 		validatePLIGAFeeOnRenewGenOfferDate();
 		generateRenewalOfferBill();
 		acceptMinDuePaymentOnUpdatePolicyStatusDate();

@@ -909,10 +909,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime genOfferDate = getTimePoints().getRenewOfferGenerationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
 		TimeSetterUtil.getInstance().nextPhase(genOfferDate);
 		log.info("PLIGA fee validation on {}", genOfferDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar pligaFee = BillingHelper.calculatePligaFee(genOfferDate, BillingSummaryPage.getInstallmentAmount(1));
+		Dollar pligaFee = BillingHelper.calculatePligaFee(TimeSetterUtil.getInstance().getStartTime(), BillingSummaryPage.getTotalPaid());
 		new BillingPaymentsAndTransactionsVerifier()
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE)

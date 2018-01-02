@@ -15,6 +15,14 @@ TestData: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     Authorized By: QA
+  },
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
   }
 }  
 

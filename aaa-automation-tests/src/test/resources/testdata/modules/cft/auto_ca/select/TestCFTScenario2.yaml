@@ -9,6 +9,14 @@ TestData: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
+  },
   CancellationActionTab: '@CancellationActionTab',
   ReinstatementActionTab: '@ReinstatementActionTab'
 }
