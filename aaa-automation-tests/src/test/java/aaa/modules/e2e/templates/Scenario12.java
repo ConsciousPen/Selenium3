@@ -324,11 +324,11 @@ public class Scenario12 extends ScenarioBaseTest {
 		new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(true);
 		Tab.buttonCancel.click();
 		
-		//temp verification
+		//verify payment plans are not changed
 		BillingSummaryPage.showPriorTerms();		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Semi-Annual").verifyPresent();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent(); 
-
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent(); 		
+		BillingSummaryPage.buttonHidePriorTerms.click();
 	}
 	
 	protected void payRenewalBill(){
@@ -347,7 +347,13 @@ public class Scenario12 extends ScenarioBaseTest {
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT).verifyPresent(false);
 		
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());			
+		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());	
+		
+		//verify payment plans are not changed
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPaymentPlan("Semi-Annual").verifyRowWithEffectiveDate(policyEffectiveDate); 
+		new BillingAccountPoliciesVerifier().setPaymentPlan("Quarterly (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+		BillingSummaryPage.buttonHidePriorTerms.click();
 	}
 	
 	protected void updatePolicyStatus() {
