@@ -219,3 +219,46 @@ PAS-7427:
   failures:
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
+PAS-7673:
+  summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
+      messages: ["Cannot set value of AssetList {PurchaseTab"]
+    - tests: [aaa.modules.e2e]
+      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
+OSI-1111:
+  summary: "OSI: no dxp configuration"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.*,
+    aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.*,
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.*]
+      messages: ["Entity input stream has already been closed."]
+OSI-1112:
+  summary: "OSI: the test passes locally, but fails in Jenkins"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
+      messages: ["Timed out waiting for page load"]
+OSI-1113:
+  summary: "OSI: rummors have it that Issue link needs to be removed for Automated and Manual refunds"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck]
+      messages: ["Cannot get value of Link"]
+OSI-1114:
+  summary: "OSI: the test passes locally, but fails in Jenkins"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
+      messages: ["LoginPanel is displayed expected"]
+PAS-7702:
+  summary: "When issuing some policies, documents are not generated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiAuto]
+      messages: ["No value present"]

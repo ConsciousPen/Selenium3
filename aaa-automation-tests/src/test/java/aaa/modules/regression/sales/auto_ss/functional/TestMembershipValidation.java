@@ -41,7 +41,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_NewBusiness_NoMatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_NoMatch").resolveLinks();
@@ -61,7 +61,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_NewBusiness_AllMatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_AllMatch").resolveLinks();
@@ -81,7 +81,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_NewBusiness_FNmatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_FNmatch").resolveLinks();
@@ -101,7 +101,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_NewBusiness_LNmatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_LNmatch").resolveLinks();
@@ -121,7 +121,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_NewBusiness_DOBmatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_DOBmatch").resolveLinks();
@@ -142,7 +142,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_Endorsement_NoMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo").resolveLinks();
@@ -164,7 +164,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_Endorsement_SomeMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
@@ -186,7 +186,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_Manual_Renewal_NoMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo").resolveLinks();
@@ -208,7 +208,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_Manual_Renewal_SomeMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
@@ -229,7 +229,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668")
 	public void pas6668_Validate_Override_Manual_Renewal_DummyNumber(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
@@ -251,7 +251,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668")
 	public void pas6668_Validate_Override_Automated_Renewal_DummyNumber(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
@@ -278,7 +278,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_NewBusiness_NoMatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_NoMatch_PAS6800").resolveLinks();
@@ -298,7 +298,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_NewBusiness_AllMatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_AllMatch_PAS6800").resolveLinks();
@@ -318,7 +318,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_NewBusiness_FNmatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_FNmatch_PAS6800").resolveLinks();
@@ -338,7 +338,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_NewBusiness_LNmatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_LNmatch_PAS6800").resolveLinks();
@@ -358,7 +358,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_NewBusiness_DOBmatch(@Optional("AZ") String state) {
 		TestData tdSpecific = getTestSpecificTD("TestData_MembershipValidation_NB_DOBmatch_PAS6800").resolveLinks();
@@ -379,7 +379,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_Endorsement_NoMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_PAS6800").resolveLinks();
@@ -401,7 +401,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_Endorsement_SomeMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch_PAS6800").resolveLinks();
@@ -423,7 +423,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_Manual_Renewal_NoMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_PAS6800").resolveLinks();
@@ -445,7 +445,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6800")
 	public void pas6800_Validate_Override_Manual_Renewal_SomeMatch(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch_PAS6800").resolveLinks();
