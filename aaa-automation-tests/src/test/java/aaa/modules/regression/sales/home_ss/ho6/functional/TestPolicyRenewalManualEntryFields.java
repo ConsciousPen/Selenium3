@@ -77,6 +77,5 @@ public class TestPolicyRenewalManualEntryFields extends HomeSSHO6BaseTest {
 
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE.getLabel()).getValue()).isEqualTo(currentDate);
 
-        Tab.buttonSaveAndExit.click();
     }
 }
