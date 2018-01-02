@@ -44,7 +44,6 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 	 *    Loyalty discount: Days Lapsed = 4, Months with Carrier = 35
 	 * 6. Perform Flat Endorsement
 	 * 7. Enter data to update discounts and check discounts displayed:
-	 *    Payment Plan Discount: Payment Plan is 'Semi-Annual', Term is 'Annual'
 	 *    Multi-policy discount (Motorcycle, Life, Renters): Motorcycle = Yes, Life = Yes, Home = No, Renters = Yes, Condo = No
 	 *    Loyalty discount: Days Lapsed = 3, Months with Carrier = 12
 	 * 8. Perform Mid-term Endorsement 1
@@ -157,9 +156,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		//set Condo = No
 		generalTab.fillTab(getTestSpecificTD("GeneralTab_Discounts4"));
 		
-		//set Payment plan to 'Semi-annual'
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_Discounts4"));
 		
 		currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
 		//check discounts is displayed on Premium&Coverages tab
