@@ -261,12 +261,12 @@ public class Scenario10 extends ScenarioBaseTest {
 		payCashAndCheckBill(policyExpirationDate); 
 		
 		BillingSummaryPage.showPriorTerms();		
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate);
 		if (getPolicyType().isAutoPolicy()) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
 		}
 		else {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Eleven Pay Standard (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
 		}
 	}
 	
