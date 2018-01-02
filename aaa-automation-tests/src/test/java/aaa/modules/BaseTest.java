@@ -481,7 +481,7 @@ public class BaseTest {
 		log.info("Conversion Policy Creation Started...");
 		initiateManualConversion();
 		getPolicyType().get().getDefaultView().fill(td);
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		String policyNumber = PolicySummaryPage.linkPolicy.getValue();
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
 	}
 
