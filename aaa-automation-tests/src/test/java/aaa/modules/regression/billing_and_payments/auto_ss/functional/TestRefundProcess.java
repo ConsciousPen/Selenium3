@@ -309,7 +309,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String amount = "10";
         String paymentMethod = "Credit card";
         CustomAssert.enableSoftMode();
-	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod,billingPaymentMethod);
+	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod, billingPaymentMethod);
 	    CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -338,7 +338,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String amount = "22";
         String paymentMethod = "Debit card";
         CustomAssert.enableSoftMode();
-	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod,billingPaymentMethod);
+	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod, billingPaymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -367,7 +367,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String amount = "33";
         String paymentMethod = "ACH";
         CustomAssert.enableSoftMode();
-	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod,billingPaymentMethod);
+	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod, billingPaymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
