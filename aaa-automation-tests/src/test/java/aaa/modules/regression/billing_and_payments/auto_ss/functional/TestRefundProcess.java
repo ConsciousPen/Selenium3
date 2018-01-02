@@ -1,5 +1,4 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
-
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
@@ -306,11 +305,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     public void pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard(@Optional("VA") String state) {
 
         String message = "Credit Card Visa-4113 expiring 01/22";
+	    String billingPaymentMethod="AAAPaymentDetailsPCICreditCard";
         String amount = "10";
         String paymentMethod = "Credit card";
         CustomAssert.enableSoftMode();
-        pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod);
-        CustomAssert.disableSoftMode();
+	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod,billingPaymentMethod);
+	    CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
@@ -334,10 +334,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     public void pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc(@Optional("AZ") String state) {
 
         String message = "Debit Card MasterCard-4444 expiring 05/20";
+	    String billingPaymentMethod="AAAPaymentDetailsPCICreditCard";
         String amount = "22";
         String paymentMethod = "Debit card";
         CustomAssert.enableSoftMode();
-        pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod);
+	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod,billingPaymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -362,15 +363,16 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     public void pas352_RefundMethodAndDropdownLastPaymentMethodEFT(@Optional("MD") String state) {
 
         String message = "Checking/Savings (ACH) #,1542";
+	    String billingPaymentMethod ="AAAPaymentDetailsEFT";
         String amount = "33";
         String paymentMethod = "ACH";
         CustomAssert.enableSoftMode();
-        pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod);
+	    pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod,billingPaymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
-    private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String paymentMethod) {
+    private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String paymentMethod, String billingPaymentMethod ) {
         precondJobAdding();
         mainApp().open();
         createCustomerIndividual();
@@ -454,6 +456,38 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         pas453_issuedUnprocessedRefundRecordDetailsCheck(new Dollar(amount), transactionDate, refund2, true, false);
         //PAS-2728 End
 
+	    //PAS-6152 Start
+
+	    manualRefundPerform(message, amount);
+	    String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+	    String transactionDate7 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+	    Map<String, String> refund9= ImmutableMap.of(
+			    TRANSACTION_DATE, transactionDate7,
+			    STATUS, "Approved",
+			    TYPE, "Refund",
+			    SUBTYPE_REASON, "Manual Refund"
+	    );
+	    BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund9).getCell(TYPE).controls.links.get(1).click();
+	    String transactionID1 = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
+	    CustomAssert.enableSoftMode();
+	    Map<String,String> transactionsFromDB = getRefundTransactionsFromDB( transactionID1, billingAccountNumber,  "CREDIT" );
+	    CustomAssert.assertEquals(amount, transactionsFromDB.get("ENTRYAMT"));
+
+	    CustomAssert.assertEquals("ManualRefund", transactionsFromDB.get("TRANSACTIONTYPE"));
+	    CustomAssert.assertEquals("1060", transactionsFromDB.get("LEDGERACCOUNTNO"));
+	    CustomAssert.assertEquals(billingPaymentMethod, transactionsFromDB.get("BILLINGPAYMENTMETHOD"));
+
+	    Map<String,String> transactionsFromDBDebit = getRefundTransactionsFromDB( transactionID1, billingAccountNumber,  "DEBIT" );
+
+	    CustomAssert.assertEquals(amount, transactionsFromDBDebit.get("ENTRYAMT"));
+	    CustomAssert.assertEquals("ManualRefund", transactionsFromDBDebit.get("TRANSACTIONTYPE"));
+	    CustomAssert.assertEquals("1044", transactionsFromDBDebit.get("LEDGERACCOUNTNO"));
+	    CustomAssert.assertEquals(billingPaymentMethod, transactionsFromDBDebit.get("BILLINGPAYMENTMETHOD"));
+	    acceptPaymentActionTab.back();
+	    CustomAssert.disableSoftMode();
+
+	    //PAS-6152 End
+
         //PAS-453 Start
         Dollar refundAmount3 = new Dollar(100);
         Dollar totalDue = BillingSummaryPage.getTotalDue();
@@ -525,6 +559,89 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         pas1939_voidedRefundTransactionCheck(new Dollar(amount), checkDate5, "Automated Refund");
         //6415 END
+	    //Start PAS-7193
+	    Dollar refundAmount7 = new Dollar(10);
+	    Dollar totalDue3 = BillingSummaryPage.getTotalDue();
+	    billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue3.add(refundAmount7));
+	    String billingAccountNumber2 = BillingSummaryPage.labelBillingAccountNumber.getValue();
+	    TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+	    JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+
+	    mainApp().reopen();
+	    SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+	    String checkDate7 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+
+	    Map<String, String> refund7 = ImmutableMap.of(
+			    TRANSACTION_DATE, checkDate7,
+			    TYPE, "Refund",
+			    SUBTYPE_REASON, "Automated Refund"
+
+	    );
+	    BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund7).getCell(TYPE).controls.links.get(1).click();
+
+	    String transactionID3 = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
+	    CustomAssert.enableSoftMode();
+	    Map<String,String> transactionsFromDB2 = getRefundTransactionsFromDB( transactionID3, billingAccountNumber2,  "CREDIT" );
+
+	    CustomAssert.assertEquals("10", transactionsFromDB2.get("ENTRYAMT"));
+	    CustomAssert.assertEquals("AutomatedRefund", transactionsFromDB2.get("TRANSACTIONTYPE"));
+	    CustomAssert.assertEquals("1060", transactionsFromDB2.get("LEDGERACCOUNTNO"));
+	    CustomAssert.assertEquals(billingPaymentMethod, transactionsFromDB2.get("BILLINGPAYMENTMETHOD"));
+
+	    Map<String,String> transactionsFromDBDebit2 = getRefundTransactionsFromDB( transactionID3, billingAccountNumber2,  "DEBIT" );
+	    CustomAssert.assertEquals("10", transactionsFromDBDebit2.get("ENTRYAMT"));
+	    CustomAssert.assertEquals("AutomatedRefund", transactionsFromDBDebit2.get("TRANSACTIONTYPE"));
+	    CustomAssert.assertEquals("1044", transactionsFromDBDebit2.get("LEDGERACCOUNTNO"));
+	    CustomAssert.assertEquals(billingPaymentMethod, transactionsFromDBDebit2.get("BILLINGPAYMENTMETHOD"));
+	    acceptPaymentActionTab.back();
+	    CustomAssert.disableSoftMode();
+
+	    Dollar refundAmount6 = new Dollar(100);
+	    Dollar totalDue2 = BillingSummaryPage.getTotalDue();
+	    billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(refundAmount6));
+	    String billingAccountNumber1 = BillingSummaryPage.labelBillingAccountNumber.getValue();
+	    String billingPaymentMethodCheck="PaymentDetailsCheque";
+	    TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+
+	    JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+	    JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+	    mainApp().reopen();
+	    SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+	    String checkDate6 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+
+	    Map<String, String> refund6 = ImmutableMap.of(
+			    TRANSACTION_DATE, checkDate6,
+			    TYPE, "Refund",
+			    SUBTYPE_REASON, "Automated Refund"
+
+	    );
+	    pas1939_issuedRefundActionsCheck(refund6, policyNumber, true);
+	    pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount6, checkDate6, refund6, false, true);
+
+	    getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
+	    mainApp().reopen();
+	    SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+	    BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund6).getCell(TYPE).controls.links.get(1).click();
+
+	    String transactionID2 = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
+	    CustomAssert.enableSoftMode();
+
+	    Map<String,String> transactionsFromDB1 = getRefundTransactionsFromDB( transactionID2, billingAccountNumber1,  "CREDIT" );
+	    CustomAssert.assertEquals("100", transactionsFromDB1.get("ENTRYAMT"));
+	    CustomAssert.assertEquals("AutomatedRefund", transactionsFromDB1.get("TRANSACTIONTYPE"));
+	    CustomAssert.assertEquals("1060", transactionsFromDB1.get("LEDGERACCOUNTNO"));
+	    CustomAssert.assertEquals(billingPaymentMethodCheck, transactionsFromDB1.get("BILLINGPAYMENTMETHOD"));
+
+	    Map<String,String> transactionsFromDBDebit1 = getRefundTransactionsFromDB( transactionID2, billingAccountNumber1,  "DEBIT" );
+	    CustomAssert.assertEquals("100", transactionsFromDBDebit1.get("ENTRYAMT"));
+	    CustomAssert.assertEquals("AutomatedRefund", transactionsFromDBDebit1.get("TRANSACTIONTYPE"));
+	    CustomAssert.assertEquals("1044", transactionsFromDBDebit1.get("LEDGERACCOUNTNO"));
+	    CustomAssert.assertEquals(billingPaymentMethodCheck, transactionsFromDBDebit1.get("BILLINGPAYMENTMETHOD"));
+	    acceptPaymentActionTab.back();
+	    CustomAssert.disableSoftMode();
+	    //End- 7193
     }
 
     /**
@@ -771,6 +888,15 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         CustomAssert.assertEquals("TranzactionID in DB is differen from TranzactionID on UI", getRefundTransactionIDFromDB(), transactionID);
         return transactionID;
     }
+
+	private Map<String, String> getRefundTransactionsFromDB(String transactionID,String billingAccountNumber, String entryType  ) {
+
+
+		return DBService.get().getRows("select le.ledgeraccountno, le.TRANSACTIONTYPE,le.BILLINGPAYMENTMETHOD,le.TRANSACTIONID,le.ENTRYAMT , le.entrytype\n"
+				+ " from ledgerentry le join ledgertransaction lt on lt.id = le.LEDGERTRANSACTION_ID  \n"
+				+ " where 1=1\n"
+				+ " and BILLINGACCOUNTNUMBer = '"+billingAccountNumber+"'  and TRANSACTIONID ='"+ transactionID +"'  and entrytype = '"+ entryType +"'").get(0);
+	}
 
     private String getRefundTransactionIDFromDB() {
         String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
