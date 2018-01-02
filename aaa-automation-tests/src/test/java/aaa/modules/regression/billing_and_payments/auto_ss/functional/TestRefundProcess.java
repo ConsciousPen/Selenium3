@@ -592,8 +592,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value("Approved");
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(1).verify.value("Void");
         if (isManual) {
-            //TODO rumors have it there is a new story, which supercedes existing story and removes Issue link for Manual and Automated refunds.
-            BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+            //TODO rumors have it there will be a new story to add Issue action back
+            //PAS-7858 start
+            CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).getValue().contains("Issue"));
+            //PAS-7858 end
         } else {
             CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).getValue().contains("Issue"));
         }
@@ -822,7 +824,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         automatedRefundVoidedAdjustment.put(SUBTYPE_REASON, "Automated Refund");
         CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getIndex(), 1);
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(ACTION).controls.links.get(1).verify.value("Void");
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+        //PAS-7858 start
+        CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(ACTION).getValue().contains("Issue"));
+        //PAS-7858 end
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(STATUS).verify.value("Approved");
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(automatedRefundVoidedAdjustment).getCell(AMOUNT).verify.value(refundAmount.toString());
     }
