@@ -33,6 +33,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -93,6 +94,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
 
 	private GeneralTab generalTab = new GeneralTab();
+	private aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab generalTabHome = new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
 	private ErrorTab errorTab = new ErrorTab();
@@ -1338,8 +1340,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		log.info("policyNum: {}", policyNum);
 	}
 
-	public void simplifiedQuoteIssue() {
+	public String simplifiedQuoteIssue() {
 		simplifiedQuoteIssue("");
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	/**
@@ -1347,26 +1350,34 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 *
 	 * @param paymentMethod - DC - Debit Card, CC - Credit Card, ACH - EFT
 	 */
-	public void simplifiedQuoteIssue(String paymentMethod) {
+	public String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+		if (generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE.getLabel()).isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
+		} else {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+		}
 
 		for (int i = 0; i < 3; i++) {
 			if (DocumentsAndBindTab.btnPurchase.isPresent()) {
 				DocumentsAndBindTab.btnPurchase.click();
+				if (Page.dialogConfirmation.isPresent()) {
+					Page.dialogConfirmation.confirm();
+				}
 				errorTab.overrideAllErrors();
-			}
-			if (Page.dialogConfirmation.isPresent()) {
-				Page.dialogConfirmation.reject();
+				if (errorTab.buttonOverride.isPresent()) {
+					errorTab.override();
+				}
 			}
 		}
-		policy.bind().submit();
+
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
 		if (!StringUtils.isEmpty(paymentMethod)) {
 			purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentMethod));
 		}
 		new PurchaseTab().fillTab(purchaseTabData).submitTab();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	public void simplifiedPendedEndorsementIssue() {
@@ -1383,6 +1394,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		ErrorTab errorTab = new ErrorTab();
 		errorTab.overrideAllErrors();
+		if (errorTab.buttonOverride.isPresent()) {
+			errorTab.override();
+		}
 		if (DocumentsAndBindTab.btnPurchase.isPresent()) {
 			DocumentsAndBindTab.btnPurchase.click();
 			Page.dialogConfirmation.confirm();
@@ -1434,9 +1448,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(messageInfo, messageBullet);
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+		if (effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days) {
 			checkBlueBoxMessages(messageInfo1, messageBullet1);
-		}else {
+		} else {
 			checkBlueBoxMessages(messageInfo, messageBullet);
 		}
 
@@ -1453,9 +1467,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		checkBlueBoxMessages(messageInfo, messageBullet);
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+		if (effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days) {
 			checkBlueBoxMessages(messageInfo1, messageBullet1);
-		}else {
+		} else {
 			checkBlueBoxMessages(messageInfo, messageBullet);
 		}
 

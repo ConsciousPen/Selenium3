@@ -241,7 +241,7 @@ public class Scenario13 extends ScenarioBaseTest {
 	protected void refundGeneration() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(installmentDueDates.get(6)); 
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		
 		Dollar amount = new Dollar(4.99);
 		mainApp().open();
