@@ -857,11 +857,12 @@ VehicleTab_NY: {
 
 DocumentsAndBindTab_NY: {
   RequiredToBind: {
-    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+    #Acknowledgement of Requirement for Photo Inspection: Physically Signed,
     New York Auto Insurance Application: Physically Signed
   },
   RequiredToIssue: {
-    Separate Vehicle 1: 'Yes',
+    #document not present for vehicles older that 7 years
+    #Separate Vehicle 1: 'Yes',
     Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
