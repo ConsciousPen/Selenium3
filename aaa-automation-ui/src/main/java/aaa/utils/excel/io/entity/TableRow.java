@@ -55,11 +55,30 @@ public class TableRow extends ExcelRow {
 	}
 
 	@Override
+	public void erase() {
+		getTable().eraseRow(this);
+	}
+
+	@Override
+	public void delete() {
+		getTable().deleteRow(this);
+	}
+
+	@Override
 	public String toString() {
 		return "TableRow{" +
 				"rowNumber=" + getRowNumber() +
 				", values=" + getTableValues().entrySet() +
 				'}';
+	}
+
+	@Override
+	public List<Integer> getColumnNumbers() {
+		return getTable().getHeader().getColumnNumbers();
+	}
+
+	public List<String> getColumnNames() {
+		return getTable().getHeader().getColumnNames();
 	}
 
 	public boolean hasColumnName(String headerColumnName) {
@@ -107,14 +126,8 @@ public class TableRow extends ExcelRow {
 		return getCell(headerColumnName).hasValue(expectedValue);
 	}
 
-	void excludeColumns(String... columnNames) {
-		for (String cName : columnNames) {
-			for (TableCell cell : getCells()) {
-				if (cell.getHeaderColumnName().equals(cName)) {
-					this.tableCells.remove(getColumnNumber(cName));
-				}
-			}
-		}
+	void excludeColumn(int columnNumber) {
+		getCellsMap().remove(columnNumber);
 	}
 
 	private Map<Integer, TableCell> getCellsMap() {
@@ -124,6 +137,6 @@ public class TableRow extends ExcelRow {
 				this.tableCells.put(columnNumber, new TableCell(getPoiRow().getCell(columnNumber - 1), this, columnNumber));
 			}
 		}
-		return new HashMap<>(this.tableCells);
+		return this.tableCells;
 	}
 }

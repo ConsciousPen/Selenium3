@@ -10,7 +10,7 @@ import aaa.utils.excel.io.entity.ExcelRow;
 public class CellIterator implements Iterator<ExcelCell> {
 	private ExcelRow row;
 	private List<Integer> cellIndexes;
-	private int currentIndex;
+	private Integer currentIndex;
 
 	@Nonnull
 	public CellIterator(ExcelRow row) {
@@ -31,7 +31,7 @@ public class CellIterator implements Iterator<ExcelCell> {
 		}
 		ExcelCell returnCell = row.getCell(currentIndex);
 		cellIndexes.remove(currentIndex);
-		currentIndex = cellIndexes.get(0);
+		currentIndex = cellIndexes.isEmpty() ? -1 : cellIndexes.get(0);
 		return returnCell;
 	}
 }

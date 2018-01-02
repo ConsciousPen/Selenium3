@@ -3,7 +3,7 @@ package aaa.helpers.openl.model;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLCoverage {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
 	private Integer additionalLimitAmount;

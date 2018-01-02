@@ -20,6 +20,11 @@ public class TableHeader extends ExcelRow {
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
 	}
 
+	@Override
+	public List<Integer> getColumnNumbers() {
+		return new ArrayList<>(getColumnNamesMap().keySet());
+	}
+
 	public List<String> getColumnNames() {
 		return new ArrayList<>(getColumnNamesMap().values());
 	}
@@ -64,6 +69,16 @@ public class TableHeader extends ExcelRow {
 		throw new UnsupportedOperationException("Table header cell types should not be updated");
 	}
 
+	@Override
+	public void erase() {
+		throw new UnsupportedOperationException("Table header erasing is not supported");
+	}
+
+	@Override
+	public void delete() {
+		throw new UnsupportedOperationException("Table header deleting is not supported");
+	}
+
 	public boolean hasColumnName(String columnName) {
 		return getColumnNames().contains(columnName);
 	}
@@ -78,17 +93,21 @@ public class TableHeader extends ExcelRow {
 		return getColumnNamesMap().get(columnNumber);
 	}
 
-	void excludeColumns(String... columnNames) {
-		for (String column : columnNames) {
-			this.columnNames.remove(getColumnNumber(column));
-		}
+	public void excludeColumns(String... columnNames) {
+		getTable().excludeColumns(columnNames);
+	}
+
+	void excludeColumn(int columnNumber) {
+		this.columnNames.remove(columnNumber);
 	}
 
 	private Map<Integer, String> getColumnNamesMap() {
 		if (this.columnNames == null) {
 			this.columnNames = new HashMap<>();
 			for (ExcelCell cell : getCells()) {
-				this.columnNames.putIfAbsent(cell.getColumnNumber(), cell.getStringValue());
+				if (!cell.isEmpty()) {
+					this.columnNames.putIfAbsent(cell.getColumnNumber(), cell.getStringValue());
+				}
 			}
 		}
 		return this.columnNames;

@@ -49,7 +49,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
-		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass);
+		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -74,9 +74,22 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		return openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 	}
 
-	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass) {
+	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass, List<Integer> policyNumbers) {
+		ExcelManager openLExcelFile = new ExcelManager(getOpenLFile(openLFileName));
+		/*for (Integer pNumber : policyNumbers) {
+			openLExcelFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER).deleteRow(OpenLFile.PRIMARY_KEY_COLUMN_NAME, pNumber);
+		}
+		File filteredOpenLFile = new File(getTestsDir() + "/" + FilenameUtils.removeExtension(openLFileName) + "_" + System.currentTimeMillis() + FilenameUtils.getExtension(openLFileName));
+		openLExcelFile.saveAndClose(filteredOpenLFile);
+		*/
+
+
+		openLExcelFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER).excludeRows(policyNumbers.toArray(new Integer[policyNumbers.size()]));
+
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		return eUnmarshaller.unmarshal(getOpenLFile(openLFileName), openLFileModelClass);
+		//T openLFileModel = eUnmarshaller.unmarshal(filteredOpenLFile, openLFileModelClass);
+		//assertThat(filteredOpenLFile.delete()).isTrue();
+		return eUnmarshaller.unmarshal(openLExcelFile, openLFileModelClass);
 	}
 
 	protected int getExpectedPremium(String openLFileName, int policyNumber) {

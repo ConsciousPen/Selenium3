@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLPolicy {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 	protected String policyNumber;
 	protected LocalDateTime effectiveDate;

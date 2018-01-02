@@ -6,7 +6,7 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class OpenLVehicle {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 	private String airbagCode;
 	private Integer annualMileage;

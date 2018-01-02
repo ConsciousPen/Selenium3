@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.slf4j.Logger;
@@ -98,6 +99,10 @@ public class ExcelCell {
 		return (C) this;
 	}
 
+	public boolean isEmpty() {
+		return StringUtils.isEmpty(getStringValue());
+	}
+
 	@Override
 	public String toString() {
 		return "ExcelCell{" +
@@ -182,6 +187,7 @@ public class ExcelCell {
 		return cellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());
 	}
 
+	@SuppressWarnings("resource")
 	private Cell normalizeCell(Cell cell) {
 		if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
 			FormulaEvaluator evaluator = getRow().getSheet().getExcelManager().getWorkbook().getCreationHelper().createFormulaEvaluator();

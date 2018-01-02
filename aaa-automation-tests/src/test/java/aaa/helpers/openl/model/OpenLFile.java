@@ -48,6 +48,9 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
 	public static final String TESTS_SHEET_NAME = "Tests";
 
+	@ExcelTransient
+	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";
+
 	@ExcelTableElement(sheetName = "Tests", headerRowNumber = TESTS_HEADER_ROW_NUMBER)
 	@ExcelTransient
 	protected List<OpenLTest> tests;

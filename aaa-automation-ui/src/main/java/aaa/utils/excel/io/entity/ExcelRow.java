@@ -64,6 +64,21 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return getCellsMap().size();
 	}
 
+	public boolean isEmpty() {
+		if (getPoiRow() == null) {
+			return true;
+		}
+		if (getPoiRow().getLastCellNum() <= 0) {
+			return true;
+		}
+		for (ExcelCell cell : this) {
+			if (!cell.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public List<Object> getValues() {
 		return getCells().stream().map(ExcelCell::getValue).collect(Collectors.toList());
 	}
@@ -157,11 +172,21 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return (R) this;
 	}
 
+	public void erase() {
+		getSheet().eraseRow(this);
+		//TODO-dchubkov: return ExcelSheet and extend Table from ExcelSheet?
+	}
+
+	public void delete() {
+		//TODO-dchubkov: return ExcelSheet and extend Table from ExcelSheet?
+		getSheet().deleteRow(this);
+	}
+
 	private Map<Integer, ExcelCell> getCellsMap() {
 		if (this.cells == null) {
 			this.cells = new HashMap<>();
 			Row poiRow = getPoiRow();
-			for (int i = poiRow.getFirstCellNum(); i < poiRow.getLastCellNum(); i++) {
+			for (int i = 0; i < poiRow.getLastCellNum(); i++) {
 				Cell cell = poiRow.getCell(i);
 				this.cells.put(i + 1, new ExcelCell(cell, this, i + 1));
 			}

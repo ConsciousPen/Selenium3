@@ -57,7 +57,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	}
 
 	/**
-	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and {@link #getTable(int)} methods
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and {@link #getTable(int, String...)} methods
 	 */
 	public List<ExcelTable> getTables() {
 		return new ArrayList<>(this.tables);
@@ -67,20 +67,20 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return getPoiSheet().getSheetName();
 	}
 
-	public int getFirstRowNum() {
+	public int getFirstRowNumber() {
 		return getPoiSheet().getFirstRowNum() + 1;
 	}
 
-	public int getLastRowNum() {
+	public int getLastRowNumber() {
 		return getPoiSheet().getLastRowNum() + 1;
 	}
 
 	public ExcelRow getFirstRow() {
-		return getRow(getFirstRowNum());
+		return getRow(getFirstRowNumber());
 	}
 
 	public ExcelRow getLastRow() {
-		return getRow(getLastRowNum());
+		return getRow(getLastRowNumber());
 	}
 
 	Sheet getPoiSheet() {
@@ -90,7 +90,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	@Override
 	@Nonnull
 	public Iterator<ExcelRow> iterator() {
-		return new RowIterator<>(getFirstRowNum(), getLastRowNum(), this::getRow);
+		return new RowIterator<>(getFirstRowNumber(), getLastRowNumber(), this::getRow);
 	}
 
 	public ExcelSheet addTable(ExcelTable table) {
@@ -213,21 +213,64 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	}
 
 	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
-		Row headerRow = getRow(isLowest, headerColumnNames).getPoiRow();
-		ExcelTable t = new ExcelTable(headerRow, this);
+		ExcelRow headerRow = getRow(isLowest, headerColumnNames);
+		return getTable(headerRow.getRowNumber(), headerColumnNames);
+	}
+
+
+	/**
+	 *  Get ExcelTable object on current sheet with provided {@code headerColumnNames} header columns found in {@code headerRowNumber} row number.
+	 *
+	 * @param headerRowNumber Table's header row number on current sheet. Index starts from 1
+	 * @param headerColumnNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowNumber} will be used as column names
+	 * @return {@link ExcelTable} object representation of found excel table
+	 */
+	public ExcelTable getTable(int headerRowNumber, String... headerColumnNames) {
+		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
+		ExcelRow headerRow = getRow(headerRowNumber);
+		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
+		Set<Integer> columnNumbers = null;
+
+		if (headerColumnNames.length > 0) {
+			Set<String> headerColumns = new HashSet<>(Arrays.asList(headerColumnNames));
+			Set<String> foundHeaderColumns = new HashSet<>();
+			columnNumbers = new HashSet<>();
+			for (ExcelCell cell : headerRow) {
+				String value = cell.getStringValue();
+				if (headerColumns.contains(value)) {
+					columnNumbers.add(cell.getColumnNumber());
+					foundHeaderColumns.add(value);
+				}
+			}
+
+			foundHeaderColumns.retainAll(headerColumns);
+			if (headerColumns.size() != foundHeaderColumns.size()) {
+				headerColumns.removeAll(foundHeaderColumns);
+				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s", headerColumns, headerRowNumber));
+			}
+		}
+
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), this, columnNumbers, getCellTypes());
 		return addTable(t).getTable(t);
 	}
 
-	/**
-	 *  Get ExcelTable object on current sheet with all non-null header column names found in {@code headerRowNumber} row number.
-	 *
-	 * @param headerRowNumber Table's header row number on current sheet. Index starts from 1
-	 * @return {@link ExcelTable} object representation of found excel table
-	 */
-	public ExcelTable getTable(int headerRowNumber) {
-		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
-		ExcelTable t = new ExcelTable(getRow(headerRowNumber).getPoiRow(), this);
-		return addTable(t).getTable(t);
+	public ExcelSheet eraseRow(int rowNumber) {
+		return eraseRow(getRow(rowNumber));
+	}
+
+	ExcelSheet eraseRow(ExcelRow row) {
+		getPoiSheet().removeRow(row.getPoiRow());
+		return this;
+	}
+
+	public ExcelSheet deleteRow(int rowNumber) {
+		return deleteRow(getRow(rowNumber));
+	}
+
+	ExcelSheet deleteRow(ExcelRow row) {
+		Sheet sheet = getPoiSheet();
+		sheet.shiftRows(row.getRowNumber(), sheet.getLastRowNum(), -1);
+		return this;
 	}
 
 	ExcelTable getTable(ExcelTable table) {

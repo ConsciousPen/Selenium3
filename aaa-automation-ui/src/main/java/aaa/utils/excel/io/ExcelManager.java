@@ -34,11 +34,6 @@ public class ExcelManager {
 	private Workbook workbook;
 	private Map<Integer, ExcelSheet> sheets;
 
-	@SuppressWarnings("ZeroLengthArrayAllocation")
-	public ExcelManager(File excelFile) {
-		this(excelFile, new CellType<?>[0]);
-	}
-
 	public ExcelManager(File file, CellType<?>... allowableCellTypes) {
 		this.isOpened = false;
 		this.file = file;
