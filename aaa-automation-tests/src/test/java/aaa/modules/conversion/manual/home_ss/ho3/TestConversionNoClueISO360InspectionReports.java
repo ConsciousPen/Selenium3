@@ -18,7 +18,7 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO3Ba
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name
+	 * @name Home Conversion with no Clue and ISO360 ordered
 	 * @scenario
 	 * 1. Create Conversion Policy
 	 * 2. Propose Policy without ordering Inspection Report, CLUE, ISO360 reports
@@ -36,12 +36,13 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO3Ba
 		TestData reportTab = testdata.getTestData(reportTabInfo);
 		testdata.adjust(reportTabInfo, reportTab);
 
-		// If Membership report works remove mask for it and associated test data
 		reportTab.mask(HomeSSMetaData.ReportsTab.ISO360_REPORT.getLabel(), HomeSSMetaData.ReportsTab.CLUE_REPORT.getLabel());
 
 		mainApp().open();
 
-		createConversionPolicy(testdata);
+
+
+	//	createConversionPolicy(testdata);
 
 	}
 }
