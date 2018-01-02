@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sixth Sense Functional Test Suite" verbose="1" parallel="false" thread-count="1">
-    <!-- Listener commented out for local runs
+<suite name="CIO Functional Test Suite" verbose="1" parallel="false" thread-count="1">
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>-->
+     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-
 
     <test name="Test Defensive Driver Discount">
         <!--<parameter name="state" value="AZ"/>-->
