@@ -1,0 +1,418 @@
+# ====================== TD_Renewal_Actions MD =======================
+
+  TD_Renewal_Actions_MD: {
+    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+    Policy Type: HO3,
+    Previous Policy Number: '$<rx:123\d{5}>',
+    Previous Source System: MAIG,
+    Risk State: MD,
+    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+    Inception Date: '$<today-10d:MM/dd/yyyy>',
+    Renewal Policy Premium: 1000,
+    Policy Term: Annual,
+    Program Code: LegacyConv,
+    Enrolled in Autopay: 'No'}
+  }
+
+# ====================== TestData MD =======================
+
+  TestData_MD: {
+    GeneralTab: '@GeneralTab',
+    ApplicantTab: '@ApplicantTab_MD',
+    ReportsTab: '@ReportsTab_MD',
+    PropertyInfoTab: '@PropertyInfoTab',
+    ProductOfferingTab: '@ProductOfferingTab',
+    EndorsementTab: '@EndorsementTab',
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
+  }
+
+  # --------- Application Tab MD ----------
+
+  ApplicantTab_MD: {
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
+    DwellingAddress: '@DwellingAddress_MD',
+    AgentInfo: '@AgentInfo_MD'
+  }
+
+  DwellingAddress_MD: {
+    Zip code: '20854',
+    Street address 1: 9443 SUNNYFIELD CT,
+    Validate Address: true,
+    Validate Address Dialog: {}
+  }
+
+  AgentInfo_MD: {
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+    Agent: 'House Agent Annapolis CCIT'
+  }
+
+# --------- Reports Tab MD ----------
+
+  ReportsTab_MD: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    #FirelineReport: [{Report: 'Order Report'}],
+    RiskMeterReport: [{Report: 'Order Report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}]
+  }
+
+# ====================== TD_Renewal_Actions VA =======================
+
+  TD_Renewal_Actions_VA: {
+    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+    Policy Type: HO3,
+    Previous Policy Number: '$<rx:123\d{5}>',
+    Previous Source System: MAIG,
+    Risk State: VA,
+    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+    Inception Date: '$<today-10d:MM/dd/yyyy>',
+    Renewal Policy Premium: 1000,
+    Policy Term: Annual,
+    Program Code: LegacyConv,
+    Enrolled in Autopay: 'No'}
+  }
+
+# ====================== TestData VA =======================
+
+  TestData_VA: {
+    GeneralTab: '@GeneralTab',
+    ApplicantTab: '@ApplicantTab_VA',
+    ReportsTab: '@ReportsTab_VA',
+    PropertyInfoTab: '@PropertyInfoTab',
+    ProductOfferingTab: '@ProductOfferingTab',
+    EndorsementTab: '@EndorsementTab',
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
+  }
+
+  # --------- Application Tab VA ----------
+
+  ApplicantTab_VA: {
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
+    DwellingAddress: '@DwellingAddress_VA',
+    AgentInfo: '@AgentInfo_VA'
+  }
+
+  DwellingAddress_VA: {
+    Zip code: '24541',
+    Street address 1: 817 OAKWOOD DR,
+    Validate Address: true,
+    Validate Address Dialog: {}
+  }
+
+  AgentInfo_VA: {
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+    Agent: 'House Agent Mid-Atlantic'
+  }
+
+# --------- Reports Tab VA ----------
+
+  ReportsTab_VA: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    #FirelineReport: [{Report: 'Order Report'}],
+    RiskMeterReport: [{Report: 'Order Report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}]
+  }
+
+# ====================== TD_Renewal_Actions DE =======================
+
+  TD_Renewal_Actions_DE: {
+    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+    Policy Type: HO3,
+    Previous Policy Number: '$<rx:123\d{5}>',
+    Previous Source System: MAIG,
+    Risk State: DE,
+    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+    Inception Date: '$<today-10d:MM/dd/yyyy>',
+    Renewal Policy Premium: 1000,
+    Policy Term: Annual,
+    Program Code: LegacyConv,
+    Enrolled in Autopay: 'No'}
+  }
+
+# ====================== TestData DE =======================
+
+  TestData_DE: {
+    GeneralTab: '@GeneralTab',
+    ApplicantTab: '@ApplicantTab_DE',
+    ReportsTab: '@ReportsTab_DE',
+    PropertyInfoTab: '@PropertyInfoTab',
+    ProductOfferingTab: '@ProductOfferingTab',
+    EndorsementTab: '@EndorsementTab',
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
+  }
+
+  # --------- Application Tab DE ----------
+
+  ApplicantTab_DE: {
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
+    DwellingAddress: '@DwellingAddress_DE',
+    AgentInfo: '@AgentInfo_DE'
+  }
+
+  DwellingAddress_DE: {
+    Zip code: '19702',
+    Street address 1: 830 WATKINS,
+    Validate Address: true,
+    Validate Address Dialog: {}
+  }
+
+  AgentInfo_DE: {
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+    Agent: 'House Agent Mid-Atlantic'
+  }
+
+# --------- Reports Tab DE ----------
+
+  ReportsTab_DE: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    RiskMeterReport: [{Report: 'Order Report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}]
+    #ISO360Report: [{Report: 'Order report'}]
+  }
+
+# ====================== TD_Renewal_Actions NJ =======================
+
+  TD_Renewal_Actions_NJ: {
+    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+    Policy Type: HO3,
+    Previous Policy Number: '$<rx:123\d{5}>',
+    Previous Source System: MAIG,
+    Risk State: NJ,
+    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+    Inception Date: '$<today-10d:MM/dd/yyyy>',
+    Renewal Policy Premium: 1000,
+    Policy Term: Annual,
+    Program Code: LegacyConv,
+    Enrolled in Autopay: 'No'}
+  }
+
+# ====================== TestData NJ =======================
+
+  TestData_NJ: {
+    GeneralTab: '@GeneralTab',
+    ApplicantTab: '@ApplicantTab_NJ',
+    ReportsTab: '@ReportsTab_NJ',
+    PropertyInfoTab: '@PropertyInfoTab',
+    ProductOfferingTab: '@ProductOfferingTab',
+    EndorsementTab: '@EndorsementTab',
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
+  }
+
+  # --------- Application Tab NJ ----------
+
+  ApplicantTab_NJ: {
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
+    DwellingAddress: '@DwellingAddress_NJ',
+    AgentInfo: '@AgentInfo_NJ'
+  }
+
+  DwellingAddress_NJ: {
+    Zip code: '07094',
+    Street address 1: 219 HARMON COVE TOWER,
+    Validate Address: true,
+    Validate Address Dialog: {}
+  }
+
+  AgentInfo_NJ: {
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'Newton - 500017271 - Newton',
+    Agent: 'House Agent Mid-Atlantic'
+  }
+
+# --------- Reports Tab NJ ----------
+
+  ReportsTab_NJ: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    RiskMeterReport: [{Report: 'Order Report'}],
+    #FirelineReport: [{Report: 'Order Report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}]
+  }
+
+# ====================== TD_Renewal_Actions PA =======================
+
+  TD_Renewal_Actions_PA: {
+    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+    Policy Type: HO3,
+    Previous Policy Number: '$<rx:123\d{5}>',
+    Previous Source System: MAIG,
+    Risk State: PA,
+    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+    Inception Date: '$<today-10d:MM/dd/yyyy>',
+    Renewal Policy Premium: 1000,
+    Policy Term: Annual,
+    Program Code: LegacyConv,
+    Enrolled in Autopay: 'No'}
+  }
+
+# ====================== TestData PA =======================
+
+  TestData_PA: {
+    GeneralTab: '@GeneralTab',
+    ApplicantTab: '@ApplicantTab_PA',
+    ReportsTab: '@ReportsTab_PA',
+    PropertyInfoTab: '@PropertyInfoTab',
+    ProductOfferingTab: '@ProductOfferingTab',
+    EndorsementTab: '@EndorsementTab',
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
+  }
+
+  # --------- Application Tab PA ----------
+
+  ApplicantTab_PA: {
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
+    DwellingAddress: '@DwellingAddress_PA',
+    AgentInfo: '@AgentInfo_PA'
+  }
+
+  DwellingAddress_PA: {
+    Zip code: '19121',
+    Street address 1: 2302 W GLENWOOD AVE,
+    Validate Address: true,
+    Validate Address Dialog: {}
+}
+
+  AgentInfo_PA: {
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Southern Penn - 500017173',
+    Agency Location: 'Bedford - 500017241 - Bedford',
+    Agent: 'House Agent AAA Southern Penn'
+}
+
+# --------- Reports Tab PA ----------
+
+  ReportsTab_PA: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    #FirelineReport: [{Report: 'Order Report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}]
+  }
+
+# ====================== TestData =======================
+
+# --------- General Tab ----------
+
+  GeneralTab: {
+    Immediate prior carrier: 'index=2',
+    Continuous years with immediate prior carrier: '5',
+  }
+
+# --------- Application Tab ----------
+
+  NamedInsured: {
+    Relationship to primary named insured:  Primary Insured,
+    Marital status: Married,
+    Social security number: 1234567890,
+    Employer: '1234567890'
+  }
+
+  AAAMembership: {
+    Current AAA Member: 'Yes',
+    Membership number: '4290023667710001',
+    Last name: Smith
+  }
+
+  NamedInsuredInformation: {
+    Home Phone Number: '1234567890'
+  }
+
+  AgentInfo: {
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA NCNU - 500001005',
+    Agency Location: 'Draper - 500005417 - Draper',
+    Agent: 'House Account Draper',
+    TollFree Number: 1
+  }
+
+# --------- PropertyInfo Tab ----------
+
+  PropertyInfoTab: {
+    DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+    PropertyValue: '@PropertyValue',
+    Construction: '@Construction',
+    Interior: '@Interior'
+  }
+
+  DwellingAddress_PropertyInfoTab: {
+    Number of family units: 'index=1'
+  }
+
+  PropertyValue: {
+    Coverage A - Dwelling limit: 150000,
+  }
+
+  Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1'
+  }
+
+  Interior: {
+    Number of residents: 3,
+    Number of stories: 'index=1'
+  }
+
+# --------- PremiumsAndCoverages Tab ----------
+
+  ProductOfferingTab: {}
+  EndorsementTab: {}
+  PremiumsAndCoveragesQuoteTab: {
+    Calculate Premium: true
+  }
+
+  MortgageesTab: {
+    Mortgagee: 'No',
+    Use legal named insured: 'No',
+    "Use legal property address": 'No',
+    "Is there an additional insured?": 'No',
+    "Is there an additional interest?": 'No'
+  }
+
+  UnderwritingAndApprovalTab: {
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+    "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "No",
+    "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+  }
