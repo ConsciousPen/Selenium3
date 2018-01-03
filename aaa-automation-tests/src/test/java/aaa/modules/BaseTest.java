@@ -14,7 +14,7 @@ import com.exigen.ipb.etcsa.base.app.AdminApplication;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -50,6 +50,9 @@ import toolkit.verification.CustomAssert;
 public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
+
+	protected static final String TEST_DATA_KEY = "TestData";
+	protected static final String STATE_PARAM = "state";
 
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;

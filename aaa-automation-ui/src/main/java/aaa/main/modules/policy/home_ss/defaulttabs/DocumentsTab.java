@@ -31,7 +31,11 @@ public class DocumentsTab extends Tab {
 		return this;
 	}
 	
-	public AssetList getDocumentsToBindAssetList() {
+	public AssetList getRequiredToBindAssetList() {
     	return getAssetList().getAsset(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
 	}
+	public AssetList getRequiredToIssueAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_ISSUE.getLabel(), AssetList.class);
+	}
+
 }

@@ -2,7 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.general.numberrange;
 
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.admin.modules.general.numberrange.NumberRangeActions.EliminateNumberRange;
 import aaa.admin.modules.general.numberrange.views.DefaultView;
 import aaa.admin.pages.general.NumberRangePage;

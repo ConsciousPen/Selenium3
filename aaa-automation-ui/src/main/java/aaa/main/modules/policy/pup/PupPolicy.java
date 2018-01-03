@@ -5,7 +5,7 @@ package aaa.main.modules.policy.pup;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -70,6 +70,11 @@ public class PupPolicy implements IPolicy {
 	}
 
 	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		priorTermEndorsement().performAndFill(td);
+	}
+
+	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
@@ -106,6 +111,11 @@ public class PupPolicy implements IPolicy {
 	@Override
 	public PolicyActions.Endorse endorse() {
 		return new PupPolicyActions.Endorse();
+	}
+
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return new PupPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override

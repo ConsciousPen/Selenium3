@@ -33,8 +33,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected abstract AssetDescriptor<Button> getCalculatePremium();
 
 	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
-		HelperCommon helperCommon = new HelperCommon();
-
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -51,7 +49,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String emailAddressChanged = "osi.test@email.com";
 		String authorizedBy = "John Smith";
-		helperCommon.executeRequest(policyNumber, emailAddressChanged, authorizedBy);
+		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
 		emailUpdateTransactionHistoryCheck(policyNumber);
 		emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);

@@ -1,0 +1,156 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="JDI Debug Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pendingRefundPaymentMethodConfigCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas2186_RefundProcessCheck">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2186_RefundProcessCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

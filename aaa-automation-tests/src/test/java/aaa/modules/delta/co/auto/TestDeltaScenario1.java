@@ -2,6 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.delta.co.auto;
 
+import java.util.Arrays;
+import java.util.Collections;
+import org.openqa.selenium.By;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.*;
@@ -9,6 +17,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenConstants;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -16,12 +25,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -29,11 +32,6 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import static aaa.main.enums.DocGenEnum.*;
 
 /**
  * @author Dmitry Chubkov
@@ -273,6 +271,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200103);
 		//PAS11 CR fix
 		errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_200103);
+		errorTab.override();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMessage"));
@@ -378,8 +377,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		SearchPage.openQuote(getQuoteNumber());
 		policy.quoteDocGen().start();
 
-		goddTab.verify.documentsPresent(Documents.AA11CO, Documents.AA43CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
-		goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, Documents.AA43CO.getId()).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(false);
+		goddTab.verify
+				.documentsPresent(DocGenEnum.Documents.AA11CO, DocGenEnum.Documents.AA43CO, DocGenEnum.Documents.AAIQCO, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.AU03, DocGenEnum.Documents.AA16CO, DocGenEnum.Documents.AADNCO, DocGenEnum.Documents.AHAUXX);
+		goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, DocGenEnum.Documents.AA43CO.getId())
+				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(false);
 		TestData td = DataProviderFactory.dataOf(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow.FREE_FORM_TEXT.getLabel(), "Free Text");
 		goddTab.generateDocuments(td);
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());
@@ -394,7 +395,8 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC10(@Optional("") String state) {
-		DocGenHelper.verifyDocumentsGenerated(getQuoteNumber(), Documents.AA11CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
+		DocGenHelper
+				.verifyDocumentsGenerated(getQuoteNumber(), DocGenEnum.Documents.AA11CO, DocGenEnum.Documents.AAIQCO, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.AU03, DocGenEnum.Documents.AA16CO, DocGenEnum.Documents.AADNCO, DocGenEnum.Documents.AHAUXX);
 	}
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {

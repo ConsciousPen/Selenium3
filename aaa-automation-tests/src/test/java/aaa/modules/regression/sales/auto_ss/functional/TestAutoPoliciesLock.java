@@ -1,12 +1,13 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import java.util.Set;
+import org.eclipse.jetty.util.ConcurrentHashSet;
+import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -32,6 +33,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	private static final String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
 	private static final String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
 	private static final String toCurrentDate = "to_date('" + currentDate + "', 'YYYY-MM-DD')";
+	private static Set<String> elementNames = new ConcurrentHashSet<>();
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -53,8 +55,12 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 		TestData testData = getAdjustedTD();
 
-		setLockForTheElement("numberNAFAccident");
-		setLockForTheElement("autoInsurancePersistency");
+		List<String> testElements = Arrays.asList("numberNAFAccident", "autoInsurancePersistency");
+		//Add locked values to the global variable to clean them up then
+		elementNames.addAll(testElements);
+
+		//Set the lock for values DB
+		setLockForTheElement(testElements);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -101,11 +107,10 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	@AfterMethod(alwaysRun = true)
+	@AfterTest(alwaysRun = true)
 	private void cleanDB() {
 		//Restore lock parameters in DB to default values
-		deleteLockForTheElement("numberNAFAccident");
-		deleteLockForTheElement("autoInsurancePersistency");
+		deleteLockForTheElement();
 	}
 
 	private TestData getAdjustedTD() {
@@ -141,13 +146,17 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		purchaseTab.submitTab();
 	}
 
-	private void setLockForTheElement(String elementName) {
-		int i = DBService.get().executeUpdate(String.format(INSERT_QUERY, lookUpId, elementName, toCurrentDate, getState()));
-		CustomAssert.assertTrue("values should be inserted ", i > 0);
+	private void setLockForTheElement(Iterable<String> testElements) {
+		testElements.forEach(e -> {
+			int a = DBService.get().executeUpdate(String.format(INSERT_QUERY, lookUpId, e, toCurrentDate, getState()));
+			//Check that query was successful
+			assertThat(a).isGreaterThan(0);
+		});
 	}
 
-	private void deleteLockForTheElement(String elementName) {
-		DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, elementName, toCurrentDate, getState()));
+	private void deleteLockForTheElement() {
+		elementNames.forEach(e ->
+				DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, e, toCurrentDate, getState())));
 	}
 }
 

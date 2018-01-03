@@ -4,10 +4,13 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import java.util.LinkedHashMap;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
@@ -49,8 +52,17 @@ public class ReportsTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		synchronized(lock) {
+		synchronized (lock) {
 			assetList.fill(td);
+			if (td != null && td.containsKey(getMetaKey()) && getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()
+					&& StringUtils.isBlank(getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
+
+				getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+						.getCell(8).controls.links.get(1).click();
+				getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getAsset(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG)
+						.setValue(createTestData());
+			}
 		}
 		return this;
 	}
@@ -77,5 +89,12 @@ public class ReportsTab extends Tab {
 				}
 			}
 		}
+	}
+
+	private TestData createTestData() {
+		LinkedHashMap data = new LinkedHashMap();
+		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "$<today-1y:MM/dd/yyyy>");
+		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "true");
+		return new SimpleDataProvider(data);
 	}
 }

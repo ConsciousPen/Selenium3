@@ -6,19 +6,14 @@ import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import toolkit.datax.TestData;
@@ -71,7 +66,12 @@ public class HomeCaPolicy implements IPolicy {
         endorse().performAndFill(td);
     }
 
-    @Override
+	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		priorTermEndorsement().performAndFill(td);
+	}
+
+	@Override
     public void purchase(TestData td) {
         dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
@@ -114,7 +114,12 @@ public class HomeCaPolicy implements IPolicy {
 	    return new HomeCaPolicyActions.Endorse();
     }
 
-    @Override
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return new HomeCaPolicyActions.PriorTermEndorsement();
+	}
+
+	@Override
     public HomeCaPolicyActions.Renew renew() {
 	    return new HomeCaPolicyActions.Renew();
     }

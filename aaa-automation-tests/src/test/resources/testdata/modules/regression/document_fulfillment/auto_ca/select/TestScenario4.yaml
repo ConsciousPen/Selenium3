@@ -1,0 +1,7 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Semi-Annual,
+    Bodily Injury Liability: 'contains=$500,000/$500,000', 
+    Property Damage Liability: 'contains=$100,000'
+  }
+}

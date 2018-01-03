@@ -27,7 +27,7 @@ public class TestContactInformation extends aaa.modules.regression.sales.auto_ca
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-270")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = {"PAS-270", "PAS-267"})
     public void pas270_contactInformation(@Optional("CA") String state) {
 
         super.pas270_contactInformation(state);
