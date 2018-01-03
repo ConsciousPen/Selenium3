@@ -19,7 +19,7 @@ public abstract class AbstractCellType<T> implements CellType<T> {
 	public ExcelCell createPoiCellIfNull(ExcelCell cell) {
 		Cell poiCell = cell.getPoiCell();
 		if (poiCell == null) {
-			poiCell = cell.getRow().getPoiRow().createCell(cell.getColumnNumber() - 1);
+			poiCell = cell.getRow().getPoiRow().createCell(cell.getColumnIndex() - 1);
 			cell.setPoiCell(poiCell);
 		}
 		return cell;

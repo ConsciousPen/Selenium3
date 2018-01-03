@@ -14,22 +14,22 @@ public class TableHeader extends ExcelRow {
 	private Map<Integer, String> columnNames;
 
 	public TableHeader(Row row, ExcelTable table) {
-		super(row, table.getSheet());
+		super(row, 0, table.getSheet(), table.getCellTypes());
 		this.table = table;
 		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
 	}
 
 	@Override
-	public List<Integer> getColumnNumbers() {
+	public List<Integer> getColumnsIndexes() {
 		return new ArrayList<>(getColumnNamesMap().keySet());
 	}
 
-	public List<String> getColumnNames() {
+	public List<String> getColumnsNames() {
 		return new ArrayList<>(getColumnNamesMap().values());
 	}
 
-	int getRowNumberOnSheet() {
+	int getRowIndexOnSheet() {
 		return getPoiRow().getRowNum() + 1;
 	}
 
@@ -38,29 +38,24 @@ public class TableHeader extends ExcelRow {
 	}
 
 	@Override
-	public int getRowNumber() {
-		return 0;
-	}
-
-	@Override
 	public String toString() {
 		return "TableHeader{" +
-				"headerColumns=" + getColumnNames() +
+				"headerColumns=" + getColumnsNames() +
 				'}';
 	}
 
 	@Override
-	public Boolean getBoolValue(int columnNumber) {
+	public Boolean getBoolValue(int columnIndex) {
 		throw new UnsupportedOperationException("Table header cells don't have boolean values");
 	}
 
 	@Override
-	public Integer getIntValue(int columnNumber) {
+	public Integer getIntValue(int columnIndex) {
 		throw new UnsupportedOperationException("Table header cells don't have int values");
 	}
 
 	@Override
-	public LocalDateTime getDateValue(int columnNumber) {
+	public LocalDateTime getDateValue(int columnIndex) {
 		throw new UnsupportedOperationException("Table header cells don't have LocalDateTime values");
 	}
 
@@ -80,25 +75,25 @@ public class TableHeader extends ExcelRow {
 	}
 
 	public boolean hasColumnName(String columnName) {
-		return getColumnNames().contains(columnName);
+		return getColumnsNames().contains(columnName);
 	}
 
-	public int getColumnNumber(String columnName) {
+	public int getColumnIndex(String columnName) {
 		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName).isTrue();
 		return getColumnNamesMap().entrySet().stream().filter(c -> c.getValue().equals(columnName)).findFirst().get().getKey();
 	}
 
-	public String getColumnName(int columnNumber) {
-		assertThat(hasColumn(columnNumber)).as("There is no column with %s index in table's header", columnNumber).isTrue();
-		return getColumnNamesMap().get(columnNumber);
+	public String getColumnName(int columnIndex) {
+		assertThat(hasColumn(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
+		return getColumnNamesMap().get(columnIndex);
 	}
 
 	public void excludeColumns(String... columnNames) {
 		getTable().excludeColumns(columnNames);
 	}
 
-	void excludeColumn(int columnNumber) {
-		this.columnNames.remove(columnNumber);
+	void excludeColumn(int columnIndex) {
+		this.columnNames.remove(columnIndex);
 	}
 
 	private Map<Integer, String> getColumnNamesMap() {
@@ -106,7 +101,7 @@ public class TableHeader extends ExcelRow {
 			this.columnNames = new HashMap<>();
 			for (ExcelCell cell : getCells()) {
 				if (!cell.isEmpty()) {
-					this.columnNames.putIfAbsent(cell.getColumnNumber(), cell.getStringValue());
+					this.columnNames.putIfAbsent(cell.getColumnIndex(), cell.getStringValue());
 				}
 			}
 		}

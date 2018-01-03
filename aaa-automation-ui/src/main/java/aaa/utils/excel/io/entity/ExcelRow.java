@@ -14,23 +14,24 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
 
 public class ExcelRow implements Iterable<ExcelCell> {
 	protected Row row;
+	protected int rowIndex;
 	protected ExcelSheet sheet;
 	protected Set<CellType<?>> cellTypes;
 	private Map<Integer, ExcelCell> cells;
 
-	public ExcelRow(Row row, ExcelSheet sheet) {
-		this(row, sheet, ExcelCell.getBaseTypes());
+	public ExcelRow(Row row, int rowIndex, ExcelSheet sheet) {
+		this(row, rowIndex, sheet, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelRow(Row row, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+	public ExcelRow(Row row, int rowIndex, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
 		this.row = row;
+		this.rowIndex = rowIndex;
 		this.sheet = sheet;
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
@@ -39,24 +40,36 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return sheet;
 	}
 
-	public int getRowNumber() {
-		return row.getRowNum() + 1;
+	@SuppressWarnings("unchecked")
+	<R extends ExcelRow> R setSheet(ExcelSheet sheet) {
+		this.sheet = sheet;
+		return (R) this;
+	}
+
+	public int getRowIndex() {
+		return this.rowIndex;
+	}
+
+	@SuppressWarnings("unchecked")
+	<R extends ExcelRow> R setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
+		return (R) this;
 	}
 
 	public List<? extends ExcelCell> getCells() {
 		return new ArrayList<>(getCellsMap().values());
 	}
 
-	public List<Integer> getColumnNumbers() {
+	public List<Integer> getColumnsIndexes() {
 		return new ArrayList<>(getCellsMap().keySet());
 	}
 
-	public int getFirstColumnNumber() {
-		return getColumnNumbers().get(0);
+	public int getFirstColumnIndex() {
+		return getColumnsIndexes().get(0);
 	}
 
-	public int getLastColumnNumber() {
-		List<Integer> cellIndexes = getColumnNumbers();
+	public int getLastColumnIndex() {
+		List<Integer> cellIndexes = getColumnsIndexes();
 		return cellIndexes.get(cellIndexes.size() - 1);
 	}
 
@@ -87,8 +100,14 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return getCells().stream().map(ExcelCell::getStringValue).collect(Collectors.toList());
 	}
 
-	Set<CellType<?>> getCellTypes() {
+	public Set<CellType<?>> getCellTypes() {
 		return new HashSet<>(this.cellTypes);
+	}
+
+	@SuppressWarnings("unchecked")
+	<R extends ExcelRow> R setCellTypes(Set<CellType<?>> cellTypes) {
+		this.cellTypes = new HashSet<>(cellTypes);
+		return (R) this;
 	}
 
 	public Row getPoiRow() {
@@ -96,37 +115,50 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C getCell(int columnNumber) {
-		assertThat(hasColumn(columnNumber)).as("There is no cell with %s column number", columnNumber).isTrue();
-		return (C) getCellsMap().get(columnNumber);
+	<R extends ExcelRow> R setPoiRow(Row row) {
+		this.row = row;
+		return (R) this;
 	}
 
-	public Object getValue(int columnNumber) {
-		return getCell(columnNumber).getValue();
+	@Override
+	@Nonnull
+	@SuppressWarnings("unchecked")
+	public Iterator<ExcelCell> iterator() {
+		return (Iterator<ExcelCell>) new CellIterator(this);
 	}
 
-	public String getStringValue(int columnNumber) {
-		return getCell(columnNumber).getStringValue();
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C getCell(int columnIndex) {
+		assertThat(hasColumn(columnIndex)).as("There is no cell with %s column number", columnIndex).isTrue();
+		return (C) getCellsMap().get(columnIndex);
 	}
 
-	public Boolean getBoolValue(int columnNumber) {
-		return getCell(columnNumber).getBoolValue();
+	public Object getValue(int columnIndex) {
+		return getCell(columnIndex).getValue();
 	}
 
-	public Integer getIntValue(int columnNumber) {
-		return getCell(columnNumber).getIntValue();
+	public String getStringValue(int columnIndex) {
+		return getCell(columnIndex).getStringValue();
 	}
 
-	public LocalDateTime getDateValue(int columnNumber) {
-		return getCell(columnNumber).getDateValue();
+	public Boolean getBoolValue(int columnIndex) {
+		return getCell(columnIndex).getBoolValue();
 	}
 
-	public boolean hasColumn(int columnNumber) {
-		return getCellsMap().containsKey(columnNumber);
+	public Integer getIntValue(int columnIndex) {
+		return getCell(columnIndex).getIntValue();
 	}
 
-	public boolean hasValue(int columnNumber, Object expectedValue) {
-		return Objects.equals(getCell(columnNumber).getValue(), expectedValue);
+	public LocalDateTime getDateValue(int columnIndex) {
+		return getCell(columnIndex).getDateValue();
+	}
+
+	public boolean hasColumn(int columnIndex) {
+		return getCellsMap().containsKey(columnIndex);
+	}
+
+	public boolean hasValue(int columnIndex, Object expectedValue) {
+		return Objects.equals(getCell(columnIndex).getValue(), expectedValue);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -159,12 +191,6 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return (R) this;
 	}
 
-	@Override
-	@Nonnull
-	public Iterator<ExcelCell> iterator() {
-		return new CellIterator(this);
-	}
-
 	@SuppressWarnings("unchecked")
 	public <R extends ExcelRow> R registerCellType(CellType<?>... cellTypes) {
 		this.cellTypes.addAll(Arrays.asList(cellTypes));
@@ -182,15 +208,42 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		getSheet().deleteRow(this);
 	}
 
-	private Map<Integer, ExcelCell> getCellsMap() {
+	@SuppressWarnings("unchecked")
+	public <R extends ExcelRow> R copy(R destinationRow, boolean copyRowIndex) {
+		destinationRow.setPoiRow(this.getPoiRow())
+				.setCellTypes(this.getCellTypes())
+				.setSheet(this.getSheet());
+
+		if (copyRowIndex) {
+			destinationRow.setRowIndex(this.getRowIndex());
+		}
+
+		for (ExcelCell cell : this) {
+			cell.copy(destinationRow.getCell(cell.getColumnIndex()));
+		}
+
+		destinationRow.setCellsMap(getCellsMap());
+		return (R) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <R extends ExcelRow, C extends ExcelCell> R setCellsMap(Map<Integer, C> cells) {
+		this.cells = new HashMap<>(cells);
+		return (R) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <C extends ExcelCell> Map<Integer, C> getCellsMap() {
 		if (this.cells == null) {
 			this.cells = new HashMap<>();
 			Row poiRow = getPoiRow();
-			for (int i = 0; i < poiRow.getLastCellNum(); i++) {
-				Cell cell = poiRow.getCell(i);
-				this.cells.put(i + 1, new ExcelCell(cell, this, i + 1));
+			if (getPoiRow() != null && getPoiRow().getLastCellNum() >= 0) {
+				for (int i = 0; i < poiRow.getLastCellNum(); i++) {
+					C cell = (C) new ExcelCell(poiRow.getCell(i), this, i + 1);
+					this.cells.put(i + 1, cell);
+				}
 			}
 		}
-		return new HashMap<>(this.cells);
+		return new HashMap<>((Map<Integer, C>) this.cells);
 	}
 }

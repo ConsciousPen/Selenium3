@@ -22,6 +22,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.ExcelTable;
 import aaa.utils.excel.io.entity.TableRow;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -53,7 +54,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-
 		for (P openLPolicy : getOpenLPolicies(openLFile, policyNumbers)) {
 			log.info("Premium calculation verification initiated for test with policy number {} from {} OpenL filename", openLPolicy.getNumber(), openLFileName);
 			TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
@@ -76,19 +76,12 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass, List<Integer> policyNumbers) {
 		ExcelManager openLExcelFile = new ExcelManager(getOpenLFile(openLFileName));
-		/*for (Integer pNumber : policyNumbers) {
-			openLExcelFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER).deleteRow(OpenLFile.PRIMARY_KEY_COLUMN_NAME, pNumber);
-		}
-		File filteredOpenLFile = new File(getTestsDir() + "/" + FilenameUtils.removeExtension(openLFileName) + "_" + System.currentTimeMillis() + FilenameUtils.getExtension(openLFileName));
-		openLExcelFile.saveAndClose(filteredOpenLFile);
-		*/
 
-
-		openLExcelFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER).excludeRows(policyNumbers.toArray(new Integer[policyNumbers.size()]));
+		ExcelTable policiesTable = openLExcelFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);//.excludeRows(policyNumbers.toArray(new Integer[policyNumbers.size()]));
+		List<Integer> rowsToDelete = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
+		policiesTable.deleteRows(rowsToDelete.toArray(new Integer[policyNumbers.size()]));
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		//T openLFileModel = eUnmarshaller.unmarshal(filteredOpenLFile, openLFileModelClass);
-		//assertThat(filteredOpenLFile.delete()).isTrue();
 		return eUnmarshaller.unmarshal(openLExcelFile, openLFileModelClass);
 	}
 

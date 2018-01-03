@@ -28,37 +28,31 @@ public class ExcelCell {
 	protected static Logger log = LoggerFactory.getLogger(ExcelCell.class);
 	protected Cell cell;
 	protected ExcelRow row;
-	protected int columnNumber;
+	protected int columnIndex;
 	protected Set<CellType<?>> cellTypes;
 
-	public ExcelCell(Cell cell, ExcelRow row, int columnNumber) {
+	public ExcelCell(Cell cell, ExcelRow row, int columnIndex) {
 		this.cell = normalizeCell(cell);
 		this.row = row;
-		this.columnNumber = columnNumber;
+		this.columnIndex = columnIndex;
 	}
 
 	public static Set<CellType<?>> getBaseTypes() {
 		return new HashSet<>(Arrays.asList(BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE));
 	}
 
-	public ExcelRow getRow() {
-		return row;
+	public int getColumnIndex() {
+		return columnIndex;
 	}
 
-	public Set<CellType<?>> getCellTypes() {
-		if (cellTypes == null) {
-			cellTypes = filterAndGetValidCellTypes(getRow().getCellTypes());
-			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
-		}
-		return new HashSet<>(this.cellTypes);
+	@SuppressWarnings("unchecked")
+	<C extends ExcelCell> C setColumnIndex(int columnIndex) {
+		this.columnIndex = columnIndex;
+		return (C) this;
 	}
 
-	public int getColumnNumber() {
-		return columnNumber;
-	}
-
-	public int getRowNumber() {
-		return getRow().getRowNumber();
+	public int getRowIndex() {
+		return getRow().getRowIndex();
 	}
 
 	public Object getValue() {
@@ -99,6 +93,31 @@ public class ExcelCell {
 		return (C) this;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <R extends ExcelRow> R getRow() {
+		return (R) row;
+	}
+
+	@SuppressWarnings("unchecked")
+	<C extends ExcelCell> C setRow(ExcelRow row) {
+		this.row = row;
+		return (C) this;
+	}
+
+	public Set<CellType<?>> getCellTypes() {
+		if (cellTypes == null) {
+			cellTypes = filterAndGetValidCellTypes(getRow().getCellTypes());
+			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
+		}
+		return new HashSet<>(this.cellTypes);
+	}
+
+	@SuppressWarnings("unchecked")
+	<C extends ExcelCell> C setCellTypes(Set<CellType<?>> cellTypes) {
+		this.cellTypes = new HashSet<>(cellTypes);
+		return (C) this;
+	}
+
 	public boolean isEmpty() {
 		return StringUtils.isEmpty(getStringValue());
 	}
@@ -107,8 +126,8 @@ public class ExcelCell {
 	public String toString() {
 		return "ExcelCell{" +
 				"Sheet name=" + getRow().getSheet().getSheetName() +
-				", Row number=" + getRowNumber() +
-				", Column number=" + getColumnNumber() +
+				", Row number=" + getRowIndex() +
+				", Column number=" + getColumnIndex() +
 				", Cell Types=" + getCellTypes() +
 				", Cell value=" + getStringValue() +
 				'}';
@@ -180,6 +199,67 @@ public class ExcelCell {
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C saveAndClose(File destinationFile) {
 		getRow().getSheet().getExcelManager().saveAndClose(destinationFile);
+		return (C) this;
+	}
+
+	public <C extends ExcelCell> C copy(ExcelCell destinationCell) {
+		return copy(destinationCell, true, true, true, true);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C copy(ExcelCell destinationCell, boolean copyColumnIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		Cell cell = this.getPoiCell();
+		destinationCell.setPoiCell(cell);
+		if (cell == null) {
+			return (C) this;
+		}
+
+		destinationCell.getPoiCell().setCellType(cell.getCellTypeEnum());
+		destinationCell
+				.setValue(this.getValue())
+				.setCellTypes(this.getCellTypes())
+				.setRow(this.getRow());
+
+		if (copyColumnIndex) {
+			destinationCell.setColumnIndex(cell.getColumnIndex());
+		}
+
+		if (copyCellStyle) {
+			destinationCell.getPoiCell().setCellStyle(cell.getCellStyle());
+		}
+
+		if (copyComment && cell.getCellComment() != null) {
+			destinationCell.getPoiCell().setCellComment(cell.getCellComment());
+		}
+
+		if (copyHyperlink && cell.getHyperlink() != null) {
+			destinationCell.getPoiCell().setHyperlink(cell.getHyperlink());
+		}
+
+
+		/*switch (cell.getCellTypeEnum()) {
+			case BLANK:
+				destinationCell.getPoiCell().setCellValue(cell.getStringCellValue());
+				break;
+			case BOOLEAN:
+				destinationCell.getPoiCell().setCellValue(cell.getBooleanCellValue());
+				break;
+			case ERROR:
+				destinationCell.getPoiCell().setCellErrorValue(cell.getErrorCellValue());
+				break;
+			case FORMULA:
+				destinationCell.getPoiCell().setCellFormula(cell.getCellFormula());
+				break;
+			case NUMERIC:
+				destinationCell.getPoiCell().setCellValue(cell.getNumericCellValue());
+				break;
+			case STRING:
+				destinationCell.getPoiCell().setCellValue(cell.getRichStringCellValue());
+				break;
+			default:
+				//ignore
+		}*/
+
 		return (C) this;
 	}
 

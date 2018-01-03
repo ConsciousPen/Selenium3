@@ -11,17 +11,20 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class TableRow extends ExcelRow {
 	private ExcelTable table;
-	private int rowNumber;
 	private Map<Integer, TableCell> tableCells;
 
-	public TableRow(Row row, ExcelTable table, int rowNumber) {
-		super(row, table.getSheet(), table.getCellTypes());
+	public TableRow(Row row, int rowIndex, ExcelTable table) {
+		super(row, rowIndex, table.getSheet(), table.getCellTypes());
 		this.table = table;
-		this.rowNumber = rowNumber;
 	}
 
 	public ExcelTable getTable() {
 		return table;
+	}
+
+	TableRow setTable(ExcelTable table) {
+		this.table = table;
+		return this;
 	}
 
 	public Map<String, Object> getTableValues() {
@@ -40,13 +43,24 @@ public class TableRow extends ExcelRow {
 		return values;
 	}
 
-	int getRowNumberOnSheet() {
-		return getPoiRow().getRowNum() + 1;
+	public List<String> getColumnNames() {
+		return getTable().getHeader().getColumnsNames();
 	}
 
 	@Override
-	public int getRowNumber() {
-		return this.rowNumber;
+	@SuppressWarnings("unchecked")
+	protected Map<Integer, TableCell> getCellsMap() {
+		if (this.tableCells == null) {
+			this.tableCells = new HashMap<>();
+			for (int columnIndex : getColumnsIndexes()) {
+				this.tableCells.put(columnIndex, new TableCell(getPoiRow().getCell(columnIndex - 1), this, columnIndex));
+			}
+		}
+		return new HashMap<>(this.tableCells);
+	}
+
+	int getRowIndexOnSheet() {
+		return getTable().getHeader().getRowIndexOnSheet() + getRowIndex();
 	}
 
 	@Override
@@ -61,32 +75,38 @@ public class TableRow extends ExcelRow {
 
 	@Override
 	public void delete() {
-		getTable().deleteRow(this);
+		getTable().deleteRows(this);
 	}
 
 	@Override
 	public String toString() {
 		return "TableRow{" +
-				"rowNumber=" + getRowNumber() +
+				"rowIndex=" + getRowIndex() +
 				", values=" + getTableValues().entrySet() +
 				'}';
 	}
 
 	@Override
-	public List<Integer> getColumnNumbers() {
-		return getTable().getHeader().getColumnNumbers();
+	public List<Integer> getColumnsIndexes() {
+		return getTable().getHeader().getColumnsIndexes();
 	}
 
-	public List<String> getColumnNames() {
-		return getTable().getHeader().getColumnNames();
+	@Override
+	@SuppressWarnings("unchecked")
+	public <R extends ExcelRow> R copy(R destinationRow, boolean copyRowIndex) {
+		super.copy(destinationRow, copyRowIndex);
+		((TableRow) destinationRow)
+				.setTable(this.getTable())
+				.setCellsMap(this.getCellsMap());
+		return (R) this;
 	}
 
 	public boolean hasColumnName(String headerColumnName) {
 		return getTable().getHeader().hasColumnName(headerColumnName);
 	}
 
-	public Integer getColumnNumber(String headerColumnName) {
-		return getTable().getHeader().getColumnNumber(headerColumnName);
+	public Integer getColumnIndex(String headerColumnName) {
+		return getTable().getHeader().getColumnIndex(headerColumnName);
 	}
 
 	public TableCell getCell(String headerColumnName) {
@@ -126,17 +146,14 @@ public class TableRow extends ExcelRow {
 		return getCell(headerColumnName).hasValue(expectedValue);
 	}
 
-	void excludeColumn(int columnNumber) {
-		getCellsMap().remove(columnNumber);
+	@Override
+	@SuppressWarnings("unchecked")
+	protected <R extends ExcelRow, C extends ExcelCell> R setCellsMap(Map<Integer, C> tableCells) {
+		this.tableCells = new HashMap<>((Map<Integer, TableCell>) tableCells);
+		return (R) this;
 	}
 
-	private Map<Integer, TableCell> getCellsMap() {
-		if (this.tableCells == null) {
-			this.tableCells = new HashMap<>();
-			for (int columnNumber : getColumnNumbers()) {
-				this.tableCells.put(columnNumber, new TableCell(getPoiRow().getCell(columnNumber - 1), this, columnNumber));
-			}
-		}
-		return this.tableCells;
+	void excludeColumn(int columnIndex) {
+		getCellsMap().remove(columnIndex);
 	}
 }

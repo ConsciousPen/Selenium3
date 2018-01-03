@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -24,7 +25,7 @@ import aaa.utils.excel.io.entity.iterator.RowIterator;
 public class ExcelTable implements Iterable<TableRow> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelTable.class);
 
-	private Set<Integer> columnNumbers;
+	private Set<Integer> columnIndexes;
 	private Row headerRow;
 	private ExcelSheet sheet;
 	private Integer rowsNumber;
@@ -40,13 +41,13 @@ public class ExcelTable implements Iterable<TableRow> {
 		this(headerRow, sheet, null, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, ExcelSheet sheet, Set<Integer> columnNumbers, Set<CellType<?>> cellTypes) {
-		this(headerRow, sheet, null, columnNumbers, cellTypes);
+	public ExcelTable(Row headerRow, ExcelSheet sheet, Set<Integer> columnIndexes, Set<CellType<?>> cellTypes) {
+		this(headerRow, sheet, null, columnIndexes, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, ExcelSheet sheet, Integer rowsNumber, Set<Integer> columnNumbers, Set<CellType<?>> cellTypes) {
+	public ExcelTable(Row headerRow, ExcelSheet sheet, Integer rowsNumber, Set<Integer> columnIndexes, Set<CellType<?>> cellTypes) {
 		this.cellTypes = new HashSet<>(cellTypes);
-		this.columnNumbers = columnNumbers != null ? columnNumbers : getHeaderColumnNumbers(headerRow);
+		this.columnIndexes = columnIndexes != null ? columnIndexes : getHeaderColumnIndexes(headerRow);
 		this.headerRow = removeNonTableCells(headerRow);
 		this.sheet = sheet;
 		this.rowsNumber = rowsNumber != null ? rowsNumber : getNonEmptyTableRowsNumber(headerRow);
@@ -91,44 +92,48 @@ public class ExcelTable implements Iterable<TableRow> {
 	 * Get table's rows number without header row
 	 */
 	public int getRowsNumber() {
-		return rowsNumber;
+		return getRowsMap().size();
 	}
 
-	ExcelTable setRowsNumber(Integer rowsNumber) {
-		this.rowsNumber = rowsNumber;
-		return this;
+	public int getColumnsNumber() {
+		return getColumnsIndexes().size();
 	}
 
-	public List<Integer> getColumnNumbers() {
-		return new ArrayList<>(getHeader().getColumnNumbers());
+	public List<Integer> getColumnsIndexes() {
+		return new ArrayList<>(getHeader().getColumnsIndexes());
 	}
 
-	public List<String> getColumnNames() {
-		return new ArrayList<>(getHeader().getColumnNames());
+	public List<String> getColumnsNames() {
+		return new ArrayList<>(getHeader().getColumnsNames());
 	}
 
-	public int getFirstRowNumber() {
-		return 1;
+	public List<Integer> getRowsIndexes() {
+		return new ArrayList<>(getRowsMap().keySet());
 	}
 
-	public int getLastRowNumber() {
-		return this.rowsNumber;
+	public int getFirstRowIndex() {
+		return getRowsIndexes().get(0);
 	}
 
-	public int getFirstColumnNumber() {
-		return getHeader().getFirstColumnNumber();
+	public int getLastRowIndex() {
+		List<Integer> rowIndexes = getRowsIndexes();
+		return rowIndexes.get(rowIndexes.size() - 1);
 	}
 
-	public int getLastColumnNumber() {
-		return getHeader().getLastColumnNumber();
+	public int getFirstColumnIndex() {
+		return getHeader().getFirstColumnIndex();
+	}
+
+	public int getLastColumnIndex() {
+		return getHeader().getLastColumnIndex();
 	}
 
 	public TableRow getFirstRow() {
-		return getRow(getFirstRowNumber());
+		return getRow(getFirstRowIndex());
 	}
 
 	public TableRow getLastRow() {
-		return getRow(getLastRowNumber());
+		return getRow(getLastRowIndex());
 	}
 
 	Row getHeaderRow() {
@@ -138,7 +143,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
-		return new RowIterator<>(getFirstRowNumber(), getLastRowNumber(), this::getRow);
+		return new RowIterator<>(getRowsIndexes(), this::getRow);
 	}
 
 	@Override
@@ -169,16 +174,16 @@ public class ExcelTable implements Iterable<TableRow> {
 		return Objects.hash(header, rows);
 	}
 
-	public boolean hasRow(int rowNumber) {
-		return rowNumber > 0 && rowNumber <= getRowsNumber();
+	public boolean hasRow(int rowIndex) {
+		return getRowsMap().containsKey(rowIndex);
 	}
 
 	/**
-	 * Get {@link TableRow} object by table's row number. Index starts from 1 (0 belongs to header)
+	 * Get {@link TableRow} object by table's row index. Index starts from 1 (0 belongs to header)
 	 */
-	public TableRow getRow(int rowNumber) {
-		assertThat(hasRow(rowNumber)).as("There is no row number %s in table", rowNumber);
-		return getRows().get(rowNumber - 1);
+	public TableRow getRow(int rowIndex) {
+		assertThat(hasRow(rowIndex)).as("There is no row number %s in table", rowIndex).isTrue();
+		return getRowsMap().get(rowIndex);
 	}
 
 	public List<TableRow> getRows(String headerColumnName, Object cellValue) {
@@ -236,20 +241,21 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	public ExcelTable excludeColumns(String... columnNames) {
-		for (TableRow row : this) {
-			for (String cName : columnNames) {
-				int columnNumber = getHeader().getColumnNumber(cName);
+		for (String cName : columnNames) {
+			int columnNumber = getHeader().getColumnIndex(cName);
+			this.columnIndexes.remove(columnNumber);
+			getHeader().excludeColumn(columnNumber);
+			for (TableRow row : this) {
 				row.excludeColumn(columnNumber);
-				this.columnNumbers.remove(columnNumber);
-				getHeader().excludeColumn(columnNumber);
 			}
 		}
 		return this;
 	}
 
-	public ExcelTable excludeRows(Integer... rowNumbers) {
-		for (int rNumber : rowNumbers) {
-			getRowsMap().remove(rNumber);
+	public ExcelTable excludeRows(Integer... rowIndexes) {
+		for (int rIndex : rowIndexes) {
+			assertThat(hasRow(rIndex)).as("There is no row number %s in table", rIndex).isTrue();
+			getRowsMap().remove(rIndex);
 		}
 		return this;
 	}
@@ -263,27 +269,48 @@ public class ExcelTable implements Iterable<TableRow> {
 		return this;
 	}
 
-	public ExcelTable deleteRow(String headerColumnName, Object cellValue) {
-		return deleteRow(getRow(headerColumnName, cellValue));
+	public ExcelTable deleteRows(Integer... rowsIndexes) {
+		List<Integer> rowIndexesToDelete = Arrays.asList(rowsIndexes);
+		List<TableRow> rowsToDelete = getRows().stream().filter(r -> rowIndexesToDelete.contains(r.getRowIndex())).collect(Collectors.toList());
+		return deleteRows(rowsToDelete.toArray(new TableRow[rowsToDelete.size()]));
 	}
 
-	ExcelTable deleteRow(ExcelRow row) {
-		//TODO-dchubkov: to be done...
+	public ExcelTable deleteRows(String headerColumnName, Object cellValue) {
+		List<TableRow> rowsToDelete = getRows(headerColumnName, cellValue);
+		return deleteRows(rowsToDelete.toArray(new TableRow[rowsToDelete.size()]));
+	}
+
+	ExcelTable deleteRows(TableRow... rows) {
+		Map<Integer, Integer> rowsIndexesBeforeAndAfterDelete = new HashMap<>();
+		getRowsIndexes().forEach(i -> rowsIndexesBeforeAndAfterDelete.put(i, i));
+
+		for (TableRow row : rows) {
+			ListIterator<Integer> rowsIterator = new ArrayList<>(rowsIndexesBeforeAndAfterDelete.values()).listIterator(rowsIndexesBeforeAndAfterDelete.get(row.getRowIndex()));
+			while (rowsIterator.hasNext()) {
+				TableRow nextRow = getRow(rowsIterator.next());
+				nextRow.copy(getRow(rowsIterator.previousIndex()), true);
+				rowsIndexesBeforeAndAfterDelete.put(row.getRowIndex(), nextRow.getRowIndex());
+			}
+			for (ExcelCell cell : getRow(getRowsMap().size() - 1)) {
+				cell.setPoiCell(null);
+			}
+			getRowsMap().remove(getRowsMap().size() - 1);
+		}
 		return this;
 	}
 
 	private int getNonEmptyTableRowsNumber(Row headerRow) {
 		Sheet sheet = getSheet().getPoiSheet();
-		for (int rowNumber = headerRow.getRowNum() + 1; rowNumber <= sheet.getLastRowNum(); rowNumber++) {
-			ExcelRow excelRow = new ExcelRow(removeNonTableCells(sheet.getRow(rowNumber)), getSheet(), getCellTypes());
+		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
+			ExcelRow excelRow = new ExcelRow(removeNonTableCells(sheet.getRow(rowIndex)), rowIndex, getSheet(), getCellTypes());
 			if (excelRow.isEmpty()) {
-				return rowNumber - headerRow.getRowNum() - 1;
+				return rowIndex - headerRow.getRowNum() - 1;
 			}
 		}
 		return sheet.getLastRowNum() - headerRow.getRowNum();
 	}
 
-	private Set<Integer> getHeaderColumnNumbers(Row row) {
+	private Set<Integer> getHeaderColumnIndexes(Row row) {
 		Set<Integer> cellNumbers = new HashSet<>();
 		for (Cell cell : row) {
 			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING) {
@@ -296,7 +323,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	private Row removeNonTableCells(Row row) {
 		for (int i = 0; i < row.getLastCellNum(); i++) {
 			Cell cell = row.getCell(i);
-			if (cell != null && !this.columnNumbers.contains(i + 1)) {
+			if (cell != null && !this.columnIndexes.contains(i + 1)) {
 				row.removeCell(cell);
 			}
 		}
@@ -309,7 +336,7 @@ public class ExcelTable implements Iterable<TableRow> {
 			for (int rowNumber = 1; rowNumber <= this.rowsNumber; rowNumber++) {
 				Row row = getSheet().getPoiSheet().getRow(getHeaderRow().getRowNum() + rowNumber);
 				row = removeNonTableCells(row);
-				this.rows.put(rowNumber, new TableRow(row, this, rowNumber));
+				this.rows.put(rowNumber, new TableRow(row, rowNumber, this));
 			}
 		}
 		return this.rows;

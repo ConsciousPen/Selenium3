@@ -8,21 +8,16 @@ public class TableCell extends ExcelCell {
 		super(cell, tableRow, columnNumber);
 	}
 
-	@Override
-	public TableRow getRow() {
-		return (TableRow) super.getRow();
-	}
-
 	public String getHeaderColumnName() {
-		return getRow().getTable().getHeader().getColumnName(getColumnNumber());
+		return ((TableRow) getRow()).getTable().getHeader().getColumnName(getColumnIndex());
 	}
 
 	@Override
 	public String toString() {
 		return "ExcelCell{" +
 				"Sheet name=" + getRow().getSheet().getSheetName() +
-				", Row number=" + getRowNumber() +
-				", Column number=" + getColumnNumber() +
+				", Row number=" + getRowIndex() +
+				", Column number=" + getColumnIndex() +
 				", Header column name=" + getHeaderColumnName() +
 				", Cell Types=" + getCellTypes() +
 				", Cell value=" + getStringValue() +

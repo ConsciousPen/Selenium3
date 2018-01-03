@@ -27,25 +27,27 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelSheet.class);
 
 	private Sheet sheet;
-	private int sheetNumber;
+	private int sheetIndex;
 	private ExcelManager excelManager;
 	private Set<CellType<?>> allowableCellTypes;
+	private Map<Integer, ExcelRow> rows;
 	private Set<ExcelTable> tables;
+	private Object values;
 
-	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager) {
-		this(sheet, sheetNumber, excelManager, ExcelCell.getBaseTypes());
+	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager) {
+		this(sheet, sheetIndex, excelManager, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager, Set<CellType<?>> allowableCellTypes) {
+	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager, Set<CellType<?>> allowableCellTypes) {
 		this.sheet = sheet;
-		this.sheetNumber = sheetNumber;
+		this.sheetIndex = sheetIndex;
 		this.excelManager = excelManager;
 		this.allowableCellTypes = new HashSet<>(allowableCellTypes);
 		this.tables = new HashSet<>();
 	}
 
-	public int getSheetNumber() {
-		return sheetNumber;
+	public int getSheetIndex() {
+		return sheetIndex;
 	}
 
 	public ExcelManager getExcelManager() {
@@ -67,20 +69,42 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return getPoiSheet().getSheetName();
 	}
 
-	public int getFirstRowNumber() {
-		return getPoiSheet().getFirstRowNum() + 1;
+	public int getRowsNumber() {
+		return getRowsMap().size();
 	}
 
-	public int getLastRowNumber() {
-		return getPoiSheet().getLastRowNum() + 1;
+	public List<Integer> getRowsIndexes() {
+		return new ArrayList<>(getRowsMap().keySet());
 	}
+
+	public int getFirstRowIndex() {
+		return getRowsIndexes().get(0);
+	}
+
+	public int getLastRowIndex() {
+		List<Integer> rowIndexes = getRowsIndexes();
+		return rowIndexes.get(rowIndexes.size() - 1);
+	}
+
 
 	public ExcelRow getFirstRow() {
-		return getRow(getFirstRowNumber());
+		return getRow(getFirstRowIndex());
 	}
 
 	public ExcelRow getLastRow() {
-		return getRow(getLastRowNumber());
+		return getRow(getLastRowIndex());
+	}
+
+	public List<ExcelRow> getRows() {
+		return new ArrayList<>(getRowsMap().values());
+	}
+
+	public Object getValues() {
+		return values;
+	}
+
+	public boolean hasRow(int rowIndex) {
+		return getRowsMap().containsKey(rowIndex);
 	}
 
 	Sheet getPoiSheet() {
@@ -90,7 +114,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	@Override
 	@Nonnull
 	public Iterator<ExcelRow> iterator() {
-		return new RowIterator<>(getFirstRowNumber(), getLastRowNumber(), this::getRow);
+		return new RowIterator<>(getRowsIndexes(), this::getRow);
 	}
 
 	public ExcelSheet addTable(ExcelTable table) {
@@ -107,60 +131,61 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return this;
 	}
 
-	public ExcelRow getRow(int rowNumber) {
-		return new ExcelRow(getPoiSheet().getRow(rowNumber - 1), this);
+	public ExcelRow getRow(int rowIndex) {
+		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s", rowIndex, getSheetName()).isTrue();
+		return getRowsMap().get(rowIndex);
 	}
 
-	public ExcelCell getCell(int rowNumber, int columnNumber) {
-		return getRow(rowNumber).getCell(columnNumber);
+	public ExcelCell getCell(int rowIndex, int columnIndex) {
+		return getRow(rowIndex).getCell(columnIndex);
 	}
 
-	public List<Object> getRowValues(int rowNumber) {
-		return getRowValues(rowNumber, 1);
+	public List<Object> getRowValues(int rowIndex) {
+		return getRowValues(rowIndex, 1);
 	}
 
-	public List<Object> getRowValues(int rowNumber, int fromColumnNumber) {
-		ExcelRow row = getRow(rowNumber);
-		return getRowValues(rowNumber, fromColumnNumber, row.getLastColumnNumber());
-	}
-
-	/**
-	 * Get all non-null Object cell values from provided {@code rowNumber} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
-	 *
-	 * @param rowNumber row number from which values should be taken, index starts from 1
-	 * @param fromColumnNumber the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
-	 * @param toColumnNumber the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnNumber}
-	 *
-	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnNumber/toColumnNumber} bounds
-	 */
-	public List<Object> getRowValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
-		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
-		ExcelRow row = getRow(rowNumber);
-		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasColumn).mapToObj(row::getValue).collect(Collectors.toList());
-	}
-
-	public List<String> getRowStringValues(int rowNumber) {
-		return getRowStringValues(rowNumber, 1);
-	}
-
-	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber) {
-		ExcelRow row = getRow(rowNumber);
-		return getRowStringValues(rowNumber, fromColumnNumber, row.getLastColumnNumber());
+	public List<Object> getRowValues(int rowIndex, int fromColumnIndex) {
+		ExcelRow row = getRow(rowIndex);
+		return getRowValues(rowIndex, fromColumnIndex, row.getLastColumnIndex());
 	}
 
 	/**
-	 * Get all non-null String cell values from provided {@code rowNumber} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
+	 * Get all non-null Object cell values from provided {@code rowIndex} starting inclusively from {@code fromColumnIndex} and up to inclusively {@code toColumnIndex}
 	 *
-	 * @param rowNumber row number from which values should be taken, index starts from 1
-	 * @param fromColumnNumber the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
-	 * @param toColumnNumber the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnNumber}
+	 * @param rowIndex row number from which values should be taken, index starts from 1
+	 * @param fromColumnIndex the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
+	 * @param toColumnIndex the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnIndex}
 	 *
-	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnNumber/toColumnNumber} bounds
+	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnIndex/toColumnIndex} bounds
 	 */
-	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
-		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
-		ExcelRow row = getRow(rowNumber);
-		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasColumn).mapToObj(row::getStringValue).collect(Collectors.toList());
+	public List<Object> getRowValues(int rowIndex, int fromColumnIndex, int toColumnIndex) {
+		assertThat(fromColumnIndex).as("From column number should be greater than 0").isPositive();
+		ExcelRow row = getRow(rowIndex);
+		return IntStream.rangeClosed(fromColumnIndex, toColumnIndex).filter(row::hasColumn).mapToObj(row::getValue).collect(Collectors.toList());
+	}
+
+	public List<String> getRowStringValues(int rowIndex) {
+		return getRowStringValues(rowIndex, 1);
+	}
+
+	public List<String> getRowStringValues(int rowIndex, int fromColumnIndex) {
+		ExcelRow row = getRow(rowIndex);
+		return getRowStringValues(rowIndex, fromColumnIndex, row.getLastColumnIndex());
+	}
+
+	/**
+	 * Get all non-null String cell values from provided {@code rowIndex} starting inclusively from {@code fromColumnIndex} and up to inclusively {@code toColumnIndex}
+	 *
+	 * @param rowIndex row number from which values should be taken, index starts from 1
+	 * @param fromColumnIndex the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
+	 * @param toColumnIndex the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnIndex}
+	 *
+	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnIndex/toColumnIndex} bounds
+	 */
+	public List<String> getRowStringValues(int rowIndex, int fromColumnIndex, int toColumnIndex) {
+		assertThat(fromColumnIndex).as("From column number should be greater than 0").isPositive();
+		ExcelRow row = getRow(rowIndex);
+		return IntStream.rangeClosed(fromColumnIndex, toColumnIndex).filter(row::hasColumn).mapToObj(row::getStringValue).collect(Collectors.toList());
 	}
 
 	public ExcelRow getRow(String... valuesInCells) {
@@ -196,13 +221,8 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 			throw new IstfException(errorMessage);
 		}
 
-		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), this);
-		List<String> extraHeaderColumns = new ArrayList<>(row.getStringValues());
-		extraHeaderColumns.removeAll(expectedColumnNames);
-		if (!extraHeaderColumns.isEmpty()) {
-			log.warn("Found row contains extra cell values: {}", extraHeaderColumns);
-		}
-		return row;
+		Row poiRow = foundRows.get(foundRows.size() - 1);
+		return new ExcelRow(poiRow, poiRow.getRowNum() + 1, this, getCellTypes());
 	}
 
 	/**
@@ -214,20 +234,20 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 
 	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
 		ExcelRow headerRow = getRow(isLowest, headerColumnNames);
-		return getTable(headerRow.getRowNumber(), headerColumnNames);
+		return getTable(headerRow.getRowIndex(), headerColumnNames);
 	}
 
 
 	/**
-	 *  Get ExcelTable object on current sheet with provided {@code headerColumnNames} header columns found in {@code headerRowNumber} row number.
+	 *  Get ExcelTable object on current sheet with provided {@code headerColumnNames} header columns found in {@code headerRowIndex} row number.
 	 *
-	 * @param headerRowNumber Table's header row number on current sheet. Index starts from 1
-	 * @param headerColumnNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowNumber} will be used as column names
+	 * @param headerRowIndex Table's header row number on current sheet. Index starts from 1
+	 * @param headerColumnNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndex} will be used as column names
 	 * @return {@link ExcelTable} object representation of found excel table
 	 */
-	public ExcelTable getTable(int headerRowNumber, String... headerColumnNames) {
-		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
-		ExcelRow headerRow = getRow(headerRowNumber);
+	public ExcelTable getTable(int headerRowIndex, String... headerColumnNames) {
+		assertThat(headerRowIndex).as("Header row number should be greater than 0").isPositive();
+		ExcelRow headerRow = getRow(headerRowIndex);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
 		Set<Integer> columnNumbers = null;
 
@@ -238,7 +258,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 			for (ExcelCell cell : headerRow) {
 				String value = cell.getStringValue();
 				if (headerColumns.contains(value)) {
-					columnNumbers.add(cell.getColumnNumber());
+					columnNumbers.add(cell.getColumnIndex());
 					foundHeaderColumns.add(value);
 				}
 			}
@@ -246,7 +266,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 			foundHeaderColumns.retainAll(headerColumns);
 			if (headerColumns.size() != foundHeaderColumns.size()) {
 				headerColumns.removeAll(foundHeaderColumns);
-				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s", headerColumns, headerRowNumber));
+				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s", headerColumns, headerRowIndex));
 			}
 		}
 
@@ -254,8 +274,8 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return addTable(t).getTable(t);
 	}
 
-	public ExcelSheet eraseRow(int rowNumber) {
-		return eraseRow(getRow(rowNumber));
+	public ExcelSheet eraseRow(int rowIndex) {
+		return eraseRow(getRow(rowIndex));
 	}
 
 	ExcelSheet eraseRow(ExcelRow row) {
@@ -263,13 +283,13 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return this;
 	}
 
-	public ExcelSheet deleteRow(int rowNumber) {
-		return deleteRow(getRow(rowNumber));
+	public ExcelSheet deleteRow(int rowIndex) {
+		return deleteRow(getRow(rowIndex));
 	}
 
 	ExcelSheet deleteRow(ExcelRow row) {
 		Sheet sheet = getPoiSheet();
-		sheet.shiftRows(row.getRowNumber(), sheet.getLastRowNum(), -1);
+		sheet.shiftRows(row.getRowIndex(), sheet.getLastRowNum(), -1);
 		return this;
 	}
 
@@ -305,9 +325,22 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	@Override
 	public String toString() {
 		return "ExcelSheet{" +
-				"sheetNumber=" + getSheetNumber() +
+				"sheetNumber=" + getSheetIndex() +
 				", sheetName=" + getSheetName() +
 				'}';
 	}
 
+	private Map<Integer, ExcelRow> getRowsMap() {
+		if (this.rows == null) {
+			this.rows = new HashMap<>();
+			for (int rowNumber = 1; rowNumber <= getPoiSheet().getLastRowNum(); rowNumber++) {
+				//Row row = getPoiSheet().getRow(rowNumber - 1);
+				ExcelRow row = new ExcelRow(getPoiSheet().getRow(rowNumber - 1), rowNumber, this, getCellTypes());
+				if (!row.isEmpty()) {
+					this.rows.put(rowNumber, row);
+				}
+			}
+		}
+		return this.rows;
+	}
 }

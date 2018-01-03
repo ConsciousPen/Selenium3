@@ -143,7 +143,7 @@ public class ExcelUnmarshaller {
 		}
 
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableRowFields);
-		List<String> missingFieldColumns = table.getColumnNames().stream().filter(cn -> !expectedFieldsColumns.contains(cn)).collect(Collectors.toList());
+		List<String> missingFieldColumns = table.getColumnsNames().stream().filter(cn -> !expectedFieldsColumns.contains(cn)).collect(Collectors.toList());
 
 		if (!missingFieldColumns.isEmpty()) {
 			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s.",
