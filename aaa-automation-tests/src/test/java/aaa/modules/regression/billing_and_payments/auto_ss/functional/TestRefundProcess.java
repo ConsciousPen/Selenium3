@@ -618,7 +618,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         );
         pas1939_issuedRefundActionsCheck(refund6, policyNumber, true);
-        pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount6, checkDate6, refund6, false, true);
+        pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount6, checkDate6, refund6, false, true, "Check");
 
         getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
         mainApp().reopen();
