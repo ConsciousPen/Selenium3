@@ -1,11 +1,14 @@
 package aaa.modules.conversion.manual;
 
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
@@ -24,6 +27,7 @@ public class TestBindPupWithoutAuto extends PersonalUmbrellaBaseTest {
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
     private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
     private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
+    private InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
 
     /**
      * @author Josh Carpenter
@@ -88,11 +92,24 @@ public class TestBindPupWithoutAuto extends PersonalUmbrellaBaseTest {
     @TestInfo(component = ComponentConstant.Sales.PUP)
     public void testBindPupWithoutAutoConversion(@Optional("NJ") String state) {
 
-        // Create customer
+        // Create Customer
         mainApp().open();
-        createCustomerIndividual();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "NJH3926232050");
+        //createCustomerIndividual();
 
+        // Create HO3 policy
+        //PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
 
+        TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
+                .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
+        TestData tdPUP = getPolicyTD()
+                .adjust(TestData.makeKeyPath("PrefillTab", PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
+                .adjust(TestData.makeKeyPath("UnderlyingRisksAutoTab", PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
+
+        // Initiate manual renewal entry
+        customer.initiateRenewalEntry().start();
+        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_InitiateRenewalEntry"));
+        initiateRenewalEntryActionTab.submitTab();
 
     }
 

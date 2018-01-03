@@ -27,3 +27,20 @@ TestData_NoAuto: '@Automobiles'
 Automobiles: {
   Add automobile: 'No'
 }
+
+# --------- TestData for initiating manual renewal entry ------------
+
+TestData_InitiateRenewalEntry: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab'
+}
+
+InitiateRenewalEntryActionTab: {
+  Product Name: Personal Umbrella Policy,
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: NJ,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+ }
