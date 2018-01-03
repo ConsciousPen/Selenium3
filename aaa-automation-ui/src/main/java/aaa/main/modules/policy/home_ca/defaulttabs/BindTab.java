@@ -37,16 +37,12 @@ public class BindTab extends Tab {
     public Tab submitTab() {
         btnPurchase.click();
         ErrorTab errorTab = new ErrorTab();
-        //confirmPurchase(); didn't exist in PAS18.1
+        confirmPurchase();
         if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME.getCode())) {
             errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME);
             errorTab.override();
             btnPurchase.click();
             confirmPurchase();
-        }
-        if (btnPurchase.isPresent()) {
-            btnPurchase.click();
-            confirmPurchase(); //doesn't exist in PAS18.1
         }
         return this;
     }
@@ -56,7 +52,7 @@ public class BindTab extends Tab {
             confirmEndorsementPurchase.confirm();
         } else if (confirmRenewPurchase.isPresent() && confirmRenewPurchase.isVisible()) {
             confirmRenewPurchase.confirm();
-        } else {
+        } else if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {
             confirmPurchase.confirm();
         }
     }
