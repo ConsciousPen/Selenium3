@@ -42,7 +42,7 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO3Ba
 
 
 
-	//	createConversionPolicy(testdata);
+		createConversionPolicy(testdata);
 
 	}
 }
