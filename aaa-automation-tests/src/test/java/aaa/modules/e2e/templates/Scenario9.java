@@ -148,6 +148,15 @@ public class Scenario9 extends ScenarioBaseTest {
 		Tab.buttonCancel.click();
 	}
 
+	protected boolean isBillGenDateAfterRenewImageGenDate() {
+		LocalDateTime lastBillGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10)); 
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); 
+		if (lastBillGenDate.isAfter(renewImageGenDate)) 
+			return true;
+		else 
+			return false;
+	}
+	
 	protected void renewalImageGeneration() {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
