@@ -5,10 +5,8 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -24,40 +22,37 @@ public class ApplicantTab extends Tab {
 	public ApplicantTab() {
 		super(HomeSSMetaData.ApplicantTab.class);
 	}
-
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
 	public Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent']//table"));
 
 	@Override
 	public Tab submitTab() {
 		btnContinue.click();
+		//TODO OSI: Workaround, sometimes not navigating to next tab from first attempt
+		if(this.getAgentInfoAssetList().getAsset(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT_OF_RECORD).isPresent()){
+			btnContinue.click();
+		}
 		return this;
 	}
 
-	public MultiInstanceAfterAssetList getNamedInsuredAssetList() {
-		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiInstanceAfterAssetList.class);
+	public AssetList getNamedInsuredAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
 	}
-
 	public AssetList getAAAMembershipAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
 	}
-
 	public AssetList getDwellingAddressAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
-
 	public AssetList getMailingAddressAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), AssetList.class);
 	}
-
 	public AssetList getNamedInsuredInfoAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
-
-	public MultiInstanceAfterAssetList getOtherAAAPoliciesAssetList() {
-		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), MultiInstanceAfterAssetList.class);
+	public AssetList getOtherAAAPoliciesAssetList() {
+		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
 	}
-
 	public AssetList getAgentInfoAssetList() {
 		return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION.getLabel(), AssetList.class);
 	}
