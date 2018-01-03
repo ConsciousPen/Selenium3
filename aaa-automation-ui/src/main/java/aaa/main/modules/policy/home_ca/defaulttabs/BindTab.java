@@ -22,39 +22,43 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class BindTab extends Tab {
-	public BindTab() {
-		super(HomeCaMetaData.BindTab.class);
-	}
+    public BindTab() {
+        super(HomeCaMetaData.BindTab.class);
+    }
 
-	public Button btnPurchase = new Button(
-			By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"),
-			Waiters.AJAX);
-	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
-	public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
-	public Dialog confirmRenewPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_container']");
+    public Button btnPurchase = new Button(
+            By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"),
+            Waiters.AJAX);
+    public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
+    public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
+    public Dialog confirmRenewPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_container']");
 
-	@Override
-	public Tab submitTab() {
-		btnPurchase.click();
-		ErrorTab errorTab = new ErrorTab();
-		confirmPurchase();
-		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME.getCode())) {
-			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME);
-			errorTab.override();
-			btnPurchase.click();
-			confirmPurchase();
-		}
-		return this;
-	}
+    @Override
+    public Tab submitTab() {
+        btnPurchase.click();
+        ErrorTab errorTab = new ErrorTab();
+        //confirmPurchase(); didn't exist in PAS18.1
+        if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME.getCode())) {
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME);
+            errorTab.override();
+            btnPurchase.click();
+            confirmPurchase();
+        }
+        if (btnPurchase.isPresent()) {
+            btnPurchase.click();
+            confirmPurchase(); //doesn't exist in PAS18.1
+        }
+        return this;
+    }
 
-	protected void confirmPurchase() {
-		if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
-			confirmEndorsementPurchase.confirm();
-		} else if (confirmRenewPurchase.isPresent() && confirmRenewPurchase.isVisible()) {
-			confirmRenewPurchase.confirm();
-		} else {
-			confirmPurchase.confirm();
-		}
-	}
+    protected void confirmPurchase() {
+        if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
+            confirmEndorsementPurchase.confirm();
+        } else if (confirmRenewPurchase.isPresent() && confirmRenewPurchase.isVisible()) {
+            confirmRenewPurchase.confirm();
+        } else {
+            confirmPurchase.confirm();
+        }
+    }
 
 }
