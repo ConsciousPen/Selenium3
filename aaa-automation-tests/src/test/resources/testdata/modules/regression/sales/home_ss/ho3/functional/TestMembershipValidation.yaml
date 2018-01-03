@@ -135,6 +135,22 @@ RecreationalEquipment: {
   Trampoline: 'index=0'
 }
 
+# --- Test Data for Overriding Errors ---
+
+TestData_MembershipValidationHO3_OverrideErrors: {
+  ErrorTab: '@ErrorTab_OverrideErrors',
+}
+
+ErrorTab_OverrideErrors: {
+   ErrorsOverride: [{
+    Message: "contains=Membership Validation Failed",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Term,
+    Reason for override: 'Other'
+   }]
+}
+
 # --- Test Data for Dummy Number ---
 
 TestData_MembershipValidationHO3_Dummy: {

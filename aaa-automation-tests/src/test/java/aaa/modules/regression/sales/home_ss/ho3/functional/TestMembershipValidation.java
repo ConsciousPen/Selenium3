@@ -5,7 +5,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ErrorEnum.Errors;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -56,6 +55,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         TestData td_HO_SS_Membership = getTestSpecificTD("TestData_MembershipValidationHO3");
         TestData td_endorsement_start = getPolicyTD("Endorsement", "TestData_Plus1Month");
         TestData td_renewal_start = getPolicyTD("Renew", "TestData");
+        TestData td_HO_SS_Membership_OverrideErrors = getTestSpecificTD("TestData_MembershipValidationHO3_OverrideErrors");
         TestData td_HO_SS_Membership_Dummy = getTestSpecificTD("TestData_MembershipValidationHO3_Dummy");
         TestData td_HO_SS_Membership_SecondMember = getTestSpecificTD("TestData_MembershipValidationHO3_SecondMember");
         TestData td_HO_SS_Membership_ThirdMember = getTestSpecificTD("TestData_MembershipValidationHO3_ThirdMember");
@@ -69,13 +69,13 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(td_HO_SS_Membership, BindTab.class, true);
         log.info("Membership Full Validation for NB Quote Started..");
-        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
+        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_OverrideErrors, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
         log.info("Membership Full Validation for NB Quote Completed.");
 
         // Renewal Quote Membership Validation
         policy.renew().perform(td_renewal_start);
         log.info("Membership Full Validation for Renewal Quote Started..");
-        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
+        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_OverrideErrors, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
         log.info("Membership Full Validation for Renewal Quote Completed.");
 
         // Renewal Quote Membership Validation with Dummy Number
@@ -89,7 +89,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         createPolicy(td_HO_SS_Membership);
         policy.endorse().perform(td_endorsement_start);
         log.info("Membership Full Validation for Endorsement Quote Started..");
-        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
+        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_OverrideErrors, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
         log.info("Membership Full Validation for Endorsement Quote Completed.");
 
         mainApp().close();
@@ -98,7 +98,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     /*
     Method checks Functionality with all cases for Membership Match
      */
-    private void fullMembershipMatchValidation(TestData tdMembershipInitial, TestData tdSecondMember, TestData tdThirdMember){
+    private void fullMembershipMatchValidation(TestData tdMembershipInitial, TestData td_HO_SS_Membership_OverrideErrors, TestData tdSecondMember, TestData tdThirdMember){
         changeToInitialData(tdMembershipInitial);
 
         // All three fields MATCH Membership info
@@ -148,7 +148,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue("05/17/1990");
 
-        verifyMembershipErrorAndBind(Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+        verifyMembershipErrorAndBind(Errors.ERROR_AAA_HO_SS_MEM_LASTNAME, td_HO_SS_Membership_OverrideErrors);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
@@ -196,7 +196,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     /*
     Method validates that required error is present in Error Page & Binds the policy with overridden error
     */
-    private void verifyMembershipErrorAndBind( Errors errorCode) {
+    private void verifyMembershipErrorAndBind( Errors errorCode, TestData td_HO_SS_Membership_OverrideErrors) {
         NavigationPage.toViewTab((NavigationEnum.HomeSSTab.REPORTS.get()));
         reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
@@ -215,10 +215,10 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         }
 
         errorTab.verify.errorsPresent(true, Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
-        errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.AAA_ERROR, Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+        policy.getDefaultView().fillFromTo(td_HO_SS_Membership_OverrideErrors, ErrorTab.class, ErrorTab.class, true);
         log.info("Last Condition passed in current Quote. Membership Error is successfully overridden..");
 
-        bindTab.submitTab();
+        errorTab.submitTab();
 
         // Purchase screen [NB Quote]
         if (purchaseTab.isVisible()) {
