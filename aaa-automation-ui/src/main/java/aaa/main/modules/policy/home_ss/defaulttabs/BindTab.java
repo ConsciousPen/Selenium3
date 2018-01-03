@@ -35,12 +35,6 @@ public class BindTab extends Tab {
 		btnPurchase.click();
 		if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
 			confirmEndorsementPurchase.confirm();
-			// temporary
-			new ErrorTab().overrideAllErrors();
-			BindTab bindTab = new BindTab();
-			bindTab.btnPurchase.click();
-			confirmEndorsementPurchase.confirm();
-			//
 		} else if (confirmRenewPurchase.isPresent() && confirmRenewPurchase.isVisible()) {
 			confirmRenewPurchase.confirm();
 		} else if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {

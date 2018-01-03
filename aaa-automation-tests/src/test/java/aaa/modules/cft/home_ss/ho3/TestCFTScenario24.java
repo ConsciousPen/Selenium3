@@ -26,6 +26,7 @@ public class TestCFTScenario24 extends ControlledFinancialBaseTest {
 	public void cftTestScenario24(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		endorsePolicyOnStartDatePlus2();
+		acceptPaymentStartDatePlus2();
 		flatCancellationStartDatePlus16();
 		manualReinstatementStartDatePlus25();
 	}

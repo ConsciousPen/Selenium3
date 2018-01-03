@@ -9,14 +9,6 @@ TestData: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
-  ErrorTab: {
-    ErrorsOverride: [{
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
-    }]
-  },
   AcceptPaymentActionTab: {
       Payment Method: 'Check',
       Amount: 50,
