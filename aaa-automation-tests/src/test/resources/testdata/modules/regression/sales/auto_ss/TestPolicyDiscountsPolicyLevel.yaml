@@ -108,7 +108,7 @@ VehicleTab: {
 FormsTab: {}
 
 PremiumAndCoveragesTab: {
-  Payment Plan: 'Eleven Pay - Low Down'
+  Payment Plan: 'Monthly'
 }
 
 DriverActivityReportsTab: {
@@ -424,15 +424,9 @@ PremiumAndCoveragesTab_Discounts: {
   }
 }
 
-PremiumAndCoveragesTab_Discounts4: {
-  PremiumAndCoveragesTab: {
-    Payment Plan: 'Semi-Annual',
-  }
-}
-
 PremiumAndCoveragesTab_Discounts5: {
   PremiumAndCoveragesTab: {
-    Payment Plan: 'Eleven Pay - Standard',
+    Payment Plan: 'Monthly',
   }
 }
 

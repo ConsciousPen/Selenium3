@@ -369,8 +369,16 @@ GeneralTab_DE: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
-  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation_DE',
   PolicyInformation: '@PolicyInformation_DE'
+}
+
+CurrentCarrierInformation_DE: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today>,
+  Agent Entered BI Limits: '$300,000/$500,000',
 }
 
 PolicyInformation_DE: {
@@ -722,8 +730,16 @@ GeneralTab_NJ: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
-  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation_NJ',
   PolicyInformation: '@PolicyInformation_NJ'
+}
+
+CurrentCarrierInformation_NJ: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today>,
+  Agent Entered BI Limits: '$300,000/$500,000',
 }
 
 PolicyInformation_NJ: {
@@ -857,11 +873,12 @@ VehicleTab_NY: {
 
 DocumentsAndBindTab_NY: {
   RequiredToBind: {
-    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+    #Acknowledgement of Requirement for Photo Inspection: Physically Signed,
     New York Auto Insurance Application: Physically Signed
   },
   RequiredToIssue: {
-    Separate Vehicle 1: 'Yes',
+    #document not present for vehicles older that 7 years
+    #Separate Vehicle 1: 'Yes',
     Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
