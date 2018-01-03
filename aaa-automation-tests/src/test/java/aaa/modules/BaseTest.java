@@ -17,8 +17,6 @@ import com.exigen.ipb.etcsa.base.app.AdminApplication;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.utils.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -383,37 +381,6 @@ public class BaseTest {
 		return getStateTestData(tdSpecific, tdName);
 	}
 
-	protected TestData getConversionPolicyDefaultTD() {
-		TestData td = getPolicyDefaultTD();
-
-		switch (getPolicyType().getName()) {
-			case "Homeowners Signature Series": {
-				td.mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()))
-				  .mask(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel()))
-				  .mask(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel()))
-				  .adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP
-								.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()), "Yes")
-				  .adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN
-								.getLabel()), "Pay in Full (Renewal)")
-				  .adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED
-								.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel()), "Married")
-				  .mask(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()));
-
-				if (!getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-					td.mask(TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName(), HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel()));
-				}
-				break;
-			}
-			case "Auto Signature Series":{
-				//TODO Add Auto Signature Series Product masks and adjustments deltas from default policy td
-				break;
-			}
-		}
-		return td;
-	}
-
-
-
 
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
 		if (!td.containsKey(fileName)) {
@@ -463,10 +430,10 @@ public class BaseTest {
 	}
 
 	protected String initiateManualConversion(){
-		return initiateManualConversion(prepareManualConversionTd());
+		return initiateManualConversion(getManualConversionInitiationTd());
 	}
 
-	protected TestData prepareManualConversionTd(){
+	protected TestData getManualConversionInitiationTd(){
 		return getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}
 
@@ -488,6 +455,10 @@ public class BaseTest {
 		getPolicyType().get().getDefaultView().fill(td);
 		String policyNumber = PolicySummaryPage.linkPolicy.getValue();
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
+	}
+
+	protected TestData getConversionPolicyDefaultTD(){
+		return getPolicyDefaultTD();
 	}
 
 	private void initTestDataForTest() {
