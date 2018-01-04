@@ -5,10 +5,9 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ErrorEnum.Errors;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
@@ -50,15 +49,15 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
-    public void testMembershipValidation(@Optional("AZ") String state) {
+    public void pas3786_validateMembership(@Optional("AZ") String state) {
 
-        TestData td_HO_SS_Membership = getTestSpecificTD("TestData_MembershipValidationHO3");
-        TestData td_endorsement_start = getPolicyTD("Endorsement", "TestData_Plus1Month");
-        TestData td_renewal_start = getPolicyTD("Renew", "TestData");
-        TestData td_HO_SS_Membership_OverrideErrors = getTestSpecificTD("TestData_MembershipValidationHO3_OverrideErrors");
-        TestData td_HO_SS_Membership_Dummy = getTestSpecificTD("TestData_MembershipValidationHO3_Dummy");
-        TestData td_HO_SS_Membership_SecondMember = getTestSpecificTD("TestData_MembershipValidationHO3_SecondMember");
-        TestData td_HO_SS_Membership_ThirdMember = getTestSpecificTD("TestData_MembershipValidationHO3_ThirdMember");
+        TestData tdPolicy = getTestSpecificTD("TestData_MembershipValidationHO3");
+        TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Month");
+        TestData tdRenewalStart = getPolicyTD("Renew", "TestData");
+        TestData tdMembershipOverride = getTestSpecificTD("TestData_MembershipValidationHO3_OverrideErrors");
+        TestData tdMembershipDummy = getTestSpecificTD("TestData_MembershipValidationHO3_Dummy");
+        TestData tdMembershipSecondMember = getTestSpecificTD("TestData_MembershipValidationHO3_SecondMember");
+        TestData tdMembershipThirdMember = getTestSpecificTD("TestData_MembershipValidationHO3_ThirdMember");
 
         mainApp().open();
 
@@ -67,29 +66,29 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // NB Quote Membership Validation
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td_HO_SS_Membership, BindTab.class, true);
+        policy.getDefaultView().fillUpTo(tdPolicy, BindTab.class, true);
         log.info("Membership Full Validation for NB Quote Started..");
-        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_OverrideErrors, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
+        fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for NB Quote Completed.");
 
         // Renewal Quote Membership Validation
-        policy.renew().perform(td_renewal_start);
+        policy.renew().perform(tdRenewalStart);
         log.info("Membership Full Validation for Renewal Quote Started..");
-        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_OverrideErrors, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
+        fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for Renewal Quote Completed.");
 
         // Renewal Quote Membership Validation with Dummy Number
-        createPolicy(td_HO_SS_Membership);
-        policy.renew().perform(td_renewal_start);
+        createPolicy(tdPolicy);
+        policy.renew().perform(tdRenewalStart);
         log.info("Membership Validation for Renewal Quote with Dummy Number Started..");
-        verifyDummyNumber(td_HO_SS_Membership_Dummy);
+        verifyDummyNumber(tdMembershipDummy);
         log.info("Membership Validation for Renewal Quote with Dummy Number Completed..");
 
         // Endorsement Quote Membership Validation
-        createPolicy(td_HO_SS_Membership);
-        policy.endorse().perform(td_endorsement_start);
+        createPolicy(tdPolicy);
+        policy.endorse().perform(tdEndorsementStart);
         log.info("Membership Full Validation for Endorsement Quote Started..");
-        fullMembershipMatchValidation(td_HO_SS_Membership, td_HO_SS_Membership_OverrideErrors, td_HO_SS_Membership_SecondMember, td_HO_SS_Membership_ThirdMember);
+        fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for Endorsement Quote Completed.");
 
         mainApp().close();
@@ -98,7 +97,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     /*
     Method checks Functionality with all cases for Membership Match
      */
-    private void fullMembershipMatchValidation(TestData tdMembershipInitial, TestData td_HO_SS_Membership_OverrideErrors, TestData tdSecondMember, TestData tdThirdMember){
+    private void fullMembershipMatchValidation(TestData tdMembershipInitial, TestData tdMembershipOverride, TestData tdMembershipSecondMember, TestData tdMembershipThirdMember){
         changeToInitialData(tdMembershipInitial);
 
         // All three fields MATCH Membership info
@@ -134,8 +133,8 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         validateMembership();
 
         // Validate that membership works for other members with the same Membership number
-        validateMembershipWithOtherMembers(tdMembershipInitial, tdSecondMember);
-        validateMembershipWithOtherMembers(tdMembershipInitial, tdThirdMember);
+        validateMembershipWithOtherMembers(tdMembershipInitial, tdMembershipSecondMember);
+        validateMembershipWithOtherMembers(tdMembershipInitial, tdMembershipThirdMember);
 
         // NO MATCH/Validation Error Check & Verify that Policy can be bound
         changeToInitialData(tdMembershipInitial);
@@ -148,7 +147,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED)
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue("05/17/1990");
 
-        verifyMembershipErrorAndBind(Errors.ERROR_AAA_HO_SS_MEM_LASTNAME, td_HO_SS_Membership_OverrideErrors);
+        verifyMembershipErrorAndBind(tdMembershipOverride);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
@@ -156,23 +155,23 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     Method checks that Membership error is not fired
      */
     private void validateMembership(){
-        NavigationPage.toViewTab((NavigationEnum.HomeSSTab.REPORTS.get()));
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
 
         if (errorTab.isVisible()){
-            errorTab.verify.errorsPresent(false, Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+            errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
             log.info("Membership Error Validation Passed. Moving on to the next condition.");
             errorTab.cancel();
-        } else if ((bindTab.confirmPurchase.isVisible() && bindTab.confirmPurchase.isPresent())){
+        } else if (bindTab.confirmPurchase.isVisible() && bindTab.confirmPurchase.isPresent()){
             log.info("[NB Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmPurchase.buttonNo.click(Waiters.AJAX);
-        } else if ((bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent())){
+        } else if (bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent()){
             log.info("[Endorsement Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmEndorsementPurchase.buttonNo.click(Waiters.AJAX);
-        } else if ((bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent())) {
+        } else if (bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent()) {
             log.info("[Renewal Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmRenewPurchase.buttonNo.click(Waiters.AJAX);
         }
@@ -196,8 +195,8 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     /*
     Method validates that required error is present in Error Page & Binds the policy with overridden error
     */
-    private void verifyMembershipErrorAndBind( Errors errorCode, TestData td_HO_SS_Membership_OverrideErrors) {
-        NavigationPage.toViewTab((NavigationEnum.HomeSSTab.REPORTS.get()));
+    private void verifyMembershipErrorAndBind(TestData tdMembershipOverride) {
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
@@ -205,17 +204,17 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // Condition to pass: ErrorTab appears after confirming purchase dialog (Renewal & Endorsement)
         if (!errorTab.isVisible()){
-            if ((bindTab.confirmPurchase.isVisible() && bindTab.confirmPurchase.isPresent())){
+            if (bindTab.confirmPurchase.isVisible() && bindTab.confirmPurchase.isPresent()){
                 bindTab.confirmPurchase.buttonYes.click(Waiters.AJAX);
-            } else if ((bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent())){
+            } else if (bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent()){
                 bindTab.confirmEndorsementPurchase.buttonYes.click(Waiters.AJAX);
-            } else if ((bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent())) {
+            } else if (bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent()) {
                 bindTab.confirmRenewPurchase.buttonYes.click(Waiters.AJAX);
             }
         }
 
-        errorTab.verify.errorsPresent(true, Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
-        policy.getDefaultView().fillFromTo(td_HO_SS_Membership_OverrideErrors, ErrorTab.class, ErrorTab.class, true);
+        errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+        errorTab.getAssetList().fill(tdMembershipOverride);
         log.info("Last Condition passed in current Quote. Membership Error is successfully overridden..");
 
         errorTab.submitTab();
@@ -234,18 +233,18 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER)
                 .setValue(tdMembership.getTestData("ApplicantTab", "AAAMembership").getValue("Membership number"));
 
-        NavigationPage.toViewTab((NavigationEnum.HomeSSTab.REPORTS.get()));
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
 
-        if ((bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent())) {
+        if (bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent()) {
             bindTab.confirmRenewPurchase.buttonYes.click(Waiters.AJAX);
         }
 
         if (errorTab.isVisible()){
-            errorTab.verify.errorsPresent(false, Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+            errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
             errorTab.cancel();
             bindTab.submitTab();
         }
