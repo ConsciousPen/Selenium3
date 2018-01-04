@@ -8,26 +8,13 @@ import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
-import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
-import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurcharge;
+import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -357,7 +344,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
 
 			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG =
-					declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class, By.xpath(".//div[@id='memberSinceDatePopup_container']"));
+					declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class, By.xpath("//div[@id='memberSinceDatePopup_container']"));
 		}
 
 		public static final class AddMemberSinceDialog extends MetaData {

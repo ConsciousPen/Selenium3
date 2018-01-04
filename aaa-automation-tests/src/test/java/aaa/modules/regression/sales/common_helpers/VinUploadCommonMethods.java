@@ -7,8 +7,10 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.queries.LookupQueries;
+import toolkit.db.DBService;
 
-public class VinUploadCommonMethods extends PolicyBaseTest {
+public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQueries {
 
 	private final String policyType;
 
@@ -110,4 +112,9 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 			return type;
 		}
 	}
+
+	public void enableVinRefresh(Boolean displayValue) {
+		DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, displayValue));
+	}
+
 }

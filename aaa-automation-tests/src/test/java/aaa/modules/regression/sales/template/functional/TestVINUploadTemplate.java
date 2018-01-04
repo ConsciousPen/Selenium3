@@ -10,7 +10,6 @@ import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -21,16 +20,15 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.postconditions.TestVinUploadPostConditions;
+import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
+import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
 import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
 
-public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUploadPostConditions {
+public class TestVINUploadTemplate extends CommonTemplateMethods implements TestVinUploadPostConditions {
 
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
@@ -96,7 +94,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber);
 
-		precondsTestVINUpload(testData, VehicleTab.class);
+		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -152,7 +150,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
-		precondsTestVINUpload(testData, VehicleTab.class);
+		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -200,7 +198,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		TestData testData = getTestDataTwoVehicles(vinNumber);
 
-		precondsTestVINUpload(testData, VehicleTab.class);
+		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -335,7 +333,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
 
-		precondsTestVINUpload(testData, VehicleTab.class);
+		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
@@ -375,7 +373,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Van");
 
-		precondsTestVINUpload(testData, PremiumAndCoveragesTab.class);
+		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
@@ -451,34 +449,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		return getTestWithSinceMembership(testData);
 	}
 
-	public TestData getTestWithSinceMembership(TestData testData) {
-		// Start of  MembershipTab
-		TestData addMemberSinceDialog = new SimpleDataProvider()
-				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
-				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click")
-				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.BTN_CANCEL.getLabel(), "click");
-		TestData aaaMembershipReportRow = new SimpleDataProvider()
-				.adjust("Action", "Add Member Since")
-				.adjust("AddMemberSinceDialog", addMemberSinceDialog);
-		// Adjust membershipTab
-		TestData testMembershipTab = testData.getTestData(membershipTab.getMetaKey())
-				.adjust(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
-		return testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
-	}
-
-	protected String createPolicyPreconds(TestData testData) {
-		mainApp().open();
-		createCustomerIndividual();
-		return createPolicy(testData);
-	}
-
-	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, tab, true);
-	}
-
 	private void createAndRateRenewal(String policyNumber) {
 		LocalDateTime policyExpDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
 
@@ -490,13 +460,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		PremiumAndCoveragesTab.calculatePremium();
 	}
 
-	private void findAndRateQuote(TestData testData, String quoteNumber) {
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
-		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
-	}
 
 	/**
 	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after

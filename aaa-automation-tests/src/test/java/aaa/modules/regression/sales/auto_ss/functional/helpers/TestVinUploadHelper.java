@@ -62,7 +62,7 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		return createPolicy(testData);
 	}
 
-	protected void openAndSearchPolicy(String policyNumber) {
+	protected void openAndSearchActivePolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		SearchPage.tableSearchResults.getRow("Status","Policy Active").getCell(1).controls.links.getFirst().click();
@@ -119,7 +119,7 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		return testData.adjust(ratingDetailReportsTab.getMetaKey(), ratingDetailsReportTab).resolveLinks();
 	}
 
-	protected void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+	protected void createAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();

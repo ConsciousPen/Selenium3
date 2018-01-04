@@ -1,4 +1,4 @@
-package aaa.modules.regression.preconditions;
+package aaa.modules.regression.queries.preconditions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Test;

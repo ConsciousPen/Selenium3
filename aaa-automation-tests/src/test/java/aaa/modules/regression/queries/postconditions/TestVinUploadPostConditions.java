@@ -1,4 +1,4 @@
-package aaa.modules.regression.postconditions;
+package aaa.modules.regression.queries.postconditions;
 
 public interface TestVinUploadPostConditions {
 	String SELECT_ID_FROM_VEHICLEREFDATAMODEL = "SELECT DM.id FROM vehiclerefdatamodel DM " +

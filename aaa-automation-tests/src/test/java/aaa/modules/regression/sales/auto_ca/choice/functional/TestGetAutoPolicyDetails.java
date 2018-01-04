@@ -1,21 +1,22 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.soap.GetAutoPolicyDetailsHelper;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import javax.xml.datatype.DatatypeConfigurationException;
 
 public class TestGetAutoPolicyDetails extends AutoCaChoiceBaseTest {
 
     @Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
-    public void checkCompCollSymbolPresence() throws ErrorInfo, DatatypeConfigurationException {
+    public void checkCompCollSymbolPresence(@Optional("") String state) throws ErrorInfo, DatatypeConfigurationException {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createPolicy();
