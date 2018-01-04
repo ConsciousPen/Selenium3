@@ -170,7 +170,7 @@ OtherCompanionAutoPolicy: {
 AgentInfo: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Draper - 500005417 - Draper',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
   Agent: 'House Account Draper',
   TollFree Number: 1
 }

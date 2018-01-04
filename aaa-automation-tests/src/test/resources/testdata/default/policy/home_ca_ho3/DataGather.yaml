@@ -76,7 +76,7 @@ NamedInsuredInformation: {
 AgentInfo: {
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+  Agency Location: 'contains=Los Gatos - 500005341 - Los Gatos',
   Agent: 'House Agent Los Gatos',
   TollFree Number: 500001002
 }

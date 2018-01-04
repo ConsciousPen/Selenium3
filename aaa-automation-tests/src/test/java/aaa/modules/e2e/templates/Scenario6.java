@@ -312,7 +312,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected void automaticRefundNotGenerated() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRefundDate(getTimePoints().getBillDueDate(policyExpirationDate)));
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob); //.refundGenerationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 

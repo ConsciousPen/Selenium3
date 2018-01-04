@@ -204,3 +204,11 @@ PAS-7673:
   failures:
     - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
       messages: ["Cannot set value of AssetList {PurchaseTab"]
+PAS-7972:
+  summary: "Regression: Property HSS: Payment plan of renewal changes after renewal first bill paid"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario10.TC01_createPolicy]
+      messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy] 
+      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
