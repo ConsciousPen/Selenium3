@@ -638,8 +638,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
         JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
         JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
+        //BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs.
         //BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
-        JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+        //JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
     }
 
     private void eValueDiscountStatusCheck(String policyNumber, String status) {

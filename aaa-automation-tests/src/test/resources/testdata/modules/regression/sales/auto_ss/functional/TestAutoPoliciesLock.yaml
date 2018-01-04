@@ -20,3 +20,22 @@ ActivityNAF: {
   Description: 'Accident (Not-At-Fault)',
   'Occurrence Date': '$<today-60d>',
 }
+
+#ASD Scenario
+#################
+RatingDetailReportsTab_ASD: {
+  RatingDetailReportsTab : '@RatingDetailReportsTab'
+}
+
+RatingDetailReportsTab: {
+  InsuranceScoreOverride: '@InsuranceScoreOverride_OverrideTo850'
+}
+
+InsuranceScoreOverride_OverrideTo850: {
+    Action: Override Score,
+    EditInsuranceScoreDialog: {
+    New Score: '850',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+}
