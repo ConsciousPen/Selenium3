@@ -1,13 +1,5 @@
 TestData: {
-  VehicleTab: {
-    Usage: Pleasure,
-    VIN: 1GNWGPFG8B6548273,
-    'Enroll in Usage Based Insurance?': 'Yes',
-    Get Vehicle Details: click,
-    Vehicle Eligibility Response: Vehicle Eligible,
-    AAA UBI Device Status: Active,
-    Grant Participation Discount: click
-  },
+  VehicleTab: '@VehicleTab',
   ErrorTab: {
     ErrorsOverride: [{
       Override: 'true',
@@ -17,4 +9,38 @@ TestData: {
     }]
   },
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+TestData_VA: {
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: {
+    Apply eValue Discount: 'Yes',
+    Payment Plan: Annual,
+    Policy Term: Annual,
+    Bodily Injury Liability: 'contains=$100,000/$300,000',
+    Comprehensive Deductible: 'contains=$750',
+    Collision Deductible: 'contains=$500'
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      eValue Acknowledgement: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    }
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+VehicleTab: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click,
+  Vehicle Eligibility Response: Vehicle Eligible,
+  AAA UBI Device Status: Active,
+  Grant Participation Discount: click
 }

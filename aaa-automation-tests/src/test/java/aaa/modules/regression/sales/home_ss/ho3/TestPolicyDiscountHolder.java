@@ -121,17 +121,26 @@ public class TestPolicyDiscountHolder extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsTab.calculatePremium();
         
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow).verify.present();
-        
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertFalse("Incorrect value of Policy holder Discount Category in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0")); 
+        if (getState().equals("NY")) {
+        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow).verify.present(false);            
+            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+            CustomAssert.assertTrue("Incorrect value of Policy holder Discount Category in Rating Details", 
+            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0%")); 
+            CustomAssert.assertTrue("Incorrect value of Mature Homeowner discount in Rating Details", 
+            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount").equals("0.0")); 
+            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+        }
+        else {
+        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow).verify.present();
+            
+            PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+            CustomAssert.assertFalse("Incorrect value of Policy holder Discount Category in Rating Details", 
+            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0"));      
+            CustomAssert.assertFalse("Incorrect value of Mature Homeowner discount in Rating Details", 
+            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount").equals("0.0")); 
+            PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+        }       
  
-        CustomAssert.assertFalse("Incorrect value of Mature Homeowner discount in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount").equals("0.0")); 
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        
-        
         //Policyholder: No discounts apply
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get()); 
         applicantTab.fillTab(td_NoPolicyHolderDiscount);

@@ -4,7 +4,7 @@ package aaa.admin.modules.taxesfees.strategy.fee;
 
 import org.openqa.selenium.By;
 
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.admin.modules.taxesfees.strategy.IStrategy;
 import aaa.admin.modules.taxesfees.strategy.fee.views.DefaultView;
 import aaa.admin.pages.taxesfees.TaxesFeesPage;

@@ -29,7 +29,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
  */
 public class DataGatheringEndorsementView extends Workspace {
 	public DataGatheringEndorsementView() {
-		super();
 		registerTab(GeneralTab.class);
 		registerTab(ApplicantEndorsementTab.class);
 		registerTab(ReportsTab.class);

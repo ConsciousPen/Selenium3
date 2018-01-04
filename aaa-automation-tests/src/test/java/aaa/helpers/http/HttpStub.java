@@ -3,26 +3,25 @@ package aaa.helpers.http;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-
-import aaa.helpers.http.impl.HttpConstants;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
-
-import toolkit.exceptions.IstfException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.http.impl.HttpAAARequestor;
+import aaa.helpers.http.impl.HttpConstants;
 import aaa.helpers.http.impl.HttpHelper;
 import aaa.helpers.http.impl.HttpQueryBuilder;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
 
 public class HttpStub {
 
 	private static final String PARAMS_FILENAME = "stub.txt";
-	private final static String PORT = ":9083";
+	private static final String STUB_URL = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
 	private static Logger log = LoggerFactory.getLogger(HttpStub.class);
-	private final static String URL_POSTFIX = "/aaa-external-stub-services-app/";
 	private static String host = HttpHelper.getHost();
-	private static String urlTemplate = HttpConstants.URL_PROTOCOL + host + PORT + URL_POSTFIX;
+	private static String urlTemplate = HttpConstants.URL_PROTOCOL + host + STUB_URL;
 	private static final String RESULT_REGEXP = "<b>Result:</b> <span style=\"color:red\">([^<]+)";
 	private static HashMap<HttpStubBatch, StubState> stubs = new HashMap<>();
 	private static LocalDateTime currentPhase;
@@ -71,7 +70,7 @@ public class HttpStub {
 		// System.setProperty("http.proxyHost", "localhost");
 		// System.setProperty("http.proxyPort", "8888");
 		HttpAAARequestor httpRequestor = new HttpAAARequestor();
-		httpRequestor.setDomain(host + PORT);
+		httpRequestor.setDomain(host + STUB_URL);
 
 		try {
 			HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
@@ -98,7 +97,7 @@ public class HttpStub {
 		private String name;
 		private String value;
 
-		private HttpStubBatch(String name, String value) {
+		HttpStubBatch(String name, String value) {
 			this.name = name;
 			this.value = value;
 		}

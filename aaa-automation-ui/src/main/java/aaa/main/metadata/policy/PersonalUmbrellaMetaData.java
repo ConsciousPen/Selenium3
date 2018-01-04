@@ -444,6 +444,8 @@ public final class PersonalUmbrellaMetaData {
 	}
 	
 	public static final class UnderlyingRisksAllResidentsTab extends MetaData {
+		public static final AssetDescriptor<RadioGroup> ADD_OTHER_RESIDENTS = declare("Add other residents", RadioGroup.class);
+		public static final AssetDescriptor<Button> CONFIRM_NO_RESIDENTS = declare("Confirm no residents", Button.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAResidents_Dialog_form:buttonYes"));
 	    public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First name", TextBox.class, Waiters.NONE);
         public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle name", TextBox.class, Waiters.NONE);
         public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last name", TextBox.class, Waiters.NONE);

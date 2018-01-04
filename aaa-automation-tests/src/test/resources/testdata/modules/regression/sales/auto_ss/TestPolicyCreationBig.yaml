@@ -343,6 +343,7 @@ GeneralTab_DE: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_DE',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DE'
 }
 
@@ -372,6 +373,9 @@ DocumentsAndBindTab_DE: {
     Delaware Motorists Protection Act: Physically Signed,
     Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
     Acknowledgement of Deductible Selections: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -666,6 +670,7 @@ GeneralTab_NJ: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_NJ',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NJ'
 }
 
@@ -696,6 +701,7 @@ DocumentsAndBindTab_NJ: {
     Acknowledgement of Requirement for Insurance Inspection: Physically Signed
   },
   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
     CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
     Separate Vehicle 1: 'Yes',
     Separate Vehicle 2: 'Yes'

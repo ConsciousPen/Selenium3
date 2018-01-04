@@ -486,7 +486,8 @@ AssignmentTab_NY: {
 
 DocumentsAndBindTab_NY: {
   RequiredToIssue: {
-    Separate Vehicle 2: 'Yes'
+    #document not present for vehicles older that 7 years
+    #Separate Vehicle 2: 'Yes'
   }
 }
 

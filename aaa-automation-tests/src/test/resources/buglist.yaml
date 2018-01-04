@@ -138,14 +138,12 @@ PAS-6610:
   failures:
     - tests: [aaa.modules.deloitte.docgen.auto_ss.TestScenario4.TC01_CreatePolicy]
       messages: ['Unable to locate element']
-QC-11111:
-  summary: "OSI: Senior Discount related code is not in Master yet"
+PAS-7341:
+  summary: "PAS18.1 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage,
-              aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage,
-              aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage]
-      messages: [" "]
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
+      messages: ['Defensive Driving Course Discount', 'expected']
 QC-26288:
   summary: "Regression: Exception on approve underwriting rule"
   reason: PROD
@@ -200,3 +198,17 @@ PAS-6612:
     - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy, 
     aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy] 
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
+PAS-7673:
+  summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2.TC01_CreatePolicy]
+      messages: ["Cannot set value of AssetList {PurchaseTab"]
+PAS-7972:
+  summary: "Regression: Property HSS: Payment plan of renewal changes after renewal first bill paid"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario10.TC01_createPolicy]
+      messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy] 
+      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]

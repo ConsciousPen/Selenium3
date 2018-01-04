@@ -6,7 +6,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -45,38 +44,38 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
-    @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3) 
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsement(@Optional("") String state) {
 		mainApp().open();
 
 		getCopiedPolicy(); // fails by timeout
 		//createCustomerIndividual();
 		//createPolicy();
-		
+
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		
+
 		TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().perform(td);
-		
+
 		policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		
+
 		policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
 		new BindTab().submitTab();
-		
-        CustomAssert.enableSoftMode();
-        
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-        
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-        
-        CustomAssert.assertAll();
+
+		CustomAssert.enableSoftMode();
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
+
+		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+
+		CustomAssert.assertAll();
 	}
 }

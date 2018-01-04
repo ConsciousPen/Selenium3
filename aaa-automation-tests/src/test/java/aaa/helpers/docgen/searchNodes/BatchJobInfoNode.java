@@ -1,10 +1,9 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.models.BatchJobInfo;
-import aaa.helpers.xml.models.StandardDocumentRequest;
-
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.xml.model.BatchJobInfo;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public class BatchJobInfoNode extends SearchBy<BatchJobInfoNode, BatchJobInfo> {
 	public BatchJobInfoNode batchJobEnvironmentType(String value) {
