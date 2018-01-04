@@ -14,6 +14,8 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 /**
  * Controlled Financial Testing Scenario 33
  * Quarterly payment plan
@@ -34,7 +36,7 @@ public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 		generateRenewalOffer();
 		generateRenewalOfferBill();
 		verifyRenewCustomerDecline();
-
+		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
 		issuedRefundOnRefundDate();
 		verifyEscheatmentOnExpDatePlus25Plus13Months();
 	}

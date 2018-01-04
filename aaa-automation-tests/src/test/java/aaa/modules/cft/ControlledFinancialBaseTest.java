@@ -214,7 +214,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Accept 10$ cash payment on startDate + 25 days
+	 * Accept cash payment on startDate + 25 days
 	 */
 	protected void acceptPaymentEffDatePlus25() {
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
