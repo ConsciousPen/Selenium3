@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.celltype.CellType;
 
@@ -13,16 +14,11 @@ public class TableHeader extends ExcelRow {
 	private ExcelTable table;
 	private Map<Integer, String> columnNames;
 
-	public TableHeader(Row row, ExcelTable table) {
-		super(row, 0, table.getSheet(), table.getCellTypes());
+	public TableHeader(Row row, Set<Integer> columnIndexes, ExcelTable table) {
+		super(row, 0, columnIndexes, table.getSheet(), table.getCellTypes());
 		this.table = table;
 		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
-	}
-
-	@Override
-	public List<Integer> getColumnsIndexes() {
-		return new ArrayList<>(getColumnNamesMap().keySet());
 	}
 
 	public List<String> getColumnsNames() {
@@ -65,7 +61,7 @@ public class TableHeader extends ExcelRow {
 	}
 
 	@Override
-	public void erase() {
+	public <R extends ExcelRow> R erase() {
 		throw new UnsupportedOperationException("Table header erasing is not supported");
 	}
 

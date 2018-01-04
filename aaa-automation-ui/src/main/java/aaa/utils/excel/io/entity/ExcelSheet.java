@@ -132,7 +132,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	}
 
 	public ExcelRow getRow(int rowIndex) {
-		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s", rowIndex, getSheetName()).isTrue();
+		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s or it's empty", rowIndex, getSheetName()).isTrue();
 		return getRowsMap().get(rowIndex);
 	}
 
@@ -249,16 +249,16 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		assertThat(headerRowIndex).as("Header row number should be greater than 0").isPositive();
 		ExcelRow headerRow = getRow(headerRowIndex);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
-		Set<Integer> columnNumbers = null;
+		Set<Integer> columnIndexes = null;
 
 		if (headerColumnNames.length > 0) {
 			Set<String> headerColumns = new HashSet<>(Arrays.asList(headerColumnNames));
 			Set<String> foundHeaderColumns = new HashSet<>();
-			columnNumbers = new HashSet<>();
+			columnIndexes = new HashSet<>();
 			for (ExcelCell cell : headerRow) {
 				String value = cell.getStringValue();
 				if (headerColumns.contains(value)) {
-					columnNumbers.add(cell.getColumnIndex());
+					columnIndexes.add(cell.getColumnIndex());
 					foundHeaderColumns.add(value);
 				}
 			}
@@ -270,7 +270,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 			}
 		}
 
-		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), this, columnNumbers, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), this, columnIndexes, getCellTypes());
 		return addTable(t).getTable(t);
 	}
 

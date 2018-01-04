@@ -13,7 +13,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
@@ -21,6 +23,7 @@ import aaa.utils.excel.io.entity.iterator.CellIterator;
 public class ExcelRow implements Iterable<ExcelCell> {
 	protected Row row;
 	protected int rowIndex;
+	protected Set<Integer> columnIndexes;
 	protected ExcelSheet sheet;
 	protected Set<CellType<?>> cellTypes;
 	private Map<Integer, ExcelCell> cells;
@@ -30,8 +33,13 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	public ExcelRow(Row row, int rowIndex, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+		this(row, rowIndex, null, sheet, cellTypes);
+	}
+
+	public ExcelRow(Row row, int rowIndex, Set<Integer> columnIndexes, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
 		this.row = row;
 		this.rowIndex = rowIndex;
+		this.columnIndexes = CollectionUtils.isNotEmpty(columnIndexes) ? new HashSet<>(columnIndexes) : getColumnsIndexes(row);
 		this.sheet = sheet;
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
@@ -61,7 +69,7 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	public List<Integer> getColumnsIndexes() {
-		return new ArrayList<>(getCellsMap().keySet());
+		return new ArrayList<>(this.columnIndexes);
 	}
 
 	public int getFirstColumnIndex() {
@@ -198,9 +206,10 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return (R) this;
 	}
 
-	public void erase() {
-		getSheet().eraseRow(this);
-		//TODO-dchubkov: return ExcelSheet and extend Table from ExcelSheet?
+	@SuppressWarnings("unchecked")
+	public <R extends ExcelRow> R erase() {
+		getCells().forEach(ExcelCell::erase);
+		return (R) this;
 	}
 
 	public void delete() {
@@ -209,20 +218,16 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <R extends ExcelRow> R copy(R destinationRow, boolean copyRowIndex) {
-		destinationRow.setPoiRow(this.getPoiRow())
-				.setCellTypes(this.getCellTypes())
-				.setSheet(this.getSheet());
-
-		if (copyRowIndex) {
-			destinationRow.setRowIndex(this.getRowIndex());
-		}
+	public <R extends ExcelRow> R copy(R destinationRow) {
+		//destinationRow.setPoiRow(this.getPoiRow())
+		//destinationRow.setCellTypes(this.getCellTypes())
+				//.setSheet(this.getSheet());
 
 		for (ExcelCell cell : this) {
 			cell.copy(destinationRow.getCell(cell.getColumnIndex()));
 		}
 
-		destinationRow.setCellsMap(getCellsMap());
+		//destinationRow.setCellsMap(getCellsMap());
 		return (R) this;
 	}
 
@@ -238,12 +243,16 @@ public class ExcelRow implements Iterable<ExcelCell> {
 			this.cells = new HashMap<>();
 			Row poiRow = getPoiRow();
 			if (getPoiRow() != null && getPoiRow().getLastCellNum() >= 0) {
-				for (int i = 0; i < poiRow.getLastCellNum(); i++) {
-					C cell = (C) new ExcelCell(poiRow.getCell(i), this, i + 1);
-					this.cells.put(i + 1, cell);
+				for (Integer index : getColumnsIndexes()) {
+					C cell = (C) new ExcelCell(poiRow.getCell(index - 1), this, index);
+					this.cells.put(index, cell);
 				}
 			}
 		}
 		return new HashMap<>((Map<Integer, C>) this.cells);
+	}
+
+	private Set<Integer> getColumnsIndexes(Row row) {
+		return row == null ? new HashSet<>() : IntStream.rangeClosed(1, row.getLastCellNum()).boxed().collect(Collectors.toSet());
 	}
 }

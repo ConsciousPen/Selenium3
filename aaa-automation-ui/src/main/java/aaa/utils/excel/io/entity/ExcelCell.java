@@ -148,9 +148,9 @@ public class ExcelCell {
 
 	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
 		assertThat(valueType).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isNotNull();
-		if (valueType.isTypeOf(this) && hasValue(value, valueType)) {
+		/*if (valueType.isTypeOf(this) && hasValue(value, valueType)) {
 			log.warn("{} already has \"{}\" value", this, value);
-		}
+		}*/
 		valueType.setValueTo(this, value);
 		return this;
 	}
@@ -170,6 +170,10 @@ public class ExcelCell {
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
 		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
+	}
+
+	public void erase() {
+		getRow().getPoiRow().removeCell(getPoiCell());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -203,26 +207,22 @@ public class ExcelCell {
 	}
 
 	public <C extends ExcelCell> C copy(ExcelCell destinationCell) {
-		return copy(destinationCell, true, true, true, true);
+		return copy(destinationCell, true, true, true);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C copy(ExcelCell destinationCell, boolean copyColumnIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+	public <C extends ExcelCell> C copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
 		Cell cell = this.getPoiCell();
-		destinationCell.setPoiCell(cell);
+		//destinationCell.setPoiCell(cell);
 		if (cell == null) {
 			return (C) this;
 		}
 
-		destinationCell.getPoiCell().setCellType(cell.getCellTypeEnum());
+		//destinationCell.getPoiCell().setCellType(cell.getCellTypeEnum());
 		destinationCell
-				.setValue(this.getValue())
 				.setCellTypes(this.getCellTypes())
-				.setRow(this.getRow());
-
-		if (copyColumnIndex) {
-			destinationCell.setColumnIndex(cell.getColumnIndex());
-		}
+				.setValue(this.getValue());
+				//.setRow(this.getRow());
 
 		if (copyCellStyle) {
 			destinationCell.getPoiCell().setCellStyle(cell.getCellStyle());
@@ -235,31 +235,6 @@ public class ExcelCell {
 		if (copyHyperlink && cell.getHyperlink() != null) {
 			destinationCell.getPoiCell().setHyperlink(cell.getHyperlink());
 		}
-
-
-		/*switch (cell.getCellTypeEnum()) {
-			case BLANK:
-				destinationCell.getPoiCell().setCellValue(cell.getStringCellValue());
-				break;
-			case BOOLEAN:
-				destinationCell.getPoiCell().setCellValue(cell.getBooleanCellValue());
-				break;
-			case ERROR:
-				destinationCell.getPoiCell().setCellErrorValue(cell.getErrorCellValue());
-				break;
-			case FORMULA:
-				destinationCell.getPoiCell().setCellFormula(cell.getCellFormula());
-				break;
-			case NUMERIC:
-				destinationCell.getPoiCell().setCellValue(cell.getNumericCellValue());
-				break;
-			case STRING:
-				destinationCell.getPoiCell().setCellValue(cell.getRichStringCellValue());
-				break;
-			default:
-				//ignore
-		}*/
-
 		return (C) this;
 	}
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -13,8 +14,8 @@ public class TableRow extends ExcelRow {
 	private ExcelTable table;
 	private Map<Integer, TableCell> tableCells;
 
-	public TableRow(Row row, int rowIndex, ExcelTable table) {
-		super(row, rowIndex, table.getSheet(), table.getCellTypes());
+	public TableRow(Row row, int rowIndex, Set<Integer> columnIndexes, ExcelTable table) {
+		super(row, rowIndex, columnIndexes, table.getSheet(), table.getCellTypes());
 		this.table = table;
 	}
 
@@ -69,11 +70,6 @@ public class TableRow extends ExcelRow {
 	}
 
 	@Override
-	public void erase() {
-		getTable().eraseRow(this);
-	}
-
-	@Override
 	public void delete() {
 		getTable().deleteRows(this);
 	}
@@ -84,21 +80,6 @@ public class TableRow extends ExcelRow {
 				"rowIndex=" + getRowIndex() +
 				", values=" + getTableValues().entrySet() +
 				'}';
-	}
-
-	@Override
-	public List<Integer> getColumnsIndexes() {
-		return getTable().getHeader().getColumnsIndexes();
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <R extends ExcelRow> R copy(R destinationRow, boolean copyRowIndex) {
-		super.copy(destinationRow, copyRowIndex);
-		((TableRow) destinationRow)
-				.setTable(this.getTable())
-				.setCellsMap(this.getCellsMap());
-		return (R) this;
 	}
 
 	public boolean hasColumnName(String headerColumnName) {

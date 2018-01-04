@@ -4,8 +4,8 @@ import org.apache.poi.ss.usermodel.Cell;
 
 public class TableCell extends ExcelCell {
 
-	public TableCell(Cell cell, TableRow tableRow, int columnNumber) {
-		super(cell, tableRow, columnNumber);
+	public TableCell(Cell cell, TableRow tableRow, int columnIndex) {
+		super(cell, tableRow, columnIndex);
 	}
 
 	public String getHeaderColumnName() {
