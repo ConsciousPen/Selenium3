@@ -1,4 +1,4 @@
-package aaa.modules.conversion.manual;
+package aaa.modules.conversion.manual.pup;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -12,9 +12,10 @@ import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.modules.conversion.manual.ConvPUPBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,7 +23,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestBindPupWithoutAuto extends PersonalUmbrellaBaseTest {
+public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
 
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
     private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
@@ -94,11 +95,10 @@ public class TestBindPupWithoutAuto extends PersonalUmbrellaBaseTest {
 
         // Create Customer
         mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "NJH3926232050");
-        //createCustomerIndividual();
+        createCustomerIndividual();
 
         // Create HO3 policy
-        //PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
+        PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
 
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
@@ -106,10 +106,9 @@ public class TestBindPupWithoutAuto extends PersonalUmbrellaBaseTest {
                 .adjust(TestData.makeKeyPath("PrefillTab", PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
                 .adjust(TestData.makeKeyPath("UnderlyingRisksAutoTab", PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
 
-        // Initiate manual renewal entry
-        customer.initiateRenewalEntry().start();
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TestData_InitiateRenewalEntry"));
-        initiateRenewalEntryActionTab.submitTab();
+        // Initiate manual renewal entry for PUP
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+        policy.getDefaultView().fillFromTo(tdPUP, PrefillTab.class, PurchaseTab.class, true);
 
     }
 
