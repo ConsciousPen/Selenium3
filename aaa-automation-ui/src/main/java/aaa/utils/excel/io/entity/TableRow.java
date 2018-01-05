@@ -11,21 +11,17 @@ import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Row;
 
 public class TableRow extends ExcelRow {
+	private int tableRowIndex;
 	private ExcelTable table;
 	private Map<Integer, TableCell> tableCells;
 
-	public TableRow(Row row, int rowIndex, Set<Integer> columnIndexes, ExcelTable table) {
-		super(row, rowIndex, columnIndexes, table.getSheet(), table.getCellTypes());
+	public TableRow(Row row, int tableRowIndex, Set<Integer> sheetColumnsIndexes, ExcelTable table) {
+		super(row, tableRowIndex, sheetColumnsIndexes, table.getSheet(), table.getCellTypes());
 		this.table = table;
 	}
 
 	public ExcelTable getTable() {
 		return table;
-	}
-
-	TableRow setTable(ExcelTable table) {
-		this.table = table;
-		return this;
 	}
 
 	public Map<String, Object> getTableValues() {
@@ -44,6 +40,11 @@ public class TableRow extends ExcelRow {
 		return values;
 	}
 
+	@Override
+	public List<Integer> getColumnsIndexes() {
+		return getTable().getHeader().getColumnsIndexes();
+	}
+
 	public List<String> getColumnNames() {
 		return getTable().getHeader().getColumnsNames();
 	}
@@ -53,8 +54,9 @@ public class TableRow extends ExcelRow {
 	protected Map<Integer, TableCell> getCellsMap() {
 		if (this.tableCells == null) {
 			this.tableCells = new HashMap<>();
-			for (int columnIndex : getColumnsIndexes()) {
-				this.tableCells.put(columnIndex, new TableCell(getPoiRow().getCell(columnIndex - 1), this, columnIndex));
+			for (int sheetColumnIndex : this.columnsIndexes) {
+				TableCell tableCell = new TableCell(getPoiRow().getCell(sheetColumnIndex - 1), this, sheetColumnIndex);
+				this.tableCells.put(tableCell.getColumnIndex(), tableCell);
 			}
 		}
 		return new HashMap<>(this.tableCells);

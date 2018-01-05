@@ -23,7 +23,7 @@ import aaa.utils.excel.io.entity.iterator.CellIterator;
 public class ExcelRow implements Iterable<ExcelCell> {
 	protected Row row;
 	protected int rowIndex;
-	protected Set<Integer> columnIndexes;
+	protected Set<Integer> columnsIndexes;
 	protected ExcelSheet sheet;
 	protected Set<CellType<?>> cellTypes;
 	private Map<Integer, ExcelCell> cells;
@@ -36,10 +36,10 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		this(row, rowIndex, null, sheet, cellTypes);
 	}
 
-	public ExcelRow(Row row, int rowIndex, Set<Integer> columnIndexes, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+	public ExcelRow(Row row, int rowIndex, Set<Integer> columnsIndexes, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
 		this.row = row;
 		this.rowIndex = rowIndex;
-		this.columnIndexes = CollectionUtils.isNotEmpty(columnIndexes) ? new HashSet<>(columnIndexes) : getColumnsIndexes(row);
+		this.columnsIndexes = CollectionUtils.isNotEmpty(columnsIndexes) ? new HashSet<>(columnsIndexes) : getColumnsIndexes(row);
 		this.sheet = sheet;
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
@@ -58,18 +58,12 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return this.rowIndex;
 	}
 
-	@SuppressWarnings("unchecked")
-	<R extends ExcelRow> R setRowIndex(int rowIndex) {
-		this.rowIndex = rowIndex;
-		return (R) this;
-	}
-
 	public List<? extends ExcelCell> getCells() {
 		return new ArrayList<>(getCellsMap().values());
 	}
 
 	public List<Integer> getColumnsIndexes() {
-		return new ArrayList<>(this.columnIndexes);
+		return new ArrayList<>(this.columnsIndexes);
 	}
 
 	public int getFirstColumnIndex() {
@@ -81,15 +75,20 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return cellIndexes.get(cellIndexes.size() - 1);
 	}
 
+	public <C extends ExcelCell> C getFirstCell() {
+		return getCell(getFirstColumnIndex());
+	}
+
+	public <C extends ExcelCell> C getLastCell() {
+		return getCell(getLastColumnIndex());
+	}
+
 	public int getSize() {
 		return getCellsMap().size();
 	}
 
 	public boolean isEmpty() {
-		if (getPoiRow() == null) {
-			return true;
-		}
-		if (getPoiRow().getLastCellNum() <= 0) {
+		if (getPoiRow() == null || getPoiRow().getLastCellNum() <= 0) {
 			return true;
 		}
 		for (ExcelCell cell : this) {
@@ -122,12 +121,6 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return row;
 	}
 
-	@SuppressWarnings("unchecked")
-	<R extends ExcelRow> R setPoiRow(Row row) {
-		this.row = row;
-		return (R) this;
-	}
-
 	@Override
 	@Nonnull
 	@SuppressWarnings("unchecked")
@@ -137,7 +130,7 @@ public class ExcelRow implements Iterable<ExcelCell> {
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C getCell(int columnIndex) {
-		assertThat(hasColumn(columnIndex)).as("There is no cell with %s column number", columnIndex).isTrue();
+		assertThat(hasColumn(columnIndex)).as("There is no cell with %1$s column number in row %2$s", columnIndex, getRowIndex()).isTrue();
 		return (C) getCellsMap().get(columnIndex);
 	}
 
@@ -207,27 +200,21 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <R extends ExcelRow> R erase() {
-		getCells().forEach(ExcelCell::erase);
+	public <R extends ExcelRow> R clear() {
+		getCells().forEach(ExcelCell::clear);
 		return (R) this;
 	}
 
 	public void delete() {
 		//TODO-dchubkov: return ExcelSheet and extend Table from ExcelSheet?
-		getSheet().deleteRow(this);
+		getSheet().deleteRows(this);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <R extends ExcelRow> R copy(R destinationRow) {
-		//destinationRow.setPoiRow(this.getPoiRow())
-		//destinationRow.setCellTypes(this.getCellTypes())
-				//.setSheet(this.getSheet());
-
 		for (ExcelCell cell : this) {
 			cell.copy(destinationRow.getCell(cell.getColumnIndex()));
 		}
-
-		//destinationRow.setCellsMap(getCellsMap());
 		return (R) this;
 	}
 

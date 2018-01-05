@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,7 +24,7 @@ import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.iterator.RowIterator;
 import toolkit.exceptions.IstfException;
 
-public class ExcelSheet implements Iterable<ExcelRow> {
+public class ExcelSheet extends ExcelArea implements Iterable<ExcelRow> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelSheet.class);
 
 	private Sheet sheet;
@@ -32,7 +33,6 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	private Set<CellType<?>> allowableCellTypes;
 	private Map<Integer, ExcelRow> rows;
 	private Set<ExcelTable> tables;
-	private Object values;
 
 	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager) {
 		this(sheet, sheetIndex, excelManager, ExcelCell.getBaseTypes());
@@ -97,10 +97,6 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 
 	public List<ExcelRow> getRows() {
 		return new ArrayList<>(getRowsMap().values());
-	}
-
-	public Object getValues() {
-		return values;
 	}
 
 	public boolean hasRow(int rowIndex) {
@@ -251,7 +247,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
 		Set<Integer> columnIndexes = null;
 
-		if (headerColumnNames.length > 0) {
+		if (ArrayUtils.isNotEmpty(headerColumnNames)) {
 			Set<String> headerColumns = new HashSet<>(Arrays.asList(headerColumnNames));
 			Set<String> foundHeaderColumns = new HashSet<>();
 			columnIndexes = new HashSet<>();
@@ -270,7 +266,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 			}
 		}
 
-		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), this, columnIndexes, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnIndexes, this, getCellTypes());
 		return addTable(t).getTable(t);
 	}
 
@@ -283,14 +279,20 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return this;
 	}
 
-	public ExcelSheet deleteRow(int rowIndex) {
-		return deleteRow(getRow(rowIndex));
+	public ExcelSheet deleteRows(Integer... rowsIndexes) {
+		int rowsShifts = 0;
+		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
+		Sheet sheet = getPoiSheet();
+		for (int index : uniqueSortedRowIndexes) {
+			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s on sheet %2$s", index, sheet.getSheetName()).isTrue();
+			sheet.shiftRows(index - rowsShifts, sheet.getLastRowNum(), -1);
+			rowsShifts++;
+		}
+		return this;
 	}
 
-	ExcelSheet deleteRow(ExcelRow row) {
-		Sheet sheet = getPoiSheet();
-		sheet.shiftRows(row.getRowIndex(), sheet.getLastRowNum(), -1);
-		return this;
+	ExcelSheet deleteRows(ExcelRow... rows) {
+		return deleteRows(Arrays.stream(rows).mapToInt(ExcelRow::getRowIndex).boxed().toArray(Integer[]::new));
 	}
 
 	ExcelTable getTable(ExcelTable table) {
@@ -334,11 +336,8 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		if (this.rows == null) {
 			this.rows = new HashMap<>();
 			for (int rowNumber = 1; rowNumber <= getPoiSheet().getLastRowNum(); rowNumber++) {
-				//Row row = getPoiSheet().getRow(rowNumber - 1);
 				ExcelRow row = new ExcelRow(getPoiSheet().getRow(rowNumber - 1), rowNumber, this, getCellTypes());
-				if (!row.isEmpty()) {
-					this.rows.put(rowNumber, row);
-				}
+				this.rows.put(rowNumber, row);
 			}
 		}
 		return this.rows;

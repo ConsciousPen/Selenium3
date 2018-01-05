@@ -9,23 +9,29 @@ import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.ExcelTransient;
 
 public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLPolicy> policies;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = CAPPINGDETAILS_SHEET_NAME, headerRowNumber = CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME, headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
 	private List<OpenLVehicle> vehicles;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME, headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
 	private List<OpenLDriver> drivers;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverage> coverages;
 

@@ -75,14 +75,14 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass, List<Integer> policyNumbers) {
-		ExcelManager openLExcelFile = new ExcelManager(getOpenLFile(openLFileName));
+		ExcelManager openLFile = new ExcelManager(getOpenLFile(openLFileName));
 
-		ExcelTable policiesTable = openLExcelFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);//.excludeRows(policyNumbers.toArray(new Integer[policyNumbers.size()]));
-		List<Integer> rowsToDelete = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
-		policiesTable.deleteRows(rowsToDelete.toArray(new Integer[policyNumbers.size()]));
+		ExcelTable policiesTable = openLFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
+		List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
+		policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()]));
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		return eUnmarshaller.unmarshal(openLExcelFile, openLFileModelClass);
+		return eUnmarshaller.unmarshal(openLFile, openLFileModelClass);
 	}
 
 	protected int getExpectedPremium(String openLFileName, int policyNumber) {

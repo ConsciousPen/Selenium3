@@ -172,7 +172,7 @@ public class ExcelCell {
 		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
 	}
 
-	public void erase() {
+	public void clear() {
 		getRow().getPoiRow().removeCell(getPoiCell());
 	}
 

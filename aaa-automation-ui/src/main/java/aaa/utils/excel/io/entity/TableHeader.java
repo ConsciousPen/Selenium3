@@ -7,30 +7,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.celltype.CellType;
+import toolkit.exceptions.IstfException;
 
 public class TableHeader extends ExcelRow {
 	private ExcelTable table;
-	private Map<Integer, String> columnNames;
+	private Map<String, Pair<Integer, Integer>> columnNamesAndIndexes;
 
-	public TableHeader(Row row, Set<Integer> columnIndexes, ExcelTable table) {
-		super(row, 0, columnIndexes, table.getSheet(), table.getCellTypes());
+	public TableHeader(Row row, Set<Integer> columnsIndexes, ExcelTable table) {
+		super(row, 0, columnsIndexes, table.getSheet(), table.getCellTypes());
 		this.table = table;
 		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
 	}
 
 	public List<String> getColumnsNames() {
-		return new ArrayList<>(getColumnNamesMap().values());
-	}
-
-	int getRowIndexOnSheet() {
-		return getPoiRow().getRowNum() + 1;
+		return new ArrayList<>(getColumnNamesAndIndexesMap().keySet());
 	}
 
 	public ExcelTable getTable() {
 		return table;
+	}
+
+	int getRowIndexOnSheet() {
+		return getPoiRow().getRowNum() + 1;
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class TableHeader extends ExcelRow {
 	}
 
 	@Override
-	public <R extends ExcelRow> R erase() {
+	public <R extends ExcelRow> R clear() {
 		throw new UnsupportedOperationException("Table header erasing is not supported");
 	}
 
@@ -70,37 +72,48 @@ public class TableHeader extends ExcelRow {
 		throw new UnsupportedOperationException("Table header deleting is not supported");
 	}
 
+	@Override
+	public boolean hasColumn(int columnIndex) {
+		return getColumnNamesAndIndexesMap().values().stream().anyMatch(i -> i.getLeft() == columnIndex);
+	}
+
 	public boolean hasColumnName(String columnName) {
 		return getColumnsNames().contains(columnName);
 	}
 
 	public int getColumnIndex(String columnName) {
 		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName).isTrue();
-		return getColumnNamesMap().entrySet().stream().filter(c -> c.getValue().equals(columnName)).findFirst().get().getKey();
+		return getColumnNamesAndIndexesMap().entrySet().stream().filter(c -> c.getKey().equals(columnName)).findFirst().get().getValue().getLeft();
 	}
 
 	public String getColumnName(int columnIndex) {
 		assertThat(hasColumn(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
-		return getColumnNamesMap().get(columnIndex);
+		return getColumnNamesAndIndexesMap().entrySet().stream().filter(c -> c.getValue().getLeft().equals(columnIndex)).findFirst().get().getKey();
 	}
 
 	public void excludeColumns(String... columnNames) {
 		getTable().excludeColumns(columnNames);
 	}
 
-	void excludeColumn(int columnIndex) {
-		this.columnNames.remove(columnIndex);
+	int getColumnIndex(int sheetColumnIndex) {
+		return getColumnNamesAndIndexesMap().values().stream().filter(i -> i.getRight() == sheetColumnIndex).findFirst()
+				.orElseThrow(() -> new IstfException("There is no column index in table with column index on sheet: " + sheetColumnIndex)).getLeft();
 	}
 
-	private Map<Integer, String> getColumnNamesMap() {
-		if (this.columnNames == null) {
-			this.columnNames = new HashMap<>();
-			for (ExcelCell cell : getCells()) {
-				if (!cell.isEmpty()) {
-					this.columnNames.putIfAbsent(cell.getColumnIndex(), cell.getStringValue());
-				}
+	void excludeColumn(int columnIndex) {
+		this.columnNamesAndIndexes.remove(getColumnName(columnIndex));
+	}
+
+	private Map<String, Pair<Integer, Integer>> getColumnNamesAndIndexesMap() {
+		if (this.columnNamesAndIndexes == null) {
+			this.columnNamesAndIndexes = new HashMap<>();
+			int tableColumnIndex = 1;
+			for (int sheetColumnIndex : this.columnsIndexes) {
+				String headerColumnName = getPoiRow().getCell(sheetColumnIndex - 1).getStringCellValue();
+				this.columnNamesAndIndexes.putIfAbsent(headerColumnName, Pair.of(tableColumnIndex, sheetColumnIndex));
+				tableColumnIndex++;
 			}
 		}
-		return this.columnNames;
+		return this.columnNamesAndIndexes;
 	}
 }

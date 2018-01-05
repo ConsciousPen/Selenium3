@@ -3,13 +3,17 @@ package aaa.utils.excel.io.entity;
 import org.apache.poi.ss.usermodel.Cell;
 
 public class TableCell extends ExcelCell {
-
-	public TableCell(Cell cell, TableRow tableRow, int columnIndex) {
-		super(cell, tableRow, columnIndex);
+	public TableCell(Cell cell, TableRow tableRow, int sheetColumnIndex) {
+		super(cell, tableRow, sheetColumnIndex);
 	}
 
 	public String getHeaderColumnName() {
 		return ((TableRow) getRow()).getTable().getHeader().getColumnName(getColumnIndex());
+	}
+
+	@Override
+	public int getColumnIndex() {
+		return ((TableRow) getRow()).getTable().getHeader().getColumnIndex(this.columnIndex);
 	}
 
 	@Override

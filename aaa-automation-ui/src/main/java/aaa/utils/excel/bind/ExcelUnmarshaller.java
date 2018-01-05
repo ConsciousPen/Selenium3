@@ -111,11 +111,13 @@ public class ExcelUnmarshaller {
 		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasColumnName(getHeaderColumnName(f))).collect(Collectors.toList());
 
 		if (!fieldsWithMissingColumns.isEmpty()) {
-			List<String> missingTableColumns = getHeaderColumnNames(fieldsWithMissingColumns);
+			Map<String, String> missingTableColumns = new HashMap<>();
+			fieldsWithMissingColumns.forEach(f -> missingTableColumns.put(f.getType().getSimpleName(), getHeaderColumnName(f)));
+
 			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s.",
-					table.getSheet().getSheetName(), tableClass.getName(), missingTableColumns);
+					table.getSheet().getSheetName(), tableClass.getName(), missingTableColumns.entrySet());
 			if (strictMatch) {
-				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
+				throw new IstfException("Excel unmarshalling with strict match has been failed." + message);
 			}
 			log.warn("{} Field(s) with missed column(s) in result object will have default value(s) of appropriate type(s)", message);
 		}
