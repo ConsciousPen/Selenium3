@@ -33,6 +33,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      * 3. Initiate and attempt to bind PUP policy
      * 4. Verify error with code AAA_PUP_SS507440 exists and can be overridden
      * 5. Bind/purchase policy
+     * 6. Verify the policy is active
      * @details
      */
     @Parameters({"state"})
@@ -74,6 +75,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      * 3. Initiate Manual Renewal Entry for PUP policy
      * 4. Verify error with code AAA_PUP_SS507440 exists and can be overridden
      * 5. Bind/purchase policy
+     * 6. Verify the policy is active
      * @details
      */
     @Parameters({"state"})
