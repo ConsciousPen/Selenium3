@@ -204,13 +204,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // Condition to pass: ErrorTab appears after confirming purchase dialog (Renewal & Endorsement)
         if (!errorTab.isVisible()){
-            if (bindTab.confirmPurchase.isVisible() && bindTab.confirmPurchase.isPresent()){
-                bindTab.confirmPurchase.buttonYes.click(Waiters.AJAX);
-            } else if (bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent()){
-                bindTab.confirmEndorsementPurchase.buttonYes.click(Waiters.AJAX);
-            } else if (bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent()) {
-                bindTab.confirmRenewPurchase.buttonYes.click(Waiters.AJAX);
-            }
+            bindTab.confirmPurchase();
         }
 
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);

@@ -44,7 +44,7 @@ public class BindTab extends Tab {
 		return this;
 	}
 
-	protected void confirmPurchase() {
+	public void confirmPurchase() {
 		if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
 			confirmEndorsementPurchase.confirm();
 		} else if (confirmRenewPurchase.isPresent() && confirmRenewPurchase.isVisible()) {
