@@ -35,9 +35,11 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
 	public static Table autoPaySetupSavingMessage = new Table (By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
+	public static Table tableCappedPolicyPremium = new Table (By.xpath("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table"));
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
+	public static Link linkViewCappingDetails = new Link(By.id("policyDataGatherForm:cappingHODetailsPopup"), Waiters.AJAX);
 
 	@Override
 	public void calculatePremium() {
