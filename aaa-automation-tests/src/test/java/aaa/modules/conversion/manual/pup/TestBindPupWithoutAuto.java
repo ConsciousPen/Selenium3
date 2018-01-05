@@ -1,19 +1,19 @@
 package aaa.modules.conversion.manual.pup;
 
-import aaa.common.pages.SearchPage;
+
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
-import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.conversion.manual.ConvPUPBaseTest;
 import org.testng.annotations.Optional;
@@ -28,7 +28,6 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
     private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
     private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
-    private InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
 
     /**
      * @author Josh Carpenter
@@ -39,6 +38,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      * 3. Initiate and attempt to bind PUP policy
      * 4. Verify error with code AAA_PUP_SS507440 exists and can be overridden
      * 5. Bind/purchase policy
+     * 6. Verify the policy is active
      * @details
      */
     @Parameters({"state"})
@@ -53,25 +53,20 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         // Create HO3 policy
         PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
 
+        // Create Test Data
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         TestData tdPUP = getPolicyTD()
-                .adjust(TestData.makeKeyPath("PrefillTab", PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .adjust(TestData.makeKeyPath("UnderlyingRisksAutoTab", PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
+                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
+                .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()),
+                        getTestSpecificTD("TestData_NoAuto"));
 
         // Initiate PUP policy
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdPUP, BindTab.class, true);
         bindTab.submitTab();
 
-        // Verify error is present and override
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS5071440);
-        errorTab.overrideAllErrors();
-        errorTab.override();
-
-        // Finish binding policy
-        policy.getDefaultView().fillFromTo(tdPUP, BindTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        verifyOverrideErrorAndBind(tdPUP);
 
         assertThat(PolicySummaryPage.labelPolicyStatus.getWebElement().getText()
                 .equals(ProductConstants.PolicyStatus.POLICY_ACTIVE));
@@ -86,6 +81,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      * 3. Initiate Manual Renewal Entry for PUP policy
      * 4. Verify error with code AAA_PUP_SS507440 exists and can be overridden
      * 5. Bind/purchase policy
+     * 6. Verify the policy is active
      * @details
      */
     @Parameters({"state"})
@@ -100,21 +96,44 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         // Create HO3 policy
         PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
 
+        // Create Test Data
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
-        TestData tdPUP = getPolicyTD()
-                .adjust(TestData.makeKeyPath("PrefillTab", PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .adjust(TestData.makeKeyPath("UnderlyingRisksAutoTab", PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
+        TestData tdPUP = getPupConversionTdNoPolicyCreation()
+                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
+                        PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
+                .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
+                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
 
         // Initiate manual renewal entry for PUP
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-        policy.getDefaultView().fillFromTo(tdPUP, PrefillTab.class, PurchaseTab.class, true);
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        policy.getDefaultView().fillUpTo(tdPUP, BindTab.class, true);
+        bindTab.submitTab();
 
+        verifyOverrideErrorAndBind(tdPUP);
+
+        assertThat(PolicySummaryPage.labelPolicyStatus.getWebElement().getText()
+                .equals(ProductConstants.PolicyStatus.POLICY_ACTIVE));
     }
 
+    /**
+     * @return Test Data for an HO3 policy with no other active policies
+     */
     private TestData getTdHome() {
         return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData_NJ")
-                .adjust(TestData.makeKeyPath("ApplicantTab", HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
+                .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
                         getTestSpecificTD("TestData_NoActivePolicies"));
+    }
+
+    /**
+     * Verifies the expected error message, overrides, and finishes binding the policy
+     * @param td Test Data to be used to finish binding the PUP policy
+     */
+    private void verifyOverrideErrorAndBind(TestData td) {
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS5071440);
+        errorTab.overrideAllErrors();
+        errorTab.override();
+        policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
     }
 }
