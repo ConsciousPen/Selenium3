@@ -204,7 +204,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refund3.put(TRANSACTION_DATE, checkDate3);
         refund3.put(TYPE, "Refund");
         refund3.put(SUBTYPE_REASON, "Automated Refund");
-        pas1939_issuedRefundActionsCheck(refund3, policyNumber, false);
+        pas1939_issuedRefundActionsCheck(refund3, policyNumber, true);
         pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, true, "Check");
 
         getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
@@ -561,6 +561,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         pas1939_voidedRefundTransactionCheck(new Dollar(amount), checkDate5, "Automated Refund");
         //6415 END
         //Start PAS-7193
+        if (BillingSummaryPage.getTotalDue().lessThan(new Dollar(0))) {
+            manualRefundPerform("Check", BillingSummaryPage.getTotalDue().multiply(-1).toString());
+        }
         Dollar refundAmount7 = new Dollar(10);
         Dollar totalDue3 = BillingSummaryPage.getTotalDue();
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue3.add(refundAmount7));
@@ -577,7 +580,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
                 TRANSACTION_DATE, checkDate7,
                 TYPE, "Refund",
                 SUBTYPE_REASON, "Automated Refund"
-
         );
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund7).getCell(TYPE).controls.links.get(1).click();
 
@@ -615,10 +617,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
                 TRANSACTION_DATE, checkDate6,
                 TYPE, "Refund",
                 SUBTYPE_REASON, "Automated Refund"
-
         );
         pas1939_issuedRefundActionsCheck(refund6, policyNumber, true);
-        pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount6, checkDate6, refund6, false, true);
+        pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount6, checkDate6, refund6, false, true, "Check");
 
         getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
         mainApp().reopen();
