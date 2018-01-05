@@ -641,7 +641,7 @@ TestData_NJ: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab_NJ',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -677,7 +677,7 @@ DriverTab_NJ: {
 DocumentsAndBindTab_NJ: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    Non-Owner Automobile Endorsement: Physically Signed,
+    Named Non-Owner Coverage Endorsement: Physically Signed,
     NJ Auto Standard Policy Coverage Selection Form: Physically Signed
   },
   RequiredToIssue: {

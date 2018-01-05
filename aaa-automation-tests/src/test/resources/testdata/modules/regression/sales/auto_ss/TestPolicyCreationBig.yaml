@@ -85,7 +85,12 @@ VehicleTab2: {
 }
 
 PremiumAndCoveragesTab: {
-  Payment Plan: Annual
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1100
 }
 
 DriverActivityReportsTab: {
@@ -822,13 +827,13 @@ AssignedDriver2_NY: {
 
 DocumentsAndBindTab_NY: {
   RequiredToBind: {
-    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+    #Acknowledgement of Requirement for Photo Inspection: Physically Signed,
     New York Auto Insurance Application: Physically Signed
   },
-  RequiredToIssue: {
-    Separate Vehicle 1: 'Yes',
-    Separate Vehicle 2: 'Yes'
-  },
+  #RequiredToIssue: {
+  #  Separate Vehicle 1: 'Yes',
+  #  Separate Vehicle 2: 'Yes'
+  #},
   Agreement: I agree
 }
 
