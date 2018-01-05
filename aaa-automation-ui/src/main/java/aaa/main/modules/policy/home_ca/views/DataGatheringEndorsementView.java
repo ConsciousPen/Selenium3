@@ -9,7 +9,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantEndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PersonalPropertyTab;
@@ -39,7 +38,6 @@ public class DataGatheringEndorsementView extends Workspace {
 		registerTab(UnderwritingAndApprovalTab.class);
 		registerTab(DocumentsTab.class);
 		registerTab(BindTab.class);
-		registerTab(ErrorTab.class);
 		registerTab(PurchaseTab.class);
 	}
 }

@@ -13,8 +13,8 @@ TestData: {
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {}
-#  PurchaseTab: '@PurchaseTab',
+  BindTab: {},
+  PurchaseTab: '@PurchaseTab'
 }
 
 EndorsementActionTab: {
@@ -26,13 +26,13 @@ PremiumsAndCoveragesQuoteTab: {
   Payment plan: Quarterly
 }
 
-#PurchaseTab: {
-#  Change Minimum Down Payment: true,
-#  Minimum Required Down Payment: 10,
-#  PaymentAllocation: {
-#    Cash: 10
-#  }
-#}
+PurchaseTab: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 10
+  }
+}
 
 AcceptPaymentActionTab: {
   Payment Method: 'Cash',

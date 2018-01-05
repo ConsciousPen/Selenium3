@@ -120,7 +120,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		String endorseDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1))
 			.minusDays(2).format(DateTimeUtils.MM_DD_YYYY);
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOSEndorsement").adjust(keyPath, endorseDate).adjust(getPolicyTD("Override", "TestData_OverrideError")));
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOSEndorsement").adjust(keyPath, endorseDate));
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		});
@@ -157,7 +157,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOS").adjust(getPolicyTD("Override", "TestData_OverrideError")));
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOS"));
 		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue("EndorsementActionTab", "Endorsement Date");
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
@@ -561,7 +561,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
-		policy.endorse().performAndFill(getTestSpecificTD("Endorsement").adjust(getPolicyTD("Override", "TestData_OverrideError")));
+		policy.endorse().performAndFill(getTestSpecificTD("Endorsement"));
 		// split policy
 		policy.policySplit().perform(getTestSpecificTD("SplitTestData"));
 		assertSoftly(softly -> {
@@ -625,7 +625,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String rewritePolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 		policy.dataGather().start();
-		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy").adjust(getPolicyTD("Override", "TestData_OverrideError")));
+		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
@@ -1100,7 +1100,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
-		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(getPolicyTD("Override", "TestData_OverrideError")));
+		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
 				ActivitiesAndUserNotesTable.DESCRIPTION,
