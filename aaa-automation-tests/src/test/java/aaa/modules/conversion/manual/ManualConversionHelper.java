@@ -2,10 +2,14 @@ package aaa.modules.conversion.manual;
 
 import aaa.helpers.TestDataManager;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import toolkit.datax.TestData;
 import static aaa.common.enums.Constants.States.*;
 import java.util.Arrays;
@@ -66,6 +70,16 @@ public interface ManualConversionHelper {
                 break;
             }
             case "Personal Umbrella Policy": {
+                td.adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]",
+                        PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()), "index=3")
+                        .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
+                                PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()))
+                        .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
+                                PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE.getLabel()))
+                        .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()))
+                        .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.DWELLING_ADDRESS.getLabel()))
+                        .adjust(TestData.makeKeyPath(PremiumAndCoveragesQuoteTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Pay in Full (Renewal)");
                 break;
             }
         }
