@@ -44,8 +44,8 @@ public class TestScenario2 extends Scenario2 {
 			payEighthBill();
 			generateNinthBill();
 			payNinthBill();
-			renewalImageGeneration();
 			generateTenthBill();
+			renewalImageGeneration();
 			payTenthBill();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();

@@ -169,7 +169,7 @@ PolicyInformation_AZ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'Chandler - 500005091 - Chandler',
+  Agency Location: 'contains=500005091 - Chandler',
   Agent: 'House Agent Mesa',
   Authorized by: QA,
   TollFree Number: 1,
