@@ -8,6 +8,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.conversion.manual.ConvPUPBaseTest;
@@ -52,8 +53,9 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         TestData tdPUP = getPolicyTD()
-                .adjust(TestData.makeKeyPath("PrefillTab", PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .adjust(TestData.makeKeyPath("UnderlyingRisksAutoTab", PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
+                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
+                .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()),
+                        getTestSpecificTD("TestData_NoAuto"));
 
         // Initiate PUP policy
         policy.initiate();
@@ -115,7 +117,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      */
     private TestData getTdHome() {
         return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData_NJ")
-                .adjust(TestData.makeKeyPath("ApplicantTab", HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
+                .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
                         getTestSpecificTD("TestData_NoActivePolicies"));
     }
 
