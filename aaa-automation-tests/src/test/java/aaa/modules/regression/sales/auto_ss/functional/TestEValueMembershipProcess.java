@@ -728,7 +728,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
         if (isGenerated) {
             lastTransactionHistoryExit();
-            Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
+            Efolder.isDocumentExist("Endorsement", "Discount Removed");
 
             if (isMembershipDataPresent) {
                 CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));

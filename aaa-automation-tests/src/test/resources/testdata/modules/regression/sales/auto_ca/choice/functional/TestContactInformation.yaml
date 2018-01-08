@@ -48,7 +48,7 @@ ContactInformation: {
 
 DriverTab1: {
   Occupation: Driver,
-  Age First Licensed: 37,
+  Age First Licensed: 30,
   Permit Before License: 'Yes',
   License Type: 'Licensed (US)',
   License State: CA,
@@ -88,5 +88,6 @@ DriverTab3: {
 }
 
 PremiumAndCoveragesTab: {
+  Product: CA Choice,
   Payment Plan: Annual
 }
