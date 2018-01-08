@@ -44,6 +44,7 @@ public class TestScenario7 extends Scenario7 {
 			if (!getState().equals(Constants.States.KY)) {
 				renewalPreviewGeneration();
 			}
+			endorsementRPBeforeRenewal();
 			endorsementAPBeforeRenewal();
 			renewalOfferGeneration();
 			endorsementRPAfterRenewal();
