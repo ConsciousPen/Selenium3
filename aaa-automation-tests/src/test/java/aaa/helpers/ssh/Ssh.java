@@ -110,7 +110,7 @@ public class Ssh {
 			for (ChannelSftp.LsEntry file : list) {
 				File request = new File(destination.getAbsolutePath() + "/" + file.getFilename());
 				sftpChannel.get(file.getFilename(), destination.getAbsolutePath() + "/" + file.getFilename());
-				String newName = file.getFilename() + ".fullfill";
+				String newName = file.getFilename();// + ".fullfill";
 				response = new File(destination.getAbsolutePath() + "/" + newName);
 				request.renameTo(response);
 			}
