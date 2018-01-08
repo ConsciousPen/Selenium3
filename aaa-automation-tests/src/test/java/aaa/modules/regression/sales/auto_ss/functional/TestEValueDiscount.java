@@ -779,7 +779,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         log.info("Delay end");
         documentsAndBindTab.saveAndExit();
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
-        Efolder.isDocumentExist("Miscellaneous", "ACKNOWLEDGEMENT FORM");
+        Efolder.isDocumentExist("Miscellaneous", "Acknowledgement Form");
         //PAS-264 end
 
         //PAS-721 Start

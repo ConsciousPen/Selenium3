@@ -256,6 +256,12 @@ OSI-1114:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
       messages: ["LoginPanel is displayed expected"]
+OSI-1115:
+  summary: "OSI: Megha is checking the discrepency - AAAPaymentDetailsCheque vs PaymentDetailsCheque"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.*]
+      messages: ["AAAPaymentDetailsCheque"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD

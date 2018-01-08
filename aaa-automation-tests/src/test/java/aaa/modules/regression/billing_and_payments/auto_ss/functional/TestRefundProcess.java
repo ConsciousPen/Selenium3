@@ -118,8 +118,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         Dollar refundAmount2 = new Dollar(100);
         Dollar refundAmount3 = new Dollar(100);
         String checkDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-        String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
-        String checkDate3 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeUtils.MM_DD_YYYY);
+
+
         String paymentMethod = "Check";
         precondJobAdding();
         mainApp().open();
@@ -179,6 +179,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(refundAmount2));
         TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+        String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
@@ -197,6 +198,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-1939 End
 
         TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+        String checkDate3 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
         checkRefundDocumentInDb(state, policyNumber, 2);
@@ -634,6 +636,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         CustomAssert.assertEquals("100", transactionsFromDB1.get("ENTRYAMT"));
         CustomAssert.assertEquals("AutomatedRefund", transactionsFromDB1.get("TRANSACTIONTYPE"));
         CustomAssert.assertEquals("1060", transactionsFromDB1.get("LEDGERACCOUNTNO"));
+        //TODO Megha is checking the problem
         CustomAssert.assertEquals(billingPaymentMethodCheck, transactionsFromDB1.get("BILLINGPAYMENTMETHOD"));
 
         Map<String, String> transactionsFromDBDebit1 = getRefundTransactionsFromDB(transactionID2, billingAccountNumber1, "DEBIT");
@@ -700,7 +703,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethod);
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
 
-        if (paymentMethod.equals("Check")) {
+        if ("Check".equals(paymentMethod)) {
             acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value("Processing");
             acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.value(checkDate);
             acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present();
@@ -866,11 +869,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         }
         File disbursementEngineFile = DisbursementEngineHelper.createFile(builder, folderName);
         DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
-        //TODO workaround for Time-setter parallel execution
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
         if ("ERR".equals(refundStatus)) {
+            //TODO workaround for Time-setter parallel execution
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMinutes(30));
             JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
         } else if ("SUCC".equals(refundStatus)) {
+            //TODO workaround for Time-setter parallel execution
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
             JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
         }
     }
