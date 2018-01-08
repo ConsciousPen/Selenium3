@@ -47,7 +47,7 @@ public class RefundProcessHelper extends PolicyBilling {
         DisbursementEngineHelper.DisbursementFile neededLine = null;
         for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
             if (s.getAgreementNumber().equals(policyNumber)) {
-                neededLine = s;
+                neededLine =   s;
             }
         }
         CustomAssert.assertEquals(neededLine.getRecordType(), "D");
