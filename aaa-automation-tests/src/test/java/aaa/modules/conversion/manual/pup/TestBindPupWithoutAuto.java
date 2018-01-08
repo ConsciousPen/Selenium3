@@ -43,8 +43,8 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void testBindPupWithoutAutoNB(@Optional("NJ") String state) {
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6957")
+    public void pas6957TestBindPupWithoutAutoNB(@Optional("NJ") String state) {
 
         // Create customer
         mainApp().open();
@@ -68,8 +68,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
 
         verifyOverrideErrorAndBind(tdPUP);
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getWebElement().getText()
-                .equals(ProductConstants.PolicyStatus.POLICY_ACTIVE));
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /**
@@ -86,8 +85,8 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void testBindPupWithoutAutoConversion(@Optional("NJ") String state) {
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6957")
+    public void pas6957TestBindPupWithoutAutoConversion(@Optional("NJ") String state) {
 
         // Create Customer
         mainApp().open();
@@ -102,8 +101,8 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         TestData tdPUP = getPupConversionTdNoPolicyCreation()
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
                         PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), getTestSpecificTD("TestData_NoAuto"));
+                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
+                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
 
         // Initiate manual renewal entry for PUP
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
@@ -112,8 +111,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
 
         verifyOverrideErrorAndBind(tdPUP);
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getWebElement().getText()
-                .equals(ProductConstants.PolicyStatus.POLICY_ACTIVE));
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /**
@@ -121,8 +119,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      */
     private TestData getTdHome() {
         return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData_NJ")
-                .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
-                        getTestSpecificTD("TestData_NoActivePolicies"));
+                .mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()));
     }
 
     /**
