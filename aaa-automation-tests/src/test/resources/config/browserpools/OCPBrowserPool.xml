@@ -1,0 +1,22 @@
+<browsers>
+	<properties>
+		<name>WEBDRIVER</name>
+		<seleniumType>WEBDRIVER</seleniumType>
+		<browserProfile>firefox</browserProfile>
+		<useXpathLibrary>true</useXpathLibrary>
+		<allowNativeXPath>true</allowNativeXPath>
+		<browserLifetime>0</browserLifetime>
+		<timeout>200000</timeout>
+		<capability name="unexpectedAlertBehaviour">ignore</capability>
+	</properties>
+	
+	<hub>
+		<url>http://hub-ta.apps.ocpdemo.tent.trt.csaa.pri/</url>
+		<min>4</min>
+		<max>4</max>
+		<keywords>
+			<keyword>JDI</keyword>
+		</keywords>
+	</hub>
+	
+</browsers>
