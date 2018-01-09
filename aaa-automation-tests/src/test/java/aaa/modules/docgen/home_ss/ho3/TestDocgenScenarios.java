@@ -125,12 +125,14 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		createCustomerIndividual();
 		String quoteNum = createQuote();
 		policy.quoteDocGen().start();
-		
+		//PAS-6839 Remove Old CIN Documents and triggers from the system
+		/*
 		if (getState().equals(States.VA)) {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.HSAUDVA);
 		} else {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.AHAUXX);
 		}
+		*/
 		documentActionTab.verify.documentsPresent(
 				Documents.AHFMXX,
 				Documents.HS11.setState(getState()),
@@ -204,7 +206,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		Tab.buttonSaveAndExit.click();
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(false, Documents.AHFMXX, Documents.HSILXX);
-//		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX); // TODO AHAUXX form is not absent, need to confirm the request
+//		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX); 
 		documentActionTab.buttonCancel.click();
 		
 		policy.dataGather().start();
@@ -214,8 +216,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		Tab.buttonSaveAndExit.click();
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(Documents.AHFMXX, Documents.HSILXX);
-		if (!getState().equals("VA"))
-			documentActionTab.verify.documentsPresent(Documents.AHAUXX);
+		//if (!getState().equals("VA"))
+		//	documentActionTab.verify.documentsPresent(Documents.AHAUXX);
 
 		log.info("==========================================");
 		log.info(getState() + " HO3 Quote Documents Generation is checked, quote: " + quoteNum);
@@ -316,7 +318,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU03XX
 				);
 		documentActionTab.verify.documentsPresent(false, 
-//				Documents.AHAUXX // TODO Actually AHAUXX is present, need to confirm the request
 				Documents.HSIQXX,
 				Documents.AHPNXX,
 				Documents._438BFUNS,
@@ -453,7 +454,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents.AHAUXX,
+				//Documents.AHAUXX,
 				Documents.AHFMXX,
 				Documents.HS11.setState(getState()),
 				Documents.HSIQXX,

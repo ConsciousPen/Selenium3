@@ -162,12 +162,12 @@ TestData_Endorsement1: {
   AssignmentTab: {
     DriverVehicleRelationshipTable: [
       {
-        Vehicle: '2017, MHT, 456',
+        Vehicle: 'contains=MHT',
         Primary Driver: index=1,
         Manually Rated Driver: index=2
       },
       {
-        Vehicle: '2011, MERCEDES-BENZ, G55AMG',
+        Vehicle: 'contains=MERCEDES-BENZ',
         Primary Driver: index=1,
         Manually Rated Driver: index=3
       }
