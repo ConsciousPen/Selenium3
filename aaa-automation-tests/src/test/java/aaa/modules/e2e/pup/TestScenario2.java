@@ -44,8 +44,13 @@ public class TestScenario2 extends Scenario2 {
 			payEighthBill();
 			generateNinthBill();
 			payNinthBill();
-			generateTenthBill();
-			renewalImageGeneration();
+			if (getState().equals(Constants.States.CA)) {
+				renewalImageGeneration();
+				generateTenthBill();
+			} else {
+				generateTenthBill();
+				renewalImageGeneration();
+			}
 			payTenthBill();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
