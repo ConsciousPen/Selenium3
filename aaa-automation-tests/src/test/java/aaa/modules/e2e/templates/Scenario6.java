@@ -29,6 +29,7 @@ import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.BillingConstants.PolicyFlag;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
@@ -270,7 +271,9 @@ public class Scenario6 extends ScenarioBaseTest {
 		// Arrays.asList(OnDemandDocuments.AHRBXX, OnDemandDocuments.HSRNXX));
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX, DocGenEnum.Documents.HSRNXX);
+		//For CA document 61 5121 substitutes HSRNXX
+		Documents document = getState().equals(States.CA) ? DocGenEnum.Documents._61_5121 : DocGenEnum.Documents.HSRNXX;
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX, document);
 	}
 
 	protected void payRenewOffer() {
@@ -312,7 +315,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected void automaticRefundNotGenerated() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRefundDate(getTimePoints().getBillDueDate(policyExpirationDate)));
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob); //.refundGenerationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 

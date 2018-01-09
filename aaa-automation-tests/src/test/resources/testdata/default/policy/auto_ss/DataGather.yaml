@@ -60,7 +60,8 @@ PolicyInformation: {
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Draper - 500005417 - Draper',
+  #Agency Location: 'Draper - 500005417 - Draper',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
   Agent: 'House Account Draper',
   Authorized by: QA,
   TollFree Number: 1,
@@ -96,11 +97,11 @@ FormsTab: {}
 
 PremiumAndCoveragesTab: {
   Payment Plan: Annual,
-  Policy Term: Annual,
+  #Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: 1100
+  #Collision Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1100
 }
 
 DriverActivityReportsTab: {
@@ -168,7 +169,7 @@ PolicyInformation_AZ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'Chandler - 500005091 - Chandler',
+  Agency Location: 'contains=500005091 - Chandler',
   Agent: 'House Agent Mesa',
   Authorized by: QA,
   TollFree Number: 1,
@@ -377,7 +378,7 @@ CurrentCarrierInformation_DE: {
   "Override Prefilled Current Carrier?": 'Yes',
   Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
   Agent Entered Inception Date: $<today-1y>,
-  Agent Entered Expiration Date: $<today>,
+  Agent Entered Expiration Date: $<today+10d>,
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
@@ -738,7 +739,7 @@ CurrentCarrierInformation_NJ: {
   "Override Prefilled Current Carrier?": 'Yes',
   Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
   Agent Entered Inception Date: $<today-1y>,
-  Agent Entered Expiration Date: $<today>,
+  Agent Entered Expiration Date: $<today+10d>,
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
