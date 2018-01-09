@@ -125,7 +125,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
         fillPupOverrideRuleOnClaimsTab(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
 
-        // Verify the error message, finish binding the policy, and confirm active/successful
+        // Verify policy is active
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
@@ -159,7 +159,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
         fillPupOverrideRuleOnClaimsTab(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
 
-        // Verify the error message, finish binding the policy, and confirm active/successful
+        // Verify policy is active
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
