@@ -311,6 +311,7 @@ public class Ssh {
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
+				session.setConfig("PreferredAuthentications", "password");
 				session.connect();
 				log.info("SSH: Started SSH Session for " + session.getHost() + " host");
 			} catch (JSchException e) {
