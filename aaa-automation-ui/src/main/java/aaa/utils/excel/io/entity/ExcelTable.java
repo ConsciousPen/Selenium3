@@ -247,11 +247,11 @@ public class ExcelTable implements Iterable<TableRow> {
 
 	public ExcelTable excludeColumns(String... columnNames) {
 		for (String cName : columnNames) {
-			int columnNumber = getHeader().getColumnIndex(cName);
-			this.columnsIndexes.remove(columnNumber);
-			getHeader().excludeColumn(columnNumber);
+			int tableColumnIndex = getHeader().getColumnIndex(cName);
+			this.columnsIndexes.remove(getHeader().getColumnIndexOnSheet(cName));
+			getHeader().excludeColumn(cName);
 			for (TableRow row : this) {
-				row.excludeColumn(columnNumber);
+				row.excludeColumn(tableColumnIndex);
 			}
 		}
 		return this;

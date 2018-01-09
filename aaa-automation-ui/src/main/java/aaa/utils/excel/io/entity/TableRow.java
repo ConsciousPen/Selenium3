@@ -50,7 +50,7 @@ public class TableRow extends ExcelRow {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableCell> getCellsMap() {
 		if (this.tableCells == null) {
 			this.tableCells = new HashMap<>();
@@ -59,7 +59,7 @@ public class TableRow extends ExcelRow {
 				this.tableCells.put(tableCell.getColumnIndex(), tableCell);
 			}
 		}
-		return new HashMap<>(this.tableCells);
+		return this.tableCells;
 	}
 
 	int getRowIndexOnSheet() {
@@ -90,6 +90,10 @@ public class TableRow extends ExcelRow {
 
 	public Integer getColumnIndex(String headerColumnName) {
 		return getTable().getHeader().getColumnIndex(headerColumnName);
+	}
+
+	public Integer getColumnIndexOnSheet(String headerColumnName) {
+		return getTable().getHeader().getColumnIndexOnSheet(headerColumnName);
 	}
 
 	public TableCell getCell(String headerColumnName) {

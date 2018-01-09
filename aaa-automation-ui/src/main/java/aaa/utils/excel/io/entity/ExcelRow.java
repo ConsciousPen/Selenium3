@@ -224,7 +224,7 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return (R) this;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected <C extends ExcelCell> Map<Integer, C> getCellsMap() {
 		if (this.cells == null) {
 			this.cells = new HashMap<>();
@@ -236,7 +236,7 @@ public class ExcelRow implements Iterable<ExcelCell> {
 				}
 			}
 		}
-		return new HashMap<>((Map<Integer, C>) this.cells);
+		return (Map<Integer, C>) this.cells;
 	}
 
 	private Set<Integer> getColumnsIndexes(Row row) {

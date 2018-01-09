@@ -210,7 +210,7 @@ public class ExcelSheet extends ExcelArea implements Iterable<ExcelRow> {
 			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", expectedColumnNames, getPoiSheet().getSheetName());
 			if (!foundRowsWithPartialMatch.isEmpty()) {
 				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
-				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum();
+				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum() + 1;
 				String missedVales = foundRowsWithPartialMatch.get(bestMatch).getRight();
 				errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed cell values: %3$s", errorMessage, rowNumber, missedVales);
 			}
@@ -335,7 +335,7 @@ public class ExcelSheet extends ExcelArea implements Iterable<ExcelRow> {
 	private Map<Integer, ExcelRow> getRowsMap() {
 		if (this.rows == null) {
 			this.rows = new HashMap<>();
-			for (int rowNumber = 1; rowNumber <= getPoiSheet().getLastRowNum(); rowNumber++) {
+			for (int rowNumber = 1; rowNumber <= getPoiSheet().getLastRowNum() + 1; rowNumber++) {
 				ExcelRow row = new ExcelRow(getPoiSheet().getRow(rowNumber - 1), rowNumber, this, getCellTypes());
 				this.rows.put(rowNumber, row);
 			}
