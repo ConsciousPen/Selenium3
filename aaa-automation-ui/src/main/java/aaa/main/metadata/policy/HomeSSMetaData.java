@@ -1412,6 +1412,18 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP = declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false,
 					By.id("overrideModalConfirmationDialogForm:cancelBtn"));
 		}
+
+		public static final AssetDescriptor<DialogAssetList> VIEW_CAPPING_DETAILS_DIALOG = declare("View Capping Details", DialogAssetList.class, PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.class,
+				By.xpath("//form[@id='cappingDetailsPopupPanel']"));
+
+		public static final class ViewCappingDetailsDialog extends MetaData {
+			public static final AssetDescriptor<Link> VIEW_CAPPING_DETAILS = declare("View Capping Details", Link.class, By.id("policyDataGatherForm:cappingHODetailsPopup"));
+			public static final AssetDescriptor<TextBox> MANUAL_CAPPING_FACTOR = declare("Manual Capping Factor (%)", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> CAPPING_OVERRIDE_REASON = declare("Capping Override Reason", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BUTTON_TO_PREMIUM_AND_COVERAGES = declare("Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingReturnTo"));
+			public static final AssetDescriptor<Button> BUTTON_CALCULATE  = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
+			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES  = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingSave"));
+		}
 	}
 
 	public static final class MortgageesTab extends MetaData {

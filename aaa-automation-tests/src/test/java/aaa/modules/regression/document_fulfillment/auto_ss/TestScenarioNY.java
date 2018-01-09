@@ -36,7 +36,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		
 		createCustomerIndividual();
-		String quoteNumber = createQuote();
+		String quoteNumber = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());

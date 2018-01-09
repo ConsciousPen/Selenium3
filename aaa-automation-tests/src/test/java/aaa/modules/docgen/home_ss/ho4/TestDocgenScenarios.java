@@ -83,11 +83,11 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.quoteDocGen().start();
 		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
-		goddTab.verify.documentsPresent(AHAUXX, AHFMXX, HS11_4.setState(String.format("%s4", getState())), HSIQXX4, HSRFIXX, HSILXX, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+		goddTab.verify.documentsPresent(AHFMXX, HS11_4.setState(String.format("%s4", getState())), HSIQXX4, HSRFIXX, HSILXX, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
 		goddTab.verify.documentsPresent(false, _438BFUNS, AHRCTXX, AHPNXX, HS02_4.setState(String.format("%s4", getState())), AHNBXX, 
 //				HSEIXX, // TODO Present on the page, need to check the requirement
 				HSES);
-		goddTab.verify.documentsEnabled(AHAUXX, AHFMXX, HS11_4.setState(String.format("%s4", getState())), HSIQXX4, HSILXX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+		goddTab.verify.documentsEnabled(AHFMXX, HS11_4.setState(String.format("%s4", getState())), HSIQXX4, HSILXX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
 		goddTab.verify.documentsEnabled(false, HSRFIXX, HSU01XX, HSU02XX, HSU07XX, HSU09XX);
 
 		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX, HSU04XX, HSU06XX, HSU08XX);
@@ -114,7 +114,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 
 		policy.quoteDocGen().start();
 		goddTab.verify.documentsEnabled(false, AHFMXX, HSILXX);
-		goddTab.verify.documentsPresent(false, AHAUXX);
+		//goddTab.verify.documentsPresent(false, AHAUXX);
 		goddTab.buttonCancel.click();
 
 		policy.dataGather().start();
@@ -124,7 +124,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 
 		policy.quoteDocGen().start();
 		goddTab.verify.documentsEnabled(true, AHFMXX, HSILXX);
-		goddTab.verify.documentsPresent(true, AHAUXX);
+		//goddTab.verify.documentsPresent(true, AHAUXX);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -200,7 +200,6 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		goddTab.verify.documentsEnabled(AHRCTXX, HS11_4.setState(String.format("%s4", getState())), HSEIXX, HSILXX, HSU01XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
 		goddTab.verify.documentsEnabled(false, AHFMXX, HSRFIXX, HSU03XX, HSU02XX);
 		goddTab.verify.documentsPresent(false,
-		// AHAUXX,// TODO Actually AHAUXX is present, need to confirm therequest
 				HSIQXX4, AHPNXX, HSES, _438BFUNS);
 
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4", getState())));

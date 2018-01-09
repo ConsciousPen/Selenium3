@@ -2,7 +2,7 @@
 
   TD_Renewal_Actions_MD: {
     InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO4,
+    Policy Type: DP3,
     Previous Policy Number: '$<rx:123\d{5}>',
     Previous Source System: MAIG,
     Risk State: MD,
@@ -23,7 +23,9 @@
     PropertyInfoTab: '@PropertyInfoTab',
     ProductOfferingTab: '@ProductOfferingTab',
     EndorsementTab: '@EndorsementTab',
-    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab'
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
   }
 
   # --------- Application Tab MD ----------
@@ -31,6 +33,7 @@
   ApplicantTab_MD: {
     NamedInsured: '@NamedInsured',
     AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
     DwellingAddress: '@DwellingAddress_MD',
     AgentInfo: '@AgentInfo_MD'
   }
@@ -65,7 +68,7 @@
 
   TD_Renewal_Actions_VA: {
     InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO4,
+    Policy Type: DP3,
     Previous Policy Number: '$<rx:123\d{5}>',
     Previous Source System: MAIG,
     Risk State: VA,
@@ -86,7 +89,9 @@
     PropertyInfoTab: '@PropertyInfoTab',
     ProductOfferingTab: '@ProductOfferingTab',
     EndorsementTab: '@EndorsementTab',
-    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab'
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
   }
 
   # --------- Application Tab VA ----------
@@ -94,6 +99,7 @@
   ApplicantTab_VA: {
     NamedInsured: '@NamedInsured',
     AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
     DwellingAddress: '@DwellingAddress_VA',
     AgentInfo: '@AgentInfo_VA'
   }
@@ -116,7 +122,7 @@
 
   ReportsTab_VA: {
     Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Order report'}],
+    #AAAMembershipReport: [{Report: 'Order report'}],
     #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
     #FirelineReport: [{Report: 'Order Report'}],
     RiskMeterReport: [{Report: 'Order Report'}],
@@ -128,7 +134,7 @@
 
   TD_Renewal_Actions_DE: {
     InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO4,
+    Policy Type: DP3,
     Previous Policy Number: '$<rx:123\d{5}>',
     Previous Source System: MAIG,
     Risk State: DE,
@@ -149,7 +155,9 @@
     PropertyInfoTab: '@PropertyInfoTab',
     ProductOfferingTab: '@ProductOfferingTab',
     EndorsementTab: '@EndorsementTab',
-    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab'
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
   }
 
   # --------- Application Tab DE ----------
@@ -157,6 +165,7 @@
   ApplicantTab_DE: {
     NamedInsured: '@NamedInsured',
     AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
     DwellingAddress: '@DwellingAddress_DE',
     AgentInfo: '@AgentInfo_DE'
   }
@@ -184,14 +193,13 @@
     RiskMeterReport: [{Report: 'Order Report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}]
-    #ISO360Report: [{Report: 'Order report'}]
   }
 
 # ====================== TD_Renewal_Actions NJ =======================
 
   TD_Renewal_Actions_NJ: {
     InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO4,
+    Policy Type: DP3,
     Previous Policy Number: '$<rx:123\d{5}>',
     Previous Source System: MAIG,
     Risk State: NJ,
@@ -212,7 +220,9 @@
     PropertyInfoTab: '@PropertyInfoTab',
     ProductOfferingTab: '@ProductOfferingTab',
     EndorsementTab: '@EndorsementTab',
-    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab'
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
   }
 
   # --------- Application Tab NJ ----------
@@ -220,6 +230,7 @@
   ApplicantTab_NJ: {
     NamedInsured: '@NamedInsured',
     AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
     DwellingAddress: '@DwellingAddress_NJ',
     AgentInfo: '@AgentInfo_NJ'
   }
@@ -254,7 +265,7 @@
 
   TD_Renewal_Actions_PA: {
     InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO4,
+    Policy Type: DP3,
     Previous Policy Number: '$<rx:123\d{5}>',
     Previous Source System: MAIG,
     Risk State: PA,
@@ -275,7 +286,9 @@
     PropertyInfoTab: '@PropertyInfoTab',
     ProductOfferingTab: '@ProductOfferingTab',
     EndorsementTab: '@EndorsementTab',
-    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab'
+    PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+    MortgageesTab: '@MortgageesTab',
+    UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab'
   }
 
   # --------- Application Tab PA ----------
@@ -283,6 +296,7 @@
   ApplicantTab_PA: {
     NamedInsured: '@NamedInsured',
     AAAMembership: '@AAAMembership',
+    NamedInsuredInformation: '@NamedInsuredInformation',
     DwellingAddress: '@DwellingAddress_PA',
     AgentInfo: '@AgentInfo_PA'
   }
@@ -327,13 +341,17 @@
     Relationship to primary named insured:  Primary Insured,
     Marital status: Married,
     Social security number: 1234567890,
-    Employer: '1234567890',
+    Employer: '1234567890'
   }
 
   AAAMembership: {
     Current AAA Member: 'Yes',
     Membership number: '4290023667710001',
     Last name: Smith
+  }
+
+  NamedInsuredInformation: {
+    Home Phone Number: '1234567890'
   }
 
   AgentInfo: {
@@ -348,27 +366,37 @@
 
   PropertyInfoTab: {
     DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+    PropertyValue: '@PropertyValue',
     Construction: '@Construction',
-    Interior: '@Interior'
+    Interior: '@Interior',
+    RentalInformation: '@RentalInformation'
   }
 
   DwellingAddress_PropertyInfoTab: {
     Number of family units: 'index=1'
   }
 
+  PropertyValue: {
+    Coverage A - Dwelling limit: 150000,
+  }
+
   Construction: {
-    Year built: '2009',
-    Square footage: '1',
-    Roof type: 'Laminate / Architectural',
-    Construction type: 'index=1',
-    Masonry Veneer: 'No',
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1'
   }
 
   Interior: {
-    Dwelling usage: 'Primary',
-    Occupancy type: 'Tenant occupied',
-    Number of residents: '3',
+    Number of residents: 3,
     Number of stories: 'index=1'
+  }
+
+  RentalInformation: {
+    Number of consecutive years insured has owned any rental properties: '5',
+    Property manager: 'index=1',
+    "Does the tenant have an underlying HO4 policy?": "No"
   }
 
 # --------- PremiumsAndCoverages Tab ----------
@@ -377,4 +405,20 @@
   EndorsementTab: {}
   PremiumsAndCoveragesQuoteTab: {
     Calculate Premium: true
+  }
+
+  MortgageesTab: {
+    Mortgagee: 'No',
+    Use legal named insured: 'No',
+    "Use legal property address": 'No',
+    "Is there an additional insured?": 'No',
+    "Is there an additional interest?": 'No'
+  }
+
+  UnderwritingAndApprovalTab: {
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+    "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "No",
+    "Is any business, home day care or farming activity conducted on the premises?": "No"
   }
