@@ -21,15 +21,7 @@ TestData_OOSEndorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
-  ErrorTab: {
-    ErrorsOverride: [{
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
-    }]
-  }
+  DocumentsAndBindTab: {}
 }
 
 PremiumAndCoveragesTab_DataGather: {
