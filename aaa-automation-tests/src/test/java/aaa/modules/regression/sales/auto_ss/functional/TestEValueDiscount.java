@@ -1229,6 +1229,44 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertAll();
 	}
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "Don's-test")
+    public void donsTest_evalueEnabledForStates(@Optional("VA") String state) {
+
+        eValuePaperlessEnabledDisabled(true);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "Don's-test")
+    public void donsTest_evalueDisabledForStates(@Optional("AZ") String state) {
+
+        eValuePaperlessEnabledDisabled(false);
+    }
+
+    private void eValuePaperlessEnabledDisabled(boolean enabled) {
+
+        TestData territoryChannelData = getTestSpecificTD("PolicyInformationForTerritoriesEValueApplicable");
+
+        mainApp().open();
+        createCustomerIndividual();
+        createQuote();
+
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE).fill(territoryChannelData);
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).fill(territoryChannelData);
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY_LOCATION).fill(territoryChannelData);
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(enabled);
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PAPERLESS_PREFERENCES).verify.present(enabled);
+    }
+
 	private void testEvalueDiscount(String membershipStatus, String currentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
 		prefillEvalueTestData(membershipStatus, currentCarrier);
 		fillPremiumAndCoveragesTab(evalueIsSelected);
