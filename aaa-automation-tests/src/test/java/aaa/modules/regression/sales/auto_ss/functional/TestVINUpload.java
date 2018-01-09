@@ -183,7 +183,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.UPDATED_VIN.get());
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), UPDATABLE_VIN);
 
-		createAndFillUpTo(getTestDataWithMembershipSinceDate(testData), VehicleTab.class);
+		createAndFillUpTo(addMembershipSinceDateToTestData(testData), VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");

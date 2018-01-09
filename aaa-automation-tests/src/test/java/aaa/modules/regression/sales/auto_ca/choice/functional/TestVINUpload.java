@@ -177,11 +177,4 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		 */
 		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), NEW_VIN);
 	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_MSRPRefreshCompColl(@Optional("CA") String state) {
-		MSRPRefreshCompColl(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), "8MSRP17H0V1234567");
-	}
 }

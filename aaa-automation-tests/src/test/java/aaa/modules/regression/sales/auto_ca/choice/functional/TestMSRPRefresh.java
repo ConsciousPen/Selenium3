@@ -25,7 +25,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements LookupQu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_MSRPRefreshCompColl(@Optional("CA") String state) {
+	public void pas730_PartialMatch(@Optional("CA") String state) {
 		MSRPRefresh();
 	}
 
