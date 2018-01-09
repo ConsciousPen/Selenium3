@@ -63,6 +63,11 @@ public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
         DBService.get().executeUpdate(String.format(SET_POLICY_NUMBER_RANGE, s));
     }
 
+    /** envs enum per team per day of week
+     * param1 - env name
+     * param2 - team number
+     * param3 - day of week
+     */
     enum Envss {
 
         NVD7PASQATRG037("nvd7pasqatrg037", "1", "0"),
