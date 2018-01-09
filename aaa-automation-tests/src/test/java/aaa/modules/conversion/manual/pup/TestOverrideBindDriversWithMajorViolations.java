@@ -1,13 +1,17 @@
 package aaa.modules.conversion.manual.pup;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ClaimsTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.conversion.manual.ConvPUPBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -18,6 +22,8 @@ import toolkit.utils.TestInfo;
 public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest {
 
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
+    private ClaimsTab claimsTab = policy.getDefaultView().getTab(ClaimsTab.class);
+    private PremiumAndCoveragesQuoteTab premiumAndCoveragesQuoteTab = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class);
 
     /**
      * @author Josh Carpenter
@@ -42,11 +48,13 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
         createCustomerIndividual();
 
         // Initiate Test Data and create pre-conditions
-        TestData td = getDefaultTdWithDriver();
+        TestData td = adjustTdWithDriver(getPolicyDefaultTD());
 
         // Create NB PUP policy
         policy.initiate();
-        fillPupWithAlcoholRelatedViolation(td);
+        td.adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_AlcoholViolation"));
+        policy.getDefaultView().fillUpTo(td, BindTab.class, true);
+        bindTab.submitTab();
 
         // Verify the error message, finish binding the policy, and confirm active/successful
         verifyErrorsOverrideAndBind(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
@@ -75,11 +83,13 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
         createCustomerIndividual();
 
         // Initiate Test Data and create pre-conditions
-        TestData td = getDefaultTdWithDriver();
+        TestData td = adjustTdWithDriver(getPolicyDefaultTD());
 
         // Create NB PUP policy
         policy.initiate();
-        fillPupWithMajorViolation(td);
+        td.adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_MajorViolation"));
+        policy.getDefaultView().fillUpTo(td, BindTab.class, true);
+        bindTab.submitTab();
 
         // Verify the error message, finish binding the policy, and confirm active/successful
         verifyErrorsOverrideAndBind(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
@@ -108,14 +118,15 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
         createCustomerIndividual();
 
         // Initiate Test Data and create pre-conditions
-        TestData td = getDefaultTdWithDriver();
+        TestData td = adjustTdWithDriver(getConversionPolicyDefaultTD())
+                .adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_AlcoholViolation"));
 
         // Create PUP conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
-        fillPupWithAlcoholRelatedViolation(td);
+        fillPupOverrideRuleOnClaimsTab(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
 
         // Verify the error message, finish binding the policy, and confirm active/successful
-        verifyErrorsOverrideAndBind(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /**
@@ -141,21 +152,93 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
         createCustomerIndividual();
 
         // Initiate Test Data and create pre-conditions
-        TestData td = getDefaultTdWithDriver();
+        TestData td = adjustTdWithDriver(getConversionPolicyDefaultTD())
+                .adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_MajorViolation"));
 
         // Create PUP conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
-        fillPupWithMajorViolation(td);
+        fillPupOverrideRuleOnClaimsTab(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
+
+        // Verify the error message, finish binding the policy, and confirm active/successful
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that when a rule fires related to a driver having a major violation in the last 5 years,
+     * an authorized user can override and bind an endorsement
+     * @scenario
+     * 1. Create customer
+     * 2. Create HO3 Policy
+     * 3. Create PUP policy
+     * 4. Initiate an endorsement and add a major violation in the previous 5 years
+     * 5. Verify error during bind and override
+     * 6. Bind policy and confirm it is active
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
+    public void pas6974TestOverrideBindWithMajorViolationEndorsement(@Optional("NJ") String state) {
+
+        // Create customer
+        mainApp().open();
+        createCustomerIndividual();
+
+        // Initiate Test Data and create pre-conditions
+        TestData td = adjustTdWithDriver(getPolicyDefaultTD());
+
+        // Create NB PUP policy
+        createPolicy(td);
+
+        // Create an endorsement
+        createClaimEndorsement(td, getTestSpecificTD("TestData_MajorViolation"));
 
         // Verify the error message, finish binding the policy, and confirm active/successful
         verifyErrorsOverrideAndBind(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
     }
 
     /**
-     * @return Returns the default PUP test data with a Driver
+     * @author Josh Carpenter
+     * @name Test that when a rule fires related to a driver having an alcohol-related violation in the last 5 years,
+     * an authorized user can override and bind an endorsement
+     * @scenario
+     * 1. Create customer
+     * 2. Create HO3 Policy
+     * 3. Create PUP policy
+     * 4. Initiate an endorsement and add an alcohol-related violation in the previous 5 years
+     * 5. Verify error during bind and override
+     * 6. Bind policy and confirm it is active
+     * @details
      */
-    private TestData getDefaultTdWithDriver() {
-        return getPolicyDefaultTD()
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
+    public void pas6974TestOverrideBindWithAlcoholRelatedViolationEndorsement(@Optional("NJ") String state) {
+
+        // Create customer
+        mainApp().open();
+        createCustomerIndividual();
+
+        // Initiate Test Data and create pre-conditions
+        TestData td = adjustTdWithDriver(getPolicyDefaultTD());
+
+        // Create NB PUP policy
+        createPolicy(td);
+
+        // Create an endorsement
+        createClaimEndorsement(td, getTestSpecificTD("TestData_AlcoholViolation"));
+
+        // Verify the error message, finish binding the policy, and confirm active/successful
+        verifyErrorsOverrideAndBind(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
+    }
+
+    /**
+     * @param td The test data to be adjusted
+     * @return Returns the given test data with a Driver added
+     */
+    private TestData adjustTdWithDriver(TestData td) {
+        return td
             .mask(TestData.makeKeyPath(PremiumAndCoveragesQuoteTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel()))
             .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
@@ -163,22 +246,21 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
     }
 
     /**
-     * Fills a PUP policy with the specified major violation
-     * @param td the test data being used to fill the policy (Major violation will be added)
+     * 1. Initiate endorsement
+     * 2. Navigate to Claims tab and add claim
+     * 3. Navigate to Premiums & Coverages to rate policy
+     * 4. Navigate to Bind tab and complete endorsement
+     * @param tdPolicy policy test data
+     * @param tdEndorsement endorsement test data
      */
-    private void fillPupWithMajorViolation(TestData td) {
-        td.adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_MajorViolation"));
-        policy.getDefaultView().fillUpTo(td, BindTab.class, true);
-        bindTab.submitTab();
-    }
-
-    /**
-     * Fills a PUP policy with the specified alcohol-related violation
-     * @param td the test data being used to fill the policy (Alohol-related violation will be added)
-     */
-    private void fillPupWithAlcoholRelatedViolation(TestData td) {
-        td.adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_AlcoholViolation"));
-        policy.getDefaultView().fillUpTo(td, BindTab.class, true);
+    private void createClaimEndorsement(TestData tdPolicy, TestData tdEndorsement) {
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.CLAIM.get());
+        claimsTab.fillTab(tdPolicy.adjust(ClaimsTab.class.getSimpleName(), tdEndorsement));
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+        premiumAndCoveragesQuoteTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
         bindTab.submitTab();
     }
 }

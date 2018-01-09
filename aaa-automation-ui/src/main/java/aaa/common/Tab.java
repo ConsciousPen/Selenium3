@@ -45,6 +45,7 @@ public abstract class Tab {
 	public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonCreateVersion = new Button(By.id("topCreateQuoteVersionLink"));
+	public static Button buttonOverrideRules = new Button(By.id("policyDataGatherForm:overrideRules_footer"));
 	
 	public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
 	public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));
