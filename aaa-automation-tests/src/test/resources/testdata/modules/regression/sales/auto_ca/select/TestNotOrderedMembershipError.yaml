@@ -1,0 +1,153 @@
+TestData_NotOrderedMembershipValidationAU_CA: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  MembershipTab: '@MembershipTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Smith
+}
+
+
+DriverTab: {
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567
+  #ActivityInformation: '@ActivityInformation'
+}
+
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  AAAMembershipReport: [{Select: 'No'}],
+  Order Report: click
+}
+
+VehicleTab: {
+  VIN: WDCYC7BB0B6729451,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
+}
+
+FormsTab: {}
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual,
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the policy?": 'Yes',
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    California Car Policy Application: Physically Signed,
+    Subscriber Agreement: Physically Signed
+  },
+  RequiredToIssue: {
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  }
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+# ------ Test Data for Not Ordering Report ------
+
+TestData_DontOrderMembership: {
+  MembershipTab: '@MembershipTab_DontOrder',
+}
+
+MembershipTab_DontOrder: {
+  AAAMembershipReport: [{Select: 'No'}]
+}
+
+# ------- Test Data for Endorsement Policy ------
+
+TestData_NotOrderedMembershipValidationAU_CA_Endorsement: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_Endorsement',
+  DriverTab: '@DriverTab',
+  MembershipTab: '@MembershipTab_Endorsement',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_Endorsement: {
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned_Endorsement',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+AAAProductOwned_Endorsement: {
+  Current AAA Member: 'No'
+}
+
+MembershipTab_Endorsement: {
+  Order Report: click,
+}
+
+# ------- Test Data for Endorsement Changes------
+
+TestData_NotOrderedMembershipValidationAU_CA_Endorsement_Changes: {
+  GeneralTab: '@GeneralTab_Endorsement_Changes',
+  DriverTab: '@DriverTab_Endorsement_Changes',
+  MembershipTab: '@RatingDetailReportsTab_DontOrder'
+}
+
+GeneralTab_Endorsement_Changes: {
+  AAAProductOwned: '@AAAProductOwned_Endorsement_Changes'
+}
+
+AAAProductOwned_Endorsement_Changes: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Smith
+}
+
+DriverTab_Endorsement_Changes: {}

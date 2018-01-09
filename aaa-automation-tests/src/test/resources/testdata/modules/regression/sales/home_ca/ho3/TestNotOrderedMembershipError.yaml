@@ -1,16 +1,16 @@
 TestData_NotOrderedMembershipValidationHO3: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_AZ',
+  GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
   ApplicantTab: '@ApplicantTab',
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  #ProductOfferingTab: '@<home_ca_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ca_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ca_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+  UnderwritingAndApprovalTab: '@<home_ca_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ca_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ca_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab'
 }
 
 ApplicantTab: {
@@ -19,9 +19,9 @@ ApplicantTab: {
   DwellingAddress: '@DwellingAddress',
   PreviousDwellingAddress: '@PreviousDwellingAddress',
   MailingAddress: '@MailingAddress',
-  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ'
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
 }
 
 ReportsTab: {
@@ -35,17 +35,15 @@ ReportsTab: {
 }
 
 PropertyInfoTab: {
-  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: '@AdditionalAddress',
-  PublicProtectionClass: '@PublicProtectionClass',
   FireReport: {},
-  PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
+  PropertyValue: '@PropertyValue',
+  PublicProtectionClass: '@PublicProtectionClass',
   Construction: '@Construction',
   #AdditionalQuestions: {},
   Interior: '@Interior',
-  DetachedStructures: ['@DetachedStructures'],
-  FireProtectiveDD: {},
-  TheftProtectiveTPDD: {},
+  DetachedStructures: '@DetachedStructures',
   PetsOrAnimals: '@PetsOrAnimals',
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
@@ -67,8 +65,6 @@ NamedInsured: {
   Last name: 'Ronaldjo',
   Date of birth: 1/2/1960,
   Relationship to primary named insured:  Primary Insured,
-  Social security number: 1234567890,
-  Employer: '1234567890',
 }
 
 # Membership number, Last name: Added Valid Active Membership number
@@ -78,14 +74,7 @@ AAAMembership: {
   Last name: 'Ronaldjo',
 }
 
-DwellingAddress: {
-   Zip code: '85003',
-   Street address 1: '267 CHIPMAN AVE',
-   City: 'Phoenix',
-   Retirement Community: 'None',
-   Validate Address: true,
-   Validate Address Dialog: {}
-}
+DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress'
 
 PreviousDwellingAddress: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'No',
@@ -100,13 +89,24 @@ OtherActiveAAAPolicies: {
 }
 
 # ------------- PropertyInfo Tab -------------
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: 2-Duplex,
+  Section II territory: 'index=1'
+}
 
 AdditionalAddress: {
   Are there any additional address: 'No'
 }
 
+PropertyValue: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: 'index=1',
+}
+
 PublicProtectionClass: {
   Fire department type: 'index=1',
+  Subscription to fire department/station: "No",
   Public protection class: 'index=1',
   Distance to fire hydrant: 'index=1',
   Fire protection area: '7'
@@ -117,13 +117,15 @@ Construction: {
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
-    Construction type: 'index=1'
+    Construction type: 'index=1',
+    Foundation Type: 'index=1'
   }
 
 Interior: {
   Dwelling usage: Primary,
   Number of residents: '3',
-  Number of stories: 'index=1'
+  Occupancy type: 'index=0',
+  "Number of stories, including basement": 'index=1'
 }
 
 DetachedStructures: {
@@ -147,18 +149,18 @@ RecreationalEquipment: {
 #--- Test Data for 2nd Endorsement Policy----
 
 TestData_NotOrderedMembershipValidationHO3_Endorsement: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_AZ',
+  GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
   ApplicantTab: '@ApplicantTab_Endorsement',
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  ProductOfferingTab: '@<home_ca_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ca_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ca_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+  UnderwritingAndApprovalTab: '@<home_ca_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ca_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ca_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab'
 }
 
 ApplicantTab_Endorsement: {
@@ -167,9 +169,9 @@ ApplicantTab_Endorsement: {
   DwellingAddress: '@DwellingAddress',
   PreviousDwellingAddress: '@PreviousDwellingAddress',
   MailingAddress: '@MailingAddress',
-  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ'
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
 }
 
 AAAMembership_Endorsement: {

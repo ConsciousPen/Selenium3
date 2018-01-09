@@ -24,4 +24,48 @@
         </classes>
     </test>
 
+    <test name="Test Not Ordered Membership Errors">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas7524_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas7524_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas6142_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas6142_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
