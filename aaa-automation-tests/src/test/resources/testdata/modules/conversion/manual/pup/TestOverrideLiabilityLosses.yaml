@@ -1,0 +1,67 @@
+
+# --------- TestData for Underlying Risks ------------
+
+TestData_UnderlyingAuto: '@Drivers'
+
+Drivers: {
+  Add drivers: 'Yes',
+  First Name: 'First1',
+  Last Name: 'Lastn',
+  Date of Birth: $<today-30y>,
+  Age First Licensed: '20',
+  License Status: 'Licensed (US)',
+  License Number: 'A12345678987657'
+}
+
+
+
+# --------- TestData for Pup Claims ------------
+
+TestData_ClaimsTab: '@ClaimsTab'
+
+ClaimsTab: {
+  AutoViolationsClaims:[{
+    "Add auto violations/claims": 'Yes',
+    Select Driver: 'index=1',
+    Type: 'At-Fault Accident',
+    Description: 'Accident (Property Damage Only)',
+    Occurrence Date: $<today-30d>,
+    Loss Payment Amount: '1000'}],
+  PropertyClaims:[{
+    Add liability related property claims: 'Yes',
+    Property Policy Number: HoPolicyNumber,
+    Date of Loss: $<today-20d>,
+    Cause of loss: 'Liability',
+    Amount of loss: '1000',
+    Claim status: 'Closed'
+  }]
+}
+
+
+## --------- TestData for HO policy liability losses ------------
+#
+#TestData_LiabilityLoss: '@ClaimHistory'
+#
+#ClaimHistory: {
+#                Add a claim: 'Yes',
+#                Date of loss: $<today-1y>,
+#                Cause of loss: 'Liability',
+#                Amount of loss: '1000',
+#                Claim status: 'Closed'
+#              }
+#
+## --------- TestData for HO policy liability losses Error Tab Override------------
+#
+#TestData_ErrorTab: '@ErrorTab'
+#
+#ErrorTab: {
+#    ErrorsOverride: [
+#      {
+#        Message: "contains=Applicants with any liability claims in the past 3 years are ineligible",
+#        Override: 'true',
+#        Approval: 'true',
+#        Duration: Life,
+#        Reason for override: index=1
+#      }
+#    ]
+#  }
