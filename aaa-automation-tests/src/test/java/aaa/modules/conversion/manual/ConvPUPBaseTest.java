@@ -66,9 +66,9 @@ public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest implements ManualC
     }
 
     /**
+     * Verifies an rule has fired, overrides it, and binds the policy and confirms it is active.
      * @param errors the specific error(s) from ErrorEnum.Errors class to be verified
      * @param td the test data to be used to finish binding the policy
-     * @return boolean value representing error verification results
      */
     protected void verifyErrorsOverrideAndBind(TestData td, ErrorEnum.Errors... errors) {
         verifyErrorsAndOverride(errors);
