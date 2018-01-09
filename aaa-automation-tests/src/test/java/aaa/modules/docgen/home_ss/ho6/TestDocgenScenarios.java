@@ -112,7 +112,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
 		policy.quoteDocGen().start();
 
 		documentActionTab.verify.documentsEnabled(
-				Documents.AHAUXX,
+				//Documents.AHAUXX,
 				Documents.AHFMXX,
 				Documents.HS11_6.setState(String.format("%s6", getState())),
 				Documents.HSIQXX6,
@@ -182,7 +182,6 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
 		Tab.buttonSaveAndExit.click();
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(false, Documents.AHFMXX, Documents.HSILXX);
-//		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX); // TODO AHAUXX form is not absent, need to confirm the request
 		documentActionTab.buttonCancel.click();
 		
 		policy.dataGather().start();
@@ -192,8 +191,8 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
 		Tab.buttonSaveAndExit.click();
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(Documents.AHFMXX, Documents.HSILXX);
-		if (!getState().equals("VA"))
-			documentActionTab.verify.documentsPresent(Documents.AHAUXX);
+		//if (!getState().equals("VA"))
+		//	documentActionTab.verify.documentsPresent(Documents.AHAUXX);
 		
 		log.info("==========================================");
 		log.info(getState() + " HO6 Quote Documents Generation is checked, quote: " + quoteNum);
@@ -290,7 +289,6 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
 				Documents.HSU03XX
 				);
 		documentActionTab.verify.documentsPresent(false, 
-//				Documents.AHAUXX // TODO Actually AHAUXX is present, need to confirm the request
 				Documents.HSIQXX6,
 				Documents.AHPNXX,
 				Documents._438BFUNS,
