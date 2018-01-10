@@ -313,7 +313,7 @@ TestData_DE: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab_DE',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -321,6 +321,7 @@ GeneralTab_DE: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_DE',
   PolicyInformation: '@PolicyInformation_DE'
 }
 
@@ -343,16 +344,6 @@ DriverTab_DE: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: 7135439
-}
-
-DocumentsAndBindTab_DE: {
-  RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    Delaware Motorists Protection Act: Physically Signed,
-    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
-    Acknowledgement of Deductible Selections: Physically Signed
-  },
-  Agreement: I agree
 }
 
 # ------- ID ------
@@ -658,6 +649,7 @@ GeneralTab_NJ: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_NJ',
   PolicyInformation: '@PolicyInformation_NJ'
 }
 
@@ -685,11 +677,12 @@ DriverTab_NJ: {
 DocumentsAndBindTab_NJ: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    Non-Owner Automobile Endorsement: Physically Signed,
+    Named Non-Owner Coverage Endorsement: Physically Signed,
     NJ Auto Standard Policy Coverage Selection Form: Physically Signed
   },
   RequiredToIssue: {
-    Proof of Anti-Theft Recovery Device: 'Yes'
+    Proof of Anti-Theft Recovery Device: 'Yes',
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }

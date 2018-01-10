@@ -78,6 +78,7 @@ public final class ErrorEnum {
 		ERROR_AAA_PUP_SS4220760("AAA_PUP_SS4220760", "'Year' is required"),
 		ERROR_AAA_PUP_SS4221558("AAA_PUP_SS4221558", "'Model' is required"),
 		ERROR_AAA_PUP_SS4223895("AAA_PUP_SS4223895", "'Make' is required"),
+		ERROR_AAA_PUP_SS5071440("AAA_PUP_SS5071440", "Applicant with no underlying auto policy and endorsement PS 9811 is ineligibl..."),
 		ERROR_AAA_PUP_SS5310180("AAA_PUP_SS5310180", "Applicants who own property, or reside for extended periods, outside of the U..."),
 		ERROR_AAA_PUP_SS5310750("AAA_PUP_SS5310750", "Vehicles used for business, promotional or racing are ineligible."),
 		ERROR_AAA_PUP_SS5311428("AAA_PUP_SS5311428", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),

@@ -159,8 +159,9 @@ public class Scenario15 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		
 		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
+		SearchPage.openBilling(policyNum);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_CANCELLED).verifyPresent();
+		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 	}
 	
 	protected void renewalImageGeneration() {

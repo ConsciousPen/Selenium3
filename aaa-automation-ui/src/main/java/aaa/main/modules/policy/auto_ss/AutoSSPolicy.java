@@ -85,7 +85,7 @@ public class AutoSSPolicy implements IPolicy {
         //no error if general tab is opened before premium calculation
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-	    new RatingDetailReportsTab().fillTab(td);
+	    new RatingDetailReportsTab().fillTab(td).submitTab();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
     }
 
