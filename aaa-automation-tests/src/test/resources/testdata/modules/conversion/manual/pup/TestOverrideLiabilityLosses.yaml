@@ -1,5 +1,5 @@
 
-# --------- TestData for Underlying Risks ------------
+# --------- TestData for Underlying Risks Auto License nr. NJ ------------
 
 TestData_UnderlyingAuto: '@Drivers'
 
@@ -26,42 +26,13 @@ ClaimsTab: {
     Type: 'At-Fault Accident',
     Description: 'Accident (Property Damage Only)',
     Occurrence Date: $<today-30d>,
-    Loss Payment Amount: '1000'}],
+    Loss Payment Amount: '10000'}],
   PropertyClaims:[{
     Add liability related property claims: 'Yes',
-    Property Policy Number: HoPolicyNumber,
+    Property Policy Number: '312654987',
     Date of Loss: $<today-20d>,
     Cause of loss: 'Liability',
-    Amount of loss: '1000',
+    Amount of loss: '80000',
     Claim status: 'Closed'
   }]
 }
-
-
-## --------- TestData for HO policy liability losses ------------
-#
-#TestData_LiabilityLoss: '@ClaimHistory'
-#
-#ClaimHistory: {
-#                Add a claim: 'Yes',
-#                Date of loss: $<today-1y>,
-#                Cause of loss: 'Liability',
-#                Amount of loss: '1000',
-#                Claim status: 'Closed'
-#              }
-#
-## --------- TestData for HO policy liability losses Error Tab Override------------
-#
-#TestData_ErrorTab: '@ErrorTab'
-#
-#ErrorTab: {
-#    ErrorsOverride: [
-#      {
-#        Message: "contains=Applicants with any liability claims in the past 3 years are ineligible",
-#        Override: 'true',
-#        Approval: 'true',
-#        Duration: Life,
-#        Reason for override: index=1
-#      }
-#    ]
-#  }

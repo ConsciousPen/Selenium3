@@ -68,6 +68,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_PUP_SS1263335("AAA_PUP_SS1263335", "Applicants with any liability claims in the past 3 years are ineligible. (AAA..."),
 		ERROR_AAA_PUP_SS3171100("AAA_PUP_SS3171100", "UW approval is required to bind the policy if any applicants or insureds are ..."),
 		ERROR_AAA_PUP_SS3415672("AAA_PUP_SS3415672", "BI Limit should not be less than $500,000/500,000"),
 		ERROR_AAA_PUP_SS4240323("AAA_PUP_SS4240323", "BI Limits should not be less than $250,000/500,000."),

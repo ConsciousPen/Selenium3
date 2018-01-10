@@ -30,7 +30,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name
+	 * @name Allow PAS to override and bind policies for Applicant(s) listed as a trustee, or LLC.  (on prefill) - PUP   Conversion
 	 * @scenario
 	 * 1. Create Conversion PUP Policy
 	 * 2. Select LLC and Trustee as 'Yes'
@@ -62,7 +62,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name
+	 * @name Allow PAS to override and bind policies for Applicant(s) listed as a trustee, or LLC.  (on prefill) - PUP
 	 * @scenario
 	 * 1. Create PUP Policy
 	 * 2. Select LLC and Trustee as 'Yes'
