@@ -20,9 +20,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -188,13 +186,8 @@ public class RefundProcessHelper extends PolicyBilling {
      * Note: for the test to work LastPaymentMethod needs to be configured for the payments to be > threshold
      * @details
      */
-    public void pas7298_pendingManualRefunds(PolicyType policyType, TestData policyTd, String pendingRefundAmount, String approvedRefundAmount, String paymentMethod) {
-        mainApp().open();
-        createCustomerIndividual();
-        policyType.get().createPolicy(policyTd);
-        /*SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3926232057");*/
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-        log.info("policyNumber: {}", policyNumber);
+    public void pas7298_pendingManualRefunds(String pendingRefundAmount, String approvedRefundAmount, String paymentMethod) {
+
 
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), new Dollar(pendingRefundAmount));
@@ -226,13 +219,7 @@ public class RefundProcessHelper extends PolicyBilling {
      * @details
      * @param daysDelay - 8 days for HO, 1 day for Auto
      */
-    public void pas7298_pendingAutomatedRefunds(PolicyType policyType, TestData policyTd, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, int daysDelay) {
-        mainApp().open();
-        createCustomerIndividual();
-        policyType.get().createPolicy(policyTd);
-        /*SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3926232057");*/
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-        log.info("policyNumber: {}", policyNumber);
+    public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, int daysDelay) {
 
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         Dollar totalDue1 = BillingSummaryPage.getTotalDue();

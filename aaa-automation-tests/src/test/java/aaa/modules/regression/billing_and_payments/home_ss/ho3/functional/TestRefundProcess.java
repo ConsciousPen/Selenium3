@@ -97,9 +97,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String automatedRefundAmount = "101";
         mainApp().open();
 
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        log.info("policyNumber: {}", policyNumber);
+        String policyNumber = preconditionPolicyCreationHo();
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.APPLICANT.get());
@@ -138,12 +136,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
         String manualRefundAmount = "100";
         String automatedRefundAmount = "101";
-        mainApp().open();
-/*        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3950605139");
-        String policyNumber = PolicySummaryPage.getPolicyNumber();*/
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        log.info("policyNumber: {}", policyNumber);
+
+        String policyNumber = preconditionPolicyCreationHo();
 
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
@@ -174,8 +168,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=Credit Card";
 
+        preconditionPolicyCreationHo();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -187,8 +183,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "Check";
 
+        preconditionPolicyCreationHo();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -200,8 +198,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "Credit Card";
 
+        String policyNumber = preconditionPolicyCreationHo();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(getPolicyType(), getPolicyTD(), APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -213,10 +213,20 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "Check";
 
+        String policyNumber = preconditionPolicyCreationHo();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(getPolicyType(), getPolicyTD(), APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
+    }
+
+    private String preconditionPolicyCreationHo() {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        log.info("policyNumber: {}", policyNumber);
+        return policyNumber;
     }
 
 }

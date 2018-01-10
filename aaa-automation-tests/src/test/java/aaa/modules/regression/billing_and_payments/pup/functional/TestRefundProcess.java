@@ -11,14 +11,11 @@ import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.SearchEnum;
-import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
@@ -26,10 +23,9 @@ import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
@@ -80,12 +76,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
         String manualRefundAmount = "100";
         String automatedRefundAmount = "101";
-        mainApp().open();
-/*        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAPU926232254");
-        String policyNumber = PolicySummaryPage.getPolicyNumber();*/
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        log.info("policyNumber: {}", policyNumber);
+
+        String policyNumber = preconditionPolicyCreationPup();
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREFILL.get());
@@ -124,12 +116,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
         String manualRefundAmount = "100";
         String automatedRefundAmount = "101";
-        mainApp().open();
-/*        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3950605139");
-        String policyNumber = PolicySummaryPage.getPolicyNumber();*/
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        log.info("policyNumber: {}", policyNumber);
+
+        String policyNumber = preconditionPolicyCreationPup();
 
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
@@ -153,4 +141,73 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         CustomAssert.assertAll();
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) {
+
+        String paymentMethod = "contains=Credit Card";
+
+        preconditionPolicyCreationPup();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingManualRefundsCheck(@Optional("VA") String state) {
+
+        String paymentMethod = "Check";
+
+        preconditionPolicyCreationPup();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
+
+        String paymentMethod = "Credit Card";
+
+        String policyNumber = preconditionPolicyCreationPup();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingAutomatedRefundsCheck(@Optional("MD") String state) {
+
+        String paymentMethod = "Check";
+
+        String policyNumber = preconditionPolicyCreationPup();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    private String preconditionPolicyCreationPup() {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        log.info("policyNumber: {}", policyNumber);
+        return policyNumber;
+    }
 }

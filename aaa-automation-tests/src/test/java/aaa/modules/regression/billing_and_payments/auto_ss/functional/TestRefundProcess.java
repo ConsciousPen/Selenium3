@@ -1019,8 +1019,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=Credit Card";
 
+        preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1035,8 +1037,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "Check";
 
+        preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1051,8 +1055,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=ACH";
 
+        preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1067,8 +1073,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=Debit Card";
 
+        preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1083,9 +1091,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=Credit Card";
 
+        String policyNumber = preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
         //TODO OSI: Refund with Check is created because the stubbed amount for VA
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1100,8 +1110,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "Check";
 
+        String policyNumber = preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1116,8 +1128,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=ACH";
 
+        String policyNumber = preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1132,10 +1146,20 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         String paymentMethod = "contains=Debit Card";
 
+        String policyNumber = preconditionPolicyCreationAuto();
+
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(getPolicyType(), getPolicyTD(), PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
+    }
+
+    private String preconditionPolicyCreationAuto() {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        log.info("policyNumber: {}", policyNumber);
+        return policyNumber;
     }
 
 }
