@@ -13,7 +13,7 @@ public class TestMSRPRefreshTemplate  extends CommonTemplateMethods {
 	private MembershipTab membershipTab = new MembershipTab();
 	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
-	public void MSRPRefresh(){
+	public void partialMatch(){
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
 		String vehYear = "2015";

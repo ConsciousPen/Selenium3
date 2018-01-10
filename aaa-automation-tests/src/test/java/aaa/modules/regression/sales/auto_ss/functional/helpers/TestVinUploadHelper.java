@@ -4,48 +4,39 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.queries.MsrpQueries;
 import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
+import aaa.modules.regression.sales.template.functional.CommonTemplateMethods;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-public class TestVinUploadHelper extends AutoSSBaseTest {
+public class TestVinUploadHelper extends CommonTemplateMethods implements MsrpQueries {
 	protected static VehicleTab vehicleTab = new VehicleTab();
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
 	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private static VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(PolicyType.AUTO_SS);
 
-	protected static final String UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX = "UPDATE MSRPCompCollCONTROL SET VEHICLEYEARMAX = %1$d WHERE MSRPVERSION = '%2$s'";
-	protected static final String INSERT_VERSION_INTO_MSRP_COMP_COLL_CONTROL = "insert into MsrpCompCollControl(vehicleyearmin, vehicleyearmax, vehicletype, liabilitysymbol, msrpversion, key)"
-			+ "values(%1$d,%2$d,'%3$s',null,'%4$s',%5$d)";
-	protected static final String UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD = "UPDATE vehiclerefdatavincontrol SET expirationdate='%1$d' WHERE STATECD='%2$s'";
-	protected static final String SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID = "SELECT MAX(id) FROM VEHICLEREFDATAVINCONTROL";
-	protected static final String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
+	String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
-					+ "(%1$d,'%2$s',null,'%3$s','%4$s','%5$d','%6$d','%7$s')";
-	protected static final String INSERT_MSRPCOMPCOLLCONTROL_VERSION = "insert into MsrpCompCollControl(vehicleyearmin, vehicleyearmax, vehicletype, liabilitysymbol, msrpversion, key) values "
-			+ "(%1$d,%2$d,'%3$s',null,'%4$s',%5$d)";
-
-	protected static final String NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH = "MSRP_2000_SS";
-	protected static final String NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH = "MSRP_2000_MOTORHOME_SS";
+					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
 
 	public void pas730_commonChecks(String compSymbol, String collSymbol) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -56,6 +47,49 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
+	public Map<String, String> getPolicyInfoByNumber(String quoteNumber) {
+		return DBService.get().getRow(
+				String.format(
+						"Select ps.policynumber, B.Vehidentificationno, R.Vinmatched, R.Vinmatchedind, b.vehtypecd, i.compsymbol, i.collsymbol, i.stat, i.biSymbol, i.pdsymbol, i.umsymbol, i.mpsymbol, I.*\n"
+								+ "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And\n"
+								+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and policynumber = '%s'", quoteNumber));
+	}
+
+	public TestData getMSRPTestDataTwoVehicles(TestData testData) {
+		TestData testDataVehicleTabMotorHome = getVehicleMotorHomeTestData();
+
+		TestData secondVehicle = new SimpleDataProvider().adjust(getPolicyTD().getTestData(vehicleTab.getMetaKey()));
+
+		testData.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE.getLabel()));
+
+		// Build VehicleTab + two vehicles
+		List<TestData> listVehicleTab = new ArrayList<>();
+		listVehicleTab.add(testDataVehicleTabMotorHome);
+		listVehicleTab.add(secondVehicle);
+
+		return testData.adjust(vehicleTab.getMetaKey(), listVehicleTab);
+	}
+
+	public TestData getVehicleMotorHomeTestData() {
+		// Build override Informational Notice dialog
+		TestData testDataInformationNoticeDialog =
+				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
+
+		// Build MSRP Vehicle
+		TestData testDataVehicleTabMotorHome = new SimpleDataProvider()
+				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
+				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
+				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
+				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
+				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
+				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
+				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
+				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
+				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
+
+		return testDataVehicleTabMotorHome;
+	}
+
 	public String getCompSymbol() {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 	}
@@ -64,32 +98,32 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	}
 
-	public void addMotorHomeVehicleToDB() {
+	public void addMotorHomeVehicleToDB_AutoSS() {
 		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD, 20150101, getState()));
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD, 20150101, getState(), "MSRP_2000"));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		int getUniqId = Integer.parseInt(DBService.get().getColumn(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get(0)) + 1;
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", getState(), "SYMBOL_2000", 20150102, 20300102, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH));
+				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "Motor", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "Motor", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS, 4));
 	}
 
-	public void addPPAVehicleToDB() {
+	public void addPPAVehicleToDBAutoSS() {
 		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD, 20150101, getState()));
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD, 20150101, getState(), "MSRP_2000"));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		int getUniqId = Integer.parseInt(DBService.get().getColumn(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get(0)) + 1;
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", getState(), "SYMBOL_2000", 20150102, 20300102, NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH));
+				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH_AUTO_SS));
 
 		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH, 4));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH_AUTO_SS, 4));
 	}
 
 	protected void pas2716_CommonSteps(String vinNumber, String vinTableFile, String controlTableFile, String policyNumber, LocalDateTime policyExpirationDate) {
@@ -109,9 +143,9 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Year").getCell(2).getValue()).isEqualTo("2005");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Make").getCell(2).getValue()).isEqualTo("UT_SS");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Model").getCell(2).getValue()).isEqualTo("Gt");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2005");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
@@ -128,11 +162,6 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		SearchPage.tableSearchResults.getRow("Status", "Policy Active").getCell(1).controls.links.getFirst().click();
 	}
 
-	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
-		TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-	}
 
 	protected TestData addSecondVehicle(String vinNumber, TestData testData) {
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())

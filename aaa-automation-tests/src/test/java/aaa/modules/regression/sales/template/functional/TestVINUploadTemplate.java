@@ -13,8 +13,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
@@ -37,9 +35,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 	protected void pas2716_AutomatedRenewal(String policyNumber,LocalDateTime nextPhaseDate,String  vinNumber) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		moveTimeAndRunRenewJobs(nextPhaseDate);
 		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -91,7 +87,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
-
 		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
@@ -426,20 +421,14 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		testDataVehicleTab.add(secondVehicle);
 
 		// Build Assignment Tab
-		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
-		TestData secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
-
-		List<TestData> listDataAssignmentTab = new ArrayList<>();
-		listDataAssignmentTab.add(firstAssignment);
-		listDataAssignmentTab.add(secondAssignment);
-
-		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
+		TestData testDataAssignmentTab = getTwoAssignmentsTestData();
 
 		// add 2 vehicles + 2 assignments to the common testdata
 		return getPolicyDefaultTD()
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 	}
+
 
 	protected TestData getTestDataWithSinceMembershipAndSpecificVinNumber(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())

@@ -19,14 +19,11 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements LookupQu
 		return PolicyType.AUTO_CA_SELECT;
 	}
 
-	private static final String UPDATABLE_VIN = "1HGEM215140028445";
-	private static final String NEW_VIN = "1FDEU15H7KL055795";
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_PartialMatch(@Optional("CA") String state) {
-		MSRPRefresh();
+		partialMatch();
 	}
 
 

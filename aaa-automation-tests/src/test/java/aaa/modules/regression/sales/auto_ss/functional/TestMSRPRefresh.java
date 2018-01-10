@@ -2,8 +2,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Optional;
@@ -16,23 +14,27 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.queries.LookupQueries;
 import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
 import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
 import aaa.modules.regression.sales.auto_ss.functional.helpers.TestVinUploadHelper;
 import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQueries, TestVinUploadPostConditions {
+public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploadPostConditions {
 
 	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
@@ -113,7 +115,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		addPPAVehicleToDB();
+		addPPAVehicleToDBAutoSS();
 
 		findAndRateQuote(testData, quoteNumber);
 
@@ -124,10 +126,11 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_VehicleTypeNotPPA(@Optional("UT") String state) {
+		// Build override Informational Notice dialog
 		TestData testDataInformationNoticeDialog =
 				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
-
-		TestData testdataVehicleTabMotorHome = DataProviderFactory.emptyData()
+		// Build MSRP Vehicle
+		TestData testDataVehicleTabMotorHome = DataProviderFactory.emptyData()
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
 				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
 				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
@@ -137,7 +140,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
 
-		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), testdataVehicleTabMotorHome).resolveLinks();
+		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
 
 		testData.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE.getLabel()));
 
@@ -154,7 +157,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		addMotorHomeVehicleToDB();
+		addMotorHomeVehicleToDB_AutoSS();
 
 		findAndRateQuote(testData, quoteNumber);
 
@@ -165,6 +168,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypePPA(@Optional("UT") String state) {
+		// Some kind of random vin number
 		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
 				.getTestData(new VehicleTab().getMetaKey()).adjust("VIN", "5FDEU15H7KL055795").resolveLinks();
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
@@ -182,9 +186,9 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 		Map<String, String> policyInfoBeforeRenewal = getPolicyInfoByNumber(quoteNumber);
 
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
-		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLPSYMBOL");
+		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 
-		addPPAVehicleToDB();
+		addPPAVehicleToDBAutoSS();
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -218,9 +222,9 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 		Map<String, String> policyInfoBeforeRenewal = getPolicyInfoByNumber(quoteNumber);
 
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
-		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLPSYMBOL");
+		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 
-		addMotorHomeVehicleToDB();
+		addMotorHomeVehicleToDB_AutoSS();
 
 		// Move time to get refresh
 		moveTimeAndRunRenewJobs(policyExpirationDate);
@@ -237,10 +241,10 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_VINDoesMatchNBandNoMatchOnRenewal (@Optional("UT") String state) {
+	public void pas730_RenewalVINDoesMatchNBandNoMatchOn (@Optional("UT") String state) {
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
-		final String vinNumber = "7MSRP15H5V1011111";
+		final String vinNumber = "8MSRP15H5V1011111";
 		TestData testDataSpecificVin = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
@@ -257,7 +261,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 
 		Map<String, String> policyInfoBeforeRenewal = getPolicyInfoByNumber(quoteNumber);
 		String compSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COMPSYMBOL");
-		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLPSYMBOL");
+		String collSymbolBeforeRenewal = policyInfoBeforeRenewal.get("COLLSYMBOL");
 		// Preconditions to to vin is not match
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
 
@@ -272,43 +276,6 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
-	}
-
-	public Map<String, String> getPolicyInfoByNumber(String quoteNumber) {
-		return DBService.get().getRow(
-				String.format(
-						"Select ps.policynumber, B.Vehidentificationno, R.Vinmatched, R.Vinmatchedind, b.vehtypecd, i.compsymbol, i.collsymbol, i.stat, i.biSymbol, i.pdsymbol, i.umsymbol, i.mpsymbol, I.*\n"
-								+ "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And\n"
-								+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and policynumber = '%s'", quoteNumber));
-	}
-
-	public TestData getMSRPTestDataTwoVehicles(TestData testData) {
-		// Build override Informational Notice dialog
-		TestData testDataInformationNoticeDialog =
-				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
-
-		// Build MSRP Vehicle
-		TestData testDataVehicleTabMotorHome = new SimpleDataProvider()
-				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
-				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
-				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
-				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
-				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
-				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
-				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
-
-		TestData secondVehicle = new SimpleDataProvider().adjust(getPolicyTD().getTestData(vehicleTab.getMetaKey()));
-
-		// Build VehicleTab + two vehicles
-		List<TestData> listVehicleTab = new ArrayList<>();
-		listVehicleTab.add(testDataVehicleTabMotorHome);
-		listVehicleTab.add(secondVehicle);
-
-		testData.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE.getLabel()));
-
-		return testData.adjust(vehicleTab.getMetaKey(), listVehicleTab);
 	}
 
 	/**
@@ -328,13 +295,13 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements LookupQuerie
 		// Reset to the default state  MSRP_2000
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, getState()));
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVINCONTROL WHERE MSRP_VERSION = '%1$s' AND STATECD = '%2$s'", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH, getState()));
-		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVINCONTROL WHERE MSRP_VERSION = '%1$s' AND STATECD = '%2$s'", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH, getState()));
+		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVINCONTROL WHERE MSRP_VERSION = '%1$s' AND STATECD = '%2$s'", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH_AUTO_SS, getState()));
+		DBService.get().executeUpdate(String.format("DELETE FROM VEHICLEREFDATAVINCONTROL WHERE MSRP_VERSION = '%1$s' AND STATECD = '%2$s'", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS, getState()));
 		// DELETE new MSRP version pas730_VehicleTypePPA
-		DBService.get().executeUpdate(String.format("DELETE from MSRPCompCollCONTROL WHERE MSRPVERSION = '%1$s' AND KEY = %2$d AND VEHICLETYPE = 'PPA'", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH, 4));
+		DBService.get().executeUpdate(String.format("DELETE from MSRPCompCollCONTROL WHERE MSRPVERSION = '%1$s' AND KEY = %2$d AND VEHICLETYPE = 'PPA'", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH_AUTO_SS, 4));
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
 		DBService.get()
-				.executeUpdate(String.format("DELETE from MSRPCompCollCONTROL WHERE MSRPVERSION = '%1$s' AND KEY = %2$d AND VEHICLETYPE = 'Motor'", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH, 4));
+				.executeUpdate(String.format("DELETE from MSRPCompCollCONTROL WHERE MSRPVERSION = '%1$s' AND KEY = %2$d AND VEHICLETYPE = 'Motor'", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS, 4));
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
 		vinMethods.enableVinRefresh(false);
 	}
