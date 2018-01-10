@@ -34,6 +34,7 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 		addSuspenseEffDatePlus2();
 		flatCancellationStartDatePlus16();
 		clearSuspenseEffDatePlus16();
+		acceptMinDuePaymentOnStartDatePlus25();
 		manualReinstatementStartDatePlus25();
 		endorsePolicyCancellationNoticeDate();
 		declineSuspensePaymentCancellationDate();

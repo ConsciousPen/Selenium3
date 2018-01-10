@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.ITestContext;
+
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -21,6 +23,9 @@ import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
+import aaa.helpers.conversion.ConversionPolicyData;
+import aaa.helpers.conversion.ConversionUtils;
+import aaa.helpers.conversion.MaigConversionData;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -134,9 +139,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		});
 		log.info("OOS Endorsement action completed successfully");
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar amount = new Dollar(BillingSummaryPage.tableBillsStatements
-			.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
-			.getCell(BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE).getValue()).add(600);
+		Dollar amount = new Dollar(BillingSummaryPage.getTotalDue());
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(firstEPBillDate)
@@ -295,6 +298,14 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void acceptMinDuePaymentDD1plus30() {
 		LocalDateTime paymentDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(30);
+		acceptMinDuePaymentOnDate(paymentDate);
+	}
+
+	/**
+	 * Accept Min Due payment on Start Date + 25 days
+	 */
+	protected void acceptMinDuePaymentOnStartDatePlus25() {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		acceptMinDuePaymentOnDate(paymentDate);
 	}
 
@@ -580,6 +591,22 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime waiveDate = getTimePoints().getCancellationDate(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		waiveFeeOnDate(waiveDate);
+	}
+
+	protected void maigConversionOnRenewPreviewGenDate(String state, ITestContext context) {
+		// LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime().plusYears(1);
+		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
+		String policyNum = ConversionUtils.importPolicy(data, context);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(effDate).plusYears(1));
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+
+		log.info("Conversion completed successfully");
 	}
 
 	protected void manualFutureCancellationStartDatePlus25Days() {
@@ -1097,6 +1124,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	private void performEndorsementOnDate(LocalDateTime endorsementDate, LocalDateTime endorsementDueDate) {
 		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
 		log.info("Endorsment action started on {}", endorsementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
