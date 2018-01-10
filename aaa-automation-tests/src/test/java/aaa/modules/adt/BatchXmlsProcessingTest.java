@@ -33,10 +33,10 @@ public class BatchXmlsProcessingTest {
 	private String ssh_password = "qauser";
 	
 	//Folders on SFTP
-	private String DOCGEN_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/"; 
+	private String REMOTE_DOCGEN_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/"; 
 	
-	//Local folder
-	private String LOCAL_DOCGEN_FOLDER = "src/test/resources/adt/xmls/"; 
+	//Local folders 
+	private String LOCAL_DOCGEN_FOLDER = "src/test/resources/adt/xml/"; 
 	private String LOCAL_TXT_FOLDER = "src/test/resources/adt/txt/";
 	
 	//Remote folder on SFTP aws2aaadoc02.corevelocity.csaa.cloud
@@ -46,22 +46,27 @@ public class BatchXmlsProcessingTest {
 	
 	@Test
 	public void BatchXmlProcessingTest() {
+		createTempFolder(LOCAL_DOCGEN_FOLDER);
+		createTempFolder(LOCAL_TXT_FOLDER);
 		
-		RemoteHelper.clearFolder(DOCGEN_FOLDER);
+		RemoteHelper.clearFolder(REMOTE_DOCGEN_FOLDER);
 		
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);	
 		
-		RemoteHelper.downloadBatchFiles(DOCGEN_FOLDER, new File(LOCAL_DOCGEN_FOLDER)); 
+		RemoteHelper.downloadBatchFiles(REMOTE_DOCGEN_FOLDER, new File(LOCAL_DOCGEN_FOLDER)); 
 		RemoteHelper.closeSession();
 		
 		//get policy numbers from xmls
 		createFileWithPolicyNumbers();
 		
-		uploadFiles(LOCAL_DOCGEN_FOLDER);
-		uploadFiles(LOCAL_TXT_FOLDER);
+		uploadFilesToRemoteHost(LOCAL_DOCGEN_FOLDER);
+		uploadFilesToRemoteHost(LOCAL_TXT_FOLDER);
+		
+		deleteTempFolder(LOCAL_DOCGEN_FOLDER);
+		deleteTempFolder(LOCAL_TXT_FOLDER);		
 	}
 	
-	public void uploadFiles(String source) {
+	public void uploadFilesToRemoteHost(String source) {
 		Ssh ssh = new Ssh(doc_host, ssh_user, ssh_password); 
 		File directory = new File(source);
 		File[] files = directory.listFiles(File::isFile);
@@ -81,8 +86,8 @@ public class BatchXmlsProcessingTest {
 			
 			File directory = new File(LOCAL_DOCGEN_FOLDER);
 			File[] files = directory.listFiles(File::isFile);
-			if (files != null && files.length != 0) {
-				for (File file : files) {
+			for (File file : files) {
+				if (file != null && file.length() != 0) {
 					try {
 						log.info("Processing file: " + file.getName());
 						getPolicyNumbersFromXml(LOCAL_DOCGEN_FOLDER + file.getName(), bw); 
@@ -128,5 +133,29 @@ public class BatchXmlsProcessingTest {
 		String app_host = PropertyProvider.getProperty(TestProperties.APP_HOST); 
 		app_host = app_host.substring(0, 12);
 		return app_host;
+	}
+	
+	public void createTempFolder(String path) {
+		File folder = new File(path); 
+		if (folder.mkdirs()) {
+			log.info("ADT temp folder " + path + " created");
+		}
+		else {
+			log.info("ADT temp folder " + path + " doesn't exist");
+		}
+	}
+	
+	public void deleteTempFolder(String path) {
+		File folder = new File(path);
+		if (folder.delete()) {
+			log.info("ADT temp folder " + path + " deleted");
+		}
+		else {
+			File[] files = folder.listFiles(File::isFile);
+			for (File file : files)
+                file.delete();
+			folder.delete();
+			log.info("ADT temp folder " + path + " deleted with all files");
+		}
 	}
 }
