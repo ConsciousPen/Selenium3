@@ -278,6 +278,23 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	public void LiabilitySymbolsPPA (@Optional("UT") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class, true);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+	}
+
+
 	/**
 	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
 	 * each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
