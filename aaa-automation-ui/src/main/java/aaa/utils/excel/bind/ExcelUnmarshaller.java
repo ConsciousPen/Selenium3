@@ -108,7 +108,7 @@ public class ExcelUnmarshaller {
 		ExcelTable table = getExcelTable(excelManager, tableField, tableFields, strictMatch);
 
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableFields);
-		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasColumnName(getHeaderColumnName(f))).collect(Collectors.toList());
+		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasCell(getHeaderColumnName(f))).collect(Collectors.toList());
 
 		if (!fieldsWithMissingColumns.isEmpty()) {
 			Map<String, String> missingTableColumns = new HashMap<>();
@@ -199,7 +199,7 @@ public class ExcelUnmarshaller {
 				if (linkedRowsIds.isEmpty()) {
 					break;
 				}
-				Pair<ExcelTable, List<Field>> tableRowAndlinkedTableRowFields = getTableAndAllFields(row.getSheet().getExcelManager(), tableRowField, strictMatch);
+				Pair<ExcelTable, List<Field>> tableRowAndlinkedTableRowFields = getTableAndAllFields(row.getTable().getExcelManager(), tableRowField, strictMatch);
 				List<Object> linkedTableRows = new ArrayList<>();
 				Class<?> linkedTableRowClass = getTableRowType(tableRowField);
 				Field primaryKeyField = getPrimaryKeyField(linkedTableRowClass);

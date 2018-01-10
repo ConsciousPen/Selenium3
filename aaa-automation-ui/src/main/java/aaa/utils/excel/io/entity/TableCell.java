@@ -3,8 +3,11 @@ package aaa.utils.excel.io.entity;
 import org.apache.poi.ss.usermodel.Cell;
 
 public class TableCell extends ExcelCell {
-	public TableCell(Cell cell, TableRow tableRow, int sheetColumnIndex) {
-		super(cell, tableRow, sheetColumnIndex);
+	private int tableColumnIndex;
+
+	public TableCell(Cell cell, TableRow tableRow, int tableColumnIndex, int columnIndex) {
+		super(cell, tableRow, columnIndex);
+		this.tableColumnIndex = tableColumnIndex;
 	}
 
 	public String getHeaderColumnName() {
@@ -13,13 +16,17 @@ public class TableCell extends ExcelCell {
 
 	@Override
 	public int getColumnIndex() {
-		return ((TableRow) getRow()).getTable().getHeader().getColumnIndex(this.columnIndex);
+		return this.tableColumnIndex;
+	}
+
+	public int getColumnIndexOnSheet() {
+		return this.columnIndex;
 	}
 
 	@Override
 	public String toString() {
 		return "ExcelCell{" +
-				"Sheet name=" + getRow().getSheet().getSheetName() +
+				"Sheet name=" + ((TableRow) getRow()).getTable().getSheet().getSheetName() +
 				", Row number=" + getRowIndex() +
 				", Column number=" + getColumnIndex() +
 				", Header column name=" + getHeaderColumnName() +

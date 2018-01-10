@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -45,14 +46,8 @@ public class ExcelCell {
 		return columnIndex;
 	}
 
-	@SuppressWarnings("unchecked")
-	<C extends ExcelCell> C setColumnIndex(int columnIndex) {
-		this.columnIndex = columnIndex;
-		return (C) this;
-	}
-
 	public int getRowIndex() {
-		return getRow().getRowIndex();
+		return getRow().getIndex();
 	}
 
 	public Object getValue() {
@@ -87,21 +82,13 @@ public class ExcelCell {
 		return cell;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C setPoiCell(Cell cell) {
+	public ExcelCell setPoiCell(Cell cell) {
 		this.cell = cell;
-		return (C) this;
+		return this;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <R extends ExcelRow> R getRow() {
-		return (R) row;
-	}
-
-	@SuppressWarnings("unchecked")
-	<C extends ExcelCell> C setRow(ExcelRow row) {
-		this.row = row;
-		return (C) this;
+	public ExcelRow getRow() {
+		return row;
 	}
 
 	public Set<CellType<?>> getCellTypes() {
@@ -112,10 +99,9 @@ public class ExcelCell {
 		return new HashSet<>(this.cellTypes);
 	}
 
-	@SuppressWarnings("unchecked")
-	<C extends ExcelCell> C setCellTypes(Set<CellType<?>> cellTypes) {
+	ExcelCell setCellTypes(Set<CellType<?>> cellTypes) {
 		this.cellTypes = new HashSet<>(cellTypes);
-		return (C) this;
+		return this;
 	}
 
 	public boolean isEmpty() {
@@ -125,7 +111,7 @@ public class ExcelCell {
 	@Override
 	public String toString() {
 		return "ExcelCell{" +
-				"Sheet name=" + getRow().getSheet().getSheetName() +
+				"Sheet name=" + getRow().getArea().getPoiSheet().getSheetName() +
 				", Row number=" + getRowIndex() +
 				", Column number=" + getColumnIndex() +
 				", Cell Types=" + getCellTypes() +
@@ -133,12 +119,11 @@ public class ExcelCell {
 				'}';
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C registerCellType(CellType<?>... cellTypes) {
+	public ExcelCell registerCellType(CellType<?>... cellTypes) {
 		Set<CellType<?>> typesCopy = getCellTypes();
 		typesCopy.addAll(Arrays.asList(cellTypes));
 		this.cellTypes = typesCopy;
-		return (C) this;
+		return this;
 	}
 
 	public <T> T getValue(CellType<T> cellType) {
@@ -148,9 +133,6 @@ public class ExcelCell {
 
 	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
 		assertThat(valueType).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isNotNull();
-		/*if (valueType.isTypeOf(this) && hasValue(value, valueType)) {
-			log.warn("{} already has \"{}\" value", this, value);
-		}*/
 		valueType.setValueTo(this, value);
 		return this;
 	}
@@ -172,57 +154,35 @@ public class ExcelCell {
 		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
 	}
 
-	public void clear() {
-		getRow().getPoiRow().removeCell(getPoiCell());
+	public ExcelCell excludeColumn() {
+		getRow().getArea().excludeColumns(getColumnIndex());
+		return this;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C save() {
-		getRow().save();
-		return (C) this;
+	public ExcelCell clear() {
+		if (getRow().getPoiRow() != null) {
+			getRow().getPoiRow().removeCell(getPoiCell());
+		}
+		return this;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C save(File destinationFile) {
-		getRow().save(destinationFile);
-		return (C) this;
+	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex) {
+		return copy(destinationRowIndex, destinationCellIndex, true, true, true);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C close() {
-		getRow().close();
-		return (C) this;
+	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		return copy(getRow().getArea().getCell(destinationRowIndex, destinationCellIndex), copyCellStyle, copyComment, copyHyperlink);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C saveAndClose() {
-		getRow().saveAndClose();
-		return (C) this;
-	}
-
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C saveAndClose(File destinationFile) {
-		getRow().getSheet().getExcelManager().saveAndClose(destinationFile);
-		return (C) this;
-	}
-
-	public <C extends ExcelCell> C copy(ExcelCell destinationCell) {
-		return copy(destinationCell, true, true, true);
-	}
-
-	@SuppressWarnings("unchecked")
-	public <C extends ExcelCell> C copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+	public ExcelCell copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
 		Cell cell = this.getPoiCell();
-		//destinationCell.setPoiCell(cell);
 		if (cell == null) {
-			return (C) this;
+			return this;
 		}
 
-		//destinationCell.getPoiCell().setCellType(cell.getCellTypeEnum());
 		destinationCell
 				.setCellTypes(this.getCellTypes())
 				.setValue(this.getValue());
-				//.setRow(this.getRow());
 
 		if (copyCellStyle) {
 			destinationCell.getPoiCell().setCellStyle(cell.getCellStyle());
@@ -235,7 +195,37 @@ public class ExcelCell {
 		if (copyHyperlink && cell.getHyperlink() != null) {
 			destinationCell.getPoiCell().setHyperlink(cell.getHyperlink());
 		}
-		return (C) this;
+		return this;
+	}
+
+	public ExcelCell delete() {
+		//TODO-dchubkov: implement delete ExcelCell and TableCell
+		throw new NotImplementedException("Cell deletion is not implemented yet");
+	}
+
+	public ExcelCell save() {
+		getRow().save();
+		return this;
+	}
+
+	public ExcelCell save(File destinationFile) {
+		getRow().save(destinationFile);
+		return this;
+	}
+
+	public ExcelCell close() {
+		getRow().close();
+		return this;
+	}
+
+	public ExcelCell saveAndClose() {
+		getRow().saveAndClose();
+		return this;
+	}
+
+	public ExcelCell saveAndClose(File destinationFile) {
+		getRow().getArea().getExcelManager().saveAndClose(destinationFile);
+		return this;
 	}
 
 	protected Set<CellType<?>> filterAndGetValidCellTypes(Set<CellType<?>> cellTypes) {
@@ -245,7 +235,7 @@ public class ExcelCell {
 	@SuppressWarnings("resource")
 	private Cell normalizeCell(Cell cell) {
 		if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
-			FormulaEvaluator evaluator = getRow().getSheet().getExcelManager().getWorkbook().getCreationHelper().createFormulaEvaluator();
+			FormulaEvaluator evaluator = getRow().getArea().getExcelManager().getWorkbook().getCreationHelper().createFormulaEvaluator();
 			return evaluator.evaluateInCell(cell);
 		}
 		return cell;
