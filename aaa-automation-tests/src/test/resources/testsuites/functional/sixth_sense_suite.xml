@@ -82,4 +82,25 @@
         </classes>
     </test>
 
+    <test name="Test Override Liability Losses">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideLiabilityLosses"/>
+        </classes>
+    </test>
+
+    <test name="Test Override Ineligible Underlying Risks">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideIneligibleUnderlyingRisks"/>
+        </classes>
+    </test>
+
+    <test name="Test Major Violation Validation">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMajorViolationValidation"/>
+        </classes>
+    </test>
+
 </suite>
