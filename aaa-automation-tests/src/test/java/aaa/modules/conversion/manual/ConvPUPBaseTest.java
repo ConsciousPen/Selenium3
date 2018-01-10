@@ -5,6 +5,10 @@ import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 
+/**
+ * @author Josh Carpenter
+ * This class houses methods specific to PUP conversion policies and their corresponding test data requirements.
+ */
 public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest implements ManualConversionHelper {
 
     @Override

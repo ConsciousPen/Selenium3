@@ -342,21 +342,9 @@ TestData_NY: {
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
-DocumentsAndBindTab_NY: {
-  RequiredToBind: {
-    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
-    #New York Auto Insurance Application: Physically Signed
-  },
-  RequiredToIssue: {
-    Proof of Prior Insurance: 'Yes',
-    Separate Vehicle 1: 'Yes'
-  },
-  Agreement: I agree
 }
 
 # ------- OH ------

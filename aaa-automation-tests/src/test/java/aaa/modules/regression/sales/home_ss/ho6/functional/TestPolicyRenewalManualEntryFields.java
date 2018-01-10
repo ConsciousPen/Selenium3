@@ -1,13 +1,14 @@
-package aaa.modules.regression.sales.home_ss.ho4;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.modules.policy.HomeSSHO6BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -29,18 +30,21 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * 3. Choose Data Gathering Action
  * 4. Verify fields: CONVERSION_DATE, LEAD_SOURCE, COMMISSION_TYPE,
  * IMMEDIATE_PRIOR_CARRIER, PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG
- * 5. Fill information up to PremiumsAndCoveragesQuoteTab
- * 6. Verify if CONVERSION_DATE field is correcte
+ * 5. Fill information up to UnderwritingAndApprovalTab
+ * 6. Verify if all fields are enabled in UnderwritingAndApprovalTab page
+ * 7. Navigates to GeneralTab page and verify if CONVERSION_DATE field is correct
  */
 
-public class TestPolicyRenewalManualEntryFields extends HomeSSHO4BaseTest {
+public class TestPolicyRenewalManualEntryFields extends HomeSSHO6BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4)
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
     public void testPolicyRenewal(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();
+        UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
+
         TestData td = getTestSpecificTD("TestData");
         String currentDate = LocalDateTime.now().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = getTestSpecificTD("TD_Renewal_Actions").getTestData("InitiateRenewalEntryActionTab").getValue("Inception Date");
@@ -61,7 +65,13 @@ public class TestPolicyRenewalManualEntryFields extends HomeSSHO4BaseTest {
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).getAllValues().
                 containsAll(Arrays.asList("CSAA Mid-Atlantic Insurance Company of New Jersey", "CSAA Affinity Insurance Company", "AAA Insurance"))).isTrue();
 
-        policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
+        policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, true);
+
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS.getLabel()).isEnabled()).isTrue();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON.getLabel()).isEnabled()).isTrue();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAS_THE_PROPERTY_BEEN_IN_FORECLOSURE_PROCEEDINGS_WITHIN_THE_PAST_18_MONTHS.getLabel()).isEnabled()).isTrue();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.DO_EMPLOYEES_OF_ANY_RESIDENT_RESIDE.getLabel()).isEnabled()).isTrue();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY.getLabel()).isEnabled()).isTrue();
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
 

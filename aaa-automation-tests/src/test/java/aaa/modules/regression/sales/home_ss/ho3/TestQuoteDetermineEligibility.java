@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -20,7 +21,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 
@@ -51,6 +51,26 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		propertyInfoTab.fillTab(td_sc1_1);
 		propertyInfoTab.submitTab();
 
+		SoftAssertions.assertSoftly(softly -> {
+			
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION).getWarning(
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel()).getValue().toString()).isEqualTo(ER0906);
+			
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
+					HomeSSMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT.getLabel()).getValue().toString()).isEqualTo(ER0908);
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
+					HomeSSMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR.getLabel()).getValue().toString()).isEqualTo(ER0909);
+			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
+					HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY.getLabel()).getValue().toString()).isEqualTo(ER0522);
+			
+			if (!getState().equals("MD")) {
+				softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getWarning(
+								HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel()).getValue().toString()).isEqualTo(ER0903);
+			}
+			
+		});	
+		
+		/*
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertEquals(
 				propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION).getWarning(
@@ -71,7 +91,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 					propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getWarning(
 							HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel()).getValue().toString(), ER0903);
 		}
-
+*/
 		propertyInfoTab.fillTab(td_sc1_2);
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -109,7 +129,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		BindTab.buttonSaveAndExit.click();
 		log.info("TEST Determine Eligibility SC1: HSS Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -147,8 +166,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		bindTab.btnPurchase.click();
 
 		ErrorTab errorTab = new ErrorTab();
-
-		CustomAssert.enableSoftMode();
 
 		switch (getState()) {
 			case "NJ":
@@ -251,7 +268,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		BindTab.buttonSaveAndExit.click();
 		log.info("TEST Determine Eligibility SC2: HSS Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -282,7 +298,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 
 		ErrorTab errorTab = new ErrorTab();
 
-		CustomAssert.enableSoftMode();
 		//WM-0559: More than 2 additional Insureds require Underwriting approval
 		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3230162);
 		//WM-0560: More than 2 additional Interests require Underwriting approval
@@ -292,7 +307,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		BindTab.buttonSaveAndExit.click();
 		log.info("TEST Determine Eligibility SC3: HSS Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		CustomAssert.assertAll();
 	}
 
 }

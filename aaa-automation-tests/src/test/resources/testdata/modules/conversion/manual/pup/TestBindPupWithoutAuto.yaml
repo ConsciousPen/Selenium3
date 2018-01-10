@@ -1,11 +1,3 @@
-# --------- TestData No Other Active Policies ------------
-
-TestData_NoActivePolicies: '@NoOtherActiveAAAPolicies'
-
-NoOtherActiveAAAPolicies: {
-  Other active AAA policies: 'No'
-}
-
 # --------- TestData for PUP underlying HO policy ------------
 
 TestData_ActiveUnderlyingPolicies: '@ActiveUnderlyingPolicies'
@@ -18,13 +10,5 @@ ActiveUnderlyingPolicies: {
   ActiveUnderlyingPoliciesManual: {
     Primary policy: 'Yes'
   }
-}
-
-# --------- TestData for PUP with no Auto policy ------------
-
-TestData_NoAuto: '@Automobiles'
-
-Automobiles: {
-  Add automobile: 'No'
 }
 

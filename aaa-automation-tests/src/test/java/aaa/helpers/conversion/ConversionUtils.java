@@ -2,6 +2,7 @@ package aaa.helpers.conversion;
 
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.ssh.RemoteHelper;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.mifmif.common.regex.Generex;
 import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class ConversionUtils {
 	public static String importPolicy(ConversionPolicyData conversionData, ITestContext context) {
 		File importFile = prepareXML(conversionData);
 		RemoteHelper.uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
-//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(4));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(conversionData.getConversionType().getJob());
 		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName(), context);
 		log.info(String.format("Conversion policy with type %s imported with number %s and effective date %s"
