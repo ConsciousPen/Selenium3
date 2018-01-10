@@ -11,15 +11,15 @@ public interface EvalueInsertSetupPreConditions {
     String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
 
     String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
+            + "set value = 'https://e6.pncie.com/soas/3.1/StandardDocumentService'\n"
             + "where propertyname = 'docGenwebClient.endpointUri'";
 
     String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveAgreementRelatedDocuments'\n"
+            + "set value = 'https://e6.pncie.com/soas/1.1/RetrieveAgreementRelatedDocuments'\n"
             + "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
 
     String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n"
+            + "set value = 'https://e6.pncie.com/soas/1.1/RetrieveDocument'\n"
             + "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
     String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"

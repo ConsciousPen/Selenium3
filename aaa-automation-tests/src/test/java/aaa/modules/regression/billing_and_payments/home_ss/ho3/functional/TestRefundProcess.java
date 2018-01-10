@@ -1,4 +1,4 @@
-package aaa.modules.regression.billing_and_payments.home_ca.ho3.functional;
+package aaa.modules.regression.billing_and_payments.home_ss.ho3.functional;
 
 import java.io.IOException;
 import org.testng.annotations.Optional;
