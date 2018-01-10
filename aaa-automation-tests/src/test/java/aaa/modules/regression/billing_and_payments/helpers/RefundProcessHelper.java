@@ -56,7 +56,7 @@ public class RefundProcessHelper extends PolicyBilling {
         String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
 
         RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);*/
-        String fileName = "20171229_194806_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
+        String fileName = "20180110_164313_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
         List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
         DisbursementEngineHelper.DisbursementFile neededLine = null;
         for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
