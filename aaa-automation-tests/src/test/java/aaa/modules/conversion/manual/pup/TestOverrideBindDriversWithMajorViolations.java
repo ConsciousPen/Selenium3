@@ -5,13 +5,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ClaimsTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.conversion.manual.ConvPUPBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -123,10 +121,11 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
 
         // Create PUP conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
-        fillPupOverrideRuleOnClaimsTab(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
+        policy.getDefaultView().fillUpTo(td, BindTab.class, true);
+        bindTab.submitTab();
 
-        // Verify policy is active
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        // Verify the error message, finish binding the policy, and confirm active/successful
+        verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
     }
 
     /**
@@ -157,10 +156,11 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
 
         // Create PUP conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
-        fillPupOverrideRuleOnClaimsTab(td, ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
+        policy.getDefaultView().fillUpTo(td, BindTab.class, true);
+        bindTab.submitTab();
 
-        // Verify policy is active
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        // Verify the error message, finish binding the policy, and confirm active/successful
+        verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SSER10054);
     }
 
     /**

@@ -22,11 +22,6 @@ public class ClaimsTab extends Tab {
         buttonNext.click();
         return this;
     }
-
-    public Tab overrideRules() {
-        buttonOverrideRules.click();
-        return this;
-    }
     
     public AssetList getAutoViolationsClaimsAssetList() {
     	return getAssetList().getAsset(PersonalUmbrellaMetaData.ClaimsTab.AUTO_VIOLATIONS_CLAIMS.getLabel(), AssetList.class);
