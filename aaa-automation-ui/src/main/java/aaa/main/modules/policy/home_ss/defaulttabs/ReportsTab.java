@@ -94,6 +94,7 @@ public class ReportsTab extends Tab {
 	private TestData createTestData() {
 		LinkedHashMap data = new LinkedHashMap();
 		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "$<today-1y:MM/dd/yyyy>");
+		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBERSHIP_EXPIRATION_DATE.getLabel(), "$<today+1y:MM/dd/yyyy>");
 		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "true");
 		return new SimpleDataProvider(data);
 	}
