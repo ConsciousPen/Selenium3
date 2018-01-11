@@ -2,8 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.enums;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
-
 public final class PolicyConstants {
 
     private PolicyConstants() {}
