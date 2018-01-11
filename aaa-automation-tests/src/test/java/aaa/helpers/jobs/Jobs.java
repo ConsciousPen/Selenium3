@@ -1,42 +1,16 @@
 package aaa.helpers.jobs;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import aaa.helpers.config.CustomTestProperties;
-import toolkit.config.PropertyProvider;
 
 public class Jobs {
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
-	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1");
-
-	public static List<String> getJobFolders(){
-		List<String> result = Arrays.asList();
-		List<String> templateJobFolders  = Arrays.asList(
-				"%s/PAS_B_EXGPAS_PASHUB_4004_D/inbound",
-				"%s/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-				"%s/PAS_B_EXGPAS_DMVFED_3051_D/inbound",
-				"%s/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-				"%s/PAS_B_EXGPAS_PASHUB_4001_D/inbound",
-				"%s/PAS_B_EXGPAS_PASHUB_4001_D/outbound");
-
-		String propertyValue = PropertyProvider.getProperty(CustomTestProperties.ENV_JOB_PREFIX);
-
-		if(propertyValue!=null){
-			for(String item : templateJobFolders){
-				result.add(String.format(item,propertyValue));
-			}
-		}
-		else{
-			String unixPrefix = "/home/mp2/pas/sit";
-			for(String item : templateJobFolders){
-				result.add(String.format(item,unixPrefix));
-			}
-		}
-		return result;
-	}
+	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
+			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 
