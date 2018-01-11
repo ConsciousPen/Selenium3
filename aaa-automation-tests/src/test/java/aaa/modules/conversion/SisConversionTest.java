@@ -15,8 +15,12 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
@@ -110,6 +114,9 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+		if (!PolicySummaryPage.tableRenewals.getRow(1).getCell("Status").getValue().equals(ProductConstants.PolicyStatus.PROPOSED)) {
+			overridePremiumVariationAndPropose();
+		}
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//Add billing verifications?
@@ -142,6 +149,9 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+		if (!PolicySummaryPage.tableRenewals.getRow(1).getCell("Status").getValue().equals(ProductConstants.PolicyStatus.PROPOSED)) {
+			overridePremiumVariationAndPropose();
+		}
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
@@ -174,5 +184,19 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+	}
+
+	private void overridePremiumVariationAndPropose() {
+		BindTab bindTab = new BindTab();
+		ErrorTab errorTab = new ErrorTab();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		bindTab.submitTab();
+		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CA_HOCN0400);
+		errorTab.override();
+		bindTab.submitTab();
 	}
 }
