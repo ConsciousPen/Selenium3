@@ -12,7 +12,7 @@ import toolkit.db.DBService;
 
 public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQueries {
 
-	private final String policyType;
+	private String policyType;
 
 	public VinUploadCommonMethods(PolicyType policyType) {
 		this.policyType = policyType.getShortName();

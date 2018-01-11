@@ -15,7 +15,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -34,7 +33,7 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
 	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-	private static VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(PolicyType.AUTO_SS);
+	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"

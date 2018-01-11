@@ -25,6 +25,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -39,10 +40,13 @@ import toolkit.webdriver.controls.TextBox;
 public class TestVINUpload extends TestVinUploadHelper{
 	protected TestData tdBilling = testDataManager.billingAccount;
 
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
-
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -367,7 +371,6 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6203, PAS-6455")
 	public void pas6203_VinAndControlTablesUpload(@Optional("UT") String state) {
-
 		String added = "added: 1";
 		String uploadExcelName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String configExcelName = vinMethods.getControlTableFile();
