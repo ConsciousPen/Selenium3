@@ -1,14 +1,24 @@
-TestData_NY: {
-InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_NY'
+TestData_Default: {
+InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Auto'
 
 }
-
-TestData_MT: {
-InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_MT'
-
+TestData_Home_Default: {
+InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home'
 }
 
-InitiateRenewalEntryActionTab_NY: {
+InitiateRenewalEntryActionTab_Home: {
+   Product Name: 'Homeowners Signature Series',
+   Previous Policy Number: '$<rx:\d{10}>',
+   Previous Source System: SIS,
+   Risk State: AZ,
+   Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+   Renewal Policy Premium: 0,
+   Policy Term: Annual,
+   Enrolled in Autopay: 'No'
+ }
+
+
+InitiateRenewalEntryActionTab_Auto: {
   Previous Policy Number: '$<rx:\d{10}>',
    Previous Source System: SIS,
    Risk State: NY,
@@ -18,15 +28,6 @@ InitiateRenewalEntryActionTab_NY: {
    Enrolled in Autopay: 'No'
  }
 
-InitiateRenewalEntryActionTab_MT: {
-  Previous Policy Number: '$<rx:\d{10}>',
-   Previous Source System: SIS,
-   Risk State: MT,
-   Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
-   Renewal Policy Premium: 0,
-   Policy Term: Annual,
-   Enrolled in Autopay: 'No'
- }
 
 InitiateRenewalEntryActionTab_R35_NY: {
  InitiateRenewalEntryActionTab: {

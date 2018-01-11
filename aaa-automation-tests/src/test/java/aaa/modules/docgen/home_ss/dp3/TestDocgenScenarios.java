@@ -154,7 +154,8 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents.AHAUXX,
+				//PAS-6839 Remove Old CIN Documents and triggers from the system
+				//Documents.AHAUXX,
 				Documents.AHFMXX,
 				Documents.DS11.setState(getState()),
 				Documents.DSIQXX,
@@ -223,7 +224,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				Documents.HSU03XX
 				);
 		documentActionTab.verify.documentsPresent(false, 
-				Documents.AHAUXX,
+				//Documents.AHAUXX,
 				Documents.HSIQXX,
 				Documents.AHPNXX,
 				Documents._438BFUNS,
@@ -381,7 +382,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents.AHAUXX,
+				//Documents.AHAUXX,
 				Documents.AHFMXX,
 				Documents.HSILXX,
 				Documents.DS11.setState(getState()),
@@ -416,7 +417,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
-				Documents.AHAUXX,
+				//Documents.AHAUXX,
 				Documents.HSU03XX, 
 				Documents.HSU04XX, 
 				Documents.HSU05XX, 

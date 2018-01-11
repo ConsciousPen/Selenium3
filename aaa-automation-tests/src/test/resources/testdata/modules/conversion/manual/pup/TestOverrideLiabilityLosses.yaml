@@ -1,0 +1,38 @@
+
+# --------- TestData for Underlying Risks Auto License nr. NJ ------------
+
+TestData_UnderlyingAuto: '@Drivers'
+
+Drivers: {
+  Add drivers: 'Yes',
+  First Name: 'First1',
+  Last Name: 'Lastn',
+  Date of Birth: $<today-30y>,
+  Age First Licensed: '20',
+  License Status: 'Licensed (US)',
+  License Number: 'A12345678987657'
+}
+
+
+
+# --------- TestData for Pup Claims ------------
+
+TestData_ClaimsTab: '@ClaimsTab'
+
+ClaimsTab: {
+  AutoViolationsClaims:[{
+    "Add auto violations/claims": 'Yes',
+    Select Driver: 'index=1',
+    Type: 'At-Fault Accident',
+    Description: 'Accident (Property Damage Only)',
+    Occurrence Date: $<today-30d>,
+    Loss Payment Amount: '10000'}],
+  PropertyClaims:[{
+    Add liability related property claims: 'Yes',
+    Property Policy Number: '312654987',
+    Date of Loss: $<today-20d>,
+    Cause of loss: 'Liability',
+    Amount of loss: '80000',
+    Claim status: 'Closed'
+  }]
+}

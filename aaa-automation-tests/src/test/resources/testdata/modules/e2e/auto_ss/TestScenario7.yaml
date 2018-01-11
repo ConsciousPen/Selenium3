@@ -44,7 +44,7 @@ TestData_EndorsementRP: {
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {
-    List of Vehicle: [{}, {}, {
+    List of Vehicle: [{}, {
       'column=5': Remove,
       Confirm Remove: click
     }]

@@ -45,7 +45,7 @@ public abstract class CommonErrorTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		TestData errorsTD = td.getTestData(getMetaKey());
+		//TestData errorsTD = td.getTestData(getMetaKey());
 		if (td != null && td.containsKey(KEY_ERRORS)) {
 			List<String> values = td.getList(KEY_ERRORS);
 			if (values.contains("All")) {

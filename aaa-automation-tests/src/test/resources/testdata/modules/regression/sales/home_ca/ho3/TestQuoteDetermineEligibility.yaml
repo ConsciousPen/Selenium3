@@ -142,7 +142,7 @@ ClaimHistory_LossClaim: {
   PropertyInfoTab: {
     ClaimHistory: {
       "Add a claim": 'Yes',
-      "Date of loss": '01/01/2015',
+      "Date of loss": $<today-2y>,
       "Cause of loss": 'Liability',
       "Amount of loss": 100,
       "Claim status": 'Closed' 
