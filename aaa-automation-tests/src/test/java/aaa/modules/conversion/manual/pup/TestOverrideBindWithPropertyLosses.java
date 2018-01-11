@@ -81,7 +81,7 @@ public class TestOverrideBindWithPropertyLosses extends ConvPUPBaseTest {
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
         fillPupPolicyWithAutoViolations(td);
 
-        verifyErrorsOverrideAndBind(td, ErrorEnum.Errors.ERROR_AAA_PUP_SS4300780_AE);
+        verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS4300780_AE);
     }
 
     /**
