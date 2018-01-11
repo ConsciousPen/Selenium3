@@ -36,7 +36,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_PartialMatch(@Optional("CA") String state) {
+	public void pas730_PartialMatch(@Optional("") String state) {
 		partialMatch();
 	}
 
@@ -53,7 +53,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeRegular(@Optional("CA") String state) {
+	public void pas730_VehicleTypeRegular(@Optional("") String state) {
 		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(new VehicleTab().getMetaKey()).mask("VIN");
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
 
@@ -73,7 +73,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeNotRegular(@Optional("CA") String state) {
+	public void pas730_VehicleTypeNotRegular(@Optional("") String state) {
 		TestData testDataVehicleTabMotorHome = getVehicleMotorHomeTestData();
 
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
@@ -94,7 +94,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_RenewalVehicleTypeRegular(@Optional("CA") String state) {
+	public void pas730_RenewalVehicleTypeRegular(@Optional("") String state) {
 		// Some kind of random vin number
 		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
 				.getTestData(new VehicleTab().getMetaKey()).adjust("VIN", "6FDEU15H7KL055795").resolveLinks();
@@ -116,7 +116,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_RenewalVehicleTypeNotRegular(@Optional("CA") String state) {
+	public void pas730_RenewalVehicleTypeNotRegular(@Optional("") String state) {
 		TestData testData = getMSRPTestDataTwoVehicles(getPolicyTD());
 		testData.adjust("AssignmentTab", getTwoAssignmentsTestData()).resolveLinks();
 		testData.adjust("DocumentsAndBindTab", getTwoAdditionalInterests(testData)).resolveLinks();
@@ -136,7 +136,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("CA") String state) {
+	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("") String state) {
 		String vinNumber = "7MSRP15H5V1011111";
 		VehicleTab vehicleTab = new VehicleTab();
 		TestData testData = getPolicyTD().adjust(testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").resolveLinks())

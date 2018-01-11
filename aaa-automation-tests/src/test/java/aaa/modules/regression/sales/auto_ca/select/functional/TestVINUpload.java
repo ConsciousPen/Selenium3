@@ -34,7 +34,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-533")
-    public void pas533_newVinAdded(@Optional("CA") String state) {
+    public void pas533_newVinAdded(@Optional("") String state) {
         newVinAdded(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), UPDATABLE_VIN);
     }
 
@@ -47,7 +47,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
-    public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
+    public void pas4253_restrictVehicleRefreshNB(@Optional("") String state) {
         pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
     }
 
@@ -62,7 +62,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
-    public void pas527_newVinAddedRenewal(@Optional("CA") String state) {
+    public void pas527_NewVinAddedRenewal(@Optional("") String state) {
         newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), UPDATABLE_VIN);
     }
 
@@ -77,7 +77,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
-    public void pas527_updatedVinRenewal(@Optional("CA") String state) {
+    public void pas527_UpdatedVinRenewal(@Optional("") String state) {
         updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.UPDATED_VIN.get()), UPDATABLE_VIN);
     }
 
@@ -92,7 +92,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2714")
-    public void pas2714_Endorsement(@Optional("CA") String state) {
+    public void pas2714_Endorsement(@Optional("") String state) {
         endorsement(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), UPDATABLE_VIN);
     }
 
@@ -112,7 +112,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
-    public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("CA") String state) {
+    public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("") String state) {
         TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
         String policyNumber = createPolicyPreconds(testData);
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -139,7 +139,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
-    public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("CA") String state) {
+    public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("") String state) {
         TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
         String policyNumber = createPolicyPreconds(testData);
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -166,7 +166,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
-    public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("CA") String state) {
+    public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
         TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
         String policyNumber = createPolicyPreconds(testData);
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();

@@ -47,7 +47,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_PartialMatch(@Optional("UT") String state) {
+	public void pas730_PartialMatch(@Optional("") String state) {
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
 		String vehYear = "2015";
@@ -114,7 +114,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_VehicleTypePPA(@Optional("UT") String state) {
+	public void pas730_VehicleTypePPA(@Optional("") String state) {
 		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(new VehicleTab().getMetaKey()).mask("VIN");
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
 
@@ -150,7 +150,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeNotPPA(@Optional("UT") String state) {
+	public void pas730_VehicleTypeNotPPA(@Optional("") String state) {
 		// Build override Informational Notice dialog
 		TestData testDataInformationNoticeDialog =
 				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
@@ -201,7 +201,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_RenewalVehicleTypePPA(@Optional("UT") String state) {
+	public void pas730_RenewalVehicleTypePPA(@Optional("") String state) {
 		// Some kind of random vin number
 		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
 				.getTestData(new VehicleTab().getMetaKey()).adjust("VIN", "5FDEU15H7KL055795").resolveLinks();
@@ -244,7 +244,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_RenewalVehicleTypeNotPPA(@Optional("UT") String state) {
+	public void pas730_RenewalVehicleTypeNotPPA(@Optional("") String state) {
 		TestData testData = getMSRPTestDataTwoVehicles(getPolicyTD());
 
 		// Enable vin refresh
@@ -282,7 +282,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("UT") String state) {
+	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("") String state) {
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
 		String vinNumber = "7MSRP15H5V1011111";

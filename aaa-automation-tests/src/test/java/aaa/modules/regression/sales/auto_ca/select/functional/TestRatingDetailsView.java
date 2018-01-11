@@ -36,7 +36,7 @@ public class TestRatingDetailsView extends TestSymbolsPresenceTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-535")
-	public void pas535_verifyNewSymbolsPresence(@Optional("CA") String state) {
+	public void pas535_verifyNewSymbolsPresence(@Optional("") String state) {
 		verifySymbolsPresence();
 	}
 }

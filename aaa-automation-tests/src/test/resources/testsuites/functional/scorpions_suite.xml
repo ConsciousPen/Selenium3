@@ -12,20 +12,21 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>
         </classes>
     </test>
-    <test name="PAS-541 Symbols in Policy Details Service AZ">
-        <parameter name="state" value="AZ"/>
+    <test name="PAS-541 CA Symbols in Policy Details Service AZ">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGetAutoPolicyDetails"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestGetAutoPolicyDetails"/>
         </classes>
     </test>
-    <test name="PAS-541 Symbols in Policy Details Service CA">
-        <parameter name="state" value="UT"/>
+    <test name="PAS-541 auto_ss Symbols in Policy Details Service CA">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
         </classes>
     </test>
     <test name="PAS-1904 Adapt MSRP (separate comp/coll to comp and coll - but same value)">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
@@ -45,12 +46,14 @@
     </test>
 
     <test name="PAS-6166-Verify STAT Code Symbol Pre-Ffx is Removed from STAT Code Selections on vehicle page">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVehiclePageStatCodes"/>
         </classes>
     </test>
 
     <test name="Auto SS TestVINUpload tests">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
                 <methods>
@@ -70,10 +73,10 @@
     </test>
 
     <test name="Auto CA Select TestVINUpload tests">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
-                    <include name="pas6203_VinAndControlTablesUpload"/>
                     <include name="pas533_newVinAdded"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_RestrictVehicleRefresh"/>
@@ -90,6 +93,7 @@
     </test>
 
     <test name="Auto CA Choice TestVINUpload tests">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
@@ -102,13 +106,13 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
                 <methods>
                     <include name="pas730_PartialMatch"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
                 </methods>
             </class>
         </classes>
     </test>
 
     <test name="PAS-535,PAS-2712,PAS-1904 auto_ss Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
                 <methods>
@@ -119,6 +123,7 @@
     </test>
 
     <test name="PAS-535,PAS-2712,PAS-1904 auto_ca Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
@@ -129,6 +134,7 @@
     </test>
 
     <test name="PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
@@ -139,6 +145,7 @@
     </test>
 
     <test name="Auto SS MSRP liability symbols refresh tests">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
                 <methods>
@@ -150,22 +157,24 @@
     </test>
 
     <test name="Auto CA Select  MSRP liability symbols refresh tests">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
                 <methods>
-                    <include name="pas730_VehicleTypePPA"/>
-                    <include name="pas730_VehicleTypeNotPPA"/>
+                    <include name="pas730_VehicleTypeRegular"/>
+                    <include name="pas730_VehicleTypeNotRegular"/>
                 </methods>
             </class>
         </classes>
     </test>
 
     <test name="Auto CA Choice MSRP liability symbols refresh tests">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefresh">
                 <methods>
-                    <include name="pas730_VehicleTypePPA"/>
-                    <include name="pas730_VehicleTypeNotPPA"/>
+                    <include name="pas730_VehicleTypeRegular"/>
+                    <include name="pas730_VehicleTypeNotRegular"/>
                 </methods>
             </class>
         </classes>

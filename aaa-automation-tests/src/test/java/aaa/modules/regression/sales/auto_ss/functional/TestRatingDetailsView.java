@@ -36,7 +36,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-535")
-	public void pas535_verifyNewSymbolsPresence(@Optional("AZ") String state) {
+	public void pas535_verifyNewSymbolsPresence(@Optional("") String state) {
 		TestData testDataAdjusted = getPolicyTD().adjust("VehicleTab",getTestSpecificTD("TestData").getTestDataList("VehicleTab")).resolveLinks();
 
 		mainApp().open();

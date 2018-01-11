@@ -72,7 +72,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
-	public void pas533_newVinAdded(@Optional("UT") String state) {
+	public void pas533_newVinAdded(@Optional("") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
@@ -128,7 +128,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487,PAS-1551")
-	public void pas527_NewVinAddedRenewal(@Optional("UT") String state) {
+	public void pas527_NewVinAddedRenewal(@Optional("") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = vinMethods.getControlTableFile();
@@ -182,7 +182,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487")
-	public void pas527_updatedVinRenewal(@Optional("UT") String state) {
+	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.UPDATED_VIN.get());
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), UPDATABLE_VIN);
@@ -266,7 +266,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2714")
-	public void pas2714_Endorsement(@Optional("UT") String state) {
+	public void pas2714_Endorsement(@Optional("") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
@@ -323,7 +323,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4253")
-	public void pas4253_RestrictVehicleRefresh(@Optional("UT") String state) {
+	public void pas4253_RestrictVehicleRefresh(@Optional("") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
@@ -370,7 +370,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6203, PAS-6455")
-	public void pas6203_VinAndControlTablesUpload(@Optional("UT") String state) {
+	public void pas6203_VinAndControlTablesUpload(@Optional("") String state) {
 		String added = "added: 1";
 		String uploadExcelName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String configExcelName = vinMethods.getControlTableFile();
@@ -408,7 +408,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
-	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("UT") String state) {
+	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
@@ -437,7 +437,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
-	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("UT") String state) {
+	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
@@ -467,7 +467,7 @@ public class TestVINUpload extends TestVinUploadHelper{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
-	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("UT") String state) {
+	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
