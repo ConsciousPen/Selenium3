@@ -36,9 +36,9 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	protected String formTypeChoice = "CHOICE";
 	protected String productTypeAAACSA = "AAA_CSA";
 
-	private VehicleTab vehicleTab = new VehicleTab();
-	private PurchaseTab purchaseTab = new PurchaseTab();
-	private MembershipTab membershipTab = new MembershipTab();
+	protected VehicleTab vehicleTab = new VehicleTab();
+	protected PurchaseTab purchaseTab = new PurchaseTab();
+	protected MembershipTab membershipTab = new MembershipTab();
 	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	protected void partialMatch() {
@@ -354,19 +354,21 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 		policy.dataGather().start();
 	}
 
-	private String getCompSymbolFromVRD() {
+	protected String getCompSymbolFromVRD() {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 	}
 
-	private String getCollSymbolFromVRD() {
+	protected String getCollSymbolFromVRD() {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	}
 
-	private void pas730_commonChecks(String compSymbol, String collSymbol) {
+	protected void pas730_commonChecks(String compSymbol, String collSymbol) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertSoftly(softly -> {
 			softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
 			softly.assertThat(getCollSymbolFromVRD()).isNotEqualTo(collSymbol);
+			softly.assertThat(getCompSymbolFromVRD()).isNotEmpty();
+			softly.assertThat(getCollSymbolFromVRD()).isNotEmpty();
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}

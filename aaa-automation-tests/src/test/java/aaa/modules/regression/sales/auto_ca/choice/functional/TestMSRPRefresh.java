@@ -23,6 +23,16 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * @scenario Comp/Coll symbols refreshed from VIN table VIN partial match
+	 * 1. Create Auto quote: VIN doesn't match, Year/Make/Model/Series/Body Style prefilled with not 'Other', comp/coll symbols are found in VIN table
+	 * 2. Calculate premium and validate comp/coll symbols(
+	 * 3. Add new Active VIN version to DB, Adjust values in Vehiclerefdatavin table
+	 * 4. Retrieve created quote
+	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
@@ -30,6 +40,16 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		partialMatch();
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * @scenario Comp/Coll symbols refresh VIN Doesn't match to DB Vehicle type (PPA/Regular)
+	 * 1. Create Auto quote: VIN doesn't match, type PPA/Regular
+	 * 2. Calculate premium and validate comp/coll symbols(1)
+	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
+	 * 4. Retrieve created quote
+	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
@@ -38,9 +58,18 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
 
 		vehicleTypeRegular(testData);
-
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * @scenario Comp/Coll symbols refresh VIN Doesn't match to DB Vehicle type (NOT PPA/Regular)
+	 * 1. Create Auto quote: VIN doesn't match, type NOT PPA/Regular
+	 * 2. Calculate premium and validate comp/coll symbols
+	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
+	 * 4. Retrieve created quote
+	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
@@ -52,6 +81,16 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		vehicleTypeNotRegular(testData);
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * @scenario Renewal: Comp/Coll symbols refresh VIN Doesn't match to DB Vehicle type (PPA/Regular)
+	 * 1. Auto Policy created: VIN doesn't match, type PPA/Regular
+	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
+	 * 3. Generate and rate renewal image
+	 * 4. Open generated renewal image
+	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
@@ -64,6 +103,16 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		renewalVehicleTypeRegular(testData);
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * @scenario Renewal: Comp/Coll symbols refresh VIN Doesn't match to DB Vehicle type (PPA/Regular)
+	 * 1. Auto Policy created: VIN doesn't match, type NOT PPA/Regular
+	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
+	 * 3. Generate and rate renewal image
+	 * 4. Open generated renewal image
+	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
@@ -75,6 +124,15 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		renewalVehicleTypeNotRegular(testData);
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * @scenario Renewal: Comp/Coll symbols refresh VIN DOES match on NB VIN DOESN'T match on Renewal
+	 * 1. Auto Policy created: VIN matches to DB on NB, but doesn't match on Renewal
+	 * 2. Generate and rate renewal image
+	 * 3. Open generated renewal image
+	 * 4. Navigate to P&C page and validate comp/coll symbols
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")

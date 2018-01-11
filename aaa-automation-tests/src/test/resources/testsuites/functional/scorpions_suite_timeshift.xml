@@ -49,4 +49,39 @@
         </classes>
     </test>
 
+    <test name="Auto SS MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto CA Select  MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto CA Choice MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

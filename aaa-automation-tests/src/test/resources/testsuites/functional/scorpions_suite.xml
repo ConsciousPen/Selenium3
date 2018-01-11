@@ -59,6 +59,12 @@
                     <include name="pas4253_RestrictVehicleRefresh"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_PartialMatch"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -72,6 +78,13 @@
                     <include name="pas4253_RestrictVehicleRefresh"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_PartialMatch"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                    <include name="pas730_vinDoesNotMatchDB"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -83,6 +96,12 @@
                     <include name="pas533_newVinAdded"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_RestrictVehicleRefresh"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_PartialMatch"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
                 </methods>
             </class>
         </classes>
@@ -113,6 +132,39 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
                     <include name="pas535_verifyNewSymbolsPresence"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto SS MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_VehicleTypePPA"/>
+                    <include name="pas730_VehicleTypeNotPPA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto CA Select  MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_VehicleTypePPA"/>
+                    <include name="pas730_VehicleTypeNotPPA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto CA Choice MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_VehicleTypePPA"/>
+                    <include name="pas730_VehicleTypeNotPPA"/>
                 </methods>
             </class>
         </classes>
