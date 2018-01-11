@@ -248,7 +248,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
     private void pendingRefundPaymentMethodCheck(String paymentMethod) {
         BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE).controls.links.get("Refund").click();
-        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.valueContains(paymentMethod);
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethod);
         acceptPaymentActionTab.back();
     }
 
