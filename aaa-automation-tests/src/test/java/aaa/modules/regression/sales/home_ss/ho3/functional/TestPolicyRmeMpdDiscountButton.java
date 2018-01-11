@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.CustomerActions;
@@ -17,13 +18,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Jovita Pukenaite
- * For PAS-2293
  * @name Test Policy RME MPD button
  * @scenario
  * 1. Create Individual Customer / Account
  * 2. Select RME Action with HSS product
  * 3. Verify "Legacy policy had MPD discount" radio button is exist on RME screen
- * 4. Verify "Legacy policy had MPD discount" radio button isn't mandator
+ * 4. Verify "Legacy policy had MPD discount" radio button is mandatory
  * 5. TBD (PAS-2310 should be cover)
  */
 
@@ -31,7 +31,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest{
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-2293,PAS-7979")
 
     public void testPolicyRmeMpd (@Optional("") String state) {
 
@@ -39,6 +39,8 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest{
         GeneralTab generalTab = new GeneralTab();
 
         mainApp().open();
+
+        // Create customer
         createCustomerIndividual();
         customer.initiateRenewalEntry().start();
         initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions_NJ"));
@@ -48,9 +50,14 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest{
                 .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT.getLabel())
                 .isPresent()).isTrue();
 
+        //Verify that "Legacy policy had MPD discount" radio button is mandatory on RME screen
+        initiateRenewalEntryActionTab.submitTab();
+        assertThat(InitiateRenewalEntryActionTab.rmeScreenMpdErrorMessage.getValue().equals(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED)).isTrue();
+
+        initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
+                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT).setValue("Yes");
         initiateRenewalEntryActionTab.submitTab();
 
-        //Verify "Legacy policy had MPD discount" radio button isn't mandator
         new CustomerActions.InitiateRenewalEntry().submit();
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE.getLabel()).getValue()).isEqualTo("Renewal");
     }
