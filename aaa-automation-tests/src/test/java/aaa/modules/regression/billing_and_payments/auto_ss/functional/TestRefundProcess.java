@@ -1095,7 +1095,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         CustomAssert.enableSoftMode();
         //TODO OSI: Refund with Check is created because the stubbed amount for VA
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1113,7 +1113,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String policyNumber = preconditionPolicyCreationAuto();
 
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT,  paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1131,7 +1131,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String policyNumber = preconditionPolicyCreationAuto();
 
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1149,7 +1149,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String policyNumber = preconditionPolicyCreationAuto();
 
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod, 1);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
