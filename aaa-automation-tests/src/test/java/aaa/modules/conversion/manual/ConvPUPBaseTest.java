@@ -1,7 +1,5 @@
 package aaa.modules.conversion.manual;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
@@ -20,7 +18,6 @@ public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest implements ManualC
     private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
     private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
-    private ClaimsTab claimsTab = policy.getDefaultView().getTab(ClaimsTab.class);
 
     @Override
     protected TestData getManualConversionInitiationTd() {
