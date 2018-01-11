@@ -101,7 +101,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         policy.getDefaultView().fillUpTo(tdPUP, BindTab.class, true);
         bindTab.submitTab();
 
-        verifyErrorsOverrideAndBind(tdPUP, ErrorEnum.Errors.ERROR_AAA_PUP_SS5071440);
+        verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS5071440);
     }
 
     /**
