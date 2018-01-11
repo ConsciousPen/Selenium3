@@ -11,12 +11,11 @@ public class TableCell extends ExcelCell {
 	}
 
 	public String getHeaderColumnName() {
-		return ((TableRow) getRow()).getTable().getHeader().getColumnName(getColumnIndex());
+		return getTable().getHeader().getColumnName(getColumnIndex());
 	}
 
-	@Override
-	public int getColumnIndex() {
-		return this.tableColumnIndex;
+	public ExcelTable getTable() {
+		return getRow().getTable();
 	}
 
 	public int getColumnIndexOnSheet() {
@@ -24,14 +23,32 @@ public class TableCell extends ExcelCell {
 	}
 
 	@Override
+	public TableRow getRow() {
+		return (TableRow) super.getRow();
+	}
+
+	@Override
+	public int getColumnIndex() {
+		return this.tableColumnIndex;
+	}
+
+	@Override
 	public String toString() {
 		return "ExcelCell{" +
-				"Sheet name=" + ((TableRow) getRow()).getTable().getSheet().getSheetName() +
+				"Sheet name=" + getTable().getSheet().getSheetName() +
 				", Row number=" + getRowIndex() +
 				", Column number=" + getColumnIndex() +
 				", Header column name=" + getHeaderColumnName() +
-				", Cell Types=" + getCellTypes() +
 				", Cell value=" + getStringValue() +
+				", Cell Types=" + getCellTypes() +
 				'}';
+	}
+
+	public TableCell copy(int destinationRowIndex, String destinationHeaderColumnName) {
+		return copy(destinationRowIndex, destinationHeaderColumnName, true, true, true);
+	}
+
+	public TableCell copy(int destinationRowIndex, String destinationHeaderColumnName, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		return (TableCell) copy(getTable().getCell(destinationRowIndex, destinationHeaderColumnName), copyCellStyle, copyComment, copyHyperlink);
 	}
 }

@@ -1,16 +1,69 @@
 package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Row;
-import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.iterator.CellIterator;
 
-public class TableHeader extends TableRow {
+public class TableHeader extends ImmutableCellsQueue implements Iterable<ExcelCell> {
+	protected Row headerRow;
+	protected Map<Integer, ExcelCell> headerCells;
 
-	public TableHeader(Row row, ExcelTable table) {
-		super(row, 0, row.getRowNum() + 1, table);
+	public TableHeader(Row headerRow, ExcelTable table) {
+		super(headerRow.getRowNum() + 1, table);
+		this.headerRow = headerRow;
 		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
+	}
+
+	public Row getPoiRow() {
+		return this.headerRow;
+	}
+
+	public ExcelTable getTable() {
+		return (ExcelTable) getArea();
+	}
+
+	public List<String> getColumnsNames() {
+		return new ArrayList<>(getCellsMap().values().stream().map(ExcelCell::getStringValue).collect(Collectors.toSet()));
+	}
+
+	@Override
+	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	protected Map<Integer, ExcelCell> getCellsMap() {
+		if (this.headerCells == null) {
+			this.headerCells = new LinkedHashMap<>(getTable().getColumnsIndexes().size());
+			for (int i = 0; i < getTable().getColumnsIndexes().size(); i++) {
+				int sheetColumnIndex = getTable().getColumnsIndexesOnSheet().get(i);
+				int headerColumnIndex = getTable().getColumnsIndexes().get(i);
+				ExcelRow headerRow = new SheetRow(getPoiRow(), getIndex(), getArea());
+				ExcelCell headerCell = new ExcelCell(getPoiRow().getCell(sheetColumnIndex - 1), headerRow, sheetColumnIndex);
+				this.headerCells.put(headerColumnIndex, headerCell);
+			}
+		}
+		return this.headerCells;
+	}
+
+	int getColumnIndexOnSheet() {
+		return this.index;
+	}
+
+	@Override
+	public int getIndex() {
+		return 0;
+	}
+
+	@Override
+	@Nonnull
+	@SuppressWarnings("unchecked")
+	public Iterator<ExcelCell> iterator() {
+		return (Iterator<ExcelCell>) new CellIterator(this);
 	}
 
 	@Override
@@ -20,53 +73,22 @@ public class TableHeader extends TableRow {
 				'}';
 	}
 
-	@Override
-	public Boolean getBoolValue(int columnIndex) {
-		throw new UnsupportedOperationException("Table header cells don't have boolean values");
+	public boolean hasColumn(String headerColumnName) {
+		return getColumnsNames().contains(headerColumnName);
 	}
 
-	@Override
-	public Boolean getBoolValue(String headerColumnName) {
-		throw new UnsupportedOperationException("Table header cells don't have boolean values");
+	public int getColumnIndex(String headerColumnName) {
+		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
+		return getCellsMap().entrySet().stream().filter(cm -> cm.getValue().getStringValue().equals(headerColumnName)).findFirst().get().getKey();
 	}
 
-	@Override
-	public Integer getIntValue(int columnIndex) {
-		throw new UnsupportedOperationException("Table header cells don't have int values");
+	public int getColumnIndexOnSheet(String headerColumnName) {
+		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
+		return getCell(getColumnIndex(headerColumnName)).getColumnIndex();
 	}
 
-	@Override
-	public Integer getIntValue(String headerColumnName) {
-		throw new UnsupportedOperationException("Table header cells don't have int values");
-	}
-
-	@Override
-	public LocalDateTime getDateValue(int columnIndex) {
-		throw new UnsupportedOperationException("Table header cells don't have LocalDateTime values");
-	}
-
-	@Override
-	public LocalDateTime getDateValue(String headerColumnName) {
-		throw new UnsupportedOperationException("Table header cells don't have LocalDateTime values");
-	}
-
-	@Override
-	public TableHeader registerCellType(CellType<?>... cellTypes) {
-		throw new UnsupportedOperationException("Table header cell types should not be updated");
-	}
-
-	@Override
-	public TableHeader exclude() {
-		throw new UnsupportedOperationException("Table header exclusion is not supported");
-	}
-
-	@Override
-	public TableHeader clear() {
-		throw new UnsupportedOperationException("Table header erasing is not supported");
-	}
-
-	@Override
-	public ExcelTable delete() {
-		throw new UnsupportedOperationException("Table header deleting is not supported");
+	public String getColumnName(int columnIndex) {
+		assertThat(hasCell(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
+		return getCellsMap().get(columnIndex).getStringValue();
 	}
 }

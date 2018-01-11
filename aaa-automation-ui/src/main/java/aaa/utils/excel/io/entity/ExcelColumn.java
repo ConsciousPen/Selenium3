@@ -2,7 +2,7 @@ package aaa.utils.excel.io.entity;
 
 public abstract class ExcelColumn extends CellsQueue {
 
-	public ExcelColumn(int columnIndex, CellsArea cellsArea) {
+	protected ExcelColumn(int columnIndex, CellsArea cellsArea) {
 		super(columnIndex, cellsArea);
 	}
 

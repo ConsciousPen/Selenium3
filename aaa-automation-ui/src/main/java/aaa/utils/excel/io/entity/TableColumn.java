@@ -1,7 +1,7 @@
 package aaa.utils.excel.io.entity;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
@@ -15,15 +15,6 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 		this.tableColumnIndex = tableColumnIndex;
 	}
 
-	@Override
-	public int getIndex() {
-		return tableColumnIndex;
-	}
-
-	int getIndexOnSheet() {
-		return this.index;
-	}
-
 	public ExcelTable getTable() {
 		return (ExcelTable) getArea();
 	}
@@ -32,7 +23,7 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableCell> getCellsMap() {
 		if (this.tableCells == null) {
-			this.tableCells = new HashMap<>(getTable().getRowsMap().size());
+			this.tableCells = new LinkedHashMap<>(getTable().getRowsMap().size());
 			for (Map.Entry<Integer, TableRow> rowEntry : getTable().getRowsMap().entrySet()) {
 				this.tableCells.put(rowEntry.getKey(), (TableCell) rowEntry.getValue().getCell(getIndex()));
 			}
@@ -40,6 +31,14 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 		return this.tableCells;
 	}
 
+	int getIndexOnSheet() {
+		return this.index;
+	}
+
+	@Override
+	public int getIndex() {
+		return tableColumnIndex;
+	}
 
 	@Override
 	@Nonnull
@@ -54,5 +53,12 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 				"columnIndex=" + getIndex() +
 				", values=" + getValues() +
 				'}';
+	}
+
+	public ExcelColumn copy(String destinationHeaderColumnName) {
+		for (ExcelCell cell : getCells()) {
+			cell.copy(cell.getRowIndex(), getTable().getColumnIndex(destinationHeaderColumnName));
+		}
+		return this;
 	}
 }

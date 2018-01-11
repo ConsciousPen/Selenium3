@@ -4,16 +4,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.annotation.Nonnull;
-import aaa.utils.excel.io.entity.CellsQueue;
 import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.ImmutableCellsQueue;
 
 public class CellIterator<C extends ExcelCell> implements Iterator<C> {
-	private CellsQueue cellsQueue;
+	private ImmutableCellsQueue cellsQueue;
 	private List<Integer> cellsIndexes;
 	private Integer currentIndex;
 
 	@Nonnull
-	public CellIterator(CellsQueue cellsQueue) {
+	public CellIterator(ImmutableCellsQueue cellsQueue) {
 		this.cellsQueue = cellsQueue;
 		this.cellsIndexes = cellsQueue.getCellsIndexes();
 		this.currentIndex = cellsQueue.getFirstCellIndex();

@@ -5,8 +5,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +28,7 @@ public abstract class CellsArea {
 	protected ExcelManager excelManager;
 	protected Set<CellType<?>> cellTypes;
 
-	public CellsArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
+	protected CellsArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.sheet = sheet;
 		this.columnsIndexes = CollectionUtils.isNotEmpty(columnsIndexes) ? columnsIndexes : getColumnsIndexes(sheet);
 		this.rowsIndexes = CollectionUtils.isNotEmpty(rowsIndexes) ? rowsIndexes : getRowsIndexes(sheet);
@@ -82,68 +82,66 @@ public abstract class CellsArea {
 		return columnsIndexes.get(columnsIndexes.size() - 1);
 	}
 
-	public ExcelRow getFirstRow() {
+	public CellsQueue getFirstRow() {
 		return getRow(getFirstRowIndex());
 	}
 
-	public ExcelRow getLastRow() {
+	public CellsQueue getLastRow() {
 		return getRow(getLastRowIndex());
 	}
 
 	@SuppressWarnings("unchecked")
-	public <R extends ExcelRow> List<R> getRows() {
-		return new ArrayList<>((Collection<R>) getRowsMap().values());
+	public <Q extends CellsQueue> List<Q> getRows() {
+		return new ArrayList<>((Collection<Q>) getRowsMap().values());
 	}
 
-	protected abstract <R extends ExcelRow> Map<Integer, R> getRowsMap();
+	@SuppressWarnings("unchecked")
+	public <Q extends CellsQueue> List<Q> getColumns() {
+		return new ArrayList<>((Collection<Q>) getColumnsMap().values());
+	}
 
-	protected abstract <C extends ExcelColumn> Map<Integer, C> getColumnsMap();
+	protected abstract <Q extends CellsQueue> Map<Integer, Q> getRowsMap();
 
-	public ExcelCell getFirstCell(int rowIndex) {
+	protected abstract <Q extends ExcelColumn> Map<Integer, Q> getColumnsMap();
+
+	public ExcelCell getFirstColumnCell(int rowIndex) {
 		return getRow(rowIndex).getFirstCell();
 	}
 
-	public ExcelCell getLastCell(int rowIndex) {
+	public ExcelCell getLastColumnCell(int rowIndex) {
 		return getRow(rowIndex).getLastCell();
 	}
 
-	/**
-	 * Get {@link SheetRow} object by table's row index. Index starts from 1 (0 belongs to header)
-	 */
 	@SuppressWarnings("unchecked")
-	public <R extends ExcelRow> R getRow(int rowIndex) {
-		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s or it's empty", rowIndex, getPoiSheet().getSheetName()).isTrue();
-		return (R) getRowsMap().get(rowIndex);
+	public <Q extends CellsQueue> Q getRow(int rowIndex) {
+		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s", rowIndex, getPoiSheet().getSheetName()).isTrue();
+		return (Q) getRowsMap().get(rowIndex);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <Q extends CellsQueue> Q getColumn(int columnIndex) {
+		assertThat(hasColumn(columnIndex)).as("There is no column number %1$s on sheet %2$s", columnIndex, getPoiSheet().getSheetName()).isTrue();
+		return (Q) getColumnsMap().get(columnIndex);
 	}
 
 	public boolean hasRow(int rowIndex) {
 		return getRowsMap().containsKey(rowIndex);
 	}
 
+	public boolean hasColumn(int columnIndex) {
+		return getColumnsMap().containsKey(columnIndex);
+	}
+
 	public ExcelCell getCell(int rowIndex, int columnIndex) {
 		return getRow(rowIndex).getCell(columnIndex);
 	}
 
-	public List<Object> getRowValues(int rowIndex) {
-		return getRowValues(rowIndex, 1);
+	public Object getValue(int rowIndex, int columnIndex) {
+		return getCell(rowIndex, columnIndex).getValue();
 	}
 
-	public List<Object> getRowValues(int rowIndex, int fromColumnIndex) {
-		return getRowValues(rowIndex, fromColumnIndex, getRow(rowIndex).getLastCellIndex());
-	}
-
-	/**
-	 * Get all non-null Object cell values from provided {@code rowIndex} starting inclusively from {@code fromColumnIndex} and up to inclusively {@code toColumnIndex}
-	 *
-	 * @param rowIndex row number from which values should be taken, index starts from 1
-	 * @param fromColumnIndex the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
-	 * @param toColumnIndex the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnIndex}
-	 *
-	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnIndex/toColumnIndex} bounds
-	 */
-	public List<Object> getRowValues(int rowIndex, int fromColumnIndex, int toColumnIndex) {
-		assertThat(fromColumnIndex).as("From column number should be greater than 0").isPositive();
-		return IntStream.rangeClosed(fromColumnIndex, toColumnIndex).filter(getRow(rowIndex)::hasCell).mapToObj(getRow(rowIndex)::getValue).collect(Collectors.toList());
+	public String getStringValue(int rowIndex, int columnIndex) {
+		return getCell(rowIndex, columnIndex).getStringValue();
 	}
 
 	public List<String> getRowStringValues(int rowIndex) {
@@ -151,38 +149,62 @@ public abstract class CellsArea {
 	}
 
 	public List<String> getRowStringValues(int rowIndex, int fromColumnIndex) {
-		return getRowStringValues(rowIndex, fromColumnIndex, getRow(rowIndex).getLastCellIndex());
+		return getRowStringValues(rowIndex, fromColumnIndex, getLastColumnIndex());
 	}
 
 	/**
-	 * Get all non-null String cell values from provided {@code rowIndex} starting inclusively from {@code fromColumnIndex} and up to inclusively {@code toColumnIndex}
+	 * Get all String cell values from provided {@code rowIndex} starting inclusively from {@code fromColumnIndex} and up to inclusively {@code toColumnIndex}
 	 *
 	 * @param rowIndex row number from which values should be taken, index starts from 1
 	 * @param fromColumnIndex the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
-	 * @param toColumnIndex the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnIndex}
+	 * @param toColumnIndex the inclusive last column number on sheet to get values from. Should be greater or equal to {@code fromColumnIndex}
 	 *
-	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnIndex/toColumnIndex} bounds
+	 * @return List of String cell values found on provided {@code rowIndex} within {@code fromColumnIndex/toColumnIndex} bounds
 	 */
 	public List<String> getRowStringValues(int rowIndex, int fromColumnIndex, int toColumnIndex) {
-		assertThat(fromColumnIndex).as("From column number should be greater than 0").isPositive();
+		assertThat(fromColumnIndex).as("Start column index should be greater than 0").isPositive();
+		assertThat(toColumnIndex).as("End column index should be greater or equal to start column index").isGreaterThanOrEqualTo(fromColumnIndex);
 		return IntStream.rangeClosed(fromColumnIndex, toColumnIndex).filter(getRow(rowIndex)::hasCell).mapToObj(getRow(rowIndex)::getStringValue).collect(Collectors.toList());
 	}
 
-	public ExcelRow getRow(String... valuesInCells) {
+	public List<Object> getColumnStringValues(int columnIndex) {
+		return getColumnStringValues(columnIndex, 1);
+	}
+
+	public List<Object> getColumnStringValues(int columnIndex, int fromRowIndex) {
+		return getColumnStringValues(columnIndex, fromRowIndex, getLastRowIndex());
+	}
+
+	/**
+	 * Get all String cell values from provided {@code columnIndex} starting inclusively from {@code fromRowIndex} and up to inclusively {@code toRowIndex}
+	 *
+	 * @param columnIndex column number from which values should be taken, index starts from 1
+	 * @param fromRowIndex the inclusive initial row number on sheet to get values from. Should be positive, index starts from 1
+	 * @param toRowIndex the inclusive last row number on sheet to get values from. Should be greater or equal to {@code fromRowIndex}
+	 *
+	 * @return List of String cell values found on provided {@code columnIndex} within {@code fromRowIndex/toRowIndex} bounds
+	 */
+	public List<Object> getColumnStringValues(int columnIndex, int fromRowIndex, int toRowIndex) {
+		assertThat(fromRowIndex).as("Start row index should be greater than 0").isPositive();
+		assertThat(toRowIndex).as("End row index should be greater or equal to start row index").isGreaterThanOrEqualTo(fromRowIndex);
+		return IntStream.rangeClosed(fromRowIndex, toRowIndex).filter(getColumn(columnIndex)::hasCell).mapToObj(getColumn(columnIndex)::getValue).collect(Collectors.toList());
+	}
+
+	public CellsQueue getRow(String... valuesInCells) {
 		return getRow(false, valuesInCells);
 	}
 
-	public ExcelRow getRow(boolean isLowest, String... valuesInCells) {
-		Set<String> expectedColumnNames = new HashSet<>(Arrays.asList(valuesInCells));
-		List<Row> foundRows = new ArrayList<>();
-		Map<Integer, Pair<Row, String>> foundRowsWithPartialMatch = new HashMap<>();
-		for (Row row : getPoiSheet()) {
-			List<String> rowValues = getRowStringValues(row.getRowNum() + 1);
-			Set<String> columnNames = new HashSet<>(expectedColumnNames);
-			if (rowValues.containsAll(columnNames)) {
+	public CellsQueue getRow(boolean isLowest, String... valuesInCells) {
+		Set<String> initialExpectedValues = new HashSet<>(Arrays.asList(valuesInCells));
+		List<CellsQueue> foundRows = new ArrayList<>();
+		Map<Integer, Pair<CellsQueue, String>> foundRowsWithPartialMatch = new LinkedHashMap<>();
+		for (CellsQueue row : getRows()) {
+			List<String> actualValues = row.getStringValues();
+			Set<String> expectedValues = new HashSet<>(initialExpectedValues);
+			if (actualValues.containsAll(expectedValues)) {
 				foundRows.add(row);
-			} else if (columnNames.removeAll(rowValues)) {
-				foundRowsWithPartialMatch.put(columnNames.size(), Pair.of(row, columnNames.toString()));
+			} else if (expectedValues.removeAll(actualValues)) {
+				foundRowsWithPartialMatch.put(expectedValues.size(), Pair.of(row, expectedValues.toString()));
 			}
 
 			if (!foundRows.isEmpty() && !isLowest) {
@@ -191,18 +213,17 @@ public abstract class CellsArea {
 		}
 
 		if (foundRows.isEmpty()) {
-			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", expectedColumnNames, getPoiSheet().getSheetName());
+			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", initialExpectedValues, getPoiSheet().getSheetName());
 			if (!foundRowsWithPartialMatch.isEmpty()) {
 				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
-				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum() + 1;
+				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getIndex();
 				String missedVales = foundRowsWithPartialMatch.get(bestMatch).getRight();
 				errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed cell values: %3$s", errorMessage, rowNumber, missedVales);
 			}
 			throw new IstfException(errorMessage);
 		}
 
-		Row poiRow = foundRows.get(foundRows.size() - 1);
-		return new SheetRow(poiRow, poiRow.getRowNum() + 1, getExcelManager().getSheet(getPoiSheet().getSheetName()));
+		return foundRows.get(foundRows.size() - 1);
 	}
 
 	public CellsArea registerCellType(CellType<?>... cellTypes) {
@@ -214,7 +235,7 @@ public abstract class CellsArea {
 	public CellsArea excludeColumns(Integer... columnsIndexes) {
 		for (Integer cIndex : columnsIndexes) {
 			this.columnsIndexes.remove(cIndex);
-			for (ExcelRow row : getRows()) {
+			for (CellsQueue row : getRows()) {
 				row.getCellsMap().remove(cIndex);
 			}
 		}
@@ -230,7 +251,7 @@ public abstract class CellsArea {
 	}
 
 	public CellsArea clearColumns(Integer... columnsIndexes) {
-		for (ExcelRow row : getRows()) {
+		for (CellsQueue row : getRows()) {
 			for (Integer index : columnsIndexes) {
 				row.getCell(index).clear();
 			}
@@ -246,7 +267,7 @@ public abstract class CellsArea {
 	}
 
 	public CellsArea copyColumn(int columnIndex, int destinationColumnIndex) {
-		for (ExcelRow row : getRows()) {
+		for (CellsQueue row : getRows()) {
 			row.getCell(columnIndex).copy(row.getIndex(), row.getCell(destinationColumnIndex).getColumnIndex());
 		}
 		return this;
@@ -300,13 +321,13 @@ public abstract class CellsArea {
 	}
 
 	private Set<Integer> getColumnsIndexes(Sheet sheet) {
-		int maxColumnsNumber = 1;
+		int maxCellsNumber = 1;
 		for (Row row : sheet) {
-			if (row.getLastCellNum() > maxColumnsNumber) {
-				maxColumnsNumber = row.getLastCellNum();
+			if (row.getLastCellNum() > maxCellsNumber) {
+				maxCellsNumber = row.getLastCellNum();
 			}
 		}
-		return IntStream.rangeClosed(1, maxColumnsNumber).boxed().collect(Collectors.toSet());
+		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toSet());
 	}
 
 	private Set<Integer> getRowsIndexes(Sheet sheet) {

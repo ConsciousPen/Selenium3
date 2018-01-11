@@ -3,9 +3,9 @@ package aaa.utils.excel.io.entity;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +61,7 @@ public class ExcelSheet extends CellsArea implements Iterable<SheetRow> {
 	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetRow> getRowsMap() {
 		if (this.rows == null) {
-			this.rows = new HashMap<>();
+			this.rows = new LinkedHashMap<>(this.rowsIndexes.size());
 			for (int rowIndex : this.rowsIndexes) {
 				SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, this);
 				this.rows.put(rowIndex, row);
@@ -74,7 +74,7 @@ public class ExcelSheet extends CellsArea implements Iterable<SheetRow> {
 	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetColumn> getColumnsMap() {
 		if (this.columns == null) {
-			this.columns = new HashMap<>(this.columnsIndexes.size());
+			this.columns = new LinkedHashMap<>(this.columnsIndexes.size());
 			for (Integer columnIndex : this.columnsIndexes) {
 				Row row = getPoiSheet().getRow(columnIndex - 1);
 				this.columns.put(columnIndex, new SheetColumn(columnIndex, this));

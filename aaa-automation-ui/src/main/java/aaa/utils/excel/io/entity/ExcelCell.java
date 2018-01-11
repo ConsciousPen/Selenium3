@@ -51,11 +51,10 @@ public class ExcelCell {
 	}
 
 	public Object getValue() {
-		Set<CellType<?>> typesCopy = getCellTypes();
-		if (typesCopy.remove(STRING_TYPE) && typesCopy.isEmpty()) {
+		if (getCellTypes().size() == 1 && getCellTypes().contains(STRING_TYPE)) {
 			return getStringValue();
 		}
-		return typesCopy.stream().findFirst().get().getValueFrom(this);
+		return getCellTypes().stream().filter(t -> t.isTypeOf(this)).findFirst().get().getValueFrom(this);
 	}
 
 	public <T> ExcelCell setValue(T value) {
@@ -160,10 +159,15 @@ public class ExcelCell {
 	}
 
 	public ExcelCell clear() {
-		if (getRow().getPoiRow() != null) {
+		if (getRow().getPoiRow() != null && getPoiCell() != null) {
 			getRow().getPoiRow().removeCell(getPoiCell());
+			setPoiCell(null);
 		}
 		return this;
+	}
+
+	public ExcelCell copy(int destinationRowIndex) {
+		return copy(destinationRowIndex, getColumnIndex());
 	}
 
 	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex) {
@@ -175,23 +179,20 @@ public class ExcelCell {
 	}
 
 	public ExcelCell copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		destinationCell.setCellTypes(this.getCellTypes());
+
 		Cell cell = this.getPoiCell();
 		if (cell == null) {
+			destinationCell.clear();
 			return this;
 		}
-
-		destinationCell
-				.setCellTypes(this.getCellTypes())
-				.setValue(this.getValue());
-
+		destinationCell.setValue(this.getValue());
 		if (copyCellStyle) {
 			destinationCell.getPoiCell().setCellStyle(cell.getCellStyle());
 		}
-
 		if (copyComment && cell.getCellComment() != null) {
 			destinationCell.getPoiCell().setCellComment(cell.getCellComment());
 		}
-
 		if (copyHyperlink && cell.getHyperlink() != null) {
 			destinationCell.getPoiCell().setHyperlink(cell.getHyperlink());
 		}

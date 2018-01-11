@@ -1,7 +1,7 @@
 package aaa.utils.excel.io.entity;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
@@ -21,7 +21,7 @@ public class SheetColumn extends ExcelColumn implements Iterable<ExcelCell> {
 	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, ExcelCell> getCellsMap() {
 		if (this.cells == null) {
-			this.cells = new HashMap<>(getSheet().getRowsMap().size());
+			this.cells = new LinkedHashMap<>(getSheet().getRowsMap().size());
 			for (Map.Entry<Integer, SheetRow> rowEntry : getSheet().getRowsMap().entrySet()) {
 				this.cells.put(rowEntry.getKey(), rowEntry.getValue().getCell(getIndex()));
 			}

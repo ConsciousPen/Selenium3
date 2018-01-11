@@ -108,7 +108,7 @@ public class ExcelUnmarshaller {
 		ExcelTable table = getExcelTable(excelManager, tableField, tableFields, strictMatch);
 
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableFields);
-		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasCell(getHeaderColumnName(f))).collect(Collectors.toList());
+		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasColumn(getHeaderColumnName(f))).collect(Collectors.toList());
 
 		if (!fieldsWithMissingColumns.isEmpty()) {
 			Map<String, String> missingTableColumns = new HashMap<>();

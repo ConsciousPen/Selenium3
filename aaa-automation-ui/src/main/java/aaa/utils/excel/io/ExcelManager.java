@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -150,7 +150,7 @@ public class ExcelManager {
 	@SuppressWarnings("resource")
 	private Map<Integer, ExcelSheet> getSheetsMap() {
 		if (this.sheets == null) {
-			this.sheets = new HashMap<>();
+			this.sheets = new LinkedHashMap<>();
 			for (Sheet sheet : getWorkbook()) {
 				int sheetNumber = getWorkbook().getSheetIndex(sheet.getSheetName()) + 1;
 				this.sheets.put(sheetNumber, new ExcelSheet(sheet, sheetNumber, this, getCellTypes()));

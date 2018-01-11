@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 public abstract class ExcelRow extends CellsQueue {
 	protected Row row;
 
-	public ExcelRow(Row row, int rowIndex, CellsArea cellsArea) {
+	protected ExcelRow(Row row, int rowIndex, CellsArea cellsArea) {
 		super(rowIndex, cellsArea);
 		this.row = row;
 	}
@@ -37,5 +37,13 @@ public abstract class ExcelRow extends CellsQueue {
 	public CellsArea delete() {
 		getArea().deleteRows(getIndex());
 		return getArea();
+	}
+
+	@Override
+	public String toString() {
+		return "ExcelRow{" +
+				"rowIndex=" + getIndex() +
+				", values=" + getValues() +
+				'}';
 	}
 }
