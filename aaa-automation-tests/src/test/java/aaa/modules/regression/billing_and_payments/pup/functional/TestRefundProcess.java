@@ -197,7 +197,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingAutomatedRefundsCheck(@Optional("MD") String state) {
+    public void pas7298_pendingAutomatedRefundsCheck(@Optional("VA") String state) {
 
         String paymentMethod = "Check";
 

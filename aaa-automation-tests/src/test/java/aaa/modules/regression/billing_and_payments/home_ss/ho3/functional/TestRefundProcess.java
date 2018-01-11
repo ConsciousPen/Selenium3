@@ -183,9 +183,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingManualRefundsCheck(@Optional("VA") String state) {
+    public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) {
 
-        String paymentMethod = "Check";
+        String paymentMethod = "contains=ACH";
 
         preconditionPolicyCreationHo();
 
@@ -200,7 +200,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
     public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
 
-        String paymentMethod = "Credit Card";
+        String paymentMethod = "contains=Credit Card";
 
         String policyNumber = preconditionPolicyCreationHo();
 
@@ -213,9 +213,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingAutomatedRefundsCheck(@Optional("MD") String state) {
+    public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) {
 
-        String paymentMethod = "Check";
+        String paymentMethod = "contains=ACH";
 
         String policyNumber = preconditionPolicyCreationHo();
 
