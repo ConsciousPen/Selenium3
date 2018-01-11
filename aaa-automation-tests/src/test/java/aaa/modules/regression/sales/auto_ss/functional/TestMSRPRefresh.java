@@ -285,7 +285,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("UT") String state) {
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
-		String vinNumber = "8MSRP15H5V1011111";
+		String vinNumber = "7MSRP15H5V1011111";
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
