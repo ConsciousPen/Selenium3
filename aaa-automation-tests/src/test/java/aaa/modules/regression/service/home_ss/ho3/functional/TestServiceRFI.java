@@ -81,11 +81,11 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "false");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "false");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "false");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "false");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "false");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "NS");
         //PAS-341 End
 
         CustomAssert.disableSoftMode();
