@@ -241,6 +241,7 @@ public class RefundProcessHelper extends PolicyBilling {
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         CustomAssert.assertFalse("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
         pendingRefundLinksCheck();
+        //TODO failing because of LastPaymentMethodStub configuration and tolerance limit. Will work when we will be updating stub data on the fly.
         pendingRefundPaymentMethodCheck(paymentMethod);
         pendingRefundVoid();
     }
