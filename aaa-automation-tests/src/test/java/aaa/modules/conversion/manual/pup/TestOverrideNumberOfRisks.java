@@ -29,17 +29,17 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
 
         // Create customer
         mainApp().open();
-        //createCustomerIndividual();
+        createCustomerIndividual();
 
-        TestData tdPUP = getPolicyTD()  //getPolicyDefaultTD()
+        TestData tdPUP = getPolicyDefaultTD()
 
 
         // TESTING ONLY **********************
-                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel() + "[0]",
-                        PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
-                        PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel()),
-                        "NJH3926232091")
+//                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
+//                        PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel() + "[0]",
+//                        PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
+//                        PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel()),
+//                        "NJH3926232091")
                 .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
                         PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENCY.getLabel()), "AAA South Jersey - 500017174")
                 .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
@@ -49,7 +49,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
                 .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
                         PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE.getLabel()), "index=5");
 
-        SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032262");
+        //SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032262");
 
         // **************************************
 
@@ -70,12 +70,12 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
 
         // Create 6 Additional Residences
         tdPUP.adjust(UnderlyingRisksPropertyTab.class.getSimpleName(), tdPropertyTabAdditionalResidences);
-        addAdditionalItems(underlyingRisksPropertyTab, 1, underlyingRisksPropertyTab.getAdditionalResidenciesAssetList()
+        addAdditionalItems(underlyingRisksPropertyTab, 6, underlyingRisksPropertyTab.getAdditionalResidenciesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ADD), tdPUP);
 
         // Create 7 Rental Residences
         tdPUP.adjust(UnderlyingRisksPropertyTab.class.getSimpleName(), tdPropertyTabRentalProperties);
-        addAdditionalItems(underlyingRisksPropertyTab, 1, underlyingRisksPropertyTab.getAdditionalResidenciesAssetList()
+        addAdditionalItems(underlyingRisksPropertyTab, 6, underlyingRisksPropertyTab.getAdditionalResidenciesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ADD), tdPUP);
 
         underlyingRisksPropertyTab.submitTab();
@@ -91,14 +91,14 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
                 .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
                         PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), tdAutoTabAutomobiles);
 
-        addAdditionalItems(underlyingRisksAutoTab, 1, underlyingRisksAutoTab.getAutomobilesAssetList()
+        addAdditionalItems(underlyingRisksAutoTab, 8, underlyingRisksAutoTab.getAutomobilesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD), tdPUP);
 
         // Create 5 antique automobiles
         tdPUP.adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), tdAutoTabAntiques);
 
-        addAdditionalItems(underlyingRisksAutoTab, 1, underlyingRisksAutoTab.getAutomobilesAssetList()
+        addAdditionalItems(underlyingRisksAutoTab, 5, underlyingRisksAutoTab.getAutomobilesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD), tdPUP);
 
         // Add 5 Motorcycles
@@ -107,7 +107,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
                         PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MOTORCYCLES.getLabel()), tdAutoTabMotorcycles);
         underlyingRisksAutoTab.getMotorcyclesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles.ADD_MOTORCYCLE).setValue("Yes");
         underlyingRisksAutoTab.fillTab(tdPUP);
-        addAdditionalItems(underlyingRisksAutoTab, 1, underlyingRisksAutoTab.getMotorcyclesAssetList()
+        addAdditionalItems(underlyingRisksAutoTab, 4, underlyingRisksAutoTab.getMotorcyclesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles.ADD), tdPUP);
 
         // Add 5 Motor Homes
@@ -116,7 +116,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
                         PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MOTOR_HOMES.getLabel()), tdAutoTabMotorHomes);
         underlyingRisksAutoTab.getMotorHomesAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.ADD_MOTORE_HOME).setValue("Yes");
         underlyingRisksAutoTab.fillTab(tdPUP);
-        addAdditionalItems(underlyingRisksAutoTab, 1, underlyingRisksAutoTab.getMotorHomesAssetList()
+        addAdditionalItems(underlyingRisksAutoTab, 4, underlyingRisksAutoTab.getMotorHomesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.ADD), tdPUP);
 
         underlyingRisksAutoTab.submitTab();
@@ -127,7 +127,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
         underlyingRisksOtherVehiclesTab.getWatercraftAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.ADD_WATERCRAFT).setValue("Yes");
         underlyingRisksOtherVehiclesTab.fillTab(tdPUP);
-        addAdditionalItems(underlyingRisksOtherVehiclesTab, 1, underlyingRisksOtherVehiclesTab.getWatercraftAssetList()
+        addAdditionalItems(underlyingRisksOtherVehiclesTab, 5, underlyingRisksOtherVehiclesTab.getWatercraftAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.ADD), tdPUP);
 
         // Add 5 ATV's
@@ -138,19 +138,19 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
         underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD_RECREATIONAL_VEHICLE).setValue("Yes");
         underlyingRisksOtherVehiclesTab.fillTab(tdPUP);
-        addAdditionalItems(underlyingRisksOtherVehiclesTab, 1, underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
+        addAdditionalItems(underlyingRisksOtherVehiclesTab, 4, underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD), tdPUP);
 
         // Add 5 Snowmobiles
         tdPUP.adjust(TestData.makeKeyPath(UnderlyingRisksOtherVehiclesTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RECREATIONAL_VEHICLE.getLabel()), tdOtherVehiclesTabSnowmobile);
-        addAdditionalItems(underlyingRisksOtherVehiclesTab, 1, underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
+        addAdditionalItems(underlyingRisksOtherVehiclesTab, 5, underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD), tdPUP);
 
         // Add 3 Golf Carts
         tdPUP.adjust(TestData.makeKeyPath(UnderlyingRisksOtherVehiclesTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RECREATIONAL_VEHICLE.getLabel()), tdOtherVehiclesTabGolfCart);
-        addAdditionalItems(underlyingRisksOtherVehiclesTab, 1, underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
+        addAdditionalItems(underlyingRisksOtherVehiclesTab, 3, underlyingRisksOtherVehiclesTab.getRecreationalVehicleAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD), tdPUP);
 
         underlyingRisksOtherVehiclesTab.submitTab();
