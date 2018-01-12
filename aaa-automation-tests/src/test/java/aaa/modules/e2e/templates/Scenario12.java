@@ -160,7 +160,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		
 		//verify task created
 		
-		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData")); 
+		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData_ReinstateWithLapse")); 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -168,13 +168,21 @@ public class Scenario12 extends ScenarioBaseTest {
 				.setType(PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT).verifyPresent();
 		
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(TimeSetterUtil.getInstance().getCurrentTime())
-				.setType(PaymentsAndOtherTransactionType.FEE)
-				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT_FEE)
-				.setAmount(new Dollar(20)).verifyPresent();
+		if (!getState().equals(Constants.States.CA)) {
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(TimeSetterUtil.getInstance().getCurrentTime())
+			.setType(PaymentsAndOtherTransactionType.FEE)
+			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT_FEE)
+			.setAmount(new Dollar(20)).verifyPresent();
+		}
 		
 		String totalDue = BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).getValue();
-		dueAmount = new Dollar(totalDue.substring(1, totalDue.length()-1));		
+		log.info("Total Due is : "+ totalDue);
+		if (totalDue.equals("$0.00")) {
+			dueAmount = new Dollar(0);
+		}
+		else {
+			dueAmount = new Dollar(totalDue.substring(1, totalDue.length()-1));		
+		}		
 	}
 	
 	protected void generateRefund() {
@@ -184,11 +192,18 @@ public class Scenario12 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(refundDate)
-				.setAmount(dueAmount).setType(PaymentsAndOtherTransactionType.REFUND)
+		if (dueAmount.equals(new Dollar(0))) {
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(refundDate)
+			.setType(PaymentsAndOtherTransactionType.REFUND).verifyPresent(false);
+		} 
+		else {
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(refundDate)
+				.setAmount(dueAmount)
+				.setType(PaymentsAndOtherTransactionType.REFUND)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
 				.setStatus(PaymentsAndOtherTransactionStatus.APPROVED)
 				.setReason(PaymentsAndOtherTransactionReason.OVERPAYMENT).verifyPresent();
+		}
 	}
 		
 	protected void renewalImageGeneration() {

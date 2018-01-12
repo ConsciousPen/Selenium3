@@ -76,20 +76,20 @@ public class TestVADocgenScenarios extends HomeSSHO3BaseTest{
 		createCustomerIndividual();
 		String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
 		
-		policy.quoteDocGen().start();
-		documentActionTab.verify.documentsEnabled(Documents.HSAUDVA);
-		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
-		documentActionTab.generateDocuments(Documents.HSAUDVA);
-		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
+		//policy.quoteDocGen().start();
+		//documentActionTab.verify.documentsEnabled(Documents.HSAUDVA);
+		//documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
+		//documentActionTab.generateDocuments(Documents.HSAUDVA);
+		//WebDriverHelper.switchToWindow(currentHandle);
+		//DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		//PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HSHUVA, Documents.HS_03_30, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS_03_30, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
 		
 		policy.policyDocGen().start();
-		documentActionTab.verify.documentsPresent(false, Documents.HSHUVA, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
+		documentActionTab.verify.documentsPresent(false, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
     }

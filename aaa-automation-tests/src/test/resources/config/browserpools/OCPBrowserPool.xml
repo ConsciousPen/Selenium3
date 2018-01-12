@@ -11,7 +11,7 @@
 	</properties>
 	
 	<hub>
-		<url>http://hub-ta.apps.ocpdemo.tent.trt.csaa.pri/</url>
+		<url>http://hub-ta.apps.ocpdemo.tent.trt.csaa.pri</url>
 		<min>4</min>
 		<max>4</max>
 		<keywords>

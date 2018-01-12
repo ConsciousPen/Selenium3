@@ -56,6 +56,11 @@ public class RemoteHelper {
 		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
 		ssh.downloadFile(source, destination);
 	}
+	
+	public static void downloadBatchFiles(String source, File destination) {
+		log.info(String.format("SSH: Files downloading from '%s' has been started,", source));
+		ssh.downloadBatchFile(source, destination);
+	}
 
 	public static synchronized void uploadFile(String source, String destination) {
 		if (source == null) {
