@@ -1,0 +1,43 @@
+# --------------- Test Data for Auto claims ---------------
+
+TestData_ClaimsTab1: '@AutoClaim1'
+
+TestData_ClaimsTab2: '@AutoClaim2'
+
+TestData_Driver: '@Driver'
+
+AutoClaim1: {
+  AutoViolationsClaims: {
+    Add auto violations/claims: 'Yes',
+    "Policy #": '123456789',
+    Select Driver: 'index=1',
+    Type: 'Minor Violation',
+    Description: 'index=5',
+    Occurrence Date: '$<today-6M:MM/dd/yyyy>',
+    Add Violation/Claim Information: click
+  }
+}
+
+AutoClaim2: {
+  AutoViolationsClaims: {
+    "Policy #": '123456789',
+    Select Driver: 'index=1',
+    Type: 'Minor Violation',
+    Description: 'index=6',
+    Occurrence Date: '$<today-7M:MM/dd/yyyy>'
+  }
+}
+
+Driver: {
+  Add drivers: 'Yes',
+  "Policy #": '123456789',
+  First Name: 'John',
+  Last Name: 'Smith',
+  Date of Birth: '12/12/1980',
+  Gender: 'Male',
+  Occupation: 'index=1',
+  Phone Number: '6025551212',
+  Age First Licensed: '18',
+  License Number: 'A12345678987654',
+  License Status: 'Licensed (US)'
+}
