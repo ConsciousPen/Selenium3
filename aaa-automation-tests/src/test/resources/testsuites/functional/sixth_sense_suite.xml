@@ -100,6 +100,24 @@
             <class name="aaa.modules.conversion.manual.pup.TestOverrideIneligibleUnderlyingRisks"/>
         </classes>
     </test>
+    <test name="Test Bind PUP without Auto policies">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestBindPupWithoutAuto"/>
+        </classes>
+    </test>
+    <test name="Test Override Drivers with Major Violations">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindDriversWithMajorViolations"/>
+        </classes>
+    </test>
+    <test name="Test Override PUP policies with 2 or more violations">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindWithPropertyLosses"/>
+        </classes>
+    </test>
 
 
 </suite>
