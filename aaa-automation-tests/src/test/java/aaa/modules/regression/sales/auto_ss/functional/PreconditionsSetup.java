@@ -32,32 +32,37 @@ public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
                 break;
             }
         }
-
+        //starting range - 960011000
         switch (dayOfWeek) {
             case "1":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             case "2":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             case "3":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             case "4":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             case "5":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             case "6":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             case "7":
-                setNumberRangeForPolicy("9272" + teamToUse + envNumToUse + dayOfWeek + "45");
+                setNumberRangeParamsOnly(dayOfWeek, teamToUse, envNumToUse);
                 break;
             default:
         }
     }
+
+    private void setNumberRangeParamsOnly(String dayOfWeek, String teamToUse, String envNumToUse) {
+        setNumberRangeForPolicy("9600" + teamToUse + envNumToUse + dayOfWeek + "00");
+    }
+
 
     private void setNumberRangeForPolicy(String s) {
         DBService.get().executeUpdate(String.format(SET_POLICY_NUMBER_RANGE, s));
@@ -69,7 +74,6 @@ public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
      * param3 - day of week
      */
     enum Envss {
-
         NVD7PASQATRG037("nvd7pasqatrg037", "1", "0"),
         NVD7PASQATRG038("nvd7pasqatrg038", "1", "1"),
         NVD7PASQATRG039("nvd7pasqatrg039", "1", "2"),
