@@ -30,7 +30,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest{
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-2293,PAS-7979")
 
     public void testPolicyRmeMpd (@Optional("") String state) {
