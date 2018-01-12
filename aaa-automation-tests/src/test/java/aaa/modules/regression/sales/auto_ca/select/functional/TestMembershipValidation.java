@@ -33,7 +33,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @name Test Membership validation and override.
      * @scenario
      * 1. Create Customer.
-     * 2. Create Auto Select.
+     * 2. Create Auto CA Select.
      * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
      * 4. Fill All other required data up to Documents and Bind Tab.
      * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
@@ -41,10 +41,10 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @details
      */
 
-    DocAndBindTabSubmit docAndBindTabSubmit = new DocAndBindTabSubmit();
-    DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-    ErrorTab errorTab = new ErrorTab();
-    PurchaseTab purchaseTab = new PurchaseTab();
+    private DocAndBindTabSubmit docAndBindTabSubmit = new DocAndBindTabSubmit();
+    private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    private ErrorTab errorTab = new ErrorTab();
+    private PurchaseTab purchaseTab = new PurchaseTab();
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -79,7 +79,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @name Test Membership validation for non-Primary membership members returned in membership Report and override.
      * @scenario
      * 1. Create Customer.
-     * 2. Create Auto Select.
+     * 2. Create Auto CA Select.
      * 3. Add member number on General tab with matching First Name and Last Name with membership response 1st member.
      * 4. Fill All other required data up to Documents and Bind Tab.
      * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
@@ -128,7 +128,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
 
         docAndBindTabSubmit.submitTab();
         errorTab.overrideAllErrors();
-        docAndBindTabSubmit.submitTab();
+        errorTab.submitTab();
         purchaseTab.payRemainingBalance(BillingConstants.AcceptPaymentMethod.CASH).submitTab();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -141,7 +141,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @name Test Membership validation and override.
      * @scenario
      * 1. Create Customer.
-     * 2. Create Auto Select Policy with membership NO.
+     * 2. Create Auto CA Select Policy with membership NO.
      * 3. Initiate ENDORSEMENT
      * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
      * 4. Fill All other required data up to Documents and Bind Tab.
@@ -186,7 +186,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @name Test Membership validation and override.
      * @scenario
      * 1. Create Customer.
-     * 2. Create Auto Select Policy with membership NO.
+     * 2. Create Auto CA Select Policy with membership NO.
      * 3. Initiate RENEWAL
      * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
      * 4. Fill All other required data up to Documents and Bind Tab.
@@ -226,7 +226,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @name Test Membership validation and override.
      * @scenario
      * 1. Create Customer.
-     * 2. Create Auto Select Policy with membership NO.
+     * 2. Create Auto CA Select Policy with membership NO.
      * 3. Initiate Manual RENEWAL
      * 3. Add DUMMY member number on General tab
      * 4. Fill All other required data up to Documents and Bind Tab.
@@ -254,20 +254,18 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         mainApp().close();
     }
 
-    /**   TODO enabled = false: for now. Due to the automated batch job problems
+    /**  IGNORED TEST:@Test(enabled = false): for now. Due to the automated batch job problems
      * @author Andrejs Mitjukovs
      * @name Test Membership validation and override.
      * @scenario
      * 1. Create Customer.
-     * 2. Create Auto Select Policy with membership NO.
+     * 2. Create Auto CA Select Policy with membership NO.
      * 3. Initiate Manual RENEWAL
      * 3. Add DUMMY member number on General tab
      * 4. Fill All other required data up to Documents and Bind Tab.
      * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is not displayed (repeat for all DUMMY numbers)
-     * 6. Override the error and bind.
      * @details
      */
-
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", enabled = false)
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3786")
@@ -284,7 +282,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        log.info("TEST: Renewing Policy #" + policyNumber + " to test DUMMY Membership number");
+        log.info("TEST: Renewing Policy to test DUMMY Membership number");
         LocalDateTime renewDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -331,7 +329,6 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         policy.dataGather().start();
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number6")), DocumentsAndBindTab.class, true);
         goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
-
     }
     /*
     Method validates that validation error existence
@@ -344,11 +341,10 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         if (errorTab.isVisible()) {
             errorTab.verify.errorsPresent(present, errorCode);
         } else {
-            if(purchaseTab.buttonCancel.isPresent()) {
+            if(PurchaseTab.buttonCancel.isPresent()) {
                 PurchaseTab.buttonCancel.click();
             }
         }
-
     }
 
     /*

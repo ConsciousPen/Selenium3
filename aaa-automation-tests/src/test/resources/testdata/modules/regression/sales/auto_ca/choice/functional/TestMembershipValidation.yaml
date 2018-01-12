@@ -1,6 +1,6 @@
 TestData_MembershipValidation: {
   GeneralTab: '@GeneralTab',
-  EndorsementActionTab: '@EndorsementActionTab',
+  EndorsementActionTab: '@EndorsementActionTab'
 }
 
 TestData_MembershipInvalid: {
@@ -15,10 +15,13 @@ TestData_Membership_Valid_First_Name: {
   PrefillTab: { },
   GeneralTab: {
     NamedInsuredInformation: {
-      First Name: KAVITHA,
+      First Name: Ronhald,
       Last Name: INVALID,
     },
-    ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation'
+    AAAProductOwned: {
+      Member Last Name: INVALID,
+    },
+    ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
   },
   DriverActivityReportsTab: { },
   DocumentsAndBindTab: {  }
@@ -29,9 +32,12 @@ TestData_Membership_Valid_Last_Name: {
   GeneralTab: {
    NamedInsuredInformation: {
      First Name: INVALID,
-     Last Name: VELUMULA,
+     Last Name: McGrager,
    },
-   ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation'
+   AAAProductOwned: {
+     Member Last Name: McGrager,
+   },
+   ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
   },
   DriverActivityReportsTab: { },
   DocumentsAndBindTab: {  }
@@ -44,33 +50,39 @@ TestData_Membership_Valid_DOB: {
        First Name: INVALID,
        Last Name: INVALID,
      },
-     ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation'
+     AAAProductOwned: {
+       Member Last Name: INVALID,
+     },
+     ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
    },
    DriverTab: {
-    Date of Birth: 08/25/1974
+    Date of Birth: 1/4/1962
    },
   DriverActivityReportsTab: { },
   DocumentsAndBindTab: {  }
  }
 
+
+
 TestData_Endorsement_Renewal: {
   GeneralTab:{
     NamedInsuredInformation: '@NamedInsuredInformation',
     AAAProductOwned: '@AAAProductOwned',
-    ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+    ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
     PolicyInformation: {
       Authorized by: QA
     }
   },
-  DriverTab: {},
-  MembershipTab: {
-    Order Report: click
-  },
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {}
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
 }
+
 
 TestData_Dummy_Number1: {
   GeneralTab:{
@@ -170,7 +182,7 @@ TestData_Dummy_Number5: {
     NamedInsuredInformation: {},
     AAAProductOwned: {
 #      Current AAA Member: 'Yes',
-      Membership Number: 9999993333333334,
+      Membership Number: 9999994444444440,
 #      Member Last Name: Test,
     },
     ContactInformation: {},
@@ -210,7 +222,6 @@ TestData_Dummy_Number6: {
     PremiumAndCoveragesTab: {},
 }
 
-
 GeneralTab: {
   NamedInsuredInformation: '@NamedInsuredInformation',
   AAAProductOwned: '@AAAProductOwned',
@@ -226,7 +237,6 @@ GeneralTab_MembershipValid: {
 }
 
 
-
 NamedInsuredInformation: {
   InsuredSearchDialog: {},
   First Name: Tester,
@@ -240,31 +250,22 @@ NamedInsuredInformation: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
+  Membership Number: 9436258506738011,
   Member Last Name: Test,
 }
 
-
-
-
-
-
-
 NamedInsuredInformation_MembershipValid: {
   InsuredSearchDialog: {},
-  First Name: NAGABHUSHANAM,
-  Last Name: VELUMULA,
+  First Name: Ronhald,
+  Last Name: Ronaldjo,
   Base Date: '$<today:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   "Home Phone #": 1234567890
 }
 
-
 AAAProductOwned_MembershipValid: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Member Last Name: VELUMULA,
+  Current AAA Member: 'No',
 }
 
 EndorsementActionTab: {
@@ -272,7 +273,22 @@ EndorsementActionTab: {
   Endorsement Reason: Maintain Vehicle(s)
 }
 
-
 RenewActionTab: {
   Renewal Date: '$<today-1y:MM/dd/yyyy>'
+}
+
+# --- Test Data for Overriding Errors ---
+
+TestData_MembershipValidation_OverrideErrors: {
+  ErrorTab: '@ErrorTab_OverrideErrors',
+}
+
+ErrorTab_OverrideErrors: {
+   ErrorsOverride: [{
+    Message: "contains=Membership Validation Failed",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Term,
+    Reason for override: 'Other'
+   }]
 }
