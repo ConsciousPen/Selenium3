@@ -1,0 +1,149 @@
+# ----------- Test Data for PUP Additional Residences -----------
+
+TestData_AdditionalResidences: '@PropertyTab_AdditionalResidences'
+TestData_RentalResidences: '@PropertyTab_RentalProperties'
+TestData_Drivers: '@AutoTab_Drivers'
+TestData_Automobiles: '@AutoTab_Automobiles'
+TestData_Antiques: '@AutoTab_Antiques'
+TestData_Motorcycles: '@AutoTab_Motorcycles'
+TestData_MotorHomes: '@AutoTab_MotorHomes'
+TestData_Watercraft: '@OtherVehiclesTab_Watercraft'
+TestData_ATV: '@OtherVehiclesTab_ATV'
+TestData_Snowmobile: '@OtherVehiclesTab_Snowmobile'
+TestData_GolfCart: '@OtherVehiclesTab_GolfCart'
+
+PropertyTab_AdditionalResidences: {
+  AdditionalResidencies: [{
+    Policy type: HO3,
+    Zip Code: '07094-1729',
+    Street Address 1: '219 Harmon Cove Tower',
+    Policy Number: '123456789',
+    Effective date: '$<today:MM/dd/yyyy>',
+    Expiration date: '$<today+1y:MM/dd/yyyy>',
+    Occupancy type: 'Secondary Residence',
+    Number of units/acres: '1',
+    Current Carrier: 'AAA Other',
+    Limit of liability: '$500,000',
+    Deductible: '500',
+    Validate Address: true,
+    Validate Address Dialog: {}
+  }]
+}
+
+PropertyTab_RentalProperties: {
+  AdditionalResidencies: [{
+    Policy type: HO3,
+    Zip Code: '07094-1729',
+    Street Address 1: '219 Harmon Cove Tower',
+    Policy Number: '123456789',
+    Effective date: '$<today:MM/dd/yyyy>',
+    Expiration date: '$<today+1y:MM/dd/yyyy>',
+    Occupancy type: 'Rental Property',
+    Number of units/acres: '1',
+    Current Carrier: 'AAA Other',
+    Limit of liability: '$500,000',
+    Deductible: '500',
+    Validate Address: true,
+    Validate Address Dialog: {}
+  }]
+}
+
+AutoTab_Drivers: {
+  Add drivers: 'Yes',
+  First Name: 'First1',
+  Last Name: 'Lastn',
+  Date of Birth: $<today-30y>,
+  Age First Licensed: '20',
+  License Status: 'Licensed (US)',
+  License Number: 'A12345678987657'
+}
+
+AutoTab_Automobiles: {
+  VIN: '3VWSK69M52M005588',
+  Current Carrier: 'AAA Other',
+  'Policy #': '123456789'
+}
+
+AutoTab_Antiques: {
+  Car Type: 'Limited Production/Antique',
+  VIN: '3VWSK69M52M005588',
+  Current Carrier: 'AAA Other',
+  'Policy #': '123456789'
+}
+
+AutoTab_Motorcycles: {
+  Guest Passenger Liability Coverage: 'Yes',
+  VIN: '3VWSK69M52M005588',
+  Year: '1998',
+  Make: 'Some',
+  Model: 'Other',
+  Current Carrier: 'AAA Other',
+  State: 'NJ',
+  'Policy #': '123456789'
+}
+
+AutoTab_MotorHomes: {
+  VIN: '3VWSK69M52M005588',
+  Year: '1998',
+  Make: 'Some',
+  Model: 'Other',
+  Current Carrier: 'AAA Other',
+  State: 'NJ',
+  'Policy #': '123456789'
+}
+
+OtherVehiclesTab_Watercraft: {
+  Type: 'Inboard Powerboat',
+  HIN: '3VWSK69M52M005588',
+  Year: '1998',
+  Make: 'Some',
+  Model: 'Other',
+  Length: '26-42 ft',
+  Horsepower: '0-100 hp',
+  Current Carrier: 'AAA Other',
+  State: 'NJ',
+  'Policy #': '123456789',
+  Combined Single Limit: '500000'
+}
+
+OtherVehiclesTab_ATV: {
+  Type: 'ATV',
+  VIN: '3VWSK69M52M005588',
+  Year: '1998',
+  Make: 'Some',
+  Model: 'Other',
+  Current Carrier: 'AAA Other',
+  State: 'NJ',
+  'Policy #': '123456789',
+  Coverage Type: 'Single',
+  Combined Single Limit: '500000',
+  Usage: 'Off-road'
+}
+
+OtherVehiclesTab_Snowmobile: {
+  Type: 'Snowmobile',
+  VIN: '3VWSK69M52M005588',
+  Year: '1998',
+  Make: 'Some',
+  Model: 'Other',
+  Current Carrier: 'AAA Other',
+  State: 'NJ',
+  'Policy #': '123456789',
+  Coverage Type: 'Single',
+  Combined Single Limit: '500000',
+  Usage: 'Off-road'
+}
+
+OtherVehiclesTab_GolfCart: {
+  Type: 'Golf-cart',
+  VIN: '3VWSK69M52M005588',
+  Year: '1998',
+  Make: 'Some',
+  Model: 'Other',
+  Current Carrier: 'AAA Other',
+  State: 'NJ',
+  'Policy #': '123456789',
+  Coverage Type: 'Single',
+  Combined Single Limit: '500000'
+}
+
