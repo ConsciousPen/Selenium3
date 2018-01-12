@@ -66,7 +66,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		documentActionTab.verify.documentsEnabled(
 				Documents._61_6528_HO4,
 				Documents._61_4003,
-				Documents.WUAUCA,
+				//Documents.WUAUCA,
 				Documents.F1122,
 				Documents.HSU06CA,
 				Documents.HSU08XX,
@@ -101,7 +101,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
-				Documents.WUAUCA, 
+				//Documents.WUAUCA, 
 				Documents.F1122,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -113,7 +113,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 				);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
-				Documents.WUAUCA, 
+				//Documents.WUAUCA, 
 				Documents.F1122,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -208,7 +208,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
-				Documents.WUAUCA, 
+				//Documents.WUAUCA, 
 				Documents._62_6500,
 				Documents.F1122,
 				Documents._60_5019,
@@ -224,7 +224,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 				);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
-				Documents.WUAUCA, 
+				//Documents.WUAUCA, 
 				Documents._62_6500,
 				Documents.F1122,
 				Documents._60_5019,

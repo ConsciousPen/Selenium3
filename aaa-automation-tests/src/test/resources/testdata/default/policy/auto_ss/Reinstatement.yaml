@@ -11,3 +11,10 @@ TestData_Plus14Days: {
     Authorized By: QA
   }
 }
+
+TestData_ReinstateWithLapse: {
+  ReinstatementActionTab: {
+    Reinstate Date: $<today>,
+    Authorized By: QA
+  }
+}
