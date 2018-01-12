@@ -200,7 +200,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
     public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
 
-        String paymentMethod = "contains=Credit Card";
+        String paymentMethod = "Credit Card";
 
         String policyNumber = preconditionPolicyCreationHo();
 
@@ -215,7 +215,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
     public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) {
 
-        String paymentMethod = "contains=ACH";
+        String paymentMethod = "ACH";
 
         String policyNumber = preconditionPolicyCreationHo();
 
