@@ -26,7 +26,7 @@ import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 
 public class BatchXmlsProcessingTest {
-	protected static Logger log = LoggerFactory.getLogger(BatchXmlsProcessingTest.class);
+	protected static Logger log = LoggerFactory.getLogger(BatchXmlsProcessingTest.class); 
 	
 	private String doc_host = "aws2aaadoc02.corevelocity.csaa.cloud";	
 	private String ssh_user = "qauser";
@@ -68,6 +68,7 @@ public class BatchXmlsProcessingTest {
 	
 	public void uploadFilesToRemoteHost(String source) {
 		Ssh ssh = new Ssh(doc_host, ssh_user, ssh_password); 
+				
 		File directory = new File(source);
 		File[] files = directory.listFiles(File::isFile);
 		if (files != null && files.length != 0) {
