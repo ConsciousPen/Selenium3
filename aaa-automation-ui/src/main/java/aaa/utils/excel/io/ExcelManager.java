@@ -21,8 +21,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.ExcelCell;
-import aaa.utils.excel.io.entity.ExcelSheet;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import toolkit.exceptions.IstfException;
 
 public class ExcelManager {

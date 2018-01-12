@@ -18,9 +18,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.entity.ExcelSheet;
-import aaa.utils.excel.io.entity.ExcelTable;
-import aaa.utils.excel.io.entity.TableRow;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
+import aaa.utils.excel.io.entity.area.table.ExcelTable;
+import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller {

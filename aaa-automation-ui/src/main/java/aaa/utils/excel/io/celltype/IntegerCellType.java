@@ -4,7 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
 public class IntegerCellType extends AbstractCellType<Integer> {
 	public IntegerCellType(Class<Integer> endType) {
@@ -25,7 +26,7 @@ public class IntegerCellType extends AbstractCellType<Integer> {
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Integer value) {
+	public void setValueTo(EditableCell cell, Integer value) {
 		createPoiCellIfNull(cell).getPoiCell().setCellValue(value.doubleValue());
 	}
 

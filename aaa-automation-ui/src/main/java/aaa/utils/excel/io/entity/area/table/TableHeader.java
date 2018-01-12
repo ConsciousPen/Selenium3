@@ -1,19 +1,19 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Row;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
+import aaa.utils.excel.io.entity.queue.CellsQueue;
 
-public class TableHeader extends ImmutableCellsQueue implements Iterable<ExcelCell> {
+public class TableHeader extends CellsQueue implements Iterable<HeaderCell> {
 	protected Row headerRow;
-	protected Map<Integer, ExcelCell> headerCells;
+	protected Map<Integer, HeaderCell> headerCells;
 
 	public TableHeader(Row headerRow, ExcelTable table) {
 		super(headerRow.getRowNum() + 1, table);
@@ -31,26 +31,26 @@ public class TableHeader extends ImmutableCellsQueue implements Iterable<ExcelCe
 	}
 
 	public List<String> getColumnsNames() {
-		return new ArrayList<>(getCellsMap().values().stream().map(ExcelCell::getStringValue).collect(Collectors.toSet()));
+		return getStringValues();
 	}
 
 	@Override
 	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, ExcelCell> getCellsMap() {
+	protected Map<Integer, HeaderCell> getCellsMap() {
 		if (this.headerCells == null) {
 			this.headerCells = new LinkedHashMap<>(getTable().getColumnsIndexes().size());
 			for (int i = 0; i < getTable().getColumnsIndexes().size(); i++) {
 				int sheetColumnIndex = getTable().getColumnsIndexesOnSheet().get(i);
 				int headerColumnIndex = getTable().getColumnsIndexes().get(i);
-				ExcelRow headerRow = new SheetRow(getPoiRow(), getIndex(), getArea());
-				ExcelCell headerCell = new ExcelCell(getPoiRow().getCell(sheetColumnIndex - 1), headerRow, sheetColumnIndex);
+				TableRow headerRow = new TableRow(getPoiRow(), headerColumnIndex, sheetColumnIndex, getTable());
+				HeaderCell headerCell = new HeaderCell(getPoiRow().getCell(sheetColumnIndex - 1), headerRow, headerColumnIndex, sheetColumnIndex);
 				this.headerCells.put(headerColumnIndex, headerCell);
 			}
 		}
 		return this.headerCells;
 	}
 
-	int getColumnIndexOnSheet() {
+	int getIndexOnSheet() {
 		return this.index;
 	}
 
@@ -62,8 +62,8 @@ public class TableHeader extends ImmutableCellsQueue implements Iterable<ExcelCe
 	@Override
 	@Nonnull
 	@SuppressWarnings("unchecked")
-	public Iterator<ExcelCell> iterator() {
-		return (Iterator<ExcelCell>) new CellIterator(this);
+	public Iterator<HeaderCell> iterator() {
+		return (Iterator<HeaderCell>) new CellIterator(this);
 	}
 
 	@Override
@@ -73,22 +73,39 @@ public class TableHeader extends ImmutableCellsQueue implements Iterable<ExcelCe
 				'}';
 	}
 
+	@Override
+	public HeaderCell getCell(int queueIndex) {
+		return (HeaderCell) super.getCell(queueIndex);
+	}
+
 	public boolean hasColumn(String headerColumnName) {
 		return getColumnsNames().contains(headerColumnName);
 	}
 
-	public int getColumnIndex(String headerColumnName) {
+	public boolean hasColumn(int columnIndex) {
+		return hasCell(columnIndex);
+	}
+
+	public HeaderCell getCell(String headerColumnName) {
 		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
-		return getCellsMap().entrySet().stream().filter(cm -> cm.getValue().getStringValue().equals(headerColumnName)).findFirst().get().getKey();
+		return getCellsMap().entrySet().stream().filter(cm -> cm.getValue().getStringValue().equals(headerColumnName)).findFirst().get().getValue();
+	}
+
+	public int getColumnIndex(String headerColumnName) {
+		return getCell(headerColumnName).getColumnIndex();
 	}
 
 	public int getColumnIndexOnSheet(String headerColumnName) {
-		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
-		return getCell(getColumnIndex(headerColumnName)).getColumnIndex();
+		return getCell(headerColumnName).getColumnIndexOnSheet();
+	}
+
+	public int getColumnIndexOnSheet(int columnIndex) {
+		assertThat(hasColumn(columnIndex)).as("There is no column index %s in the table's header", columnIndex).isTrue();
+		return getCell(columnIndex).getColumnIndexOnSheet();
 	}
 
 	public String getColumnName(int columnIndex) {
 		assertThat(hasCell(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
-		return getCellsMap().get(columnIndex).getStringValue();
+		return getCell(columnIndex).getStringValue();
 	}
 }

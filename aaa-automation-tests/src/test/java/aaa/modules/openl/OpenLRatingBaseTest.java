@@ -21,9 +21,9 @@ import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.entity.ExcelCell;
-import aaa.utils.excel.io.entity.ExcelTable;
-import aaa.utils.excel.io.entity.TableRow;
+import aaa.utils.excel.io.entity.area.table.ExcelTable;
+import aaa.utils.excel.io.entity.area.table.TableRow;
+import aaa.utils.excel.io.entity.cell.EditableCell;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
@@ -79,7 +79,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 		ExcelTable policiesTable = openLFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
 		List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
-		policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()]));
+		policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()])).setComparisonRules(false, true);
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
 		return eUnmarshaller.unmarshal(openLFile, openLFileModelClass);
@@ -88,7 +88,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected int getExpectedPremium(String openLFileName, int policyNumber) {
 		ExcelManager excelManager = new ExcelManager(getOpenLFile(openLFileName));
 		TableRow row = excelManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
-		int expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(ExcelCell::getIntValue).sum();
+		int expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(EditableCell::getIntValue).sum();
 		excelManager.close();
 		return expectedPremium;
 	}

@@ -1,11 +1,14 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.queue;
 
 import org.apache.poi.ss.usermodel.Row;
+import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
-public abstract class ExcelRow extends CellsQueue {
+public abstract class ExcelRow extends EditableCellsQueue {
 	protected Row row;
 
-	protected ExcelRow(Row row, int rowIndex, CellsArea cellsArea) {
+	protected ExcelRow(Row row, int rowIndex, EditableCellsArea cellsArea) {
 		super(rowIndex, cellsArea);
 		this.row = row;
 	}
@@ -21,22 +24,22 @@ public abstract class ExcelRow extends CellsQueue {
 
 	@Override
 	public ExcelRow exclude() {
-		getArea().excludeRows(this.getIndex());
+		((EditableCellsArea) getArea()).excludeRows(this.getIndex());
 		return this;
 	}
 
 	@Override
 	public ExcelRow copy(int destinationRowIndex) {
 		for (ExcelCell cell : getCells()) {
-			cell.copy(destinationRowIndex, cell.getColumnIndex());
+			((EditableCell) cell).copy(destinationRowIndex, cell.getColumnIndex());
 		}
 		return this;
 	}
 
 	@Override
-	public CellsArea delete() {
-		getArea().deleteRows(getIndex());
-		return getArea();
+	public EditableCellsArea delete() {
+		((EditableCellsArea) getArea()).deleteRows(getIndex());
+		return (EditableCellsArea) getArea();
 	}
 
 	@Override

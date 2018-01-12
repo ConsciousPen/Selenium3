@@ -1,7 +1,8 @@
 package aaa.utils.excel.io.celltype;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
 public class BooleanCellType extends AbstractCellType<Boolean> {
 
@@ -19,7 +20,7 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Boolean value) {
+	public void setValueTo(EditableCell cell, Boolean value) {
 		createPoiCellIfNull(cell).getPoiCell().setCellValue(value);
 	}
 

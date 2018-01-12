@@ -1,4 +1,4 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area.sheet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
@@ -17,10 +17,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.area.table.ExcelTable;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.iterator.RowIterator;
+import aaa.utils.excel.io.entity.queue.CellsQueue;
 import toolkit.exceptions.IstfException;
 
-public class ExcelSheet extends CellsArea implements Iterable<SheetRow> {
+public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelSheet.class);
 
 	private int sheetIndex;
@@ -84,6 +89,17 @@ public class ExcelSheet extends CellsArea implements Iterable<SheetRow> {
 	}
 
 	@Override
+	public ExcelSheet excludeColumns(Integer... columnsIndexes) {
+		for (Integer cIndex : columnsIndexes) {
+			for (CellsQueue row : getRows()) {
+				((SheetRow) row).getCellsMap().remove(cIndex);
+			}
+			this.columnsIndexes.remove(cIndex);
+		}
+		return this;
+	}
+
+	@Override
 	@Nonnull
 	public Iterator<SheetRow> iterator() {
 		return new RowIterator<>(getRowsIndexes(), this::getRow);
@@ -104,6 +120,9 @@ public class ExcelSheet extends CellsArea implements Iterable<SheetRow> {
 		return "ExcelSheet{" +
 				"sheetNumber=" + getSheetIndex() +
 				", sheetName=" + getSheetName() +
+				", rowsNumber=" + getRowsNumber() +
+				", columnsNumber=" + getColumnsNumber() +
+				", cellTypes=" + getCellTypes() +
 				'}';
 	}
 
@@ -140,7 +159,7 @@ public class ExcelSheet extends CellsArea implements Iterable<SheetRow> {
 			Set<String> headerColumns = new HashSet<>(Arrays.asList(headerColumnNames));
 			Set<String> foundHeaderColumns = new HashSet<>();
 			columnIndexes = new HashSet<>();
-			for (ExcelCell cell : headerRow) {
+			for (EditableCell cell : headerRow) {
 				String value = cell.getStringValue();
 				if (headerColumns.contains(value)) {
 					columnIndexes.add(cell.getColumnIndex());

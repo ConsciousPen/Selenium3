@@ -1,10 +1,13 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area.table;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
+import aaa.utils.excel.io.entity.queue.ExcelColumn;
 
 public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 	private int tableColumnIndex;
@@ -17,6 +20,10 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 
 	public ExcelTable getTable() {
 		return (ExcelTable) getArea();
+	}
+
+	public String getHeaderName() {
+		return getTable().getHeader().getColumnName(getIndex());
 	}
 
 	@Override
@@ -47,18 +54,19 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 		return (Iterator<TableCell>) new CellIterator(this);
 	}
 
+	public ExcelColumn copy(String destinationHeaderColumnName) {
+		for (ExcelCell cell : getCells()) {
+			((EditableCell) cell).copy(cell.getRowIndex(), getTable().getColumnIndex(destinationHeaderColumnName));
+		}
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "TableColumn{" +
 				"columnIndex=" + getIndex() +
+				", headerColumnName=" + getHeaderName() +
 				", values=" + getValues() +
 				'}';
-	}
-
-	public ExcelColumn copy(String destinationHeaderColumnName) {
-		for (ExcelCell cell : getCells()) {
-			cell.copy(cell.getRowIndex(), getTable().getColumnIndex(destinationHeaderColumnName));
-		}
-		return this;
 	}
 }

@@ -1,7 +1,7 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.queue;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,18 +9,23 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.Writable;
+import aaa.utils.excel.io.entity.area.CellsArea;
+import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
-public abstract class ImmutableCellsQueue {
+public abstract class CellsQueue implements Writable {
 	protected int index;
 	protected CellsArea cellsArea;
 	protected Set<CellType<?>> cellTypes;
 
-	protected ImmutableCellsQueue(int index, CellsArea cellsArea) {
+	protected CellsQueue(int index, EditableCellsArea cellsArea) {
 		this(index, cellsArea, cellsArea.getCellTypes());
 	}
 
-	protected ImmutableCellsQueue(int index, CellsArea cellsArea, Set<CellType<?>> cellTypes) {
+	protected CellsQueue(int index, EditableCellsArea cellsArea, Set<CellType<?>> cellTypes) {
 		this.index = index;
 		this.cellsArea = cellsArea;
 		this.cellTypes = new HashSet<>(cellTypes);
@@ -75,11 +80,16 @@ public abstract class ImmutableCellsQueue {
 		return new HashSet<>(this.cellTypes);
 	}
 
-	protected CellsArea getArea() {
+	public CellsArea getArea() {
 		return cellsArea;
 	}
 
 	protected abstract <C extends ExcelCell> Map<Integer, C> getCellsMap();
+
+	@Override
+	public ExcelManager getExcelManager() {
+		return getArea().getExcelManager();
+	}
 
 	public ExcelCell getCell(int queueIndex) {
 		assertThat(hasCell(queueIndex)).as("There is no cell with %s index", queueIndex, getIndex()).isTrue();
@@ -94,36 +104,23 @@ public abstract class ImmutableCellsQueue {
 		return getCell(queueIndex).getStringValue();
 	}
 
+	public Boolean getBoolValue(int queueIndex) {
+		return getCell(queueIndex).getBoolValue();
+	}
+
+	public Integer getIntValue(int queueIndex) {
+		return getCell(queueIndex).getIntValue();
+	}
+
+	public LocalDateTime getDateValue(int queueIndex) {
+		return getCell(queueIndex).getDateValue();
+	}
+
 	public boolean hasCell(int queueIndex) {
 		return getCellsMap().containsKey(queueIndex);
 	}
 
 	public boolean hasValue(int queueIndex, Object expectedValue) {
 		return Objects.equals(getCell(queueIndex).getValue(), expectedValue);
-	}
-
-	public ImmutableCellsQueue save() {
-		getArea().save();
-		return this;
-	}
-
-	public ImmutableCellsQueue save(File destinationFile) {
-		getArea().save(destinationFile);
-		return this;
-	}
-
-	public ImmutableCellsQueue close() {
-		getArea().close();
-		return this;
-	}
-
-	public ImmutableCellsQueue saveAndClose() {
-		getArea().saveAndClose();
-		return this;
-	}
-
-	public ImmutableCellsQueue saveAndClose(File destinationFile) {
-		getArea().saveAndClose(destinationFile);
-		return this;
 	}
 }

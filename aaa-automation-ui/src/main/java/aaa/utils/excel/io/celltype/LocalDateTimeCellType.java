@@ -11,7 +11,8 @@ import java.util.Set;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
@@ -40,7 +41,7 @@ public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, LocalDateTime value) {
+	public void setValueTo(EditableCell cell, LocalDateTime value) {
 		Date date = Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
 		createPoiCellIfNull(cell).getPoiCell().setCellValue(date);
 	}

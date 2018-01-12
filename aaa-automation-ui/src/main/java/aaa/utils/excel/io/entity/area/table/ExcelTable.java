@@ -1,4 +1,4 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -22,9 +21,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.iterator.RowIterator;
+import aaa.utils.excel.io.entity.queue.CellsQueue;
 
-public class ExcelTable extends CellsArea implements Iterable<TableRow> {
+public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelTable.class);
 
 	private Row headerRow;
@@ -132,31 +135,12 @@ public class ExcelTable extends CellsArea implements Iterable<TableRow> {
 	@Override
 	public String toString() {
 		return "ExcelTable{" +
-				"sheet=" + getSheet() +
-				", header=" + getHeader() +
+				"sheetName=" + getPoiSheet().getSheetName() +
+				", headerColumnNames=" + getHeader().getColumnsNames() +
 				", rowsNumber=" + getRowsNumber() +
-				", tableRows=" + getRows() +
+				", columnsNumber=" + getColumnsNumber() +
+				", cellTypes=" + getCellTypes() +
 				'}';
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		ExcelTable other = (ExcelTable) o;
-		return Objects.equals(getHeaderRow(), other.getHeaderRow()) &&
-				Objects.equals(getColumnsIndexes(), other.getColumnsIndexes()) &&
-				Objects.equals(getRowsIndexes(), other.getRowsIndexes()) &&
-				Objects.equals(getCellTypes(), other.getCellTypes());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getHeaderRow(), getColumnsIndexes(), getRowsIndexes(), getCellTypes());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -186,6 +170,20 @@ public class ExcelTable extends CellsArea implements Iterable<TableRow> {
 			clearRows(rowsIterator.nextIndex());
 			getRowsMap().remove(rowsIterator.nextIndex());
 			rowsShifts++;
+		}
+		return this;
+	}
+
+	@Override
+	public ExcelTable excludeColumns(Integer... columnsIndexes) {
+		List<Integer> sheetIndexes = new ArrayList<>();
+		for (Integer cIndex : columnsIndexes) {
+			for (CellsQueue row : getRows()) {
+				((TableRow) row).getCellsMap().remove(cIndex);
+				getHeader().getCellsMap().remove(cIndex);
+				sheetIndexes.add(((TableRow) row).getIndexOnSheet());
+			}
+			this.columnsIndexes.removeAll(sheetIndexes);
 		}
 		return this;
 	}
@@ -276,7 +274,7 @@ public class ExcelTable extends CellsArea implements Iterable<TableRow> {
 	}
 
 	public ExcelTable excludeColumns(String... columnNames) {
-		return (ExcelTable) excludeColumns(Arrays.stream(columnNames).map(this::getColumnIndex).toArray(Integer[]::new));
+		return excludeColumns(Arrays.stream(columnNames).map(this::getColumnIndex).toArray(Integer[]::new));
 	}
 
 	public ExcelTable clearRow(String headerColumnName, Object cellValue) {
@@ -292,7 +290,7 @@ public class ExcelTable extends CellsArea implements Iterable<TableRow> {
 		return (ExcelTable) copyColumn(getColumnIndex(columnName), getHeader().getColumnIndex(destinationColumnName));
 	}
 
-	public CellsArea deleteColumns(String... columnNames) {
+	public EditableCellsArea deleteColumns(String... columnNames) {
 		//TODO-dchubkov: implement delete columns by names
 		throw new NotImplementedException("Columns deletion by header column names is not implemented yet");
 	}

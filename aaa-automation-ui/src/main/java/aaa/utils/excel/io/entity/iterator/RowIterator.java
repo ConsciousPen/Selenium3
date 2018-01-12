@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
-import aaa.utils.excel.io.entity.ExcelRow;
+import aaa.utils.excel.io.entity.queue.ExcelRow;
 
 public class RowIterator<R extends ExcelRow> implements Iterator<R> {
 	private List<Integer> rowsIndexes;

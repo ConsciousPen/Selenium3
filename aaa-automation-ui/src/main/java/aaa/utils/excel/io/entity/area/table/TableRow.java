@@ -1,4 +1,4 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
+import aaa.utils.excel.io.entity.queue.ExcelRow;
 
 public class TableRow extends ExcelRow implements Iterable<TableCell> {
 	protected Map<Integer, TableCell> tableCells;
@@ -52,8 +53,8 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		if (this.tableCells == null) {
 			this.tableCells = new LinkedHashMap<>(getTable().getColumnsMap().size());
 			for (int i = 0; i < getTable().getColumnsIndexes().size(); i++) {
-				int sheetCellIndex = getTable().getColumnsIndexesOnSheet().get(i);
 				int tableCellIndex = getTable().getColumnsIndexes().get(i);
+				int sheetCellIndex = getTable().getColumnsIndexesOnSheet().get(i);
 				Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(sheetCellIndex - 1) : null;
 				TableCell tableCell = new TableCell(poiCell, this, tableCellIndex, sheetCellIndex);
 				this.tableCells.put(tableCellIndex, tableCell);
@@ -76,14 +77,6 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 	@SuppressWarnings("unchecked")
 	public Iterator<TableCell> iterator() {
 		return (Iterator<TableCell>) new CellIterator(this);
-	}
-
-	@Override
-	public String toString() {
-		return "TableRow{" +
-				"rowIndex=" + getIndex() +
-				", values=" + getTableValues().entrySet() +
-				'}';
 	}
 
 	public boolean hasColumn(String headerColumnName) {
@@ -134,5 +127,13 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 
 	public boolean hasValue(String headerColumnName, Object expectedValue) {
 		return Objects.equals(getCell(headerColumnName).getValue(), expectedValue);
+	}
+
+	@Override
+	public String toString() {
+		return "TableRow{" +
+				"rowIndex=" + getIndex() +
+				", values=" + getTableValues() +
+				'}';
 	}
 }

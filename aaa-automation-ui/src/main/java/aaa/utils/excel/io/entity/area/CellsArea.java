@@ -1,7 +1,6 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,24 +8,33 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.Writable;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.queue.CellsQueue;
 import toolkit.exceptions.IstfException;
 
-public abstract class CellsArea {
+public abstract class CellsArea implements Writable {
 	protected Sheet sheet;
 	protected Set<Integer> columnsIndexes;
 	protected Set<Integer> rowsIndexes;
 	protected ExcelManager excelManager;
 	protected Set<CellType<?>> cellTypes;
+	protected boolean considerRowsOnComparison;
+	protected boolean considerColumnsOnComparison;
+
+	protected CellsArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager) {
+		this(sheet, columnsIndexes, rowsIndexes, excelManager, excelManager.getCellTypes());
+	}
 
 	protected CellsArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.sheet = sheet;
@@ -34,6 +42,8 @@ public abstract class CellsArea {
 		this.rowsIndexes = CollectionUtils.isNotEmpty(rowsIndexes) ? rowsIndexes : getRowsIndexes(sheet);
 		this.excelManager = excelManager;
 		this.cellTypes = new HashSet<>(cellTypes);
+		this.considerRowsOnComparison = true;
+		this.considerColumnsOnComparison = true;
 	}
 
 	public Sheet getPoiSheet() {
@@ -50,10 +60,6 @@ public abstract class CellsArea {
 
 	public Set<CellType<?>> getCellTypes() {
 		return new HashSet<>(this.cellTypes);
-	}
-
-	public ExcelManager getExcelManager() {
-		return this.excelManager;
 	}
 
 	public int getRowsNumber() {
@@ -102,7 +108,53 @@ public abstract class CellsArea {
 
 	protected abstract <Q extends CellsQueue> Map<Integer, Q> getRowsMap();
 
-	protected abstract <Q extends ExcelColumn> Map<Integer, Q> getColumnsMap();
+	protected abstract <Q extends CellsQueue> Map<Integer, Q> getColumnsMap();
+
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || getClass() != other.getClass()) {
+			return false;
+		}
+
+		List<Boolean> conditions = new ArrayList<>();
+		CellsArea otherArea = (CellsArea) other;
+		conditions.add(Objects.equals(getPoiSheet().getSheetName(), otherArea.getPoiSheet().getSheetName()));
+		conditions.add(Objects.equals(getCellTypes(), otherArea.getCellTypes()));
+		if (considerRowsOnComparison) {
+			conditions.add(Objects.equals(getRowsIndexes(), otherArea.getRowsIndexes()));
+		}
+		if (considerColumnsOnComparison) {
+			conditions.add(Objects.equals(getColumnsIndexes(), otherArea.getColumnsIndexes()));
+		}
+
+		return !conditions.contains(false);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = Objects.hash(getPoiSheet().getSheetName(), getCellTypes());
+		if (considerRowsOnComparison) {
+			hash += Objects.hash(getRowsIndexes());
+		}
+		if (considerColumnsOnComparison) {
+			hash += Objects.hash(getColumnsIndexes());
+		}
+		return hash;
+	}
+
+	@Override
+	public ExcelManager getExcelManager() {
+		return excelManager;
+	}
+
+	public CellsArea setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
+		this.considerRowsOnComparison = considerRowsOnComparison;
+		this.considerColumnsOnComparison = considerColumnsOnComparison;
+		return this;
+	}
 
 	public ExcelCell getFirstColumnCell(int rowIndex) {
 		return getRow(rowIndex).getFirstCell();
@@ -226,98 +278,14 @@ public abstract class CellsArea {
 		return foundRows.get(foundRows.size() - 1);
 	}
 
-	public CellsArea registerCellType(CellType<?>... cellTypes) {
-		this.cellTypes.addAll(Arrays.asList(cellTypes));
-		getRows().forEach(r -> r.registerCellType(cellTypes));
-		return this;
-	}
-
-	public CellsArea excludeColumns(Integer... columnsIndexes) {
-		for (Integer cIndex : columnsIndexes) {
-			this.columnsIndexes.remove(cIndex);
-			for (CellsQueue row : getRows()) {
-				row.getCellsMap().remove(cIndex);
-			}
-		}
-		return this;
-	}
-
-	public CellsArea excludeRows(Integer... rowsIndexes) {
-		for (int rIndex : rowsIndexes) {
-			assertThat(hasRow(rIndex)).as("There is no row number %s", rIndex).isTrue();
-			getRowsMap().remove(rIndex);
-		}
-		return this;
-	}
-
-	public CellsArea clearColumns(Integer... columnsIndexes) {
-		for (CellsQueue row : getRows()) {
-			for (Integer index : columnsIndexes) {
-				row.getCell(index).clear();
-			}
-		}
-		return this;
-	}
-
-	public CellsArea clearRows(Integer... rowsIndexes) {
-		for (Integer index : rowsIndexes) {
-			getRow(index).clear();
-		}
-		return this;
-	}
-
-	public CellsArea copyColumn(int columnIndex, int destinationColumnIndex) {
-		for (CellsQueue row : getRows()) {
-			row.getCell(columnIndex).copy(row.getIndex(), row.getCell(destinationColumnIndex).getColumnIndex());
-		}
-		return this;
-	}
-
-	public CellsArea copyRow(int rowIndex, int destinationRowIndex) {
-		getRow(rowIndex).copy(destinationRowIndex);
-		return this;
-	}
-
-	public CellsArea deleteColumns(Integer... columnsIndexes) {
-		//TODO-dchubkov: implement delete columns
-		throw new NotImplementedException("Columns deletion is not implemented yet");
-	}
-
-	public CellsArea deleteRows(Integer... rowsIndexes) {
-		int rowsShifts = 0;
-		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
-		Sheet sheet = getPoiSheet();
-		for (int index : uniqueSortedRowIndexes) {
-			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s on sheet %2$s", index, sheet.getSheetName()).isTrue();
-			sheet.shiftRows(index - rowsShifts, sheet.getLastRowNum(), -1);
-			rowsShifts++;
-		}
-		return this;
-	}
-
-	public CellsArea save() {
-		getExcelManager().save();
-		return this;
-	}
-
-	public CellsArea save(File destinationFile) {
-		getExcelManager().save(destinationFile);
-		return this;
-	}
-
-	public CellsArea close() {
-		getExcelManager().close();
-		return this;
-	}
-
-	public CellsArea saveAndClose() {
-		getExcelManager().saveAndClose();
-		return this;
-	}
-
-	public CellsArea saveAndClose(File destinationFile) {
-		getExcelManager().saveAndClose(destinationFile);
-		return this;
+	@Override
+	public String toString() {
+		return "CellsArea{" +
+				"sheetName=" + getPoiSheet().getSheetName() +
+				", columnsIndexes=" + getColumnsIndexes() +
+				", rowsIndexes=" + getRowsIndexes() +
+				", cellTypes=" + getCellTypes() +
+				'}';
 	}
 
 	private Set<Integer> getColumnsIndexes(Sheet sheet) {

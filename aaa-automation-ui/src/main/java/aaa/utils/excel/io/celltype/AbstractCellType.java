@@ -2,7 +2,8 @@ package aaa.utils.excel.io.celltype;
 
 import java.util.Objects;
 import org.apache.poi.ss.usermodel.Cell;
-import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
 public abstract class AbstractCellType<T> implements CellType<T> {
 	protected Class<T> endType;
@@ -16,7 +17,7 @@ public abstract class AbstractCellType<T> implements CellType<T> {
 		return endType;
 	}
 
-	public ExcelCell createPoiCellIfNull(ExcelCell cell) {
+	public EditableCell createPoiCellIfNull(EditableCell cell) {
 		Cell poiCell = cell.getPoiCell();
 		if (poiCell == null) {
 			poiCell = cell.getRow().getPoiRow().createCell(cell.getColumnIndex() - 1);

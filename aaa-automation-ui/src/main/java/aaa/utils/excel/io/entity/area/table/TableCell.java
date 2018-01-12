@@ -1,8 +1,9 @@
-package aaa.utils.excel.io.entity;
+package aaa.utils.excel.io.entity.area.table;
 
 import org.apache.poi.ss.usermodel.Cell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
 
-public class TableCell extends ExcelCell {
+public class TableCell extends EditableCell {
 	private int tableColumnIndex;
 
 	public TableCell(Cell cell, TableRow tableRow, int tableColumnIndex, int columnIndex) {
@@ -11,7 +12,7 @@ public class TableCell extends ExcelCell {
 	}
 
 	public String getHeaderColumnName() {
-		return getTable().getHeader().getColumnName(getColumnIndex());
+		return getRow().getColumnName(getColumnIndex());
 	}
 
 	public ExcelTable getTable() {
