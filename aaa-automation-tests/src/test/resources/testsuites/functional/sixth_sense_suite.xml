@@ -90,9 +90,10 @@
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
         <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestOverrideLiabilityLosses"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestOverrideLiabilityLosses"/>
         </classes>
     </test>
+
     <test name="Test Override Ineligible Underlying Risks">
         <parameter name="state" value="NJ"/>
         <classes>
