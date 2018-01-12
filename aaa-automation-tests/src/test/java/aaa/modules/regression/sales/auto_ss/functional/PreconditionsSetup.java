@@ -4,12 +4,11 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
-import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
 @Listeners({AaaTestListener.class})
-public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
+public class PreconditionsSetup {
 
     private static final String SET_POLICY_NUMBER_RANGE = "update NumberRange\n"
             + "set indx = %s\n"
@@ -17,6 +16,20 @@ public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
 
     private static final String GET_DAY_OF_WEEK = "select to_char(sysdate,'D') from dual";
 
+    /**
+     Fastlane SIT - 18.2 testing
+     Fastlane E2E - 18.1/evalue CERT testing
+     Fastlane BF - 18.1/evalue integration testing
+
+     endpoints:
+     docGenwebClient.endpointUri	http://sit-soaservices.tent.trt.csaa.pri:42000/3.1/StandardDocumentService
+     aaaRetrieveAgreementWebClient.endpointUri	http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveAgreementRelatedDocuments
+     aaaRetrieveDocumentWebClient.endpointUri	http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveDocument
+
+     sql:
+     select * from propertyconfigurerentity
+     where propertyname in ('docGenwebClient.endpointUri', 'aaaRetrieveAgreementWebClient.endpointUri', 'aaaRetrieveDocumentWebClient.endpointUri');
+     */
     @Test(description = "updates number range for policies to start with")
     public void numberRangeUpdate() {
 
@@ -63,7 +76,6 @@ public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
         setNumberRangeForPolicy("9600" + teamToUse + envNumToUse + dayOfWeek + "00");
     }
 
-
     private void setNumberRangeForPolicy(String s) {
         DBService.get().executeUpdate(String.format(SET_POLICY_NUMBER_RANGE, s));
     }
@@ -106,9 +118,7 @@ public class PreconditionsSetup implements EvalueInsertSetupPreConditions {
         public String getEnvNum() {
             return envNum;
         }
-
     }
-
 }
 
 
