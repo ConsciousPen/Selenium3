@@ -594,17 +594,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void maigConversionOnRenewPreviewGenDate(String state, ITestContext context) {
-		// LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime().plusYears(1);
 		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context);
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(effDate).plusYears(1));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+
+		policy.dataGather().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 
 		log.info("Conversion completed successfully");
 	}

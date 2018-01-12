@@ -41,7 +41,7 @@ AcceptPaymentActionTab: {
 
 CancellationActionTab: {
   Cancellation effective date: $<startTime>,
-  Cancellation reason: 'Rewrite Accommodation',
+  Cancellation reason: 'Rewrite Accommodation'
 }
 
 ReinstatementActionTab: {
