@@ -160,7 +160,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		
 		//verify task created
 		
-		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData")); 
+		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData_ReinstateWithLapse")); 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
