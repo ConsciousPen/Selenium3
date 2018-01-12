@@ -81,7 +81,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("") String state) {
-			endorsement(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
+		endorsement(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		/*
 		 * Automated Renewal R-Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate, NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate, NEW_VIN);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		/*
 		 * Automated Renewal R-45 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(45), NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(45), NEW_VIN);
 	}
 
 	/**
@@ -175,6 +175,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		/*
 		 * Automated Renewal R-35 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), NEW_VIN);
+		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN);
 	}
 }
