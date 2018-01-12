@@ -29,6 +29,14 @@ public class PreconditionsSetup {
      sql:
      select * from propertyconfigurerentity
      where propertyname in ('docGenwebClient.endpointUri', 'aaaRetrieveAgreementWebClient.endpointUri', 'aaaRetrieveDocumentWebClient.endpointUri');
+
+     Current situation:
+     When deploying with recreate DB the policy number we create are always the same. This leads to the situation when there are multiple Documents
+     for the same policy create on several days in different environments.
+
+     Solution:
+     The test changes the sequence number of the policy depending on team number, env name, and day of week to not to overlap with each other.
+     Once a week there will be a purge done by Fastlane team.
      */
     @Test(description = "updates number range for policies to start with")
     public void numberRangeUpdate() {
