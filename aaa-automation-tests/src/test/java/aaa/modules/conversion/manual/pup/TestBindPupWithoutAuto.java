@@ -38,7 +38,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6957")
-    public void pas6957TestBindPupWithoutAutoNB(@Optional("NJ") String state) {
+    public void pas6957_TestBindPupWithoutAutoNB(@Optional("NJ") String state) {
 
         // Create customer
         mainApp().open();
@@ -78,7 +78,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6957")
-    public void pas6957TestBindPupWithoutAutoConversion(@Optional("NJ") String state) {
+    public void pas6957_TestBindPupWithoutAutoConversion(@Optional("NJ") String state) {
 
         // Create Customer
         mainApp().open();
