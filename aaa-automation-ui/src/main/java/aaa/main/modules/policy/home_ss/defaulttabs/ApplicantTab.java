@@ -32,6 +32,11 @@ public class ApplicantTab extends Tab {
 	    if(this.getAgentInfoAssetList().getAsset(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT_OF_RECORD).isPresent()){
 		    btnContinue.click();
 	    }
+	    //TODO: OSI: Workaround, agency/location/agent configuration broke after agency move in PAM, whcih causes Retrieve Channel ID service not to work properly
+	    if(this.getAgentInfoAssetList().getAsset(HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION).getValue().isEmpty()){
+		    this.getAgentInfoAssetList().getAsset(HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION).setValue("index=1");
+	    	btnContinue.click();
+	    }
         return this;
     }
     
