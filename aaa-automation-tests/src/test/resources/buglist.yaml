@@ -180,3 +180,20 @@ PAS-7972:
       messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
+PAS-8288:
+  summary: "Last Payment Method stub implementation and test refactoring to use it"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsDC,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC
+    ]
+      messages: ["Check"]
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsDC,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
+      messages: ["by zero"]
