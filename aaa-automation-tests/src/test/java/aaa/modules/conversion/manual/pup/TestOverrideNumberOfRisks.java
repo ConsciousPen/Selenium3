@@ -1,10 +1,9 @@
 package aaa.modules.conversion.manual.pup;
 
 import aaa.common.Tab;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.SearchEnum;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.modules.conversion.manual.ConvPUPBaseTest;
@@ -22,6 +21,27 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
     private UnderlyingRisksOtherVehiclesTab underlyingRisksOtherVehiclesTab = policy.getDefaultView().getTab(UnderlyingRisksOtherVehiclesTab.class);
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
 
+    /**
+     * @author Josh Carpenter
+     * @name Verify rules can be overridden with max number of exposures/risks for NB
+     * @scenario
+     * 1. Create customer
+     * 2. Initiate NB policy
+     * 3. Fill Underlying Risk Tabs with:
+     *    a. Six (6) or more additional residences
+     *    b. Seven (7) or more rental residences
+     *    c. Nine (9) or more automobiles
+     *    d. Five (5) or more motorcycles
+     *    e. Five (5) or more antique automobiles
+     *    f. Five (5) or more recreational vehicles (RVs)
+     *    g. Six (6) or more watercraft
+     *    h. Five (5) or more snowmobiles
+     *    i. Five (5) or more all-terrain vehicles (ATVs)
+     *    g. Three (3) or more golf carts
+ *    4. Finish policy and attempt to bind
+     *5. Verify errors can be overridden
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7003")
@@ -31,42 +51,103 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
         mainApp().open();
         createCustomerIndividual();
 
-        TestData tdPUP = getPolicyDefaultTD()
+        // Gather test data
+        TestData tdPUP = getPolicyDefaultTD();
 
-
-        // TESTING ONLY **********************
-//                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
-//                        PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel() + "[0]",
-//                        PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
-//                        PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel()),
-//                        "NJH3926232091")
-                .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
-                        PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENCY.getLabel()), "AAA South Jersey - 500017174")
-                .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
-                        PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENCY_LOCATION.getLabel()), "Logan - 500017238 - Logan Twp")
-                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
-                        PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENT.getLabel()))
-                .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
-                        PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE.getLabel()), "index=5");
-
-        //SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032262");
-
-        // **************************************
-
-        TestData tdPropertyTabAdditionalResidences = getTestSpecificTD("TestData_AdditionalResidences");
-        TestData tdPropertyTabRentalProperties = getTestSpecificTD("TestData_RentalResidences");
-        TestData tdAutoTabDrivers = getTestSpecificTD("TestData_Drivers");
-        TestData tdAutoTabAutomobiles = getTestSpecificTD("TestData_Automobiles");
-        TestData tdAutoTabAntiques = getTestSpecificTD("TestData_Antiques");
-        TestData tdAutoTabMotorcycles = getTestSpecificTD("TestData_Motorcycles");
-        TestData tdAutoTabMotorHomes = getTestSpecificTD("TestData_MotorHomes");
-        TestData tdOtherVehiclesTabWatercraft = getTestSpecificTD("TestData_Watercraft");
-        TestData tdOtherVehiclesTabATV = getTestSpecificTD("TestData_ATV");
-        TestData tdOtherVehiclesTabSnowmobile = getTestSpecificTD("TestData_Snowmobile");
-        TestData tdOtherVehiclesTabGolfCart = getTestSpecificTD("TestData_GolfCart");
-
+        // Initiate NB policy
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdPUP, UnderlyingRisksPropertyTab.class);
+
+        // Fill Underlying Risks Tabs
+        fillUnderlyingRisksPropertyTab(tdPUP);
+        fillUnderlyingRisksAutoTab(tdPUP);
+        fillUnderlyingRisksOtherVehiclesTab(tdPUP);
+
+        // Attempt to bind policy
+        policy.getDefaultView().fillFromTo(tdPUP, ClaimsTab.class, BindTab.class, true);
+        bindTab.submitTab();
+
+        verifyErrorsOverrideAndBind(tdPUP,
+                ErrorEnum.Errors.AAA_PUP_UWApp_AddRes_OtherThanPrimary,
+                ErrorEnum.Errors.AAA_PUP_UWApp_AddRes_Rental,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Auto_Antique,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Auto_PPA,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Motorcycle,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh_ATV,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh_GC,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh_Snowmobile,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Watercraft);
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Verify rules can be overridden with max number of exposures/risks for conversion
+     * @scenario
+     * 1. Create customer
+     * 2. Initiate conversion policy
+     * 3. Fill Underlying Risk Tabs with:
+     *    a. Six (6) or more additional residences
+     *    b. Seven (7) or more rental residences
+     *    c. Nine (9) or more automobiles
+     *    d. Five (5) or more motorcycles
+     *    e. Five (5) or more antique automobiles
+     *    f. Five (5) or more recreational vehicles (RVs)
+     *    g. Six (6) or more watercraft
+     *    h. Five (5) or more snowmobiles
+     *    i. Five (5) or more all-terrain vehicles (ATVs)
+     *    g. Three (3) or more golf carts
+     *    4. Finish policy and attempt to bind
+     *5. Verify errors can be overridden
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7003")
+    public void pas7003_TestOverrideNumberOfRisksConversion(@Optional("NJ") String state) {
+
+        // Create customer
+        mainApp().open();
+        createCustomerIndividual();
+
+        // Gather test data
+        TestData tdPUP = getConversionPolicyDefaultTD();
+
+        // Initiate Conversion policy
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        policy.getDefaultView().fillUpTo(tdPUP, UnderlyingRisksPropertyTab.class);
+
+        // Fill Underlying Risks Tabs
+        fillUnderlyingRisksPropertyTab(tdPUP);
+        fillUnderlyingRisksAutoTab(tdPUP);
+        fillUnderlyingRisksOtherVehiclesTab(tdPUP);
+
+        // Attempt to bind policy
+        policy.getDefaultView().fillFromTo(tdPUP, ClaimsTab.class, BindTab.class, true);
+        bindTab.submitTab();
+
+        verifyErrorsAndOverride(
+                ErrorEnum.Errors.AAA_PUP_UWApp_AddRes_OtherThanPrimary,
+                ErrorEnum.Errors.AAA_PUP_UWApp_AddRes_Rental,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Auto_Antique,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Auto_PPA,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Motorcycle,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh_ATV,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh_GC,
+                ErrorEnum.Errors.AAA_PUP_UWApp_RecreationalVeh_Snowmobile,
+                ErrorEnum.Errors.AAA_PUP_UWApp_Watercraft);
+    }
+
+    /**
+     * Fills the UnderlyingRisksPropertyTab with:
+     * 1. Six (6) Additional Residences
+     * 2. Seven (7) Rental Properties
+     * @param tdPUP The PUP test data being used
+     */
+    private void fillUnderlyingRisksPropertyTab(TestData tdPUP) {
+        TestData tdPropertyTabAdditionalResidences = getTestSpecificTD("TestData_AdditionalResidences");
+        TestData tdPropertyTabRentalProperties = getTestSpecificTD("TestData_RentalResidences");
 
         // Create 6 Additional Residences
         tdPUP.adjust(UnderlyingRisksPropertyTab.class.getSimpleName(), tdPropertyTabAdditionalResidences);
@@ -75,10 +156,27 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
 
         // Create 7 Rental Residences
         tdPUP.adjust(UnderlyingRisksPropertyTab.class.getSimpleName(), tdPropertyTabRentalProperties);
-        addAdditionalItems(underlyingRisksPropertyTab, 6, underlyingRisksPropertyTab.getAdditionalResidenciesAssetList()
+        addAdditionalItems(underlyingRisksPropertyTab, 7, underlyingRisksPropertyTab.getAdditionalResidenciesAssetList()
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ADD), tdPUP);
 
         underlyingRisksPropertyTab.submitTab();
+    }
+
+    /**
+     * Fills the underlyingRisksAutoTab with:
+     * 1. Nine (9) Automobiles
+     * 2. Five (5) Antique Automobiles
+     * 3. Five (5) Motorcycles
+     * 4. Five (5) Motor Homes
+     * @param tdPUP The PUP test data being used
+     */
+    private void fillUnderlyingRisksAutoTab(TestData tdPUP) {
+        TestData tdAutoTabDrivers = getTestSpecificTD("TestData_Drivers");
+        TestData tdAutoTabAutomobiles = getTestSpecificTD("TestData_Automobiles");
+        TestData tdAutoTabAntiques = getTestSpecificTD("TestData_Antiques");
+        TestData tdAutoTabMotorcycles = getTestSpecificTD("TestData_Motorcycles");
+        TestData tdAutoTabMotorHomes = getTestSpecificTD("TestData_MotorHomes");
+
 
         // Create 9 Automobiles
         tdPUP.adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
@@ -120,6 +218,13 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes.ADD), tdPUP);
 
         underlyingRisksAutoTab.submitTab();
+    }
+
+    private void fillUnderlyingRisksOtherVehiclesTab(TestData tdPUP) {
+        TestData tdOtherVehiclesTabWatercraft = getTestSpecificTD("TestData_Watercraft");
+        TestData tdOtherVehiclesTabATV = getTestSpecificTD("TestData_ATV");
+        TestData tdOtherVehiclesTabSnowmobile = getTestSpecificTD("TestData_Snowmobile");
+        TestData tdOtherVehiclesTabGolfCart = getTestSpecificTD("TestData_GolfCart");
 
         // Add 6 Watercraft
         tdPUP.adjust(TestData.makeKeyPath(UnderlyingRisksOtherVehiclesTab.class.getSimpleName(),
@@ -154,11 +259,15 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
                 .getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD), tdPUP);
 
         underlyingRisksOtherVehiclesTab.submitTab();
-        policy.getDefaultView().fillFromTo(tdPUP, ClaimsTab.class, BindTab.class, true);
-        bindTab.submitTab();
-
     }
 
+    /**
+     * Private method used to iteratively add multiple items to a section
+     * @param tab The tab object being added to
+     * @param count The number of objects to add
+     * @param button The 'Add' button asset for the specific section
+     * @param td the test data being used that contains the item being added
+     */
     private void addAdditionalItems(Tab tab, int count, Button button, TestData td) {
         for (int i = 0; i < count; i++) {
             button.click();
