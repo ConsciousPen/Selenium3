@@ -188,12 +188,13 @@ PAS-8288:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC
-    ]
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
+    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC]
       messages: ["Check"]
     - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsDC,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
+    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
       messages: ["by zero"]
