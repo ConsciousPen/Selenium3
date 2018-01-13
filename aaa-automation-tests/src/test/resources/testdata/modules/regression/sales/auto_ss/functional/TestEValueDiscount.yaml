@@ -124,7 +124,8 @@ DC_Visa: {
 PolicyInformationForTerritoriesEValueApplicable: {
   Channel Type: AAA Agent,
   Agency: AAA Mid-Atlantic - 500016292,
-  Agency Location: Wayne - 500017252 - Wayne,
+  Agency Location: CHANTILLY VA - 500016414 - Chantilly,
+  Agent: 'Sarah Akin',
 }
 
 PolicyInformationForTerritoriesEValueNotApplicable1: {

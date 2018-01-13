@@ -1,0 +1,43 @@
+# --------------- Test Data for Auto claims ---------------
+
+TestData_MajorViolation: '@MajorViolation'
+
+TestData_AlcoholViolation: '@AlcoholViolation'
+
+TestData_Driver: '@Driver'
+
+MajorViolation: {
+  AutoViolationsClaims: {
+    Add auto violations/claims: 'Yes',
+    "Policy #": '123456789',
+    Select Driver: 'index=1',
+    Type: 'Major Violation',
+    Description: 'index=6',
+    Occurrence Date: '$<today-6M:MM/dd/yyyy>',
+  }
+}
+
+AlcoholViolation: {
+  AutoViolationsClaims: {
+    Add auto violations/claims: 'Yes',
+    "Policy #": '123456789',
+    Select Driver: 'index=1',
+    Type: 'Alcohol-Related Violation',
+    Description: 'Driving Under the Influence of Alcohol',
+    Occurrence Date: '$<today-6M:MM/dd/yyyy>',
+  }
+}
+
+Driver: {
+  Add drivers: 'Yes',
+  "Policy #": '123456789',
+  First Name: 'John',
+  Last Name: 'Smith',
+  Date of Birth: '12/12/1980',
+  Gender: 'Male',
+  Occupation: 'index=1',
+  Phone Number: '6025551212',
+  Age First Licensed: '18',
+  License Number: 'A12345678987654',
+  License Status: 'Licensed (US)'
+}

@@ -36,7 +36,7 @@ DocumentsAndBindTab: {
   DocumentsForPrinting: {
     Auto Insurance Application: 'No',
     AutoPay Authorization Form: 'No',
-    Consumer Information Notice: 'No',
+    #Consumer Information Notice: 'No',
     Uninsured and Underinsured Motorist Coverage Selection: 'No',
     Auto Insurance Quote: 'Yes',
     Critical Information for Teenage Drivers and Their Parents: 'Yes'

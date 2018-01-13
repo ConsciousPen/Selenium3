@@ -5,32 +5,54 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
+
+
+
+    <!--Tests for Auto-->
+
+    <test name="Test Major Violation Validation">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMajorViolationValidation"/>
+        </classes>
+    </test>
+
     <test name="Test Defensive Driver Discount">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
+
     <test name="Test Calculate Tier for NY converted policies">
         <classes>
             <class name="aaa.modules.conversion.manual.auto_ss.TestTierCalculation"/>
         </classes>
     </test>
+
     <test name="Test Enroll Usage Based Endorsement">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.EnrollUsageBasedEndorsementCheck"/>
         </classes>
     </test>
+
+
+    <!--Tests for Property-->
+
+
     <test name="Test Renovation Discount for KS DP3">
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts"/>
         </classes>
     </test>
+
     <test name="PA View Rating Details Auto Tier value 1-16">
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>
         </classes>
     </test>
+
+    <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->
     <test name="Policy Conversation without ordering reports">
         <classes>
             <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
@@ -52,34 +74,50 @@
         </classes>
     </test>
 
-    <test name="Policy Conversation without ordering reports">
-        <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
 
-    <test name="Policy Conversation without ordering reports">
-        <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-
-    <test name="Policy Conversation without ordering reports">
-        <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.ho4.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-
-    <test name="Policy Conversation without ordering reports">
-        <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.ho6.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
         </classes>
     </test>
+
+
+    <!--Tests for PUP-->
+
+
+    <!--Tests for Overridable rules Conversion/Organic Policy-->
+    <test name="Test Override Liability Losses">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestOverrideLiabilityLosses"/>
+        </classes>
+    </test>
+
+    <test name="Test Override Ineligible Underlying Risks">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideIneligibleUnderlyingRisks"/>
+        </classes>
+    </test>
+    <test name="Test Bind PUP without Auto policies">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestBindPupWithoutAuto"/>
+        </classes>
+    </test>
+    <test name="Test Override Drivers with Major Violations">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindDriversWithMajorViolations"/>
+        </classes>
+    </test>
+    <test name="Test Override PUP policies with 2 or more violations">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindWithPropertyLosses"/>
+        </classes>
+    </test>
+
 
 </suite>
