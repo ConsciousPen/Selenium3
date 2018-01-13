@@ -779,7 +779,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         log.info("Delay end");
         documentsAndBindTab.saveAndExit();
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
-        Efolder.isDocumentExist("Miscellaneous", "Acknowledgement Form");
+        Efolder.isDocumentExist("Miscellaneous", "EVALUE ACKNOWLEDGEMENT FORM");
         //PAS-264 end
 
         //PAS-721 Start
@@ -1330,10 +1330,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     void eValueQuoteCreation() {
         //Default VA test data didn't work, so had to use multiple adjustments
         TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-        TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
+        //TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
         TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
         TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
-                .adjust("PolicyInformation", policyInformationSectionAdjusted)
+                //.adjust("PolicyInformation", policyInformationSectionAdjusted)
                 .adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
 
         TestData eValuePolicyData = defaultTestData
