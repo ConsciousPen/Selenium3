@@ -67,22 +67,22 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/${browser.pool.name}</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/${browser.pool.name}</include>
-                </includes>
-            </resource>
-        </resources>
+        <!-- <resources>
+             <resource>
+                 <directory>src/test/resources</directory>
+                 <filtering>false</filtering>
+                 <excludes>
+                     <exclude>**/${browser.pool.name}</exclude>
+                 </excludes>
+             </resource>
+             <resource>
+                 <directory>src/test/resources</directory>
+                 <filtering>true</filtering>
+                 <includes>
+                     <include>**/${browser.pool.name}</include>
+                 </includes>
+             </resource>
+         </resources>-->
     </build>
 
     <profiles>
