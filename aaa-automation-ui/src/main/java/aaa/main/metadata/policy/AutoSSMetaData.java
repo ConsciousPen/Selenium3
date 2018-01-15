@@ -221,7 +221,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
-			public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
+			public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class, By.xpath("//input[@id='policyDataGatherForm:sedit_Policy_contractTerm_expirationInputDate']"));
 			public static final AssetDescriptor<ComboBox> EXTRAORDINARY_LIFE_CIRCUMSTANCE = declare("Extraordinary Life Circumstance", ComboBox.class);
 			public static final AssetDescriptor<AdvancedComboBox> ADVERSELY_IMPACTED = declare("Adversely Impacted", AdvancedComboBox.class);
 			public static final AssetDescriptor<RadioGroup> OVERRIDE_ASD_LEVEL = declare("Override ASD Level", RadioGroup.class);
@@ -280,6 +280,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AFFINITY_GROUP = declare("Affinity Group", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> SMART_DRIVER_COURSE_COMPLETED = declare("Smart Driver Course Completed?", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> SMART_DRIVER_COURSE_COMPLETION_DATE = declare("Smart Driver Course Completion Date", TextBox.class);
+		public static final AssetDescriptor<TextBox> SMART_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Smart Driver Course Certificate Number", TextBox.class);
 		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> DISTANT_STUDENT = declare("Distant Student", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> DEFENSIVE_DRIVER_COURSE_COMPLETED = declare("Defensive Driver Course Completed?", ComboBox.class);
@@ -805,8 +807,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE =
 					declare("Medical Payments Rejection of Coverage", RadioGroup.class, Waiters.NONE, false, By.xpath("//table[@id='policyDataGatherForm:document_RMPC']"));
 			public static final AssetDescriptor<RadioGroup> PERSONAL_AUTO_APPLICATION = declare("Personal Auto Application", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS =
-					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS = declare(
+					"AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.NONE, false,
+					By.xpath("//table[@id='policyDataGatherForm:document_AAAUBI1B']"));
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class);
 			//DC
 			public static final AssetDescriptor<RadioGroup> INFORMED_CONSENT_FORM_UNINSURED_MOTORIST_COVERAGE = declare("Informed Consent Form - Uninsured Motorist Coverage", RadioGroup.class);
@@ -854,7 +857,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_COVERAGE_REJECTION_OR_ELECTION_OF_LOWER_LIMITS =
 					declare("Uninsured/Underinsured Coverage - Rejection or Election of Lower Limits", RadioGroup.class, Waiters.NONE);
 			//VA
-			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE);            //OK
+			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE, false, By.xpath("//table[@id='policyDataGatherForm:document_AHEVAXX']"));            //OK
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_LIMIT_SELECTION_FORM = declare("Uninsured/Underinsured Limit Selection Form", RadioGroup.class, Waiters.NONE);
 			//AZ
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION =

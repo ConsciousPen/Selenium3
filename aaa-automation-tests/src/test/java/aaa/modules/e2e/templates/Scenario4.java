@@ -102,7 +102,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected void automaticRefund() {
 		LocalDateTime refund = getTimePoints().getRefundDate(policyEffectiveDate.plusMonths(1));
 		TimeSetterUtil.getInstance().nextPhase(refund);
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob); //.refundGenerationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -123,7 +123,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected void automaticRefundHigh() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(policyEffectiveDate.plusMonths(2));
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.refundGenerationJob);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob); //.refundGenerationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 

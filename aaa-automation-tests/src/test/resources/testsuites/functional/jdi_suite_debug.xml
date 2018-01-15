@@ -7,50 +7,127 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-     <test name="TestRefundProcessVA2">
+<!--    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="pas2186_RefundProcessCheck"/>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessVA1">
+    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
-                    <include name="pendingRefundPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessAZ1">
-        <parameter name="state" value="AZ"/>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
+        <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="TestRefundProcessMD1">
-        <parameter name="state" value="MD"/>
+    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending">
+        <parameter name="state" value="DC"/>
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>-->
+
+
+    <test name="eValueEnabled">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="donsTest_evalueEnabledForStates"/>
                 </methods>
             </class>
         </classes>
     </test>
 
+    <test name="eValueDisabled">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="donsTest_evalueDisabledForStates"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

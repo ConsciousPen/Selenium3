@@ -21,6 +21,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
+import aaa.main.enums.BillingConstants.BillsAndStatementsType;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -129,11 +130,6 @@ public class Scenario14 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
-		/*
-		if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
-		}
-		*/
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		}
@@ -177,8 +173,8 @@ public class Scenario14 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		
-		Dollar minDue = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
+
+		Dollar minDue = BillingHelper.getBillMinDueAmount(policyExpirationDate, BillsAndStatementsType.BILL);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate); 
@@ -218,7 +214,7 @@ public class Scenario14 extends ScenarioBaseTest {
 		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
 		verifyRenewalOfferPaymentAmount(policyExpirationDate_FirstRenewal, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_FirstRenewal), billGenDate, pligaOrMvleFee, installmentsCount);
 		// }
-		verifyRenewPremiumNotice(policyExpirationDate_FirstRenewal, billGenDate);
+		verifyRenewPremiumNotice(policyExpirationDate_FirstRenewal, billGenDate, pligaOrMvleFee);
 	}
 	
 	protected void payRenewalBill_Renewal() {

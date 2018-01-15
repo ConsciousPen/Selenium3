@@ -1,29 +1,34 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import aaa.common.Tab;
-import aaa.main.enums.ErrorEnum;
-import aaa.toolkit.webdriver.WebDriverHelper;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.common.Tab;
+import aaa.main.enums.ErrorEnum;
+import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
 
-import java.util.*;
-
 /**
  * Created by lkazarnovskiy on 8/8/2017.
  */
 public abstract class CommonErrorTab extends Tab {
+	private static final String KEY_ERRORS = "Errors";
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
 	public Verify verify = new Verify();
@@ -35,19 +40,32 @@ public abstract class CommonErrorTab extends Tab {
 	}
 
 	public boolean isVisible() {
-		if (buttonOverride.isVisible())
-			return true;
-		else
-			return false;
+		return buttonOverride.isPresent() && buttonOverride.isVisible();
 	}
 
-	public Tab cancel() {
-		buttonCancel.click();
+	@Override
+	public Tab fillTab(TestData td) {
+		//TestData errorsTD = td.getTestData(getMetaKey());
+		if (td != null && td.containsKey(KEY_ERRORS)) {
+			List<String> values = td.getList(KEY_ERRORS);
+			if (values.contains("All")) {
+				overrideAllErrors();
+			} else {
+				overrrideErrors(values);
+			}
+		} else {
+			assetList.fill(td);
+		}
+
 		return this;
 	}
 
+	public void override() {
+		buttonOverride.click();
+	}
+
 	public void overrideAllErrors() {
-		if(getErrorsControl().getTable().isPresent()) {
+		if (getErrorsControl().getTable().isPresent()) {
 			overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
 		}
 	}
@@ -61,8 +79,8 @@ public abstract class CommonErrorTab extends Tab {
 				row.getCell("Reason for override").controls.comboBoxes.getFirst().setValue(reason.get());
 			}
 		}
-
-		buttonOverride.click();
+		//TODO @Aperapecha: Remove - not reqired, SubmitTab should be used instead.
+		//		buttonOverride.click();
 	}
 
 	public void overrideErrors(ErrorEnum.Errors... errors) {
@@ -78,8 +96,18 @@ public abstract class CommonErrorTab extends Tab {
 		for (ErrorEnum.Errors error : errors) {
 			getErrorsControl().fillRow(td.adjust("Code", error.getCode()));
 		}
+		//		TODO @Aperapecha: Remove - not reqired, SubmitTab should be used instead.
+		//		buttonOverride.click();
+	}
 
-		buttonOverride.click();
+	public void overrrideErrors(List<String> errors) {
+		TestData td = DataProviderFactory.dataOf(
+				"Override", "true",
+				"Duration", ErrorEnum.Duration.LIFE,
+				"Reason for override", ErrorEnum.ReasonForOverride.OTHER);
+		for (String error : errors) {
+			getErrorsControl().fillRow(td.adjust("Code", error));
+		}
 	}
 
 	public void referForApprovals(ErrorEnum.Errors... errors) {
@@ -103,7 +131,6 @@ public abstract class CommonErrorTab extends Tab {
 	public List<String> getErrorCodesList() {
 		return getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
 	}
-
 
 	public List<String> getErrorMessagesList() {
 		return getErrorMessagesList(false);
@@ -180,7 +207,7 @@ public abstract class CommonErrorTab extends Tab {
 	}
 
 	private boolean isMessagePresentInTableAndHintPopup(List<Pair<String, String>> actualTableAndHintErrorMessagePairs, String expectedMessage) {
-		final int maxMessageLengthInTableWithoutDots = 77;
+		int maxMessageLengthInTableWithoutDots = 77;
 		if (expectedMessage.length() > maxMessageLengthInTableWithoutDots) {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
 			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>(actualTableAndHintErrorMessagePairs.size());
@@ -188,7 +215,8 @@ public abstract class CommonErrorTab extends Tab {
 					Pair.of(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
 
 			return actualTruncatedTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair ->
-					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue().startsWith(expectedTruncatedMessage));
+					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue()
+							.startsWith(expectedTruncatedMessage));
 		}
 
 		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().equals(expectedMessage) && actualMessagePair.getValue().equals(expectedMessage));
@@ -204,7 +232,7 @@ public abstract class CommonErrorTab extends Tab {
 			List<Pair<String, String>> tableAndHintErrorMessagePairs = getTableAndHintErrorMessagePairs(!expectedValue);
 			for (String expectedMessage : errorsMessages) {
 				String assertionMessage = String.format("Error message \"%1$s\" is not %2$s as expected.", expectedMessage, expectedValue ? "present" : "absent");
-				CustomAssert.assertTrue(assertionMessage, isMessagePresentInTableAndHintPopup(tableAndHintErrorMessagePairs, expectedMessage) == expectedValue);
+				assertThat(isMessagePresentInTableAndHintPopup(tableAndHintErrorMessagePairs, expectedMessage)).as(assertionMessage).isEqualTo(expectedValue);
 			}
 		}
 
@@ -214,12 +242,15 @@ public abstract class CommonErrorTab extends Tab {
 
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
 			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
-			for (ErrorEnum.Errors error : errors) {
-				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"),
-						(actualErrorCodesAndMessagePairsMap.containsKey(error.getCode())
-								&& isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error.getMessage())) == expectedValue);
-			}
+			SoftAssertions.assertSoftly(softly -> {
+				for (ErrorEnum.Errors error : errors) {
+					softly.assertThat(
+							actualErrorCodesAndMessagePairsMap.containsKey(error.getCode()) && isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
+									.getMessage())).isEqualTo(expectedValue);
+				}
+			});
 		}
 	}
+
 }
 
