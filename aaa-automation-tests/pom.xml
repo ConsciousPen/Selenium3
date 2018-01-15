@@ -34,6 +34,22 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>${browser.pool.path}</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/${browser.pool.name}</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>${browser.pool.path}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/${browser.pool.name}</include>
+                </includes>
+            </resource>
+        </resources>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -62,22 +78,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>${browser.pool.path}</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/${browser.pool.name}</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>${browser.pool.path}</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/${browser.pool.name}</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
     <profiles>
         <profile>
