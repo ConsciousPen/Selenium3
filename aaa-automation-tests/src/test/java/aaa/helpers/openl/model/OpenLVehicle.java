@@ -18,6 +18,7 @@ public class OpenLVehicle {
 	private Boolean isTelematic; // OR specific
 	private Integer modelYear;
 	private Boolean newCarAddedProtection;
+	private Integer safetyScore;
 	private String statCode;
 	private String usage;
 	private Integer vehicleAge;
@@ -117,6 +118,14 @@ public class OpenLVehicle {
 
 	public void setNewCarAddedProtection(Boolean newCarAddedProtection) {
 		this.newCarAddedProtection = newCarAddedProtection;
+	}
+
+	public Integer getSafetyScore() {
+		return safetyScore;
+	}
+
+	public void setSafetyScore(Integer safetyScore) {
+		this.safetyScore = safetyScore;
 	}
 
 	public String getStatCode() {

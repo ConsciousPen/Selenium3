@@ -3,6 +3,7 @@ package aaa.helpers.openl.testdata_builder;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -48,9 +49,19 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
+	String getDriverTabDateOfBirth(Integer driverAge) {
+		LocalDateTime policyEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime();
+		LocalDateTime dateOfBirth = policyEffectiveDate.minusYears(driverAge);
+		// If driver's age is 24 and his birthday is within 30 days of the policy effective date, then driver's age is mapped as 25
+		if (driverAge == 24 && dateOfBirth.isAfter(policyEffectiveDate) && dateOfBirth.isBefore(policyEffectiveDate.plusDays(30))) {
+			dateOfBirth = dateOfBirth.plusYears(1);
+		}
+		return dateOfBirth.format(DateTimeUtils.MM_DD_YYYY);
+	}
+
 	String getDriverTabDateOfBirth(int ageFirstLicensed, int totalYearsDrivingExperience) {
-		LocalDateTime dob = TimeSetterUtil.getInstance().getCurrentTime().minusYears(ageFirstLicensed + totalYearsDrivingExperience);
-		return dob.format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime dateOfBirth = TimeSetterUtil.getInstance().getCurrentTime().minusYears(ageFirstLicensed + totalYearsDrivingExperience);
+		return dateOfBirth.format(DateTimeUtils.MM_DD_YYYY);
 	}
 
 	String getDriverTabLicenseType(boolean isForeignLicense) {
@@ -151,6 +162,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel();
 			case "UMPD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
+			case "MP":
+				return AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel();
 			case "PIP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel();
 			default:
@@ -158,14 +171,25 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getPremiumAndCoveragesTabCoverageLimit(String coverageCD, String limit) {
+	TestData getVehicleTabVehicleDetailsData(TestData vehicleData, String vin, String safetyScore) {
+		vehicleData.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), vin)
+				.adjust(AutoSSMetaData.VehicleTab.ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), "Yes")
+				.adjust(AutoSSMetaData.VehicleTab.GET_VEHICLE_DETAILS.getLabel(), "click")
+				.adjust(AutoSSMetaData.VehicleTab.SAFETY_SCORE.getLabel(), safetyScore);
+		return vehicleData;
+	}
+
+	String getPremiumAndCoveragesTabLimitOrDeductible(OpenLCoverage coverage) {
+		String coverageCD = coverage.getCoverageCD();
 		if ("SP EQUIP".equals(coverageCD)) {
-			return new Dollar(limit).toString();
+			return new Dollar(coverage.getLimit()).toString();
 		}
-		String[] limitRange = limit.split("/");
+
+		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
+		String[] limitRange = limitOrDeductible.split("/");
 		String returnLimit;
 		if (limitRange.length > 2) {
-			throw new IstfException("Unknown mapping for limit: " + limit);
+			throw new IstfException("Unknown mapping for limit/Deductible: " + limitOrDeductible);
 		}
 		returnLimit = "contains=" + new Dollar(limitRange[0] + "000").toString().replaceAll("\\.00", "");
 		if (limitRange.length == 2) {
@@ -173,4 +197,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 		return returnLimit;
 	}
+
+	String getPremiumAndCoveragesFullSafetyGlass(String glassDeductible) {
+		return "N/A".equals(glassDeductible) ? "No Coverage" : "Yes";
+	}
+
 }

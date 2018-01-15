@@ -12,11 +12,11 @@ public class OpenLDriver {
 	private Integer tyde;
 	private Integer dsr;
 	private Boolean hasSR22;
-	private Boolean hasFR44; // CO specific
+	private Boolean hasFR44; // VA specific
 	private Integer driverAge;
 	private Integer ageBeforeEndorsement;
 	private String defensiveDrivingCourse;
-	private Boolean cleanDriver;
+	private Boolean cleanDriver; // MD specific
 	private Boolean distantStudent;
 	private Boolean exposure;
 	private Boolean foreignLicense;

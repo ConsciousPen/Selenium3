@@ -32,14 +32,14 @@ public class ExcelUnmarshaller {
 	}
 
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
-		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch);
+		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch, true);
 	}
 
 	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel) {
-		return unmarshal(excelManager, excelFileModel, false);
+		return unmarshal(excelManager, excelFileModel, false, true);
 	}
 
-	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch) {
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, boolean closeManagerOnFinish) {
 		//TODO: check excelFileModel is valid class (not primitive, etc...)
 		log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
 				excelFileModel.getSimpleName(), excelManager.getFile().getAbsolutePath(), strictMatch ? "with" : "without"));
@@ -58,7 +58,10 @@ public class ExcelUnmarshaller {
 			}
 			setFieldValue(tableField, excelFileInstance, tableFieldsInstances);
 		}
-		excelManager.close();
+
+		if (closeManagerOnFinish) {
+			excelManager.close();
+		}
 		tableClasses.clear();
 
 		log.info("Excel unmarshalling was successful.");

@@ -4,8 +4,11 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
@@ -23,7 +26,6 @@ import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
-import aaa.utils.excel.io.entity.cell.EditableCell;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
@@ -50,47 +52,44 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
-		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass, policyNumbers);
+		Map<P, Integer> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
 		createCustomerIndividual();
-		for (P openLPolicy : getOpenLPolicies(openLFile, policyNumbers)) {
-			log.info("Premium calculation verification initiated for test with policy number {} from {} OpenL filename", openLPolicy.getNumber(), openLFileName);
-			TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
-			String expectedPremium = String.valueOf(getExpectedPremium(openLFileName, openLPolicy.getNumber()));
+		for (Map.Entry<P, Integer> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
+			log.info("Premium calculation verification  initiated for test with policy number {} from {} OpenL filename", policyAndPremium.getKey().getNumber(), openLFileName);
+			TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
 
-			assertSoftly(softly -> softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(expectedPremium));
+			assertSoftly(softly -> softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(String.valueOf(policyAndPremium.getValue())));
 			Tab.buttonCancel.click();
 		}
 	}
 
-	protected List<P> getOpenLPolicies(OpenLFile<P> openLFile, List<Integer> policyNumbers) {
-		if (policyNumbers.isEmpty()) {
-			return openLFile.getPolicies();
-		}
-		return openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
-	}
+	protected <O extends OpenLFile<P>> Map<P, Integer> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
+		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
 
-	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass, List<Integer> policyNumbers) {
-		ExcelManager openLFile = new ExcelManager(getOpenLFile(openLFileName));
-
-		ExcelTable policiesTable = openLFile.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
+		ExcelTable policiesTable = openLFileManager.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
 		List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
 		policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()])).setComparisonRules(false, true);
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		return eUnmarshaller.unmarshal(openLFile, openLFileModelClass);
-	}
+		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
 
-	protected int getExpectedPremium(String openLFileName, int policyNumber) {
-		ExcelManager excelManager = new ExcelManager(getOpenLFile(openLFileName));
-		TableRow row = excelManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
-		int expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(EditableCell::getIntValue).sum();
-		excelManager.close();
-		return expectedPremium;
+		List<P> openLPoliciesList = CollectionUtils.isEmpty(policyNumbers)
+				? openLFile.getPolicies()
+				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
+
+		Map<P, Integer> openLPoliciesAndPremiumsMap = new HashMap<>(openLPoliciesList.size());
+		for (P openLPolicy : openLPoliciesList) {
+			TableRow row = openLFileManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", openLPolicy.getNumber());
+			openLPoliciesAndPremiumsMap.put(openLPolicy, row.getSumContains("_res_.$Value"));
+		}
+
+		openLFileManager.close();
+		return openLPoliciesAndPremiumsMap;
 	}
 
 	protected List<Integer> getPolicyNumbers(String policies) {
@@ -109,9 +108,5 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 			policyNumbers.add(policyNumber);
 		}
 		return policyNumbers;
-	}
-
-	private File getOpenLFile(String openLFileName) {
-		return new File(getTestsDir() + "/" + openLFileName);
 	}
 }

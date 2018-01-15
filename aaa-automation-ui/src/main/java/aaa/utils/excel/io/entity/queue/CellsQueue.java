@@ -3,6 +3,7 @@ package aaa.utils.excel.io.entity.queue;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,23 @@ public abstract class CellsQueue implements Writable {
 
 	public List<String> getStringValues() {
 		return getCells().stream().map(ExcelCell::getStringValue).collect(Collectors.toList());
+	}
+
+	public int getSum() {
+		return getSum(getCellsIndexes().toArray(new Integer[getCellsMap().size()]));
+	}
+
+	public int getSum(Integer... cellsIndexes) {
+		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexes);
+		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
+	}
+
+	public int getMaxValue() {
+		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).max().getAsInt();
+	}
+
+	public int getMinValue() {
+		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).min().getAsInt();
 	}
 
 	public Set<CellType<?>> getCellTypes() {

@@ -2,6 +2,7 @@ package aaa.utils.excel.io.entity.area.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -79,6 +80,14 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		return (Iterator<TableCell>) new CellIterator(this);
 	}
 
+	@Override
+	public String toString() {
+		return "TableRow{" +
+				"rowIndex=" + getIndex() +
+				", values=" + getTableValues() +
+				'}';
+	}
+
 	public boolean hasColumn(String headerColumnName) {
 		return getHeader().hasColumn(headerColumnName);
 	}
@@ -105,6 +114,10 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		return (TableCell) getCells().stream().filter(c -> ((TableCell) c).getHeaderColumnName().equals(headerColumnName)).findFirst().get();
 	}
 
+	public List<TableCell> getCells(String... headerColumnNames) {
+		return Arrays.stream(headerColumnNames).map(this::getCell).collect(Collectors.toList());
+	}
+
 	public Object getValue(String headerColumnName) {
 		return getCell(headerColumnName).getValue();
 	}
@@ -129,11 +142,11 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		return Objects.equals(getCell(headerColumnName).getValue(), expectedValue);
 	}
 
-	@Override
-	public String toString() {
-		return "TableRow{" +
-				"rowIndex=" + getIndex() +
-				", values=" + getTableValues() +
-				'}';
+	public int getSum(String... headerColumnNames) {
+		return getSum(getCells(headerColumnNames).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
+	}
+
+	public int getSumContains(String headerColumnNamePattern) {
+		return getSum(getCellsContains(headerColumnNamePattern).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
 	}
 }

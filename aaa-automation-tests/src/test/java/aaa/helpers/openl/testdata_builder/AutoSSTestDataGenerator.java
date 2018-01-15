@@ -1,12 +1,16 @@
 package aaa.helpers.openl.testdata_builder;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.lang3.NotImplementedException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLDriver;
@@ -104,15 +108,30 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isAffinityGroupSet = false;
 		for (OpenLDriver driver : openLPolicy.getDrivers()) {
+			if (driver.getDsr() != 0) {
+				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this value greater than 0
+				throw new NotImplementedException("Test data generation for \"dsr\" greater than 0 is not implemented.");
+			}
+
+			if (!Objects.equals(driver.getDriverAge(), driver.getAgeBeforeEndorsement())) {
+				//TODO-dchubkov: to be implemented but at the moment don't have openL files with ageBeforeEndorsement different from driverAge
+				throw new NotImplementedException("Test data generation for \"ageBeforeEndorsement\" is not implemented.");
+			}
+
+			if (!driver.isExposure()) {
+				throw new IstfException("\"exposure\" openL field value should be always TRUE");
+			}
+
 			TestData driverData = DataProviderFactory.dataOf(
 					AutoSSMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(driver.getGender()),
 					AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), getDriverTabMartialStatus(driver.getMaritalStatus()),
-					AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().minusYears(driver.getDriverAge()).format(DateTimeUtils.MM_DD_YYYY),
+					AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge()),
 					AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde(),
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
 					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
-					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|"
+					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
 
 			if (driver.isSmartDriver()) {
@@ -126,9 +145,23 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (openLPolicy.isEmployee() && !isAffinityGroupSet) {
-				driverData.adjust(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel(), "contains=" + driver.getName());
-				driverData.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AAA Employee");
+				driverData.adjust(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel(), "contains=" + driver.getName())
+						.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AAA Employee");
 				isAffinityGroupSet = true;
+			}
+
+			if (getState().equals(Constants.States.MD) && driver.isCleanDriver()) {
+				driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
+			}
+
+			if (getState().equals(Constants.States.VA) && driver.hasFR44()) {
+				driverData.adjust(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasFR44()))
+						.adjust(AutoSSMetaData.DriverTab.FORM_TYPE.getLabel(), "FR44");
+			}
+
+			if (driver.isOutOfStateLicenseSurcharge()) {
+				driverData.adjust(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), "Licensed (US)")
+						.adjust(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=" + getState());
 			}
 
 			if (!isFirstDriver) {
@@ -163,24 +196,36 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled and impossible to set via UI
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented.");
 			}
+			assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 
+			int streetNumber = RandomUtils.nextInt(100, 1000);
+			String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 			TestData vehicleData = DataProviderFactory.dataOf(
 					AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear(),
 					AutoSSMetaData.VehicleTab.USAGE.getLabel(), getVehicleTabUsage(vehicle.getUsage()),
 					AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()),
 					AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()),
-					/*AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes",
+					AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes",
 					AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip(),
-					AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), "5800 NE CENTER COMMONS WAY",
+					AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName,
 					AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState(),
-					AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click",*/
-
+					AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click",
+					AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName),
 					AutoSSMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
 					AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER",
 					AutoSSMetaData.VehicleTab.SERIES.getLabel(), "OTHER",
 					AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
 					AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode(),
 					AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>00");
+
+			if (vehicle.getSafetyScore() != null) {
+				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
+				vehicleData = getVehicleTabVehicleDetailsData(vehicleData, "WMWRC33536TK73512", String.valueOf(vehicle.getSafetyScore()));
+			}
+
+			if (vehicle.isTelematic()) {
+				vehicleData = getVehicleTabVehicleDetailsData(vehicleData, "2HNYD28498H554858", "No Score");
+			}
 
 			vehiclesTestData.add(vehicleData);
 		}
@@ -213,7 +258,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			for (OpenLCoverage coverage : vehicle.getCoverages()) {
 				Map<String, Object> coverageData = new HashMap<>();
-				coverageData.put(getPremiumAndCoveragesTabCoverageKey(coverage.getCoverageCD()), getPremiumAndCoveragesTabCoverageLimit(coverage.getCoverageCD(), coverage.getLimit()));
+				coverageData.put(getPremiumAndCoveragesTabCoverageKey(coverage.getCoverageCD()), getPremiumAndCoveragesTabLimitOrDeductible(coverage));
+				coverageData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+				if (vehicle.isNewCarAddedProtection()) {
+					coverageData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), "Yes");
+				}
 				detailedVehicleCoveragesList.add(new SimpleDataProvider(coverageData));
 			}
 		}

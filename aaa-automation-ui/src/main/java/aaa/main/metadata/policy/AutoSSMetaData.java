@@ -274,7 +274,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AdvancedComboBox> OCCUPATION = declare("Occupation", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> LICENSE_TYPE = declare("License Type", AdvancedComboBox.class);
-		public static final AssetDescriptor<ComboBox> LICENSE_STATE = declare("License State", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> LICENSE_STATE = declare("License State", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> LICENSE_NUMBER = declare("License Number", TextBox.class);
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
@@ -289,7 +289,9 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Defensive Driver Course Certificate Number", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> ADB_COVERAGE = declare("ADB Coverage", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> CLEAN_DRIVER_RENEWAL = declare("Clean Driver Renewal", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> FILING_STATE = declare("Filing State", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> FORM_TYPE = declare("Form Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
 		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class);
 		public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class);
