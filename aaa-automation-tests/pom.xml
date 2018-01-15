@@ -13,7 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <browser.pool.browsertype>firefox</browser.pool.browsertype>
         <browser.pool.name>OptBrowserPool.xml</browser.pool.name>
-        <browser.pool.path>config/browserpools</browser.pool.path>
+        <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <browser.pool.threads>4</browser.pool.threads>
         <browser.pool.keyword>CSAA</browser.pool.keyword>
         <browser.pool.hub>http://aws2aaaqas24.corevelocity.csaa.cloud:9999</browser.pool.hub>
