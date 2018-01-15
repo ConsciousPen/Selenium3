@@ -27,7 +27,7 @@ public class TestCFTScenario24 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		endorsePolicyOnStartDatePlus2();
 		acceptPaymentStartDatePlus2();
-		flatCancellationStartDatePlus16();
+		flatOOSCancellationStartDatePlus16();
 		manualReinstatementStartDatePlus25();
 	}
 

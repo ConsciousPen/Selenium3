@@ -30,7 +30,7 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 	public void cftTestScenario13(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptPaymentStartDatePlus2();
-		addSuspenseEffDatePlus2();
+		addSuspenseStartDatePlus2();
 		flatCancellationStartDatePlus16();
 		clearSuspenseEffDatePlus16();
 		manualReinstatementStartDatePlus25();

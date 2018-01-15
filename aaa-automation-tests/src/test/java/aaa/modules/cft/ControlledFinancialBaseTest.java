@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.testng.ITestContext;
-
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -593,16 +591,17 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		waiveFeeOnDate(waiveDate);
 	}
 
-	protected void maigConversionOnRenewPreviewGenDate(String state, ITestContext context) {
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime().plusYears(1);
-		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
-		String policyNum = ConversionUtils.importPolicy(data, context);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(effDate).plusYears(1));
-
+	protected void maigConversionOnRenewPreviewGenDate(String state) {
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime();
+		LocalDateTime renewalEffDate = effDate.plusYears(1);
+		ConversionPolicyData data = new MaigConversionData(state + ".xml", renewalEffDate);
+		String policyNum = ConversionUtils.importPolicy(data);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalEffDate));
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-
-		policy.dataGather().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		policy.dataGather().start();
+		policy.getDefaultView().fill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(TestData.makeKeyPath("GeneralTab", "NamedInsuredInformation[0]", "Base Date"),
+			effDate.format(DateTimeUtils.MM_DD_YYYY)));
 
 		log.info("Conversion completed successfully");
 	}
@@ -635,6 +634,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void flatFutureCancellationOnDD1Minus20() {
 		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
 		manualFutureCancellationOnDate(cancellationDate);
+	}
+
+	protected void flatOOSCancellationStartDatePlus16() {
+		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		log.info("Out of sequence cancellation action started on {}", cancellationDate);
+		mainApp().reopen();
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		Page.dialogConfirmation.confirm();
+
+		assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		});
+		log.info("Manual cancellation action completed successfully");
+
 	}
 
 	protected void rewritePolicyOnCancellationDate() {
@@ -802,7 +816,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		writeOffOnDate(getTimePoints().getEarnedPremiumWriteOff(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber)));
 	}
 
-	protected void addSuspenseEffDatePlus2() {
+	protected void addSuspenseStartDatePlus2() {
 		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
 		addSuspenseOnDate(suspenseDate);
 	}

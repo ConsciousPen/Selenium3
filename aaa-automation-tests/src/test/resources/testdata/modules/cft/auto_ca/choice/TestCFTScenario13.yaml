@@ -78,3 +78,9 @@ SearchSuspenseActionTab: {
   'Suspense Reference #': 123456,
   'Missing [status]': Outstanding
 }
+
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
+}
