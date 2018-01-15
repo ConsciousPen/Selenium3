@@ -14,9 +14,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <browser.pool.browsertype>firefox</browser.pool.browsertype>
         <browser.pool.name>OptBrowserPool.xml</browser.pool.name>
-        <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
+        <browser.pool.path>config/browserpools</browser.pool.path>
         <browser.pool.threads>4</browser.pool.threads>
         <browser.pool.keyword>CSAA</browser.pool.keyword>
+        <browser.pool.hub>http://aws2aaaqas24.corevelocity.csaa.cloud:9999</browser.pool.hub>
         <timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
         <dependency.locations.enabled>true</dependency.locations.enabled>
         <dependency.details.enabled>true</dependency.details.enabled>
@@ -44,7 +45,7 @@
                     <version>2.19.1</version>
                     <configuration>
                         <systemPropertyVariables>
-                            <browser.pool.config>target/classes/${browser.pool.name}</browser.pool.config>
+                            <browser.pool.config>target/classes/${browser.pool.path}/${browser.pool.name}</browser.pool.config>
                             <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
                         </systemPropertyVariables>
                         <argLine>-Xmx1024m</argLine>
@@ -67,14 +68,14 @@
         </plugins>
         <resources>
             <resource>
-                <directory>${browser.pool.path}</directory>
+                <directory>src/test/resources</directory>
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>**/${browser.pool.name}</exclude>
                 </excludes>
             </resource>
             <resource>
-                <directory>${browser.pool.path}</directory>
+                <directory>src/test/resources</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>**/${browser.pool.name}</include>
