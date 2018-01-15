@@ -7,7 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
+<!--    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -106,6 +106,28 @@
                 </methods>
             </class>
         </classes>
+    </test>-->
+
+
+    <test name="eValueEnabled">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="donsTest_evalueEnabledForStates"/>
+                </methods>
+            </class>
+        </classes>
     </test>
 
+    <test name="eValueDisabled">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="donsTest_evalueDisabledForStates"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

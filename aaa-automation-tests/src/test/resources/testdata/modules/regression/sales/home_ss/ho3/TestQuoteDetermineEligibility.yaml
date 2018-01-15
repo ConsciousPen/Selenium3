@@ -225,35 +225,35 @@ HomeRenovation3: {
 
 ClaimHistory1: {
   Add a claim: 'Yes', 
-  Date of loss: '01/01/2015', 
+  Date of loss: $<today-2y>,
   Cause of loss: 'Liability', 
   Amount of loss: '100', 
   Claim status: 'Closed'
 }
 
 ClaimHistory2: {
-  Date of loss: '01/02/2015', 
+  Date of loss: $<today-2y+1m>,
   Cause of loss: 'Fire', 
   Amount of loss: '500', 
   Claim status: 'Closed'
 }
 
 ClaimHistory3: {
-  Date of loss: '01/02/2015', 
+  Date of loss: $<today-2y+1m>,
   Cause of loss: 'Liability', 
   Amount of loss: '200', 
   Claim status: 'Closed'
 }
 
 ClaimHistory4: {
-  Date of loss: '01/03/2015', 
+  Date of loss: $<today-2y+3m>,
   Cause of loss: 'Water', 
   Amount of loss: '100', 
   Claim status: 'Closed'
 }
 
 ClaimHistory5: {
-  Date of loss: '01/04/2015', 
+  Date of loss: $<today-2y+4m>,
   Cause of loss: 'Wind', 
   Amount of loss: '300', 
   Claim status: 'Closed'
@@ -261,7 +261,7 @@ ClaimHistory5: {
 
 ClaimHistory6: {
 Add a claim: 'Yes', 
-  Date of loss: '12/02/2017', 
+  Date of loss: $<today-1m>,
   Cause of loss: 'Hail', 
   Amount of loss: '26000', 
   Claim status: 'Closed'
