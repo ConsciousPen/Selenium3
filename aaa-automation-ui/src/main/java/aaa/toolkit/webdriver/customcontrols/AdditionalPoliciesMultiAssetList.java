@@ -1,7 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
-
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
@@ -15,7 +14,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class AdditionalPoliciesMultiAssetList extends MultiAssetList {
 	private static final String ACTIVE_UNDERLYING_POLICIES_SEARCH = "ActiveUnderlyingPoliciesSearch";
 	private static final String ACTIVE_UNDERLYING_POLICIES_MANUAL = "ActiveUnderlyingPoliciesManual";
-	private static Table underlyingPoliciesList = new Table(By.xpath("//table[@id='policyDataGatherForm:pupPolicyPrefillTable']"));
+	private static Table underlyingPoliciesList = new Table(By.xpath("//table[@id='policyDataGatherForm:pupPolicyPrefillTable']")); //TODO-dchubkov: change to AdvancedTable ?
 
 	public AdditionalPoliciesMultiAssetList(By locator, Class<? extends MetaData> metaDataClass) {
 		super(locator, metaDataClass);
@@ -34,7 +33,7 @@ public class AdditionalPoliciesMultiAssetList extends MultiAssetList {
 
 	@Override
 	protected void selectSection(int index) {
-		underlyingPoliciesList.getRow(index).getCell(9).controls.links.get("View/Edit").click(Waiters.AJAX);
+		underlyingPoliciesList.getRow(index).getCell(9).controls.links.get("View/Edit").click(Waiters.AJAX); // change to AdvancedTable.selectRow(index) ?
 	}
 
 	@Override
