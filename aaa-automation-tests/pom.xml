@@ -45,6 +45,7 @@
                     <version>2.19.1</version>
                     <configuration>
                         <systemPropertyVariables>
+                            <browser.controller.class>com.exigen.istf.exec.browser.BrowserControllerImpl</browser.controller.class>
                             <browser.pool.config>target/classes/${browser.pool.path}/${browser.pool.name}</browser.pool.config>
                             <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
                         </systemPropertyVariables>
