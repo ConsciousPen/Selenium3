@@ -68,4 +68,28 @@
         </classes>
     </test>
 
+    <test name="TestMembershipValidation">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas3786_ScenarioAC1_Validate_Override"/>
+                    <include name="pas6800_pas3786_ScenarioAC1_Validate_NoOverride"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
+                    <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas3786_ScenarioAC1_Validate_Override"/>
+                    <include name="pas6800_pas3786_ScenarioAC1_Validate_NoOverride"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
+                    <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
