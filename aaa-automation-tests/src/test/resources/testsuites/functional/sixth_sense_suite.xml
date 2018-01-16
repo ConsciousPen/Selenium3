@@ -124,6 +124,12 @@
             <class name="aaa.modules.conversion.manual.pup.TestOverrideNumberOfRisks"/>
         </classes>
     </test>
+    <test name="Test Override PUP policies with relaxed coverage limits">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindRelaxedCoverageLimits"/>
+        </classes>
+    </test>
 
 
 </suite>
