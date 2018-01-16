@@ -69,12 +69,17 @@ public class CommonTemplateMethods extends PolicyBaseTest {
 
 	public TestData getTwoAssignmentsTestData() {
 		TestData  firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
-		TestData  secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
+		TestData  secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 
 		List<TestData> listDataAssignmentTab = new ArrayList<>();
 		listDataAssignmentTab.add(firstAssignment);
 		listDataAssignmentTab.add(secondAssignment);
 
 		return new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
+	}
+
+	public void searchForPolicy(String policyNumber) {
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 }

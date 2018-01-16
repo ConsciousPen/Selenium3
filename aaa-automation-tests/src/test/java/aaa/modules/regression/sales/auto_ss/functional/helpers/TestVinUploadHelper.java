@@ -136,8 +136,7 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 
 	protected void createAndRateRenewal(String policyNumber, LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		PremiumAndCoveragesTab.calculatePremium();
@@ -170,21 +169,25 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 	}
 
 	protected void openAndSearchActivePolicy(String policyNumber) {
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		SearchPage.tableSearchResults.getRow("Status", "Policy Active").getCell(1).controls.links.getFirst().click();
 	}
 
-	protected void findQuoteAndOpenRenewal(String quoteNumber) {
+	public void searchForPolicy(String policyNumber) {
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+	}
+
+	protected void findQuoteAndOpenRenewal(String quoteNumber) {
+		searchForPolicy(quoteNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 	}
 
 	protected TestData addSecondVehicle(String vinNumber, TestData testData) {
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
-				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), vinNumber);
+				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), vinNumber)
+				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto");
 
 		List<TestData> listVehicleTab = new ArrayList<>();
 		listVehicleTab.add(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber));

@@ -205,13 +205,16 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 		//save policy number to open it later
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
-		createAndRateRenewal(policyNumber);
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		searchForPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		VehicleTab.buttonAddVehicle.click();
 		// Add third vehicle to the quote
@@ -448,7 +451,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		PremiumAndCoveragesTab.calculatePremium();
 	}
-
 
 	/**
 	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
