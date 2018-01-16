@@ -4,6 +4,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
@@ -34,10 +36,17 @@ public class TestScenario9 extends Scenario9 {
 			verifyThirdBillNotGenerated();
 			verifyPaymentNotGenerated();
 			renewalImageGeneration();
-			generateLastBill();
-			payLastBill();
-			removeAutoPay();
-			renewalPreviewGeneration();
+			generateLastBill(); 
+			if (getState().equals(Constants.States.NJ)) {
+				renewalPreviewGeneration(); 
+				payLastBill();
+				removeAutoPay();
+			} 
+			else {
+				payLastBill();
+				removeAutoPay();
+				renewalPreviewGeneration();
+			}
 			renewalOfferGeneration();
 			endorsementOnCurrentTerm();
 			generateRenewalBill();
