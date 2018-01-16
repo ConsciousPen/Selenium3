@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -44,6 +45,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
+		if (openLPolicy.getReinstatements() > 0) {
+			//TODO-dchubkov: to be implemented...
+			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
+		}
+
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
@@ -91,7 +97,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getTerm())
+				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getTerm()),
+				AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), "AAA Agent" // hardcoded value
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 				/* to be continued */);
 
@@ -108,7 +115,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
 		List<TestData> driversTestData = new ArrayList<>(openLPolicy.getDrivers().size());
 		boolean isFirstDriver = true;
-		boolean isAffinityGroupSet = false;
+		//boolean isAffinityGroupSet = false;
+		boolean isEmployeeSet = false;
+		boolean isAARPSet = false;
 		for (OpenLDriver driver : openLPolicy.getDrivers()) {
 			if (driver.getDsr() != 0) {
 				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this value greater than 0
@@ -136,6 +145,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
 
+			if (!isFirstDriver) {
+				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
+						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
+						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
+				isFirstDriver = false;
+			}
+
 			if (driver.isSmartDriver()) {
 				driverData.adjust(AutoSSMetaData.DriverTab.SMART_DRIVER_COURSE_COMPLETED.getLabel(), getYesOrNo(driver.isSmartDriver()));
 			}
@@ -146,17 +162,30 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				driverData.adjust(AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), getYesOrNo(driver.getDefensiveDrivingCourse()));
 			}
 
-			if (openLPolicy.isEmployee() && !isAffinityGroupSet) {
-				driverData.adjust(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel(), "contains=" + driver.getName())
+			if (openLPolicy.isEmployee() && !isEmployeeSet) {
+				driverData.adjust(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Spouse")
 						.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AAA Employee");
-				isAffinityGroupSet = true;
+				isEmployeeSet = true;
 			}
 
-			if (getState().equals(Constants.States.MD) && driver.isCleanDriver()) {
+			if (openLPolicy.isAARP() && !isAARPSet) {
+				driverData.adjust(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Spouse")
+						.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AARP");
+				isAARPSet = true;
+				if (openLPolicy.isEmployee()) {
+					assertThat(openLPolicy.getDrivers().size()).isGreaterThan(1)
+							.as("Policy with openl fields \"isEmployee\" and \"isAARP\" which are both TRUE should have at least 2 drivers to fill \"%s\" UI field differently for each of them",
+									AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel());
+					isEmployeeSet = false; // will set "Affinity Group"="AAA Employee" to the next driver
+				}
+			}
+
+
+			if (Constants.States.MD.equals(getState()) && driver.isCleanDriver()) {
 				driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
 			}
 
-			if (getState().equals(Constants.States.VA) && driver.hasFR44()) {
+			if (Constants.States.VA.equals(getState()) && driver.hasFR44()) {
 				driverData.adjust(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasFR44()))
 						.adjust(AutoSSMetaData.DriverTab.FORM_TYPE.getLabel(), "FR44");
 			}
@@ -166,12 +195,40 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						.adjust(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=" + getState());
 			}
 
-			if (!isFirstDriver) {
-				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
-						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
-						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
+			List<TestData> activityInformationList = new ArrayList<>();
+			if (openLPolicy.getAggregateCompClaims() > 0) {
+				int activityNumber = 1;
+				while (activityNumber <= openLPolicy.getAggregateCompClaims()) {
+					TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "Comprehensive Claim",
+							AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Comprehensive Claim",
+							AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36)).format(DateTimeUtils.MM_DD_YYYY),
+							AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
+
+					activityInformationList.add(activityInformationData);
+					activityNumber++;
+				}
+
 			}
-			isFirstDriver = false;
+
+			if (openLPolicy.getNafAccidents() > 0) {
+				int activityNumber = 1;
+				while (activityNumber <= openLPolicy.getNafAccidents()) {
+					TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(),
+							AdvancedComboBox.RANDOM_EXCEPT_MARK + "=At-Fault Accident|Principally At-Fault Accident",
+							AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+							AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36)).format(DateTimeUtils.MM_DD_YYYY),
+							AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
+
+					activityInformationList.add(activityInformationData);
+					activityNumber++;
+				}
+
+			}
+
+			if (!activityInformationList.isEmpty()) {
+				driverData.adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), activityInformationList);
+			}
+
 			driversTestData.add(driverData);
 		}
 		return driversTestData;

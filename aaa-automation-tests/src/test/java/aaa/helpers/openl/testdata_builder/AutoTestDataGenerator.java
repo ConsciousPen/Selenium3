@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -234,7 +235,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case 12:
 				return "Annual";
 			case 6:
-				return "Semi-Annual";
+				return Constants.States.VA.equals(getState()) ? "Semi-annual" : "Semi-Annual";
 			default:
 				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}

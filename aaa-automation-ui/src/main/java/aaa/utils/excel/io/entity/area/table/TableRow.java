@@ -149,4 +149,8 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 	public int getSumContains(String headerColumnNamePattern) {
 		return getSum(getCellsContains(headerColumnNamePattern).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
 	}
+
+	public boolean isEmpty(String columnName) {
+		return getCell(columnName).isEmpty();
+	}
 }

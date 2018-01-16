@@ -185,17 +185,17 @@ public class ExcelUnmarshaller {
 		switch (tableRowField.getType().getName()) {
 			case "int":
 			case "java.lang.Integer":
-				setFieldValue(tableRowField, tableInstance, row.getIntValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getIntValue(columnName));
 				break;
 			case "boolean":
 			case "java.lang.Boolean":
-				setFieldValue(tableRowField, tableInstance, row.getBoolValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getBoolValue(columnName));
 				break;
 			case "java.lang.String":
 				setFieldValue(tableRowField, tableInstance, row.getStringValue(columnName));
 				break;
 			case "java.time.LocalDateTime":
-				setFieldValue(tableRowField, tableInstance, row.getDateValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDateValue(columnName));
 				break;
 			case "java.util.List":
 				String linkedRowsIds = row.getStringValue(columnName);

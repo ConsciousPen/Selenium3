@@ -24,7 +24,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer autoInsurancePersistency;
 	private Integer aaaInsurancePersistency;
 	private Integer aaaAsdInsurancePersistency;
-	private Boolean isAARP;
+	private Boolean isAARP; // NV specific
 	private Boolean isEmployee;
 	private Boolean isAdvanceShopping;
 	private String paymentPlanType;

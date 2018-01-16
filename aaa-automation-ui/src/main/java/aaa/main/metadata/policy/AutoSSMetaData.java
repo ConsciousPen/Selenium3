@@ -312,8 +312,8 @@ public final class AutoSSMetaData {
 		public static final class ActivityInformation extends MetaData {
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> TYPE = declare("Type", AdvancedComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> DESCRIPTION = declare("Description", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
 			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class, Waiters.AJAX);
