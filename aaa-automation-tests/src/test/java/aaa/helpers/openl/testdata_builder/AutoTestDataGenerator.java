@@ -1,12 +1,16 @@
 package aaa.helpers.openl.testdata_builder;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Random;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -49,8 +53,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getDriverTabDateOfBirth(Integer driverAge) {
-		LocalDateTime policyEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime();
+	String getDriverTabDateOfBirth(Integer driverAge, LocalDateTime policyEffectiveDate) {
 		LocalDateTime dateOfBirth = policyEffectiveDate.minusYears(driverAge);
 		// If driver's age is 24 and his birthday is within 30 days of the policy effective date, then driver's age is mapped as 25
 		if (driverAge == 24 && dateOfBirth.isAfter(policyEffectiveDate) && dateOfBirth.isBefore(policyEffectiveDate.plusDays(30))) {
@@ -171,12 +174,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	TestData getVehicleTabVehicleDetailsData(TestData vehicleData, String vin, String safetyScore) {
-		vehicleData.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), vin)
-				.adjust(AutoSSMetaData.VehicleTab.ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), "Yes")
-				.adjust(AutoSSMetaData.VehicleTab.GET_VEHICLE_DETAILS.getLabel(), "click")
-				.adjust(AutoSSMetaData.VehicleTab.SAFETY_SCORE.getLabel(), safetyScore);
-		return vehicleData;
+	TestData getVehicleTabVehicleDetailsData(String vin, String safetyScore) {
+		return DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.VIN.getLabel(), vin,
+				AutoSSMetaData.VehicleTab.ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), "Yes",
+				AutoSSMetaData.VehicleTab.GET_VEHICLE_DETAILS.getLabel(), "click",
+				AutoSSMetaData.VehicleTab.SAFETY_SCORE.getLabel(), safetyScore);
 	}
 
 	String getPremiumAndCoveragesTabLimitOrDeductible(OpenLCoverage coverage) {
@@ -200,6 +202,68 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getPremiumAndCoveragesFullSafetyGlass(String glassDeductible) {
 		return "N/A".equals(glassDeductible) ? "No Coverage" : "Yes";
+	}
+
+	String getGeneralTabResidence(boolean isHomeOwner) {
+		if (isHomeOwner) {
+			return getRandom("Own Home", "Own Condo", "Own Mobile Home");
+		}
+		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
+	}
+
+	TestData getGeneralTabBaseData(Integer aaaInsurancePersistency, Integer aaaAsdInsurancePersistency, LocalDateTime policyEffectiveDate) {
+		assertThat(aaaInsurancePersistency).isEqualTo(aaaAsdInsurancePersistency)
+				.as("\"aaaInsurancePersistency\" openL field should be equal to \"aaaAsdInsurancePersistency\" since both are equally calculated");
+		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), policyEffectiveDate.minusYears(aaaInsurancePersistency).format(DateTimeUtils.MM_DD_YYYY));
+	}
+
+	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDateTime policyEffectiveDate) {
+		assertThat(autoInsurancePersistency).isGreaterThanOrEqualTo(aaaInsurancePersistency)
+				.as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"");
+
+		LocalDateTime inceptionDate =
+				autoInsurancePersistency.equals(aaaInsurancePersistency) ? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
+		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt((int) Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
+
+		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
+				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
+	}
+
+	String getGeneralTabTerm(int term) {
+		switch (term) {
+			case 12:
+				return "Annual";
+			case 6:
+				return "Semi-Annual";
+			default:
+				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
+		}
+	}
+
+	String generalTabIsAdvanceShopping(boolean isAdvanceShopping) {
+		if (isAdvanceShopping) {
+			throw new IstfException("Unknown mapping for isAdvanceShopping = true");
+		}
+		return "No Discount";
+	}
+
+	String getGeneralTabPriorBILimit(String priorBILimit) {
+		switch (priorBILimit) {
+			case "N":
+				return "None";
+			case "FR":
+				return getRandom(getRangedDollarValue(15_000, 30_000), getRangedDollarValue(20_000, 40_000), getRangedDollarValue(25_000, 50_000), getRangedDollarValue(30_000, 60_000));
+			case "50/XX":
+				return getRangedDollarValue(50_000, 100_000);
+			case "100/XX":
+				return getRangedDollarValue(100_000, 300_000);
+			case "200/XX":
+				return getRandom(getRangedDollarValue(250_000, 500_000), getRangedDollarValue(300_000, 500_000));
+			case "500/XX":
+				return getRandom(getRangedDollarValue(500_000, 500_000), getRangedDollarValue(500_000, 1_000_000), getRangedDollarValue(1_000_000, 1_000_000));
+			default:
+				throw new IstfException("Unknown mapping for priorBILimit = " + priorBILimit);
+		}
 	}
 
 }

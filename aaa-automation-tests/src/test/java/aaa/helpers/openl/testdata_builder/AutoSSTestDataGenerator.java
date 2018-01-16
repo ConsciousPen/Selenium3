@@ -69,6 +69,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner())
 				/* to be continued */);
+		namedInsuredInformationData.adjust(getGeneralTabBaseData(openLPolicy.getAaaInsurancePersistency(), openLPolicy.getAaaAsdInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
 		TestData aAAProductOwnedData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()),
@@ -83,9 +84,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData currentCarrierInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER.getLabel(), "Yes",
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel(), getGeneralTabPriorBILimit(openLPolicy.getPriorBILimit()),
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().get(0).getPlcyInceptionDate()
-						.format(DateTimeUtils.MM_DD_YYYY));
+				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel(), getGeneralTabPriorBILimit(openLPolicy.getPriorBILimit()));
+
+		currentCarrierInformationData
+				.adjust(getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
@@ -125,7 +127,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			TestData driverData = DataProviderFactory.dataOf(
 					AutoSSMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(driver.getGender()),
 					AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), getDriverTabMartialStatus(driver.getMaritalStatus()),
-					AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge()),
+					AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()),
 					AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde(),
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
@@ -220,11 +222,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			if (vehicle.getSafetyScore() != null) {
 				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
-				vehicleData = getVehicleTabVehicleDetailsData(vehicleData, "WMWRC33536TK73512", String.valueOf(vehicle.getSafetyScore()));
+				vehicleData.adjust(getVehicleTabVehicleDetailsData("WMWRC33536TK73512", String.valueOf(vehicle.getSafetyScore())));
 			}
 
 			if (vehicle.isTelematic()) {
-				vehicleData = getVehicleTabVehicleDetailsData(vehicleData, "2HNYD28498H554858", "No Score");
+				vehicleData.adjust(getVehicleTabVehicleDetailsData("2HNYD28498H554858", "No Score"));
 			}
 
 			vehiclesTestData.add(vehicleData);
@@ -273,49 +275,5 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),
 				AutoSSMetaData.PremiumAndCoveragesTab.UNVERIFIABLE_DRIVING_RECORD_SURCHARGE.getLabel(), new SimpleDataProvider(unverifiableDrivingRecordSurchargeData),
 				AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList);
-	}
-
-	private String getGeneralTabResidence(boolean isHomeOwner) {
-		if (isHomeOwner) {
-			return getRandom("Own Home", "Own Condo", "Own Mobile Home");
-		}
-		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
-	}
-
-	private String getGeneralTabTerm(int term) {
-		switch (term) {
-			case 12:
-				return "Annual";
-			case 6:
-				return "Semi-Annual";
-			default:
-				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
-		}
-	}
-
-	private String generalTabIsAdvanceShopping(boolean isAdvanceShopping) {
-		if (isAdvanceShopping) {
-			throw new IstfException("Unknown mapping for isAdvanceShopping = true");
-		}
-		return "No Discount";
-	}
-
-	private String getGeneralTabPriorBILimit(String priorBILimit) {
-		switch (priorBILimit) {
-			case "N":
-				return "None";
-			case "FR":
-				return getRandom(getRangedDollarValue(15_000, 30_000), getRangedDollarValue(20_000, 40_000), getRangedDollarValue(25_000, 50_000), getRangedDollarValue(30_000, 60_000));
-			case "50/XX":
-				return getRangedDollarValue(50_000, 100_000);
-			case "100/XX":
-				return getRangedDollarValue(100_000, 300_000);
-			case "200/XX":
-				return getRandom(getRangedDollarValue(250_000, 500_000), getRangedDollarValue(300_000, 500_000));
-			case "500/XX":
-				return getRandom(getRangedDollarValue(500_000, 500_000), getRangedDollarValue(500_000, 1_000_000), getRangedDollarValue(1_000_000, 1_000_000));
-			default:
-				throw new IstfException("Unknown mapping for priorBILimit = " + priorBILimit);
-		}
 	}
 }

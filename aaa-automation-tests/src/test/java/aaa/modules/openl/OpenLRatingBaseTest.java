@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
@@ -59,6 +60,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		for (Map.Entry<P, Integer> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
 			log.info("Premium calculation verification  initiated for test with policy number {} from {} OpenL filename", policyAndPremium.getKey().getNumber(), openLFileName);
 			TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
+			//TestData quoteRatingData = getPolicyDefaultTD();
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
@@ -93,7 +95,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected List<Integer> getPolicyNumbers(String policies) {
-		if (policies.isEmpty()) {
+		if (StringUtils.isBlank(policies)) {
 			return Collections.emptyList();
 		}
 		String[] policyNumberStrings = policies.split(",");
