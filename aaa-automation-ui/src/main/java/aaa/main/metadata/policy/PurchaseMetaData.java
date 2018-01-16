@@ -1,18 +1,13 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
-
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
+import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class PurchaseMetaData {
 
@@ -24,6 +19,8 @@ public class PurchaseMetaData {
 		public static final AssetDescriptor<ComboBox> AUTOPAY_SELECTION = declare("Autopay Selection", ComboBox.class, Waiters.AJAX, By.xpath(".//select[@id='purchaseForm:paymentType']"));
 		public static final AssetDescriptor<RadioGroup> SIGNATURE_ON_FILE_INDICATOR = declare("Signature on File Indicator", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> APPLY_OVERPAID_AMOUNT_TO = declare("Apply Overpaid Amount to:", RadioGroup.class, Waiters.AJAX);
+		public static final AssetDescriptor<StaticElement> AUTOPAY_MESSAGE_WARNING_BLOCK =
+				declare("You must activate AutoPay for the selected payment plan in order to keep eValue discount.", StaticElement.class, By.xpath(".//span[@id='purchaseForm:billingAcccountRecurringPayments_recurringPaymentsComponent']/div"));
 
 		public static final AssetDescriptor<CheckBox> CHANGE_MINIMUM_DOWNPAYMENT = declare("Change Minimum Down Payment", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> MINIMUM_REQUIRED_DOWNPAYMENT = declare("Minimum Required Down Payment", TextBox.class, Waiters.AJAX);
