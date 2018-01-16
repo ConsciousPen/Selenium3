@@ -35,7 +35,7 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-7524")
     public void pas7524_checkNotOrderedMembershipErrors(@Optional("AZ") String state) {
 

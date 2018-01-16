@@ -37,7 +37,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
     private VehicleTab vehicleTab = new VehicleTab();
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6142")
     public void pas6142_checkNotOrderedMembershipErrors(@Optional("CA") String state) {
 
