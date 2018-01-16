@@ -180,7 +180,5 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 				.executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_CA_CHOICE, 44, vehicleTypeMotorHome));
 
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_CHOICE_T')", getState());
-		vinMethods.enableVinRefresh(false);
 	}
-
 }

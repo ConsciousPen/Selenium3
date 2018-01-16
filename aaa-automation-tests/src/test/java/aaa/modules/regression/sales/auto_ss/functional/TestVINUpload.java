@@ -198,7 +198,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		vinMethods.enableVinRefresh(true);
 		vinMethods.uploadFiles(vinTableFile);
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied

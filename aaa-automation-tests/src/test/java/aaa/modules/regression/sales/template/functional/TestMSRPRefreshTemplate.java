@@ -60,8 +60,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "50000").resolveLinks();
 
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
+
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.calculatePremium();
@@ -100,8 +99,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	}
 
 	protected void vehicleTypeRegular(TestData testData) {
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
+
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -124,8 +122,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	}
 
 	protected void vehicleTypeNotRegular(TestData testData) {
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
+
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -148,8 +145,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	}
 
 	protected void renewalVehicleTypeRegular(TestData testData) {
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
+
 
 		String quoteNumber = createPolicyPreconds(testData);
 
@@ -176,8 +172,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	}
 
 	protected void renewalVehicleTypeNotRegular(TestData testData) {
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
 
 		String quoteNumber = createPolicyPreconds(testData);
 
@@ -204,8 +198,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	}
 
 	protected void renewalVINDoesMatchNBandNoMatchOn(TestData testData) {
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
+
 		// Vin control ta   ble has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 

@@ -170,7 +170,6 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
-		vinMethods.enableVinRefresh(true);
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 
@@ -220,6 +219,5 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		DBService.get()
 				.executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_CA_SELECT, EXPECTED_MSRP_KEY, vehicleTypeMotorHome));
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_CA_SELECT')", getState());
-		vinMethods.enableVinRefresh(false);
 	}
 }

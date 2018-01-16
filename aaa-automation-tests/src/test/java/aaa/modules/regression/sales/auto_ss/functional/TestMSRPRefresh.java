@@ -28,6 +28,7 @@ import toolkit.utils.TestInfo;
 public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploadPostConditions {
 
 	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -64,8 +65,6 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
 
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.calculatePremium();
@@ -115,11 +114,9 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_VehicleTypePPA(@Optional("") String state) {
-		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(new VehicleTab().getMetaKey()).mask("VIN");
-		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
+		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey()).mask("VIN");
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -165,12 +162,10 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
 
-		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
 
 		testData.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE.getLabel()));
 
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -203,12 +198,9 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypePPA(@Optional("") String state) {
 		// Some kind of random vin number
-		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
-				.getTestData(new VehicleTab().getMetaKey()).adjust("VIN", "5FDEU15H7KL055795").resolveLinks();
-		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
-
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
+		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
+				.getTestData(vehicleTab.getMetaKey()).adjust("VIN", "5FDEU15H7KL055795").resolveLinks();
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 
 		String quoteNumber = createPreconds(testData);
 
@@ -246,9 +238,6 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypeNotPPA(@Optional("") String state) {
 		TestData testData = getMSRPTestDataTwoVehicles(getPolicyTD());
-
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
 
 		String quoteNumber = createPreconds(testData);
 
@@ -289,8 +278,6 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
-		// Enable vin refresh
-		vinMethods.enableVinRefresh(true);
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
 		vinMethods.uploadFiles(vinTableFile);
 
@@ -313,6 +300,31 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
 
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
+	public void pas4277_PrivatePassengerAuto(@Optional("") String state) {
+		// Build override Informational Notice dialog
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), getTestSpecificTD("VehicleTab_Antique")).resolveLinks();
+
+		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		String compSymbol = getCompSymbolFromVRD();
+		String collSymbol = getCollSymbolFromVRD();
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		VehicleTab.buttonSaveAndExit.click();
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		addMotorHomeVehicleToDB_AutoSS();
+
+		findAndRateQuote(testData, quoteNumber);
+
+		pas730_commonChecks(compSymbol, collSymbol);
+	}
+
 
 	/**
 	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
@@ -339,6 +351,5 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 		DBService.get()
 				.executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS, 4, "Motor"));
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
-		vinMethods.enableVinRefresh(false);
 	}
 }
