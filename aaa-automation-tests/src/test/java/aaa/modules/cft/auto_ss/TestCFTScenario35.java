@@ -27,5 +27,4 @@ public class TestCFTScenario35 extends ControlledFinancialBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
-
 }

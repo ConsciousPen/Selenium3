@@ -8,7 +8,20 @@ TestData_AZ: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: '@DocumentsAndBindTab_AZ'
+}
+
+# ------- KY ------
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_KY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_KY'
 }
 
 PrefillTab: {
@@ -42,6 +55,15 @@ DriverTab_AZ: {
   License Number: A12345678
 }
 
+DriverTab_KY: {
+  Gender: 'index=1',
+  Marital Status: 'index=1',
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12121215
+}
+
 RatingDetailReportsTab: {
   Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
@@ -58,9 +80,19 @@ DriverActivityReportsTab: {
   Validate Driving History: click
 }
 
-DocumentsAndBindTab: {
+DocumentsAndBindTab_AZ: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
+  },
+  GeneralInformation: {
+    Authorized By: qa
+  }
+}
+
+DocumentsAndBindTab_KY: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Coverage Acceptance Statement: Physically Signed
   },
   GeneralInformation: {
     Authorized By: qa
