@@ -593,15 +593,27 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void maigConversionOnRenewPreviewGenDate(String state) {
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime();
-		LocalDateTime renewalEffDate = effDate.plusYears(1);
-		ConversionPolicyData data = new MaigConversionData(state + ".xml", renewalEffDate);
-		String policyNum = ConversionUtils.importPolicy(data);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalEffDate));
+		LocalDateTime convDate = getTimePoints().getRenewPreviewGenerationDate(effDate.plusYears(1));
+		log.info("Conversion started on {}", convDate);
+		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate.plusYears(1));
+		String policyN = ConversionUtils.importPolicy(data);
+		TimeSetterUtil.getInstance().nextPhase(convDate);
 		mainApp().open();
-		SearchPage.openPolicy(policyNum);
+		SearchPage.openPolicy(policyN);
 		policy.dataGather().start();
 		policy.getDefaultView().fill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(TestData.makeKeyPath("GeneralTab", "NamedInsuredInformation[0]", "Base Date"),
 			effDate.format(DateTimeUtils.MM_DD_YYYY)));
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingAccountInformationHolder.addBillingAccountDetails(
+			new BillingAccountDetails.Builder()
+				.setBillingAccountNumber(BillingSummaryPage.labelBillingAccountNumber.getValue())
+				.addPolicyDetails(new PolicyDetails.Builder()
+					.setPolicyNumber(policyN)
+					.setPolicyEffectiveDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY))
+					.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY).plusYears(1))
+					.build())
+				.build());
 
 		log.info("Conversion completed successfully");
 	}
@@ -872,7 +884,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		PolicySummaryPage.buttonRenewals.click();
+		if (PolicySummaryPage.buttonRenewals.isPresent())
+			PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		log.info("Renewal offer generated successfully");
 	}
@@ -931,6 +944,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void verifyPolicyActiveOnDD1Minus20() {
 		LocalDateTime date = TimeSetterUtil.getInstance().getStartTime().plusMonths(1).minusDays(20);
+		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
+	protected void verifyPolicyActiveOnUpdatePolicyStatusDate() {
+		LocalDateTime date = getTimePoints().getUpdatePolicyStatusDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
 		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 

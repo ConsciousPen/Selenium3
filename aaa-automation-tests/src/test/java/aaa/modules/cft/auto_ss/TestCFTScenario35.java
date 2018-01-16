@@ -17,6 +17,10 @@ public class TestCFTScenario35 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario35(@Optional(StringUtils.EMPTY) String state, ITestContext context) {
 		maigConversionOnRenewPreviewGenDate(state);
+		generateRenewalOffer();
+		generateRenewalOfferBill();
+		acceptMinDuePaymentOnUpdatePolicyStatusDate();
+		verifyPolicyActiveOnUpdatePolicyStatusDate();
 	}
 
 	@Override
