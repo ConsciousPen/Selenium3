@@ -8,7 +8,7 @@ TestData_AZ: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_AZ'
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
 }
 
 # ------- KY ------
@@ -21,7 +21,20 @@ TestData_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_KY'
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+# ------- MD ------
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_MD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD'
 }
 
 PrefillTab: {
@@ -64,6 +77,15 @@ DriverTab_KY: {
   License Number: A12121215
 }
 
+DriverTab_MD: {
+  Gender: 'index=1',
+  Marital Status: 'index=1',
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789999
+}
+
 RatingDetailReportsTab: {
   Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
@@ -80,7 +102,7 @@ DriverActivityReportsTab: {
   Validate Driving History: click
 }
 
-DocumentsAndBindTab_AZ: {
+DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
   },
@@ -89,10 +111,11 @@ DocumentsAndBindTab_AZ: {
   }
 }
 
-DocumentsAndBindTab_KY: {
+DocumentsAndBindTab_MD: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    Coverage Acceptance Statement: Physically Signed
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed
   },
   GeneralInformation: {
     Authorized By: qa
