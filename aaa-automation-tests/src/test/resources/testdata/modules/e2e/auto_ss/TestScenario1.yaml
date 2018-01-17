@@ -16,8 +16,9 @@ TestData_Endorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
 }
+# ---- workaround ---- remove after PAS-7427 fix
 
 TestData_Endorsement_VA: {
   GeneralTab: {},
@@ -28,7 +29,7 @@ TestData_Endorsement_VA: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
 }
 
 VehicleTab: {
@@ -46,7 +47,7 @@ TestData_Endorsement_NY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {},
 }
 
 VehicleTab_NY: {

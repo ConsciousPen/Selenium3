@@ -64,8 +64,8 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 
 	private XmlTest createTest(XmlTest test, String state) {
 		XmlTest xmlTest = new XmlTest();
-		String testNameme = test.getName();
-		if (!testNameme.startsWith(state) || !testNameme.contains(state.toUpperCase())) {
+		String testName = test.getName();
+		if (!testName.startsWith(state) || !testName.contains(state.toUpperCase())) {
 			xmlTest.setName(state + " " + test.getName());
 		} else {
 			xmlTest.setName(test.getName());
@@ -74,6 +74,8 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		xmlTest.setPreserveOrder(test.getPreserveOrder());
 		xmlTest.setIncludedGroups(test.getIncludedGroups());
 		xmlTest.setExcludedGroups(test.getExcludedGroups());
+		xmlTest.setParallel(test.getParallel());
+		xmlTest.setThreadCount(test.getThreadCount());
 		Map<String, String> parameters = Maps.newHashMap();
 		parameters.put("state", state);
 		xmlTest.setParameters(parameters);

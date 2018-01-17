@@ -76,6 +76,29 @@
         </classes>
     </test>
     
+	<test name="Document_Fulfillment_CA_Select_TestScenario3">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario3" />
+        </classes>
+    </test>
+    
+	<!-- 
+	<test name="Document_Fulfillment_CA_Select_TestScenario4">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario4" />
+        </classes>
+    </test>
+     -->
+     
+     <test name="Document_Fulfillment_CA_Select_TestScenario5">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario5" />
+        </classes>
+    </test>
+     
 	<test name="Document_Fulfillment_CA_Choice_TestScenario1">
         <parameter name="state" value="CA" />
         <classes>
@@ -111,6 +134,22 @@
         </classes>
     </test>
     
+	<!-- 
+	<test name="Document_Fulfillment_CA_Choice_TestScenario6">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario6" />
+        </classes>
+    </test>
+     -->
+     
+     <test name="Document_Fulfillment_CA_Choice_TestScenario7">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario7" />
+        </classes>
+    </test>
+     
 	<!-- 
 	<test name="Document_Fulfillment_TestScenario1">
         <parameter name="state" value="CT,MD,MT,VA,WV" />

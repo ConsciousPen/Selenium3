@@ -50,6 +50,7 @@ public class Scenario10 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 	
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 4;
@@ -57,7 +58,8 @@ public class Scenario10 extends ScenarioBaseTest {
 	protected List<LocalDateTime> installmentDueDatesOfRenewal;
 	protected int installmentsCountOfRenewal = 11;
 	
-	//protected String[] endorsementReasonDataKeys;
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -72,9 +74,14 @@ public class Scenario10 extends ScenarioBaseTest {
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size());
+		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
+		
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 	
 	protected void generateFirstBill() {
@@ -146,11 +153,11 @@ public class Scenario10 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
-		/*
+		
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		}
-		*/
+		
 	}
 
 	protected void generateRenewalBill() {
@@ -164,6 +171,10 @@ public class Scenario10 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
+		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 	
@@ -176,7 +187,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		Tab.buttonCancel.click();
 	}
 	
-	//For Auto SS & Home SS
+	//For SS - Auto & Home
 	protected void changePaymentPlan() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -201,68 +212,59 @@ public class Scenario10 extends ScenarioBaseTest {
 		}
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingSummaryPage.showPriorTerms();		
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
-		if (getPolicyType().isAutoPolicy()) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyPresent(); 
-		}
-		else {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay Standard (Renewal)").verifyPresent(); 
-		}
+		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_ACTIVE, PolicyStatus.PROPOSED);
 		
-		BillingSummaryPage.buttonHidePriorTerms.click();
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan", 
 				installmentsCountOfRenewal, installmentDueDatesOfRenewal.size());
 		
 	}
 	
-	//For Auto CA & Home CA
+	//For CA - Auto & Home 
 	protected void changePaymentPlanForCA() {
 		LocalDateTime renewOfferDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent();
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate); 
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
+		BillingSummaryPage.buttonHidePriorTerms.click();
+		//Dollar minDue = BillingSummaryPage.getMinimumDue();
 		
 		billingAccount.changePaymentPlan().perform(tdBilling.getTestData("ChangePaymentPlan", "TestData_ChangePaymentPlanToMonthly"));
 		
-		BillingSummaryPage.showPriorTerms();		
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
-	
-		HashMap<String, String> query = new HashMap<>();
-		query.put(BillingAccountPoliciesTable.EFF_DATE, policyExpirationDate.format(DateTimeUtils.MM_DD_YYYY));
-		query.put(BillingAccountPoliciesTable.POLICY_STATUS, PolicyStatus.PROPOSED);
-		query.put(BillingAccountPoliciesTable.PAYMENT_PLAN, "Monthly");
+		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_ACTIVE, PolicyStatus.PROPOSED);
 		
-		BillingSummaryPage.tableBillingAccountPolicies.getRowContains(query).verify.present();
-		
-		BillingSummaryPage.buttonHidePriorTerms.click();
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Standard Monthly (Renewal) payment plan", 
 				installmentsCountOfRenewal, installmentDueDatesOfRenewal.size()); 
 		
-		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).verifyPresent();
+		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).setMinDue(minDue).verifyPresent();
 		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-		.setSubtypeReason("EFT Installment Fee").verifyPresent(); 
+			.setSubtypeReason("EFT Installment Fee - Credit Card").verifyPresent(); 
+		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-		.setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 
+			.setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 
 		
 		verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCountOfRenewal);
 		
 	}
 	
-	//For AutoSS
+	//For SS - Auto & Home
 	protected void payRenewalBill() {
-		payCashAndCheckBill(policyExpirationDate);
+		payCashAndCheckBill(policyExpirationDate); 
+		
+		verifyPaymentPlan();
 	}
 	
-	//For AutoCA
+	//For CA - Auto & Home
 	protected void payRenewalOffer() {
 		payAndCheckBill(policyExpirationDate);
+		
+		verifyPaymentPlan();
 	}
 	
 	protected void updatePolicyStatus() {
@@ -272,10 +274,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		BillingSummaryPage.showPriorTerms();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-	}
+		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_EXPIRED, PolicyStatus.POLICY_ACTIVE);
+	}	
 	
 	protected void generateFirstBillOfRenewal(){
 		generateAndCheckBill(installmentDueDatesOfRenewal.get(1)); 
@@ -297,6 +297,41 @@ public class Scenario10 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
+	private String getRenewalPaymentPlan() { 
+		String renewalPaymentPlan;
+		if (getState().equals(Constants.States.CA)) {
+			if (getPolicyType().isAutoPolicy()) {
+				renewalPaymentPlan = "Standard Monthly (Renewal)";
+			}
+			else {
+				renewalPaymentPlan = "Monthly Standard (Renewal)";
+			}
+		}
+		else {
+			if (getPolicyType().isAutoPolicy()) {
+				renewalPaymentPlan = "Eleven Pay - Standard (Renewal)";
+			}
+			else {
+				renewalPaymentPlan = "Eleven Pay Standard (Renewal)";
+			}
+		}
+		return renewalPaymentPlan;
+	}
+	
+	protected void verifyPaymentPlanAndStatus(String policyStatus, String renewalStatus) {
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(policyStatus).setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate); 
+		new BillingAccountPoliciesVerifier().setPolicyStatus(renewalStatus).setPaymentPlan(getRenewalPaymentPlan()).verifyRowWithEffectiveDate(policyExpirationDate); 
+		BillingSummaryPage.buttonHidePriorTerms.click();
+	}
+	
+	protected void verifyPaymentPlan() {
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPaymentPlan("Quarterly").verifyRowWithEffectiveDate(policyEffectiveDate); 
+		new BillingAccountPoliciesVerifier().setPaymentPlan(getRenewalPaymentPlan()).verifyRowWithEffectiveDate(policyExpirationDate); 
+		BillingSummaryPage.buttonHidePriorTerms.click();
+	}
+	
 	/*
 	private void payCreditCardAndCheckBill(LocalDateTime installmentDueDate) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);

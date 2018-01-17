@@ -26,12 +26,12 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_006_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_006_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
 		aaa.main.modules.policy.auto_ss.actiontabs.ReinstatementActionTab reinstatementTab = new aaa.main.modules.policy.auto_ss.actiontabs.ReinstatementActionTab();
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
@@ -52,12 +52,12 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_007_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_007_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
 		aaa.main.modules.policy.auto_ss.actiontabs.ReinstatementActionTab reinstatementTab = new aaa.main.modules.policy.auto_ss.actiontabs.ReinstatementActionTab();
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
@@ -75,12 +75,12 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_010_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_010_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 		ReinstatementActionTab reinstatementTab = new ReinstatementActionTab();
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
@@ -104,12 +104,12 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_011_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_011_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 		ReinstatementActionTab reinstatementTab = new ReinstatementActionTab();
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
@@ -127,12 +127,12 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_014_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_014_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 		aaa.main.modules.policy.auto_ca.actiontabs.ReinstatementActionTab reinstatementTab = new aaa.main.modules.policy.auto_ca.actiontabs.ReinstatementActionTab();
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
@@ -145,11 +145,11 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_016_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_016_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 

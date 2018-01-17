@@ -111,8 +111,15 @@ public class ScenarioBaseTest extends BaseTest {
 		String policyNum = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.POLICY_NUM).getValue();
 		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate, policyNum);
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
+		Dollar previousTermMinDueAmount = new Dollar(0);
+		Dollar renewalTermTotalPaid = new Dollar(0);
+		if (BillingSummaryPage.tableBillingAccountPolicies.getRow(2).isPresent()) {
+			previousTermMinDueAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue());
+			renewalTermTotalPaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.TOTAL_PAID).getValue());
+		}
+		
 
-		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee);
+		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee).add(previousTermMinDueAmount).subtract(renewalTermTotalPaid);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
 	}
 

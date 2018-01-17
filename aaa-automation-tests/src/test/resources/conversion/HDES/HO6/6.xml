@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+<!-- Original file name: 20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_ZM81007 -->
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005330</agencyLocation>
+    <agentCd>82280788</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2018-02-01T00:00:00</effective>
+    <expiration>2019-02-01T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <isAdditionalPolicy>true</isAdditionalPolicy>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO6</policyFormCd>
+    <preConversionPolicyNumber>ZM81007</preConversionPolicyNumber>
+    <preConversionPolicyPremium>569</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>ZM81007</sourcePolicyNum>
+    <subProducerCd>82280788</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <HO438BFUNSEndorsementForm state="Created"></HO438BFUNSEndorsementForm>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>MONTEREY</dwellAddressCity>
+      <dwellAddressLine1>500 GLENWOOD CIR</dwellAddressLine1>
+      <dwellAddressLine2>APT 2112</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93940</dwellAddressZip>
+      <expirationDate>2018-03-08T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>8319154153</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>JENKINS</insurerName>
+      <policyNumber>4290057854489813</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1970-09-28T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>SARA</firstName>
+      <lastName>JENKINS</lastName>
+      <occupationDesc>Middle_Management</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>500 GLENWOOD CIR</addressLine1>
+        <addressLine2>APT 2112</addressLine2>
+        <city>MONTEREY</city>
+        <dateOfBirth>1970-09-28T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>SARA</firstName>
+        <lastName>JENKINS</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>93940</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>500 GLENWOOD CIR</addressLine1>
+        <addressLine2>APT 2112</addressLine2>
+        <city>MONTEREY</city>
+        <countryCd>US</countryCd>
+        <postalCode>93940</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOOtherOrPriorPolicyComponent state="Created">
+      <autoBILimit>$500,000/$500,000</autoBILimit>
+      <autoPolicyPending>false</autoPolicyPending>
+      <policyEffectiveDate>2018-02-01T00:00:00</policyEffectiveDate>
+      <policyNumber>On File- Conversion</policyNumber>
+      <productCd>Auto</productCd>
+      <stateCd>CA</stateCd>
+    </AAAHOOtherOrPriorPolicyComponent>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Mortgagee</billToAtRenewal>
+      <paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2016-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>2</noOfYearsWithHO>
+      <policyType>HO6</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>MONTEREY</dwellAddressCity>
+      <dwellAddressLine1>500 GLENWOOD CIR</dwellAddressLine1>
+      <dwellAddressLine2>APT 2112</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93940</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <isoReplacementCost>89400</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>1</numberOfStories>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Builtup Tar &amp; Gravel</roofType>
+      <status>Valid</status>
+      <yearBuilt>1970</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAMembershipOrder state="Created">
+      <lastName>JENKINS</lastName>
+      <membershipNumber>4290057854489813</membershipNumber>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <receiptDate>2017-12-08T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>MONTEREY</dwellAddressCity>
+      <dwellAddressLine1>500 GLENWOOD CIR</dwellAddressLine1>
+      <dwellAddressLine2>APT 2112</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93940</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <ppcValue>2</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>2</aaaFirelineScore>
+      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>500 GLENWOOD CIR</addressLine1>
+      <addressLine2>APT 2112</addressLine2>
+      <city>MONTEREY</city>
+      <firelineMatchType>Address</firelineMatchType>
+      <numberOfFamilies>1</numberOfFamilies>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>93940</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>89400</limitAmount>
+      </AAACoverageA>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>53500</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>10700</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>300000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>5000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>89400</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <replacementCost>89400</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Builtup Tar &amp; Gravel</roofType>
+        <yearBuilt>1970</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAHOMortgageeInfo state="Created">
+        <accountNumber>0526751128</accountNumber>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>FLORENCE</city>
+        <mortagageeAddressLine1>PO BOX 100515</mortagageeAddressLine1>
+        <name>WELLS FARGO BANK, N.A. #936, ISAOA</name>
+        <postalCode>29502</postalCode>
+        <rank>1</rank>
+        <stateProvCd>SC</stateProvCd>
+        <useLegalMortgagee>false</useLegalMortgagee>
+      </AAAHOMortgageeInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>MONTEREY</fireDistrict>
+        <oldPpcValue>2</oldPpcValue>
+        <ppcValue>2</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>500</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>500 GLENWOOD CIR</addressLine1>
+          <addressLine2>APT 2112</addressLine2>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>MONTEREY</city>
+          <county>Monterey</county>
+          <postalCode>93940</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO0455EndorsementForm state="Created"></HO0455EndorsementForm>
+    <HO0496EndorsementForm state="Created"></HO0496EndorsementForm>
+    <HW0915EndorsementForm state="Created"></HW0915EndorsementForm>
+    <HO1732EndorsementForm state="Created"></HO1732EndorsementForm>
+    <HO28EndorsementForm state="Created"></HO28EndorsementForm>
+    <HO29EndorsementForm state="Created"></HO29EndorsementForm>
+    <HO59CEndorsementForm state="Created"></HO59CEndorsementForm>
+    <HO90EndorsementForm state="Created"></HO90EndorsementForm>
+    <HW0008EndorsementForm state="Created"></HW0008EndorsementForm>
+    <HW0104EndorsementForm state="Created"></HW0104EndorsementForm>
+    <HW0435EndorsementForm state="Created">
+      <address1>500 GLENWOOD CIR</address1>
+      <address2>APT 2112</address2>
+      <city>MONTEREY</city>
+      <coverageLimit>50000</coverageLimit>
+      <location>ResidencePremises</location>
+      <otherStructureDescription>ResidencePremises</otherStructureDescription>
+      <state>CA</state>
+      <zip>93940</zip>
+    </HW0435EndorsementForm>
+    <HW0906EndorsementForm state="Created"></HW0906EndorsementForm>
+    <HW2482EndorsementForm state="Created"></HW2482EndorsementForm>
+    <PreconfigPersonInfo state="Created">
+      <AAAHOMailingAddressComponent state="Created">
+        <addressLine1>500 GLENWOOD CIR</addressLine1>
+        <addressLine2>APT 2112</addressLine2>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>MONTEREY</city>
+        <countryCd>US</countryCd>
+        <county>Monterey</county>
+        <postalCode>93940</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAHOMailingAddressComponent>
+    </PreconfigPersonInfo>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Dwelling address validated and standardized</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 500 GLENWOOD CIR #2112 MONTEREY CA 93940 to 500 GLENWOOD CIR APT 2112 MONTEREY CA 93940</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 500 GLENWOOD CIR #2112  MONTEREY CA 93940 to 500 GLENWOOD CIR APT 2112 MONTEREY CA 93940</userText>
+  </userNote>
+</Policy>

@@ -16,11 +16,11 @@ import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.models.CreateDocuments;
-import aaa.helpers.xml.models.Document;
-import aaa.helpers.xml.models.DocumentDataElement;
-import aaa.helpers.xml.models.DocumentDataSection;
-import aaa.helpers.xml.models.StandardDocumentRequest;
+import aaa.helpers.xml.model.CreateDocuments;
+import aaa.helpers.xml.model.Document;
+import aaa.helpers.xml.model.DocumentDataElement;
+import aaa.helpers.xml.model.DocumentDataSection;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
@@ -39,9 +39,9 @@ public class DocGenHelper {
 	 */
 	public static void clearDocGenFolders() {
 		try {
-			RemoteHelper.clearFolder(DocGenHelper.JOBS_DOCGEN_SOURCE_FOLDER);
-			RemoteHelper.clearFolder(DocGenHelper.DOCGEN_SOURCE_FOLDER);
-			RemoteHelper.clearFolder(DocGenHelper.DOCGEN_BATCH_SOURCE_FOLDER);
+			RemoteHelper.clearFolder(JOBS_DOCGEN_SOURCE_FOLDER);
+			RemoteHelper.clearFolder(DOCGEN_SOURCE_FOLDER);
+			RemoteHelper.clearFolder(DOCGEN_BATCH_SOURCE_FOLDER);
 		} catch (Exception e) {
 			Assert.fail("Clearing doc gen folder failed: \n", e);
 		}
@@ -79,7 +79,7 @@ public class DocGenHelper {
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
 
-		final int searchRetryDelay = 5;
+		int searchRetryDelay = 5;
 		int searchAttempt = 1;
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
 		while (documentsExistence && searchAttempt < 3 && !isRequestValid(documentWrapper, policyNumber, documents)) {
@@ -166,7 +166,7 @@ public class DocGenHelper {
 	}
 
 	public static String convertToZonedDateTime(LocalDateTime date) {
-		final String zoneId = RemoteHelper.getServerTimeZone();
+		String zoneId = RemoteHelper.getServerTimeZone();
 		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 
@@ -222,7 +222,7 @@ public class DocGenHelper {
 	 *@param eventName event name of the generated document
 	 */
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, String eventName) {
-		final long conditionCheckPoolingIntervalInSeconds = 1;
+		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
 
 		long searchStart = System.currentTimeMillis();

@@ -90,4 +90,27 @@
             <class name="aaa.modules.docgen.delta.home_ss.ho3.TestVADocgenScenarios" />
         </classes>
     </test>
+    
+	<test name="Document_Fulfillment_Home_SS_HO3_TestScenario1">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestScenario1" />
+        </classes>
+    </test>
+    
+	<!-- 
+	<test name="Document_Fulfillment_Home_SS_HO3_TestScenario2">
+        <parameter name="state" value="VA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+     -->
+     
+	<test name="Document_Fulfillment_Home_SS_HO6_TestScenario1">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.TestScenario1" />
+        </classes>
+    </test>
 </suite>

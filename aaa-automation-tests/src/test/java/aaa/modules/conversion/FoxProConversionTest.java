@@ -99,6 +99,8 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 	public void foxProConversion(String file, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
+		mainApp().open();
+		createCustomerIndividual();
 		Map<String, String> policies = getPrimaryPoliciesForPup();
 		ConversionPolicyData data = new FoxProConversionData(file, effDate, policies.get("Primary_HO3"), policies.get("Primary_Auto"));
 		String policyNum = ConversionUtils.importPolicy(data, context);
@@ -136,7 +138,10 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 	public void foxProConversion_renewWithLapse(String file, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
-		ConversionPolicyData data = new FoxProConversionData(file, effDate, "CAH3951727547", "CAAC951727567");
+		mainApp().open();
+		createCustomerIndividual();
+		Map<String, String> policies = getPrimaryPoliciesForPup();
+		ConversionPolicyData data = new FoxProConversionData(file, effDate, policies.get("Primary_HO3"), policies.get("Primary_Auto"));
 		String policyNum = ConversionUtils.importPolicy(data, context);
 
 		mainApp().open();

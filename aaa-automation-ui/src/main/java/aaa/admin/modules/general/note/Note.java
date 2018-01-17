@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.modules.general.note;
 
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.admin.modules.general.note.NoteActions.DeleteNoteCategory;
 import aaa.admin.modules.general.note.NoteActions.DisableNoteCategory;
 import aaa.admin.modules.general.note.defaulttabs.AddNoteCategoryTab;

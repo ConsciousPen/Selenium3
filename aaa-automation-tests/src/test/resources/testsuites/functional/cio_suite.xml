@@ -1,13 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sixth Sense Functional Test Suite" verbose="1" parallel="false" thread-count="1">
-    <!-- Listener commented out for local runs
+<suite name="CIO Functional Test Suite" verbose="1" parallel="false" thread-count="1">
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>-->
+     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-
-    <test name="Test Defensive Driver Discount">
+    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS">
         <!--<parameter name="state" value="AZ"/>-->
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
