@@ -6,12 +6,10 @@
     <version>2.0-SNAPSHOT</version>
     <name>AAA-ETCSA parent</name>
     <packaging>pom</packaging>
-
     <modules>
         <module>aaa-automation-ui</module>
         <module>aaa-automation-tests</module>
     </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- <project.version>1.0-SNAPSHOT</project.version> -->
@@ -19,11 +17,9 @@
         <pef.version>1.7.6.2</pef.version>
         <etcs.version>8.18</etcs.version>
         <webdriver.version>3.6.0</webdriver.version>
-        <testanalytics.version>2.15.1-01</testanalytics.version>
-        <!-- <testanalytics.version>2.16.0</testanalytics.version>-->
+        <testanalytics.version>2.16.0</testanalytics.version>
         <!--<product>ALL</product> -->
     </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -36,7 +32,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -57,7 +52,6 @@
             </plugin>
         </plugins>
     </build>
-
     <dependencies>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -65,33 +59,28 @@
             <version>${webdriver.version}</version>
         </dependency>
         <dependency>
-
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.11</version>
         </dependency>
-
         <!-- EIS BASE CORE -->
         <dependency>
             <groupId>com.exigen.eis</groupId>
             <artifactId>etcs-automation-core</artifactId>
             <version>${etcs.version}</version>
             <exclusions>
-              <exclusion>
+                <exclusion>
                     <groupId>com.exigen.istf</groupId>
                     <artifactId>istf-core</artifactId>
                 </exclusion>
-
                 <exclusion>
                     <groupId>com.exigen.istf.exec</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
-
-               <!-- <exclusion>
-                    <groupId>org.jsoup</groupId>
-                    <artifactId>jsoup</artifactId>
-                </exclusion>-->
-
+                <!-- <exclusion>
+                     <groupId>org.jsoup</groupId>
+                     <artifactId>jsoup</artifactId>
+                 </exclusion>-->
                 <exclusion>
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
@@ -116,7 +105,6 @@
             <artifactId>test-analytics-listener</artifactId>
             <version>${testanalytics.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.uncommons</groupId>
             <artifactId>reportng</artifactId>
@@ -130,7 +118,6 @@
             </exclusions>
         </dependency>
         <!-- ISTF Artifacts END -->
-
         <!-- PEF Artifacts START -->
         <dependency>
             <groupId>com.exigen.istf.exec</groupId>
@@ -153,7 +140,6 @@
             <version>${pef.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.exigen.istf.exec</groupId>
             <artifactId>istf-exec-web-console</artifactId>
@@ -166,20 +152,17 @@
             </exclusions>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.exigen.istf.exec</groupId>
             <artifactId>istf-exec-timeshift-client</artifactId>
             <version>${pef.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.exigen.istf.exec</groupId>
             <artifactId>istf-exec-browser</artifactId>
             <version>${pef.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.exigen.istf.timesetter</groupId>
             <artifactId>istf-timesetter-client</artifactId>
@@ -196,7 +179,6 @@
             </exclusions>
         </dependency>
         <!-- PEF Artifacts END -->
-
         <!--CXF REST client dependency-->
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -224,7 +206,6 @@
             <version>1.2.16</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>cn.guoyukun.jdbc</groupId>
             <artifactId>oracle-ojdbc6</artifactId>
@@ -261,42 +242,36 @@
             <artifactId>fugue</artifactId>
             <version>2.2.1</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core -->
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-core</artifactId>
             <version>2.3.0</version>
         </dependency>
-
         <!--Yaml buglist reader related dependency -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.18</version>
         </dependency>
-
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
             <optional>true</optional>
             <version>2.0.3</version>
         </dependency>
-
         <dependency>
             <groupId>com.jayway.awaitility</groupId>
             <artifactId>awaitility</artifactId>
             <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
-
         <!--CSV parser dependency-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.4</version>
         </dependency>
-
         <!--Apache POI to read/write excel files-->
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <dependency>
@@ -310,7 +285,5 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
-
-
     </dependencies>
 </project>
