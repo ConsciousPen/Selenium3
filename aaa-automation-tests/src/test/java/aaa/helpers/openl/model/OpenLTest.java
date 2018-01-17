@@ -4,12 +4,12 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLTest {
 	@ExcelTableColumnElement(isPrimaryKey = true)
-	private int policy;
+	private Integer policy;
 
 	@ExcelTableColumnElement(name = "Total Premium")
-	private int totalPremium;
+	private Integer totalPremium;
 
-	public int getPolicy() {
+	public Integer getPolicy() {
 		return policy;
 	}
 

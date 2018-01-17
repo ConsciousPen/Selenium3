@@ -3,23 +3,26 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
-	AutoTestDataGenerator(String state) {
-		super(state);
-	}
 
 	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -36,21 +39,16 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getDriverTabMartialStatus(String martialStatus) {
+		// Rating engine accepts S, M and W
 		switch (martialStatus) {
 			case "M":
-				return "Married";
+				return getRandom("Married", "Registered Domestic Partner");//, "Common Law", "Civil Union");
 			case "S":
-				return "Single";
-			case "D":
-				return "Divorced";
+				return getRandom("Single", "Divorced", "Separated");
 			case "W":
 				return "Widowed";
-			case "P": //TODO-dchubkov: double check openl value
-				return "Separated";
-			case "R":
-				return "Registered Domestic Partner";
 			default:
-				throw new IstfException("Unknown mapping for martialStatus: " + martialStatus);
+				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
 		}
 	}
 
@@ -75,36 +73,98 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|Not Licensed|Learner's Permit|";
 	}
 
-	String getVehicleTabUsage(String usage) {
-		switch (usage) {
-			case "A":
-				return "Artisan";
-			case "B":
-				return "Business";
-			case "F":
-				return "Farm";
-			case "W1": // <15 miles to school or work
-			case "W2": // 15+ miles to school or work
-				return "Commute";
-			//For Tailer, Golf Cart and Motor Home
-			case "P":
-			case "P1": // Occupied Less than 30 Days a Year
-			case "P2": // Occupied 30-150 Days a Year
-			case "P3": // Occupied More than 150 Days a Year
-				return "Pleasure"; // or Nano in case of Nano policy
-			case "PT":
-				return "Traveling Primary Residence";
-			case "PR":
-				return "Non-Traveling Primary Residence";
-			default:
-				throw new IstfException("Unknown mapping for usage: " + usage);
+	TestData getVehicleTabInformationData(OpenLVehicle vehicle, boolean isTrailer) {
+		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
+
+		Map<String, Object> vehicleInformation = new HashMap<>();
+		int streetNumber = RandomUtils.nextInt(100, 1000);
+		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
+
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip());
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName));
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode());
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>00");
+
+		if (isTrailerOrMotorHomeUsage(vehicle.getUsage())) {
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), isTrailer ? "Trailer" : "Motor Home");
+			vehicleInformation.put(isTrailer ? AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel() : AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "regex=.*\\S.*");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{100}>");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{100}>");
+		} else {
+			String type = getRandom("Private Passenger Auto", "Conversion Van");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), type);
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "regex=.*\\S.*");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "regex=.*\\S.*");
+			if ("Private Passenger Auto".equals(type)) {
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
+			}
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 		}
+
+		switch (vehicle.getUsage()) {
+			case "A":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Artisan");
+				break;
+			case "B":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Business");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "No");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some description $<rx:\\d{100}>");
+				break;
+			case "F":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Farm");
+				break;
+			case "W1":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Commute");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel(), RandomUtils.nextInt(1, 15));
+				break;
+			case "W2":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Commute");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel(), RandomUtils.nextInt(16, 100));
+				break;
+			case "P":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure"); // or Nano in case of Nano policy
+				break;
+
+			//For Tailer, Golf Cart and Motor Home
+			case "P1":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied Less than 30 Days a Year");
+				break;
+			case "P2":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied 30-150 Days a Year");
+				break;
+			case "P3":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied More than 150 Days a Year");
+				break;
+			case "PT":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Traveling Primary Residence");
+				break;
+			case "PR":
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Non-Traveling Primary Residence");
+				break;
+			default:
+				throw new IstfException("Unknown mapping for usage: " + vehicle.getUsage());
+		}
+
+		return new SimpleDataProvider(vehicleInformation);
+	}
+
+	boolean isTrailerOrMotorHomeUsage(String usage) {
+		return "P1".equals(usage) || "P2".equals(usage) || "P3".equals(usage) || "PT".equals(usage) || "PR".equals(usage);
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
 		if ("N".equals(antiTheft)) {
 			return "None";
 		}
+		//TODO-dchubkov: get UI value for "A", "P", "Y" antiTheft
 		return "Vehicle Recovery Device";
 	}
 
@@ -112,39 +172,14 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		switch (airBagCode) {
 			case "N":
 				return "None";
-			case "0004":
-				return getRandom("Both Front and Side", "Both Front and Side with Rear Side");
-			case "0002":
-				return getRandom("None", "Both Front");
-			case "000B":
-			case "000D":
-			case "000M":
-			case "0001":
+			case "1":
 				return "Driver";
-			case "000C":
-			case "000E":
-			case "000F":
-			case "000L":
-			case "000U":
-			case "000G":
-			case "000J":
-			case "000K":
-			case "000X":
-			case "0003":
-			case "000R":
-			case "000S":
+			case "2":
 				return "Both Front";
-			case "000H":
-			case "000I":
-			case "000Y":
-			case "000V":
-			case "000W":
-			case "0007":
-			case "0006":
-			case "000T":
+			case "3":
 				return "Both Front and Side";
-			case "AUTOSB": //TODO-dchubkov: need to double check
-				return "";
+			case "4":
+				return "Both Front and Side with Rear Side";
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + airBagCode);
 		}
@@ -212,18 +247,13 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
 	}
 
-	TestData getGeneralTabBaseData(Integer aaaInsurancePersistency, Integer aaaAsdInsurancePersistency, LocalDateTime policyEffectiveDate) {
-		assertThat(aaaInsurancePersistency).isEqualTo(aaaAsdInsurancePersistency)
-				.as("\"aaaInsurancePersistency\" openL field should be equal to \"aaaAsdInsurancePersistency\" since both are equally calculated");
-		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), policyEffectiveDate.minusYears(aaaInsurancePersistency).format(DateTimeUtils.MM_DD_YYYY));
-	}
-
 	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDateTime policyEffectiveDate) {
 		assertThat(autoInsurancePersistency).isGreaterThanOrEqualTo(aaaInsurancePersistency)
 				.as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"");
 
-		LocalDateTime inceptionDate =
-				autoInsurancePersistency.equals(aaaInsurancePersistency) ? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
+		LocalDateTime inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
+				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
+
 		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt((int) Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),

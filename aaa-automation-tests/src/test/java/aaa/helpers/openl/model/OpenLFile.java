@@ -56,7 +56,7 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	protected List<OpenLTest> tests;
 
 	public List<OpenLTest> getTests() {
-		return tests;
+		return new ArrayList<>(tests);
 	}
 
 	public void setTests(List<OpenLTest> tests) {

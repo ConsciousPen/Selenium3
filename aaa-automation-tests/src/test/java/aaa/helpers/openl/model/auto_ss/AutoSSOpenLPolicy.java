@@ -40,7 +40,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer insuredAge;
 	private Integer noOfVehiclesExcludingTrailer;
 	private Boolean multiCar;
-	private Boolean supplementalSpousalLiability; // OR specific
+	private Boolean supplementalSpousalLiability; // NY specific (but field was also found in OR file with FALSE value)
 
 	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
@@ -59,28 +59,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.term = term;
 	}
 
-	public Boolean isHomeOwner() {
-		return isHomeOwner;
-	}
-
-	public void setHomeOwner(Boolean homeOwner) {
-		isHomeOwner = homeOwner;
-	}
-
 	public Integer getCreditScore() {
 		return creditScore;
 	}
 
 	public void setCreditScore(Integer creditScore) {
 		this.creditScore = creditScore;
-	}
-
-	public Boolean isAAAMember() {
-		return isAAAMember;
-	}
-
-	public void setAAAMember(Boolean isAAAMember) {
-		this.isAAAMember = isAAAMember;
 	}
 
 	public String getAaaHomePolicy() {
@@ -105,30 +89,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	public void setAaaCondoPolicy(String aaaCondoPolicy) {
 		this.aaaCondoPolicy = aaaCondoPolicy;
-	}
-
-	public Boolean isAaaLifePolicy() {
-		return aaaLifePolicy;
-	}
-
-	public void setAaaLifePolicy(Boolean aaaLifePolicy) {
-		this.aaaLifePolicy = aaaLifePolicy;
-	}
-
-	public Boolean isAaaMotorcyclePolicy() {
-		return aaaMotorcyclePolicy;
-	}
-
-	public void setAaaMotorcyclePolicy(Boolean aaaMotorcyclePolicy) {
-		this.aaaMotorcyclePolicy = aaaMotorcyclePolicy;
-	}
-
-	public Boolean isEMember() {
-		return isEMember;
-	}
-
-	public void setEMember(Boolean isEMember) {
-		this.isEMember = isEMember;
 	}
 
 	public Integer getMemberPersistency() {
@@ -163,30 +123,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.aaaAsdInsurancePersistency = aaaAsdInsurancePersistency;
 	}
 
-	public Boolean isAARP() {
-		return isAARP;
-	}
-
-	public void setAARP(Boolean isAARP) {
-		this.isAARP = isAARP;
-	}
-
-	public Boolean isEmployee() {
-		return isEmployee;
-	}
-
-	public void setEmployee(Boolean employee) {
-		isEmployee = employee;
-	}
-
-	public Boolean isAdvanceShopping() {
-		return isAdvanceShopping;
-	}
-
-	public void setAdvanceShopping(Boolean advanceShopping) {
-		isAdvanceShopping = advanceShopping;
-	}
-
 	public String getPaymentPlanType() {
 		return paymentPlanType;
 	}
@@ -201,14 +137,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	public void setDistributionChannel(String distributionChannel) {
 		this.distributionChannel = distributionChannel;
-	}
-
-	public Boolean isUnacceptableRisk() {
-		return unacceptableRisk;
-	}
-
-	public void setUnacceptableRisk(Boolean unacceptableRisk) {
-		this.unacceptableRisk = unacceptableRisk;
 	}
 
 	public String getPriorBILimit() {
@@ -276,7 +204,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<OpenLCappingDetails> getCappingDetails() {
-		return cappingDetails;
+		return new ArrayList<>(cappingDetails);
 	}
 
 	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
@@ -284,7 +212,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<OpenLVehicle> getVehicles() {
-		return vehicles;
+		return new ArrayList<>(vehicles);
 	}
 
 	public void setVehicles(List<OpenLVehicle> vehicles) {
@@ -299,24 +227,52 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.noOfVehiclesExcludingTrailer = noOfVehiclesExcludingTrailer;
 	}
 
-	public Boolean isMultiCar() {
-		return multiCar;
-	}
-
-	public void setMultiCar(Boolean multiCar) {
-		this.multiCar = multiCar;
-	}
-
 	public List<OpenLDriver> getDrivers() {
-		return drivers;
+		return new ArrayList<>(drivers);
 	}
 
 	public void setDrivers(List<OpenLDriver> drivers) {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
-	public Boolean isSupplementalSpousalLiability() {
-		return supplementalSpousalLiability;
+	public void setHomeOwner(Boolean homeOwner) {
+		isHomeOwner = homeOwner;
+	}
+
+	public void setAAAMember(Boolean isAAAMember) {
+		this.isAAAMember = isAAAMember;
+	}
+
+	public void setAaaLifePolicy(Boolean aaaLifePolicy) {
+		this.aaaLifePolicy = aaaLifePolicy;
+	}
+
+	public void setAaaMotorcyclePolicy(Boolean aaaMotorcyclePolicy) {
+		this.aaaMotorcyclePolicy = aaaMotorcyclePolicy;
+	}
+
+	public void setEMember(Boolean isEMember) {
+		this.isEMember = isEMember;
+	}
+
+	public void setAARP(Boolean isAARP) {
+		this.isAARP = isAARP;
+	}
+
+	public void setEmployee(Boolean employee) {
+		isEmployee = employee;
+	}
+
+	public void setAdvanceShopping(Boolean advanceShopping) {
+		isAdvanceShopping = advanceShopping;
+	}
+
+	public void setUnacceptableRisk(Boolean unacceptableRisk) {
+		this.unacceptableRisk = unacceptableRisk;
+	}
+
+	public void setMultiCar(Boolean multiCar) {
+		this.multiCar = multiCar;
 	}
 
 	public void setSupplementalSpousalLiability(Boolean supplementalSpousalLiability) {
@@ -360,5 +316,49 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 				", multiCar=" + multiCar +
 				", drivers=" + drivers +
 				'}';
+	}
+
+	public Boolean isHomeOwner() {
+		return isHomeOwner;
+	}
+
+	public Boolean isAAAMember() {
+		return isAAAMember;
+	}
+
+	public Boolean isAaaLifePolicy() {
+		return aaaLifePolicy;
+	}
+
+	public Boolean isAaaMotorcyclePolicy() {
+		return aaaMotorcyclePolicy;
+	}
+
+	public Boolean isEMember() {
+		return isEMember;
+	}
+
+	public Boolean isAARP() {
+		return isAARP;
+	}
+
+	public Boolean isEmployee() {
+		return isEmployee;
+	}
+
+	public Boolean isAdvanceShopping() {
+		return isAdvanceShopping;
+	}
+
+	public Boolean isUnacceptableRisk() {
+		return unacceptableRisk;
+	}
+
+	public Boolean isMultiCar() {
+		return multiCar;
+	}
+
+	public Boolean isSupplementalSpousalLiability() {
+		return supplementalSpousalLiability;
 	}
 }

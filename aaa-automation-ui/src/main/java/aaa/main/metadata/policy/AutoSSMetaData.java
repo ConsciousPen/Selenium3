@@ -405,6 +405,9 @@ public final class AutoSSMetaData {
 				declare("List of Vehicle", FillableTable.class, ListOfVehicleRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListVehicle']/div/table"));
 		public static final AssetDescriptor<Button> ADD_VEHICLE = declare("Add Vehicle", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addVehicle"));
 		public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> TRAILER_TYPE = declare("Trailer Type", AdvancedComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> MOTOR_HOME_TYPE = declare("Motor Home Type", AdvancedComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> PRIMARY_OPERATOR = declare("Primary operator", AdvancedComboBox.class);
 		public static final AssetDescriptor<AssetListConfirmationDialog> CHANGE_VEHICLE_CONFIRMATION =
 				declare("Change Vehicle Confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.xpath(".//div[@id='confirmVehicleTypeChangePopup_container']"));
 		public static final AssetDescriptor<ComboBox> USAGE = declare("Usage", ComboBox.class);
@@ -425,6 +428,8 @@ public final class AutoSSMetaData {
 				declare("Stated Amount", TextBox.class, By.xpath(".//input[@id='policyDataGatherForm:vehicleInformation_vehicleRatingInfo_costPurchase']"));
 		public static final AssetDescriptor<ComboBox> EXISTING_DAMAGE = declare("Existing Damage", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> SALVAGED = declare("Salvaged?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS = declare("Is the vehicle used in any commercial business operations?", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> BUSINESS_USE_DESCRIPTION = declare("Business Use Description", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AIR_BAGS = declare("Air Bags", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ANTI_THEFT = declare("Anti-theft", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> ALTERNATIVE_FUEL_VEHICLE = declare("Alternative Fuel Vehicle", RadioGroup.class);

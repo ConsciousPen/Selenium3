@@ -32,11 +32,15 @@ public class ExcelUnmarshaller {
 	}
 
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
-		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch, true);
+		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch);
 	}
 
 	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel) {
-		return unmarshal(excelManager, excelFileModel, false, true);
+		return unmarshal(excelManager, excelFileModel, false);
+	}
+
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch) {
+		return unmarshal(excelManager, excelFileModel, strictMatch, true);
 	}
 
 	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, boolean closeManagerOnFinish) {

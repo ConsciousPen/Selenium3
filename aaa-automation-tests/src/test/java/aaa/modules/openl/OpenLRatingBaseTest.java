@@ -73,9 +73,12 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected <O extends OpenLFile<P>> Map<P, Integer> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
 
-		ExcelTable policiesTable = openLFileManager.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
-		List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
-		policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()])).setComparisonRules(false, true);
+		if (CollectionUtils.isNotEmpty(policyNumbers)) {
+			// Exclude extra rows from policies table to reduce time required for excel unmarshalling
+			ExcelTable policiesTable = openLFileManager.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
+			List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
+			policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()])).setComparisonRules(false, true);
+		}
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
 		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
