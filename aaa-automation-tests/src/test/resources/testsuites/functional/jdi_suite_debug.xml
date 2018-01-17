@@ -7,150 +7,208 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
+    <test name="HO pas7039_newDataElementsDeceasedNo">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas7039_newDataElementsDeceasedNo"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
+    <test name="HO pas7039_newDataElementsDeceasedYes">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
+                    <include name="pas7039_newDataElementsDeceasedYes"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
-        <parameter name="state" value="VA"/>
+    <test name="HO pas7298_pendingAutomatedRefundsACH">
+        <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas7298_pendingAutomatedRefundsACH"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
+    <test name="HO pas7298_pendingAutomatedRefundsCC">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership">
-        <parameter name="state" value="VA"/>
+    <test name="HO pas7298_pendingManualRefundsACH">
+        <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas7298_pendingManualRefundsACH"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal">
+    <test name="HO pas7298_pendingManualRefundsCC">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
+                    <include name="pas7298_pendingManualRefundsCC"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending">
-        <parameter name="state" value="DC"/>
+    <test name="PUP pas7039_newDataElementsDeceasedNo">
+        <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
                 <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                    <include name="pas7039_newDataElementsDeceasedNo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP pas7039_newDataElementsDeceasedYes">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7039_newDataElementsDeceasedYes"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP pas7298_pendingAutomatedRefundsCC">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP pas7298_pendingAutomatedRefundsCheck">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP pas7298_pendingManualRefundsCC">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PUP pas7298_pendingManualRefundsCheck">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsCheck"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT">
+    <test name="AU pas7298_pendingAutomatedRefundsACH">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
+                    <include name="pas7298_pendingAutomatedRefundsACH"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard">
+    <test name="AU pas7298_pendingAutomatedRefundsCC">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="pendingRefundPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas2186_RefundProcessCheck">
+    <test name="AU pas7298_pendingAutomatedRefundsCheck">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="pas2186_RefundProcessCheck"/>
+                    <include name="pas7298_pendingAutomatedRefundsCheck"/>
                 </methods>
             </class>
         </classes>
     </test>
+    <test name="AU pas7298_pendingAutomatedRefundsDC">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingAutomatedRefundsDC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="AU pas7298_pendingManualRefundsACH">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsACH"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="AU pas7298_pendingManualRefundsCC">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="AU pas7298_pendingManualRefundsCheck">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="AU pas7298_pendingManualRefundsDC">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsDC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 
 </suite>
