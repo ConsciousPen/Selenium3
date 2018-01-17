@@ -1,0 +1,22 @@
+# ------------------ Other Active Policies ------------------
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: 'Yes',
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: Auto,
+    Policy Number: Primary_Auto
+  },
+  ActiveUnderlyingPoliciesManual: {}
+}
+
+# ------------------- OH Auto Prefill Tab -------------------
+
+PrefillTab_OH: {
+  Zip Code: '44057',
+  Address Line 1: 498 HYDER DR,
+  Policy State: 'OH',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
