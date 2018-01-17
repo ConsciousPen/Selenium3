@@ -125,7 +125,7 @@ public interface EvalueInsertSetupPreConditions {
             + "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
     String CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-            + "set value = 'http://%s::9098/aaa-external-stub-services-app/ws/channelIdResolver'\n"
+            + "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/channelIdResolver'\n"
             + "where propertyname = 'channelIdRetrievalServiceImpl.channelIdRetrievalUri'";
 
     String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
