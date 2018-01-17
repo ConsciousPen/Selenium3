@@ -25,7 +25,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_006_ReinstatePolicy(@Optional("") String state) {
+	public void BCT_ONL_006_ReindstatePolicy(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_006_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
@@ -45,8 +45,10 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
+		PolicySummaryPage.buttonTransactionHistory.click();
 
-		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", "Reinstatement with Lapse", PolicySummaryPage.TransactionHistory.getType(1));
+		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
 	}
 
 	@Parameters({"state"})
@@ -64,12 +66,20 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData"));
+		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation
+				.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		//TODO Check what reinstatement date do we need
+		String reinstatementDate = cancellationDate.plusDays(48).format(DateTimeUtils.MM_DD_YYYY);
+		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), AutoSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
+
+		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, reinstatementDate));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present", false);
+		PolicySummaryPage.verifyLapseExistFlagPresent();
+		PolicySummaryPage.buttonTransactionHistory.click();
 
-		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", PolicySummaryPage.TransactionHistory.getType(1), "Reinstatement");
+		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
 	}
 
 	@Parameters({"state"})
@@ -98,7 +108,10 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 
-		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", "Reinstatement with Lapse", PolicySummaryPage.TransactionHistory.getType(1));
+		PolicySummaryPage.buttonTransactionHistory.click();
+
+		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
 	}
 
 	@Parameters({"state"})
@@ -116,12 +129,20 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData"));
+		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation
+				.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		//TODO Check what reinstatement date do we need
+		String reinstatementDate = cancellationDate.plusDays(48).format(DateTimeUtils.MM_DD_YYYY);
+		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), AutoSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
+
+		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, reinstatementDate));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present", false);
+		PolicySummaryPage.verifyLapseExistFlagPresent();
+		PolicySummaryPage.buttonTransactionHistory.click();
 
-		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", PolicySummaryPage.TransactionHistory.getType(1), "Reinstatement");
+		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement");
 	}
 
 	@Parameters({"state"})

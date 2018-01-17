@@ -320,7 +320,7 @@
     <test name="Service - BCT_ONL_007" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.ReinstatePolicyTest">
                 <methods>
                     <include name="BCT_ONL_007_ReinstatePolicy"/>
                 </methods>
@@ -330,7 +330,7 @@
     <test name="Service - BCT_ONL_010" preserve-order="true">
         <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.ReinstatePolicyTest">
                 <methods>
                     <include name="BCT_ONL_010_ReinstatePolicy"/>
                 </methods>
@@ -350,7 +350,7 @@
     <test name="Service - BCT_ONL_014" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.ReinstatePolicyTest">
                 <methods>
                     <include name="BCT_ONL_014_ReinstatePolicy"/>
                 </methods>
@@ -360,7 +360,7 @@
     <test name="Service - BCT_ONL_016" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.ReinstatePolicyTest">
                 <methods>
                     <include name="BCT_ONL_016_ReinstatePolicy"/>
                 </methods>

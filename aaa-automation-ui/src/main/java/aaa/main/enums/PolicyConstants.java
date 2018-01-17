@@ -95,6 +95,7 @@ public final class PolicyConstants {
         public static final String EFFECTIVE_DATE = "Effective Date";
         public static final String EXPIRATION_DATE = "Expiration Date";
         public static final String CANCELLATION_EFF_DATE = "Cancellation Eff. Date";
+        public static final String CANCELLATION_EFFECTIVE_DATE = "Cancellation Effective Date";
     }
 
     public static final class PolicyClassInformationTable {
