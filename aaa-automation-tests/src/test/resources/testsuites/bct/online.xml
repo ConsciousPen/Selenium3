@@ -340,7 +340,7 @@
     <test name="Service - BCT_ONL_011" preserve-order="true">
         <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.ReinstatePolicyTest">
                 <methods>
                     <include name="BCT_ONL_011_ReinstatePolicy"/>
                 </methods>

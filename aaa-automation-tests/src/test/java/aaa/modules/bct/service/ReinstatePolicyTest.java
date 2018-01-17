@@ -25,7 +25,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_006_ReindstatePolicy(@Optional("") String state) {
+	public void BCT_ONL_006_ReinstatePolicy(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_006_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
