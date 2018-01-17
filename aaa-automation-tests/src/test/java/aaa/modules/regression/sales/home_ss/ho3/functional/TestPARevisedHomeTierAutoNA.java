@@ -46,7 +46,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
         TestData tdHome = getPolicyDefaultTD();
 
-        // Change time to meet new algo effective date requirement (on or after 5/28/18)
+        // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(5));
 
         // Create the customer
@@ -66,6 +66,12 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
         assertThat(applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
                 .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
                 .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER).isPresent());
+
+        // Select N/A for the Auto Policy Tier
+        applicantTab.getAssetList()
+                .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
+                .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
+                .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER).setValue("N/A");
 
         // Submit and continue to the Premiums & Coverages Tab
         applicantTab.submitTab();
@@ -100,7 +106,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
                 .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("TestData_Prefill_OH"));
         TestData tdHome = getPolicyDefaultTD();
 
-        // Change time to meet new algo effective date requirement (on or after 5/28/18)
+        // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(5));
 
         // Create the customer
