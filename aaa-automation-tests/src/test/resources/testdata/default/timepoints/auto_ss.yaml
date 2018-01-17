@@ -80,7 +80,7 @@ TestData_CO: {
   Cancellation: [13, NEXT],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
-  Pay Lapsed Renew long: [16, NEXT],
+  Pay Lapsed Renew long: [16, NONE],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
   Earned premium bill third: [45, NONE],

@@ -306,7 +306,6 @@ public class BaseTest {
 			if (EntitiesHolder.isEntityPresent(key))
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			else {
-				createCustomerIndividual();
 				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
@@ -317,7 +316,6 @@ public class BaseTest {
 				if (EntitiesHolder.isEntityPresent(keyAuto))
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
 				else {
-					createCustomerIndividual();
 					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
 					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));

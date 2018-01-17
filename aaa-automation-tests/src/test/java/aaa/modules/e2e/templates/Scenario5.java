@@ -125,7 +125,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void generateCancellNoticeOneDayBefore() {
-		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).minusDays(1);
+		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).with(DateTimeUtils.previousWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 
@@ -170,7 +170,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void cancelPolicyOneDayBefore() {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(2)).minusDays(1);
+		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(2)).with(DateTimeUtils.previousWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 
