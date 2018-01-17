@@ -306,7 +306,6 @@ public class BaseTest {
 			if (EntitiesHolder.isEntityPresent(key))
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			else {
-				createCustomerIndividual();
 				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
@@ -317,7 +316,6 @@ public class BaseTest {
 				if (EntitiesHolder.isEntityPresent(keyAuto))
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
 				else {
-					createCustomerIndividual();
 					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
 					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
@@ -381,6 +379,7 @@ public class BaseTest {
 		return getStateTestData(tdSpecific, tdName);
 	}
 
+
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
 		if (!td.containsKey(fileName)) {
 			throw new TestDataException("Can't get test data file " + fileName);
@@ -429,7 +428,11 @@ public class BaseTest {
 	}
 
 	protected String initiateManualConversion(){
-		return initiateManualConversion(getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData"));
+		return initiateManualConversion(getManualConversionInitiationTd());
+	}
+
+	protected TestData getManualConversionInitiationTd(){
+		return getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}
 
 	protected String initiateManualConversionR35() {
@@ -437,6 +440,23 @@ public class BaseTest {
 		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
 				new DefaultMarkupParser().parse("$<today+35d:MM/dd/yyyy>"));
 		return initiateManualConversion(td);
+	}
+
+	protected void createConversionPolicy() {
+		createConversionPolicy(getConversionPolicyDefaultTD());
+	}
+
+	protected void createConversionPolicy(TestData td) {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		log.info("Conversion Policy Creation Started...");
+		initiateManualConversion();
+		getPolicyType().get().getDefaultView().fill(td);
+		String policyNumber = PolicySummaryPage.linkPolicy.getValue();
+		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
+	}
+
+	protected TestData getConversionPolicyDefaultTD(){
+		return getPolicyDefaultTD();
 	}
 
 	private void initTestDataForTest() {

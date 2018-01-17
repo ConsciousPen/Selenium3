@@ -170,7 +170,7 @@ OtherCompanionAutoPolicy: {
 AgentInfo: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Draper - 500005417 - Draper',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
   Agent: 'House Account Draper',
   TollFree Number: 1
 }
@@ -1491,7 +1491,7 @@ PropertyInfoTab_OK: {
 }
 
 Construction_OK: {
-    Year built: 2009,
+    Year built: '$<today-8y:yyyy>', #2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',

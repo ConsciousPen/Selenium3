@@ -28,7 +28,7 @@ public abstract class Purchase extends Tab {
 
     public static Table autoPaySetupSavingMessage = new Table (By.id("purchaseForm:installmentFeeAmountSavedPanel"));
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("purchaseForm:installmentFeeDetails"), Waiters.AJAX);
-	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+	public static Table tableInstallmentFeeDetails = new Table(By.id("purchaseForm:installmentFeeDetailsTable"));
 
 
     protected Purchase(Class<? extends MetaData> mdClass) {

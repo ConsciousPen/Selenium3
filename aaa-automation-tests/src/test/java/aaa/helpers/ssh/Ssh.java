@@ -111,7 +111,7 @@ public class Ssh {
 			for (ChannelSftp.LsEntry file : list) {
 				File request = new File(destination.getAbsolutePath() + "/" + file.getFilename());
 				sftpChannel.get(file.getFilename(), destination.getAbsolutePath() + "/" + file.getFilename());
-				String newName = file.getFilename() + ".fullfill";
+				String newName = file.getFilename();// + ".fullfill";
 				response = new File(destination.getAbsolutePath() + "/" + newName);
 				request.renameTo(response);
 			}
@@ -312,6 +312,7 @@ public class Ssh {
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
+				session.setConfig("PreferredAuthentications", "password");
 				if(!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && "true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))){
 					session.setConfig("PreferredAuthentications",
 							"publickey,keyboard-interactive,password");

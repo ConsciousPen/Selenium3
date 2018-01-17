@@ -137,6 +137,9 @@ public class TestContactInformation extends AutoSSBaseTest {
 	private void verificationOfMandatoryPhoneNumber() {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonNext.click();
+		if(driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()&&driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isEnabled()) {
+			driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+		}
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 		DriverActivityReportsTab.buttonNext.click();
 		DocumentsAndBindTab.btnPurchase.click();

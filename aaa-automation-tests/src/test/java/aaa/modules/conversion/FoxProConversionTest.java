@@ -105,6 +105,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		ConversionPolicyData data = new FoxProConversionData(file, effDate, policies.get("Primary_HO3"), policies.get("Primary_Auto"));
 		String policyNum = ConversionUtils.importPolicy(data, context);
 
+		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		fillPolicy(effDate);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -143,6 +144,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		ConversionPolicyData data = new FoxProConversionData(file, effDate, policies.get("Primary_HO3"), policies.get("Primary_Auto"));
 		String policyNum = ConversionUtils.importPolicy(data, context);
 
+		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		fillPolicy(effDate);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);

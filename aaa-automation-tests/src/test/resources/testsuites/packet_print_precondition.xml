@@ -1,0 +1,82 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Packet Printing Test Precondition" verbose="1" parallel="tests" thread-count="1024">
+	<listeners>
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+	</listeners>
+	<parameter name="timeshift-scenario-mode" value="method"/>
+
+	<test name="Auto SS" parallel="methods">
+		<parameter name="state" value="AZ, CT, KS, KY, MT, NY, OR, SD, UT, WV, WY"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="CA Select Auto" parallel="methods">
+		<parameter name="state" value="CA"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="CA Choice Auto Smoke Tests" parallel="methods">
+		<parameter name="state" value="CA"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreation"/>
+		</classes>
+	</test>
+
+	<test name="CA HO3 Home" parallel="methods">
+		<parameter name="state" value="CA"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="CA HO4 Home" parallel="methods">
+		<parameter name="state" value="CA"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ca.ho4.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="CA HO6 Home" parallel="methods">
+		<parameter name="state" value="CA"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ca.ho6.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="CA DP3 Home" parallel="methods">
+		<parameter name="state" value="CA"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="Home SS HO3" parallel="methods">
+		<parameter name="state" value="AZ, UT"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="Home SS HO4" parallel="methods">
+		<parameter name="state" value="AZ, UT"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="Home SS HO6" parallel="methods">
+		<parameter name="state" value="AZ, UT"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="Home SS DP3" parallel="methods">
+		<parameter name="state" value="AZ, UT"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
+		</classes>
+	</test>
+	<test name="PUP" parallel="methods">
+		<parameter name="state" value="UT, CA, AZ"/>
+		<classes>
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+		</classes>
+	</test>
+</suite>

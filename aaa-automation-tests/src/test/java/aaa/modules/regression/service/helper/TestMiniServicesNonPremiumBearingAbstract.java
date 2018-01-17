@@ -4,6 +4,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -17,86 +18,84 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
-	protected abstract String getGeneralTab();
+    protected abstract String getGeneralTab();
 
-	protected abstract String getPremiumAndCoverageTab();
+    protected abstract String getPremiumAndCoverageTab();
 
-	protected abstract String getDocumentsAndBindTab();
+    protected abstract String getDocumentsAndBindTab();
 
-	protected abstract Tab getGeneralTabElement();
+    protected abstract Tab getGeneralTabElement();
 
-	protected abstract Tab getPremiumAndCoverageTabElement();
+    protected abstract Tab getPremiumAndCoverageTabElement();
 
-	protected abstract Tab getDocumentsAndBindTabElement();
+    protected abstract Tab getDocumentsAndBindTabElement();
 
-	protected abstract AssetDescriptor<Button> getCalculatePremium();
+    protected abstract AssetDescriptor<Button> getCalculatePremium();
 
-	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
-		mainApp().open();
-/*		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		*/
-SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232114");
-String policyNumber = PolicySummaryPage.getPolicyNumber();
+    protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
+        mainApp().open();
+        createCustomerIndividual();
+        policyType.get().createPolicy(getPolicyTD());
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//BUG PAS-5815 There is an extra Endorse action available for product
-		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
+        //BUG PAS-5815 There is an extra Endorse action available for product
+        NavigationPage.comboBoxListAction.verify.noOption("Endorse");
 
-		//PAS-343 start
-		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
-		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
-		//PAS-343 end
-		//VASS926232125
-		String emailAddressChanged = "osi.test@email.com";
-		String authorizedBy = "John Smith";
-		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
+        //PAS-343 start
+        String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
+        int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
+        //PAS-343 end
 
-		emailUpdateTransactionHistoryCheck(policyNumber);
-		emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);
+        String emailAddressChanged = "osi.test@email.com";
+        String authorizedBy = "John Smith";
+        HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
-		//PAS-343 start
-		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get()), numberOfDocumentsRecordsInDb);
-		//PAS-343 end
+        emailUpdateTransactionHistoryCheck(policyNumber);
+        emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);
 
-		secondEndorsementIssueCheck();
-	}
+        //PAS-343 start
+        CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get()), numberOfDocumentsRecordsInDb);
+        //PAS-343 end
 
-	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
-		policy.policyInquiry().start();
+        secondEndorsementIssueCheck();
+    }
 
-		getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
-		NavigationPage.toViewTab(getDocumentsAndBindTab());
+    private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
+        policy.policyInquiry().start();
 
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
-		}
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
-		}
-		Tab.buttonCancel.click();
-	}
+        getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
+        NavigationPage.toViewTab(getDocumentsAndBindTab());
 
-	private void secondEndorsementIssueCheck() {
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(getPremiumAndCoverageTab());
-		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
-		getPremiumAndCoverageTabElement().saveAndExit();
+        if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).isPresent()) {
+            getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
+        }
+        if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
+            getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
+        }
+        Tab.buttonCancel.click();
+    }
 
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-	}
+    private void secondEndorsementIssueCheck() {
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(getPremiumAndCoverageTab());
+        getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
+        getPremiumAndCoverageTabElement().saveAndExit();
 
-	private void emailUpdateTransactionHistoryCheck(String policyNumber) {
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+        testEValueDiscount.simplifiedPendedEndorsementIssue();
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+    }
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.buttonTransactionHistory.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").verify.value("Email Updated - Exte...");
-		Tab.buttonCancel.click();
-	}
+    private void emailUpdateTransactionHistoryCheck(String policyNumber) {
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+        PolicySummaryPage.buttonTransactionHistory.click();
+        PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+        PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").verify.value("Email Updated - Exte...");
+        Tab.buttonCancel.click();
+    }
 
 }

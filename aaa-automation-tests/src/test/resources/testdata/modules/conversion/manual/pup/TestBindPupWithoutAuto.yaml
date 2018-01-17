@@ -1,0 +1,14 @@
+# --------- TestData for PUP underlying HO policy ------------
+
+TestData_ActiveUnderlyingPolicies: '@ActiveUnderlyingPolicies'
+
+ActiveUnderlyingPolicies: {
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: HO3,
+    Policy Number: Primary_HO3
+  },
+  ActiveUnderlyingPoliciesManual: {
+    Primary policy: 'Yes'
+  }
+}
+
