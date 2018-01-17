@@ -19,6 +19,20 @@ TestData_Endorsement: {
   DocumentsAndBindTab: {}
 }
 
+TestData_Endorsement_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Payment Plan: Semi-Annual
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 # ----- Renewal - Create version -----
 TestData_CreateVersion: {
   PremiumAndCoveragesTab: {

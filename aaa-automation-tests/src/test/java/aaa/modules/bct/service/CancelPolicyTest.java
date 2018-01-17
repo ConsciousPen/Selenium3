@@ -61,7 +61,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		policy.cancel().perform(getTestSpecificTD("Cancellation_009"));
 
 		// Check if Status is updated to Policy Cancelled in the UI
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM)

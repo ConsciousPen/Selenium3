@@ -7,12 +7,12 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <test name="Auto SS Scenario 13" parallel="none">
-        <parameter name="state" value="UT, AZ" />
+        <parameter name="state" value="UT, AZ, NJ, NY" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario13"/>
         </classes>
     </test>
-<!--     
+     
     <test name="Auto CA Scenario 13" parallel="none">
         <parameter name="state" value="CA" />
         <classes>
@@ -33,5 +33,5 @@
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario13"/>
         </classes>
     </test>
--->        
+        
 </suite>
