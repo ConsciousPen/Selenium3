@@ -15,10 +15,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- <project.version>1.0-SNAPSHOT</project.version> -->
-        <maven.compiler.version>3.3</maven.compiler.version>
+        <maven.compiler.version>3.5.1</maven.compiler.version>
         <pef.version>1.7.6.2</pef.version>
-        <etcs.version>8.16</etcs.version>
+        <etcs.version>8.18</etcs.version>
         <webdriver.version>3.6.0</webdriver.version>
+        <testanalytics.version>2.15.1-01</testanalytics.version>
+        <!-- <testanalytics.version>2.16.0</testanalytics.version>-->
         <!--<product>ALL</product> -->
     </properties>
 
@@ -106,7 +108,7 @@
         <dependency>
             <groupId>com.exigen.istf</groupId>
             <artifactId>test-analytics-listener</artifactId>
-            <version>2.15.1-01</version>
+            <version>${testanalytics.version}</version>
         </dependency>
 
         <dependency>
