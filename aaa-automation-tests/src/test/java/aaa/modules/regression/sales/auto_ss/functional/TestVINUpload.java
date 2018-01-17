@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -547,24 +546,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 		policy.rollOn().perform(false, false);
 
 		policy.dataGather().start();
-	}
-
-	// todo delete
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	public void test(@Optional("UT") String state) {
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-	}
-
-	public void killChromeDrivers() throws IOException {
-		String taskkill = "TASKKILL /F /IM chromedriver.exe /T";
-		Runtime rt = Runtime.getRuntime();
-		try {
-			rt.exec(taskkill);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**

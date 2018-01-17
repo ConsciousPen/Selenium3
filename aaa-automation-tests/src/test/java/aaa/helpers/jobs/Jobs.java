@@ -11,37 +11,26 @@ public class Jobs {
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
-/*	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
-			Arrays.asList(
-			"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound",
-			"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-			"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound",
-			"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-			"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound",
-			"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));	*/
-
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",getJobFoldersPath());
 
 	private static List<String> getJobFoldersPath(){
 
 		List<String> foldersTemplate = Arrays.asList(
-				"%s/PAS_B_EXGPAS_PASHUB_4004_D/inbound",
-				"%s/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-				"%s/PAS_B_EXGPAS_DMVFED_3051_D/inbound",
-				"%s/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-				"%s/PAS_B_EXGPAS_PASHUB_4001_D/inbound",
-				"%s/PAS_B_EXGPAS_PASHUB_4001_D/outbound");
+				"%sPAS_B_EXGPAS_PASHUB_4004_D/inbound",
+				"%sPAS_B_EXGPAS_PASHUB_4004_D/outbound",
+				"%sPAS_B_EXGPAS_DMVFED_3051_D/inbound",
+				"%sPAS_B_EXGPAS_DMVFED_3051_D/outbound",
+				"%sPAS_B_EXGPAS_PASHUB_4001_D/inbound",
+				"%sPAS_B_EXGPAS_PASHUB_4001_D/outbound");
 
 		List<String> result = new ArrayList<>();
 
-		if(PropertyProvider.getProperty(CustomTestProperties.ENV_JOB_FOLDERS_PATH) != null &&
-				!PropertyProvider.getProperty(CustomTestProperties.ENV_JOB_FOLDERS_PATH).isEmpty()){
-			String winPathTemplate = PropertyProvider.getProperty(CustomTestProperties.ENV_JOB_FOLDERS_PATH);
+		if(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) != null &&
+				!PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER).isEmpty()){
+			String winPathTemplate = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER);
 			for(String folder : foldersTemplate){
-				result.add(String.format(folder.replace("/","\\"),winPathTemplate));
+				result.add(String.format(folder,winPathTemplate));
 			}
-			// apply windows path
-			PropertyProvider.getProperty(CustomTestProperties.ENV_JOB_FOLDERS_PATH);
 		}
 		else{
 			// apply unix path
