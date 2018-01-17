@@ -112,7 +112,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
 
         // Submit Applicant tab and finish filling up to Premiums & Coverages
         applicantTab.submitTab();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        //policy.getDefaultView().fillFromTo(getPolicyTD(), ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
 
         //TODO Verify N/A in Rating Details and Policy tier field on Other Active AAA Policies section
     }
