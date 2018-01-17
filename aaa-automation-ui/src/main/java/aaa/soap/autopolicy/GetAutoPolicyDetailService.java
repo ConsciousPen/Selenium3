@@ -33,7 +33,7 @@ public class GetAutoPolicyDetailService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL(String.format("http://%1$s:%2$s/aaa-admin/services/getAutoPolicyDetail?wsdl", PropertyProvider.getProperty("app.host"),PropertyProvider.getProperty("test.ws.port")));
+            url = new URL(String.format("http://%1$s%2$s/aaa-admin/services/getAutoPolicyDetail?wsdl", PropertyProvider.getProperty("app.host"),PropertyProvider.getProperty("admin.port")));
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

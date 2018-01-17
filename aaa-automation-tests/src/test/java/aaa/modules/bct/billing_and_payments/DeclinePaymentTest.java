@@ -109,7 +109,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
 		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 
-		Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
+		//Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
 		CustomAssert.disableSoftMode();
 	}
 
@@ -143,7 +143,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
 		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 
-		Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
+		//Efolder.isDocumentExist("Invoice Bills Statements", "RETURNED PAYMNT");
 		CustomAssert.disableSoftMode();
 	}
 }
