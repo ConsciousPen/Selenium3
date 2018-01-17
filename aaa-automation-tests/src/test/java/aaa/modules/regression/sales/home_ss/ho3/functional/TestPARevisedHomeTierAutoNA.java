@@ -1,13 +1,14 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -21,16 +22,20 @@ import toolkit.utils.TestInfo;
 public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
 
     private ApplicantTab applicantTab = policy.getDefaultView().getTab(ApplicantTab.class);
+    private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = policy.getDefaultView().getTab(PremiumsAndCoveragesQuoteTab.class);
 
     /**
      * @author Josh Carpenter
-     * @name Test assign N/A value to Auto Tier with existing PA Auto policy under 'Other Active Policies' section
+     * @name Test that the Auto 'Policy Tier' is present on the Applicant tab when adding a PA companion Auto policy and that when the Auto Tier is not available
+     * N/A is assigned as the value of Auto Tier after rating calculation.
      * @scenario
      * 1. Create customer
      * 2. Create Auto policy for PA
      * 3. Initiate HO3 policy for PA with an effective date on or after 5/28/18
      * 4. Add the above create Auto companion policy on the Applicant Tab
      * 5. Verify the Auto 'Policy Tier' is displayed in place of Auto Insurance Score
+     * 6. Continue to the Premiums & Coverages Tab and calculate
+     * 7. Open rating details dialog and confirm the value of N/A was assigned to the companion Auto Tier
      * @details
      */
     @Parameters({"state"})
@@ -61,6 +66,15 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
         assertThat(applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
                 .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
                 .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER).isPresent());
+
+        // Submit and continue to the Premiums & Coverages Tab
+        applicantTab.submitTab();
+        policy.getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+
+        // Open the rating details dialogue box and verify Auto Tier
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+
+        //TODO Verify N/A in Rating Details dialog
     }
 
     /**
@@ -82,38 +96,46 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("PA") String state) {
 
-        TestData tdApplicantTab = getTestSpecificTD("TestData_ApplicantTab_nonPA");
-        TestData tdAutoOH = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_OH");
-        TestData tdPrefillTabOH = getTestSpecificTD("TestData_Prefill_OH");
+        TestData tdAutoOH = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_OH")
+                .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("TestData_Prefill_OH"));
+        TestData tdHome = getPolicyDefaultTD();
+
+        // Change time to meet new algo effective date requirement (on or after 5/28/18)
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(5));
 
         // Create the customer
         mainApp().open();
         createCustomerIndividual();
 
         // Create non-PA Auto policy (OH)
-//        autoPolicy.initiate();
-//        autoPolicy.getDefaultView().fillUpTo(tdPrefillTabOH, PrefillTab.class, true);
-//        prefillTab.submitTab();
-//        autoPolicy.getDefaultView().fillFromTo(tdAutoOH, GeneralTab.class, PurchaseTab.class, true);
-//        purchaseTab.submitTab();
+        PolicyType.AUTO_SS.get().createPolicy(tdAutoOH);
+        TestData tdOtherActive = getTestSpecificTD("OtherActiveAAAPolicies")
+                .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
+        tdHome.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
 
-        String autoPolicyOH = PolicySummaryPage.getPolicyNumber();
-        tdApplicantTab.adjust(TestData.makeKeyPath("ApplicantTab", "OtherActiveAAAPolicies", "ActiveUnderlyingPoliciesSearch", "Policy Number"), autoPolicyOH);
-
-        // Initiate PA HO3 quote with companion Auto policy created above
+        // Initiate HO policy
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), ApplicantTab.class);
-        applicantTab.fillTab(tdApplicantTab);
+        policy.getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
 
-        //Verify 'Policy Tier' field exists
+        // Verify the 'Policy Tier' is present and disabled
         assertThat(applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
-                .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
-                .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER).isPresent());
+                        .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
+                        .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER).isPresent() &&
 
-        // Submit Applicant tab and finish filling up to Premiums & Coverages
+                !applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
+                        .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
+                        .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER).isEnabled());
+
+        // Submit and continue to the Premiums & Coverages Tab
         applicantTab.submitTab();
-        //policy.getDefaultView().fillFromTo(getPolicyTD(), ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        policy.getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
 
-        //TODO Verify N/A in Rating Details and Policy tier field on Other Active AAA Policies section
+        // Open the rating details dialogue box and verify Auto Tier
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+
+        //TODO Verify N/A in Rating Details dialog
+
+        // Verify policy can be bound
+        //TODO bind policy
     }
 }
