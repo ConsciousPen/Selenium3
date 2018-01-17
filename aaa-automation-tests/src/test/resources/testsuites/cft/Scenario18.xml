@@ -1,28 +1,28 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CFT Scenario 16" verbose="1" parallel="tests" thread-count="1024">
+<suite name="CFT Scenario 18" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="AutoSS Scenario 16 CFT" parallel="none">
+    <test name="AutoSS Scenario 18 CFT" parallel="none">
         <parameter name="state" value="AZ, KY" />
         <classes>
-            <class name="aaa.modules.cft.auto_ss.TestCFTScenario16" />
+            <class name="aaa.modules.cft.auto_ss.TestCFTScenario18" />
         </classes>
     </test>
  
-    <test name="HomeSS Scenario 16 CFT" parallel="none">
+    <test name="HomeSS Scenario 18 CFT" parallel="none">
         <parameter name="state" value="DE, NJ, OK, UT" />
         <classes>
-            <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario16" />
+            <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario18" />
         </classes>
     </test>
 
-    <test name="AutoCA Select Scenario 16 CFT" parallel="none">
+    <test name="AutoCA Select Scenario 18 CFT" parallel="none">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario16" />
+            <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario18" />
         </classes>
     </test>
 
