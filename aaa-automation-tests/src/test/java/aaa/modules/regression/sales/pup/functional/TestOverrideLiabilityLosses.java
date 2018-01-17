@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.pup.functional;
 
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,7 +15,6 @@ import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.conversion.manual.ConvPUPBaseTest;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;

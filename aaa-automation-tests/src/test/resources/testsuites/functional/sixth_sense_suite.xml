@@ -1,12 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sixth Sense Functional Test Suite" verbose="1" parallel="false" thread-count="1">
+<suite name="Sixth Sense Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
-
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
     <!--Tests for Auto-->
 
@@ -46,30 +44,18 @@
         </classes>
     </test>
 
-    <test name="PA View Rating Details Auto Tier value 1-16">
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>
-        </classes>
-    </test>
+    <!--<test name="PA View Rating Details Auto Tier value 1-16">-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->
-    <test name="Policy Conversation without ordering reports">
+    <test name="Policy Conversation without ordering reports" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-    <test name="Policy Conversation without ordering reports">
-        <classes>
             <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-    <test name="Policy Conversation without ordering reports">
-        <classes>
             <class name="aaa.modules.conversion.manual.home_ss.ho4.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-    <test name="Policy Conversation without ordering reports">
-        <classes>
             <class name="aaa.modules.conversion.manual.home_ss.ho6.TestConversionNoClueISO360InspectionReports"/>
         </classes>
     </test>

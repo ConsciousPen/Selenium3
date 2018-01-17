@@ -34,6 +34,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
+import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -49,11 +50,15 @@ import toolkit.webdriver.controls.TextBox;
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
     private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+    private static final String REMOTE_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER)+"DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
+    private static final String APPROVED_REFUND_AMOUNT = "499.99";
+    private static final String PENDING_REFUND_AMOUNT = "500";
     private TestData tdBilling = testDataManager.billingAccount;
     private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
     private BillingAccount billingAccount = new BillingAccount();
     private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
     private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
+    private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
 
     @Override
     protected PolicyType getPolicyType() {
@@ -153,7 +158,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refund1.put(TYPE, "Refund");
         refund1.put(SUBTYPE_REASON, "Manual Refund");
         pas453_unissuedRefundActionsCheck(refund1, true);
-        unissuedRefundRecordDetailsCheck(refundAmount1, checkDate1, refund1, true, "Check");
+        unissuedRefundRecordDetailsCheck(refundAmount1, checkDate1, refund1, true, paymentMethod);
 
         //PAS-6615 start
         getRefundTransactionId();
@@ -1087,5 +1092,158 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         acceptPaymentActionTab.back();
     }
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) {
+
+        String paymentMethod = "contains=Credit Card";
+
+        preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingManualRefundsCheck(@Optional("VA") String state) {
+
+        String paymentMethod = "Check";
+
+        preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) {
+
+        String paymentMethod = "contains=ACH";
+
+        preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingManualRefundsDC(@Optional("AZ") String state) {
+
+        String paymentMethod = "contains=Debit Card";
+
+        preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
+
+        String paymentMethod = "Credit Card";
+
+        String policyNumber = preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        //TODO OSI: Refund with Check is created because the stubbed amount for VA
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingAutomatedRefundsCheck(@Optional("VA") String state) {
+
+        String paymentMethod = "Check";
+
+        String policyNumber = preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT,  paymentMethod, 1);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) {
+
+        String paymentMethod = "ACH";
+
+        String policyNumber = preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * See test method for details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+    public void pas7298_pendingAutomatedRefundsDC(@Optional("AZ") String state) {
+
+        String paymentMethod = "Debit Card";
+
+        String policyNumber = preconditionPolicyCreationAuto();
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    private String preconditionPolicyCreationAuto() {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        log.info("policyNumber: {}", policyNumber);
+        return policyNumber;
+    }
+
 }
 

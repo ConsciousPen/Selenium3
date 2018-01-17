@@ -126,7 +126,7 @@ DocumentsTab1: {
 
 DocumentsTab2: {
   DocumentsToBind: {
-    Proof of ENERGY STAR appliances or green home features: 'No',
+    "Proof of ENERGY STAR appliances or green home features": 'No',
     Proof of central fire alarm: 'No',
     Proof of central theft alarm: 'No',
     Proof of home renovations for the Home Modernization discount: 'No',
