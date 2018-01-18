@@ -91,7 +91,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 			default:
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
-		return String.format(defaultControlFileName, state);
+		return String.format(defaultControlFileName, getState());
 	}
 
 	public enum UploadFilesTypes {
