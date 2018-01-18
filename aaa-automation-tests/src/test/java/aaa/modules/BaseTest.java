@@ -17,7 +17,6 @@ import com.exigen.ipb.etcsa.base.app.AdminApplication;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import aaa.utils.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -38,6 +37,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.DefaultMarkupParser;
@@ -306,7 +306,6 @@ public class BaseTest {
 			if (EntitiesHolder.isEntityPresent(key))
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			else {
-				createCustomerIndividual();
 				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
@@ -317,7 +316,6 @@ public class BaseTest {
 				if (EntitiesHolder.isEntityPresent(keyAuto))
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
 				else {
-					createCustomerIndividual();
 					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
 					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));

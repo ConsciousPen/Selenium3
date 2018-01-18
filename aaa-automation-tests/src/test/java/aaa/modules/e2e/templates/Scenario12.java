@@ -33,6 +33,7 @@ import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -43,6 +44,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
@@ -62,7 +64,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected Dollar dueAmount = new Dollar(0);
 	
 	protected LocalDateTime policyExpirationDate_FirstRenewal; 
-	//protected LocalDateTime policyExpirationDate_SecondRenewal; 
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 	
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 2; 
@@ -70,6 +72,9 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected int installmentsCount_FirstRenewal = 4; 
 	protected List<LocalDateTime> installmentDueDates_SecondRenewal;
 	protected int installmentsCount_SecondRenewal = 2; 
+	
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();		
@@ -83,9 +88,14 @@ public class Scenario12 extends ScenarioBaseTest {
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size()); 		
+		CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size()); 
+		
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
 	protected void generateFirstBill() {
@@ -153,12 +163,18 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_CANCELLED).verifyRowWithEffectiveDate(policyEffectiveDate);
 	}
 	
+	protected void verifyTaskCreated() {
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		PolicySummaryPage.buttonTasks.click();
+		MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, "Payment received for cancelled policy for possible rewrite.").verify.present();
+		MyWorkSummaryPage.buttonCancel.click();
+	}
+	
 	protected void policyReinstatement() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		
-		//verify task created
 		
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData_ReinstateWithLapse")); 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -233,17 +249,16 @@ public class Scenario12 extends ScenarioBaseTest {
 		verifyRenewOfferGenerated(installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
-		/*
+		
 		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
 		}
-		*/
 	}
 	
 	//Skip this step for CA
 	protected void generateRenewalBill() {
-		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(billDate);
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -251,8 +266,10 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Semi-Annual").verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Semi-Annual (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate);
 
-		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
+
+		verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
 	}
 	
 	protected void changePaymentPlan() {
@@ -438,11 +455,10 @@ public class Scenario12 extends ScenarioBaseTest {
 		verifyRenewOfferGenerated(installmentDueDates_FirstRenewal);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
-		/*
+		
 		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
-		}
-		*/
+		}		
 	}
 	
 	protected void changePaymentPlan_FirstRenewal() {
@@ -507,8 +523,9 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Semi-Annual (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate_FirstRenewal);
 
-		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-		verifyRenewPremiumNotice(policyExpirationDate_FirstRenewal, billDate);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+
+		verifyRenewPremiumNotice(policyExpirationDate_FirstRenewal, billDate, pligaOrMvleFee);
 	} 
 	
 	protected void payRenewalBill_FirstRenewal() {

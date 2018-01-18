@@ -22,6 +22,19 @@ public interface EvalueInsertSetupPreConditions {
             + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n"
             + "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
+
+/*    String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
+            + "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/3.1/StandardDocumentService'\n"
+            + "where propertyname = 'docGenwebClient.endpointUri'";
+
+    String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
+            + "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveAgreementRelatedDocuments'\n"
+            + "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
+
+    String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
+            + "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveDocument'\n"
+            + "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";*/
+
     String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
             + "        values('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
@@ -111,6 +124,10 @@ public interface EvalueInsertSetupPreConditions {
             + "values\n"
             + "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
+    String CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
+            + "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/channelIdResolver'\n"
+            + "where propertyname = 'channelIdRetrievalServiceImpl.channelIdRetrievalUri'";
+
     String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
             + "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n"
             + "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
@@ -174,4 +191,8 @@ public interface EvalueInsertSetupPreConditions {
     String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
             + "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/local/authentication'\n"
             + "where propertyname = 'oAuthClient.oAuthPingUri'";
+
+    String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
+            + "where priv_id =  (select id from s_authority ar\n"
+            + "where name = 'Billing Refund Cash')\n";
 }

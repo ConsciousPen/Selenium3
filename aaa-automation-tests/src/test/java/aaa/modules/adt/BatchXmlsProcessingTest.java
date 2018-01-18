@@ -4,20 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
+import javax.xml.xpath.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
@@ -26,7 +19,7 @@ import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 
 public class BatchXmlsProcessingTest {
-	protected static Logger log = LoggerFactory.getLogger(BatchXmlsProcessingTest.class); 
+	protected static Logger log = LoggerFactory.getLogger(BatchXmlsProcessingTest.class);
 	
 	private String doc_host = "aws2aaadoc02.corevelocity.csaa.cloud";	
 	private String ssh_user = "qauser";
@@ -67,8 +60,7 @@ public class BatchXmlsProcessingTest {
 	}
 	
 	public void uploadFilesToRemoteHost(String source) {
-		Ssh ssh = new Ssh(doc_host, ssh_user, ssh_password); 
-				
+		Ssh ssh = new Ssh(doc_host, ssh_user, ssh_password);
 		File directory = new File(source);
 		File[] files = directory.listFiles(File::isFile);
 		if (files != null && files.length != 0) {
