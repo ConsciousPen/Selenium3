@@ -26,7 +26,9 @@ public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest implements ManualC
         TestData td = super.getManualConversionInitiationTd();
         return modifyInitiationTd(td, tdCustomerIndividual, getState())
                 .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel()), getPolicyType().getName());
+                        CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel()), getPolicyType().getName())
+                .mask(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()));
     }
 
     protected TestData getManualConversionInitiationTd35() {
@@ -35,7 +37,9 @@ public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest implements ManualC
                 .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
                         CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel()), getPolicyType().getName())
                 .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d:MM/dd/yyyy>");
+                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d:MM/dd/yyyy>")
+                .mask(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()));
     }
 
     @Override

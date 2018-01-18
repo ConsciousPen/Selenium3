@@ -314,5 +314,6 @@ public final class CustomerMetaData {
         public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
         public static final AssetDescriptor<ComboBox> PROGRAM_CODE = declare("Program Code", ComboBox.class);
         public static final AssetDescriptor<RadioGroup> ENROLLED_IN_AUTOPAY = declare("Enrolled in Autopay", RadioGroup.class);
+        public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT = declare("Legacy policy had Multi-Policy discount", RadioGroup.class);
     }
 }

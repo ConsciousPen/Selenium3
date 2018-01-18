@@ -5,9 +5,14 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.modules.conversion.manual.ConvAutoSsBaseTest;
+import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.conversion.manual.ConvHomeSsHO3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,6 +23,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import java.time.LocalDateTime;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -35,11 +41,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * 7. Navigates to GeneralTab page and verify if CONVERSION_DATE field is correct
  */
 
-public class TestPolicyRenewalManualEntryFields extends HomeSSHO3BaseTest {
+public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO3BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6663")
     public void testPolicyRenewal(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();
@@ -47,13 +53,18 @@ public class TestPolicyRenewalManualEntryFields extends HomeSSHO3BaseTest {
 
         TestData td = getTestSpecificTD("TestData");
         String currentDate = LocalDateTime.now().format(DateTimeUtils.MM_DD_YYYY);
-        String inceptionDate = getTestSpecificTD("TD_Renewal_Actions").getTestData("InitiateRenewalEntryActionTab").getValue("Inception Date");
+        String inceptionDate = LocalDateTime.now().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+        String effectiveDate = LocalDateTime.now().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
         mainApp().open();
 
         createCustomerIndividual();
 
-        customer.initiateRenewalEntry().perform(getTestSpecificTD("TD_Renewal_Actions"));
+        initiateManualConversion(getManualConversionInitiationTd()
+                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), effectiveDate)
+                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel()), inceptionDate));
 
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE.getLabel()).getValue().toString().isEmpty());
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel()).isEnabled()).isFalse();
