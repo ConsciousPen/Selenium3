@@ -303,7 +303,8 @@ public final class CustomerMetaData {
 
     public static final class InitiateRenewalEntryActionTab extends MetaData {
         public static final AssetDescriptor<ComboBox> PRODUCT_NAME = declare("Product Name", ComboBox.class);
-        public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type",
+                ComboBox.class);
         public static final AssetDescriptor<TextBox> PREVIOUS_POLICY_NUMBER = declare("Previous Policy Number", TextBox.class);
         public static final AssetDescriptor<ComboBox> PREVIOUS_SOURCE_SYSTEM = declare("Previous Source System", ComboBox.class);
         public static final AssetDescriptor<ComboBox> RISK_STATE = declare("Risk State", ComboBox.class);
@@ -314,6 +315,7 @@ public final class CustomerMetaData {
         public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
         public static final AssetDescriptor<ComboBox> PROGRAM_CODE = declare("Program Code", ComboBox.class);
         public static final AssetDescriptor<RadioGroup> ENROLLED_IN_AUTOPAY = declare("Enrolled in Autopay", RadioGroup.class);
-        public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT = declare("Legacy policy had Multi-Policy discount", RadioGroup.class);
+        public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MPD_DISCOUNT = declare
+                ("Legacy policy had MPD discount", RadioGroup.class, By.id("genericForm:id_AAAStartConversionPolicyFormBean_mPDiscount"));
     }
 }
