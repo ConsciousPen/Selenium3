@@ -46,6 +46,7 @@ public class Scenario9 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 	
 	protected Dollar currentTermDueAmount;
 	protected Dollar totalDue;
@@ -54,6 +55,8 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected int installmentsCount = 11;
 	
 	protected String[] endorsementReasonDataKeys;
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -63,6 +66,9 @@ public class Scenario9 extends ScenarioBaseTest {
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
 		
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -70,7 +76,9 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size());
+		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size()); 
+		
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 	
 	protected void generateFirstBill() {
@@ -209,11 +217,11 @@ public class Scenario9 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
-		/*
+		
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		}
-		*/
+		
 	}	
 
 	protected void endorsementOnCurrentTerm(){
@@ -226,6 +234,10 @@ public class Scenario9 extends ScenarioBaseTest {
 		PolicyHelper.verifyEndorsementIsCreated(); 
 		
 		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium(); 
+		if (getState().equals(States.NJ)) {
+			Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate, currentTermDueAmount); 
+			currentTermDueAmount = currentTermDueAmount.add(pligaFeeEndorse);
+		}
 		if (getState().equals(States.NY)) {
 			currentTermDueAmount = currentTermDueAmount.add(10);
 		}
@@ -234,8 +246,10 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate)
-		.setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM).setSubtypeReason(reason).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate)
+			.setPolicy(policyNum)
+			.setType(PaymentsAndOtherTransactionType.PREMIUM)
+			.setSubtypeReason(reason).verifyPresent();
 	}
 	
 	protected void generateRenewalBill() {
@@ -245,20 +259,21 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
+		
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-
-		Dollar firstRenewalInstallmentDue = BillingHelper.getInstallmentDueByDueDate(policyExpirationDate);
-		Dollar fee = BillingHelper.getFeesValue(billGenDate);
-		Dollar firstRenewalBillAmount = firstRenewalInstallmentDue.add(fee).add(currentTermDueAmount);
 		
-		if (getState().equals(States.NY)) 
-			firstRenewalBillAmount = firstRenewalBillAmount.add(20);
+		Dollar minDueRenewTerm = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getColumn("Min. Due").getCell(1).getValue());
+		//log.info("Min Due of current term is: " + minDueRenewTerm);
+		//log.info("Min Due of previous term is: " + currentTermDueAmount); 
 		
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(policyExpirationDate).setMinDue(firstRenewalBillAmount).verifyPresent();
-		
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(policyExpirationDate)
+			.setMinDue(minDueRenewTerm.add(currentTermDueAmount)).verifyPresent();
+	
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+	
 	}
 	
 	protected void dontPayRenewalBill() {
@@ -301,7 +316,6 @@ public class Scenario9 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		
 		HashMap<String, String> writeOffTransaction = new HashMap<>();
-		//writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, earnedPremiumWriteOffDate.format(DateTimeUtils.MM_DD_YYYY));
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF); 
