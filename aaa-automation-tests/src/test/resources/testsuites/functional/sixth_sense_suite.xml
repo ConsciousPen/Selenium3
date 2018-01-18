@@ -104,6 +104,18 @@
             <class name="aaa.modules.conversion.manual.pup.TestOverrideBindWithPropertyLosses"/>
         </classes>
     </test>
+    <test name="Test Override PUP policies with high number of exposures/risks">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideNumberOfRisks"/>
+        </classes>
+    </test>
+    <test name="Test Override PUP policies with relaxed coverage limits">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindRelaxedCoverageLimits"/>
+        </classes>
+    </test>
 
 
 </suite>
