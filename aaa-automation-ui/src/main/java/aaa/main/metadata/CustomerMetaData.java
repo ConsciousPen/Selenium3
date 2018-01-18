@@ -317,5 +317,6 @@ public final class CustomerMetaData {
         public static final AssetDescriptor<RadioGroup> ENROLLED_IN_AUTOPAY = declare("Enrolled in Autopay", RadioGroup.class);
         public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MPD_DISCOUNT = declare
                 ("Legacy policy had MPD discount", RadioGroup.class, By.id("genericForm:id_AAAStartConversionPolicyFormBean_mPDiscount"));
+        public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT = declare("Legacy policy had Multi-Policy discount", RadioGroup.class);
     }
 }
