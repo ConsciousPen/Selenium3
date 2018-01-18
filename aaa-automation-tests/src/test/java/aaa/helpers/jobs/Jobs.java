@@ -8,13 +8,13 @@ import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
 
 public class Jobs {
+	private static String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER,"/home/mp2/pas/sit/");
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
 
 	private static List<String> getJobFoldersPath() {
-
 		List<String> foldersTemplate = Arrays.asList(
 				"%sPAS_B_EXGPAS_PASHUB_4004_D/inbound",
 				"%sPAS_B_EXGPAS_PASHUB_4004_D/outbound",
@@ -25,14 +25,7 @@ public class Jobs {
 
 		List<String> result = new ArrayList<>();
 
-		if (PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) != null &&
-				!PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER).isEmpty()) {
-
-			String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER);
-			for (String folder : foldersTemplate) {
-				result.add(String.format(folder, jobFolderPrefix));
-			}
-		}
+		foldersTemplate.forEach(template -> result.add(String.format(template, jobFolderPrefix)));
 
 		return result;
 	}
