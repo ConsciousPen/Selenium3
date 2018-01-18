@@ -61,7 +61,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
 
-		// refreshReports();
+		// refreshReports
+		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
 		File downloadDir = new File(DOWNLOAD_DIR);
 		File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);

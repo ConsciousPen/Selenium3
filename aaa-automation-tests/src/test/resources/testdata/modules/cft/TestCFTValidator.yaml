@@ -9,9 +9,7 @@ OperationalReportsTab: {
     Type: 'Policy Balancing and Reconciliation',
     Name: 'Policy Trial Balance (Sub Ledger)',
     Accounting Date From: $<today-27M-1d>,
-    Accounting Date To: $<today>,
-#    Accounting Date From: $<startTime>,
-#    Accounting Date To: $<startTime+27M>,
+    Accounting Date To: $<today>
   }
 }
 
@@ -21,9 +19,6 @@ OperationalReportsTab: {
     Type: 'Billing Balancing and Reconciliation',
     Name: 'Billing Trial Balance (Sub Ledger)',
     Activity Date From: $<today-27M-1d>,
-    Activity Date To: $<today>,
-#    Activity Date From: $<startTime>,
-#    Activity Date To: $<startTime+27M>,
-    
+    Activity Date To: $<today>
   }
 }
