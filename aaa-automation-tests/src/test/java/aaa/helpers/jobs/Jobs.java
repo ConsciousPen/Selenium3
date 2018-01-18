@@ -11,9 +11,9 @@ public class Jobs {
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
-	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",getJobFoldersPath());
+	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
 
-	private static List<String> getJobFoldersPath(){
+	private static List<String> getJobFoldersPath() {
 
 		List<String> foldersTemplate = Arrays.asList(
 				"%sPAS_B_EXGPAS_PASHUB_4004_D/inbound",
@@ -25,20 +25,15 @@ public class Jobs {
 
 		List<String> result = new ArrayList<>();
 
-		if(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) != null &&
-				!PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER).isEmpty()){
-			String winPathTemplate = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER);
-			for(String folder : foldersTemplate){
-				result.add(String.format(folder,winPathTemplate));
+		if (PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) != null &&
+				!PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER).isEmpty()) {
+
+			String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER);
+			for (String folder : foldersTemplate) {
+				result.add(String.format(folder, jobFolderPrefix));
 			}
 		}
-		else{
-			// apply unix path
-			String unixPathTemplate = "/home/mp2/pas/sit/";
-			for(String folder : foldersTemplate){
-				result.add(String.format(folder,unixPathTemplate));
-			}
-		}
+
 		return result;
 	}
 
@@ -69,7 +64,7 @@ public class Jobs {
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 
 	public static Job collectionFeedBatch_earnedPremiumWriteOff = new Job("collectionFeedBatch_earnedPremiumWriteOff");
-	
+
 	public static Job earnedPremiumWriteoffProcessingJob = new Job("earnedPremiumWriteoffProcessingJob");
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
@@ -143,7 +138,6 @@ public class Jobs {
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
 
 	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
-
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 
