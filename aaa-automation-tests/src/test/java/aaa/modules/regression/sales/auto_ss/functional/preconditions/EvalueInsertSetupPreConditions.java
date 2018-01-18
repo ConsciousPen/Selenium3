@@ -191,4 +191,8 @@ public interface EvalueInsertSetupPreConditions {
     String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
             + "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/local/authentication'\n"
             + "where propertyname = 'oAuthClient.oAuthPingUri'";
+
+    String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
+            + "where priv_id =  (select id from s_authority ar\n"
+            + "where name = 'Billing Refund Cash')\n";
 }
