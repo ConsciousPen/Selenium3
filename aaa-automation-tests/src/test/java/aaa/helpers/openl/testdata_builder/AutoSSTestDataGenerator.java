@@ -1,6 +1,7 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -118,6 +119,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
+		boolean isAtFaultAccidentSet = false;
+		Integer aggregateCompClaims = openLPolicy.getAggregateCompClaims();
+		Integer nafAccidents = openLPolicy.getNafAccidents();
+
 		for (OpenLDriver driver : openLPolicy.getDrivers()) {
 			if (driver.getDsr() != 0) {
 				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this value greater than 0
@@ -194,35 +199,42 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			List<TestData> activityInformationList = new ArrayList<>();
-			if (openLPolicy.getAggregateCompClaims() > 0) {
-				int activityNumber = 1;
-				while (activityNumber <= openLPolicy.getAggregateCompClaims()) {
-					TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "Comprehensive Claim",
-							AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Comprehensive Claim",
-							AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36))
-									.format(DateTimeUtils.MM_DD_YYYY),
-							AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
+			while (aggregateCompClaims != null && aggregateCompClaims > 0) {
+				TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "Comprehensive Claim",
+						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Comprehensive Claim",
+						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36))
+								.format(DateTimeUtils.MM_DD_YYYY),
+						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
 
-					activityInformationList.add(activityInformationData);
-					activityNumber++;
-				}
-
+				activityInformationList.add(activityInformationData);
+				aggregateCompClaims--;
 			}
 
-			if (openLPolicy.getNafAccidents() > 0) {
-				int activityNumber = 1;
-				while (activityNumber <= openLPolicy.getNafAccidents()) {
-					TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(),
-							AdvancedComboBox.RANDOM_EXCEPT_MARK + "=At-Fault Accident|Principally At-Fault Accident",
-							AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
-							AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36))
-									.format(DateTimeUtils.MM_DD_YYYY),
-							AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
 
-					activityInformationList.add(activityInformationData);
-					activityNumber++;
-				}
+			while (nafAccidents != null && nafAccidents > 0) {
+				TestData activityInformationData = DataProviderFactory.dataOf(
+						AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=At-Fault Accident|Principally At-Fault Accident",
+						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36))
+								.format(DateTimeUtils.MM_DD_YYYY),
+						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
 
+				activityInformationList.add(activityInformationData);
+				nafAccidents--;
+			}
+
+			while (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentSet) {
+				LocalDateTime occurrenceDate;
+				//TODO-dchubkov: to be continued...
+				/*TestData activityInformationData = DataProviderFactory.dataOf(
+						AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), getRandom("At-Fault Accident", "Principally At-Fault Accident"),
+						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().plusMonths(new Random().nextInt(36))
+								.format(DateTimeUtils.MM_DD_YYYY),
+						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
+
+				activityInformationList.add(activityInformationData);*/
+				isAtFaultAccidentSet = true;
 			}
 
 			if (!activityInformationList.isEmpty()) {
@@ -273,13 +285,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleData.adjust(getVehicleTabInformationData(vehicle, false));
 			}
 
-			if (vehicle.getSafetyScore() != null) {
-				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
-				vehicleData.adjust(getVehicleTabVehicleDetailsData("WMWRC33536TK73512", String.valueOf(vehicle.getSafetyScore())));
+			if (vehicle.isTelematic()) {
+				vehicleData.adjust(getVehicleTabVehicleDetailsData("WMWRC33536TK73512", "No Score"));
 			}
 
-			if (vehicle.isTelematic()) {
-				vehicleData.adjust(getVehicleTabVehicleDetailsData("2HNYD28498H554858", "No Score"));
+			if (vehicle.getSafetyScore() != null) {
+				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
+				vehicleData.adjust(getVehicleTabVehicleDetailsData("2HNYD28498H554858", String.valueOf(vehicle.getSafetyScore())));
 			}
 
 			vehiclesTestDataList.add(vehicleData);
@@ -328,6 +340,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		return DataProviderFactory.dataOf(
+				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType()),
 				AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk(),
 				AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
 				AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),

@@ -9,6 +9,7 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import aaa.toolkit.webdriver.customcontrols.ConfirmationComboBox;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
@@ -404,7 +405,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<FillableTable> LIST_OF_VEHICLE =
 				declare("List of Vehicle", FillableTable.class, ListOfVehicleRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListVehicle']/div/table"));
 		public static final AssetDescriptor<Button> ADD_VEHICLE = declare("Add Vehicle", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addVehicle"));
-		public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
+		public static final AssetDescriptor<ConfirmationComboBox> TYPE = declare("Type", ConfirmationComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> TRAILER_TYPE = declare("Trailer Type", AdvancedComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> MOTOR_HOME_TYPE = declare("Motor Home Type", AdvancedComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> PRIMARY_OPERATOR = declare("Primary operator", AdvancedComboBox.class);

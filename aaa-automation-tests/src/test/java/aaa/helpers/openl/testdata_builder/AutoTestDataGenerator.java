@@ -87,24 +87,26 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName));
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode());
+		//TODO-dchubkov: Replace with valid stat code as soon as I get answer how to make these values appear on UI
+		//vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode());
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "regex=.*\\S.*");
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>00");
 
 		if (isTrailerOrMotorHomeUsage(vehicle.getUsage())) {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), isTrailer ? "Trailer" : "Motor Home");
 			vehicleInformation.put(isTrailer ? AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel() : AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "regex=.*\\S.*");
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{100}>");
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{100}>");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
+			if (!isTrailer) {
+				vehicleInformation.remove(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()); // not available for Motor Home
+			}
 		} else {
-			String type = getRandom("Private Passenger Auto", "Conversion Van");
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), type);
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getRandom("Private Passenger Auto", "Conversion Van"));
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "regex=.*\\S.*");
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "regex=.*\\S.*");
-			if ("Private Passenger Auto".equals(type)) {
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
-			}
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 		}
@@ -116,7 +118,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "B":
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Business");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "No");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some description $<rx:\\d{100}>");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some description $<rx:\\d{3}>");
 				break;
 			case "F":
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Farm");
@@ -215,6 +217,25 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				AutoSSMetaData.VehicleTab.ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), "Yes",
 				AutoSSMetaData.VehicleTab.GET_VEHICLE_DETAILS.getLabel(), "click",
 				AutoSSMetaData.VehicleTab.SAFETY_SCORE.getLabel(), safetyScore);
+	}
+
+	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType) {
+		switch (paymentPlanType) {
+			case "A":
+				return "Quarterly";
+			case "B":
+				return "Eleven Pay - Standard";
+			case "C":
+				return "Semi-Annual";
+			case "L":
+				return getRandom("Eleven Pay - Low Down", "Monthly - Low Down"); //TODO-dchubkov: to be verified
+			case "P":
+				return getRandom("Annual", "Semi-Annual");
+			case "Z":
+				return getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down");
+			default:
+				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
+		}
 	}
 
 	String getPremiumAndCoveragesTabLimitOrDeductible(OpenLCoverage coverage) {
