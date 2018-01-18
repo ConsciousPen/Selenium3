@@ -24,7 +24,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * 2. Select RME Action with HSS product
  * 3. Verify "Legacy policy had MPD discount" radio button is exist on RME screen
  * 4. Verify "Legacy policy had MPD discount" radio button is mandatory
- * 5. TBD (PAS-2310 should be cover) abrakadabra
+ * 5. TBD (PAS-2310 should be cover)
  */
 
 public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest{
@@ -43,7 +43,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest{
         // Create customer
         createCustomerIndividual();
         customer.initiateRenewalEntry().start();
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions_NJ"));
+        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions"));
 
         //Verify that "Legacy policy had MPD discount" radio button is exist on RME screen
         assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
