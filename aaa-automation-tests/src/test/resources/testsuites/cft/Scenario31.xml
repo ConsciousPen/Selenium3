@@ -8,7 +8,7 @@
     <test name="HomeCA Scenario 31 CFT" parallel="none">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.cft.home_ca.ho3.TestCFTScenario31" />
+            <class name="aaa.modules.cft.home_ca.ho6.TestCFTScenario31" />
         </classes>
     </test>
 
