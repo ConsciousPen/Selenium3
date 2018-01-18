@@ -43,7 +43,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest{
         // Create customer
         createCustomerIndividual();
         customer.initiateRenewalEntry().start();
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions_NJ"));
+        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions"));
 
         //Verify "Legacy policy had MPD discount" radio button is exist on RME screen
         assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
