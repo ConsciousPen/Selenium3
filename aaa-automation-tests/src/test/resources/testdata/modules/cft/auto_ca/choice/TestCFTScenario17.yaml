@@ -14,9 +14,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 TestData_OOSEndorsement: {
@@ -29,9 +27,7 @@ TestData_OOSEndorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 PremiumAndCoveragesTab_DataGather: {
@@ -60,7 +56,7 @@ EndorsementActionTab: {
 
 VehicleTab: {
   Add Vehicle: Click,
-  VIN: 1B3BA46K4KF440231,
+  VIN: WAUKJAFM8C6314628,
   Primary Use: Pleasure (recreational driving only),
   Existing Damage: None,
   "Salvaged?": 'No',

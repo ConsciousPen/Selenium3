@@ -4,8 +4,17 @@ package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
 
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.AgencyAutoCaAssetList;
@@ -22,17 +31,8 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoCAForms;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.AssetList;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.waiters.Waiters;
+
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 
 /**
  * Metadata definitions for products.
@@ -55,33 +55,40 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class);
 		public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAddressButton"));
-		public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAPrefillAddressValidation_container']"));
+		public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class,
+			DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAPrefillAddressValidation_container']"));
 		public static final AssetDescriptor<Button> ORDER_PREFILL = declare("Order Prefill", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:orderPrefillButton"));
 	}
 
 	public static final class GeneralTab extends MetaData {
 
-		public static final AssetDescriptor<AssetList> AAA_PRODUCT_OWNED = declare("AAAProductOwned", AssetList.class, AAAProductOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
-		public static final AssetDescriptor<AssetList> CURRENT_CARRIER_INFORMATION = declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
+		public static final AssetDescriptor<AssetList> AAA_PRODUCT_OWNED = declare("AAAProductOwned", AssetList.class, AAAProductOwned.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
+		public static final AssetDescriptor<AssetList> CURRENT_CARRIER_INFORMATION = declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 		public static final AssetDescriptor<AgencyAutoCaAssetList> POLICY_INFORMATION = declare("PolicyInformation", AgencyAutoCaAssetList.class, PolicyInformation.class);
-		public static final AssetDescriptor<AssetList> CONTACT_INFORMATION = declare("ContactInformation", AssetList.class, AutoCaMetaData.GeneralTab.ContactInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAContactInformationMVO']"));
+		public static final AssetDescriptor<AssetList> CONTACT_INFORMATION = declare("ContactInformation", AssetList.class, AutoCaMetaData.GeneralTab.ContactInformation.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_AAAContactInformationMVO']"));
 
-		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION = declare("NamedInsuredInformation", MultiInstanceAfterAssetList.class, NamedInsuredInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_InsuredInformationMVO']"));
+		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION = declare("NamedInsuredInformation", MultiInstanceAfterAssetList.class,
+			NamedInsuredInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_InsuredInformationMVO']"));
 		public static final AssetDescriptor<ComboBox> FIRST_NAMED_INSURED = declare("First Named Insured", ComboBox.class);
-		
+
 		public static final AssetDescriptor<RadioGroup> IS_THERE_ANY_THIRD_PATRY_DESIGNEE = declare("Is there any Third Party Designee?", RadioGroup.class);
-		public static final AssetDescriptor<AssetList> THIRD_PARTY_DESIGNEE_INFORMATION = declare("ThirdPartyDesigneeInformation", AssetList.class, ThirdPartyDesigneeInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoThirdPartyDesignee']"));
+		public static final AssetDescriptor<AssetList> THIRD_PARTY_DESIGNEE_INFORMATION = declare("ThirdPartyDesigneeInformation", AssetList.class, ThirdPartyDesigneeInformation.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoThirdPartyDesignee']"));
 
 		public static final class NamedInsuredInformation extends MetaData {
 			public static final AssetDescriptor<Button> ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addInsured"));
-			public static final AssetDescriptor<SingleSelectSearchDialog> INSURED_SEARCH_DIALOG = declare("InsuredSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false, By.id("customerSearchPanel_container"));
+			public static final AssetDescriptor<SingleSelectSearchDialog> INSURED_SEARCH_DIALOG = declare("InsuredSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class,
+				false, By.id("customerSearchPanel_container"));
 
 			public static final AssetDescriptor<ComboBox> PREFIX = declare("Prefix", ComboBox.class);
 			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
 			public static final AssetDescriptor<ComboBox> SUFFIX = declare("Suffix", ComboBox.class);
-			//public static final AssetDescriptor<TextBox> SOCIAL_SECURITY_NUMBER = declare("Social Security Number", TextBox.class);
+			// public static final AssetDescriptor<TextBox> SOCIAL_SECURITY_NUMBER = declare("Social Security Number", TextBox.class);
 			public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ADDRESS_TYPE = declare("Address Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
@@ -94,28 +101,36 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> PRIOR_MOVE_IN_DATE = declare("Move-In Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> PRIOR_ADDRESS_TYPE = declare("Prior Address Type", ComboBox.class, By.id("policyDataGatherForm:insuredInformation_priorAddress_usageTypeCd"));
 			public static final AssetDescriptor<TextBox> PRIOR_ZIP_CODE = declare("Prior Zip Code", TextBox.class, By.id("policyDataGatherForm:insuredInformation_priorAddress_address_postalCode"));
-			public static final AssetDescriptor<TextBox> PRIOR_ADDRESS_LINE_1 = declare("Prior Address Line 1", TextBox.class, By.id("policyDataGatherForm:insuredInformation_priorAddress_address_addressLine1"));
-			public static final AssetDescriptor<TextBox> PRIOR_ADDRESS_LINE_2 = declare("Prior Address Line 2", TextBox.class, By.id("policyDataGatherForm:insuredInformation_priorAddress_address_addressLine2"));
+			public static final AssetDescriptor<TextBox> PRIOR_ADDRESS_LINE_1 = declare("Prior Address Line 1", TextBox.class, By
+				.id("policyDataGatherForm:insuredInformation_priorAddress_address_addressLine1"));
+			public static final AssetDescriptor<TextBox> PRIOR_ADDRESS_LINE_2 = declare("Prior Address Line 2", TextBox.class, By
+				.id("policyDataGatherForm:insuredInformation_priorAddress_address_addressLine2"));
 			public static final AssetDescriptor<TextBox> PRIOR_CITY = declare("Prior City", TextBox.class, By.id("policyDataGatherForm:insuredInformation_priorAddress_address_city"));
 			public static final AssetDescriptor<ComboBox> PRIOR_STATE = declare("Prior State", ComboBox.class, By.id("policyDataGatherForm:insuredInformation_priorAddress_address_stateProvCd"));
 
 			public static final AssetDescriptor<RadioGroup> IS_RESIDENTAL_DIFFERENF_FROM_MAILING = declare("Is residential address different from mailing address?", RadioGroup.class);
-			public static final AssetDescriptor<ComboBox> MAILING_ADDRESS_TYPE = declare("Mailing Address Type", ComboBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_usageTypeCd"));
-			public static final AssetDescriptor<TextBox> MAILING_ZIP_CODE = declare("Mailing Zip Code", TextBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_postalCode"));
-			public static final AssetDescriptor<TextBox> MAILING_ADDRESS_LINE_1 = declare("Mailing Address Line 1", TextBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_addressLine1"));
-			public static final AssetDescriptor<TextBox> MAILING_ADDRESS_LINE_2 = declare("Mailing Address Line 2", TextBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_addressLine2"));
+			public static final AssetDescriptor<ComboBox> MAILING_ADDRESS_TYPE = declare("Mailing Address Type", ComboBox.class, By
+				.id("policyDataGatherForm:insuredInformation_secondaryAddress_usageTypeCd"));
+			public static final AssetDescriptor<TextBox> MAILING_ZIP_CODE = declare("Mailing Zip Code", TextBox.class, By
+				.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_postalCode"));
+			public static final AssetDescriptor<TextBox> MAILING_ADDRESS_LINE_1 = declare("Mailing Address Line 1", TextBox.class, By
+				.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_addressLine1"));
+			public static final AssetDescriptor<TextBox> MAILING_ADDRESS_LINE_2 = declare("Mailing Address Line 2", TextBox.class, By
+				.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_addressLine2"));
 			public static final AssetDescriptor<TextBox> MAILING_CITY = declare("Mailing City", TextBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_city"));
-			public static final AssetDescriptor<ComboBox> MAILING_STATE = declare("Mailing State", ComboBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_stateProvCd"));
+			public static final AssetDescriptor<ComboBox> MAILING_STATE = declare("Mailing State", ComboBox.class, By
+				.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_stateProvCd"));
 
-			//The below fields do not exist anymore on Master, were removed in sprint 15.
-			//public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone #", TextBox.class);
-			//public static final AssetDescriptor<TextBox> WORK_PHONE_NUMBER = declare("Work Phone #", TextBox.class);
-			//public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUMBER = declare("Mobile Phone #", TextBox.class);
-			//public static final AssetDescriptor<ComboBox> PREFERED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
-			//public static final AssetDescriptor<TextBox> EMAIL = declare("Email", TextBox.class);
+			// The below fields do not exist anymore on Master, were removed in sprint 15.
+			public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone #", TextBox.class);
+			public static final AssetDescriptor<TextBox> WORK_PHONE_NUMBER = declare("Work Phone #", TextBox.class);
+			public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUMBER = declare("Mobile Phone #", TextBox.class);
+			// public static final AssetDescriptor<ComboBox> PREFERED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
+			public static final AssetDescriptor<TextBox> EMAIL = declare("Email", TextBox.class);
 			public static final AssetDescriptor<ComboBox> RESIDENCE = declare("Residence", ComboBox.class);
 			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAddressButton"));
-			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidation.class, By.id(".//*[@id='addressValidationPopupAAAInsuredAddressValidation_container']"));
+			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidation.class, By
+				.id(".//*[@id='addressValidationPopupAAAInsuredAddressValidation_container']"));
 
 			public static final class AddressValidation extends MetaData {
 				public static final AssetDescriptor<CheckBox> ADDRESS_IS_PO_BOX = declare("Address is PO Box", CheckBox.class, Waiters.AJAX);
@@ -125,9 +140,12 @@ public final class AutoCaMetaData {
 				public static final AssetDescriptor<TextBox> UNIT_NUMBER = declare("Unit number", TextBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<RadioGroup> RADIOGROUP_SELECT = declare("Select Address", RadioGroup.class, Waiters.AJAX);
 
-				public static final AssetDescriptor<TextBox> MAILING_STREET_NUMBER = declare("Mailing Street number", TextBox.class, Waiters.AJAX, false, By.id("addressValidationFormAAAInsuredAddressValidation:secondaryStreetNumberInput"));
-				public static final AssetDescriptor<TextBox> MAILING_STREET_NAME = declare("Mailing Street Name", TextBox.class, Waiters.AJAX, false, By.id("addressValidationFormAAAInsuredAddressValidation:secondaryStreetNameInput"));
-				public static final AssetDescriptor<TextBox> MAILING_UNIT_NUMBER = declare("Mailing Unit number", TextBox.class, Waiters.AJAX, false, By.id("addressValidationFormAAAInsuredAddressValidation:secondaryUnitNumberInput"));
+				public static final AssetDescriptor<TextBox> MAILING_STREET_NUMBER = declare("Mailing Street number", TextBox.class, Waiters.AJAX, false, By
+					.id("addressValidationFormAAAInsuredAddressValidation:secondaryStreetNumberInput"));
+				public static final AssetDescriptor<TextBox> MAILING_STREET_NAME = declare("Mailing Street Name", TextBox.class, Waiters.AJAX, false, By
+					.id("addressValidationFormAAAInsuredAddressValidation:secondaryStreetNameInput"));
+				public static final AssetDescriptor<TextBox> MAILING_UNIT_NUMBER = declare("Mailing Unit number", TextBox.class, Waiters.AJAX, false, By
+					.id("addressValidationFormAAAInsuredAddressValidation:secondaryUnitNumberInput"));
 				public static final AssetDescriptor<RadioGroup> MAILING_RADIOGROUP_SELECT = declare("Mailing Select Address", RadioGroup.class, Waiters.AJAX);
 
 				public static final AssetDescriptor<Button> BTN_OK = declare("Ok", Button.class, Waiters.AJAX, true, By.xpath(".//input[@value='OK']"));
@@ -176,8 +194,10 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_INCEPTION_DATE = declare("Agent Entered Inception Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_EXPIRATION_DATE = declare("Agent Entered Expiration Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_POLICY_NUMBER = declare("Agent Entered Policy Number", TextBox.class);
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_DAYS_LAPSED = declare("Agent Entered Days Lapsed", TextBox.class, By.id("policyDataGatherForm:currentCarrierInformation_enteredDaysLapsed"));
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_MONTHS_WITH_CARRIER = declare("Agent Entered Months with Carrier", TextBox.class, By.id("policyDataGatherForm:currentCarrierInformation_enteredMonthsWithInsurer"));
+			public static final AssetDescriptor<TextBox> AGENT_ENTERED_DAYS_LAPSED = declare("Agent Entered Days Lapsed", TextBox.class, By
+				.id("policyDataGatherForm:currentCarrierInformation_enteredDaysLapsed"));
+			public static final AssetDescriptor<TextBox> AGENT_ENTERED_MONTHS_WITH_CARRIER = declare("Agent Entered Months with Carrier", TextBox.class, By
+				.id("policyDataGatherForm:currentCarrierInformation_enteredMonthsWithInsurer"));
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_BI_LIMITS = declare("Agent Entered BI Limits", TextBox.class);
 		}
 
@@ -186,7 +206,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> POLICY_STATE = declare("Policy State", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class);
-			//public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
+			// public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
 			public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> CHANNEL_TYPE = declare("Channel Type", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> AGENCY = declare("Agency", ComboBox.class);
@@ -217,7 +237,8 @@ public final class AutoCaMetaData {
 	public static final class DriverTab extends MetaData {
 
 		public static final AssetDescriptor<Button> ADD_DRIVER = declare("Add Driver", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDriver"));
-		public static final AssetDescriptor<SingleSelectSearchDialog> DRIVER_SEARCH_DIALOG = declare("DriverSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false, By.id("customerSearchPanel_container"));
+		public static final AssetDescriptor<SingleSelectSearchDialog> DRIVER_SEARCH_DIALOG = declare("DriverSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false,
+			By.id("customerSearchPanel_container"));
 
 		public static final AssetDescriptor<ComboBox> NAMED_INSURED = declare("Named Insured", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
@@ -242,7 +263,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> LICENSE_NUMBER = declare("License #", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILLING_NEEDED = declare("Financial Responsibility Filling Needed", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> FILLING_TYPE = declare("Filling Type", ComboBox.class);
-		
+
 		public static final AssetDescriptor<ComboBox> EMPLOYEE_BENEFIT_TYPE = declare("Employee Benefit Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> EMPLOYEE_ID = declare("Employee ID", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> ADB_COVERAGE = declare("ADB Coverage", RadioGroup.class);
@@ -253,7 +274,8 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> SMOKER_CIGARETTES_OR_PIPES = declare("Smoker: Cigarettes, cigars or pipes", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 
-		public static final AssetDescriptor<MultiInstanceBeforeAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", MultiInstanceBeforeAssetList.class, ActivityInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
+		public static final AssetDescriptor<MultiInstanceBeforeAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", MultiInstanceBeforeAssetList.class, ActivityInformation.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 
 		public static final class ActivityInformation extends MetaData {
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
@@ -272,18 +294,24 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_YAF = declare("Include in Points and/or YAF?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_POINTS_AND_OR_YAF_REASON_CODES = declare("Not Included in Points and/or YAF - Reason Codes", ComboBox.class);
-			public static final AssetDescriptor<RadioGroup> WAS_THE_MINOR_MOVING_VIOLATION_OBTAINED_DURING_THE_HOURS_OF_EMPLOYMENT = declare("Was the minor moving violation obtained during the hours of employment?", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> WAS_THE_DRIVER_OPERATING_THEIR_EMPLOYERS_VEHICLE_FOR_COMPENSATION = declare("Was the driver operating their employer's vehicle for compensation?", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> DID_THE_DRIVERS_SPECIFIC_DUTIES = declare("Did the driver's specific duties include operating as a Public Utility Commission-authorized highway carrier and is the driver a registered owner/lessor of the vehicle?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> WAS_THE_MINOR_MOVING_VIOLATION_OBTAINED_DURING_THE_HOURS_OF_EMPLOYMENT = declare(
+				"Was the minor moving violation obtained during the hours of employment?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> WAS_THE_DRIVER_OPERATING_THEIR_EMPLOYERS_VEHICLE_FOR_COMPENSATION = declare(
+				"Was the driver operating their employer's vehicle for compensation?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> DID_THE_DRIVERS_SPECIFIC_DUTIES = declare(
+				"Did the driver's specific duties include operating as a Public Utility Commission-authorized highway carrier and is the driver a registered owner/lessor of the vehicle?",
+				RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> LIABILITY_CODE = declare("Liability Code", ComboBox.class);
-			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
+			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX,
+				false, By.id("confirmEliminateInstance_Dialog_container"));
 		}
 
 	}
 
 	public static final class MembershipTab extends MetaData {
 		public static final AssetDescriptor<Button> ORDER_REPORT = declare("Order Report", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:submitReports"));
-		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
+		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By
+			.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
 
 		public static final class AaaMembershipReportRow extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
@@ -299,14 +327,16 @@ public final class AutoCaMetaData {
 
 		}
 		public static final class AddMemberSinceDialog extends MetaData {
-			public static final AssetDescriptor<TextBox> MEMBER_SINCE = declare("Member Since", TextBox.class,Waiters.AJAX, By.xpath("//input[@id='memberSinceDateFrom:popupMemberSinceDateInputDate']"));
-			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class,Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
-			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class,Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
+			public static final AssetDescriptor<TextBox> MEMBER_SINCE = declare("Member Since", TextBox.class, Waiters.AJAX, By
+				.xpath("//input[@id='memberSinceDateFrom:popupMemberSinceDateInputDate']"));
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
+			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
 		}
 	}
 
 	public static final class VehicleTab extends MetaData {
-		public static final AssetDescriptor<FillableTable> LIST_OF_VEHICLE = declare("List of Vehicle", FillableTable.class, ListOfVehicleRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListVehicle']/div/table"));
+		public static final AssetDescriptor<FillableTable> LIST_OF_VEHICLE = declare("List of Vehicle", FillableTable.class, ListOfVehicleRow.class, By
+			.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListVehicle']/div/table"));
 		public static final AssetDescriptor<Button> ADD_VEHICLE = declare("Add Vehicle", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addVehicle"));
 
 		public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
@@ -339,20 +369,21 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> ODOMETER_READING_DATE = declare("Odometer Reading Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> CUSTOMER_DECLARED_ANNUAL_MILES = declare("Customer Declared Annual Miles", TextBox.class);
 		public static final AssetDescriptor<TextBox> SOURCE = declare("Source", TextBox.class);
-		public static final AssetDescriptor<RadioGroup> IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS = declare("Is the vehicle used in any commercial business operations?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS = declare("Is the vehicle used in any commercial business operations?",
+			RadioGroup.class);
 		public static final AssetDescriptor<TextBox> BUSINESS_USE_DESCRIPTION = declare("Business Use Description", TextBox.class);
-		
+
 		public static final AssetDescriptor<Button> CALCULATE_MILEAGE = declare("Calculate Mileage", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:calculateMileage"));
 
-		/*public static final AssetDescriptor<RadioGroup> ENROLL_IN_USAGE_BASED_INSURANCE = declare("Enroll in Usage Based Insurance?", RadioGroup.class);
-		public static final AssetDescriptor<Button> GET_VEHICLE_DETAILS = declare("Get Vehicle Details", Button.class, By.id("policyDataGatherForm:vehicleUBIDetaiilsButton_AAATelematicDeviceInfo"));
-		public static final AssetDescriptor<ComboBox> VEHICLE_ELIGIBILITY_RESPONCE = declare("Vehicle Eligibility Response", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> AAA_UBI_DEVICE_STATUS = declare("AAA UBI Device Status", ComboBox.class);
-		public static final AssetDescriptor<TextBox> AAA_UBI_DEVICE_STATUS_DATE = declare("AAA UBI Device Status Date", TextBox.class);
-		public static final AssetDescriptor<TextBox> DEVICE_VOUCHER_NUMBER = declare("Device Voucher Number", TextBox.class);
-		public static final AssetDescriptor<TextBox> SAFETY_SCORE = declare("Safety Score", TextBox.class);
-		public static final AssetDescriptor<TextBox> SAFETY_SCORE_DATE = declare("Safety Score Date", TextBox.class);
-		public static final AssetDescriptor<Link> GRANT_PATRITIPATION_DISCOUNT = declare("Grant Participation Discount", Link.class, By.id("policyDataGatherForm:grantParticipationDiscountLink"));*/
+		/*
+		 * public static final AssetDescriptor<RadioGroup> ENROLL_IN_USAGE_BASED_INSURANCE = declare("Enroll in Usage Based Insurance?", RadioGroup.class); public static final AssetDescriptor<Button>
+		 * GET_VEHICLE_DETAILS = declare("Get Vehicle Details", Button.class, By.id("policyDataGatherForm:vehicleUBIDetaiilsButton_AAATelematicDeviceInfo")); public static final
+		 * AssetDescriptor<ComboBox> VEHICLE_ELIGIBILITY_RESPONCE = declare("Vehicle Eligibility Response", ComboBox.class); public static final AssetDescriptor<ComboBox> AAA_UBI_DEVICE_STATUS =
+		 * declare("AAA UBI Device Status", ComboBox.class); public static final AssetDescriptor<TextBox> AAA_UBI_DEVICE_STATUS_DATE = declare("AAA UBI Device Status Date", TextBox.class); public
+		 * static final AssetDescriptor<TextBox> DEVICE_VOUCHER_NUMBER = declare("Device Voucher Number", TextBox.class); public static final AssetDescriptor<TextBox> SAFETY_SCORE =
+		 * declare("Safety Score", TextBox.class); public static final AssetDescriptor<TextBox> SAFETY_SCORE_DATE = declare("Safety Score Date", TextBox.class); public static final
+		 * AssetDescriptor<Link> GRANT_PATRITIPATION_DISCOUNT = declare("Grant Participation Discount", Link.class, By.id("policyDataGatherForm:grantParticipationDiscountLink"));
+		 */
 
 		public static final AssetDescriptor<RadioGroup> IS_GARAGING_DIFFERENT_FROM_RESIDENTAL = declare("Is Garaging different from Residential?", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
@@ -361,11 +392,14 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
 		public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class);
 		public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateGaragingAddressButton"));
-		public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAGaragingAddressValidation_container']"));
-		public static final AssetDescriptor<AssetList> OWNERSHIP = declare("Ownership", AssetList.class, Ownership.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAVehicleOwnership']"));
+		public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class,
+			DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAGaragingAddressValidation_container']"));
+		public static final AssetDescriptor<AssetList> OWNERSHIP = declare("Ownership", AssetList.class, Ownership.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_AAAVehicleOwnership']"));
 		public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_INTERESTS = declare("Are there any additional interest(s)?", RadioGroup.class);
-		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST_INFORMATION = declare("AdditionalInterestInformation", MultiInstanceAfterAssetList.class, AdditionalInterestInformation.class,
-				By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAdditionalInterest']"));
+		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST_INFORMATION = declare("AdditionalInterestInformation", MultiInstanceAfterAssetList.class,
+			AdditionalInterestInformation.class,
+			By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAdditionalInterest']"));
 		public static final AssetDescriptor<ComboBox> VEHICLE_USE = declare("Vehicle Use", ComboBox.class);
 
 		public static final class ListOfVehicleRow extends MetaData {
@@ -376,7 +410,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<Link> ACTION_COLUMN = declare("column=5", Link.class);
 			public static final AssetDescriptor<Button> CONFIRM_REMOVE = declare("Confirm Remove", Button.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_form:buttonYes"));
 		}
-		
+
 		public static final class Ownership extends MetaData {
 			public static final AssetDescriptor<ComboBox> OWNERSHIP_TYPE = declare("Ownership Type", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> FIRST_NAME = declare("First Name", ComboBox.class);
@@ -386,8 +420,10 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class);
-			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateOwnershipAddressButton"));
-			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressOwnershipValidationPopup_container']"));
+			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By
+				.id("policyDataGatherForm:validateOwnershipAddressButton"));
+			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class,
+				DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressOwnershipValidationPopup_container']"));
 		}
 
 		public static final class AdditionalInterestInformation extends MetaData {
@@ -398,15 +434,18 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class);
-			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAddlnInterestAddressButton"));
-			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressAddlnInterestValidationPopup_container']"));
+			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By
+				.id("policyDataGatherForm:validateAddlnInterestAddressButton"));
+			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class,
+				DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressAddlnInterestValidationPopup_container']"));
 			public static final AssetDescriptor<Button> ADD_ADDITIONAL_INTEREST = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAAdditionalInterest"));
 		}
 
 	}
 
 	public static final class AssignmentTab extends MetaData {
-		public static final AssetDescriptor<FillableTable> DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By.xpath("//table[@id='policyDataGatherForm:driverVehicleRelationshipSummary']"));
+		public static final AssetDescriptor<FillableTable> DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By
+			.xpath("//table[@id='policyDataGatherForm:driverVehicleRelationshipSummary']"));
 
 		public static final class DriverVehicleRelationshipTableRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> VEHICLE = declare("Vehicle", StaticElement.class, Waiters.NONE);
@@ -417,42 +456,43 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class FormsTab extends MetaData {
-		
+
 		public static final AssetDescriptor<AutoCAForms.AutoCAPolicyFormsController> POLICY_FORMS = declare("Policy Forms", AutoCAForms.AutoCAPolicyFormsController.class, PolicyForms.class);
 		public static final AssetDescriptor<AutoCAForms.AutoCAVehicleFormsController> VEHICLE_FORMS = declare("Vehicle Forms", AutoCAForms.AutoCAVehicleFormsController.class, VehicleForms.class);
 		public static final AssetDescriptor<AutoCAForms.AutoCADriverFormsController> DRIVER_FORMS = declare("Driver Forms", AutoCAForms.AutoCADriverFormsController.class, DriverForms.class);
-		
+
 		public static final class PolicyForms extends MetaData {
 			public static final AssetDescriptor<AssetList> AA53CA = declare("AA53CA", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_PolicyEndorsementFormsManager_container"));
 			public static final AssetDescriptor<AssetList> APPAE = declare("APPAE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_PolicyEndorsementFormsManager_container"));
 		}
-		
+
 		public static final class VehicleForms extends MetaData {
-//			formAssetLocator = By.id("addComponentPopup_VehicleEndorsementFormsManager_container");
+			// formAssetLocator = By.id("addComponentPopup_VehicleEndorsementFormsManager_container");
 			public static final AssetDescriptor<AssetList> LSOPCE = declare("LSOPCE", AssetList.class, LSOPCEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
 			public static final AssetDescriptor<AssetList> GEE = declare("GEE", AssetList.class, GEEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
 			public static final AssetDescriptor<AssetList> CRCE = declare("CRCE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
 		}
-		
+
 		public static final class DriverForms extends MetaData {
-//			formAssetLocator = By.id("addComponentPopup_DriverEndorsementFormsManager_container");
-			public static final AssetDescriptor<AssetList> CIPCSR22 = declare("CIPCSR22", AssetList.class, CIPCSR22FormMeta.class, false, By.id("addComponentPopup_DriverEndorsementFormsManager_container"));
+			// formAssetLocator = By.id("addComponentPopup_DriverEndorsementFormsManager_container");
+			public static final AssetDescriptor<AssetList> CIPCSR22 = declare("CIPCSR22", AssetList.class, CIPCSR22FormMeta.class, false, By
+				.id("addComponentPopup_DriverEndorsementFormsManager_container"));
 		}
-		
+
 		public static final class CommonFormMeta extends MetaData {
 			public static final AssetDescriptor<TextBox> FORM_CODE = declare("Form Code", TextBox.class);
 			public static final AssetDescriptor<TextBox> FORM_DESCRIPTION = declare("Form Description", TextBox.class);
 		}
-		
+
 		public static final class CIPCSR22FormMeta extends MetaData {
 			public static final AssetDescriptor<TextBox> CASE_NUMBER = declare("Case Number", TextBox.class);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class);
 		}
-		
+
 		public static final class LSOPCEMeta extends MetaData {
 			public static final AssetDescriptor<ComboBox> NAME = declare("Name", ComboBox.class);
 		}
-		
+
 		public static final class GEEMeta extends MetaData {
 			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> SECOND_NAME = declare("Second Name", TextBox.class);
@@ -467,44 +507,59 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> PRODUCT = declare("Product", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> BODILY_INJURY_LIABILITY = declare("Bodily Injury Liability", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Bodily Injury Liability']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<ComboBox> PROPERTY_DAMAGE_LIABILITY = declare("Property Damage Liability", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Property Damage Liability']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<ComboBox> BODILY_INJURY_LIABILITY = declare("Bodily Injury Liability", ComboBox.class, By
+			.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Bodily Injury Liability']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<ComboBox> PROPERTY_DAMAGE_LIABILITY = declare("Property Damage Liability", ComboBox.class, By
+			.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Property Damage Liability']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORISTS_BODILY_INJURY =
-				declare("Uninsured Motorists Bodily Injury", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Uninsured Motorists Bodily Injury']/ancestor::tr[1]//select"));
+			declare("Uninsured Motorists Bodily Injury", ComboBox.class, By
+				.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Uninsured Motorists Bodily Injury']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORISTS_BODILY_INJURY =
-				declare("Underinsured Motorists Bodily Injury", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Underinsured Motorists Bodily Injury']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<ComboBox> MEDICAL_PAYMENTS = declare("Medical Payments", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Medical Payments']/ancestor::tr[1]//select"));
+			declare("Underinsured Motorists Bodily Injury", ComboBox.class, By
+				.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Underinsured Motorists Bodily Injury']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<ComboBox> MEDICAL_PAYMENTS = declare("Medical Payments", ComboBox.class, By
+			.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Medical Payments']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<StaticElement> POLICY_LEVEL_LIABILITY_COVERAGES =
-				declare("Policy Level Liability Coverages", StaticElement.class, By.xpath(".//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']//td[normalize-space(.)='Policy Level Liability Coverages']/ancestor::tr[1]//td[3]"));
-		public static final AssetDescriptor<DetailedVehicleCoveragesRepeatAssetList> DETAILED_VEHICLE_COVERAGES = declare("DetailedVehicleCoverages", DetailedVehicleCoveragesRepeatAssetList.class, DetailedVehicleCoverages.class, false);
+			declare("Policy Level Liability Coverages", StaticElement.class, By
+				.xpath(".//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']//td[normalize-space(.)='Policy Level Liability Coverages']/ancestor::tr[1]//td[3]"));
+		public static final AssetDescriptor<DetailedVehicleCoveragesRepeatAssetList> DETAILED_VEHICLE_COVERAGES = declare("DetailedVehicleCoverages", DetailedVehicleCoveragesRepeatAssetList.class,
+			DetailedVehicleCoverages.class, false);
 		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalc"));
 
-		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, AutoCaMetaData.PremiumAndCoveragesTab.OverridePremiumDialog.class,
-				By.xpath("//div[@id='premiumOverridePopup_container']//div[@id='premiumOverridePopup_content']"));
+		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class,
+			AutoCaMetaData.PremiumAndCoveragesTab.OverridePremiumDialog.class,
+			By.xpath("//div[@id='premiumOverridePopup_container']//div[@id='premiumOverridePopup_content']"));
 
 		public static final class OverridePremiumDialog extends MetaData {
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false,
-					By.id("policyDataGatherForm:overridePremiumLink"));
+				By.id("policyDataGatherForm:overridePremiumLink"));
 
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for Override", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OTHER_REASON = declare("Other Reason", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Bodily Injury Liability By Flat Amount", TextBox.class, Waiters.AJAX, By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:deltaPremiumAmt')]"));
-			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_PERCENTAGE = declare("Bodily Injury Liability By Percentage", TextBox.class, Waiters.AJAX, By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:percentageAmt')]"));
+			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare(
+				"Bodily Injury Liability By Flat Amount",
+				TextBox.class,
+				Waiters.AJAX,
+				By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:deltaPremiumAmt')]"));
+			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_PERCENTAGE = declare(
+				"Bodily Injury Liability By Percentage",
+				TextBox.class,
+				Waiters.AJAX,
+				By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:percentageAmt')]"));
 
 			public static final AssetDescriptor<Button> BUTTON_SUBMIT_POPUP = declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX, false,
-					By.id("premiumOverrideInfoForm:premiumOverrideSaveBtn"));
+				By.id("premiumOverrideInfoForm:premiumOverrideSaveBtn"));
 			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP = declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false,
-					By.id("premiumOverrideInfoForm:premiumOverrideCancelBtn"));
+				By.id("premiumOverrideInfoForm:premiumOverrideCancelBtn"));
 
 		}
-
-
 
 		public static final AssetDescriptor<Button> RATE_DETAILS = declare("Rate Details", Button.class, Waiters.AJAX, By.xpath("//button[text()='Rate Details']"));
 		public static final AssetDescriptor<Button> VIEW_AUTO_QUOTE = declare("View Auto Quote", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:viewAutoQuote_Link"));
 		public static final AssetDescriptor<Button> VIEW_RATING_DETAILS = declare("View Rating Details", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:viewRatingDetails_Link"));
 		public static final AssetDescriptor<Button> VIEW_OVERRIDE_RULES = declare("View Override Rules", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:viewRules_Overrides"));
-		public static final AssetDescriptor<RadioGroup> ADDITIONAL_SAVINGS_OPTIONS = declare("Additional Savings Options", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:visibleRadio']"));
+		public static final AssetDescriptor<RadioGroup> ADDITIONAL_SAVINGS_OPTIONS = declare("Additional Savings Options", RadioGroup.class, Waiters.AJAX, false, By
+			.xpath("//table[@id='policyDataGatherForm:visibleRadio']"));
 		public static final AssetDescriptor<CheckBox> HOME = declare("Home", CheckBox.class, By.xpath("//td[text()='Home']//input"));
 		public static final AssetDescriptor<CheckBox> RENTERS = declare("Renters", CheckBox.class, By.xpath("//td[text()='Renters']//input"));
 		public static final AssetDescriptor<CheckBox> CONDO = declare("Condo", CheckBox.class, By.xpath("//td[text()='Condo']//input"));
@@ -512,16 +567,24 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<CheckBox> LIFE = declare("Life", CheckBox.class, By.xpath("//td[text()='Life']//input"));
 		public static final AssetDescriptor<CheckBox> MULTI_CAR = declare("Multi-car", CheckBox.class, By.xpath("//td[text()='Multi-car']//input"));
 		public static final AssetDescriptor<Button> VIEW_QUOTE_WITH_DISCOUNTS = declare("View Quote with Discounts", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:applySelectedDiscounts"));
-		public static final AssetDescriptor<FillableTable> DRIVER_DISCOUNTS_TABLE = declare("Driver Discounts", FillableTable.class, DriverDiscountsRow.class, By.id("policyDataGatherForm:j_id_1_1x_56_1_s_1_2_k_1_1_c_3"));
-		//UNKNOWN CONTROLS below, should we remove them?
+		public static final AssetDescriptor<FillableTable> DRIVER_DISCOUNTS_TABLE = declare("Driver Discounts", FillableTable.class, DriverDiscountsRow.class, By
+			.id("policyDataGatherForm:j_id_1_1x_56_1_s_1_2_k_1_1_c_3"));
+		// UNKNOWN CONTROLS below, should we remove them?
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMEGE =
-				declare("Uninsured Motorist Property Damage", ComboBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible Waiver']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//input"));
-		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
-		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
+			declare("Uninsured Motorist Property Damage", ComboBox.class, By
+				.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBox.class, By
+			.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible Waiver']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class, By
+			.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//input"));
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By
+			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
+		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class, By
+			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class, By
+			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By
+			.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AssetDescriptor<CheckBox> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable DrivingRecord Surcharge", CheckBox.class, Waiters.AJAX);
 		public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']")); // TODO-dchubkov: should be removed
@@ -546,13 +609,17 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class DriverActivityReportsTab extends MetaData {
-		public static final AssetDescriptor<RadioGroup> HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY = declare("Has the customer expressed interest in purchasing the policy?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY = declare("Has the customer expressed interest in purchasing the policy?",
+			RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT = declare("Sales Agent Agreement", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:FfcraPanel_5']"));
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
-		public static final AssetDescriptor<FillableTable> ORDER_CLUE_REPORT = declare("OrderCLUEReport", FillableTable.class, OrderClueRow.class, By.xpath("//table[@id='policyDataGatherForm:clueReports']"));
-		public static final AssetDescriptor<FillableTable> ORDER_MVR_REPORT = declare("OrderMVRReport", FillableTable.class, OrderMVRRow.class, By.xpath("//table[@id='policyDataGatherForm:mvrReportsDataTable']"));
-		public static final AssetDescriptor<FillableTable> ORDER_INTERNAL_CLAIMS_REPORT = declare("OrderInternalClaimsReport", FillableTable.class, OrderInternalClaimsRow.class, By.xpath("//table[@id='policyDataGatherForm:claimsReports']"));
+		public static final AssetDescriptor<FillableTable> ORDER_CLUE_REPORT = declare("OrderCLUEReport", FillableTable.class, OrderClueRow.class, By
+			.xpath("//table[@id='policyDataGatherForm:clueReports']"));
+		public static final AssetDescriptor<FillableTable> ORDER_MVR_REPORT = declare("OrderMVRReport", FillableTable.class, OrderMVRRow.class, By
+			.xpath("//table[@id='policyDataGatherForm:mvrReportsDataTable']"));
+		public static final AssetDescriptor<FillableTable> ORDER_INTERNAL_CLAIMS_REPORT = declare("OrderInternalClaimsReport", FillableTable.class, OrderInternalClaimsRow.class, By
+			.xpath("//table[@id='policyDataGatherForm:claimsReports']"));
 
 		public static final class OrderClueRow extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
@@ -590,25 +657,36 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class DocumentsAndBindTab extends MetaData {
-		public static final AssetDescriptor<AssetList> DOCUMENTS_FOR_PRINTING = declare("DocumentsForPrinting", AssetList.class, DocumentsForPrinting.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAASSAdHocPrintDocs']"));
-		public static final AssetDescriptor<AssetList> REQUIRED_TO_BIND = declare("RequiredToBind", AssetList.class, RequiredToBind.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_OptionalSupportingDocuments']"));
-		public static final AssetDescriptor<AssetList> REQUIRED_TO_ISSUE = declare("RequiredToIssue", AssetList.class, RequiredToIssue.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_MandatorySupportingDocuments']"));
-		public static final AssetDescriptor<VehicleMultiInstanceBeforeAssetList> VEHICLE_INFORMATION = declare("VehicleInformation", VehicleMultiInstanceBeforeAssetList.class, VehicleInformation.class);
+		public static final AssetDescriptor<AssetList> DOCUMENTS_FOR_PRINTING = declare("DocumentsForPrinting", AssetList.class, DocumentsForPrinting.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_AAASSAdHocPrintDocs']"));
+		public static final AssetDescriptor<AssetList> REQUIRED_TO_BIND = declare("RequiredToBind", AssetList.class, RequiredToBind.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_OptionalSupportingDocuments']"));
+		public static final AssetDescriptor<AssetList> REQUIRED_TO_ISSUE = declare("RequiredToIssue", AssetList.class, RequiredToIssue.class, By
+			.xpath(".//div[@id='policyDataGatherForm:componentView_MandatorySupportingDocuments']"));
+		public static final AssetDescriptor<VehicleMultiInstanceBeforeAssetList> VEHICLE_INFORMATION = declare("VehicleInformation", VehicleMultiInstanceBeforeAssetList.class,
+			VehicleInformation.class);
 
-		//public static final AssetDescriptor<RadioGroup> AGREEMENT = declare("Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:AAADocAgreement_agreement']"));
+		// public static final AssetDescriptor<RadioGroup> AGREEMENT = declare("Agreement", RadioGroup.class, Waiters.AJAX, false,
+		// By.xpath("//table[@id='policyDataGatherForm:AAADocAgreement_agreement']"));
 
 		public static final AssetDescriptor<RadioGroup> MOTORCYCLE = declare("Motorcycle", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> MOTORCYCLE_POLICY_NUM = declare("Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_motorPolicyNumber"));
+		public static final AssetDescriptor<TextBox> MOTORCYCLE_POLICY_NUM = declare("Motorcycle Policy #", TextBox.class, By
+			.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_motorPolicyNumber"));
 		public static final AssetDescriptor<RadioGroup> LIFE = declare("Life", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> LIFE_POLICY_NUM = declare("Life Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_lifePolicyNumber"));
+		public static final AssetDescriptor<TextBox> LIFE_POLICY_NUM = declare("Life Policy #", TextBox.class, By
+			.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_lifePolicyNumber"));
 		public static final AssetDescriptor<RadioGroup> HOME = declare("Home", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> HOME_POLICY_NUM = declare("Home Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_homePolicyNumber"));
+		public static final AssetDescriptor<TextBox> HOME_POLICY_NUM = declare("Home Motorcycle Policy #", TextBox.class, By
+			.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_homePolicyNumber"));
 		public static final AssetDescriptor<RadioGroup> RENTERS = declare("Renters", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> RENTERS_POLICY_NUM = declare("Renters Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_rentersPolicyNumber"));
+		public static final AssetDescriptor<TextBox> RENTERS_POLICY_NUM = declare("Renters Policy #", TextBox.class, By
+			.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_rentersPolicyNumber"));
 		public static final AssetDescriptor<RadioGroup> CONDO = declare("Condo", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> CONDO_POLICY_NUM = declare("Condo Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_condoPolicyNumber"));
+		public static final AssetDescriptor<TextBox> CONDO_POLICY_NUM = declare("Condo Policy #", TextBox.class, By
+			.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_condoPolicyNumber"));
 		public static final AssetDescriptor<RadioGroup> PUP = declare("PUP", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> PUP_POLICY_NUM = declare("PUP Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_pupPolicyNumber"));
+		public static final AssetDescriptor<TextBox> PUP_POLICY_NUM = declare("PUP Motorcycle Policy #", TextBox.class, By
+			.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_pupPolicyNumber"));
 
 		public static final AssetDescriptor<TextBox> WORK_PHONE_NUM = declare("Work Phone #", TextBox.class);
 		public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUM = declare("Mobile Phone #", TextBox.class);
@@ -624,11 +702,15 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> CALIFORNIA_CAR_POLICY_APPLICATION = declare("California Car Policy Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> CAMPER_PHYSICAL_DAMAGE_COVERAGE_WAIVER = declare("Camper Physical Damage Coverage Waiver", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> DECLARATION_UNDER_PENALTY_OF_PERJURY = declare("Declaration Under Penalty of Perjury", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> OPERATOR_EXCLUSION_ENDORSEMENT_AND_UNINSURED_MOTORIST_COVERAGE = declare("Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS = declare("Uninsured Motorist Coverage Deletion or Selection of Limits Agreement", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> OPERATOR_EXCLUSION_ENDORSEMENT_AND_UNINSURED_MOTORIST_COVERAGE = declare(
+				"Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS = declare(
+				"Uninsured Motorist Coverage Deletion or Selection of Limits Agreement", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUBSCRIBER_AGREEMENT = declare("Subscriber Agreement", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> AGREEMENT_DELETING_UNINSURED_MOTORIST_PROPERTY_DAMAGE_COVERAGE = declare("Agreement Deleting Uninsured Motorist Property Damage Coverage", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> AGREEMENT_DELETING_UNINSURED_UNDERINSURED_MoTORIST_BODILY_INJUSRY_COVERAGE = declare("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> AGREEMENT_DELETING_UNINSURED_MOTORIST_PROPERTY_DAMAGE_COVERAGE = declare("Agreement Deleting Uninsured Motorist Property Damage Coverage",
+				RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> AGREEMENT_DELETING_UNINSURED_UNDERINSURED_MoTORIST_BODILY_INJUSRY_COVERAGE = declare(
+				"Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AGREEMENT_REDUCING_UM_UIM_COVERAGE = declare("Agreement Reducing UM/UIM Coverage", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> APPLICATION_FOR_AUTO_INSURANCE = declare("Application for Auto Insurance", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AUTO_INSURANCE_QUOTE = declare("Auto Insurance Quote", RadioGroup.class);
@@ -644,11 +726,12 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> DELETING_UNINSURED_MOTORIST_PROPERTY_DAMAGE_COVERAGE = declare("Deleting Uninsured Motorist Property Damage Coverage", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NON_OWNER_AUTOMOBILE_ENDORSEMENT = declare("Non-Owner Automobile Endorsement", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver(s) Exclusion", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> OPERATOR_EXCLUSION_ENDORSEMENT_AND_UNINSURED_MOTORIST_COVERAGE_DELETION_ENDORSEMENT = declare("Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT = declare("Uninsured Motorist Coverage Deletion or Selection of Limits Agreement", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> OPERATOR_EXCLUSION_ENDORSEMENT_AND_UNINSURED_MOTORIST_COVERAGE_DELETION_ENDORSEMENT = declare(
+				"Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT = declare(
+				"Uninsured Motorist Coverage Deletion or Selection of Limits Agreement", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> DECLARATION_UNDER_PENALTY_OF_PERJURY = declare("Declaration Under Penalty of Perjury", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> REDUCING_UNINSURED_UNDERINSURED_MOTORIST_COVERAGE = declare("Reducing Uninsured/Underinsured Motorist Coverage", RadioGroup.class);
-		
 		}
 
 		public static final class RequiredToIssue extends MetaData {
@@ -675,7 +758,7 @@ public final class AutoCaMetaData {
 
 	}
 
-	//TODO done till this row
+	// TODO done till this row
 	public static final class GenerateProposalActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> NOTES = declare("Notes", TextBox.class);
 	}
@@ -687,8 +770,10 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class PolicyDocGenActionTab extends MetaData {
-		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs']//table)[1]"));
-		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By
+			.xpath("(//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs']//table)[1]"));
+		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By
+			.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
 		public static final class DocumentsRow extends MetaData {
@@ -699,9 +784,9 @@ public final class AutoCaMetaData {
 
 			// CAU08
 			public static final AssetDescriptor<CalendarBox> CAU08_NON_RENEWAL_DATE = declare("CAU08 Non-Renewal Date", CalendarBox.class, Waiters.AJAX, false,
-					By.xpath("//input[@id='policyDataGatherForm:uwLetterCancDt_CAU08InputDate']"));
+				By.xpath("//input[@id='policyDataGatherForm:uwLetterCancDt_CAU08InputDate']"));
 			public static final AssetDescriptor<TextBox> CAU08_FREE_FORM_TEXT = declare("CAU08 Free Form Text", TextBox.class, Waiters.AJAX, false,
-					By.xpath("//textarea[@id='policyDataGatherForm:uwLetterMsg_CAU08']"));
+				By.xpath("//textarea[@id='policyDataGatherForm:uwLetterMsg_CAU08']"));
 		}
 	}
 
@@ -741,7 +826,8 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> QUOTE_EFFECTIVE_DATE = declare("Quote Effective Date", TextBox.class);
 	}
 
-	public static final class DeletePendedTransactionActionTab extends MetaData {}
+	public static final class DeletePendedTransactionActionTab extends MetaData {
+	}
 
 	public static final class ChangePendedEndorsementActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> ENDORSEMENT_DATE = declare("Endorsement Date", TextBox.class);
@@ -877,7 +963,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.NONE);
 	}
-	
+
 	public static final class UpdateRulesOverrideActionTab extends MetaData {
 		public static final AssetDescriptor<FillableTable> UPDATE_RULES_OVERRIDE = declare("UpdateRulesOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
 
@@ -905,7 +991,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
 		}
 	}
-	
+
 	public static final class RollOnChangesActionTab extends MetaData {
 	}
 
@@ -913,5 +999,5 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<StaticElement> VERSION_NUM = declare("Version #", StaticElement.class);
 		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class);
 	}
-	
+
 }

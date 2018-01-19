@@ -22,6 +22,7 @@ DriverTab_DataGather: {
 }
 
 CancellationActionTab: {
+  Cancel Date: $<startTime+2d>,
   Cancellation Reason: 'Accomodation - Miscellaneous',
   Authorized By: QA
 }

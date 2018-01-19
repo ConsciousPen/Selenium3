@@ -10,7 +10,6 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
@@ -23,7 +22,7 @@ public class TestCFTScenario14 extends ControlledFinancialBaseTest {
 	public void cftTestScenario14(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		manualCancellationStartDatePlus16(TestData.makeKeyPath(CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()));
+		flatCancellationStartDatePlus16();
 	}
 
 	@Override

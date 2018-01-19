@@ -1,0 +1,9 @@
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'Cash'
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Annual
+}

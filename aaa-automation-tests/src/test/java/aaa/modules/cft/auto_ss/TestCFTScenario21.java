@@ -31,10 +31,13 @@ public class TestCFTScenario21 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario21(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
+		generateRenewalImage();
 		generateRenewalOffer();
 		generateRenewalOfferBill();
+		verifyRenewCustomerDecline();
 		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
-		issuedRefundOnExpDatePlus25(new Dollar(400));
+		approveRefundOnRenewCustomerDeclineDatePlusRefundDate();
+		issuedRefundOnRefundDate();
 		verifyEscheatmentOnExpDatePlus25Plus13Months();
 	}
 

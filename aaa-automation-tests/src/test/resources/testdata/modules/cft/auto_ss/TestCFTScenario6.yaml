@@ -8,8 +8,21 @@ TestData: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    Authorized By: qa,
     Case Number: 123
+  }
+}
+
+TestData_KY: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab_KY',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Case Number: 123  
   }
 }
 
@@ -27,18 +40,21 @@ TestData_OOS: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab_OOS: {
-    Endorsement Date: /startTime+1d,
+    Endorsement Date: $<startTime+1d>,
     Endorsement Reason: Maintain Vehicle(s)
 }
 
 DriverTab: {
     Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_KY: {
+    Financial Responsibility Filing Needed: 'Yes',
+    Filing State: Arizona
 }
 
 DriverTab_DataGather: {

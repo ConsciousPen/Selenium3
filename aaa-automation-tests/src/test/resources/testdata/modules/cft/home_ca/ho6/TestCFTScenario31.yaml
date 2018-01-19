@@ -1,0 +1,12 @@
+#---- Data Gather ----
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment Plan: Quarterly
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 10.15
+  }
+}

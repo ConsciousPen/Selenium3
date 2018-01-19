@@ -1,0 +1,17 @@
+TestData: {
+  CancellationActionTab: '@CancellationActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab'
+}
+
+CancellationActionTab: {
+  Cancellation effective date: $<startTime>,
+  Cancellation reason: 'Rewrite Accommodation'
+}
+
+ReinstatementActionTab: {
+  Reinstate Date: $<startTime>
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard
+}

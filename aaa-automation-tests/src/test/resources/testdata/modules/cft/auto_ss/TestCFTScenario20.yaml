@@ -8,9 +8,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 AcceptPaymentActionTab: {
@@ -37,6 +35,19 @@ TestData_DataGather: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_DataGather_MD: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab_MD',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 

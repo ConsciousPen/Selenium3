@@ -3,6 +3,7 @@ package aaa.modules.conversion;
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER;
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -185,7 +186,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 	private void fillPolicy(LocalDateTime effDate) {
 		policy.dataGather().start();
-		policy.getDefaultView().fill(getPolicyTD().adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
+		TestData td = getPolicyTD().adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
 				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), "NamedInsuredInformation[0]", "Base Date"), effDate.format(DateTimeUtils.MM_DD_YYYY))
 				.mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), GeneralTab.POLICY_INFORMATION.getLabel()))
 				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AAA_PRODUCT_OWNED.getLabel(), CURRENT_AAA_MEMBER.getLabel()), "No")
@@ -197,6 +198,13 @@ public class MaigConversionTest extends AutoSSBaseTest {
 				.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()))
 				.mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.AGREEMENT.getLabel()))
 				.adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.AUTHORIZED_BY.getLabel()), "qa")
-				.mask(new PurchaseTab().getMetaKey()));
+				.mask(new PurchaseTab().getMetaKey());
+
+		if (getState().equals(Constants.States.PA)) {
+			td.mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.RequiredToBind.class
+					.getSimpleName(), DocumentsAndBindTab.RequiredToBind.FIRST_PARTY_BENEFITS_COVERAGE_AND_LIMITS_SELECTION_FORM.getLabel()));
+		}
+
+		policy.getDefaultView().fill(td);
 	}
 }
