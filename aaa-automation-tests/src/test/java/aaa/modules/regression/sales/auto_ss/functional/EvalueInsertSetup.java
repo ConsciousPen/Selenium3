@@ -154,4 +154,9 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
     public static void authenticationStubPointUpdate() {
         DBService.get().executeUpdate(String.format(AUTHENTICATION_STUB_POINT_UPDATE, APP_HOST));
     }
+
+    @Test(description = "delete unnecessary privilege from all roles")
+    public static void deleteUnnecessaryPrivilegeFromAllRoles() {
+        DBService.get().executeUpdate(DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES);
+    }
 }

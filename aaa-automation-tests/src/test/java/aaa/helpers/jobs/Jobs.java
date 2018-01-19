@@ -1,16 +1,34 @@
 package aaa.helpers.jobs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import aaa.helpers.config.CustomTestProperties;
+import toolkit.config.PropertyProvider;
 
 public class Jobs {
+	private static String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER,"/home/mp2/pas/sit/");
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
-	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
-			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
+	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
+
+	private static List<String> getJobFoldersPath() {
+		List<String> foldersTemplate = Arrays.asList(
+				"%sPAS_B_EXGPAS_PASHUB_4004_D/inbound",
+				"%sPAS_B_EXGPAS_PASHUB_4004_D/outbound",
+				"%sPAS_B_EXGPAS_DMVFED_3051_D/inbound",
+				"%sPAS_B_EXGPAS_DMVFED_3051_D/outbound",
+				"%sPAS_B_EXGPAS_PASHUB_4001_D/inbound",
+				"%sPAS_B_EXGPAS_PASHUB_4001_D/outbound");
+
+		List<String> result = new ArrayList<>();
+
+		foldersTemplate.forEach(template -> result.add(String.format(template, jobFolderPrefix)));
+
+		return result;
+	}
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 
@@ -39,7 +57,7 @@ public class Jobs {
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 
 	public static Job collectionFeedBatch_earnedPremiumWriteOff = new Job("collectionFeedBatch_earnedPremiumWriteOff");
-	
+
 	public static Job earnedPremiumWriteoffProcessingJob = new Job("earnedPremiumWriteoffProcessingJob");
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
@@ -113,7 +131,6 @@ public class Jobs {
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
 
 	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
-
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 
