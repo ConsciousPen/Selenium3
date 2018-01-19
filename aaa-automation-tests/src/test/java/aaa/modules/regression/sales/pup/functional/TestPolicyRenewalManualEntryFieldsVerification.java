@@ -7,6 +7,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
+import net.sf.saxon.value.StringValue;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -36,9 +37,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseTest {
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6831, PAS-6851, PAS-6838")
-    public void testPolicyRenewalActions(@Optional("") String state) {
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6951, PAS-6831, PAS-6838")
+    public void pas6951_PolicyRenewalActions(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();
         String currentDate = LocalDateTime.now().format(DateTimeUtils.MM_DD_YYYY);
@@ -55,15 +56,17 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
 
-        Object policyState = generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE.getLabel()).getValue();
-        String pupPolicyNumber = policyState + "PU109";
-
         assertThat(generalTab.getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.CONVERSION_DATE.getLabel()).getValue()).isEqualTo(currentDate);
         assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.COMMISSION_TYPE.getLabel()).getValue()).isEqualTo("Renewal");
         assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.APPLICATION_TYPE.getLabel()).getValue()).isEqualTo("Hybrid Conversion");
         assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE.getLabel()).getValue()).isEqualTo("Hybrid Conversion");
-        assertThat(generalTab.getPolicyNumber().startsWith(pupPolicyNumber)).isTrue();
+
+        String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE.getLabel()).getValue());
+        String pupPolicyNumberSuffix = policyState + "PU109";
+
+        assertThat(generalTab.getPolicyNumberForPup().startsWith(pupPolicyNumberSuffix)).isTrue();
+        assertThat(generalTab.getPolicyNumberForPup().substring(4).matches("^\\d+$")).isTrue();
+        assertThat(generalTab.getPolicyNumberForPup().length()).isEqualTo(13);
 
     }
-
 }

@@ -41,9 +41,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6663")
-    public void testPolicyRenewal(@Optional("") String state) {
+    public void pas6663_PolicyRenewal(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();

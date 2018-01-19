@@ -77,5 +77,28 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
         </classes>
     </test>
-
+    <test name="PAS-6951 View conversion data fields during renewal - PUP">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
+        </classes>
+    </test>
+    <test name="PAS-6951 View conversion data fields during renewal - PUP">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
+        </classes>
+    </test>
+    <test name="PAS-6951 View conversion data fields during renewal - PUP">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
+        </classes>
+    </test>
+    <test name="PAS-6951 View conversion data fields during renewal - PUP">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
+        </classes>
+    </test>
 </suite>
