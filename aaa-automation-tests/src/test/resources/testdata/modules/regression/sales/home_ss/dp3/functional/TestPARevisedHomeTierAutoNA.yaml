@@ -1,0 +1,53 @@
+# ----------------- Test Data for PAS-6859 ------------------
+
+TestData_PrefillTab_OH: '@PrefillTab_OH'
+
+TestData_OtherActiveAAAPolicies: '@OtherActiveAAAPolicies'
+
+TestData_ManualPolicy: {
+  ApplicantTab: '@ApplicantTab_PA'
+}
+
+# ------------------ Other Active Policies ------------------
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: 'Yes',
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: Auto,
+    Policy Number: Primary_Auto
+  },
+  ActiveUnderlyingPoliciesManual: {}
+}
+
+ApplicantTab_PA: {
+  NamedInsured: {},
+  AAAMembership: {},
+  DwellingAddress: {},
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: {},
+  OtherActiveAAAPolicies: {
+    ActiveUnderlyingPoliciesSearch: {},
+    ActiveUnderlyingPoliciesManual: {
+      Policy type: HO3,
+      Policy number: '123456789',
+      Coverage E: '150000',
+      Deductible: '500',
+      Dwelling usage: 'index=1',
+      Occupancy type: 'index=1'
+    }
+  },
+  AgentInfo: {}
+}
+
+# ------------------- OH Auto Prefill Tab -------------------
+
+PrefillTab_OH: {
+  Zip Code: '44057',
+  Address Line 1: 498 HYDER DR,
+  Policy State: 'OH',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
