@@ -124,8 +124,9 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
 
-        // Verify the 'Policy Tier' is present and disabled
-        assertThat(policyTier.isPresent() && !policyTier.isEnabled()).isTrue();
+        // Verify the 'Policy Tier' is prefilled to 'N/A' and is disabled
+        assertThat(policyTier.getValue()).isEqualTo("N/A");
+        assertThat(policyTier.isEnabled()).isFalse();
 
         // Submit and continue to the Premiums & Coverages Tab
         applicantTab.submitTab();

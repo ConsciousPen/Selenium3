@@ -134,8 +134,9 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
 
-        // Verify the 'Policy Tier' is present and disabled
-        assertThat(policyTier.isPresent() && !policyTier.isEnabled()).isTrue();
+        // Verify the 'Policy Tier' is prefilled to 'N/A' and is disabled
+        assertThat(policyTier.getValue()).isEqualTo("N/A");
+        assertThat(policyTier.isEnabled()).isFalse();
 
         // Add HO policy manually for DP3 requirement
         applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
