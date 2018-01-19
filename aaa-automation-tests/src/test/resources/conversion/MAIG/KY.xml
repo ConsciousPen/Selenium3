@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_SS" version="1">
+    <AAACSAAutoPolicy state="Created">
+        <aaaInceptionDate>2003-09-02T00:00:00</aaaInceptionDate>
+        <aaaProgramCode>LegacyConv</aaaProgramCode>
+        <agentCd>500016832</agentCd>
+        <effective>2017-10-20T00:00:00</effective>
+        <expiration>2018-10-20T00:00:00</expiration>
+        <importedFrom>MAIG</importedFrom>
+        <preConversionPolicyPremium>1316</preConversionPolicyPremium>
+        <producerCd>500016292</producerCd>
+        <productCd>AAA_SS</productCd>
+        <riskStateCd>KY</riskStateCd>
+        <sourcePolicyNum>005325642</sourcePolicyNum>
+        <subProducerCd>500017332</subProducerCd>
+        <underwriterCd>WUIC</underwriterCd>
+        <OtherOrPriorPolicy state="Created">
+            <productCd>membership</productCd>
+        </OtherOrPriorPolicy>
+        <AAAPaymentOption state="Created">
+            <paymentPlanCd>standartSS_R</paymentPlanCd>
+        </AAAPaymentOption>
+        <AAAInsured oid="77970" state="Created">
+            <firstName>Alvaro</firstName>
+            <lastName>Smith</lastName>
+            <mainInsured>true</mainInsured>
+            <middleName>M</middleName>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressDisplayValue>30 STATE HIGHWAY 486, WEBBVILLE, KY, 41180</addressDisplayValue>
+                <addressLine1>30 STATE HIGHWAY 486</addressLine1>
+                <city>WEBBVILLE</city>
+                <countryCd>US</countryCd>
+                <postalCode>41180</postalCode>
+                <stateProvCd>KY</stateProvCd>
+                <usageType>mailing</usageType>
+            </AAAInsuredPrimaryAddress>
+        </AAAInsured>
+    </AAACSAAutoPolicy>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2003-08-26T00:00:00</updatedOn>
+        <userText>LIC #H420149585027            , ST=MD, FOR DATE=2001/07/17</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2003-09-04T00:00:00</updatedOn>
+        <userText>RECEIVED SIGNED APP, MVR AND CLUE</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2003-10-08T00:00:00</updatedOn>
+        <userText>KIC HO #35339735 PHONE #410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2003-12-18T00:00:00</updatedOn>
+        <userText>MS CALLED REQUESTING FR19 CASE #01343052 FAXED TO MVA 410-768-7073 PROCESSED AND FAXED</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2004-06-29T00:00:00</updatedOn>
+        <userText>LIC #25002820                 , ST=PA, FOR DATE=2004/04/29 06/29/04 STIBERI ADDED DRIVER &amp; CAR 3:41 ADDED BROTHER &amp; CAR. HE HAS 1 TICKET, SPEED. CHANGE DONE. CAR IN PH'S NAME. BROTHER LIVING WITH HER FOR A FEW MONTHS, HE IS ON DISABLITY.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2005-06-14T00:00:00</updatedOn>
+        <userText>SENT LETTER TO INSD FOR MD LIC #</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2005-06-20T00:00:00</updatedOn>
+        <userText>DONNA CALLED TO ADVISE WILLIAM NO LONGER IN HOUSEHOLD, MOVED TO PA WILL CALL BACK WITH HIS FORWARDING ADDRESS SO HE CAN BE REMOVED FROM POLICY...WILLIAM DOESN'T HAVE ANY OF THE CARS WITH HIM, THEY ARE BOTH OWNED BY DONNA 2:38PM MS HALSEY STATED BROTHER, WILLIAM, IS NOT LONGER IN H/H MOVED:  POB 415 THOMASVILLE, PA 17368  410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2005-09-09T00:00:00</updatedOn>
+        <userText>SENT OUT SECOND REQUEST FOR LICENSE NUMBER</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2005-09-16T00:00:00</updatedOn>
+        <userText>RECEIVED MD LICENSE NUMBER FOR DONNA HALSEY, H-420-149-585-027 PROCESSED ONLINE</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2005-09-21T00:00:00</updatedOn>
+        <userText>RECD. C-50 ASSIGNED TO DAWN MILLER TO REVIEW</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2005-09-26T00:00:00</updatedOn>
+        <userText>RECVD C50 FROM THE CLAIM OFFICE RE: CLAIM ON 9/17/05 -- ADVISING THAT INSDS BROTHERS GIRLFRIEND HAS POSSESSION OF ONE OF THESE VEHS.. WILL SEND LETTER REQUESTING DRIVERS IN HOUSEHOLD AND COPIES OF REGISTRATIONS.... AN SIU WAS ALREADY ORDERED ON THIS ONE..</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2006-03-01T00:00:00</updatedOn>
+        <userText>PER PRIOR C50 NOTES.. SENDING ANOTHER F/U REQUEST FOR ADDL DRIVERS AND COPIES OF REGS.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2006-04-17T00:00:00</updatedOn>
+        <userText>RECVD INFORMATION FROM INSD... NO ADDL DRIVERS IN THE HOUSEHOLD AND COPIES OF VEH REGS ATTACHED.. SHOWING BOTH REG TO DONNA ONLY. NO FURTHER ACTION NEEDED.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2006-08-09T00:00:00</updatedOn>
+        <userText>8/9/06 SWHITE PAYPLAN PAYPLAN REAPPLIED PER REQ FROM KANSAS STACY</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-06-02T00:00:00</updatedOn>
+        <userText>OK TO RENEW</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2009-05-19T00:00:00</updatedOn>
+        <userText>RECVD RENEWAL ?NAARE VEH#1  35 MILES 5 DAYS WK VEH#2 PLS  410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-03-03T00:00:00</updatedOn>
+        <userText>947AM DONNA CALLED REQ TO DELETE 03 MAXIMA. MS WILL ADVISE WHEN TAGS HAVE BEEN RETURNED. VEH SOLD</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-03-08T00:00:00</updatedOn>
+        <userText>10:41AM MS HALSEY CALLED TO REMOVE EFF 3/9/10 THE 03 NISSAN SHE TURNED IN THE LICENSE PLATES TO THE MVA 3/8/10 I REMOVED THE VEHICLE FROM THE POLICY 410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-05-13T00:00:00</updatedOn>
+        <userText>915AM RECD CALL FROM KOONS TOYOTA. STATES DONNA PURCHASED NEW VEH. MR WOULD NOT GIVE VEH INFO WITHOUT VERIFYING COV FIRST ADVISED WOULD NEED INSUREDS AUTH. LEFT MESSAGE FOR DONNA TO RETURN CALL. 410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-05-14T00:00:00</updatedOn>
+        <userText>10:13 INSD DONNA HALSEY CALLED TO REPLACE THE 2000 TOYOTA WITH A 2011 TOYO CAMRY LE VIN: 4T1BAF3EK7BU587050. ENTERED WITH COST NEW AND ALL NUMBER ONE FOR VIN.  SNE ID CARD AND MD COV FORM FOR VEHICL. DIARY 5/28/10 DONNA GAVE AUTH TO TALK TO DEALER IF HE CALLS FOR ANY INFO ADRS IS COR 410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-06-04T00:00:00</updatedOn>
+        <userText>BASED ON COST NEW IN SYSTEM ENTERED BY AGENT OF 21,400 THE COMP/COLL SYMBOLS IN MANUAL ARE 22. ENTERED TODAY</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-09-20T00:00:00</updatedOn>
+        <userText>RECVD RENEWAL ?NAIRE NO CHNAGES; RENEWAL HAS ISSUED  410-848-5119</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2011-04-05T00:00:00</updatedOn>
+        <userText>RVWD PH RESPONSE TO REQUEST FOR CORRECTION TO VIN FOR 2011 TOYOTA CAMRY  UPDATED VIN: 4T1BF3EK7BU587050 NO ERROR MSG</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2012-09-03T00:00:00</updatedOn>
+        <userText>AUTHORIZATION CODE:  05246P               410-848-5119 RECEIPT NUMBER:  723996-44045-72          HO IN EFFECT MESSAGE FROM BANK:  APPROVAL POLICY ID:  05325642 CUSTOMER NAME:  HALSEY, DONNA CHARGE DATE:  9/3/2012 9:15:58 AM CREDIT CARD TYPE:  MASTER CARD CREDIT CARD EXPIRATION:  07/1/2015 CREDIT CARD:  ****-8339 AMOUNT:  $914.00</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2014-08-09T00:00:00</updatedOn>
+        <userText>DONNA 9:35 NEED A COPY OF RENEWAL PACKAGE PRINTED OUT OF FASTLANE AND SENT OUT     410-848-5119 NO EMAIL</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2014-08-30T00:00:00</updatedOn>
+        <userText>8:38                      AUTHORIZATION CODE:  00144C RECEIPT NUMBER:  972795-56158-72 MESSAGE FROM BANK:  APPROVAL POLICY ID:  05325642 CUSTOMER NAME:  HALSEY, CHARGE DATE:  8/30/2014 8:40:04 AM CREDIT CARD TYPE:  VISA 410-848-5119            CREDIT CARD EXPIRATION:  09/1/2016 DMHALSEY@COMCAST.NET    CREDIT CARD:  ****-2140 AMOUNT:  $995.00</userText>
+    </userNote>
+</Policy>

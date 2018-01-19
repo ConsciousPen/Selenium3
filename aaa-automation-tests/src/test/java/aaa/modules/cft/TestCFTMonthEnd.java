@@ -16,8 +16,8 @@ public class TestCFTMonthEnd extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateCFTFilesForEachMonth(@Optional(StringUtils.EMPTY) String state) {
-		// execute cft jobs for upcoming 14th month
-		for (int i = 0; i < 14; i++) {
+		// execute cft jobs for upcoming 27th month
+		for (int i = 0; i < 27; i++) {
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(1).withDayOfMonth(1).withMinute(1));
 			runCFTJobs();
 		}

@@ -25,9 +25,9 @@ import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
  * @category Generated
  */
 public class DataGatheringEndorsementView extends Workspace {
-    public DataGatheringEndorsementView() {
-        super();
-        registerTab(GeneralTab.class);
+	public DataGatheringEndorsementView() {
+		super();
+		registerTab(GeneralTab.class);
 		registerTab(ApplicantEndorsementTab.class);
 		registerTab(ReportsTab.class);
 		registerTab(PropertyInfoTab.class);
@@ -39,5 +39,5 @@ public class DataGatheringEndorsementView extends Workspace {
 		registerTab(DocumentsTab.class);
 		registerTab(BindTab.class);
 		registerTab(PurchaseTab.class);
-    }
+	}
 }

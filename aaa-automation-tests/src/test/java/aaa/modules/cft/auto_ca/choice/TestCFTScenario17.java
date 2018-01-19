@@ -33,7 +33,7 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 		acceptTotalDuePlusOverpaymentOnStartDatePlus16(new Dollar(600));
 		approveRefundOnStartDatePlus25(new Dollar(600));
 		endorsePolicyCancellationDate();
-		endorseFirstEPBillDate(TestData.makeKeyPath(EndorsementActionTab.class.getSimpleName(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()));
+		endorseOOSPolicyOnFirstEPBillDate(TestData.makeKeyPath(EndorsementActionTab.class.getSimpleName(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()));
 	}
 
 	@Override
