@@ -68,5 +68,14 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
         </classes>
     </test>
+    <test name="PAS-2293, PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
+        </classes>
+    </test>
 
 </suite>
