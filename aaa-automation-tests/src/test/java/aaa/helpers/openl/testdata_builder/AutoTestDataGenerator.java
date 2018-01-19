@@ -4,13 +4,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
@@ -73,7 +73,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|Not Licensed|Learner's Permit|";
 	}
 
-	TestData getVehicleTabInformationData(OpenLVehicle vehicle, boolean isTrailer) {
+	TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
 		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 
 		Map<String, Object> vehicleInformation = new HashMap<>();
@@ -93,6 +93,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>00");
 
 		if (isTrailerOrMotorHomeUsage(vehicle.getUsage())) {
+			boolean isTrailer = isTrailerCoverages(vehicle.getCoverages());
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), isTrailer ? "Trailer" : "Motor Home");
 			vehicleInformation.put(isTrailer ? AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel() : AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "regex=.*\\S.*");
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
@@ -158,6 +159,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return new SimpleDataProvider(vehicleInformation);
 	}
 
+	boolean isTrailerCoverages(List<OpenLCoverage> coverages) {
+		return coverages.size() <= 2 && coverages.stream().allMatch(c -> "COMP".equals(c.getCoverageCD()) || "COLL".equals(c.getCoverageCD()));
+	}
+
 	boolean isTrailerOrMotorHomeUsage(String usage) {
 		return "P1".equals(usage) || "P2".equals(usage) || "P3".equals(usage) || "PT".equals(usage) || "PR".equals(usage);
 	}
@@ -219,7 +224,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				AutoSSMetaData.VehicleTab.SAFETY_SCORE.getLabel(), safetyScore);
 	}
 
-	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType) {
+	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
 		switch (paymentPlanType) {
 			case "A":
 				return "Quarterly";
@@ -230,7 +235,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "L":
 				return getRandom("Eleven Pay - Low Down", "Monthly - Low Down"); //TODO-dchubkov: to be verified
 			case "P":
-				return getRandom("Annual", "Semi-Annual");
+				return getGeneralTabTerm(term);
 			case "Z":
 				return getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down");
 			default:
@@ -246,15 +251,21 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
 		String[] limitRange = limitOrDeductible.split("/");
-		String returnLimit;
-		if (limitRange.length > 2) {
-			throw new IstfException("Unknown mapping for limit/Deductible: " + limitOrDeductible);
-		}
-		returnLimit = "contains=" + new Dollar(limitRange[0] + "000").toString().replaceAll("\\.00", "");
+		assertThat(limitRange.length).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2).as("Unknown mapping for limit/Deductible: %s", limitOrDeductible);
+
+		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCD());
 		if (limitRange.length == 2) {
-			returnLimit = returnLimit + "/" + new Dollar(limitRange[1] + "000").toString().replaceAll("\\.00", "");
+			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCD());
 		}
 		return returnLimit;
+	}
+
+	private String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
+		String formattedLimit = coverageLimit;
+		if ("BI".equals(coverageCD) || "PD".equals(coverageCD) || "UMBI".equals(coverageCD) || "MP".equals(coverageCD) || "PIP".equals(coverageCD)) {
+			formattedLimit += "000";
+		}
+		return new Dollar(formattedLimit).toString().replaceAll("\\.00", "");
 	}
 
 	String getPremiumAndCoveragesFullSafetyGlass(String glassDeductible) {
@@ -286,7 +297,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case 12:
 				return "Annual";
 			case 6:
-				return Constants.States.VA.equals(getState()) ? "Semi-annual" : "Semi-Annual";
+				return "regex=Semi-[aA]nnual";
 			default:
 				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}

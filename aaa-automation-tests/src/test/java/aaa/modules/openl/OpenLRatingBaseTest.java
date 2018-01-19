@@ -60,6 +60,10 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		for (Map.Entry<P, Integer> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
 			log.info("Premium calculation verification  initiated for test with policy number {} from {} OpenL filename", policyAndPremium.getKey().getNumber(), openLFileName);
 			TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
+
+			/*SearchPage.openQuote("QORSS952012717");
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());*/
 			//TestData quoteRatingData = getPolicyDefaultTD();
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
