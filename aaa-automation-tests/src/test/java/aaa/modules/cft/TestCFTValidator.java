@@ -27,6 +27,7 @@ import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
+import aaa.helpers.cft.CFTHelper;
 import aaa.helpers.constants.Groups;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
@@ -66,8 +67,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 		File downloadDir = new File(DOWNLOAD_DIR);
 		File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-		checkDirectory(downloadDir);
-		checkDirectory(cftResultDir);
+		CFTHelper.checkDirectory(downloadDir);
+		CFTHelper.checkDirectory(cftResultDir);
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
 		// JobUtils.executeJob(Jobs.policyTransactionLedgerJob_NonMonthly);
 		runCFTJobs();
@@ -113,13 +114,13 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	// rename cft->csv package to helper package
 	// move CFTHelper to helper package
 
-	private void checkDirectory(File directory) throws IOException {
-		if (directory.mkdirs()) {
-			log.info("\"{}\" folder was created", directory.getAbsolutePath());
-		} else {
-			FileUtils.cleanDirectory(directory);
-		}
-	}
+	// private void checkDirectory(File directory) throws IOException {
+	// if (directory.mkdirs()) {
+	// log.info("\"{}\" folder was created", directory.getAbsolutePath());
+	// } else {
+	// FileUtils.cleanDirectory(directory);
+	// }
+	// }
 
 	private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
 		// if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app
@@ -245,52 +246,4 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				.doubleValue());
 		}
 	}
-
-	// private static void refreshReports() throws SQLException {
-	// String databaseURL = PropertyProvider.getProperty(TestProperties.APP_HOST);
-	// String user = PropertyProvider.getProperty(TestProperties.SSH_USER);
-	// String password = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
-	// try {
-	// Class.forName("oracle.jdbc.driver.OracleDriver");
-	// conn = DriverManager.getConnection(databaseURL, user, password);
-	// if (conn != null) {
-	// log.info("Connected to the database");
-	// }
-	// } catch (ClassNotFoundException ex) {
-	// System.out.println("Could not find database driver class");
-	// ex.printStackTrace();
-	// } catch (SQLException ex) {
-	// System.out.println("An error occurred. Maybe user/password is invalid");
-	// ex.printStackTrace();
-	// } finally {
-	// if (conn != null) {
-	// try {
-	// conn.close();
-	// } catch (SQLException ex) {
-	// ex.printStackTrace();
-	// }
-	// }
-	// }
-	// if (conn != null) {
-	// conn.close();
-	// log.info("Connection to {} closed", databaseURL);
-	// }
-	// }
-
-	// Connection con = null;
-	// CallableStatement proc = null;
-	//
-	// try {
-	// con = getConnection();
-	// proc = con.prepareCall("{ call REFRESH_MV_COMPLETE }");
-	// proc.execute();
-	// } finally {
-	// try {
-	// proc.close();
-	// } catch (SQLException e) {
-	//
-	// }
-	// con.close();
-	// }
-	// }
 }
