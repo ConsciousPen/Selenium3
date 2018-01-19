@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -538,24 +537,15 @@ public class TestVINUpload extends TestVinUploadHelper {
 		// 6. Bind endorsement
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();
+		new ErrorTab().override();
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();
+		new ErrorTab().override();
 		new DocumentsAndBindTab().submitTab();
 		// 7. Roll on changes for renewal term with changes made in OOS endorsement
 		policy.rollOn().perform(false, false);
 
 		policy.dataGather().start();
-	}
-
-	public void killChromeDrivers() throws IOException {
-		String taskkill = "TASKKILL /F /IM chromedriver.exe /T";
-		Runtime rt = Runtime.getRuntime();
-		try {
-			rt.exec(taskkill);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -566,7 +556,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	 * 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
 	 * files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
 	 * this after method should be updated. But such updates are not supposed to be done.
-	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
+	 * Please refer to the files with appropriate names in each test     in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
