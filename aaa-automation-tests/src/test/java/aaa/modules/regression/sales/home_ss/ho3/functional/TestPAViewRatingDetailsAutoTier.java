@@ -40,7 +40,7 @@ import toolkit.utils.TestInfo;
  * 8. Check that Auto tier value is between 1 and 16
  * @details
  **/
-public class TestPAViewRatingDetailsAutoAndMarketTier extends HomeSSHO3BaseTest {
+public class TestPAViewRatingDetailsAutoTier extends HomeSSHO3BaseTest {
 
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
@@ -89,50 +89,6 @@ public class TestPAViewRatingDetailsAutoAndMarketTier extends HomeSSHO3BaseTest 
 		// Assert that the Auto Tier Rating present and is between 1-16
 		PropertyQuoteTab.RatingDetailsView.open();
 		assertThat(range.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto Tier")))).isTrue();
-		PropertyQuoteTab.RatingDetailsView.close();
-
-		mainApp().close();
-	}
-
-
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier - UI Change : Property Information section")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-7025")
-	public void pas7025_testPAViewRatingDetailsMarketTier(@Optional("PA") String state) {
-
-		Set<String> range = new HashSet<>(Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J"));
-
-		TestData tdHome = getPolicyDefaultTD();
-		// TODO This needs to be removed after 5/28/18 (new algo implementation)
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		tdHome.mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()));
-
-		// Initiate Home Policy
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
-
-		// Assert that the Market Tier is between A-J
-		PropertyQuoteTab.RatingDetailsView.open();
-		assertThat(range.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
-		PropertyQuoteTab.RatingDetailsView.close();
-
-		// Issue Policy and initiate renewal
-		premiumsAndCoveragesQuoteTab.submitTab();
-		policy.getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
-		purchaseTab.submitTab();
-		policy.renew().start().submit();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-
-		// Assert that the Market Tier is between A-J
-		PropertyQuoteTab.RatingDetailsView.open();
-		assertThat(range.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
 		PropertyQuoteTab.RatingDetailsView.close();
 
 		mainApp().close();
