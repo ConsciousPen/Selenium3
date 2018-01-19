@@ -4,7 +4,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="UT Auto Functional Tests" parallel="methods" parallel="methods">
+    <test name="UT Auto Functional Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
