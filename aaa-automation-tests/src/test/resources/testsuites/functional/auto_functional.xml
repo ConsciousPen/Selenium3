@@ -44,7 +44,7 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
         </classes>
     </test>
-    <test name="AZ Auto Functional Tests" parallel="methods" parallel="methods">
+    <test name="AZ Auto Functional Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
