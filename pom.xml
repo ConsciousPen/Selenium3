@@ -104,6 +104,12 @@
             <groupId>com.exigen.istf</groupId>
             <artifactId>test-analytics-listener</artifactId>
             <version>${testanalytics.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.poi</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.uncommons</groupId>
