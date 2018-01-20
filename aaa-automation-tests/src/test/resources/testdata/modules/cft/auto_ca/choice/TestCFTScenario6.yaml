@@ -8,9 +8,7 @@ TestData: {
   FormsTab: '@FormsTab',
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab: {
@@ -28,13 +26,11 @@ TestData_OOS: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab_OOS: {
-    Endorsement Date: /startTime+1d,
+    Endorsement Date: $<startTime+1d>,
     Endorsement Reason: Maintain Vehicle(s)
 }
 

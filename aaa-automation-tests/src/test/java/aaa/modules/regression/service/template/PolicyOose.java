@@ -114,7 +114,8 @@ public abstract class PolicyOose extends PolicyBaseTest {
         
         getPolicyType().get().rollOn().submit();
         
-        //for VA and NY [Oose rull JIRA AAASS-23637]
+        //for VA and NY [Oose rull JIRA https://jira.exigeninsurance.com/browse/AAASS-23637]
+        //At “Roll On” of the pended endorsement, the system will fire an error that user must manually re-enter the assignment page for the non-OOS endorsement(s)
         getPolicyType().get().rollOn().getView().fill(getTestSpecificTD("ErrorProceed"));
         getPolicyType().get().dataGather().getView().fill(getTestSpecificTD("DataGather_EP"));
         

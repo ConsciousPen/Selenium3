@@ -93,3 +93,38 @@ TestDataForBindRewrittenPolicy_NY: {
     }
   }
 }
+
+TestDataForBindRewrittenPolicy_MD: {
+  PrefillTab: {},
+  GeneralTab: {
+     PolicyInformation: { Authorized by: QA}
+   },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+     "Has the customer expressed interest in purchasing the quote?": 'Yes',
+      Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+      'Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage': Physically Signed,
+      Maryland Auto Insurance Application: Physically Signed
+    },
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    },
+    Agreement: I agree
+  },
+    PurchaseTab: {
+    PaymentAllocation: {
+      Cash: /rest
+    }
+  }
+}

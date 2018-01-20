@@ -19,7 +19,7 @@ TestData: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    Authorized By: qa
+    Authorized By: QA
   }
 }  
 
@@ -39,6 +39,7 @@ AcceptPaymentActionTab: {
 }
 
 CancellationActionTab: {
+  Cancel Date: $<startTime+2d>,
   Cancellation Reason: 'Rewrite Accommodation',
   Authorized By: QA
 }
@@ -76,4 +77,10 @@ ClearSuspenseActionTab: {
 SearchSuspenseActionTab: {
   'Suspense Reference #': 123456,
   'Missing [status]': Outstanding
+}
+
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
 }

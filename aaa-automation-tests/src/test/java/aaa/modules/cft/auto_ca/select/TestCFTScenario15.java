@@ -23,7 +23,7 @@ public class TestCFTScenario15 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario15(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		addSuspenseEffDatePlus2();
+		addSuspenseStartDatePlus2();
 		clearSuspenseEffDatePlus16();
 	}
 

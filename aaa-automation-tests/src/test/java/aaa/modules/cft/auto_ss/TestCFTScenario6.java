@@ -32,7 +32,7 @@ public class TestCFTScenario6 extends ControlledFinancialBaseTest {
 	public void cftTestScenario6(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		endorsePolicyEffDatePlus2Days();
-		endorseOOSPolicyEffDatePlus16Days();
+		endorseOOSPolicyOnStartDatePlus16();
 	}
 
 	@Override
