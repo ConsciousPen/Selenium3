@@ -22,10 +22,10 @@ public class GeneralTab extends Tab {
         buttonNext.click();
         //TODO: OSI: Workaround, agency/location/agent configuration broke after agency move in PAM, whcih causes Retrieve Channel ID service not to work properly
         //TODO: Will open a defect for EM team
-/*        if(this.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENCY_LOCATION).getValue().isEmpty()){
+        if(this.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENCY_LOCATION).getValue().isEmpty()){
             this.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.AGENCY_LOCATION).setValue("index=1");
             buttonNext.click();
-        }*/
+        }
         return this;
     }
     
