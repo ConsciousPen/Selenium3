@@ -196,8 +196,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
     private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName) {
         RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
-        CustomAssert.assertTrue(allDocuments != null);
-        CustomAssert.assertTrue("NS".equals(allDocuments.status));
+        CustomAssert.assertTrue(rfiName + " rfiName not existent", allDocuments != null);
+        CustomAssert.assertTrue(rfiName + " has incorrect status", "NS".equals(allDocuments.status));
     }
 
 }
