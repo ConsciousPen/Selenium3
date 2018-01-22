@@ -150,6 +150,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
         // Open the rating details dialogue box and verify Auto Tier
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto Tier")).isEqualTo("N/A");
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 
         // Verify policy can be bound
         premiumsAndCoveragesQuoteTab.submitTab();

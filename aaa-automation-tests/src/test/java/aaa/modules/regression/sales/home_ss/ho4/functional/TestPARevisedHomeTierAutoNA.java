@@ -70,10 +70,8 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
 
-        // Verify the Auto 'Policy Tier' field is present
+        // Verify the Auto 'Policy Tier' field is present and select N/A
         assertThat(policyTier).isPresent();
-
-        // Select N/A for the Auto Policy Tier
         policyTier.setValue("N/A");
 
         // Submit and continue to the Premiums & Coverages Tab
