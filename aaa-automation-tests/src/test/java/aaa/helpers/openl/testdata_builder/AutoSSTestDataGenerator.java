@@ -291,19 +291,18 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
 
-			TestData vehicleData = DataProviderFactory.emptyData();
-			vehicleData.adjust(getVehicleTabInformationData(vehicle));
+			TestData vehicleData = getVehicleTabInformationData(vehicle);
 			if (isTrailerCoverages(vehicle.getCoverages())) {
 				trailersCount++;
 			}
 
 			if (vehicle.isTelematic()) {
-				vehicleData.adjust(getVehicleTabVehicleDetailsData("WMWRC33536TK73512", "No Score"));
+				vehicleData.adjust(getVehicleTabVehicleDetailsData("No Score"));
 			}
 
 			if (vehicle.getSafetyScore() != null) {
 				assertThat(vehicle.isTelematic()).as("\"isTelematic\" should be false if \"safetyScore\" is not null").isFalse();
-				vehicleData.adjust(getVehicleTabVehicleDetailsData("2HNYD28498H554858", String.valueOf(vehicle.getSafetyScore())));
+				vehicleData.adjust(getVehicleTabVehicleDetailsData(String.valueOf(vehicle.getSafetyScore())));
 			}
 
 			vehiclesTestDataList.add(vehicleData);
