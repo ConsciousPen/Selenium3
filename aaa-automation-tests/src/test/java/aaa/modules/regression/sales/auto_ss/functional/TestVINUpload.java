@@ -534,8 +534,10 @@ public class TestVINUpload extends TestVinUploadHelper {
 		// 6. Bind endorsement
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();
+		new ErrorTab().override();
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();
+		new ErrorTab().override();
 		new DocumentsAndBindTab().submitTab();
 		// 7. Roll on changes for renewal term with changes made in OOS endorsement
 		policy.rollOn().perform(false, false);
@@ -551,7 +553,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	 * 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
 	 * files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
 	 * this after method should be updated. But such updates are not supposed to be done.
-	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
+	 * Please refer to the files with appropriate names in each test     in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {

@@ -23,23 +23,11 @@ VehicleTab: {
   VIN: WDCYC7BB0B6729451
 }
 
-TestData_Endorsement_NY: {
+TestData_Endorsement1_NY: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_NY',
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
-}
-
-TestData_Endorsement_VA: {
-  GeneralTab: {},
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: '@VehicleTab',
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
@@ -70,5 +58,17 @@ TestData_Endorsement2: {
 PremiumAndCoveragesTab: {
   Bodily Injury Liability: 'contains=$500,000/$500,000',
   Property Damage Liability: 'contains=$100,000'
+}
+
+TestData_Endorsement2_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 

@@ -42,6 +42,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         //BUG PAS-5815 There is an extra Endorse action available for product
         NavigationPage.comboBoxListAction.verify.noOption("Endorse");
 
+        //will be used to check PAS-6364 Sleepy hollow: when doing Service Endorsement after regular endorsement, components are loaded in incorrect order
+        secondEndorsementIssueCheck();
+
         //PAS-343 start
         String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
         int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());

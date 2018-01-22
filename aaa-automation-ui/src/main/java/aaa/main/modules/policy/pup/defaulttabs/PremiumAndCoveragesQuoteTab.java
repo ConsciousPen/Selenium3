@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
@@ -36,6 +38,10 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
 	}
 
 	public void calculatePremium() {
+		if (!btnCalculatePremium.isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+		}
 		btnCalculatePremium.click();
 	}
 	

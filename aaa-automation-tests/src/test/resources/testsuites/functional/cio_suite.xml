@@ -1,11 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CIO Functional Test Suite" verbose="1" parallel="false" thread-count="1">
+<suite name="CIO Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
      </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS">
+    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
         <!--<parameter name="state" value="AZ"/>-->
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
@@ -13,7 +13,7 @@
         </classes>
     </test>
 
-    <test name="TestMembershipValidationHomeSS">
+    <test name="TestMembershipValidationHomeSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation">

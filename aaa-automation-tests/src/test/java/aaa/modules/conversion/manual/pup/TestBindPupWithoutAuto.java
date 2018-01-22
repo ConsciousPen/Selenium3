@@ -1,6 +1,8 @@
 package aaa.modules.conversion.manual.pup;
 
-
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -13,9 +15,6 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.conversion.manual.ConvPUPBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -38,7 +37,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6957")
-    public void pas6957_TestBindPupWithoutAutoNB(@Optional("NJ") String state) {
+    public void pas6957_TestBindPupWithoutAutoNB(@Optional("") String state) {
 
         // Create customer
         mainApp().open();
@@ -78,7 +77,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6957")
-    public void pas6957_TestBindPupWithoutAutoConversion(@Optional("NJ") String state) {
+    public void pas6957_TestBindPupWithoutAutoConversion(@Optional("") String state) {
 
         // Create Customer
         mainApp().open();
