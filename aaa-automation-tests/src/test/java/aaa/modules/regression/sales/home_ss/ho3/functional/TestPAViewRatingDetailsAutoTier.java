@@ -1,10 +1,8 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import org.apache.commons.lang.CharSet;
+import java.time.LocalDateTime;
+import java.time.Month;
 import org.apache.commons.lang.math.IntRange;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -55,7 +53,11 @@ public class TestPAViewRatingDetailsAutoTier extends HomeSSHO3BaseTest {
 		TestData tdHome = getPolicyDefaultTD();
 
 		// TODO This needs to be removed after 5/28/18 (new algo implementation)
-		//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		LocalDateTime algoEffective = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
+		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffective)) {
+			TimeSetterUtil.getInstance().nextPhase(algoEffective);
+		}
+
 
 		mainApp().open();
 		createCustomerIndividual();
