@@ -5,40 +5,44 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+    <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
         </classes>
     </test>
-    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+    <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
         </classes>
     </test>
-    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+    <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
         </classes>
     </test>
-    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+    <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
         </classes>
     </test>
     <test name="PAS-3002 View capping details and override capping for property polices">
@@ -75,30 +79,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
-        </classes>
-    </test>
-    <test name="PAS-6951 View conversion data fields during renewal - PUP">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-        </classes>
-    </test>
-    <test name="PAS-6951 View conversion data fields during renewal - PUP">
-        <parameter name="state" value="DE"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-        </classes>
-    </test>
-    <test name="PAS-6951 View conversion data fields during renewal - PUP">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-        </classes>
-    </test>
-    <test name="PAS-6951 View conversion data fields during renewal - PUP">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
         </classes>
     </test>
 </suite>
