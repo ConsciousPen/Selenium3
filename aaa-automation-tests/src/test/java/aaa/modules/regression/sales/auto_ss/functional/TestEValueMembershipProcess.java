@@ -467,15 +467,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
         String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
         CustomAssert
-                .assertTrue("5.0%".equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-                        .getTextField()));
+                .assertTrue("Membership discount tag problem", "5.0%"
+                        .equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+                                .getTextField()));
         CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
         CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
         if ("TRUE".equals(membershipEligibilitySwitch)) {
             PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
             PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
             premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-            CustomAssert.assertTrue("13.5%"
+            CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
                     .equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
             CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
             CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
@@ -659,8 +660,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         if (presence) {
             //TODO check apostrophe in the message
 /*			String membershipLogicNote = "Evalue information / Status was updated as : '" + status + "' for the policy based on Preferences and Membership logic.";
-			NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", membershipLogicNote).getCell("Date/Time").verify
-					.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));*/
+            NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", membershipLogicNote).getCell("Date/Time").verify
+                    .contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));*/
             NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", status).getCell("Date/Time").verify
                     .contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
         } else {
@@ -732,9 +733,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
             if (isMembershipDataPresent) {
                 CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+                //PAS-1549 Start
                 CustomAssert.assertTrue("5.0%"
                         .equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
                                 .getTextField()));
+                //PAS-1549 End
                 CustomAssert.assertTrue("Y"
                         .equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
             } else {
@@ -745,9 +748,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
             if (isEvalueDataPresent) {
                 CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+                //PAS-1549 Start
                 CustomAssert.assertTrue("13.5%"
                         .equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
                                 .getTextField()));
+                //PAS-1549 End
             } else {
                 CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
             }
