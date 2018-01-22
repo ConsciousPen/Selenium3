@@ -348,8 +348,8 @@ public final class AutoSSMetaData {
 
 		public static final class AddMemberSinceDialog extends MetaData {
 			public static final AssetDescriptor<TextBox> MEMBER_SINCE = declare("Member Since", TextBox.class, By.xpath("//input[@id='memberSinceDateFrom:popupMemberSinceDateInputDate']"));
-			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.xpath("//input[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
-			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath("//input[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.xpath(".//input[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
+			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath(".//input[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
 		}
 
 		public static final class OrderInsuranceScoreReportRow extends MetaData {
@@ -390,6 +390,10 @@ public final class AutoSSMetaData {
 				declare("List of Vehicle", FillableTable.class, ListOfVehicleRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListVehicle']/div/table"));
 		public static final AssetDescriptor<Button> ADD_VEHICLE = declare("Add Vehicle", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addVehicle"));
 		public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
+		// Strict order should be followed. Type -> Dialog.
+		public static final AssetDescriptor<AssetList> INFORMATION_NOTICE_DIALOG =
+				declare("InformationNoticeDialog", AssetList.class, InformationNoticeDialog.class, By.xpath("//div[@id='confirmVehicleTypeChangePopup_container']"));
+		public static final AssetDescriptor<ComboBox> MOTOR_HOME_TYPE = declare("Motor Home Type", ComboBox.class);
 		public static final AssetDescriptor<AssetListConfirmationDialog> CHANGE_VEHICLE_CONFIRMATION =
 				declare("Change Vehicle Confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.xpath(".//div[@id='confirmVehicleTypeChangePopup_container']"));
 		public static final AssetDescriptor<ComboBox> USAGE = declare("Usage", ComboBox.class);
@@ -444,6 +448,11 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST_INFORMATION =
 				declare("AdditionalInterestInformation", MultiInstanceAfterAssetList.class, AdditionalInterestInformation.class,
 						By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAdditionalInterest']"));
+
+		public static final class InformationNoticeDialog extends MetaData {
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.xpath(".//input[@id='confirmVehicleTypeChangePopupForm:acceptBtn']"));
+			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath(".//input[@id='confirmVehicleTypeChangePopupForm:cancelBtn']"));
+		}
 
 		public static final class ListOfVehicleRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);
