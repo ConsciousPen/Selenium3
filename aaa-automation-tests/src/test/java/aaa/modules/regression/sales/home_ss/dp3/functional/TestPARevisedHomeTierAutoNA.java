@@ -166,7 +166,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
     private TestData getTdWithAutoPolicy(TestData tdAuto) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
         TestData tdOtherActive = getTestSpecificTD("TestData_OtherActiveAAAPolicies")
-                .adjust("ActiveUnderlyingPoliciesSearch|Policy Number", "PASS926232057"); //PolicySummaryPage.getPolicyNumber());
+                .adjust("ActiveUnderlyingPoliciesSearch|Policy Number", PolicySummaryPage.getPolicyNumber());
         return getPolicyDefaultTD().adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
 }
