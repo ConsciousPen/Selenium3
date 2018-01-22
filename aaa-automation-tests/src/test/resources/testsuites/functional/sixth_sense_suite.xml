@@ -51,6 +51,7 @@
     <!--</test>-->
 
     <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="200">
+        <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPARevisedHomeTierAutoNA"/>
