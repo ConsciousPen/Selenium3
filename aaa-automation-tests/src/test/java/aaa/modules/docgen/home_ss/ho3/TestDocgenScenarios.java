@@ -669,7 +669,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testRefundCheckDocument(String state) throws Exception {
+	public void testRefundCheckDocument(@Optional("") String state) throws Exception {
 		Dollar amount = new Dollar(1234);
 
 		mainApp().open();
