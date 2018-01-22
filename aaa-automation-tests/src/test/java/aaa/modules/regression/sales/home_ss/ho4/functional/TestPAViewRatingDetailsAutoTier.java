@@ -1,10 +1,13 @@
 package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.time.Month;
 import org.apache.commons.lang.math.IntRange;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -17,7 +20,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.policy.HomeSSHO4BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -26,7 +28,7 @@ import toolkit.utils.TestInfo;
  * @author Dominykas Razgunas
  * @name Test PA Revised Home Tier UI Change View Rating Detail
  * @scenario
- * 1. Create PA HO3 Policy
+ * 1. Create PA HO4 Policy
  * 2. Fill All required fields and Calculate Premium
  * 3. View Rating Details
  * 4. Check that Auto tier value is between 1 and 16
@@ -51,7 +53,11 @@ public class TestPAViewRatingDetailsAutoTier extends HomeSSHO4BaseTest {
 		TestData tdHome = getPolicyDefaultTD();
 
 		// TODO This needs to be removed after 5/28/18 (new algo implementation)
-		//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		LocalDateTime algoEffective = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
+		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffective)) {
+			TimeSetterUtil.getInstance().nextPhase(algoEffective);
+		}
+
 
 		mainApp().open();
 		createCustomerIndividual();
