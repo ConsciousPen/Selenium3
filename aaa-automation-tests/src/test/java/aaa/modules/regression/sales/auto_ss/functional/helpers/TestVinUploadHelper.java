@@ -20,7 +20,6 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.queries.MsrpQueries;
-import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
@@ -33,7 +32,6 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
 	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
@@ -88,9 +86,8 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 		return Integer.parseInt(DBService.get().getColumn(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get(0)) + 1;
 	}
 
-	protected void pas2716_CommonSteps(String vinNumber, String vinTableFile, String controlTableFile, String policyNumber, LocalDateTime policyExpirationDate) {
-		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		vinMethods.uploadFiles(controlTableFile, vinTableFile);
+	protected void pas2716_CommonSteps(String vinNumber, String policyNumber, LocalDateTime policyExpirationDate) {
+
 		moveTimeAndRunRenewJobs(policyExpirationDate);
 		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
 		mainApp().open();
