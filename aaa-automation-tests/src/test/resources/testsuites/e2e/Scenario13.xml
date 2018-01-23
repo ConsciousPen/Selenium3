@@ -26,12 +26,12 @@
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario13"/>
         </classes>
     </test>
-<!--
+
     <test name="Home CA Scenario 13 with HO3" parallel="none">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario13"/>
         </classes>
     </test>
--->        
+        
 </suite>
