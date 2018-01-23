@@ -33,7 +33,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
             .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH);
 
 
-    public void pas6849_TestDisplayAutoTierOnApplicantTab() {
+    public void pas6849_TestDisplayAutoTierOnApplicantTab(PolicyType policyType) {
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
 
@@ -45,17 +45,17 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         createCustomerIndividual();
 
         // Get test data with PA Auto policy
-        TestData tdHome = getTdWithAutoPolicy(tdAuto);
+        TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
 
         // Create PA HO policy with companion Auto policy created above
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
 
         // Verify the Auto 'Policy Tier' field is present and select N/A
         assertThat(policyTier).isPresent();
         policyTier.setValue("N/A");
 
-        if (policy.equals(PolicyType.HOME_SS_DP3)) {
+        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
             // Add HO policy manually for DP3 requirement
             applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
             policySearchDialog.cancel();
@@ -64,7 +64,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         // Submit and continue to the Premiums & Coverages Tab
         applicantTab.submitTab();
-        policy.getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
 
         // Open the rating details dialogue box and verify Auto Tier
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
@@ -72,7 +72,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-    public void pas6849_TestAutoNAValueWithNonPACompanionAuto() {
+    public void pas6849_TestAutoNAValueWithNonPACompanionAuto(PolicyType policyType) {
         TestData tdAutoOH = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_OH")
                 .adjust(PrefillTab.class.getSimpleName(), testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_PrefillTab_OH"));
 
@@ -84,17 +84,17 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         createCustomerIndividual();
 
         // Get test data with PA Auto policy
-        TestData tdHome = getTdWithAutoPolicy(tdAutoOH);
+        TestData tdHome = getTdWithAutoPolicy(tdAutoOH, policyType);
 
         // Initiate HO policy
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
 
         // Verify the 'Policy Tier' is prefilled to 'N/A' and is disabled
         assertThat(policyTier.getValue()).isEqualTo("N/A");
         assertThat(policyTier.isEnabled()).isFalse();
 
-        if (policy.equals(PolicyType.HOME_SS_DP3)) {
+        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
             applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
             policySearchDialog.cancel();
             applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
@@ -102,7 +102,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         // Submit and continue to the Premiums & Coverages Tab
         applicantTab.submitTab();
-        policy.getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
 
         // Open the rating details dialogue box and verify Auto Tier
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
@@ -111,18 +111,19 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         // Verify policy can be bound
         premiumsAndCoveragesQuoteTab.submitTab();
-        policy.getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
+        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
 
-    private TestData getTdWithAutoPolicy(TestData tdAuto) {
+    private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
         TestData tdOtherActive = testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_OtherActiveAAAPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
-        return getPolicyDefaultTD().adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
+        return getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
+                .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
 
 

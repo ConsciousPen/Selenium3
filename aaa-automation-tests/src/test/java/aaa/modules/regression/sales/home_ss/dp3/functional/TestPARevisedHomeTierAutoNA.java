@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 
 public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
 
-    HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+    private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
     /**
      * @author Josh Carpenter
@@ -33,7 +33,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("") String state) {
 
-        helper.pas6849_TestDisplayAutoTierOnApplicantTab();
+        helper.pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
 
     }
 
@@ -56,7 +56,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("") String state) {
 
-    helper.pas6849_TestAutoNAValueWithNonPACompanionAuto();
+    helper.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
 
     }
 }
