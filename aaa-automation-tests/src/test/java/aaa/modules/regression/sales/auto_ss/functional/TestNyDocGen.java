@@ -174,34 +174,39 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
 	/**
 	 * @author Viktor Petrenko
-	 * @name NY doc gen check for AA11NY
+	 * @name PAS-706, PAS-2704 NY doc gen check for AA11NY
 	 * @scenario
 	 * 1. Issue NY policy
 	 * 2. Get DeclarationPage from db
-	 * 3. Check symbols presence
+	 * 3. Check comp and coll symbols presence
+	 * 4. Stat Code
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2704")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2704")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2704,PAS-706")
 	public void pas2704_LiabilitySymbolsPresenceDeclarationPage(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
 
-		String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+		String query = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(DocGenEnum.Documents.AA02NY.getId()));
 
 		docsToCheck.forEach(docID -> {
 			//Select doc from DB
-			List<DocumentDataSection> docData = DocGenHelper.getDocumentDataElemByName("PlcyNum", docID, getDataSql);
+			List<DocumentDataSection> docData = DocGenHelper.getDocumentDataElemByName("PlcyNum", docID, query);
 			assertThat(docData).isNotEmpty();
-			// PAS-2713 Scenario 1
-			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStatCd", docID, getDataSql);
+			// Start PAS-2713 Scenario 1
+			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStatCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
-			//Check that doc contains expected node
 			assertSoftly(softly -> softly.assertThat(actualNode).isNotEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
+			// End PAS-2713 Scenario 1
+
+			// Start PAS-706
+			verifyCompCollSymbolsPresence(query, docID);
+			// Start PAS-706
 		});
 	}
 
@@ -234,7 +239,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AA11NY.getId(),ADHOC_DOC_ON_DEMAND_GENERATE);
 
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(DocGenEnum.Documents.AA11NY.getId()));
-		// todo add check for liability symbols  PAS-2713 Scenario 2: NY
+		// todo add check for liability symbols PAS-2713 Scenario 2: NY
 		docsToCheck.forEach(docID -> {
 			//Select doc from DB
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
@@ -257,7 +262,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationFormStatCodeNA(@Optional("") String state) {
+	public void pas2713_ApplicationFormStatCodeNA(@Optional("CO") String state) {
 		String documentId = String.format("AA11%s",state);
 		DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(documentId);
 		// "AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"
@@ -280,11 +285,26 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		// todo add check for liability symbols
 		docsToCheck.forEach(docID -> {
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
+			// Start PAS-2713
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
 			//Check that doc contains expected node
-			assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
+			//assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
+			// End PAS-2713
+			// Start PAS-532
+			verifyCompCollSymbolsPresence(query, docID);
+			// End PAS-532
 		});
 	}
+
+
+	private void verifyCompCollSymbolsPresence(String getDataSql, DocGenEnum.Documents docID) {
+		List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, getDataSql);
+		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotNull());
+
+		List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, getDataSql);
+		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotNull());
+	}
+
 
 	private String getVehicleInfo(int rowNum) {
 		String yearVeh = PolicySummaryPage.tablePolicyVehicles.getRow(rowNum).getCell(YEAR).getValue();

@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -6,21 +6,18 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.modules.regression.sales.template.functional.TestSymbolsPresenceTemplate;
 import toolkit.utils.TestInfo;
 
 public class TestNyDocGen extends TestSymbolsPresenceTemplate {
-	private GenerateOnDemandDocumentActionTab generateOnDemandDocumentActionTab = new GenerateOnDemandDocumentActionTab();
-
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 
 	/**
 	 * @author Viktor Petrenko
-	 * @name NY doc gen check for AA11CA
+	 * @name NY doc gen check for AA11NY
 	 * @scenario
 	 * 1. Issue NY policy
 	 * 2. Get DeclarationPage from db
@@ -34,4 +31,6 @@ public class TestNyDocGen extends TestSymbolsPresenceTemplate {
 	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("CA") String state) {
 		verifySymbolsPresenceInDocs();
 	}
+
+
 }

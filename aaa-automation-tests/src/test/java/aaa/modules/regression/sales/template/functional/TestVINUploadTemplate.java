@@ -87,7 +87,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
-		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber);
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -273,7 +275,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void endorsement(String vinTableFile, String vinNumber) {
-		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber).resolveLinks();
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 
 		String policyNumber = createPolicyPreconds(testData);
 
