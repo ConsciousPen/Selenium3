@@ -7,7 +7,8 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <suite-files>
-        <suite-file path="./CleanFeedFiles.xml" />
+        <suite-file path="./Scenario11.xml" />
+        <suite-file path="./Scenario31.xml" />
 	    <suite-file path="./Scenario35.xml" />
   	</suite-files>
 

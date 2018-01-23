@@ -4,7 +4,12 @@ package aaa.modules.cft;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +26,14 @@ import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
+import aaa.helpers.cft.CFTHelper;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
 import aaa.helpers.conversion.MaigConversionData;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ActionConstants;
 import aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable;
 import aaa.main.enums.BillingConstants;
@@ -60,6 +67,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected static final String DEFAULT_TEST_DATA_KEY = "TestData";
 	protected static final String STATE_PARAM = "state";
+	protected static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
+
+	private static final String CFT_COLLECTION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
+	private static final String CFT_COLECTION_NAME = "_220825_PMT_E_PMTCTRL_PASSYS_7001_D.DAT";
+	private static final String FEED_FILE_LOCATION = "/home/mp2/pas/sit/PMT_E_PMTCTRL_PASSYS_7001_D/inbound/";
 
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected OperationalReport operationalReport = new OperationalReport();
@@ -751,7 +763,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		automaticCancellationNoticeDueInsallmentDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 	}
 
-	protected void generateCollection(int installmentNumber) {
+	protected void generateCollection(int installmentNumber) throws IOException {
 		LocalDateTime collectionDate = getTimePoints().getEarnedPremiumWriteOff(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(collectionDate);
@@ -760,7 +772,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		if (totalDue.moreThan(new Dollar(100))) {
-			generateCollectionFile();
+			generateCollectionFile(totalDue);
 			log.info("Collection generated successfully");
 		}
 		else {
@@ -1082,8 +1094,25 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Earned Premium bill generated successfully");
 	}
 
-	private void generateCollectionFile() {
-		log.info("*** TODO *** collection file generation");
+	private void generateCollectionFile(Dollar totalDue) throws IOException {
+		File collectionDir = new File(CFT_COLLECTION_DIRECTORY);
+		CFTHelper.checkDirectory(collectionDir);
+		String collectionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String fileName = CFT_COLLECTION_DIRECTORY + collectionDate + CFT_COLECTION_NAME;
+		File collectionFeedFile = new File(fileName);
+		try (FileWriter fw = new FileWriter(collectionFeedFile)) {
+			try (BufferedWriter bw = new BufferedWriter(fw)) {
+				bw.flush();
+				bw.write("HDR|DEV|PMTCTRL|PMT_E_PMTCTRL_PASSYS_7001_D|P01AWU410|0c131710-a94c-404f-850d-2a86ab3e0fd7");
+				bw.newLine();
+				bw.write("DTL|90201|PMT|20151009|095800|NCOCOL||||||4WUIC|HO||" + BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber() + "|||"
+					+ collectionDate + "|713113927747003|0000" + totalDue + "0|CHCK||||||||548521632|N");
+				bw.newLine();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		RemoteHelper.uploadFile(fileName, FEED_FILE_LOCATION + fileName);
 	}
 
 	private void generateInstallmentBillDueDate(LocalDateTime billDueDate) {

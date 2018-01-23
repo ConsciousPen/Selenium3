@@ -45,7 +45,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
-	private static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
 	private static final String SQL_GET_LEDGER_DATA = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id group by  le.LEDGERACCOUNTNO";
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
