@@ -2,19 +2,16 @@ package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.modules.regression.sales.home_ss.helper.TestPARevisedHomeTierAutoNAAbstract;
+import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import toolkit.utils.TestInfo;
 
-public class TestPARevisedHomeTierAutoNA extends TestPARevisedHomeTierAutoNAAbstract {
+public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
-    }
+    HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
     /**
      * @author Josh Carpenter
@@ -35,7 +32,7 @@ public class TestPARevisedHomeTierAutoNA extends TestPARevisedHomeTierAutoNAAbst
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("") String state) {
 
-        pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
+        helper.pas6849_TestDisplayAutoTierOnApplicantTab();
 
     }
 
@@ -58,7 +55,7 @@ public class TestPARevisedHomeTierAutoNA extends TestPARevisedHomeTierAutoNAAbst
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("") String state) {
 
-        pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
+        helper.pas6849_TestAutoNAValueWithNonPACompanionAuto();
 
     }
 }

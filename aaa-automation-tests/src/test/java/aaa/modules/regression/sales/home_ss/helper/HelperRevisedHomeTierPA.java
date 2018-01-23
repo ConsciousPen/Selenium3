@@ -12,11 +12,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
 
-public class TestPARevisedHomeTierAutoNAAbstract extends PolicyBaseTest {
+public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     private ApplicantTab applicantTab = new ApplicantTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
@@ -32,7 +33,7 @@ public class TestPARevisedHomeTierAutoNAAbstract extends PolicyBaseTest {
             .getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH);
 
 
-    protected void pas6849_TestDisplayAutoTierOnApplicantTab(PolicyType policyType) {
+    public void pas6849_TestDisplayAutoTierOnApplicantTab() {
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
 
@@ -54,11 +55,11 @@ public class TestPARevisedHomeTierAutoNAAbstract extends PolicyBaseTest {
         assertThat(policyTier).isPresent();
         policyTier.setValue("N/A");
 
-        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
+        if (policy.equals(PolicyType.HOME_SS_DP3)) {
             // Add HO policy manually for DP3 requirement
             applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
             policySearchDialog.cancel();
-            applicantTab.fillTab(getTestSpecificTD("TestData_ManualPolicy"));
+            applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
         }
 
         // Submit and continue to the Premiums & Coverages Tab
@@ -71,10 +72,9 @@ public class TestPARevisedHomeTierAutoNAAbstract extends PolicyBaseTest {
     }
 
 
-    protected void pas6849_TestAutoNAValueWithNonPACompanionAuto(PolicyType policyType) {
-
+    public void pas6849_TestAutoNAValueWithNonPACompanionAuto() {
         TestData tdAutoOH = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_OH")
-                .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("TestData_PrefillTab_OH"));
+                .adjust(PrefillTab.class.getSimpleName(), testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_PrefillTab_OH"));
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
         verifyAlgoDate();
@@ -94,10 +94,10 @@ public class TestPARevisedHomeTierAutoNAAbstract extends PolicyBaseTest {
         assertThat(policyTier.getValue()).isEqualTo("N/A");
         assertThat(policyTier.isEnabled()).isFalse();
 
-        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
+        if (policy.equals(PolicyType.HOME_SS_DP3)) {
             applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
             policySearchDialog.cancel();
-            applicantTab.fillTab(getTestSpecificTD("TestData_ManualPolicy"));
+            applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
         }
 
         // Submit and continue to the Premiums & Coverages Tab
@@ -120,7 +120,7 @@ public class TestPARevisedHomeTierAutoNAAbstract extends PolicyBaseTest {
 
     private TestData getTdWithAutoPolicy(TestData tdAuto) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
-        TestData tdOtherActive = getTestSpecificTD("TestData_OtherActiveAAAPolicies")
+        TestData tdOtherActive = testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_OtherActiveAAAPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         return getPolicyDefaultTD().adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
