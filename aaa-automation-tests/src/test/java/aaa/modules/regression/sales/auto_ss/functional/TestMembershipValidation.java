@@ -229,11 +229,11 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668")
-	public void pas6668_Validate_Override_Manual_Renewal_DummyNumber(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668 PAS-8815")
+	public void pas6668_pas8815_Validate_Override_Manual_Renewal_DummyNumber(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
 		TestData tdSpecificEnd = getTestSpecificTD("TestData_MembershipValidation_Renewal_DummyNumber").resolveLinks();
-		validate_Manual_Renewal(tdSpecificNB, tdSpecificEnd, false);
+		validate_Manual_Renewal(tdSpecificNB, tdSpecificEnd, true);
 	}
 
 	/**
@@ -251,11 +251,11 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668")
-	public void pas6668_Validate_Override_Automated_Renewal_DummyNumber(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668 PAS-8815")
+	public void pas6668_pas8815_Validate_Override_Automated_Renewal_DummyNumber(@Optional("AZ") String state) {
 		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
 		TestData tdSpecificEnd = getTestSpecificTD("TestData_MembershipValidation_Renewal_DummyNumber").resolveLinks();
-		validate_Automated_Renewal(tdSpecificNB, tdSpecificEnd, false);
+		validate_Automated_Renewal(tdSpecificNB, tdSpecificEnd, true);
 	}
 
 
