@@ -3,7 +3,9 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-
+import com.exigen.ipb.etcsa.controls.AllocationAmount;
+import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
@@ -11,17 +13,13 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import com.exigen.ipb.etcsa.controls.AllocationAmount;
-import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
 public class PaymentsMaintenanceMetaData {
 
 	public static final class AddBulkPaymentActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> BULK_AMOUNT = declare("Bulk Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> BULK_REFERENCE = declare("Bulk Reference #", TextBox.class);
 		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class,
-			AllocationMultiSelector.class);
+				AllocationMultiSelector.class);
 		public static final AssetDescriptor<AllocationAmount> ALLOCATED_AMOUNT = declare("Allocated Amount", AllocationAmount.class);
 
 		public static final class AllocationMultiSelector extends MetaData {
@@ -35,7 +33,7 @@ public class PaymentsMaintenanceMetaData {
 			public static final AssetDescriptor<TextBox> AGENCY_CODE = declare("Agency Code", TextBox.class);
 
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class,
-				Waiters.DEFAULT, false, By.id("bulkPaymentForm:searchForAllocationLink"));
+					Waiters.DEFAULT, false, By.id("bulkPaymentForm:searchForAllocationLink"));
 		}
 	}
 
@@ -61,7 +59,7 @@ public class PaymentsMaintenanceMetaData {
 
 	public static final class ClearSuspenseActionTab extends MetaData {
 		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class,
-			AllocationMultiSelector.class);
+				AllocationMultiSelector.class);
 
 		public static final class AllocationMultiSelector extends MetaData {
 			public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_NUMBER = declare("Billing Account #", TextBox.class);
@@ -74,7 +72,7 @@ public class PaymentsMaintenanceMetaData {
 			public static final AssetDescriptor<TextBox> AGENCY_CODE = declare("Agency Code", TextBox.class);
 
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class,
-				Waiters.SLEEP(3000), false, By.id("suspenseForm:showPolicySearchPopupLnk"));
+					Waiters.SLEEP(3000), false, By.id("suspenseForm:showPolicySearchPopupLnk"));
 		}
 	}
 }
