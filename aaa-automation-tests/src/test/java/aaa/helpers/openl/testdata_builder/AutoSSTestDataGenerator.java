@@ -341,13 +341,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		List<TestData> detailedVehicleCoveragesList = new ArrayList<>(openLPolicy.getVehicles().size());
+		Map<String, Object> coverageData = new HashMap<>();
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
-			Map<String, Object> coverageData = new HashMap<>();
+			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeUsage(vehicle.getUsage());
 			for (OpenLCoverage coverage : vehicle.getCoverages()) {
-				coverageData.put(getPremiumAndCoveragesTabCoverageKey(coverage.getCoverageCD()), getPremiumAndCoveragesTabLimitOrDeductible(coverage));
-				if (isTrailerOrMotorHomeUsage(vehicle.getUsage())) {
+				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCD());
+				coverageData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
+
+				if (isTrailerOrMotorHomeVehicle) {
 					assertThat(coverage.getGlassDeductible()).isEqualTo("N/A")
 							.as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field for \"Trailer\" or \"Motor Home\" vehicle types");
+
+					//TODO-dchubkov: tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI
+					coverageData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
 				} else {
 					coverageData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
 				}

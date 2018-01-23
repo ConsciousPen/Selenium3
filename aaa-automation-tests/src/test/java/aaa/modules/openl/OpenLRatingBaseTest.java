@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -53,15 +54,15 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
-		Map<P, Integer> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
+		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
 		createCustomerIndividual();
-		for (Map.Entry<P, Integer> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
+		for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
 			log.info("Premium calculation verification  initiated for test with policy number {} from {} OpenL filename", policyAndPremium.getKey().getNumber(), openLFileName);
 			TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
 
-			/*SearchPage.openQuote("QORSS952012717");
+			/*SearchPage.openQuote("QORSS952012721");
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());*/
 			//TestData quoteRatingData = getPolicyDefaultTD();
@@ -69,12 +70,12 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
 
-			assertSoftly(softly -> softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(String.valueOf(policyAndPremium.getValue())));
+			assertSoftly(softly -> softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString()));
 			Tab.buttonCancel.click();
 		}
 	}
 
-	protected <O extends OpenLFile<P>> Map<P, Integer> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
+	protected <O extends OpenLFile<P>> Map<P, Dollar> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
 
 		if (CollectionUtils.isNotEmpty(policyNumbers)) {
@@ -91,10 +92,11 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				? openLFile.getPolicies()
 				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 
-		Map<P, Integer> openLPoliciesAndPremiumsMap = new HashMap<>(openLPoliciesList.size());
+		Map<P, Dollar> openLPoliciesAndPremiumsMap = new HashMap<>(openLPoliciesList.size());
 		for (P openLPolicy : openLPoliciesList) {
 			TableRow row = openLFileManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", openLPolicy.getNumber());
-			openLPoliciesAndPremiumsMap.put(openLPolicy, row.getSumContains("_res_.$Value"));
+			Dollar expectedPremium = new Dollar(row.getSumContains("_res_.$Value"));
+			openLPoliciesAndPremiumsMap.put(openLPolicy, expectedPremium);
 		}
 
 		openLFileManager.close();

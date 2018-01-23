@@ -196,7 +196,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getPremiumAndCoveragesTabCoverageKey(String coverageCD) {
+	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
 		switch (coverageCD) {
 			case "BI":
 				return AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel();
@@ -335,14 +335,14 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 					+ "from VEHICLEREFDATAVIN\n"
 					+ "inner join VEHICLEREFDATAMODEL\n"
 					+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
-					+ "where PHYSICALDAMAGECOLLISION %1$s AND PHYSICALDAMAGECOMPREHENSIVE %2$s AND YEAR %3$s AND (RESTRAINTSCODE %4$s) AND ANTITHEFTCODE %5$s;",
+					+ "where PHYSICALDAMAGECOLLISION %1$s AND PHYSICALDAMAGECOMPREHENSIVE %2$s AND YEAR %3$s AND (RESTRAINTSCODE %4$s) AND ANTITHEFTCODE %5$s",
 					vehicle.getCollSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
 					vehicle.getCompSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
 					vehicle.getModelYear() == null ? "IS NULL" : "= " + vehicle.getModelYear(),
 					vehicle.getAirbagCode() == null || "N".equals(vehicle.getAirbagCode()) ? "IS NULL" : "= " + getDbRestraintsCode(vehicle.getAirbagCode()),
 					vehicle.getAntiTheftString() == null ? "IS NULL" : "= " + getDbAntitheftCode(vehicle.getAntiTheftString()));
 
-			vin = DBService.get().getValue(getVinQuery).get();
+			vin = DBService.get().getValue(getVinQuery).orElse(null);
 		}
 		return vin;
 	}
@@ -352,22 +352,24 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "N":
 				return null;
 			case "0":
-				return "0002 OR AUTOSB";
+				return "'0002' OR RESTRAINTSCODE = 'AUTOSB'";
 			case "1":
-				return "000B OR 000D OR 000M OR 0001";
+				return "'000B' OR RESTRAINTSCODE = '000D' OR RESTRAINTSCODE = '000M' OR RESTRAINTSCODE = '0001'";
 			case "2":
-				return "0002 OR 000C OR 000E OR 000F OR 000L OR 000U";
+				return "'0002' OR RESTRAINTSCODE = '000C' OR RESTRAINTSCODE = '000E' OR RESTRAINTSCODE = '000F' OR RESTRAINTSCODE = '000L' OR RESTRAINTSCODE = '000U'";
 			case "3":
-				return "0004 OR 000G OR 000J OR 000K OR 000X OR 0003 OR 000R OR 000S";
+				return "'0004' OR RESTRAINTSCODE = '000G' OR RESTRAINTSCODE = '000J' OR RESTRAINTSCODE = '000K' OR RESTRAINTSCODE = '000X' OR RESTRAINTSCODE = '0003' "
+						+ "OR RESTRAINTSCODE = '000R' OR RESTRAINTSCODE = '000S'";
 			case "4":
-				return "0004 OR 000H OR 000I OR 000Y OR 000V OR 000W OR 0007 OR 0006 OR 000T";
+				return "'0004' OR RESTRAINTSCODE = '000H' OR RESTRAINTSCODE = '000I' OR RESTRAINTSCODE = '000Y' OR RESTRAINTSCODE = '000V' OR RESTRAINTSCODE = '000W' "
+						+ "OR RESTRAINTSCODE = '0007' OR RESTRAINTSCODE = '0006' OR RESTRAINTSCODE = '000T'";
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + openlAirbagCode);
 		}
 	}
 
 	private String getDbAntitheftCode(String openlAntiTheftString) {
-		return "N".equals(openlAntiTheftString) ? "NONE" : "STD";
+		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
 	}
 
 	private String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
