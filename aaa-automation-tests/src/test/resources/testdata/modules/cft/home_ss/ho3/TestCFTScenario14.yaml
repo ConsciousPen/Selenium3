@@ -15,5 +15,6 @@ PremiumsAndCoveragesQuoteTab_DataGather: {
 }
 
 CancellationActionTab: {
+  Cancellation effective date: $<startTime+2d>,
   Cancellation reason: 'Rewrite Accommodation'
 }

@@ -7,9 +7,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  },
+  DocumentsAndBindTab: {},
   AcceptPaymentActionTab: {
       Payment Method: 'Check',
       Amount: 50,

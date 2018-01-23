@@ -8,10 +8,8 @@ Endorsement: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: '@DriverActivityReportsTab_Endorse',
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab_Endorse: {
@@ -19,9 +17,8 @@ EndorsementActionTab_Endorse: {
   Endorsement Reason: Maintain Vehicle(s)
 }
 
-DriverActivityReportsTab_Endorse: {
-  Sales Agent Agreement: I Agree,
-  Validate Driving History: click
+DriverTab_Endorse: {
+    ADB Coverage: 'Yes'
 }
 
 # ------------ Split data ---------------
@@ -33,68 +30,29 @@ SplitTestData: {
     }
 }
 
-# ------------ Data Gathering data ---------------
+# --- Data Gather
 TestData_DataGather: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab', '@DriverTab2'],
-  MembershipTab: '@MembershipTab',
-  VehicleTab: ['@VehicleTab', '@VehicleTab2'],
+  DriverTab: ['@DriverTab1', '@DriverTab2'],
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
   AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  FormsTab: '@<auto_ca_choice>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ca_choice>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-PrefillTab: {
-  First Name: Sansa,
-  Last Name: Stark,
-  Zip Code: 94544,
-  Address Line 1: 8416 Briggs Drive,
-  Date of Birth: '$<today-38y:MM/dd/yyyy>',
-  Validate Address: click,
-  Validate Address Dialog: {
-    },
-  Order Prefill: click
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
 GeneralTab: {
-  NamedInsuredInformation: ['@NamedInsuredInformation', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
-  PolicyInformation: '@PolicyInformation'
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
 }
 
-NamedInsuredInformation: {
-  "Home Phone #": 1234567890 
-}
-
-NamedInsuredInformation2: {
-  InsuredSearchDialog: {},
-  First Name: Diego,
-  Last Name: Maradona,
-  Base Date: '$<today:MM/dd/yyyy>',
-  "Home Phone #": 5554567890, 
-}
-
-AAAProductOwned: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Member Last Name: Smith
-}
-
-PolicyInformation: {
-  Policy Type: Standard,
-  Effective Date: '$<today+2d:MM/dd/yyyy>',
-  Channel Type: Phone (Direct Sales Unit),
-  Agency: SMTestCC - 400000092,
-  Sales Channel: Online,
-  Authorized by: QA,
-  TollFree Number: 1
-}
-
-DriverTab: {
+DriverTab1: {
   Occupation: Self Employed,
   Age First Licensed: 37,
   Permit Before License: 'No',
@@ -109,7 +67,7 @@ DriverTab2: {
   Named Insured: 'Diego Maradona',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '$<today-37y:MM/dd/yyyy>',
+  Date of Birth: '$<today-37y>',
   Occupation: Self Employed,
   Gender: Male,
   Marital Status: Single,
@@ -121,17 +79,13 @@ DriverTab2: {
   Employee ID: '12345679'
 }
 
-MembershipTab: {
-  Order Report: click
-}
-
-VehicleTab: {
+VehicleTab1: {
   VIN: 1GNWGPFG8B6548273,
   Primary Use: Pleasure (recreational driving only),
   Existing Damage: None,
   "Salvaged?": 'No',
   Miles One-way to Work or School: 10,
-  Odometer Reading: 3000,
+  Odometer Reading: 3000
 }
 
 VehicleTab2: {
@@ -139,7 +93,7 @@ VehicleTab2: {
   Primary Use: Pleasure (recreational driving only),
   Existing Damage: None,
   "Salvaged?": 'No',
-  Odometer Reading: 5000,
+  Odometer Reading: 5000
 }
 
 AssignmentTab: {
@@ -151,23 +105,24 @@ AssignmentTab: {
   }]
 }
 
-FormsTab: {}
-PremiumAndCoveragesTab: {
-  Payment Plan: Standard Monthly,
-}
-
-DriverActivityReportsTab: {
-  "Has the customer expressed interest in purchasing the policy?": 'Yes',
-  Sales Agent Agreement: I Agree,
-  Validate Driving History: click
-}
-
 DocumentsAndBindTab: {
   RequiredToBind: {
     Personal Auto Application: Physically Signed,
     Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
   },
   VehicleInformation: ['@Vehicle1', '@Vehicle2']
+}
+
+NamedInsuredInformation1: {
+  Home Phone Number: 1234567890 
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Diego,
+  Last Name: Maradona,
+  Base Date: '$<today>',
+  Home Phone Number: 5554567890 
 }
 
 Vehicle1: {
@@ -178,8 +133,12 @@ Vehicle2: {
   "Are there any additional interest(s)?": 'No'
 }
 
-PurchaseTab: {
-  PaymentAllocation: {
-    Cash: /rest
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: '$<today+2d>',
   }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
 }

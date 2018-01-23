@@ -64,26 +64,6 @@ QC-26288:
               aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckEndorsement,
               aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckRenewal]
       messages: ['Defensive Driving Course Discount']
-QC-11112:
-  summary: "OSI: requirements changed in previous sprint. Victoria will review if the test is already covered by new functionality or not."
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas265_MinimumStateLimitsForBIPreBind]
-      messages: ['Bodily Injury Limit has incorrect lower limit', 'expected', 'ComboBox {Bodily Injury Liability: {PremiumAndCoveragesTab: By.xpath:']
-QC-11113:
-  summary: "OSI: Waiting for Mindaugas to implement proper stub config"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethod]
-      messages: ['Visa-4113 expiring 01/22']
-QC-11114:
-  summary: "OSI: PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcess]
-      messages: ['Check Number']
 PAS-6667:
   summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
   reason: PROD
@@ -131,29 +111,13 @@ PAS-7673:
       messages: ["Cannot set value of AssetList {PurchaseTab"]
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
-OSI-1111:
-  summary: "OSI: no dxp configuration"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.*,
-    aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.*,
-    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.*]
-      messages: ["Entity input stream has already been closed."]
+
 OSI-1112:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
       messages: ["Timed out waiting for page load"]
-OSI-1113:
-  summary: "OSI: rummors have it that Issue link needs to be removed for Automated and Manual refunds"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck]
-      messages: ["Cannot get value of Link"]
 OSI-1114:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD
@@ -161,11 +125,17 @@ OSI-1114:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
       messages: ["LoginPanel is displayed expected"]
 OSI-1115:
-  summary: "OSI: Megha is checking the discrepency - AAAPaymentDetailsCheque vs PaymentDetailsCheque"
+  summary: "OSI: question to Karen about UMBI=No Coverage, which is not applicable for IN"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.*]
-      messages: ["AAAPaymentDetailsCheque"]
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["Cannot set value of AssetList {DriverActivityReportsTab"]
+OSI-1116:
+  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesn't"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["rfiName"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD

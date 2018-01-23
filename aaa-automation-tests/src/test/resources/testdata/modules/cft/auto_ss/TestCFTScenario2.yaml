@@ -7,9 +7,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  },
+  DocumentsAndBindTab: {},
   CancellationActionTab: '@CancellationActionTab',
   ReinstatementActionTab: '@ReinstatementActionTab'
 }
@@ -30,7 +28,7 @@ PremiumAndCoveragesTab : {
 }
 
 CancellationActionTab: {
-  Cancel Date: "$<today+2d">,
+  Cancel Date: $<today+2d>,
   Cancellation Reason: "Insured's Request - Other",
   Other reason: "CFT test scenario 2",
   Authorized By: 'QA'
