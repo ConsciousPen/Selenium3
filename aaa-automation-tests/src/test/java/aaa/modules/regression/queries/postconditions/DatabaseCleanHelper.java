@@ -1,4 +1,4 @@
-package aaa.modules.regression.postconditions;
+package aaa.modules.regression.queries.postconditions;
 
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;

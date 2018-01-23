@@ -173,7 +173,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         billingAccount.refund().perform(tdRefund, new Dollar(refundAmount1));
 
         //TODO workaround for Time-setter parallel execution
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
         checkRefundDocumentInDb(state, policyNumber, 1);
         pas1939_issuedRefundActionsCheck(refund1, policyNumber, true);
@@ -484,7 +484,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-3619 End
         //PAS-2728 Start
         //TODO workaround for Time-setter parallel execution
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 
         Map<String, String> refund2 = new HashMap<>();
@@ -907,11 +907,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
         if ("ERR".equals(refundStatus)) {
             //TODO workaround for Time-setter parallel execution
-            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMinutes(30));
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
             JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
         } else if ("SUCC".equals(refundStatus)) {
             //TODO workaround for Time-setter parallel execution
-            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
             JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
         }
     }
