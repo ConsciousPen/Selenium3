@@ -151,8 +151,8 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
     private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName, String status) {
         RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
-        CustomAssert.assertTrue(allDocuments != null);
-        CustomAssert.assertTrue(status.equals(allDocuments.status));
+        CustomAssert.assertTrue(rfiName + " rfiName not existent", allDocuments != null);
+        CustomAssert.assertTrue(rfiName + " has incorrect status", status.equals(allDocuments.status));
     }
 
     private static void rfiTagCheck(String query, String tag, String tagValue) {

@@ -218,4 +218,16 @@ public final class PolicyConstants {
         public static final String CAPPED_TERM_PREMIUM = "Capped Term Premium";
         public static final String PROGRAM_CODE = "Program Code";
     }
+
+    public static final class InitiateRenewalEntryScreenErrorMessages {
+        public static final String PREVIOUS_POLICY_NUMBER_IS_REQUIRED = "Previous Policy Number.";
+        public static final String PREVIOUS_SOURCE_SYSTEM_IS_REQUIRED = "Premium Waiver Start.";
+        public static final String RISK_STATE_IS_REQUIRED = "Risk State is required.";
+        public static final String RENEWAL_EFFECTIVE_DATE_IS_REQUIRED = "Renewal Effective Date " +
+                "is required.";
+        public static final String RENEWAL_POLICY_PREMIUM_IS_REQUIRED = "Renewal Policy Premium " +
+                "is required.";
+        public static final String LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED =
+                "Multi-Policy Discount should be selected.";
+    }
 }

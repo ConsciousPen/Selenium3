@@ -467,15 +467,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
         String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
         CustomAssert
-                .assertTrue("5.0%".equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-                        .getTextField()));
+                .assertTrue("Membership discount tag problem", "5.0%"
+                        .equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+                                .getTextField()));
         CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
         CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
         if ("TRUE".equals(membershipEligibilitySwitch)) {
             PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
             PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
             premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-            CustomAssert.assertTrue("13.5%"
+            CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
                     .equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
             CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
             CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
@@ -526,7 +527,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-5837")
     public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("DC") String state) {
         mainApp().open();
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(1));
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
         String membershipDiscountEligibilitySwitch = "FALSE";
         preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
@@ -638,7 +639,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
         JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
         JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-        //BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs.
+        //BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
         //BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
         //JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
     }
