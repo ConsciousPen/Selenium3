@@ -41,7 +41,7 @@ import toolkit.webdriver.controls.TextBox;
 public class TestVINUpload extends TestVinUploadHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType(),getState());
+	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
