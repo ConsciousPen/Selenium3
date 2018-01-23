@@ -80,12 +80,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "NS", null);
         //PAS-341 End
 
         CustomAssert.disableSoftMode();
@@ -137,22 +137,27 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "NS");
-        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "NS",null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "NS", null);
+        policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "NS", null);
         //PAS-341 End
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
-    private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName, String status) {
+    private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName, String status, String documentType) {
         RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
         CustomAssert.assertTrue(rfiName + " rfiName not existent", allDocuments != null);
         CustomAssert.assertTrue(rfiName + " has incorrect status", status.equals(allDocuments.status));
+        if (documentType == null) {
+            CustomAssert.assertTrue(rfiName + " has incorrect documentType", allDocuments.documentType == null);
+        } else {
+            CustomAssert.assertTrue(rfiName + " has incorrect documentType", documentType.equals(allDocuments.documentType));
+        }
     }
 
     private static void rfiTagCheck(String query, String tag, String tagValue) {
