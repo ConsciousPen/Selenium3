@@ -728,8 +728,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
         if (isGenerated) {
-            lastTransactionHistoryExit();
-            Efolder.isDocumentExist("Endorsement", "Discount Removed");
+	        lastTransactionHistoryExit();
+	        Efolder.isDocumentExist("Endorsement", "Discount Removed");
 
             if (isMembershipDataPresent) {
                 CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
@@ -776,7 +776,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
                         .equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
                                 .getTextField()));
             }
-
+            lastTransactionHistoryExit();
+            Efolder.isDocumentExist("Endorsement", "Discount Removed");
         } else {
             //BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
             CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());

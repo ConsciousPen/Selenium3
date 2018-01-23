@@ -35,7 +35,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyViewAndOverrideCappingDetails extends HomeSSHO3BaseTest {
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3002")
     public void testPolicyViewCappingDetails(@Optional("") String state) {
 

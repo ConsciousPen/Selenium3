@@ -22,7 +22,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
         DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
     }
 
-    @Test(description = "setting Agent/Agency check against Zip to stub", enabled=false)
+    @Test(description = "setting Agent/Agency check against Zip to stub")
     public static void channelIdResolverStubEndpointUpdate() {
         DBService.get().executeUpdate(String.format(CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE, APP_HOST));
     }

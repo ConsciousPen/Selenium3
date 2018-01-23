@@ -1,12 +1,13 @@
 package aaa.common.components;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.List;
-
-import aaa.toolkit.webdriver.WebDriverHelper;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
+import org.openqa.selenium.support.ui.Select;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.ComboBox;
@@ -66,12 +67,21 @@ public class Pagination {
 		return hasPageOptionsSelector() ? this.pageOptionsSelector.getAllValues() : null;
 	}
 
-	public int getSelectedRowsPerPage() {
-		return hasPageOptionsSelector() ? Integer.valueOf(pageOptionsSelector.getValue()) : null;
+	public Integer getSelectedRowsPerPage() {
+		if (hasSelectedRowsPerPage()) {
+			return Integer.valueOf(pageOptionsSelector.getValue());
+		}
+		return null;
+	}
+
+	public boolean hasSelectedRowsPerPage() {
+		return hasPageOptionsSelector()
+				&& !new Select(pageOptionsSelector.getWebElement()).getAllSelectedOptions().isEmpty() // To prevent "NoSuchElementException" on ComboBox.getValue() when no option is selected
+				&& NumberUtils.isCreatable(pageOptionsSelector.getValue());
 	}
 
 	public boolean setRowsPerPage(int value) {
-		if (hasPageOptionsSelector() && getSelectedRowsPerPage() != value) {
+		if (getSelectedRowsPerPage() != value) {
 			pageOptionsSelector.setValue(String.valueOf(value));
 			return true;
 		}
@@ -143,7 +153,8 @@ public class Pagination {
 
 	public boolean setMinRowsPerPage() {
 		if (hasPageOptionsSelector()) {
-			pageOptionsSelector.setValueByIndex(0);
+			int minRowsPerPage = getPageOptionsList().stream().filter(NumberUtils::isCreatable).mapToInt(Integer::valueOf).min().getAsInt();
+			pageOptionsSelector.setValue(String.valueOf(minRowsPerPage));
 			return true;
 		}
 		return false;
@@ -151,38 +162,40 @@ public class Pagination {
 
 	public boolean setMaxRowsPerPage() {
 		if (hasPageOptionsSelector()) {
-			pageOptionsSelector.setValueByIndex(getPageOptionsList().size() - 1);
+			int maxRowsPerPage = getPageOptionsList().stream().filter(NumberUtils::isCreatable).mapToInt(Integer::valueOf).max().getAsInt();
+			pageOptionsSelector.setValue(String.valueOf(maxRowsPerPage));
 			return true;
 		}
 		return false;
 	}
 
 	protected class Verify {
-		Pagination p = Pagination.this;
+		Pagination page = Pagination.this;
 
 		public void present() {
 			present(true);
 		}
 
 		public void present(boolean expectedValue) {
-			String assertionMessage = String.format("Pagination with \"%1$s\" locator is\"%2$s\" present.", p.getLocator(), expectedValue ? " not" : "");
+			String assertionMessage = String.format("Pagination with \"%1$s\" locator is\"%2$s\" present.", page.getLocator(), expectedValue ? " not" : "");
 			if (expectedValue) {
-				CustomAssert.assertTrue(assertionMessage, p.isPresent());
+				assertThat(page.isPresent()).isTrue().as(assertionMessage);
 			} else {
-				CustomAssert.assertFalse(assertionMessage, p.isPresent());
+				assertThat(page.isPresent()).isFalse().as(assertionMessage);
 			}
 		}
 
 		public void hasNextPage() {
-			CustomAssert.assertTrue(String.format("Pagination with \"%1$s\" locator does not have next page. Selected page is: %2$s.", p.getLocator(), p.getSelectedPage()), p.hasNextPage());
+			assertThat(page.hasNextPage()).isTrue().as("Pagination with \"%1$s\" locator does not have next page. Selected page is: %2$s.", page.getLocator(), page.getSelectedPage());
 		}
 
 		public void hasPreviousPage() {
-			CustomAssert.assertTrue(String.format("Pagination with \"%1$s\" locator does not have previous page. Selected page is: %2$s.", p.getLocator(), p.getSelectedPage()), p.hasPreviousPage());
+			assertThat(page.hasPreviousPage()).isTrue().as("Pagination with \"%1$s\" locator does not have previous page. Selected page is: %2$s.", page.getLocator(), page.getSelectedPage());
 		}
 
 		public void hasPageOptionsSelector() {
-			CustomAssert.assertTrue(String.format("Pagination with \"%1$s\" locator does not have page options combobox with \"%2$s\" locator.", p.getLocator(), p.pageOptionsSelector), p.hasPageOptionsSelector());
+			assertThat(page.hasPageOptionsSelector()).isTrue()
+					.as("Pagination with \"%1$s\" locator does not have page options combobox with \"%2$s\" locator.", page.getLocator(), page.pageOptionsSelector.getLocator());
 		}
 	}
 }

@@ -28,23 +28,28 @@ public class GeneralTab extends Tab {
         }*/
         return this;
     }
-    
+
     public AssetList getPolicyInfoAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), AssetList.class);
-	}
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), AssetList.class);
+    }
+
     public AssetList getAAAMembershipAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
-	}
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
+    }
+
     public AssetList getDwellingAddressAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
-	}
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
+    }
+
     public AssetList getMailingAddressAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.MAILING_ADDRESS.getLabel(), AssetList.class);
-	}
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.MAILING_ADDRESS.getLabel(), AssetList.class);
+    }
+
     public AssetList getThirdPartyDesigneeAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
-	}
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
+    }
+
     public AssetList getNamedInsuredContactsAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.NAMED_INSURED_CONTACT_INFORMATION.getLabel(), AssetList.class);
-	}
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.NAMED_INSURED_CONTACT_INFORMATION.getLabel(), AssetList.class);
+    }
 }
