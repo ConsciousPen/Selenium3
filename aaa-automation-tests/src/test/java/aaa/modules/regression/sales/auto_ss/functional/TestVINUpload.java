@@ -23,6 +23,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -55,20 +57,23 @@ public class TestVINUpload extends TestVinUploadHelper {
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
 	 * PAS-2714 New Liability Symbols
+	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a day
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for NB.
 	 * @scenario
 	 * 0. Create customer
 	 * 1. Initiate Auto SS quote creation
 	 * 2. Go to the vehicle tab, fill info with not existing VIN and fill all mandatory info
+	 * 3. Move time by two days
 	 * 3. On Administration tab in Admin upload Excel to add this VIN to the system
-	 * 4. Open application and quote, calculate premium for it
-	 * 5. Verify that VIN was uploaded and all fields are populated, VIN refresh works after premium calculation
+	 * 4. Open application and quote, navigate to Documents and Bind Tab, verify rerate Error
+	 * 5. Calculate premium and navigate back to vehicle page
+	 * 6. Verify that VIN was uploaded and all fields are populated, VIN refresh works after premium calculation
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455, PAS-938")
 	public void pas533_newVinAdded(@Optional("UT") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
@@ -86,15 +91,31 @@ public class TestVINUpload extends TestVinUploadHelper {
 
 		vinMethods.uploadFiles(vinTableFile);
 
-		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		findAndRateQuote(testData, quoteNumber);
+		//Johns - Move system time by two days
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
+
+		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		// johns - pas-938 verify 'Rerate' Error message
+		ErrorTab errorTab = new ErrorTab();
+		assertThat(errorTab.tableErrorInfo.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.UNPREPARED_DATA.getMessage()).isPresent()).isEqualTo(true);
+		errorTab.cancel();
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
+
 		// Start PAS-2714 NB
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue()).isEqualToIgnoringCase("AK"));
+		// johns - getCell changed to '2'. Corrected isEqualTo 'AC'
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AC"));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
@@ -142,7 +163,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 		purchaseTab.submitTab();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		vinMethods.uploadFiles(vinTableFile);

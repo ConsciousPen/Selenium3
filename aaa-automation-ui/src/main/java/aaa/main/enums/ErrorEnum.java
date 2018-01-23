@@ -5,6 +5,7 @@ public final class ErrorEnum {
 	}
 
 	public enum Errors {
+		UNPREPARED_DATA("Unprepared data", "Cannot issue policy which was not rated!"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
