@@ -174,7 +174,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
 	/**
 	 * @author Viktor Petrenko
-	 * @name PAS-706, PAS-2704 NY doc gen check for AA11NY
+	 * @name PAS-706, PAS-2704 NY doc gen check for AA02NY
 	 * @scenario
 	 * 1. Issue NY policy
 	 * 2. Get DeclarationPage from db
@@ -195,9 +195,6 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(DocGenEnum.Documents.AA02NY.getId()));
 
 		docsToCheck.forEach(docID -> {
-			//Select doc from DB
-			List<DocumentDataSection> docData = DocGenHelper.getDocumentDataElemByName("PlcyNum", docID, query);
-			assertThat(docData).isNotEmpty();
 			// Start PAS-2713 Scenario 1
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStatCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
