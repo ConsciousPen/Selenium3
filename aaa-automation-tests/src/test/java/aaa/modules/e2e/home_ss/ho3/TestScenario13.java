@@ -1,4 +1,4 @@
-package aaa.modules.e2e.auto_ss;
+package aaa.modules.e2e.home_ss.ho3;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
@@ -12,10 +12,10 @@ import aaa.modules.e2e.templates.Scenario13;
 import toolkit.datax.TestData;
 
 public class TestScenario13 extends Scenario13 {
-
+	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.HOME_SS_HO3;
 	}
 
 	@Parameters({"state"})
@@ -42,16 +42,19 @@ public class TestScenario13 extends Scenario13 {
 			changePaymentPlan(); 
 			generateSixthBill(); 
 			paySixthBill();
-			refundGeneration(); 
 			cancelNoticeNotGenerated(); 
+			refundGeneration(); 
 			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
 			renewalOfferGeneration(); 
 			generateRenewalBill(); 
+			/* method is not implemented for Home SS
 			createRenewalVersion();
+			*/
 			payRenewalBill(); 
 			updatePolicyStatus();			
 		});
 	}
+
 }

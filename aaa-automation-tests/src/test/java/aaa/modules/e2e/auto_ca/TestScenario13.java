@@ -1,4 +1,4 @@
-package aaa.modules.e2e.auto_ss;
+package aaa.modules.e2e.auto_ca;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
@@ -15,9 +15,9 @@ public class TestScenario13 extends Scenario13 {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
-
+	
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
@@ -47,9 +47,10 @@ public class TestScenario13 extends Scenario13 {
 			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
-			renewalOfferGeneration(); 
-			generateRenewalBill(); 
+			renewalOfferGeneration();  
+			/* method is not implemented for AutoCA
 			createRenewalVersion();
+			*/
 			payRenewalBill(); 
 			updatePolicyStatus();			
 		});

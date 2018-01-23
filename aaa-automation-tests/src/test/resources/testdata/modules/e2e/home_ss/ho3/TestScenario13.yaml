@@ -1,0 +1,48 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Semi-Annual
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+# ----- Renewal - Create version -----
+TestData_CreateVersion: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 165000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+    Coverage F - Medical Payments to Others: 'contains=$5,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

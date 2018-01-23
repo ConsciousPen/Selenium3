@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
+import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -12,6 +13,7 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -42,6 +44,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.TextBox;
 
 public class Scenario13 extends ScenarioBaseTest {
 	
@@ -187,20 +190,26 @@ public class Scenario13 extends ScenarioBaseTest {
 	}
 	
 	//DD6-21
-	protected void changePaymentPlanDuringEndorsement() {
+	protected void changePaymentPlan() {
 		LocalDateTime endorseDueDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(6)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(endorseDueDate);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);		
 		Dollar totalDueBeforeEndorsement =  new Dollar(BillingSummaryPage.getTotalDue());
+		Dollar endorseAmount = new Dollar(0);
 		
-		BillingSummaryPage.openPolicy(policyEffectiveDate);				
-		TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
-		policy.endorse().performAndFill(endorsementTD);
-		Dollar endorseAmount = new Dollar(PolicySummaryPage.TransactionHistory.getTranPremium()); 
+		if (getPolicyType().isCaProduct()) {
+			billingAccount.changePaymentPlan().perform("Semi-Annual");
+		}
+		else {
+			BillingSummaryPage.openPolicy(policyEffectiveDate);	
+			TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+			policy.endorse().performAndFill(endorsementTD);
+			endorseAmount = new Dollar(PolicySummaryPage.TransactionHistory.getTranPremium()); 
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
+		}
 		
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
 		Dollar totalDueAfterEndorsement;
 		if (endorseAmount.isNegative()) {
 			totalDueAfterEndorsement = new Dollar(totalDueBeforeEndorsement.add(endorseAmount));
@@ -221,13 +230,15 @@ public class Scenario13 extends ScenarioBaseTest {
 			softly.assertThat(installmentDues.get(6)).as("Last installment amount is incorrect").isEqualTo(totalDueAfterEndorsement);
 		});		
 		
-		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(endorseDueDate)
-			.setPolicy(policyNum)
-			.setType(PaymentsAndOtherTransactionType.PREMIUM)
-			.setSubtypeReason(reason)
-			.setAmount(endorseAmount).verifyPresent();
-		
+		if (!getPolicyType().isCaProduct()) {
+			TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+			String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(endorseDueDate)
+				.setPolicy(policyNum)
+				.setType(PaymentsAndOtherTransactionType.PREMIUM)
+				.setSubtypeReason(reason)
+				.setAmount(endorseAmount).verifyPresent();
+		}	
 	}
 	
 	protected void generateSixthBill() {
@@ -371,17 +382,19 @@ public class Scenario13 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		Dollar renewalBillAmount = new Dollar(BillingHelper.getBillCellValue(policyExpirationDate, BillingBillsAndStatmentsTable.MINIMUM_DUE)); 
 		BillingSummaryPage.openPolicy(policyExpirationDate);
+				
+		TestData createVersionTD = getTestSpecificTD("TestData_CreateVersion");		
 		
-		TestData createVersionTD = getTestSpecificTD("TestData_CreateVersion");			
 		PolicySummaryPage.buttonRenewals.click();		
 		policy.policyInquiry().start(); 
+		
 		new GeneralTab().createVersion(); 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
 		new PremiumAndCoveragesTab().fillTab(createVersionTD);
 		PremiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
-		
+		new DocumentsAndBindTab().submitTab();		
+
 		PolicySummaryPage.buttonRenewalQuoteVersion.isEnabled();
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();		
 		Dollar premiumNewVersion = PolicySummaryPage.TransactionHistory.readEndingPremium(1);
