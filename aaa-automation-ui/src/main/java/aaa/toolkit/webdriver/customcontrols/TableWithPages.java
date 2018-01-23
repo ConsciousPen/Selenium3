@@ -1,19 +1,18 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import aaa.common.components.Pagination;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.pagefactory.ByChained;
-import toolkit.datax.TestData;
-import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.composite.table.NoRow;
-import toolkit.webdriver.controls.composite.table.Row;
-import toolkit.webdriver.controls.composite.table.Table;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.pagefactory.ByChained;
+import aaa.common.components.Pagination;
+import toolkit.datax.TestData;
+import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.composite.table.NoRow;
+import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Custom control for table with pagination
@@ -62,9 +61,9 @@ public class TableWithPages extends Table {
 
 	public int getAllRowsCount() {
 		maximizeTableAndGoToFirstPage();
-		int rowsCount = super.getRowsCount();
+		int rowsCount = getRowsCount();
 		while (pagination.goToNextPage()) {
-			rowsCount += super.getRowsCount();
+			rowsCount += getRowsCount();
 		}
 		return rowsCount;
 	}
@@ -136,12 +135,13 @@ public class TableWithPages extends Table {
 	}
 
 	protected int getRowsPerPage() {
-		if (pagination.hasPageOptionsSelector()) {
-			return pagination.getSelectedRowsPerPage();
+		Integer rowsPerPage = pagination.getSelectedRowsPerPage();
+		if (rowsPerPage != null) {
+			return rowsPerPage;
 		}
 
 		pagination.goToFirstPage();
-		return super.getRowsCount();
+		return getRowsCount();
 	}
 
 	protected Row getRowWithNavigation(Supplier<Row> getRowSupplier) {

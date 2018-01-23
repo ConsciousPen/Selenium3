@@ -111,6 +111,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		testData.adjust(generalTab.getMetaKey(),generalTabAdjusted).resolveLinks();
 		// End of General tab
 
-		return TestVinUploadHelper.getTestDataWithMembershipSinceDate(testData);
+		return TestVinUploadHelper.addMembershipSinceDateToTestData(testData);
 	}
 }

@@ -1,0 +1,129 @@
+# ------- AZ ------
+TestData_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_AZ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+# ------- KY ------
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_KY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+# ------- MD ------
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_MD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD'
+}
+
+PrefillTab: {
+  Date of Birth: '08/08/1977',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: {
+    "Has lived here for less than three years?": 'No',
+    Residence: Own Home
+  },
+  AAAProductOwned: {
+    Membership Number: 4290023667710001,
+    Last name: Smith
+  },
+  ContactInformation: {
+    Home Phone Number: 1234567890,
+    Email: 'test@gmail.com'
+  }
+}
+
+DriverTab_AZ: {
+  Gender: 'index=1',
+  Marital Status: 'index=1',
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678
+}
+
+DriverTab_KY: {
+  Gender: 'index=1',
+  Marital Status: 'index=1',
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12121215
+}
+
+DriverTab_MD: {
+  Gender: 'index=1',
+  Marital Status: 'index=1',
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789999
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+VehicleTab: {
+  Type: Private Passenger Auto,
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  GeneralInformation: {
+    Authorized By: qa
+  }
+}
+
+DocumentsAndBindTab_MD: {
+  RequiredToBind: {
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed
+  },
+  GeneralInformation: {
+    Authorized By: qa
+  }
+}
+
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
+}

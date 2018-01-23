@@ -8,9 +8,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  },
+  DocumentsAndBindTab: {},
   CancellationActionTab: '@CancellationActionTab',
   ReinstatementActionTab: '@ReinstatementActionTab'
 }
@@ -31,7 +29,7 @@ PremiumAndCoveragesTab : {
 }
 
 CancellationActionTab: {
-  Cancel Date: "$<today+2d">,
+  Cancel Date: $<today+2d>,
   Cancellation Reason: "Other",
   Other reason: "CFT test scenario 2",
   Authorized By: 'QA'
@@ -42,7 +40,13 @@ ReinstatementActionTab: {
  }
 
 DriverTab_DataGather: {
-    Affinity Group: 'AAA Employee'
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
 }
 
 PremiumAndCoveragesTab_DataGather: {

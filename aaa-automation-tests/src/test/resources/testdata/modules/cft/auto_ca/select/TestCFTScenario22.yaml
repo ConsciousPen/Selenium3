@@ -1,0 +1,42 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  CancellationActionTab: '@CancellationActionTab'
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}
+
+CancellationActionTab: {
+  Cancel Date: $<startTime+1M'>,
+  Cancellation Reason: 'Other',
+  Other reason: 'CFT test',
+  Authorized By: 'QA'
+}
+
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: $<today+1M>,
+  }
+}
+
+DriverTab_DataGather: {
+  Occupation: Self Employed,
+  Age First Licensed: 37,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Check: /rest,
+    Check Number Check: '123456'
+  }
+}

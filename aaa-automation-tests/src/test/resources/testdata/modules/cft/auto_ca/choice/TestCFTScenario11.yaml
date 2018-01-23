@@ -1,0 +1,38 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}  
+
+EndorsementActionTab: {
+  Endorsement Date: $<today>,
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
+PremiumAndCoveragesTab : {
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '100',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+#---- Data Gather ----
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 50
+  }
+}
