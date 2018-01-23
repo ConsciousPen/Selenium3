@@ -1,4 +1,4 @@
-package aaa.modules.e2e.home_ss.ho3;
+package aaa.modules.e2e.home_ca.ho3;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
@@ -15,9 +15,9 @@ public class TestScenario13 extends Scenario13 {
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_CA_HO3;
 	}
-
+	
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
@@ -42,19 +42,17 @@ public class TestScenario13 extends Scenario13 {
 			changePaymentPlan(); 
 			generateSixthBill(); 
 			paySixthBill();
-			cancelNoticeNotGenerated(); 
 			refundGeneration(); 
+			cancelNoticeNotGenerated(); 
 			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
-			renewalOfferGeneration(); 
-			generateRenewalBill(); 
-			/* method is not implemented for Home SS
+			renewalOfferGeneration();  
+			/* method is not implemented for AutoCA
 			createRenewalVersion();
 			*/
 			payRenewalBill(); 
 			updatePolicyStatus();			
 		});
 	}
-
 }
