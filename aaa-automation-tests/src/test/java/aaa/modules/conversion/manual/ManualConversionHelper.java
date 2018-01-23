@@ -1,11 +1,13 @@
 package aaa.modules.conversion.manual;
 
 import aaa.helpers.TestDataManager;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.CustomerType;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
@@ -39,8 +41,10 @@ public interface ManualConversionHelper {
         td.adjust("InitiateRenewalEntryActionTab|Product Name", type.getName());
         if (td.getTestData("InitiateRenewalEntryActionTab|Policy Type") == null) {
             td.adjust("InitiateRenewalEntryActionTab|Policy Type",
-                    !type.getShortName().contains("_") ? "HO3" : type.getShortName().replaceAll(".+_", ""));
+                    !type.getShortName().contains("_") ? "HO3" : type.getShortName().replaceAll(".+_", ""))
+            .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT.getLabel()), "No");
         }
+
         return td.resolveLinks();
     }
 
