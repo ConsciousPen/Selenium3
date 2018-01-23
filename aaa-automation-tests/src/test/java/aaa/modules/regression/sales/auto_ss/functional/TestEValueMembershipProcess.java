@@ -728,6 +728,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
         if (isGenerated) {
+	        lastTransactionHistoryExit();
+	        Efolder.isDocumentExist("Endorsement", "Discount Removed");
+
             if (isMembershipDataPresent) {
                 CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
                 //PAS-1549 Start

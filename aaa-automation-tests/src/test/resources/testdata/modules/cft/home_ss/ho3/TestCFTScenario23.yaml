@@ -1,0 +1,9 @@
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Pay in Full
+}
