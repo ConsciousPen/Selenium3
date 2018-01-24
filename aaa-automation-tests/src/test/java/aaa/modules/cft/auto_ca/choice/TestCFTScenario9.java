@@ -4,12 +4,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.modules.cft.ControlledFinancialBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
  * Controlled Financial Testing Scenario 9
@@ -41,6 +43,13 @@ public class TestCFTScenario9 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected TestData getPolicyTestData() {
-		return getTestSpecificTD("TestData_DataGather");
+		TestData td = getTestSpecificTD("TestData_DataGather");
+		td.adjust(TestData
+						.makeKeyPath(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
+				getTestSpecificTD("GeneralTab_DataGather").getValue(
+						AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
+		td.adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
+				"PremiumAndCoveragesTab_DataGather").getValue(AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
+		return td.resolveLinks();
 	}
 }

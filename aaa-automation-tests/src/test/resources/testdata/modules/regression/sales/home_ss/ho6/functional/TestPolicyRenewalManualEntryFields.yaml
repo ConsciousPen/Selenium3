@@ -1,19 +1,3 @@
-# ====================== TD_Renewal_Actions MD =======================
-
-  TD_Renewal_Actions_MD: {
-    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO6,
-    Previous Policy Number: '$<rx:123\d{5}>',
-    Previous Source System: MAIG,
-    Risk State: MD,
-    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
-    Inception Date: '$<today-10d:MM/dd/yyyy>',
-    Renewal Policy Premium: 1000,
-    Policy Term: Annual,
-    Program Code: LegacyConv,
-    Enrolled in Autopay: 'No'}
-  }
-
 # ====================== TestData MD =======================
 
   TestData_MD: {
@@ -57,27 +41,11 @@
   ReportsTab_MD: {
     Sales Agent Agreement: 'I Agree',
     AAAMembershipReport: [{Report: 'Order report'}],
-    #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
     #FirelineReport: [{Report: 'Order Report'}],
     RiskMeterReport: [{Report: 'Order Report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}]
-  }
-
-# ====================== TD_Renewal_Actions VA =======================
-
-  TD_Renewal_Actions_VA: {
-    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO6,
-    Previous Policy Number: '$<rx:123\d{5}>',
-    Previous Source System: MAIG,
-    Risk State: VA,
-    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
-    Inception Date: '$<today-10d:MM/dd/yyyy>',
-    Renewal Policy Premium: 1000,
-    Policy Term: Annual,
-    Program Code: LegacyConv,
-    Enrolled in Autopay: 'No'}
   }
 
 # ====================== TestData VA =======================
@@ -123,27 +91,11 @@
   ReportsTab_VA: {
     Sales Agent Agreement: 'I Agree',
     AAAMembershipReport: [{Report: 'Order report'}],
-    #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
     #FirelineReport: [{Report: 'Order Report'}],
     RiskMeterReport: [{Report: 'Order Report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}]
-  }
-
-# ====================== TD_Renewal_Actions DE =======================
-
-  TD_Renewal_Actions_DE: {
-    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO6,
-    Previous Policy Number: '$<rx:123\d{5}>',
-    Previous Source System: MAIG,
-    Risk State: DE,
-    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
-    Inception Date: '$<today-10d:MM/dd/yyyy>',
-    Renewal Policy Premium: 1000,
-    Policy Term: Annual,
-    Program Code: LegacyConv,
-    Enrolled in Autopay: 'No'}
   }
 
 # ====================== TestData DE =======================
@@ -189,27 +141,11 @@
   ReportsTab_DE: {
     Sales Agent Agreement: 'I Agree',
     AAAMembershipReport: [{Report: 'Order report'}],
-    #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
     RiskMeterReport: [{Report: 'Order Report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}]
     #ISO360Report: [{Report: 'Order report'}]
-  }
-
-# ====================== TD_Renewal_Actions NJ =======================
-
-  TD_Renewal_Actions_NJ: {
-    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO6,
-    Previous Policy Number: '$<rx:123\d{5}>',
-    Previous Source System: MAIG,
-    Risk State: NJ,
-    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
-    Inception Date: '$<today-10d:MM/dd/yyyy>',
-    Renewal Policy Premium: 1000,
-    Policy Term: Annual,
-    Program Code: LegacyConv,
-    Enrolled in Autopay: 'No'}
   }
 
 # ====================== TestData NJ =======================
@@ -255,28 +191,13 @@
   ReportsTab_NJ: {
     Sales Agent Agreement: 'I Agree',
     AAAMembershipReport: [{Report: 'Order report'}],
-    #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
     RiskMeterReport: [{Report: 'Order Report'}],
     #FirelineReport: [{Report: 'Order Report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}]
   }
 
-# ====================== TD_Renewal_Actions PA =======================
-
-  TD_Renewal_Actions_PA: {
-    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
-    Policy Type: HO6,
-    Previous Policy Number: '$<rx:123\d{5}>',
-    Previous Source System: MAIG,
-    Risk State: PA,
-    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
-    Inception Date: '$<today-10d:MM/dd/yyyy>',
-    Renewal Policy Premium: 1000,
-    Policy Term: Annual,
-    Program Code: LegacyConv,
-    Enrolled in Autopay: 'No'}
-  }
 
 # ====================== TestData PA =======================
 
@@ -321,7 +242,7 @@
   ReportsTab_PA: {
     Sales Agent Agreement: 'I Agree',
     AAAMembershipReport: [{Report: 'Order report'}],
-    #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
     #FirelineReport: [{Report: 'Order Report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}]

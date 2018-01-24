@@ -4,14 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * Controlled Financial Testing Scenario 15
@@ -23,7 +22,7 @@ public class TestCFTScenario15 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario15(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		addSuspenseEffDatePlus2();
+		addSuspenseStartDatePlus2();
 		clearSuspenseEffDatePlus16();
 	}
 

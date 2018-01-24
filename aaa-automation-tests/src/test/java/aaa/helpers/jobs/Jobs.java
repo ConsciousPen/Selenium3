@@ -68,7 +68,7 @@ public class Jobs {
 
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 
-	//public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
+	// public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
 
 	public static Job automatedProcessingRunReportsServicesJob = new Job("automatedProcessingRunReportsServicesJob");
 
@@ -109,6 +109,8 @@ public class Jobs {
 	public static Job earnedPremiumPostingAsyncTaskGenerationJob = new Job("earnedPremiumPostingAsyncTaskGenerationJob");
 
 	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
+
+	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob_NonMonthly");
 
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
