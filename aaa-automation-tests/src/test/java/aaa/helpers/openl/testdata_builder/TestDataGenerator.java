@@ -37,8 +37,8 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 
 	public abstract TestData getRatingData(P openLPolicy);
 
-	String getYesOrNo(boolean value) {
-		return value ? "Yes" : "No";
+	String getYesOrNo(Boolean value) {
+		return Boolean.TRUE.equals(value) ? "Yes" : "No";
 	}
 
 	String getYesOrNo(String value) {

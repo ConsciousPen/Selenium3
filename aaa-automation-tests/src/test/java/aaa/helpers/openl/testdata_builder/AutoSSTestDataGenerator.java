@@ -41,7 +41,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
-		if (openLPolicy.getReinstatements() > 0) {
+		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
 			//TODO-dchubkov: to be implemented...
 			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
 		}
@@ -59,7 +59,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
 		TestData resultData = TestDataHelper.merge(getRatingDataPattern(), td);
 
-		if (!openLPolicy.isAAAMember()) {
+		if (Boolean.FALSE.equals(openLPolicy.isAAAMember())) {
 			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
 			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
 		}
@@ -87,6 +87,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), getYesOrNo(openLPolicy.isAaaLifePolicy())
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 		);
+
+		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
+			//Might be any "membershipNumber" from "RetrieveMembershipSummaryMockData.xls" stub with empty "membershipEffectiveDate"
+			//TODO-dchubkov: try to find membershipNumber with needed membershipEffectiveDate = effectiveDate - memberPersistency, and only if no results found - use membershipNumber with empty date
+			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "3111111111111147");
+		}
 
 		TestData contactInformationData = DataProviderFactory.emptyData();
 
@@ -125,7 +131,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Integer nafAccidents = openLPolicy.getNafAccidents();
 
 		for (OpenLDriver driver : openLPolicy.getDrivers()) {
-			if (driver.getDsr() != 0) {
+			if (driver.getDsr() != null && driver.getDsr() != 0) {
 				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this value greater than 0
 				throw new NotImplementedException("Test data generation for \"dsr\" greater than 0 is not implemented.");
 			}
@@ -135,7 +141,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for \"ageBeforeEndorsement\" is not implemented.");
 			}
 
-			if (!driver.isExposure()) {
+			if (Boolean.FALSE.equals(driver.isExposure())) {
 				throw new IstfException("\"exposure\" openL field value should be always TRUE");
 			}
 
@@ -157,27 +163,27 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
 			}
 
-			if (driver.isSmartDriver()) {
+			if (Boolean.TRUE.equals(driver.isSmartDriver())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.SMART_DRIVER_COURSE_COMPLETED.getLabel(), getYesOrNo(driver.isSmartDriver()));
 			}
-			if (driver.isDistantStudent()) {
+			if (Boolean.TRUE.equals(driver.isDistantStudent())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.DISTANT_STUDENT.getLabel(), getYesOrNo(driver.isDistantStudent()));
 			}
 			if ("Y".equalsIgnoreCase(driver.getDefensiveDrivingCourse())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), getYesOrNo(driver.getDefensiveDrivingCourse()));
 			}
 
-			if (openLPolicy.isEmployee() && !isEmployeeSet) {
+			if (Boolean.TRUE.equals(openLPolicy.isEmployee()) && !isEmployeeSet) {
 				driverData.adjust(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Spouse")
 						.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AAA Employee");
 				isEmployeeSet = true;
 			}
 
-			if (openLPolicy.isAARP() && !isAARPSet) {
+			if (Boolean.TRUE.equals(openLPolicy.isAARP()) && !isAARPSet) {
 				driverData.adjust(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Spouse")
 						.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AARP");
 				isAARPSet = true;
-				if (openLPolicy.isEmployee()) {
+				if (Boolean.TRUE.equals(openLPolicy.isEmployee())) {
 					assertThat(openLPolicy.getDrivers().size()).isGreaterThan(1)
 							.as("Policy with openl fields \"isEmployee\" and \"isAARP\" which are both TRUE should have at least 2 drivers to fill \"%s\" UI field differently for each of them",
 									AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel());
@@ -185,16 +191,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				}
 			}
 
-			if (Constants.States.MD.equals(getState()) && driver.isCleanDriver()) {
+			if (Constants.States.MD.equals(getState()) && Boolean.TRUE.equals(driver.isCleanDriver())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
 			}
 
-			if (Constants.States.VA.equals(getState()) && driver.hasFR44()) {
+			if (Constants.States.VA.equals(getState()) && Boolean.TRUE.equals(driver.hasFR44())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasFR44()))
 						.adjust(AutoSSMetaData.DriverTab.FORM_TYPE.getLabel(), "FR44");
 			}
 
-			if (driver.isOutOfStateLicenseSurcharge()) {
+			if (Boolean.TRUE.equals(driver.isOutOfStateLicenseSurcharge())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), "Licensed (US)")
 						.adjust(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=" + getState());
 			}
@@ -274,7 +280,21 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), editInsuranceScoreDialogData);
 
-		return DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
+		TestData ratingDetailReportsTab = DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
+
+		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
+			TestData addMemberSinceDialogData = DataProviderFactory.dataOf(
+					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getMemberPersistency())
+							.format(DateTimeUtils.MM_DD_YYYY),
+					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
+
+			TestData aaaMembershipReportData = DataProviderFactory.dataOf(
+					AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel(), "Add Member Since",
+					AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialogData);
+
+			ratingDetailReportsTab.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportData);
+		}
+		return ratingDetailReportsTab;
 	}
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -286,7 +306,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
-			if (vehicle.isHybrid()) {
+			if (Boolean.TRUE.equals(vehicle.isHybrid())) {
 				//TODO-dchubkov: to be implemented and impossible to set via UI
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
@@ -296,7 +316,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				trailersCount++;
 			}
 
-			if (vehicle.isTelematic()) {
+			if (Boolean.TRUE.equals(vehicle.isTelematic())) {
 				vehicleData.adjust(getVehicleTabVehicleDetailsData("No Score"));
 			}
 
@@ -309,7 +329,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		assertThat(trailersCount).isEqualTo(expectedTrailersCount).as("Number of vehicles recognized by their coverages set [%s] is not equal to "
-						+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount);
+				+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount);
 		return vehiclesTestDataList;
 	}
 
@@ -320,12 +340,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private TestData getPremiumAndCoveragesTabData(AutoSSOpenLPolicy openLPolicy) {
 		Map<String, Object> unverifiableDrivingRecordSurchargeData = new HashMap<>();
-		if (openLPolicy.isEMember()) {
+		if (Boolean.TRUE.equals(openLPolicy.isEMember())) {
 			//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled
 			throw new NotImplementedException("Test data generation for enabled isEMember is not implemented.");
 		}
 
-		if (openLPolicy.isSupplementalSpousalLiability()) {
+		if (Boolean.TRUE.equals(openLPolicy.isSupplementalSpousalLiability())) {
 			//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled
 			throw new NotImplementedException("Test data generation for enabled supplementalSpousalLiability is not implemented.");
 		}
@@ -341,29 +361,36 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		List<TestData> detailedVehicleCoveragesList = new ArrayList<>(openLPolicy.getVehicles().size());
-		Map<String, Object> coverageData = new HashMap<>();
+		Map<String, Object> policyCoveragesData = new HashMap<>();
+		Map<String, Object> detailedCoveragesData = new HashMap<>();
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
+
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeUsage(vehicle.getUsage());
 			for (OpenLCoverage coverage : vehicle.getCoverages()) {
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCD());
-				coverageData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
+				if (isPolicyLevelCoverage(coverage.getCoverageCD())) {
+					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
+				} else {
+					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
+				}
 
 				if (isTrailerOrMotorHomeVehicle) {
 					assertThat(coverage.getGlassDeductible()).isEqualTo("N/A")
 							.as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field for \"Trailer\" or \"Motor Home\" vehicle types");
 
 					//TODO-dchubkov: tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI
-					coverageData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+					detailedCoveragesData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
 				} else {
-					coverageData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					detailedCoveragesData
+							.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
 				}
 
-				if (vehicle.isNewCarAddedProtection()) {
-					coverageData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), "Yes");
+				if (Boolean.TRUE.equals(vehicle.isNewCarAddedProtection())) {
+					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), "Yes");
 				}
 			}
-			detailedVehicleCoveragesList.add(new SimpleDataProvider(coverageData));
-			coverageData.clear();
+			detailedVehicleCoveragesList.add(new SimpleDataProvider(detailedCoveragesData));
+			detailedCoveragesData.clear();
 		}
 
 		return DataProviderFactory.dataOf(
@@ -372,6 +399,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
 				AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),
 				AutoSSMetaData.PremiumAndCoveragesTab.UNVERIFIABLE_DRIVING_RECORD_SURCHARGE.getLabel(), new SimpleDataProvider(unverifiableDrivingRecordSurchargeData),
-				AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList);
+				AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList)
+				.adjust(new SimpleDataProvider(policyCoveragesData));
 	}
 }

@@ -203,7 +203,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "PD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel();
 			case "UMBI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
+				return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
 			case "SP EQUIP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel();
 			case "COMP":
@@ -219,6 +219,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			default:
 				throw new IstfException("Unknown mapping for coverageCD: " + coverageCD);
 		}
+	}
+
+	boolean isPolicyLevelCoverage(String coverageCD) {
+		return "BI".equals(coverageCD) || "PD".equals(coverageCD) || "UMBI".equals(coverageCD) || "MP".equals(coverageCD) || "PIP".equals(coverageCD);
 	}
 
 	TestData getVehicleTabVehicleDetailsData(String safetyScore) {
