@@ -69,7 +69,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected static final String STATE_PARAM = "state";
 	protected static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
 
-	private static final String CFT_COLLECTION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
+	private static final String CFT_COLLECTION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/CollectionFile/";
 	private static final String CFT_COLECTION_NAME = "_220825_PMT_E_PMTCTRL_PASSYS_7001_D.DAT";
 	private static final String FEED_FILE_LOCATION = "/home/mp2/pas/sit/PMT_E_PMTCTRL_PASSYS_7001_D/inbound/";
 
@@ -1112,7 +1112,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		RemoteHelper.uploadFile(fileName, FEED_FILE_LOCATION + fileName);
+		RemoteHelper.uploadFile(fileName, FEED_FILE_LOCATION + collectionDate + CFT_COLECTION_NAME);
 	}
 
 	private void generateInstallmentBillDueDate(LocalDateTime billDueDate) {
