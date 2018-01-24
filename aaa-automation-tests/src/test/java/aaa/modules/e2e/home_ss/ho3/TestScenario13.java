@@ -49,9 +49,7 @@ public class TestScenario13 extends Scenario13 {
 			renewalPreviewGeneration(); 
 			renewalOfferGeneration(); 
 			generateRenewalBill(); 
-			/* method is not implemented for Home SS
 			createRenewalVersion();
-			*/
 			payRenewalBill(); 
 			updatePolicyStatus();			
 		});
