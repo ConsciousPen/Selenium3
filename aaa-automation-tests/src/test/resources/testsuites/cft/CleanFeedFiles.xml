@@ -1,9 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CFT Clean Feed Files" verbose="1">
-    <test name="Clean Feed Files">
-        <classes>
-            <class name="aaa.modules.cft.TestCFTCleanFeedFiles" />
-        </classes>
-    </test>
-
-</suite>
