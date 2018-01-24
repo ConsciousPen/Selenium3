@@ -217,14 +217,14 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - validate that rule doesn't fire at manual renewal if Membership dummy number is used
+	 * @name Test Membership validation - validate that rule fires at manual renewal if Membership dummy number is used
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Auto SS Policy.
 	 * 3. Initiate Manual renewal for the policy.
 	 * 4. Enter Membership DUMMY number.
 	 * 5. Fill All other required data and bind.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -238,7 +238,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - validate that rule doesn't fire at automated renewal if Membership dummy number is used
+	 * @name Test Membership validation - validate that rule fires at automated renewal if Membership dummy number is used
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Auto SS Policy.
@@ -246,7 +246,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	 * 4. Retrieve renewal image
 	 * 5. Enter Membership DUMMY number.
 	 * 5. Fill All other required data and bind.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
 	 * @details
 	 */
 	@Parameters({"state"})
