@@ -66,7 +66,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
                 <methods>
                     <include name="pas730_PartialMatch"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
                 </methods>
             </class>
         </classes>
@@ -85,7 +84,6 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
                 <methods>
                     <include name="pas730_PartialMatch"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
                     <include name="pas730_vinDoesNotMatchDB"/>
                 </methods>
             </class>
