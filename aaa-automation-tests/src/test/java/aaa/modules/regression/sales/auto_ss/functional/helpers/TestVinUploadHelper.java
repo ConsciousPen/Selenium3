@@ -153,7 +153,7 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 	protected void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Custom Van");
 	}
 
 	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
@@ -195,25 +195,7 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 		return testData.adjust(vehicleTab.getMetaKey(), listVehicleTab);
 	}
 
-	protected TestData getVehicleMotorHomeTestData() {
-		// Build override Informational Notice dialog
-		TestData testDataInformationNoticeDialog =
-				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
 
-		// Build MSRP Vehicle
-		TestData testDataVehicleTabMotorHome = new SimpleDataProvider()
-				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
-				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
-				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
-				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
-				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
-				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
-				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
-
-		return testDataVehicleTabMotorHome;
-	}
 
 	/**
 	 * Fills Non existing vehicle + membership since date
@@ -256,6 +238,26 @@ public class TestVinUploadHelper extends PolicyBaseTest implements MsrpQueries {
 						"Select ps.policynumber, B.Vehidentificationno, R.Vinmatched, R.Vinmatchedind, b.vehtypecd, i.compsymbol, i.collsymbol, i.stat, i.biSymbol, i.pdsymbol, i.umsymbol, i.mpsymbol, I.*\n"
 								+ "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And\n"
 								+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and policynumber = '%s'", quoteNumber));
+	}
+
+	protected TestData getVehicleMotorHomeTestData() {
+		// Build override Informational Notice dialog
+		TestData testDataInformationNoticeDialog =
+				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
+
+		// Build MSRP Vehicle
+		TestData testDataVehicleTabMotorHome = new SimpleDataProvider()
+				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
+				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
+				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=1")
+				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "5FDEU15H7KL055795")
+				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
+				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
+				.adjust(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
+				.adjust(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
+				.adjust(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "10000");
+
+		return testDataVehicleTabMotorHome;
 	}
 
 	public TestData getMSRPTestDataTwoVehicles(TestData testData) {

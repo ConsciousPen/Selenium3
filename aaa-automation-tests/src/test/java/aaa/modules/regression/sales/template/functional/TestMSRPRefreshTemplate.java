@@ -39,6 +39,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	protected VehicleTab vehicleTab = new VehicleTab();
 	protected PurchaseTab purchaseTab = new PurchaseTab();
 	protected MembershipTab membershipTab = new MembershipTab();
+
 	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	protected void partialMatch() {
@@ -251,7 +252,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 		return testData.adjust(new VehicleTab().getMetaKey(), listVehicleTab);
 	}
 
-	protected TestData getVehicleMotorHomeTestData() {
+	protected static TestData getVehicleMotorHomeTestData() {
 		TestData validateAddressDialog = new SimpleDataProvider();
 		return DataProviderFactory.emptyData()
 				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")

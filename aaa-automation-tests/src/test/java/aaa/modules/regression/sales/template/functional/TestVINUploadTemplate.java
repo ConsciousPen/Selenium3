@@ -87,9 +87,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
+		TestData testData = getNonExistingVehicleTestData(vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -144,8 +142,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 */
 	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
+		TestData testData = getNonExistingVehicleTestData(vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -275,9 +272,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void endorsement(String vinTableFile, String vinNumber) {
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
+		TestData testData = getNonExistingVehicleTestData(vinNumber).resolveLinks();
 
 		String policyNumber = createPolicyPreconds(testData);
 
@@ -289,7 +284,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("Other Make");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
 
 		TestData testData2 = getTestDataTwoVehicles(vinNumber);
@@ -299,7 +295,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("OTHER");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
 		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
 
@@ -312,6 +308,16 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("CA_CH");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	public TestData getNonExistingVehicleTestData(String vinNumber) {
+		return getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel()), "20")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel()), "40000")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "index=2")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "40000")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel()), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"));
 	}
 
 	/**
@@ -328,20 +334,16 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void pas4253_restrictVehicleRefreshNB(String vinTableFile, String vinNumber) {
-
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(),TestMSRPRefreshTemplate.getVehicleMotorHomeTestData());
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Motor Home");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Motorhome");
 		});
 
 		VehicleTab.buttonSaveAndExit.click();
@@ -356,11 +358,11 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Regular");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Motor Home");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Motorhome");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
 		});
 	}
 
@@ -415,12 +417,14 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 	private TestData getTestDataTwoVehicles(String vinNumber) {
 		// Build test data with 2 vehicles
-		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
 
-		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
+		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
 				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
 				.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)")
-				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "20000").resolveLinks();
+				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "20000")
+				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"));
+
+		TestData  secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
 
 		// Build Vehicle Tab
 		List<TestData> testDataVehicleTab = new ArrayList<>();
