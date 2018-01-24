@@ -11,12 +11,9 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -48,13 +45,14 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private AssetList namedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
-	private static final String QUOTE_EFFECTIVE_DATE = "01/01/2018";
+	private static final String QUOTE_EFFECTIVE_DATE = new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>");
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
 	public void pas4244_ErrorMessagePresence(@Optional("") String state) {
-		TestData testDataCurrentCarrierInfo = getAdjustedTestData().getTestData(generalTab.getMetaKey()).ksam(generalTab.getCurrentCarrierInfoAssetList().getName()).resolveLinks();
+		TestData testDataCurrentCarrierInfo = getAdjustedTestData().
+				getTestData(generalTab.getMetaKey()).ksam(generalTab.getCurrentCarrierInfoAssetList().getName()).resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
