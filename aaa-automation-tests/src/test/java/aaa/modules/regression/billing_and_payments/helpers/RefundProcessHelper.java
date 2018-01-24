@@ -558,7 +558,7 @@ public class RefundProcessHelper extends PolicyBilling {
         String status = "Issued";
         Map<String, String> refundIssued = new HashMap<>(refund);
         refundIssued.put(STATUS,status);
-        String policyNumber = BillingSummaryPage.tableBillingAccountPolicies.getRow(0).getCell(1).getValue();
+        String policyNumber = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(1).getValue();
         unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundIssued, isCheck, transactionNumber);
         if(isCheck){
             refundActions(refundIssued, status, "Void", "Clear");
@@ -591,8 +591,7 @@ public class RefundProcessHelper extends PolicyBilling {
         }
     }
 
-    private void unprocessedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck,
-            int transactionNumber) {
+    private void unprocessedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
         Dollar amount = new Dollar(refund.get(AMOUNT));
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
         if(isCheck){
@@ -716,13 +715,16 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     public void getSubLedgerInformation(String billingAccountNumber, String amount, String transactionType, String billingPaymentMethod, boolean isVoided){
-        String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
-        Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
-        Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
         if (!isVoided){
+            String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
+            Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+            Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
             subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryCredit);
             subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryDebit);
         } else {
+            String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 1);
+            Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+            Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
             subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
             subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
         }
