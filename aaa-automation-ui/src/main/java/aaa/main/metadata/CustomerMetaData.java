@@ -3,18 +3,12 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.controls.ComboList;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
-
 import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -316,6 +310,6 @@ public final class CustomerMetaData {
         public static final AssetDescriptor<ComboBox> PROGRAM_CODE = declare("Program Code", ComboBox.class);
         public static final AssetDescriptor<RadioGroup> ENROLLED_IN_AUTOPAY = declare("Enrolled in Autopay", RadioGroup.class);
         public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MPD_DISCOUNT = declare
-                ("Legacy policy had MPD discount", RadioGroup.class, By.id("genericForm:id_AAAStartConversionPolicyFormBean_mPDiscount"));
+                ("Legacy policy had Multi-Policy discount", RadioGroup.class, By.id("genericForm:id_AAAStartConversionPolicyFormBean_mPDiscount"));
     }
 }

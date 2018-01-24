@@ -1,5 +1,8 @@
 package aaa.modules.conversion.manual;
 
+import static aaa.common.enums.Constants.States.*;
+import java.util.Arrays;
+import java.util.List;
 import aaa.helpers.TestDataManager;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
@@ -11,9 +14,6 @@ import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import toolkit.datax.TestData;
-import static aaa.common.enums.Constants.States.*;
-import java.util.Arrays;
-import java.util.List;
 
 public interface ManualConversionHelper {
     TestData tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
@@ -36,7 +36,7 @@ public interface ManualConversionHelper {
     }
 
     default TestData modifyInitiationTdForHome(PolicyType type, TestData td) {
-        td.adjust("InitiateRenewalEntryActionTab|Product Name", type.getName());
+        td.adjust("InitiateRenewalEntryActionTab|Product Name", type.getName()).adjust("InitiateRenewalEntryActionTab|Legacy policy had Multi-Policy discount","Yes");
         if (td.getTestData("InitiateRenewalEntryActionTab|Policy Type") == null) {
             td.adjust("InitiateRenewalEntryActionTab|Policy Type",
                     !type.getShortName().contains("_") ? "HO3" : type.getShortName().replaceAll(".+_", ""));
@@ -60,9 +60,9 @@ public interface ManualConversionHelper {
                                 .getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel()), "Married")
                         .mask(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()));
 
-                if (!type.equals(PolicyType.HOME_SS_HO3)) {
-                    td.mask(TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName(), HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel()));
-                }
+//                if (!type.equals(PolicyType.HOME_SS_HO3)||!type.equals(PolicyType.HOME_SS_HO4)) {
+//                    td.mask(TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName(), HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel()));
+//                }
                 break;
             }
             case "Auto Signature Series":{
