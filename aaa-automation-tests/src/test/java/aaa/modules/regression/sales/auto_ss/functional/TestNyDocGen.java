@@ -248,9 +248,9 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
 	/**
 	 * @author Viktor Petrenko
-	 * @name NY doc gen check for AA11NY
+	 * @name Application form stat code and liability symbols check
 	 * @scenario
-	 * 1. Issue NY policy
+	 * 1. Issue All states except CA / NY
 	 * 2. Generate on demand document
 	 * 3. Check symbols presence and statcode = NA and not empty
 	 * @details
@@ -259,7 +259,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationFormStatCodeNA(@Optional("CO") String state) {
+	public void pas2713_ApplicationFormStatCodeNA(@Optional("") String state) {
 		String documentId = String.format("AA11%s",state);
 		DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(documentId);
 		// "AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"

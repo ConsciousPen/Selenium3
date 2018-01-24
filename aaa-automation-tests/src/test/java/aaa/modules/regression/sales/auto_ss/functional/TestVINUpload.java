@@ -367,7 +367,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6203, PAS-6455")
 	public void pas6203_VinAndControlTablesUpload(@Optional("") String state) {
-		String added = "added: 1";
+		String added = "added:";
 		String uploadExcelName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 		String configExcelName = vinMethods.getControlTableFile();
 
