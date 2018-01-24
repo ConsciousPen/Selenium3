@@ -328,7 +328,7 @@ public class RefundProcessHelper extends PolicyBilling {
      */
     public void issuedAutomatedRefundGeneration(String policyNumber) {
         //TODO workaround for Time-setter parallel execution
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -811,11 +811,11 @@ public class RefundProcessHelper extends PolicyBilling {
         DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
         if ("ERR".equals(refundStatus)) {
             //TODO workaround for Time-setter parallel execution
-            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMinutes(1));
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(3));
             JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
         } else if ("SUCC".equals(refundStatus)) {
             //TODO workaround for Time-setter parallel execution
-            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
             JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
         }
         mainApp().reopen();
