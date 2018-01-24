@@ -714,7 +714,7 @@ public class RefundProcessHelper extends PolicyBilling {
                 + " where BILLINGACCOUNTNUMBer = '" + billingAccountNumber + "'  and TRANSACTIONID ='" + transactionID + "'  and entrytype = '" + entryType + "'").get(0);
     }
 
-    public void getSubLedgerInformation(String billingAccountNumber, String amount, String transactionType, String billingPaymentMethod, boolean isVoided){
+    public void getSubLedgerInformation(String billingAccountNumber, String amount, String transactionType, String billingPaymentMethod, boolean isVoided, boolean isRegenerated){
         if (!isVoided){
             String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
             Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
@@ -722,11 +722,19 @@ public class RefundProcessHelper extends PolicyBilling {
             subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryCredit);
             subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryDebit);
         } else {
-            String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 1);
-            Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
-            Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
-            subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
-            subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
+            if(isRegenerated) {
+                String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 1);
+                Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+                Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
+                subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
+                subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
+            } else {
+                String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
+                Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+                Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
+                subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
+                subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
+            }
         }
     }
 

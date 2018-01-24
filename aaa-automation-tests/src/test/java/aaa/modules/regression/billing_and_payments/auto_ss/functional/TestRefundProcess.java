@@ -111,13 +111,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2186, PAS-1940, PAS-7858, PAS-352
         refundProcessHelper.unissuedManualRefundGeneration(Optional.empty(), billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false,false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 1, false);
         //PAS-7057
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -137,13 +137,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
         refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 1, false);
         //PAS-7057
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -163,13 +163,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
         refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 1, false);
         //PAS-7057
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_DEBIT_CARD, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -189,13 +189,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
         refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
         //PAS-7057
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_ACH, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -215,13 +215,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-7063, PAS-7858, PAS-453
         refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 1, false);
         //PAS-7231
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -241,13 +241,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-7063, PAS-7858, PAS-453
         refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 1, false);
         //PAS-7231
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -267,13 +267,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-7063, PAS-7858, PAS-453
         refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 1, false);
         //PAS-7231
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -293,13 +293,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-7063, PAS-7858, PAS-453
         refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
         //PAS-7231
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -322,12 +322,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
         //PAS-6152
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
         //PAS-2732
         refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -350,12 +350,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
         //PAS-6152
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-2732
         refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -378,12 +378,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
         //PAS-6152
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-2732
         refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -406,12 +406,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
         //PAS-6152
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
         //PAS-2732
         refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -434,12 +434,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
         //PAS-7193
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
         //PAS-6415
         refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -462,12 +462,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
         //PAS-7193
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, true);
 
         //PAS-6415
         refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -490,12 +490,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
         //PAS-7193
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         //PAS-6415
         refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -518,12 +518,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
         refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
         //PAS-7193
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
         //PAS-6415
         refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -547,7 +547,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2727
         refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -571,7 +571,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2728
         refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -595,7 +595,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2728
         refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -619,7 +619,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2728
         refundProcessHelper.processedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -643,7 +643,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-4251
         refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -667,7 +667,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-6144, PAS-453
         refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -691,7 +691,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-6144, PAS-453
         refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -715,7 +715,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-6144, PAS-453
         refundProcessHelper.processedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
         refundProcessHelper.processedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
