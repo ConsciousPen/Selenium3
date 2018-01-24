@@ -1,12 +1,20 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import aaa.common.pages.Page;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
+import aaa.common.pages.Page;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -15,14 +23,12 @@ import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import java.util.*;
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
-
 /**
  * Custom control for table with filters/sorting/selecting/removing and pagination
  */
 public class AdvancedTable extends TableWithPages {
+	public final AdvancedTable.Verify verify = this.new Verify();
+
 	public AdvancedTable(By tableWithPaginationLocator) {
 		super(tableWithPaginationLocator);
 	}
@@ -70,6 +76,10 @@ public class AdvancedTable extends TableWithPages {
 		}
 
 		//TODO-dchubkov: set sort state
+	}
+
+	public boolean isEmpty() {
+		return "No records found.".equals(getRow(1).getCell(1).getValue());
 	}
 
 	@Override
@@ -183,6 +193,7 @@ public class AdvancedTable extends TableWithPages {
 			Page.dialogConfirmation.confirm();
 		}
 	}
+	//TODO-dchubkov: implement isRowSelected(...),  removeRow(...) and selectRow(...) by other arguments like in getRaw(...) methods
 
 	public boolean isRowSelected(int index) {
 		return new StaticElement(new ByChained(getLocator(), getRow(index).getLocator(), By.xpath(".//td[position()=1 or position()=2]/span[@class='textBold']"))).isPresent();
@@ -193,18 +204,12 @@ public class AdvancedTable extends TableWithPages {
 			getRow(index).getCell(getColumnsCount()).controls.links.get("View/Edit").click();
 		}
 	}
-	//TODO-dchubkov: implement isRowSelected(...),  removeRow(...) and selectRow(...) by other arguments like in getRaw(...) methods
-
-	public boolean isEmpty() {
-		return "No records found.".equals(getRow(1).getCell(1).getValue());
-	}
 
 	private void filterBy(TextBox filterTextBox, String value) {
-		CustomAssert.assertTrue(String.format("Can't find filter textbox by \"%s\" locator.", filterTextBox.getLocator()), filterTextBox.isPresent() && filterTextBox.isVisible());
-		CustomAssert.assertTrue(String.format("Unable to set \"%1$s\" value to disabled filter textbox with \"%2$s\" locator.", value, filterTextBox.getLocator()), filterTextBox.isEnabled());
+		assertThat(filterTextBox).isPresent().as("Can't find filter textbox by \"%s\" locator.", filterTextBox.getLocator());
+		assertThat(filterTextBox).isEnabled().as("Unable to set \"%1$s\" value to disabled filter textbox with \"%2$s\" locator.", value, filterTextBox.getLocator());
 		filterTextBox.setValue(value);
 	}
-
 
 	private Row getRowWithFilter(Supplier<Row> getRowSupplier, Runnable filterBy, BooleanSupplier isFilterAvailable) {
 		if (isFilterAvailable.getAsBoolean()) {
@@ -283,16 +288,14 @@ public class AdvancedTable extends TableWithPages {
 		}
 
 		public Map<String, String> getFilters() {
-			return filters;
+			return new HashMap<>(filters);
 		}
 
 		public void setFilters(Map<String, String> filters) {
-			this.filters = filters;
+			this.filters = new HashMap<>(filters);
 		}
 	}
 
-
-	public final AdvancedTable.Verify verify = this.new Verify();
 	/**
 	 * Extended tables verifier class for AdvancedTable
 	 */
@@ -302,11 +305,11 @@ public class AdvancedTable extends TableWithPages {
 		}
 
 		public void empty(boolean expectedValue) {
-			String assertMessage = String.format("Table with locator [%1$s] is%2$s empty.", getLocator(), expectedValue? " not" : "");
+			String assertMessage = String.format("Table with locator [%1$s] is%2$s empty.", getLocator(), expectedValue ? " not" : "");
 			if (expectedValue) {
-				CustomAssert.assertTrue(assertMessage, isEmpty());
+				assertThat(isEmpty()).isTrue().as(assertMessage);
 			} else {
-				CustomAssert.assertFalse(assertMessage, isEmpty());
+				assertThat(isEmpty()).isFalse().as(assertMessage);
 			}
 		}
 	}
