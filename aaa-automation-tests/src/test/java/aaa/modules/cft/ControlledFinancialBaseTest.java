@@ -108,7 +108,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Endorsement of the policy
-	 * today(suite start time) + 2 day
+	 * today(suite start time) + 2 days
 	 */
 	protected void endorsePolicyEffDatePlus2Days() {
 		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
@@ -117,7 +117,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Endorsement of the policy
-	 * today(suite start time) + 16 day
+	 * On start date + 16 days
 	 */
 	protected void endorsePolicyEffDatePlus16Days() {
 		LocalDateTime endorsePlus16 = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
@@ -1021,22 +1021,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment action completed successfully");
 	}
 
-	private void acceptTotalDuePlusOverpaymentOnDate(Dollar overpayment, LocalDateTime paymentDate) {
-		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		log.info("Accept overpayment action started on {}", paymentDate);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar amount = BillingSummaryPage.getTotalDue().add(overpayment);
-		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(paymentDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-			.setAmount(amount.negate())
-			.verifyPresent();
-		log.info("Accept overpayment action completed successfully");
-	}
-
 	private void acceptMinDuePaymentOnDate(LocalDateTime paymentDate) {
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		log.info("Accept payment action started on {}", paymentDate);
@@ -1054,6 +1038,32 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setAmount(minDue.negate())
 			.verifyPresent();
 		log.info("Accept payment action completed successfully");
+	}
+
+	private void acceptTotalDuePlusOverpaymentOnDate(Dollar overpayment, LocalDateTime paymentDate) {
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		log.info("Accept overpayment action started on {}", paymentDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		Dollar amount = BillingSummaryPage.getTotalDue().add(overpayment);
+		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(amount.negate())
+			.verifyPresent();
+		log.info("Accept overpayment action completed successfully");
+	}
+
+	private void addSuspenseOnDate(LocalDateTime suspenseDate) {
+		TimeSetterUtil.getInstance().nextPhase(suspenseDate);
+		log.info("Add Suspense action started");
+		log.info("Suspense date: {}", suspenseDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new PaymentsMaintenance().addSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		log.info("Suspense added successfully");
 	}
 
 	private void automaticCancellationDueInsallmentDate(LocalDateTime installmentDate) {
@@ -1132,10 +1142,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Installment bill generation completed successfully");
 	}
 
-	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
-		performEndorsementOnDate(endorsementDate, endorsementDate);
-	}
-
 	private void issuedRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Verify refund on {}", refundDate);
@@ -1149,74 +1155,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setAmount(refundAmount)
 			.verifyPresent();
 		log.info("Refund presents in Payments & Other Transactions Table");
-	}
-
-	private void pendingRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		log.info("Verify refund on {}", refundDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingPendingTransactionsVerifier()
-			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
-			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
-			.setReason(BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT)
-			.setAmount(refundAmount)
-			.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
-			.verifyPresent();
-		log.info("Refund present in Pending Transactions Table");
-	}
-
-	private void rejectRefundOnDate(LocalDateTime rejectDate) {
-		TimeSetterUtil.getInstance().nextPhase(rejectDate);
-		log.info("Reject refund action started on {}", rejectDate);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar amount = new Dollar(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.AMOUNT).getValue());
-		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(ActionConstants.BillingPendingTransactionAction.REJECT).click();
-		Page.dialogConfirmation.confirm();
-		new BillingPaymentsAndTransactionsVerifier()
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DISAPPROVED)
-			.setTransactionDate(rejectDate)
-			.setAmount(amount.negate())
-			.verifyPresent();
-		log.info("Reject refund action completed successfully");
-	}
-
-	private void performEndorsementOnDate(LocalDateTime endorsementDate, LocalDateTime endorsementDueDate) {
-		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
-		log.info("Endorsment action started on {}", endorsementDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
-		SearchPage.openPolicy(policyNumber);
-		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		assertSoftly(softly -> {
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
-				ActivitiesAndUserNotesTable.DESCRIPTION,
-				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber)).isPresent());
-		});
-		log.info("Endorsment action completed successfully");
-	}
-
-	private void otherAdjustmentOnDate(LocalDateTime adjustmentDate) {
-		TimeSetterUtil.getInstance().nextPhase(adjustmentDate);
-		log.info("Other Adjustment action started on {}", adjustmentDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.otherTransactions().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(adjustmentDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
-			.setAmount(
-				new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(
-					BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-			.verifyPresent();
-		log.info("Other Adjustment action completed successfully");
 	}
 
 	private void manualCancellationOnDate(LocalDateTime cancellationDate) {
@@ -1259,14 +1197,90 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual reinstatement action completed successfully");
 	}
 
-	private void addSuspenseOnDate(LocalDateTime suspenseDate) {
-		TimeSetterUtil.getInstance().nextPhase(suspenseDate);
-		log.info("Add Suspense action started");
-		log.info("Suspense date: {}", suspenseDate);
+	private void otherAdjustmentOnDate(LocalDateTime adjustmentDate) {
+		TimeSetterUtil.getInstance().nextPhase(adjustmentDate);
+		log.info("Other Adjustment action started on {}", adjustmentDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new PaymentsMaintenance().addSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		log.info("Suspense added successfully");
+		billingAccount.otherTransactions().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(adjustmentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
+			.setAmount(
+				new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(
+					BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+			.verifyPresent();
+		log.info("Other Adjustment action completed successfully");
+	}
+
+	private void pendingRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Verify refund on {}", refundDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingPendingTransactionsVerifier()
+			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
+			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
+			.setReason(BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT)
+			.setAmount(refundAmount)
+			.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
+			.verifyPresent();
+		log.info("Refund present in Pending Transactions Table");
+	}
+
+	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
+		performEndorsementOnDate(endorsementDate, endorsementDate);
+	}
+
+	private void performEndorsementOnDate(LocalDateTime endorsementDate, LocalDateTime endorsementEffDate) {
+		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
+		log.info("Endorsment action started on {}", endorsementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		String endorsementEDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("EndorsementActionTab").getValue("Endorsement Date");
+		log.info("Endorsement effective date is {}", endorsementEDate);
+		assertSoftly(softly -> {
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
+				ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber)).isPresent());
+		});
+		log.info("Endorsment action completed successfully");
+	}
+
+	private void rejectRefundOnDate(LocalDateTime rejectDate) {
+		TimeSetterUtil.getInstance().nextPhase(rejectDate);
+		log.info("Reject refund action started on {}", rejectDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		Dollar amount = new Dollar(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.AMOUNT).getValue());
+		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(ActionConstants.BillingPendingTransactionAction.REJECT).click();
+		Page.dialogConfirmation.confirm();
+		new BillingPaymentsAndTransactionsVerifier()
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DISAPPROVED)
+			.setTransactionDate(rejectDate)
+			.setAmount(amount.negate())
+			.verifyPresent();
+		log.info("Reject refund action completed successfully");
+	}
+
+	private void verifyPolicyStatusOnDate(LocalDateTime date, String policyStatus) {
+		TimeSetterUtil.getInstance().nextPhase(date);
+		log.info("Verify policy status on {}", date);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().open();
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(policyStatus);
+		});
+		log.info("Policy status is {}", policyStatus);
 	}
 
 	private void waiveFeeOnDate(LocalDateTime waiveDate) {
@@ -1302,17 +1316,5 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
 			.verifyPresent();
 		log.info("EP Write off generated successfully");
-	}
-
-	private void verifyPolicyStatusOnDate(LocalDateTime date, String policyStatus) {
-		TimeSetterUtil.getInstance().nextPhase(date);
-		log.info("Verify policy status on {}", date);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().open();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(policyStatus);
-		});
-		log.info("Policy status is {}", policyStatus);
 	}
 }

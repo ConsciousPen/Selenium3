@@ -5,11 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import toolkit.config.PropertyProvider;
-import toolkit.utils.SSHController;
 import aaa.modules.BaseTest;
-
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 
 public class CFTHelper extends BaseTest {
 
@@ -19,13 +15,5 @@ public class CFTHelper extends BaseTest {
 		} else {
 			FileUtils.cleanDirectory(directory);
 		}
-	}
-
-	public static SSHController getSSHController() {
-		String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-		String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
-		return new SSHController(monitorAddress,
-			PropertyProvider.getProperty("test.ssh.user"),
-			PropertyProvider.getProperty("test.ssh.password"));
 	}
 }
