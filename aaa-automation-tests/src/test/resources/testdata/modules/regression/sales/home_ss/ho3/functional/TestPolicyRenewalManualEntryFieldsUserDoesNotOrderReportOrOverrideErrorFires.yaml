@@ -203,7 +203,8 @@
     Renewal Policy Premium: 1000,
     Policy Term: Annual,
     Program Code: LegacyConv,
-    Enrolled in Autopay: 'No'}
+    Enrolled in Autopay: 'No',
+    Legacy policy had MPD discount: 'No'}
   }
 
 # ====================== TestData NJ =======================
