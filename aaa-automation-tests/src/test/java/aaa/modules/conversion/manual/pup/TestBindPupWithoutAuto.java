@@ -107,7 +107,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      * @return Test Data for an HO3 policy with no other active policies
      */
     private TestData getTdHome() {
-        return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData_NJ")
+        return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()));
     }
 }
