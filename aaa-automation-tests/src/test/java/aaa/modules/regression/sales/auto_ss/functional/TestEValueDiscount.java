@@ -890,7 +890,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValuePriorBiConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232"})
-    public void pas232_eValuePriorBiConfigurationDependency(@Optional("VA") String state) {
+    public void pas232_eValuePriorBiConfigurationDependency(@Optional("OR") String state) {
         eValueQuoteCreation();
         CustomAssert.enableSoftMode();
 
@@ -1102,7 +1102,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueTerritoryChannelForVAConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-233")
-    public void pas233_eValueTerritoryChannelDependency(@Optional("VA") String state) {
+    public void pas233_eValueTerritoryChannelDependency(@Optional("OR") String state) {
         eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
@@ -1141,7 +1141,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueMembershipConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3007")
-    public void pas3007_eValueMembershipConfiguration(@Optional("VA") String state) {
+    public void pas3007_eValueMembershipConfiguration(@Optional("OR") String state) {
 
         eValueQuoteCreation();
 
@@ -1156,8 +1156,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
 
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE)
-                .setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
         PremiumAndCoveragesTab.calculatePremium();
@@ -1196,7 +1195,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
-    public void pas3693_eValueConfiguration(@Optional("VA") String state) {
+    public void pas3693_eValueConfiguration(@Optional("OR") String state) {
         CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
         checkBlueBoxMessagesWithDiffData(8, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, "membership");
@@ -1257,7 +1256,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3694")
-    public void pas3694_eValueBlueBoxAndStaticText(@Optional("VA") String state) {
+    public void pas3694_eValueBlueBoxAndStaticText(@Optional("OR") String state) {
 
         eValueQuoteCreation();
 
