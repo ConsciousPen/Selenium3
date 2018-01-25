@@ -3,13 +3,20 @@ package aaa.modules.regression.sales.home_ss.helper;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
+import org.apache.commons.lang.math.IntRange;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA;
@@ -117,6 +124,55 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
+
+    public void pas6676_TestPAViewRatingDetailsAutoTier(PolicyType policyType) {
+
+        IntRange range = new IntRange(1, 16);
+
+        // TODO This needs to be removed after 5/28/18 (new algo implementation)
+        verifyAlgoDate();
+
+        mainApp().open();
+        createCustomerIndividual();
+
+        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
+        TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
+
+        // Initiate Home Policy and add Auto policy as a companion
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
+
+        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
+            applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
+            policySearchDialog.cancel();
+            applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
+        }
+
+        applicantTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+
+        // Assert that the Auto Tier Rating present and is between 1-16
+        PropertyQuoteTab.RatingDetailsView.open();
+        assertThat(range.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
+        PropertyQuoteTab.RatingDetailsView.close();
+
+        // Issue Policy and initiate renewal
+        premiumsAndCoveragesQuoteTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+        policyType.get().renew().start().submit();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+
+        // Assert that the Auto Tier Rating present and is between 1-16
+        PropertyQuoteTab.RatingDetailsView.open();
+        assertThat(range.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
+        PropertyQuoteTab.RatingDetailsView.close();
+
+        mainApp().close();
+
+    }
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);

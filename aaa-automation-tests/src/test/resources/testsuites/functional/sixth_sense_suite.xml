@@ -39,16 +39,21 @@
 
 
     <test name="Test Renovation Discount for KS DP3">
+        <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts"/>
         </classes>
     </test>
 
-    <!--<test name="PA View Rating Details Auto Tier value 1-16">-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="PA View Rating Details Auto Tier value 1-16">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetailsAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetailsAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetailsAutoTier"/>
+        </classes>
+    </test>
 
     <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="200">
         <parameter name="state" value="PA"/>
