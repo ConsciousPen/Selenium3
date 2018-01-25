@@ -43,6 +43,6 @@ public class TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideE
         createCustomerIndividual();
         customer.initiateRenewalEntry().perform(getTestSpecificTD("TD_Renewal_Actions"));
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
-        //errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MAIG_IS_REPORT);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MAIG_IS_REPORT);
     }
 }

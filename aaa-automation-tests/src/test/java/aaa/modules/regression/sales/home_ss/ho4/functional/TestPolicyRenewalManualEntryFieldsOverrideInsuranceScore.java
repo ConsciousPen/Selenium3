@@ -43,7 +43,7 @@ public class TestPolicyRenewalManualEntryFieldsOverrideInsuranceScore extends Ho
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6663")
-    public void testPolicyRenewal(@Optional("DE") String state) {
+    public void testPolicyRenewal(@Optional("") String state) {
 
        MortgageesTab mortgageesTab = new MortgageesTab();
        TestData td = getTestSpecificTD("TestData");
