@@ -46,6 +46,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 *
 	 * PAS-1406 Data Refresh
 	 * PAS-527 Renewal Refresh - Add New VIN & Update Existing
+	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
 	 * See detailed steps in template file
 	 * {@link TestVINUploadTemplate#newVinAddedRenewal(String, String)}
 	 */

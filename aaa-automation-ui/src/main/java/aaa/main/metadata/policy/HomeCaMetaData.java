@@ -50,7 +50,7 @@ public final class HomeCaMetaData {
 		public static final class PolicyInfo extends MetaData {
 			public static final AssetDescriptor<TextBox> STATE = declare("State", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> SOURCE_POLICY_NUM = declare("Source Policy #", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<ComboBox> APPLICATION_TYPE = declare("Application Type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> PRIOR_BASE_YEAR = declare("Prior base year", TextBox.class, Waiters.AJAX);

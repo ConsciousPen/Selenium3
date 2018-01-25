@@ -61,7 +61,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
 	 * PAS-2714 New Liability Symbols
-	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a day
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for NB.
 	 * @scenario
@@ -79,7 +78,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455, PAS-938")
 	public void pas533_newVinAdded(@Optional("UT") String state) {
-
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
 
 		TestData testData =  getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
@@ -96,31 +94,15 @@ public class TestVINUpload extends TestVinUploadHelper {
 
 		vinMethods.uploadFiles(vinTableFile);
 
-		//Johns - Move system time by two days
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
-
-		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-		// johns - pas-938 verify 'Rerate' Error message
-		ErrorTab errorTab = new ErrorTab();
-		assertThat(errorTab.tableErrorInfo.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.UNPREPARED_DATA.getMessage()).isPresent()).isEqualTo(true);
-		errorTab.cancel();
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
-
+		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
+		findAndRateQuote(testData, quoteNumber);
 		// Start PAS-2714 NB
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
-		// johns - getCell changed to '2'. Corrected isEqualTo 'AC'
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AC"));
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AK"));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
@@ -137,15 +119,19 @@ public class TestVINUpload extends TestVinUploadHelper {
 	 * PAS-1487 No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
 	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a day
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario 0. Create customer
 	 * 1. Initiate Auto SS quote creation
-	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
-	 * 3. On Administration tab in Admin upload Excel to add this VIN to the system
-	 * 4. Open application and policy
-	 * 5. Initiate Renewal for policy
-	 * 6. Verify that VIN was uploaded and all fields are populated
+	 * 2. Go to the vehicle tab, fill info with not existing VIN, and calculate the premium
+	 * 3. Save and exit the quote, move system time by 2 days and retrieve the quote
+	 * 4. Attempt to bind without calculating premium; verify the Rerate Error message
+	 * 5. Continue to bind the quote
+	 * 6. On Administration tab in Admin upload Excel to add this VIN to the system
+	 * 7. Open application and policy
+	 * 8. Initiate Renewal for policy
+	 * 9. Verify that VIN was uploaded and all fields are populated
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -164,6 +150,33 @@ public class TestVINUpload extends TestVinUploadHelper {
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
 
+//start pas 938
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+		//save quote number to open it later
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
+
+		//Johns - Move system time by two days
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
+
+		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnPurchase.click();
+
+		//Verify pas-938 'Rerate' Error message on error tab
+		ErrorTab errorTab = new ErrorTab();
+		assertThat(errorTab.tableErrorInfo.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		log.info("PAS-938 Rerate Error Verified as Present");
+		errorTab.cancel();
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+
+		//end pas 938
 		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 
