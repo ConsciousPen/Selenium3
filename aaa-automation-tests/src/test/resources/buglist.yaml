@@ -117,7 +117,7 @@ OSI-1112:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
-      messages: ["Timed out waiting for page load"]
+      messages: ["unknown error: Element"]
 OSI-1114:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD

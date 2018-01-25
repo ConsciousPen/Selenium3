@@ -183,11 +183,14 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<SingleSelectSearchDialog> ACTIVE_UNDERLYING_POLICIES_SEARCH = declare("ActiveUnderlyingPoliciesSearch", SingleSelectSearchDialog.class,
 					OtherActiveAAAPoliciesSearch.class,
 					By.xpath(".//form[@id='policySearchForm_AAAHOOtherOrPriorActivePolicySearch']"));
-			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class);
+			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class,
+					By.xpath("//*[@id='policyDataGatherForm:j_id__v_11_bls-panel']/table/tbody/tr/td/table"));
 
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
-				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE);
-				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
+				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE,
+						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyType"));
+				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE,
+						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyNumber"));
 			}
 
 			public static final class OtherActiveAAAPoliciesManual extends MetaData {
@@ -197,7 +200,8 @@ public final class HomeSSMetaData {
 				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> POLICY_BASE_YEAR = declare("Policy base year", TextBox.class, Waiters.AJAX);
-				public static final AssetDescriptor<ComboBox> POLICY_TIER = declare("Policy tier", ComboBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<ComboBox> POLICY_TIER = declare("Policy tier", ComboBox.class, Waiters.AJAX,
+						By.id("policyDataGatherForm:sedit_AAAHOOtherOrPriorPolicyComponent_autoPolicyTier"));
 				public static final AssetDescriptor<ComboBox> AUTO_POLICY_BI_LIMIT = declare("Auto policy BI limit", ComboBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<ComboBox> AUTO_POLICY_STATE = declare("Auto policy state", ComboBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> AUTO_INSURANCE_PERSISTENCY = declare("Auto Insurance Persistency", TextBox.class, Waiters.AJAX);
