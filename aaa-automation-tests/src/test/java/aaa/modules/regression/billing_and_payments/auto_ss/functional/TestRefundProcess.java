@@ -327,7 +327,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2732
         refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -439,6 +439,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-6415
         refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
+        //BUG  PAS-8979 Automated void doesnt process Automated Check Void transaction
         refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
@@ -523,7 +524,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-6415
         refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
         refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_ACH, refund, false, 2, false);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();

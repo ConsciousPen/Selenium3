@@ -303,7 +303,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Process refund successfully
      * *@scenario
      * 1. Put mock file with SUCC result to DSB_E_DSBCTRL_PASSYS_7035_D folder
@@ -320,7 +320,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Issue automatically manual/automated refunds
      * *@scenario
      * 1. Move time to +1 day.
@@ -336,7 +336,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Void refunds automatically
      * *@scenario
      * 1. Put mock file with ERR result to DSB_E_DSBCTRL_PASSYS_7036_D folder
@@ -353,7 +353,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Creation of manual refund
      * *@scenario
      * 1. Without allocations:
@@ -398,7 +398,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Creation of automated refund
      * *@scenario
      * 1. Without allocations:
@@ -423,7 +423,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Payment with allocations
      * *@scenario
      * 1. Initiate payment.
@@ -443,7 +443,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Void manually automated/manual refunds
      * *@scenario
      * 1. Click on Void link in Actions of refund.
@@ -455,7 +455,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Unissued refund verification
      * *@scenario
      * 1. Unissued refund has Approved status.
@@ -470,7 +470,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Voided refund verification
      * *@scenario
      * 1. Check manual/automated refunds can't be voided automatically.
@@ -526,7 +526,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Check refund allocations in generated automated check refund after void transaction
      * *@scenario
      * 1. Open AdvancedAllocation and verify that allocation are the same as in voided refund
@@ -547,7 +547,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Issued refund verification
      * *@scenario
      * 1. Status of refund - 'Issue'
@@ -571,7 +571,7 @@ public class RefundProcessHelper extends PolicyBilling {
     }
 
     /**
-     * *@author Viktoriia Lutsenko
+     * *@author Viktoria Lutsenko
      * *@name Processed refund verification
      * *@scenario
      * 1. Status of refund = 'Issued'.
@@ -687,8 +687,8 @@ public class RefundProcessHelper extends PolicyBilling {
         payeeNameNotEmpty.ifPresent(p -> CustomAssert.assertEquals(p.booleanValue(), !acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).getValue().isEmpty()));
     }
 
-    private void refundActions(Map<String, String> refund, String Status, String...expectedActions){
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value(Status);
+    private void refundActions(Map<String, String> refund, String status, String...expectedActions){
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value(status);
         int counter;
         for (int i = 0; ; i++) {
             try {
