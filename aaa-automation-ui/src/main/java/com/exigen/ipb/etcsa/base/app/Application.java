@@ -123,7 +123,7 @@ public abstract class Application {
 		}
 
 		BrowserController.get().open(url);
-		BrowserController.get().driver().manage().window().maximize();
+		BrowserController.get().maximize();
 		setApplicationOpened(true);
 	}
 
