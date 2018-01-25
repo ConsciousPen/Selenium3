@@ -227,7 +227,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
 		policy.policyDocGen().start();
 		generateOnDemandDocumentActionTab.verify.documentsPresent(AA11NY);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, "AA11XX").getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, AA11NY.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
 		generateOnDemandDocumentActionTab.generateDocuments(AA11NY);
 
 		mainApp().open();
@@ -296,10 +296,10 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
 	private void verifyCompCollSymbolsPresence(String getDataSql, DocGenEnum.Documents docID) {
 		List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, getDataSql);
-		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNullOrEmpty());
+		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotEmpty());
 
 		List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, getDataSql);
-		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNullOrEmpty());
+		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotEmpty());
 	}
 
 
