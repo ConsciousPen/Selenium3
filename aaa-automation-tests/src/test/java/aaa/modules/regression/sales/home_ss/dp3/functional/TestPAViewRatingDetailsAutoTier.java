@@ -9,21 +9,23 @@ import aaa.modules.policy.HomeSSDP3BaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import toolkit.utils.TestInfo;
 
-/**
- * @author Dominykas Razgunas
- * @name Test PA Revised Home Tier UI Change View Rating Detail
- * @scenario
- * 1. Create PA DP3 Policy
- * 2. Fill All required fields and Calculate Premium
- * 3. View Rating Details
- * 4. Check that Auto tier value is between 1 and 16
- * 5. Issue Policy
- * 6. Initiate renewal
- * 7. Calculate Premium
- * 8. Check that Auto tier value is between 1 and 16
- * @details
- **/
+
 public class TestPAViewRatingDetailsAutoTier extends HomeSSDP3BaseTest {
+
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Test PA Revised Home Tier UI Change View Rating Detail
+	 * @scenario
+	 * 1. Create PA DP3 Policy
+	 * 2. Fill All required fields and Calculate Premium
+	 * 3. View Rating Details
+	 * 4. Check that Auto tier value is between 1 and 16
+	 * 5. Issue Policy
+	 * 6. Initiate renewal
+	 * 7. Calculate Premium
+	 * 8. Check that Auto tier value is between 1 and 16
+	 * @details
+	 **/
 
 	private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
