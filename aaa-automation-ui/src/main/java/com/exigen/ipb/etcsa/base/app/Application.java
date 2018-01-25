@@ -3,19 +3,19 @@ package com.exigen.ipb.etcsa.base.app;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
-import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 
 public abstract class Application {
 
 	protected static Logger log = LoggerFactory.getLogger(Application.class);
 
-	protected boolean isApplicationOpened = false;
+	protected boolean isApplicationOpened;
 
 	protected String url = "";
 	protected String name = "";
@@ -123,7 +123,7 @@ public abstract class Application {
 		}
 
 		BrowserController.get().open(url);
-		BrowserController.get().maximize();
+		BrowserController.get().driver().manage().window().maximize();
 		setApplicationOpened(true);
 	}
 
