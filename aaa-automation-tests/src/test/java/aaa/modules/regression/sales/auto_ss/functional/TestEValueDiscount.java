@@ -247,6 +247,34 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231"})
+    public void pas436_AAAeValueQualifyingPaymentPlans(@Optional("VA") String state) {
+
+        String lookupCheckNoState = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
+                + "from lookupvalue where 1=1\n"
+                + "and dtype = 'BaseProductLookupValue'\n"
+                + "and code = '%s'\n"
+                + "and displayvalue = '%s'\n"
+                + "and PRODUCTCD = '%s'\n"
+                + "and RISKSTATECD is null\n"
+                + "and EFFECTIVE is null\n"
+                + "and EXPIRATION is null\n"
+                + "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
+
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "annualSS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "semiAnnual6SS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "annualSS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "semiAnnual6SS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "pciDebitCard", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "pciCreditCard", "FALSE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "eft", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+
+
+    }
+
     /**
      * @author Oleg Stasyuk
      * @name Test eValue Discount
