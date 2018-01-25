@@ -45,7 +45,7 @@
         </classes>
     </test>
 
-    <test name="PA View Rating Details Auto Tier value 1-16">
+    <test name="PA View Rating Details Auto Tier value 1-16" parallel="classes" thread-count="200">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetailsAutoTier"/>
@@ -55,7 +55,7 @@
         </classes>
     </test>
 
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display">
+    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="classes" thread-count="200">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
@@ -66,7 +66,7 @@
     </test>
 
     <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->
-    <test name="Policy Conversation without ordering reports">
+    <test name="Policy Conversation without ordering reports" parallel="classes" thread-count="200">
         <classes>
             <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
             <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
