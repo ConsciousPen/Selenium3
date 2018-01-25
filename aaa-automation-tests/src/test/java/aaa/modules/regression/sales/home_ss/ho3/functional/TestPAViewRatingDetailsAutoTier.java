@@ -13,6 +13,8 @@ import toolkit.utils.TestInfo;
 
 public class TestPAViewRatingDetailsAutoTier extends HomeSSHO3BaseTest {
 
+	private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Test PA Revised Home Tier UI Change View Rating Detail
@@ -27,8 +29,6 @@ public class TestPAViewRatingDetailsAutoTier extends HomeSSHO3BaseTest {
 	 * 8. Check that Auto tier value is between 1 and 16
 	 * @details
 	 **/
-
-	private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - UI Change : View Rating Details screen")
