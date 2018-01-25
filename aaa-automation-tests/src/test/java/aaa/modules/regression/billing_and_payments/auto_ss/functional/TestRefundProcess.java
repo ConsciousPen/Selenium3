@@ -299,7 +299,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.voidedManualRefundGeneration(refund);
         refundProcessHelper.voidedRefundVerification(true, billingAccountNumber, MESSAGE_ACH, refund, false, 1, false);
         //PAS-7231
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, true);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "RefundPaymentVoided", null, true, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();

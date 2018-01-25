@@ -44,6 +44,7 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class RefundProcessHelper extends PolicyBilling {
 
@@ -593,6 +594,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
     private void unprocessedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
         Dollar amount = new Dollar(refund.get(AMOUNT));
+        Waiters.SLEEP(6000).go();
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
         if(isCheck){
             refundDetailsPresence(true, true, true, true);
@@ -821,7 +823,7 @@ public class RefundProcessHelper extends PolicyBilling {
         DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
         if ("ERR".equals(refundStatus)) {
             //TODO workaround for Time-setter parallel execution
-            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(3));
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
             JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
         } else if ("SUCC".equals(refundStatus)) {
             //TODO workaround for Time-setter parallel execution
