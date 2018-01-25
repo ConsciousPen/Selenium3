@@ -27,7 +27,7 @@ public class DocumentsAndBindTab extends Tab {
 		super(AutoCaMetaData.DocumentsAndBindTab.class);
 	}
 
-	public static Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling')]"), Waiters.AJAX);
+	public static Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling') and contains(@id, 'footer')]"), Waiters.AJAX);
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public static Dialog confirmRenewalPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_container']");
