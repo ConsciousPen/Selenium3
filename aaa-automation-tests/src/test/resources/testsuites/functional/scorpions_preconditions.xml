@@ -8,7 +8,7 @@
 
     <test name="Renewal job adding">
         <classes>
-            <class name="aaa.modules.regression.queries.preconditions.ScorpionsPreconditions">
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
                 <methods>
                     <include name="renewalJobAdding"/>
                 </methods>

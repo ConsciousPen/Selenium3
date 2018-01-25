@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.common_helpers;
+package aaa.helpers.product;
 
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
@@ -6,15 +6,16 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.queries.LookupQueries;
 
-public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQueries {
+public class VinUploadHelper {
 
 	private String policyType;
+	private String state;
+	UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
-	public VinUploadCommonMethods(PolicyType policyType) {
+	public VinUploadHelper(PolicyType policyType,String state) {
 		this.policyType = policyType.getShortName();
+		this.state = state;
 	}
 
 	/**
@@ -22,15 +23,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQuer
 	 * @param vinTableFile
 	 */
 	public void uploadFiles(String vinTableFile) {
-
-		UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
-
-		//open Admin application and navigate to Administration tab
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, getControlTableFile());
+		uploadFiles(vinTableFile,getControlTableFile());
 	}
 
 	/**
@@ -40,10 +33,6 @@ public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQuer
 	 */
 	public void uploadFiles(String controlTableFile, String vinTableFile) {
 
-		UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
-
-		//open Admin application and navigate to Administration tab
-		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
@@ -72,7 +61,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQuer
 			default:
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
-		return String.format(defaultFileName, fileType, getState());
+		return String.format(defaultFileName, fileType, state);
 	}
 
 	public String getControlTableFile() {
@@ -90,7 +79,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest implements LookupQuer
 			default:
 				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
-		return String.format(defaultControlFileName, getState());
+		return String.format(defaultControlFileName, state);
 	}
 
 	public enum UploadFilesTypes {

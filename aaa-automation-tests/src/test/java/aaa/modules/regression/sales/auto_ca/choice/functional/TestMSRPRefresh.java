@@ -1,23 +1,23 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import static aaa.helpers.product.DatabaseCleanHelper.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.MsrpQueries;
+import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
-import aaa.modules.regression.queries.MsrpQueries;
-import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQueries, TestVinUploadPostConditions {
+public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQueries{
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_CHOICE;

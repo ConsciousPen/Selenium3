@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.helpers.product.DatabaseCleanHelper.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -11,23 +12,22 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
-import aaa.modules.regression.sales.auto_ss.functional.helpers.TestVinUploadHelper;
-import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
+import aaa.modules.regression.sales.template.TestVinUploadTemplate;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploadPostConditions {
+public class TestMSRPRefresh extends TestVinUploadTemplate{
 
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	private VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 	VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
@@ -49,7 +49,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_PartialMatch(@Optional("") String state) {
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
 		String vehYear = "2015";
 		String vehMake = "VOLKSWAGEN";
@@ -85,6 +85,7 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		findAndRateQuote(testData, quoteNumber);
@@ -272,13 +273,14 @@ public class TestMSRPRefresh extends TestVinUploadHelper implements TestVinUploa
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("") String state) {
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
 		String vinNumber = "7MSRP15H5V1011111";
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		String quoteNumber = createPreconds(testData);

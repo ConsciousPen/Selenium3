@@ -8,14 +8,14 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.db.queries.MsrpQueries;
+import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.queries.MsrpQueries;
-import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -40,10 +40,10 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	protected PurchaseTab purchaseTab = new PurchaseTab();
 	protected MembershipTab membershipTab = new MembershipTab();
 
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	protected VinUploadHelper vinMethods;
 
 	protected void partialMatch() {
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
 		String vehYear = "2015";
 		String vehMake = "VOLKSWAGEN";
@@ -82,6 +82,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
@@ -201,7 +202,8 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	protected void renewalVINDoesMatchNBandNoMatchOn(TestData testData) {
 
 		// Vin control ta   ble has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
-		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
+		adminApp().open();
+		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
 
 		String quoteNumber = createPolicyPreconds(testData);
 

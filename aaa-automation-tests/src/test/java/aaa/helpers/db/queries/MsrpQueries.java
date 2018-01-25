@@ -1,4 +1,4 @@
-package aaa.modules.regression.queries;
+package aaa.helpers.db.queries;
 
 public interface MsrpQueries {
 	String UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX = "UPDATE MSRPCompCollCONTROL SET VEHICLEYEARMAX = %1$d WHERE MSRPVERSION = '%2$s'";

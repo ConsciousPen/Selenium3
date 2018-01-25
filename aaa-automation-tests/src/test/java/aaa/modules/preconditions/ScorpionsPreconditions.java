@@ -1,6 +1,5 @@
-package aaa.modules.regression.queries.preconditions;
+package aaa.modules.preconditions;
 
-import static aaa.modules.regression.queries.LookupQueries.UPDATE_DISPLAYVALUE_BY_CODE;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Test;
@@ -10,7 +9,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.modules.BaseTest;
 import toolkit.db.DBService;
 
-public class ScorpionsPreconditions extends BaseTest{
+public class ScorpionsPreconditions extends BaseTest {
+	/* Vin refresh enable/disable queries */
+	private String SELECT_LOOKUP_ROW_FROM_AAAROLLOUTELIGIBILITYLOOKUP_BY_CODE = "select * from LOOKUPVALUE where LOOKUPLIST_ID in"
+			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
+
+	private String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
+			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 
 	@Test(description = "Renewal job adding")
 	public void renewalJobAdding() {
@@ -22,7 +27,7 @@ public class ScorpionsPreconditions extends BaseTest{
 	}
 
 	@Test(description = "Enable vin refresh")
-	public void enableVinRefresh(){
+	public void enableVinRefresh() {
 		DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "TRUE"));
 	}
 

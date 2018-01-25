@@ -13,25 +13,24 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
-import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
 
-public class TestVINUploadTemplate extends CommonTemplateMethods implements TestVinUploadPostConditions {
+public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	protected VinUploadHelper vinMethods;
 
 	protected void pas2716_AutomatedRenewal(String policyNumber,LocalDateTime nextPhaseDate,String  vinNumber) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
@@ -100,6 +99,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//open Admin application and navigate to Administration tab
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
@@ -158,6 +158,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
@@ -208,6 +209,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
@@ -276,6 +278,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 		String policyNumber = createPolicyPreconds(testData);
 
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		mainApp().reopen();
@@ -351,6 +354,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
@@ -389,6 +393,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		adminApp().open();
 		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
