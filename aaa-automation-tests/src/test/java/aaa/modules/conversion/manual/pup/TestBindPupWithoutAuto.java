@@ -51,8 +51,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         TestData tdPUP = getPolicyTD()
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()),
-                        getTestSpecificTD("TestData_NoAuto"));
+                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
 
         // Initiate PUP policy
         policy.initiate();
@@ -90,10 +89,8 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         TestData tdPUP = getPupConversionTdNoPolicyCreation()
-                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
+                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
+                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
 
         // Initiate manual renewal entry for PUP
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
