@@ -1609,7 +1609,7 @@ OtherCompanionAutoPolicy_PA: {
     Auto policy state: UT,
     Policy number: '345345345',
     Effective date: '$<today:MM/dd/yyyy>',
-    #Policy tier: 'index=1',
+    Policy tier: 'index=1',
     Auto policy BI limit: 'index=1',
     Auto Insurance Persistency: '21'
   }
