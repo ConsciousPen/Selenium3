@@ -38,7 +38,6 @@ import toolkit.webdriver.controls.TextBox;
 
 public class TestVINUpload extends TestVinUploadTemplate {
 	protected TestData tdBilling = testDataManager.billingAccount;
-	private VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
@@ -73,10 +72,11 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
 	public void pas533_newVinAdded(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
-		TestData testData =  getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
 		createAndFillUpTo(testData, VehicleTab.class);
 
@@ -132,6 +132,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487,PAS-1551")
 	public void pas527_NewVinAddedRenewal(@Optional("") String state) {
 
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = vinMethods.getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
@@ -186,6 +188,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487")
 	public void pas527_UpdatedVinRenewal(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.UPDATED_VIN.get());
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), UPDATABLE_VIN);
 
@@ -267,6 +271,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("") String state) {
 
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
@@ -326,6 +332,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4253")
 	public void pas4253_RestrictVehicleRefresh(@Optional("") String state) {
 
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
@@ -373,6 +381,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6203, PAS-6455")
 	public void pas6203_VinAndControlTablesUpload(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String added = "added:";
 		String uploadExcelName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 		String configExcelName = vinMethods.getControlTableFile();
@@ -411,6 +421,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
@@ -441,6 +453,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
@@ -472,6 +486,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
 
@@ -506,6 +522,8 @@ public class TestVINUpload extends TestVinUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_500InternalErrorBackDatedEndorsement(@Optional("UT") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = "backdatedVinTable_UT_SS.xlsx";
 		String controlTableFile = "backdatedControlTable_UT_SS.xlsx";
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
@@ -538,13 +556,13 @@ public class TestVINUpload extends TestVinUploadTemplate {
 						policyExpirationDate.minusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		new GeneralTab().getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AUTHORIZED_BY.getLabel(),TextBox.class).setValue("Me");
+		new GeneralTab().getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AUTHORIZED_BY.getLabel(), TextBox.class).setValue("Me");
 		// 5. Add new vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		TestData twoVehicles = addSecondVehicle(NEW_VIN,testData)
+		TestData twoVehicles = addSecondVehicle(NEW_VIN, testData)
 				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 
-		policy.getDefaultView().fillFromTo(twoVehicles,VehicleTab.class,DocumentsAndBindTab.class);
+		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, DocumentsAndBindTab.class);
 		// 6. Bind endorsement
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();

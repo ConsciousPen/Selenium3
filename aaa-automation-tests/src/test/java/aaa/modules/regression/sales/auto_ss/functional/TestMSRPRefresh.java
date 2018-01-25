@@ -27,7 +27,6 @@ import toolkit.utils.TestInfo;
 
 public class TestMSRPRefresh extends TestVinUploadTemplate{
 
-	private VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
 	VehicleTab vehicleTab = new VehicleTab();
 
 	@Override
@@ -49,6 +48,8 @@ public class TestMSRPRefresh extends TestVinUploadTemplate{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_PartialMatch(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
 		String vehYear = "2015";
@@ -273,6 +274,9 @@ public class TestMSRPRefresh extends TestVinUploadTemplate{
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("") String state) {
+
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
 		String vinNumber = "7MSRP15H5V1011111";

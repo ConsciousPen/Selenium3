@@ -179,13 +179,13 @@ public class TestNyDocGen extends AutoSSBaseTest {
 	 * 1. Issue NY policy
 	 * 2. Get DeclarationPage from db
 	 * 3. Check comp and coll symbols presence
-	 * 4. Stat Code
+	 * 4. Liability symbols presence
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2704")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2704,PAS-706")
-	public void pas2704_LiabilitySymbolsPresenceDeclarationPage(@Optional("") String state) {
+	public void pas2704_DeclarationPage(@Optional("NY") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
@@ -195,13 +195,10 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(DocGenEnum.Documents.AA02NY.getId()));
 
 		docsToCheck.forEach(docID -> {
-			// Start PAS-2713 Scenario 1
-			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStatCd", docID, query);
-			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
-			assertSoftly(softly -> softly.assertThat(actualNode).isNotEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
-			// End PAS-2713 Scenario 1
+			// todo Start PAS-2704 Scenario Liability symbols presence
+			// End PAS-2704 Scenario
 
-			// Start PAS-706
+			// Start PAS-706 Comp and coll symbols presence
 			verifyCompCollSymbolsPresence(query, docID);
 			// Start PAS-706
 		});
@@ -214,13 +211,14 @@ public class TestNyDocGen extends AutoSSBaseTest {
 	 * 1. Issue NY policy
 	 * 2. Generate on demand document
 	 * 3. Check symbols presence and statcode != NA and not empty
+	 * 4. liability symbols presence
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("NY") String state) {
+	public void pas2713_ApplicationFormNYStatCodeNotNA(@Optional("NY") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
@@ -236,14 +234,19 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AA11NY.getId(),ADHOC_DOC_ON_DEMAND_GENERATE);
 
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(DocGenEnum.Documents.AA11NY.getId()));
-		// todo add check for liability symbols PAS-2713 Scenario 2: NY
+		// todo add check for liability symbols PAS-2713 Scenario 2: NY,  PAS-2713
 		docsToCheck.forEach(docID -> {
 			//Select doc from DB
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
 			//Check that doc contains expected node
 			assertSoftly(softly -> softly.assertThat(actualNode).isNotEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
+			// Start PAS-532
+			verifyCompCollSymbolsPresence(query, docID);
+			// End PAS-532
 		});
+
+
 	}
 
 	/**
@@ -252,14 +255,15 @@ public class TestNyDocGen extends AutoSSBaseTest {
 	 * @scenario
 	 * 1. Issue All states except CA / NY
 	 * 2. Generate on demand document
-	 * 3. Check symbols presence and statcode = NA and not empty
+	 * 3. Check Comp and Coll symbols presence
+	 * 4. Stat Code equal to NA
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713, PAS-532")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationFormStatCodeNA(@Optional("") String state) {
+	public void pas2713_ApplicationForm(@Optional("") String state) {
 		String documentId = String.format("AA11%s",state);
 		DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(documentId);
 		// "AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"
@@ -281,13 +285,14 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(document.getId()));
 		// todo add check for liability symbols
 		docsToCheck.forEach(docID -> {
-			// Start PAS-2713
+			// Start PAS-2713 Scenario 1: all states except CA/NY
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
 			//Check that doc contains expected node
-			//assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
+			//assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")));
 			// End PAS-2713
-			// Start PAS-532
+
+			// Start PAS-532 All States except NY
 			verifyCompCollSymbolsPresence(query, docID);
 			// End PAS-532
 		});
@@ -297,9 +302,11 @@ public class TestNyDocGen extends AutoSSBaseTest {
 	private void verifyCompCollSymbolsPresence(String getDataSql, DocGenEnum.Documents docID) {
 		List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, getDataSql);
 		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotEmpty());
+		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotNull());
 
 		List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, getDataSql);
 		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotEmpty());
+		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotNull());
 	}
 
 

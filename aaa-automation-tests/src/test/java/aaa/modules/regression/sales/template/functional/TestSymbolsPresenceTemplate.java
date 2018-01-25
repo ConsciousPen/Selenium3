@@ -4,8 +4,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
-import static aaa.main.enums.DocGenEnum.Documents._554000;
-import static aaa.main.enums.DocGenEnum.Documents._55_4000;
+import static aaa.main.enums.DocGenEnum.Documents.AA11CA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.util.Arrays;
@@ -62,16 +61,16 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);*/
 
 		policy.policyDocGen().start();
-		generateOnDemandDocumentActionTab.verify.documentsPresent(_554000);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, _554000.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
-		generateOnDemandDocumentActionTab.generateDocuments(_554000);
+		generateOnDemandDocumentActionTab.verify.documentsPresent(AA11CA);
+		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, AA11CA.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		generateOnDemandDocumentActionTab.generateDocuments(AA11CA);
 
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber,_55_4000.getId(),ADHOC_DOC_ON_DEMAND_GENERATE);
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber,AA11CA,ADHOC_DOC_ON_DEMAND_GENERATE);
 
-		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList("_55_4000"));
+		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(AA11CA.getId()));
 
 		docsToCheck.forEach(docID -> {
 			//Select doc from DB
