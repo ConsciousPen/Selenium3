@@ -1,7 +1,7 @@
 TestData_Default: {
-InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Auto'
-
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Auto'
 }
+
 TestData_Home_Default: {
 InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home'
 }
@@ -41,3 +41,101 @@ InitiateRenewalEntryActionTab_R35_NY: {
    Enrolled in Autopay: 'No'
  }
 }
+
+########################################
+#                                      #
+#       State-specific data            #
+#                                      #
+########################################
+
+# ---------- Test Data for DE ----------------
+TestData_Home_MAIG_DE: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_VA'
+}
+
+InitiateRenewalEntryActionTab_Home_MAIG_DE: {
+  Product Name: 'Homeowners Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Policy Type: 'HO3',
+  Risk State: DE,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No',
+  Legacy policy had Multi-Policy discount: 'Yes'
+}
+
+# ---------- Test Data for MD ----------------
+TestData_Home_MAIG_MD: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_MD'
+}
+
+InitiateRenewalEntryActionTab_Home_MAIG_MD: {
+  Product Name: 'Homeowners Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Policy Type: 'HO3',
+  Risk State: VA,
+  Renewal Effective Date: '$<today+60d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No',
+  Legacy policy had Multi-Policy discount: 'Yes'
+}
+
+# ---------- Test Data for NJ ----------------
+TestData_Home_MAIG_NJ: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_NJ'
+}
+
+InitiateRenewalEntryActionTab_Home_MAIG_NJ: {
+  Product Name: 'Homeowners Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Policy Type: 'HO3',
+  Risk State: VA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No',
+  Legacy policy had Multi-Policy discount: 'Yes'
+}
+
+# ---------- Test Data for PA ----------------
+TestData_Home_MAIG_PA: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_PA'
+}
+
+InitiateRenewalEntryActionTab_Home_MAIG_PA: {
+  Product Name: 'Homeowners Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Policy Type: 'HO3',
+  Risk State: VA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No',
+  Legacy policy had Multi-Policy discount: 'Yes'
+}
+
+# ---------- Test Data for VA ----------------
+
+TestData_Home_MAIG_VA: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_VA'
+}
+
+InitiateRenewalEntryActionTab_Home_MAIG_VA: {
+  Product Name: 'Homeowners Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Policy Type: 'HO3',
+  Risk State: VA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No',
+  Legacy policy had Multi-Policy discount: 'Yes'
+}
+
