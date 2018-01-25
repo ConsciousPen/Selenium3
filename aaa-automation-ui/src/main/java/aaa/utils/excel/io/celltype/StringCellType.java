@@ -26,7 +26,11 @@ public class StringCellType extends AbstractCellType<String> {
 				if (DateUtil.isCellDateFormatted(c)) {
 					value = new DataFormatter().formatCellValue(c);
 				} else {
-					value = String.valueOf(ExcelCell.INTEGER_TYPE.getValueFrom(cell));
+					if (ExcelCell.DOUBLE_TYPE.isTypeOf(cell)) {
+						value = String.valueOf(ExcelCell.DOUBLE_TYPE.getValueFrom(cell));
+					} else {
+						value = String.valueOf(ExcelCell.INTEGER_TYPE.getValueFrom(cell));
+					}
 				}
 				break;
 			case BOOLEAN:

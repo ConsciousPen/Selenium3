@@ -134,6 +134,10 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		return getCell(headerColumnName).getIntValue();
 	}
 
+	public Double getDoubleValue(String headerColumnName) {
+		return getCell(headerColumnName).getDoubleValue();
+	}
+
 	public LocalDateTime getDateValue(String headerColumnName) {
 		return getCell(headerColumnName).getDateValue();
 	}

@@ -27,6 +27,8 @@ public class ExcelUnmarshaller {
 	protected static Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
 	private Map<Class<?>, Pair<ExcelTable, List<Field>>> tableClasses = new HashMap<>();
 
+	//TODO-dchubkov: implement registerCellType(CellType<?>... cellTypes) method
+
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel) {
 		return unmarshal(excelFile, excelFileModel, false);
 	}
@@ -200,6 +202,10 @@ public class ExcelUnmarshaller {
 				break;
 			case "java.time.LocalDateTime":
 				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDateValue(columnName));
+				break;
+			case "double":
+			case "java.lang.Double":
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDoubleValue(columnName));
 				break;
 			case "java.util.List":
 				String linkedRowsIds = row.getStringValue(columnName);

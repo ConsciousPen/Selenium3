@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.BooleanCellType;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.celltype.DoubleCellType;
 import aaa.utils.excel.io.celltype.IntegerCellType;
 import aaa.utils.excel.io.celltype.LocalDateTimeCellType;
 import aaa.utils.excel.io.celltype.StringCellType;
@@ -24,6 +25,7 @@ public class ExcelCell implements Writable {
 	public static final CellType<Boolean> BOOLEAN_TYPE = new BooleanCellType(Boolean.class);
 	public static final CellType<String> STRING_TYPE = new StringCellType(String.class);
 	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType(Integer.class);
+	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
 	protected Cell cell;
@@ -42,7 +44,7 @@ public class ExcelCell implements Writable {
 	}
 
 	public static Set<CellType<?>> getBaseTypes() {
-		return new HashSet<>(Arrays.asList(BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE));
+		return new HashSet<>(Arrays.asList(BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, DOUBLE_TYPE, LOCAL_DATE_TIME_TYPE));
 	}
 
 	public Cell getPoiCell() {
@@ -95,6 +97,10 @@ public class ExcelCell implements Writable {
 
 	public Integer getIntValue() {
 		return getValue(INTEGER_TYPE);
+	}
+
+	public Double getDoubleValue() {
+		return getValue(DOUBLE_TYPE);
 	}
 
 	public LocalDateTime getDateValue() {

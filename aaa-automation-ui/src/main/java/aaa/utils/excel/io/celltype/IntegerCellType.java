@@ -33,7 +33,9 @@ public class IntegerCellType extends AbstractCellType<Integer> {
 	@Override
 	public boolean isTypeOf(ExcelCell cell) {
 		Cell c = cell.getPoiCell();
-		return c == null || c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && !DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
+		return c == null
+				|| c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && !DateUtil.isCellDateFormatted(c) && !ExcelCell.DOUBLE_TYPE.isTypeOf(cell)
+				|| hasTextValue(cell);
 	}
 
 	@Override

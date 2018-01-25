@@ -41,6 +41,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer noOfVehiclesExcludingTrailer;
 	private Boolean multiCar;
 	private Boolean supplementalSpousalLiability; // NY specific (but field was also found in OR file with FALSE value)
+	private Boolean umbiConvCode; // CT specific ?
 
 	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
@@ -235,6 +236,14 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
+	public Boolean getUmbiConvCode() {
+		return umbiConvCode;
+	}
+
+	public void setUmbiConvCode(Boolean umbiConvCode) {
+		this.umbiConvCode = umbiConvCode;
+	}
+
 	public void setHomeOwner(Boolean homeOwner) {
 		isHomeOwner = homeOwner;
 	}
@@ -315,6 +324,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 				", noOfVehiclesExcludingTrailer=" + noOfVehiclesExcludingTrailer +
 				", multiCar=" + multiCar +
 				", drivers=" + drivers +
+				", umbiConvCode=" + umbiConvCode +
 				'}';
 	}
 

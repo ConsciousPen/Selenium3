@@ -59,7 +59,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
-			log.info("Premium calculation verification initiated for test with policy number {} with expected premium {} from {} OpenL filename",
+			log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
 					policyAndPremium.getKey().getNumber(), policyAndPremium.getValue(), openLFileName);
 
 			TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());

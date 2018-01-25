@@ -212,6 +212,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel();
 			case "UMPD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
+			case "UIMBI":
+				//TODO-dchubkov: replace with correct coverage name key
+				return "UNKNOWN COVERAGE (AZ)";
 			case "MP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel();
 			case "PIP":
@@ -259,7 +262,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
 		String[] limitRange = limitOrDeductible.split("/");
-		assertThat(limitRange.length).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2).as("Unknown mapping for limit/Deductible: %s", limitOrDeductible);
+		assertThat(limitRange.length).as("Unknown mapping for limit/Deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 
 		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCD());
 		if (limitRange.length == 2) {
@@ -280,13 +283,14 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDateTime policyEffectiveDate) {
-		assertThat(autoInsurancePersistency).isGreaterThanOrEqualTo(aaaInsurancePersistency)
-				.as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"");
+		assertThat(autoInsurancePersistency).as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"")
+				.isGreaterThanOrEqualTo(aaaInsurancePersistency);
 
 		LocalDateTime inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
 				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
 
-		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt((int) Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
+		int duration = Math.abs((int) Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays());
+		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt(duration));
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));

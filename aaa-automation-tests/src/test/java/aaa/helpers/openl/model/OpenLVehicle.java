@@ -16,6 +16,7 @@ public class OpenLVehicle {
 	private String id;
 	private Boolean isHybrid;
 	private Boolean isTelematic; // OR specific
+	private Boolean isTeenTelematic; // CT specific ?
 	private Integer modelYear;
 	private Boolean newCarAddedProtection;
 	private Integer safetyScore;
@@ -88,36 +89,12 @@ public class OpenLVehicle {
 		this.id = id;
 	}
 
-	public Boolean isHybrid() {
-		return isHybrid;
-	}
-
-	public void setHybrid(Boolean hybrid) {
-		isHybrid = hybrid;
-	}
-
-	public Boolean isTelematic() {
-		return isTelematic;
-	}
-
-	public void setTelematic(Boolean telematic) {
-		isTelematic = telematic;
-	}
-
 	public Integer getModelYear() {
 		return modelYear;
 	}
 
 	public void setModelYear(Integer modelYear) {
 		this.modelYear = modelYear;
-	}
-
-	public Boolean isNewCarAddedProtection() {
-		return newCarAddedProtection;
-	}
-
-	public void setNewCarAddedProtection(Boolean newCarAddedProtection) {
-		this.newCarAddedProtection = newCarAddedProtection;
 	}
 
 	public Integer getSafetyScore() {
@@ -153,7 +130,7 @@ public class OpenLVehicle {
 	}
 
 	public List<OpenLAddress> getAddress() {
-		return address;
+		return new ArrayList<>(address);
 	}
 
 	public void setAddress(List<OpenLAddress> address) {
@@ -161,7 +138,7 @@ public class OpenLVehicle {
 	}
 
 	public List<OpenLCoverage> getCoverages() {
-		return coverages;
+		return new ArrayList<>(coverages);
 	}
 
 	public void setCoverages(List<OpenLCoverage> coverages) {
@@ -169,10 +146,67 @@ public class OpenLVehicle {
 	}
 
 	public List<OpenLDriver> getRatedDriver() {
-		return ratedDriver;
+		return new ArrayList<>(ratedDriver);
 	}
 
 	public void setRatedDriver(List<OpenLDriver> ratedDriver) {
 		this.ratedDriver = new ArrayList<>(ratedDriver);
+	}
+
+	public void setHybrid(Boolean hybrid) {
+		isHybrid = hybrid;
+	}
+
+	public void setTelematic(Boolean isTelematic) {
+		this.isTelematic = isTelematic;
+	}
+
+	public void setNewCarAddedProtection(Boolean newCarAddedProtection) {
+		this.newCarAddedProtection = newCarAddedProtection;
+	}
+
+	public void setTeenTelematic(Boolean isTeenTelematic) {
+		this.isTeenTelematic = isTeenTelematic;
+	}
+
+	@Override
+	public String toString() {
+		return "OpenLVehicle{" +
+				"number=" + number +
+				", airbagCode='" + airbagCode + '\'' +
+				", annualMileage=" + annualMileage +
+				", antiTheftString='" + antiTheftString + '\'' +
+				", collSymbol=" + collSymbol +
+				", compSymbol=" + compSymbol +
+				", id='" + id + '\'' +
+				", isHybrid=" + isHybrid +
+				", isTelematic=" + isTelematic +
+				", isTeenTelematic=" + isTeenTelematic +
+				", modelYear=" + modelYear +
+				", newCarAddedProtection=" + newCarAddedProtection +
+				", safetyScore=" + safetyScore +
+				", statCode='" + statCode + '\'' +
+				", usage='" + usage + '\'' +
+				", vehicleAge=" + vehicleAge +
+				", address=" + address +
+				", coverages=" + coverages +
+				", ratedDriver=" + ratedDriver +
+				'}';
+	}
+
+	public Boolean isHybrid() {
+		return isHybrid;
+	}
+
+	public Boolean isTelematic() {
+		return isTelematic;
+	}
+
+	public Boolean isNewCarAddedProtection() {
+		return newCarAddedProtection;
+	}
+
+	public Boolean isTeenTelematic() {
+		return isTeenTelematic;
 	}
 }

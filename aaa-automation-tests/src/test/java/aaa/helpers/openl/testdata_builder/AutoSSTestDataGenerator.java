@@ -47,7 +47,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		assertThat(openLPolicy.getCappingDetails()).as("Policies cappingDetails list should have only one element").hasSize(1);
-		assertThat(getState()).isEqualTo(openLPolicy.getCappingDetails().get(0).getState()).as("State from TestDataGenerator differs from openl file's state");
+		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().get(0).getState());
 
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
@@ -71,8 +71,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getGeneralTabData(AutoSSOpenLPolicy openLPolicy) {
-		assertThat(openLPolicy.getAaaInsurancePersistency()).isEqualTo(openLPolicy.getAaaAsdInsurancePersistency())
-				.as("\"aaaInsurancePersistency\" openL field should be equal to \"aaaAsdInsurancePersistency\" since both are equally calculated");
+		assertThat(openLPolicy.getAaaInsurancePersistency()).as("\"aaaInsurancePersistency\" openL field should be equal to \"aaaAsdInsurancePersistency\" "
+				+ "since both are equally calculated").isEqualTo(openLPolicy.getAaaAsdInsurancePersistency());
 
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner()),
@@ -184,9 +184,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						.adjust(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "AARP");
 				isAARPSet = true;
 				if (Boolean.TRUE.equals(openLPolicy.isEmployee())) {
-					assertThat(openLPolicy.getDrivers().size()).isGreaterThan(1)
-							.as("Policy with openl fields \"isEmployee\" and \"isAARP\" which are both TRUE should have at least 2 drivers to fill \"%s\" UI field differently for each of them",
-									AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel());
+					assertThat(openLPolicy.getDrivers().size()).as("Policy with openl fields \"isEmployee\" and \"isAARP\" which are both TRUE should have at least 2 drivers"
+									+ " to fill \"%s\" UI field differently for each of them", AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel())
+							.isGreaterThan(1);
 					isEmployeeSet = false; // will set "Affinity Group"="AAA Employee" to the next driver
 				}
 			}
@@ -230,9 +230,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet) {
-				assertThat(openLPolicy.getYearsAtFaultAccidentFree()).isLessThanOrEqualTo(5)
-						.as("Invalid \"yearsAtFaultAccidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" more than 5 years from policy effective date "
-								+ "for \"At-Fault Accident\" and \"Principally At-Fault Accident\" activity types");
+				assertThat(openLPolicy.getYearsAtFaultAccidentFree()).as("Invalid \"yearsAtFaultAccidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" "
+						+ "more than 5 years from policy effective date for \"At-Fault Accident\" and \"Principally At-Fault Accident\" activity types").isLessThanOrEqualTo(5);
 				LocalDateTime occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsAtFaultAccidentFree());
 
 				TestData activityInformationData = DataProviderFactory.dataOf(
@@ -300,8 +299,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
 		List<TestData> vehiclesTestDataList = new ArrayList<>(openLPolicy.getVehicles().size());
 
-		assertThat(openLPolicy.getNoOfVehiclesExcludingTrailer()).isLessThanOrEqualTo(openLPolicy.getVehicles().size())
-				.as("\"noOfVehiclesExcludingTrailer\" openl field value should be less or equal to total number of vehicles");
+		assertThat(openLPolicy.getNoOfVehiclesExcludingTrailer()).as("\"noOfVehiclesExcludingTrailer\" openl field value should be less or equal to total number of vehicles")
+				.isLessThanOrEqualTo(openLPolicy.getVehicles().size());
 		int trailersCount = 0;
 		int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 
@@ -328,8 +327,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			vehiclesTestDataList.add(vehicleData);
 		}
 
-		assertThat(trailersCount).isEqualTo(expectedTrailersCount).as("Number of vehicles recognized by their coverages set [%s] is not equal to "
-				+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount);
+		assertThat(trailersCount).as("Number of vehicles recognized by their coverages set [%s] is not equal to "
+				+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount).isEqualTo(expectedTrailersCount);
 		return vehiclesTestDataList;
 	}
 
@@ -375,8 +374,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				}
 
 				if (isTrailerOrMotorHomeVehicle) {
-					assertThat(coverage.getGlassDeductible()).isEqualTo("N/A")
-							.as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field for \"Trailer\" or \"Motor Home\" vehicle types");
+					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
+							+ "for \"Trailer\" or \"Motor Home\" vehicle types").isEqualTo("N/A");
 
 					//TODO-dchubkov: tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI
 					detailedCoveragesData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
