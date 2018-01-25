@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 
 public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
 
-    private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+    //private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
     /**
      * @author Josh Carpenter
@@ -32,7 +32,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("") String state) {
 
-        helper.pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
+        new HelperRevisedHomeTierPA().pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
 
     }
 
@@ -55,7 +55,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("") String state) {
 
-        helper.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
+        new HelperRevisedHomeTierPA().pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
 
     }
 }
