@@ -29,7 +29,7 @@ public class TestNyDocGen extends TestSymbolsPresenceTemplate {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2713")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
 	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("CA") String state) {
 		verifySymbolsPresenceInDocs();

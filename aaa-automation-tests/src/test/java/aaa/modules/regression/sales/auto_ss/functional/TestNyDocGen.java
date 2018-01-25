@@ -281,8 +281,8 @@ public class TestNyDocGen extends AutoSSBaseTest {
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(document.getId()));
 		// todo add check for liability symbols
 		docsToCheck.forEach(docID -> {
-			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
 			// Start PAS-2713
+			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
 			//Check that doc contains expected node
 			//assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
@@ -296,10 +296,10 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
 	private void verifyCompCollSymbolsPresence(String getDataSql, DocGenEnum.Documents docID) {
 		List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, getDataSql);
-		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotNull());
+		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNullOrEmpty());
 
 		List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, getDataSql);
-		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotNull());
+		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNullOrEmpty());
 	}
 
 
