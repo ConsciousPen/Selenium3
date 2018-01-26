@@ -30,7 +30,7 @@ public class TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideE
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6663")
-    public void testPolicyRenewal(@Optional("") String state) {
+    public void testPolicyRenewal(@Optional("NJ") String state) {
 
         ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
         TestData td = getTestSpecificTD("TestData");
