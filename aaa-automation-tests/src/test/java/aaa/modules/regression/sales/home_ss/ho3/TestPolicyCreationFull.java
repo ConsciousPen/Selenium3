@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -36,32 +35,32 @@ import toolkit.utils.TestInfo;
  * @details
  */
 public class TestPolicyCreationFull extends HomeSSHO3BaseTest {
-	
-	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-    public void testPolicyCreateHO3Full(@Optional("") String state) {
-        mainApp().open();
-        
-        TestData td = getTestSpecificTD("TestData");
-    	TestData td_orderPPC = getTestSpecificTD("TestData_OrderPPC");
-        
-        createCustomerIndividual();
 
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(td, EndorsementTab.class, true);
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        ReportsTab reportsTab = new ReportsTab();
-        reportsTab.fillTab(td_orderPPC);
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        
-        policy.getDefaultView().fillFromTo(td, PremiumsAndCoveragesQuoteTab.class, PurchaseTab.class, true); 
-        new PurchaseTab().submitTab();       
-        
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        log.info("TEST: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
-    }
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+	public void testPolicyCreateHO3Full(@Optional("") String state) {
+		mainApp().open();
+
+		TestData td = getTestSpecificTD("TestData");
+		TestData td_orderPPC = getTestSpecificTD("TestData_OrderPPC");
+
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, EndorsementTab.class, true);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+		ReportsTab reportsTab = new ReportsTab();
+		reportsTab.fillTab(td_orderPPC);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+
+		policy.getDefaultView().fillFromTo(td, PremiumsAndCoveragesQuoteTab.class, PurchaseTab.class, true);
+		new PurchaseTab().submitTab();
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		log.info("TEST: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+	}
 }
