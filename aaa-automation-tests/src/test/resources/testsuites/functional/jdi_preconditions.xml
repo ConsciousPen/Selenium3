@@ -6,19 +6,20 @@
      </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
+    <test name="pas436_AAAeValueLookups">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="pas436_AAAeValueLookups"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="EvalueInsertPreconditions">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup"/>
         </classes>
     </test>
 
-    <test name="pas436_AAAeValueLookups">
-        <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                    <methods>
-                        <include name="pas436_AAAeValueLookups"/>
-                    </methods>
-                </class>
-        </classes>
-    </test>
 </suite>

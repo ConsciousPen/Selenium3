@@ -73,7 +73,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
             insertConfigForRegularStates(configForState);
         }
 
-        List<String> configForStatesLimits = Arrays.asList("OR",
+        List<String> configForStatesLimits = Arrays.asList(
                 "MD"
                 , "DC");
         for (String configForStatesLimit : configForStatesLimits) {
