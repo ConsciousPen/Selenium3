@@ -3,8 +3,11 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,19 +25,18 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.RfiDocumentResponse;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 public class TestServiceRFI extends AutoSSBaseTest {
-
-    private final InquiryAssetList inquiryAssetList = new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoSSMetaData.GeneralTab.class);
-    private final ErrorTab errorTab = new ErrorTab();
-    private final GeneralTab generalTab = new GeneralTab();
-    private final DriverTab driverTab = new DriverTab();
-    private final DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
+    private final static String UPDATE_DOCUMENT_STATUS = "UPDATE SUPPORTINGDOCENTITY " +
+            "SET DOCUMENTSTATUS = 'Archived', DOCUMENTUPDATETIME=TO_DATE('%s', 'MM/dd/yyyy')  " +
+            "WHERE  DOCUMENTCD = '%s' " +
+            "AND AAAAUTOPOLICY_ID IN (" +
+            "SELECT ID FROM POLICYSUMMARY WHERE POLICYNUMBER='%s')";
     private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-    private final PurchaseTab purchaseTab = new PurchaseTab();
     private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
     private static void rfiDocumentContentCheck(String policyNum) {
@@ -123,18 +125,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel());
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel());
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "NS");
         //PAS-341 End
 
+        uploadDocuments(policyNumber);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -161,9 +164,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NS");
         //TODO Question to Karen: NV returns "Non-Owner Automobile Endorsement Form" instead of "Non-Owner Automobile Endorsement"
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel());
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel(), "NS");
         //PAS-341 End
 
         CustomAssert.disableSoftMode();
@@ -178,8 +181,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData"), DocumentsAndBindTab.class, false);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
-        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Not Signed");
+        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not signed");
+        documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Not signed");
 
         documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR).verify.value("No");
         documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("No");
@@ -194,10 +197,29 @@ public class TestServiceRFI extends AutoSSBaseTest {
         documentsAndBindTab.saveAndExit();
     }
 
-    private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName) {
-        RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
-        CustomAssert.assertTrue(allDocuments != null);
-        CustomAssert.assertTrue("NS".equals(allDocuments.status));
+    private void uploadDocuments(String policyNumber) {
+        LocalDateTime uploadDate = DateTimeUtils.getCurrentDateTime();
+        String formattedDate = uploadDate.format(DateTimeUtils.MM_DD_YYYY);
+        DBService.get().executeUpdate(String.format(UPDATE_DOCUMENT_STATUS,formattedDate, "PAA", policyNumber));
+        DBService.get().executeUpdate(String.format(UPDATE_DOCUMENT_STATUS,formattedDate, "AAAUBI1B", policyNumber));
+        DBService.get().executeUpdate(String.format(UPDATE_DOCUMENT_STATUS,formattedDate, "PGSD", policyNumber));
+        DBService.get().executeUpdate(String.format(UPDATE_DOCUMENT_STATUS,formattedDate, "PSDCC", policyNumber));
+
+        RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "PS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "PS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "PS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "PS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "NS");
     }
 
+    private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName, String expectedResult) {
+        RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
+        CustomAssert.assertTrue(allDocuments != null);
+        CustomAssert.assertTrue(expectedResult.equals(allDocuments.status));
+    }
 }
