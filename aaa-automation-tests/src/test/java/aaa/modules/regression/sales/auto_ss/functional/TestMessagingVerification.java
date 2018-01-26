@@ -79,7 +79,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
-    public void pas7185_messagingConfigurablePayPlan(@org.testng.annotations.Optional("VA") String state) {
+    public void pas7185_messagingConfigurablePayPlan(@org.testng.annotations.Optional("OR") String state) {
 
         TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
         TestData eft = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1);

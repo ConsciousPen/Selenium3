@@ -65,7 +65,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
     @Test(description = "Precondition for enabling eValue Configuration for States with Paperless Preferences stubbed")
     public static void eValueConfigInsert() {
-        List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
+        List<String> configForStates = Arrays.asList("OR"  //for Paperless Preferences = Yes
                 , "MD"  //for Paperless Preferences = Pending
                 , "DC"); //for Paperless Preferences = No
         //PA should not have eValue or Paperless Preferences Configuration
