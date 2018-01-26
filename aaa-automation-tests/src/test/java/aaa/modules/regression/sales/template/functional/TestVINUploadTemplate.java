@@ -445,7 +445,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 	}
 
-
 	protected TestData getTestDataWithSinceMembershipAndSpecificVinNumber(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)

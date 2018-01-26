@@ -19,13 +19,13 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.template.TestVinUploadTemplate;
+import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-public class TestMSRPRefresh extends TestVinUploadTemplate{
+public class TestMSRPRefresh extends VinUploadAutoSSHelper {
 
 	VehicleTab vehicleTab = new VehicleTab();
 

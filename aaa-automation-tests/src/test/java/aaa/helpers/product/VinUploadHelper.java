@@ -1,6 +1,5 @@
 package aaa.helpers.product;
 
-import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -23,7 +22,7 @@ public class VinUploadHelper {
 	 * @param vinTableFile
 	 */
 	public void uploadFiles(String vinTableFile) {
-		uploadFiles(vinTableFile,getControlTableFile());
+		uploadFiles(getControlTableFile(),vinTableFile);
 	}
 
 	/**
@@ -32,11 +31,10 @@ public class VinUploadHelper {
 	 * @param controlTableFile
 	 */
 	public void uploadFiles(String controlTableFile, String vinTableFile) {
-
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
+		uploadToVINTableTab.uploadControlTable(controlTableFile);
 	}
 
 	public void verifyActivitiesAndUserNotes(String vinNumber) {

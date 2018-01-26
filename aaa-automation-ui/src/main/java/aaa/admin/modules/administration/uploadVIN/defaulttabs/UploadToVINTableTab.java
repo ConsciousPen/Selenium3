@@ -3,15 +3,12 @@
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
 import static org.assertj.core.api.Assertions.fail;
+import java.io.File;
+import org.openqa.selenium.By;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.io.File;
 
 public class UploadToVINTableTab extends DefaultTab {
 
@@ -19,24 +16,32 @@ public class UploadToVINTableTab extends DefaultTab {
 		super(AdministrationMetaData.VinTableTab.class);
 	}
 
-	public static StaticElement LBL_UPLOAD_SUCCESSFUl = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
-	public static StaticElement LBL_UPLOAD_FAILED = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
-	public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
+	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
+	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
+	public static Button buttonUpload = new Button(By.id("uploadToVINTableForm:uploadBtn"));
 
-	protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
+	protected static final String DEFAULT_PATH = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
-	public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName) {
+	public void uploadControlTable(String fileName) {
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
+		uploadFile(fileName);
+	}
 
-		getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
-		BTN_UPLOAD.click();
+	public void uploadVinTable(String fileName) {
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
+		uploadFile(fileName);
+	}
+
+	private void uploadFile(String fileName) {
+		buttonUpload.click();
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultPath + fileName));
+				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
 				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
-		if (!LBL_UPLOAD_SUCCESSFUl.isPresent()) {
-			fail("File " + fileName + " was not uploaded. See error: \n" + LBL_UPLOAD_FAILED.getValue());
+		if (!labelUploadSuccessful.isPresent()) {
+			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
 		}
 	}
 }

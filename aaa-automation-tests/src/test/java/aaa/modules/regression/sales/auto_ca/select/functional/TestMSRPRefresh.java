@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static aaa.helpers.product.DatabaseCleanHelper.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -16,6 +17,8 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -43,7 +46,61 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_PartialMatch(@Optional("") String state) {
-		partialMatch();
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+		String vinTable = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
+
+		String vehYear = "2015";
+		String vehMake = "VOLKSWAGEN";
+		String vehModel = "GOLF";
+		String vehSeries = "GOLF";
+		String vehBodyStyle = "HATCHBACK 4 DOOR";
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "50000").resolveLinks();
+
+		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
+
+		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
+
+		PremiumAndCoveragesTab.calculatePremium();
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		// Values from VIN comp and coll symbol in excel sheet
+		assertSoftly(softly -> {
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo("43");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo("33");
+
+		});
+		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
+		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		VehicleTab.buttonSaveAndExit.click();
+
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		// Vin control table has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
+		adminApp().open();
+		vinMethods.uploadFiles(vinTable);
+
+		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
+		findAndRateQuote(testData, quoteNumber);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertSoftly(softly -> {
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo("43");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
+
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo("33");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
+
+		});
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -166,6 +223,8 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_vinDoesNotMatchDB(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinNumber = "7MSRP15H5V1011111";
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();

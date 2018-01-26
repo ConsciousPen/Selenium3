@@ -12,7 +12,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -30,13 +29,13 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.template.TestVinUploadTemplate;
+import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.TextBox;
 
-public class TestVINUpload extends TestVinUploadTemplate {
+public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
@@ -392,16 +391,16 @@ public class TestVINUpload extends TestVinUploadTemplate {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
 		//Uploading of VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
+		uploadToVINTableTab.uploadControlTable(configExcelName);
 
 		//Verify that the proper number or rows were added in the Control table; one row will be added
-		assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl).valueContains(added);
+		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
 
 		//Uploading of VIN table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+		uploadToVINTableTab.uploadVinTable(uploadExcelName);
 
 		//Verify that the proper number or rows were added in the VIN table; one row will be added
-		assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl).valueContains(added);
+		assertThat(UploadToVINTableTab.labelUploadSuccessful).valueContains(added);
 	}
 
 	/**

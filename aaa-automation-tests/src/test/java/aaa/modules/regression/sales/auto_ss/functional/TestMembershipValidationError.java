@@ -13,7 +13,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.sales.template.TestVinUploadTemplate;
+import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -111,6 +111,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		testData.adjust(generalTab.getMetaKey(),generalTabAdjusted).resolveLinks();
 		// End of General tab
 
-		return TestVinUploadTemplate.addMembershipSinceDateToTestData(testData);
+		return VinUploadAutoSSHelper.addMembershipSinceDateToTestData(testData);
 	}
 }
