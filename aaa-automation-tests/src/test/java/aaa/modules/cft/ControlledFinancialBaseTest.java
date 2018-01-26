@@ -839,7 +839,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		addSuspenseOnDate(suspenseDate);
 	}
 
-	protected void addSuspenseStartDatePlus25() {
+	protected void addSuspenseOnStartDatePlus25() {
 		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		addSuspenseOnDate(suspenseDate);
 	}
@@ -855,7 +855,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Suspense cleared successfully");
 	}
 
-	protected void refundSuspenseDD1plus5() {
+	protected void refundSuspenseOnDD1plus5() {
 		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(5);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Refund Suspense action started on {}", refundDate);
