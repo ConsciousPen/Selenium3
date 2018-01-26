@@ -34,7 +34,7 @@ TestData: {
 
   DocumentsTab:{
     DocumentsToBind:{
-    'Proof of plumbing, electrical, heating/cooling system and roof renovations': 'Yes'
+    'Proof of home renovations for the Home Modernization discount': 'Yes'
     },
     DocumentsToIssue: {
             Signed policy application: Physically Signed
