@@ -50,7 +50,7 @@ public abstract class AbstractCellType<T> implements CellType<T> {
 				'}';
 	}
 
-	public boolean hasTextValue(ExcelCell cell) {
+	public boolean hasValueInTextFormat(ExcelCell cell) {
 		if (cell.getPoiCell() == null) {
 			return false;
 		}

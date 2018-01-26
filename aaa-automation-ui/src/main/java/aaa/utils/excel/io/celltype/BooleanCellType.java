@@ -16,7 +16,7 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 		if (cell.getPoiCell() == null) {
 			return null;
 		}
-		return hasTextValue(cell) ? Boolean.valueOf(getText(cell)) : cell.getPoiCell().getBooleanCellValue();
+		return hasValueInTextFormat(cell) ? Boolean.valueOf(getText(cell)) : cell.getPoiCell().getBooleanCellValue();
 	}
 
 	@Override
@@ -26,12 +26,12 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 
 	@Override
 	public boolean isTypeOf(ExcelCell cell) {
-		return cell.getPoiCell() == null || cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.BOOLEAN || hasTextValue(cell);
+		return cell.getPoiCell() == null || cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.BOOLEAN || hasValueInTextFormat(cell);
 	}
 
 	@Override
-	public boolean hasTextValue(ExcelCell cell) {
-		if (super.hasTextValue(cell)) {
+	public boolean hasValueInTextFormat(ExcelCell cell) {
+		if (super.hasValueInTextFormat(cell)) {
 			String value = getText(cell);
 			return "true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value);
 		}

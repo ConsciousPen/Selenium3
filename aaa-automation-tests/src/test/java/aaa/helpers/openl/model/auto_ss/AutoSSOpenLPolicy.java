@@ -42,6 +42,19 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Boolean multiCar;
 	private Boolean supplementalSpousalLiability; // NY specific (but field was also found in OR file with FALSE value)
 	private Boolean umbiConvCode; // CT specific ?
+	private Integer aaaAPIPIncomeContBenLimit; // NJ specific ?
+	private String aaaAPIPLengthIncomeCont; // NJ specific ?
+	private Integer aaaPIPExtMedPayLimit; // NJ specific ?
+	private Integer aaaPIPMedExpDeductible; // NJ specific ?
+	private Integer aaaPIPMedExpLimit; // NJ specific ?
+	private String aaaPIPNonMedExp; // NJ specific ?
+	private String aaaPIPPrimaryInsurer; // NJ specific ?
+	private Integer noOfAPIPAddlNamedRel; // NJ specific ?
+	private Integer previousAaaInsurancePersistency; // NJ specific ?
+	private String rbTier; // NY specific ?
+	private Integer yafAfterInception; // NY specific ?
+	private Integer ycfAfterInception; // NY specific ?
+	private String tort; // PA specific ?
 
 	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
@@ -244,6 +257,110 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.umbiConvCode = umbiConvCode;
 	}
 
+	public Integer getAaaAPIPIncomeContBenLimit() {
+		return aaaAPIPIncomeContBenLimit;
+	}
+
+	public void setAaaAPIPIncomeContBenLimit(Integer aaaAPIPIncomeContBenLimit) {
+		this.aaaAPIPIncomeContBenLimit = aaaAPIPIncomeContBenLimit;
+	}
+
+	public String getAaaAPIPLengthIncomeCont() {
+		return aaaAPIPLengthIncomeCont;
+	}
+
+	public void setAaaAPIPLengthIncomeCont(String aaaAPIPLengthIncomeCont) {
+		this.aaaAPIPLengthIncomeCont = aaaAPIPLengthIncomeCont;
+	}
+
+	public Integer getAaaPIPExtMedPayLimit() {
+		return aaaPIPExtMedPayLimit;
+	}
+
+	public void setAaaPIPExtMedPayLimit(Integer aaaPIPExtMedPayLimit) {
+		this.aaaPIPExtMedPayLimit = aaaPIPExtMedPayLimit;
+	}
+
+	public Integer getAaaPIPMedExpDeductible() {
+		return aaaPIPMedExpDeductible;
+	}
+
+	public void setAaaPIPMedExpDeductible(Integer aaaPIPMedExpDeductible) {
+		this.aaaPIPMedExpDeductible = aaaPIPMedExpDeductible;
+	}
+
+	public Integer getAaaPIPMedExpLimit() {
+		return aaaPIPMedExpLimit;
+	}
+
+	public void setAaaPIPMedExpLimit(Integer aaaPIPMedExpLimit) {
+		this.aaaPIPMedExpLimit = aaaPIPMedExpLimit;
+	}
+
+	public String getAaaPIPNonMedExp() {
+		return aaaPIPNonMedExp;
+	}
+
+	public void setAaaPIPNonMedExp(String aaaPIPNonMedExp) {
+		this.aaaPIPNonMedExp = aaaPIPNonMedExp;
+	}
+
+	public String getAaaPIPPrimaryInsurer() {
+		return aaaPIPPrimaryInsurer;
+	}
+
+	public void setAaaPIPPrimaryInsurer(String aaaPIPPrimaryInsurer) {
+		this.aaaPIPPrimaryInsurer = aaaPIPPrimaryInsurer;
+	}
+
+	public Integer getNoOfAPIPAddlNamedRel() {
+		return noOfAPIPAddlNamedRel;
+	}
+
+	public void setNoOfAPIPAddlNamedRel(Integer noOfAPIPAddlNamedRel) {
+		this.noOfAPIPAddlNamedRel = noOfAPIPAddlNamedRel;
+	}
+
+	public Integer getPreviousAaaInsurancePersistency() {
+		return previousAaaInsurancePersistency;
+	}
+
+	public void setPreviousAaaInsurancePersistency(Integer previousAaaInsurancePersistency) {
+		this.previousAaaInsurancePersistency = previousAaaInsurancePersistency;
+	}
+
+	public String getRbTier() {
+		return rbTier;
+	}
+
+	public void setRbTier(String rbTier) {
+		this.rbTier = rbTier;
+	}
+
+	public Integer getYafAfterInception() {
+		return yafAfterInception;
+	}
+
+	public void setYafAfterInception(Integer yafAfterInception) {
+		this.yafAfterInception = yafAfterInception;
+	}
+
+	public Integer getYcfAfterInception() {
+		return ycfAfterInception;
+	}
+
+	public void setYcfAfterInception(Integer ycfAfterInception) {
+		this.ycfAfterInception = ycfAfterInception;
+	}
+
+	public String getTort() {
+		return tort;
+	}
+
+	public void setTort(String tort) {
+		this.tort = tort;
+	}
+
 	public void setHomeOwner(Boolean homeOwner) {
 		isHomeOwner = homeOwner;
 	}
@@ -325,6 +442,19 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 				", multiCar=" + multiCar +
 				", drivers=" + drivers +
 				", umbiConvCode=" + umbiConvCode +
+				", aaaAPIPIncomeContBenLimit=" + aaaAPIPIncomeContBenLimit +
+				", aaaAPIPLengthIncomeCont=" + aaaAPIPLengthIncomeCont +
+				", aaaPIPExtMedPayLimit=" + aaaPIPExtMedPayLimit +
+				", aaaPIPMedExpDeductible=" + aaaPIPMedExpDeductible +
+				", aaaPIPMedExpLimit=" + aaaPIPMedExpLimit +
+				", aaaPIPNonMedExp=" + aaaPIPNonMedExp +
+				", aaaPIPPrimaryInsurer=" + aaaPIPPrimaryInsurer +
+				", noOfAPIPAddlNamedRel=" + noOfAPIPAddlNamedRel +
+				", previousAaaInsurancePersistency=" + previousAaaInsurancePersistency +
+				", rbTier=" + rbTier +
+				", yafAfterInception=" + yafAfterInception +
+				", ycfAfterInception=" + ycfAfterInception +
+				", tort=" + tort +
 				'}';
 	}
 

@@ -16,6 +16,7 @@ import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.celltype.DoubleCellType;
 import aaa.utils.excel.io.celltype.IntegerCellType;
 import aaa.utils.excel.io.celltype.LocalDateTimeCellType;
+import aaa.utils.excel.io.celltype.NumberCellType;
 import aaa.utils.excel.io.celltype.StringCellType;
 import aaa.utils.excel.io.entity.Writable;
 import aaa.utils.excel.io.entity.queue.ExcelRow;
@@ -76,14 +77,35 @@ public class ExcelCell implements Writable {
 	}
 
 	public Object getValue() {
-		for (CellType<?> type : getCellTypes()) {
-			if (type.isTypeOf(this) && !type.equals(STRING_TYPE)) {
+		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t).collect(Collectors.toSet());
+
+		// Let's try to obtain float number value first
+		for (NumberCellType<?> type : numericTypes) {
+			if (type.isTypeOf(this) && type.hasFloatValue(this)) {
 				return getValue(type);
 			}
 		}
+
+		// Then if no float numbers has found let's try to find integer value
+		if (hasType(INTEGER_TYPE)) {
+			return getIntValue();
+		}
+
+		// If no numeric value has been obtained then let's try to get non string value
+		Set<CellType<?>> nonNumericAndStringCellTypes = getCellTypes();
+		nonNumericAndStringCellTypes.removeAll(numericTypes);
+		nonNumericAndStringCellTypes.remove(STRING_TYPE);
+		for (CellType<?> type : nonNumericAndStringCellTypes) {
+			if (type.isTypeOf(this)) {
+				return getValue(type);
+			}
+		}
+
+		// Finally let's try to get String value
 		if (hasType(STRING_TYPE)) {
 			return getStringValue();
 		}
+
 		throw new IstfException("Cell does not have supported types to retrieve its value");
 	}
 
@@ -107,6 +129,15 @@ public class ExcelCell implements Writable {
 		return getValue(LOCAL_DATE_TIME_TYPE);
 	}
 
+/*	private <T extends NumberCellType<?>> Set<T> getNumericCellTypes() {
+		Set<NumberCellType<?>> tt = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(NumberCellType.class::cast).collect(Collectors.toSet());
+		return tt;
+	}*/
+
+/*	public boolean isNumeric() {
+		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
+	}*/
+
 	@Override
 	public ExcelManager getExcelManager() {
 		return getRow().getExcelManager();
@@ -128,7 +159,7 @@ public class ExcelCell implements Writable {
 	}
 
 	public <T> boolean hasType(CellType<T> cellType) {
-		return getCellTypes().stream().anyMatch(t -> t.equals(cellType));
+		return getCellTypes().contains(cellType);
 	}
 
 	public <T> boolean hasValue(T expectedValue) {

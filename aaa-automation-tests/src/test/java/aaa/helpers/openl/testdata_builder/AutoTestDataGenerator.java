@@ -215,6 +215,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "UIMBI":
 				//TODO-dchubkov: replace with correct coverage name key
 				return "UNKNOWN COVERAGE (AZ)";
+			case "UIMPD":
+				//TODO-dchubkov: replace with correct coverage name key
+				return "UNKNOWN COVERAGE (DC)";
+			case "UM/SUM":
+				//TODO-dchubkov: replace with correct coverage name key
+				return "UNKNOWN COVERAGE (NY)";
 			case "MP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel();
 			case "PIP":

@@ -23,6 +23,11 @@ public class OpenLVehicle {
 	private String statCode;
 	private String usage;
 	private Integer vehicleAge;
+	private Boolean isABS; // DC specific ?
+	private Boolean isDaytimeRunning; // DC specific ?
+	private String firstOrAddlVehicle; // NJ specific ?
+	private Integer maxDriverAge; // VA specific ?
+	private Integer totalVehiclePoint; // VA specific ?
 
 	@ExcelTableElement(sheetName = "Batch- Address", headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
@@ -169,6 +174,14 @@ public class OpenLVehicle {
 		this.isTeenTelematic = isTeenTelematic;
 	}
 
+	public void setABS(Boolean isABS) {
+		this.isABS = isABS;
+	}
+
+	public void setDaytimeRunning(Boolean isDaytimeRunning) {
+		this.isDaytimeRunning = isDaytimeRunning;
+	}
+
 	@Override
 	public String toString() {
 		return "OpenLVehicle{" +
@@ -191,7 +204,20 @@ public class OpenLVehicle {
 				", address=" + address +
 				", coverages=" + coverages +
 				", ratedDriver=" + ratedDriver +
+				", isABS=" + isABS +
+				", isDaytimeRunning=" + isDaytimeRunning +
+				", firstOrAddlVehicle=" + firstOrAddlVehicle +
+				", maxDriverAge=" + maxDriverAge +
+				", totalVehiclePoint=" + totalVehiclePoint +
 				'}';
+	}
+
+	public Boolean isABS() {
+		return isABS;
+	}
+
+	public Boolean isDaytimeRunning() {
+		return isDaytimeRunning;
 	}
 
 	public Boolean isHybrid() {
@@ -208,5 +234,29 @@ public class OpenLVehicle {
 
 	public Boolean isTeenTelematic() {
 		return isTeenTelematic;
+	}
+
+	public String getFirstOrAddlVehicle() {
+		return firstOrAddlVehicle;
+	}
+
+	public void setFirstOrAddlVehicle(String firstOrAddlVehicle) {
+		this.firstOrAddlVehicle = firstOrAddlVehicle;
+	}
+
+	public Integer getMaxDriverAge() {
+		return maxDriverAge;
+	}
+
+	public void setMaxDriverAge(Integer maxDriverAge) {
+		this.maxDriverAge = maxDriverAge;
+	}
+
+	public Integer getTotalVehiclePoint() {
+		return totalVehiclePoint;
+	}
+
+	public void setTotalVehiclePoint(Integer totalVehiclePoint) {
+		this.totalVehiclePoint = totalVehiclePoint;
 	}
 }

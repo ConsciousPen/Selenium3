@@ -34,7 +34,7 @@ public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 		if (cell.getPoiCell() == null) {
 			return null;
 		}
-		if (hasTextValue(cell)) {
+		if (hasValueInTextFormat(cell)) {
 			return TimeSetterUtil.getInstance().parse(getText(cell), getFormatter(cell));
 		}
 		return cell.getPoiCell().getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -49,12 +49,12 @@ public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 	@Override
 	public boolean isTypeOf(ExcelCell cell) {
 		Cell c = cell.getPoiCell();
-		return c == null || c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
+		return c == null || c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasValueInTextFormat(cell);
 	}
 
 	@Override
-	public boolean hasTextValue(ExcelCell cell) {
-		return super.hasTextValue(cell) && getFormatter(cell) != null;
+	public boolean hasValueInTextFormat(ExcelCell cell) {
+		return super.hasValueInTextFormat(cell) && getFormatter(cell) != null;
 	}
 
 	public DateTimeFormatter getFormatter(ExcelCell cell) {

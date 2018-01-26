@@ -24,6 +24,10 @@ public class OpenLDriver {
 	private Boolean outOfStateLicenseSurcharge;
 	private Boolean smartDriver;
 	private Boolean unverifiableDrivingRecord;
+	private Boolean occasionalOperator; // DC specific ?
+	private String vehicleAssignedId; // DC specific ?
+	private Boolean hasTravelink; // DE specific ?
+	private Boolean isExcludedDriver; // NJ specific ?
 
 	public Integer getNumber() {
 		return number;
@@ -185,6 +189,38 @@ public class OpenLDriver {
 		this.hasFR44 = hasFR44;
 	}
 
+	public Boolean getOccasionalOperator() {
+		return occasionalOperator;
+	}
+
+	public void setOccasionalOperator(Boolean occasionalOperator) {
+		this.occasionalOperator = occasionalOperator;
+	}
+
+	public String getVehicleAssignedId() {
+		return vehicleAssignedId;
+	}
+
+	public void setVehicleAssignedId(String vehicleAssignedId) {
+		this.vehicleAssignedId = vehicleAssignedId;
+	}
+
+	public Boolean hasTravelink() {
+		return hasTravelink;
+	}
+
+	public void setHasTravelink(Boolean hasTravelink) {
+		this.hasTravelink = hasTravelink;
+	}
+
+	public Boolean isExcludedDriver() {
+		return isExcludedDriver;
+	}
+
+	public void setExcludedDriver(Boolean isExcludedDriver) {
+		this.isExcludedDriver = isExcludedDriver;
+	}
+
 	@Override
 	public String toString() {
 		return "OpenLDriver{" +
@@ -207,6 +243,10 @@ public class OpenLDriver {
 				", outOfStateLicenseSurcharge=" + outOfStateLicenseSurcharge +
 				", smartDriver=" + smartDriver +
 				", unverifiableDrivingRecord=" + unverifiableDrivingRecord +
+				", occasionalOperator=" + occasionalOperator +
+				", vehicleAssignedId=" + vehicleAssignedId +
+				", hasTravelink=" + hasTravelink +
+				", isExcludedDriver=" + isExcludedDriver +
 				'}';
 	}
 }
