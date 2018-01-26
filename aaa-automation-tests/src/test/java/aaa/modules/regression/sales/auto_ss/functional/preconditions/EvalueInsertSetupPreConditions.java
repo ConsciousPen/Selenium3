@@ -89,7 +89,7 @@ public interface EvalueInsertSetupPreConditions {
     String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n"
             + "(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
             + "values\n"
-            + "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'OR', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+            + "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
     String PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE = "update PROPERTYCONFIGURERENTITY\n"
             + "set value ='http://%s:9098/aaa-external-stub-services-app/recordFinancialAccount.do'\n"

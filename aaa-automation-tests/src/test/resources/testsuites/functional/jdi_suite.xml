@@ -113,7 +113,6 @@
                     <include name="precondJobAdding"/>
 
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
-                    <include name="pas3693_eValueConfiguration"/>
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                 </methods>
             </class>
