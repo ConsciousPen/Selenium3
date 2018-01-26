@@ -25,8 +25,7 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 
 	public void verifySymbolsPresence() {
 		//Adjust default Data with modified VehicleTab Data
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData")
-				.resolveLinks());
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		mainApp().open();
 		createCustomerIndividual();
