@@ -5,8 +5,8 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test" />
-    <test name="State VA PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
@@ -17,76 +17,13 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideErrorFires"/>
         </classes>
     </test>
-    <test name="State DE PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification" parallel="methods" thread-count="1024">
-        <parameter name="state" value="DE"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsOverrideInsuranceScore"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideErrorFires"/>
-        </classes>
-    </test>
-    <test name="State NJ PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsOverrideInsuranceScore"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideErrorFires"/>
-        </classes>
-    </test>
-    <test name="State PA PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsOverrideInsuranceScore"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideErrorFires"/>
-        </classes>
-    </test>
-    <test name="State DE PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
-        <parameter name="state" value="DE"/>
+    <test name="PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
-        </classes>
-    </test>
-    <test name="State NJ PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
-        </classes>
-    </test>
-    <test name="State PA PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
-        </classes>
-    </test>
-    <test name="State NJ PAS-2293, PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
         </classes>
     </test>
 </suite>
