@@ -10,6 +10,7 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
@@ -29,9 +30,10 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 	public void cftTestScenario3(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		endorsePolicyEffDatePlus16Days();
+		endorsementDateDataKeys = new String[]{new EndorsementActionTab().getMetaKey(), HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()};
+		endorsePolicyOnStartDatePlus16();
 		acceptPaymentEffDatePlus25();
-		decline10DollarsPaymentOnCancellationNoticeDate();
+		declinePaymentOnCancellationNoticeDate();
 		automaticCancellation(1);
 		generateFirstEarnedPremiumBill(1);
 		generateSecondEarnedPremiumBill(1);

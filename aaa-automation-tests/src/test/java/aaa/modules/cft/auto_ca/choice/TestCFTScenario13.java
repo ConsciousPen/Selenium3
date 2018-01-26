@@ -10,6 +10,7 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
@@ -30,15 +31,16 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario13(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptPaymentStartDatePlus2();
-		addSuspenseStartDatePlus2();
+		acceptPaymentOnStartDatePlus2();
+		addSuspenseOnStartDatePlus2();
 		generateInstallmentBill(1);
-		flatCancellationStartDatePlus16();
-		clearSuspenseEffDatePlus16();
+		flatCancellationOnStartDatePlus16();
+		clearSuspenseOnStartDatePlus16();
 		acceptMinDuePaymentOnStartDatePlus25();
-		manualReinstatementStartDatePlus25();
-		endorsePolicyCancellationNoticeDate();
-		declineSuspensePaymentCancellationDate();
+		manualReinstatementOnStartDatePlus25();
+		endorsementDateDataKeys = new String[]{new EndorsementActionTab().getMetaKey(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()};
+		endorsePolicyOnCancellationNoticeDate();
+		declineSuspensePaymentOnCancellationDate();
 	}
 
 	@Override

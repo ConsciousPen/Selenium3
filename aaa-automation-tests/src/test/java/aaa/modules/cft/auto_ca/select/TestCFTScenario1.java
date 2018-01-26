@@ -30,7 +30,7 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario1(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		endorsePolicyEffDatePlus2Days();
+		endorsePolicyOnStartDatePlus2();
 		generateInstallmentBill(1);
 		automaticCancellationNotice(1);
 		automaticCancellation(1);
