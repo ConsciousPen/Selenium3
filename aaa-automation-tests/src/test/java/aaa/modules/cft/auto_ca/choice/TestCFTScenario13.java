@@ -10,7 +10,6 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
@@ -38,7 +37,6 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 		clearSuspenseOnStartDatePlus16();
 		acceptMinDuePaymentOnStartDatePlus25();
 		manualReinstatementOnStartDatePlus25();
-		endorsementDateDataKeys = new String[]{new EndorsementActionTab().getMetaKey(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()};
 		endorsePolicyOnCancellationNoticeDate();
 		declineSuspensePaymentOnCancellationDate();
 	}

@@ -74,7 +74,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected OperationalReport operationalReport = new OperationalReport();
-	protected String[] endorsementDateDataKeys;
 
 	/**
 	 * Creating of the policy for test
@@ -98,12 +97,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Endorsement of the policy
+	 * Endorsement
 	 * On start date + 2 days
 	 */
 	protected void endorsePolicyOnStartDatePlus2() {
-		LocalDateTime endorseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		performEndorsementOnDate(endorseDate);
+		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		performEndorsementOnDate(endorsementDate);
 	}
 
 	/**
@@ -111,8 +110,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * On start date + 16 days
 	 */
 	protected void endorsePolicyOnStartDatePlus16() {
-		LocalDateTime endorseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		performEndorsementOnDate(endorseDate);
+		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		performEndorsementOnDate(endorsementDate);
 	}
 
 	protected void endorseOOSPolicyOnFirstEPBillDate(String keyPath) {
@@ -151,8 +150,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Endorsement of the policy
-	 * today(suite start time) + 16 days
+	 * OOS endorsement
+	 * on start date + 16 days
 	 */
 	protected void endorseOOSPolicyOnStartDatePlus16() {
 		LocalDateTime date = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
@@ -182,9 +181,26 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		performEndorsementOnDate(endorsementDate);
 	}
 
-	protected void futureEndorsePolicyCancellationNoticeDate() {
+	/**
+	 * Future dated endorsement
+	 * on Cancellation Notice Date
+	 * 
+	 */
+	protected void futureEndorsePolicyOnCancellationNoticeDate(String[] endorsementEffDateDataKeys) {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		performEndorsementOnDate(endorsementDate);
+		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
+		performEndorsementOnDate(endorsementDate, endorsementEffDate);
+	}
+
+	/**
+	 * Future dated endorsement
+	 * on start date plus 2 days
+	 */
+	protected void futureEndorsePolicyOnStartDatePlus2(String[] endorsementEffDateDataKeys) {
+		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
+		performEndorsementOnDate(endorsementDate, endorsementEffDate);
+
 	}
 
 	protected void endorsePolicyCancellationDate() {
@@ -1222,6 +1238,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
+		performEndorsementOnDate(endorsementDate, endorsementDate.format(DateTimeUtils.MM_DD_YYYY));
+	}
+
+	private void performEndorsementOnDate(LocalDateTime endorsementDate, String endorsementEffDate) {
 		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
 		log.info("Endorsment action started on {}", endorsementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -1229,7 +1249,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementDateDataKeys);
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
 				ActivitiesAndUserNotesTable.DESCRIPTION,
