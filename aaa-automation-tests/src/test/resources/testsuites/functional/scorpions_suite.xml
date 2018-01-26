@@ -111,7 +111,7 @@
     <test name="Auto SS PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRatingDetailsView">
                 <methods>
                     <include name="pas535_verifyNewSymbolsPresence"/>
                 </methods>
@@ -122,7 +122,7 @@
     <test name="Auto CA Select AS-535,PAS-2712,PAS-1904 Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView">
                 <methods>
                     <include name="pas535_verifyNewSymbolsPresence"/>
                 </methods>
@@ -133,7 +133,7 @@
     <test name="Auto CA Choice PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView">
                 <methods>
                     <include name="pas535_verifyNewSymbolsPresence"/>
                 </methods>

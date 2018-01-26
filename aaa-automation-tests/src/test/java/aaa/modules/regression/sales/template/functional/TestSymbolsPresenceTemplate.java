@@ -15,10 +15,8 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
@@ -28,7 +26,6 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 	public void verifySymbolsPresence() {
 		//Adjust default Data with modified VehicleTab Data
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData")
-				.adjust(TestData.makeKeyPath(new VehicleTab().getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "index=2")
 				.resolveLinks());
 
 		mainApp().open();
