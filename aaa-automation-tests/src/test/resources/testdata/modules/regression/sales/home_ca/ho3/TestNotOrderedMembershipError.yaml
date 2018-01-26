@@ -1,0 +1,179 @@
+TestData_NotOrderedMembershipValidationHO3: {
+  GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  #ProductOfferingTab: '@<home_ca_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ca_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ca_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ca_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ca_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ca_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  #AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: '@AdditionalAddress',
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  PublicProtectionClass: '@PublicProtectionClass',
+  Construction: '@Construction',
+  #AdditionalQuestions: {},
+  Interior: '@Interior',
+  DetachedStructures: '@DetachedStructures',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+}
+
+MortgageesTab: {
+  Mortgagee: 'No',
+  Use legal named insured: 'No',
+  "Use legal property address": 'No',
+  "Is there an additional insured?": 'No',
+  "Is there an additional interest?": 'No',
+}
+
+# ------------- Applicant Tab -------------
+# First name, Last name & Date of birth: Added Valid Active Membership number
+
+NamedInsured: {
+  First name: 'Ronhald',
+  Last name: 'Ronaldjo',
+  Date of birth: 1/2/1960,
+  Relationship to primary named insured:  Primary Insured,
+}
+
+# Membership number, Last name: Added Valid Active Membership number
+AAAMembership: {
+  Current AAA Member: 'Yes',
+  Membership number: '9436258506738011',
+  Last name: 'Ronaldjo',
+}
+
+DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress'
+
+PreviousDwellingAddress: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'No',
+}
+
+MailingAddress: {
+  "Is the mailing address different from the dwelling address?": 'No',
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "No",
+}
+
+# ------------- PropertyInfo Tab -------------
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: 2-Duplex,
+  Section II territory: 'index=1'
+}
+
+AdditionalAddress: {
+  Are there any additional address: 'No'
+}
+
+PropertyValue: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: 'index=1',
+}
+
+PublicProtectionClass: {
+  Fire department type: 'index=1',
+  Subscription to fire department/station: "No",
+  Public protection class: 'index=1',
+  Distance to fire hydrant: 'index=1',
+  Fire protection area: '7'
+}
+
+Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Foundation Type: 'index=1'
+  }
+
+Interior: {
+  Dwelling usage: Primary,
+  Number of residents: '3',
+  Occupancy type: 'index=0',
+  "Number of stories, including basement": 'index=1'
+}
+
+DetachedStructures: {
+  "Are there any detached structures on the property?": 'No',
+}
+
+PetsOrAnimals: {
+  "Are any insured-owned pets or animals kept on the property?": 'No',
+}
+
+Stoves: {
+  "Does the property have a wood-burning stove?": 'No',
+}
+
+RecreationalEquipment: {
+  Swimming pool: 'index=0',
+  "Spa/hot tub": 'index=0',
+  Trampoline: 'index=0'
+}
+
+#--- Test Data for 2nd Endorsement Policy----
+
+TestData_NotOrderedMembershipValidationHO3_Endorsement: {
+  GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab_Endorsement',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ca_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ca_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ca_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ca_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ca_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ca_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_Endorsement: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership_Endorsement',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
+}
+
+AAAMembership_Endorsement: {
+  Current AAA Member: 'No',
+}
