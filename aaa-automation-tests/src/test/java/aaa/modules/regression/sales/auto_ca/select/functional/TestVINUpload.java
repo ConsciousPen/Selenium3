@@ -101,7 +101,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		endorsement(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN).resolveLinks();
+
+		endorsement(testData,vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()),NEW_VIN);
 	}
 
 	/**
@@ -122,7 +124,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -152,7 +154,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -182,7 +184,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-		TestData testData = getNonExistingVehicleTestData(NEW_VIN);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
 
 		String policyNumber = createPolicyPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();

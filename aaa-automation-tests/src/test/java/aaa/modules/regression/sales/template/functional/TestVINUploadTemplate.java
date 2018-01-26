@@ -86,7 +86,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 	 * @details
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
-		TestData testData = getNonExistingVehicleTestData(vinNumber);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -142,7 +142,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 	 */
 	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
-		TestData testData = getNonExistingVehicleTestData(vinNumber);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -273,9 +273,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 	 * 7. Check that data was retrieved from db
 	 * @details
 	 */
-	protected void endorsement(String vinTableFile, String vinNumber) {
-		TestData testData = getNonExistingVehicleTestData(vinNumber).resolveLinks();
-
+	protected void endorsement(TestData testData,String vinTableFile, String vinNumber) {
 		String policyNumber = createPolicyPreconds(testData);
 
 		adminApp().open();
@@ -313,14 +311,14 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	public TestData getNonExistingVehicleTestData(String vinNumber) {
-		return getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+	public TestData getNonExistingVehicleTestData(TestData testData, String vinNumber) {
+		return testData
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel()), "20")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel()), "40000")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "index=2")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "40000")
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel()), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"));
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel()), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>")).resolveLinks();
 	}
 
 	/**

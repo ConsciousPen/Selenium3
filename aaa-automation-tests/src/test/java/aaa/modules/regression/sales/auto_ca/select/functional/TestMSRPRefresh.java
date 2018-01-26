@@ -77,6 +77,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo("33");
 
 		});
+
 		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();

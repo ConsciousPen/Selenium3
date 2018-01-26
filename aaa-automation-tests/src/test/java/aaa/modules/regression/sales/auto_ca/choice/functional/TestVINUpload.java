@@ -91,8 +91,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),NEW_VIN);
 
-		endorsement(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()), NEW_VIN);
+		endorsement(testData,vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()),NEW_VIN);
 	}
 
 	/**

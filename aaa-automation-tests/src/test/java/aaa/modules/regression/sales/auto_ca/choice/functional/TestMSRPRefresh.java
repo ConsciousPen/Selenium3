@@ -114,7 +114,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_VehicleTypeRegular(@Optional("") String state) {
-		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData("");
+		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData(getPolicyTD(),"");
 
 		vehicleTypeRegular(testData);
 	}
