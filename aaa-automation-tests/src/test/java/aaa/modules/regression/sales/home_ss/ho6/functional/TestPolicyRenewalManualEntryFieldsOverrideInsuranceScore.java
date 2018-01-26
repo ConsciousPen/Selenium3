@@ -8,7 +8,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.modules.policy.HomeSSHO6BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
