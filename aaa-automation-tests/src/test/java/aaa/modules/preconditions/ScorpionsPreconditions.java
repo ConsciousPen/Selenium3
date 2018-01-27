@@ -2,6 +2,8 @@ package aaa.modules.preconditions;
 
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
+import java.util.List;
 import org.testng.annotations.Test;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
@@ -17,6 +19,7 @@ public class ScorpionsPreconditions extends BaseTest {
 	private String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 
+
 	@Test(description = "Renewal job adding")
 	public void renewalJobAdding() {
 		adminApp().open();
@@ -28,13 +31,18 @@ public class ScorpionsPreconditions extends BaseTest {
 
 	@Test(description = "Enable vin refresh")
 	public void enableVinRefresh() {
-		DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "TRUE"));
+		int result = DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "TRUE"));
+		assertThat(result).isGreaterThan(0);
 	}
 
 	@Test(description = "Precondition set doc generation endpoints")
 	public static void docGenStubEndpointInsert() {
-		DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
-		DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
-		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
+		int result = 0;
+		List<String> queries = Arrays.asList(DOC_GEN_WEB_CLIENT,AAA_RETRIEVE_AGREEMENT_WEB_CLIENT,AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
+		for(String query : queries){
+			result = DBService.get().executeUpdate(query);
+			assertThat(result).isGreaterThan(0);
+		}
 	}
+
 }

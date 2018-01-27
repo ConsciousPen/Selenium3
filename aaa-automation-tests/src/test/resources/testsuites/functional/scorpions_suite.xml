@@ -19,7 +19,7 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestGetAutoPolicyDetails"/>
         </classes>
     </test>
-    <test name="PAS-541 Auto SS Symbols in Policy Details Service CA">
+    <test name="PAS-541 Auto SS Symbols in Policy Details Service">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>

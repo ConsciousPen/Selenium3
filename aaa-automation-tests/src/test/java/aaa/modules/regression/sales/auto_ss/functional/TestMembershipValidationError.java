@@ -11,6 +11,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.LookupQueries;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -32,8 +33,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
 	private static final String TRIGGER_OFF_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY);
 	private static final String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-	private static final String selectAAAMembershipConfigLookup = "select * from LOOKUPVALUE where LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAAMembershipConfigLookup')";
-	private static final String updateAAAMembershipConfigLookup = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAAMembershipConfigLookup' AND RISKSTATECD = '%2$s')";
 
 	/**
 	*@author Viktor Petrenko
@@ -60,7 +59,7 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3795,PAS-3794")
 	public void pas3795_MembershipValidationError(@Optional("") String state) {
-		int result = DBService.get().executeUpdate(String.format(updateAAAMembershipConfigLookup, "true",getState()));
+		int result = DBService.get().executeUpdate(String.format(LookupQueries.UPDATE_AAA_MEMBERSHIP_CONFIG_LOOKUP, "true",getState()));
 		Assertions.assertThat(result).isGreaterThan(0);
 		TestData testDataAdjusted = getAdjustedTestData();
 
@@ -97,7 +96,7 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	@AfterTest(alwaysRun = true)
 	public void disableAAAMembershipError() {
-		int result = DBService.get().executeUpdate(String.format(updateAAAMembershipConfigLookup, "false",getState()));
+		int result = DBService.get().executeUpdate(String.format(LookupQueries.UPDATE_AAA_MEMBERSHIP_CONFIG_LOOKUP, "false",getState()));
 		Assertions.assertThat(result).isGreaterThan(0);
 	}
 
