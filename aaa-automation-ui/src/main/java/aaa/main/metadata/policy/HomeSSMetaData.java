@@ -1637,7 +1637,7 @@ public final class HomeSSMetaData {
 		public static final class DocumentsToIssue extends MetaData {
 			public static final AssetDescriptor<RadioGroup> KENTUCKY_MINE_SUBSIDENCE_INSURANCE_FUND_WAIVER_FORM = declare("Kentucky Mine Subsidence Insurance Fund Waiver Form", RadioGroup.class,
 					Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE, By.id("policyDataGatherForm:supportingDocsContent_AAAHOIssueDocuments_1POSOA_0"));
+			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE);
 		}
 	}
 
