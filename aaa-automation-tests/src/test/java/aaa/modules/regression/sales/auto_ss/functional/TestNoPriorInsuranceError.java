@@ -54,7 +54,7 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
-	public void pas4244_ErrorMessagePresence(@Optional("NJ") String state) {
+	public void pas4244_ErrorMessagePresence(@Optional("") String state) {
 		TestData testDataCurrentCarrierInfo = getAdjustedTestData(getPolicyTD()).
 				getTestData(generalTab.getMetaKey()).ksam(generalTab.getCurrentCarrierInfoAssetList().getName()).resolveLinks();
 
