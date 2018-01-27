@@ -1637,8 +1637,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> OHIO_MINE_SUBSIDENCE_INSURANCE_UNDERWRITING_ASSOSIATION_APPLICATION = declare(
 					"Ohio Mine Subsidence Insurance Underwriting Association Application", RadioGroup.class, Waiters.NONE);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_LEAD_LIABILITY_AFFECTED_PROPERTY_REGISTERED_DOE = declare(
-					"Proof lead liability \"affected property\" is registered with the Department of Environment and meets their requirements", RadioGroup.class,
-					Waiters.AJAX);
+					"Proof lead liability \"affected property\" is registered with the Department of Environment and meets their requirements", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> KENTUCKY_MINE_SUBSIDENCE_INSURANCE_FUND_WAIVER_FORM = declare("Kentucky Mine Subsidence Insurance Fund Waiver Form", RadioGroup.class,
 					Waiters.NONE);
 		}
@@ -1646,7 +1645,7 @@ public final class HomeSSMetaData {
 		public static final class DocumentsToIssue extends MetaData {
 			public static final AssetDescriptor<RadioGroup> KENTUCKY_MINE_SUBSIDENCE_INSURANCE_FUND_WAIVER_FORM = declare("Kentucky Mine Subsidence Insurance Fund Waiver Form", RadioGroup.class,
 					Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE, By.id("policyDataGatherForm:supportingDocsContent_AAAHOIssueDocuments_1POSOA_0"));
 		}
 	}
 

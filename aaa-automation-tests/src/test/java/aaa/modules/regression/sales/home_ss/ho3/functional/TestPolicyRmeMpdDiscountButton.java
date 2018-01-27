@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
@@ -9,12 +13,7 @@ import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Jovita Pukenaite

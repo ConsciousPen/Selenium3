@@ -1,5 +1,10 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,14 +23,8 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
 
 public class TestMembershipValidation extends AutoCaChoiceBaseTest {
     /**
