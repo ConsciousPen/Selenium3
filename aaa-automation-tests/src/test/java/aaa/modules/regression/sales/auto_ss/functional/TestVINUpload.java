@@ -32,6 +32,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.TextBox;
 
@@ -70,13 +71,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
-	public void pas533_newVinAdded(@Optional("") String state) {
+	public void pas533_newVinAdded(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
-
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get());
 
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+		TestData testData = getPolicyTD().adjust(new SimpleDataProvider().adjust(getTestSpecificTD("TestData")))
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+
 		createAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
