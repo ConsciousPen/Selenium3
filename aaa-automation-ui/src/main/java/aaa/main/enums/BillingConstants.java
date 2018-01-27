@@ -44,6 +44,7 @@ public final class BillingConstants {
 
 	public static final class BillingAccountPoliciesPolicyStatus {
 		public static final String CUSTOMER_DECLINED = "Customer Declined";
+		public static final String POLICY_CANCELLED = "Policy Cancelled";
 	}
 
 	public static final class InstallmentScheduleBilledStatus {

@@ -13,7 +13,7 @@ public class PurchaseMetaData {
 
 	public static final class PurchaseTab extends MetaData {
 		public static final AssetDescriptor<AddPaymentMethodsMultiAssetList> PAYMENT_METHODS = declare("PaymentMethods", AddPaymentMethodsMultiAssetList.class,
-			BillingAccountMetaData.AddPaymentMethodTab.class);
+				BillingAccountMetaData.AddPaymentMethodTab.class);
 
 		public static final AssetDescriptor<CheckBox> ACTIVATE_AUTOPAY = declare("Activate Autopay", CheckBox.class, Waiters.AJAX, By.xpath(".//input[@id='purchaseForm:billingAutomaticRecurring']"));
 		public static final AssetDescriptor<ComboBox> AUTOPAY_SELECTION = declare("Autopay Selection", ComboBox.class, Waiters.AJAX, By.xpath(".//select[@id='purchaseForm:paymentType']"));
@@ -30,9 +30,9 @@ public class PurchaseMetaData {
 		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CASH = declare("Cash", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_0']"));
 		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CHECK = declare("Check", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_1']"));
 		public static final AssetDescriptor<RadioGroup> VOICE_SIGNATURE = declare("Bind by Voice Signature", RadioGroup.class, Waiters.AJAX, false, By
-			.xpath(".//table[@id='purchaseForm:voiceBindingSelection']"));
+				.xpath(".//table[@id='purchaseForm:voiceBindingSelection']"));
 		public static final AssetDescriptor<PaymentMethodAllocationControl> PAYMENT_ALLOCATION = declare("PaymentAllocation", PaymentMethodAllocationControl.class, MetaData.class, By
-			.id("purchaseForm:PaymentDetailsTable"));
+				.id("purchaseForm:PaymentDetailsTable"));
 
 		public static final class ComunityServiceSurveyPromt extends MetaData {
 			public static final AssetDescriptor<TextBox> NAMED_INSURED = declare("Named Insured", TextBox.class, Waiters.NONE);

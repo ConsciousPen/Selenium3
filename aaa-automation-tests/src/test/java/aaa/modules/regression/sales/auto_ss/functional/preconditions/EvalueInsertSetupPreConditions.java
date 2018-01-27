@@ -40,16 +40,16 @@ public interface EvalueInsertSetupPreConditions {
 
     String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "        values('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "        values('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', 'OR',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "        values('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "        values('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_CURRENT_BI_CONFIG_INSERT = "INSERT ALL\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-            + "        values ('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "        values ('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'OR',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "        values ('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "        values ('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE = "update lookupvalue\n"
@@ -60,7 +60,7 @@ public interface EvalueInsertSetupPreConditions {
             + "    FROM PASADM.LOOKUPLIST \n"
             + "    WHERE LOOKUPNAME LIKE '%Rollout%') \n"
             + "AND CODE='eMember' \n"
-            + "and RiskStateCd = 'VA'";
+            + "and RiskStateCd = 'OR'";
 
     String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
             + " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
@@ -89,7 +89,7 @@ public interface EvalueInsertSetupPreConditions {
     String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n"
             + "(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
             + "values\n"
-            + "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+            + "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'OR', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
     String PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE = "update PROPERTYCONFIGURERENTITY\n"
             + "set value ='http://%s:9098/aaa-external-stub-services-app/recordFinancialAccount.do'\n"
@@ -137,49 +137,49 @@ public interface EvalueInsertSetupPreConditions {
 
     String EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "        values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "        values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "        values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "        values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_MYPOLICY_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'myPolicyRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'myPolicyRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'myPolicyRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'myPolicyRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_PAYPLAN_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'paymentPlanRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-20 from dual), (select SYSDATE-17 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'paymentPlanRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-20 from dual), (select SYSDATE-17 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'paymentPlanRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'paymentPlanRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_CREDITCARD_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'pciCreditCard', 'TRUE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))\n"
+            + "		values ('BaseProductLookupValue', 'pciCreditCard', 'TRUE', 'AAA_SS', 'OR',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))\n"
             + "Select * from dual";
 
     String EVALUE_PAPERLESS_PREFERENCES_CONFIG_BLUE_BOX_INSERT = "INSERT ALL\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'paperlessPreferencesRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'paperlessPreferencesRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'paperlessPreferencesRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'paperlessPreferencesRequired', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String EVALUE_PRIOR_INSURANCE_CONFIG_BLUE_BOX_INSERT = "INSERT ALL\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-            + "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
             + "Select * from dual";
 
     String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"

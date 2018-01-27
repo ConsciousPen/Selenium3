@@ -102,7 +102,9 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<AssetList> MAILING_ADDRESS = declare("MailingAddress", AssetList.class, MailingAddress.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_AAAHOMailingAddressComponent']"));
 		public static final AssetDescriptor<AssetList> THIRD_PARTY_DESIGNEE = declare("ThirdPartyDesignee", AssetList.class, ThirdPartyDesignee.class);
 		public static final AssetDescriptor<AssetList> NAMED_INSURED_CONTACT_INFORMATION = declare("NamedInsuredContactInformation", AssetList.class, NamedInsuredContactInformation.class);
-		
+		public static final AssetDescriptor<TextBox> CONVERSION_DATE = declare("Conversion Date", TextBox.class, Waiters.AJAX);
+
+
 		public static final class PolicyInfo extends MetaData {
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
@@ -126,6 +128,8 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OVERRIDEN_BY = declare("Overriden by", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> POLICY_NUM = declare("Policy #", TextBox.class);
+
 		}
 
 		public static final class AAAMembership extends MetaData {

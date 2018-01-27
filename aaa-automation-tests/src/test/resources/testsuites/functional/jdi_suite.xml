@@ -65,15 +65,12 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
                     <include name="eValuePriorBiCurrentBiConfigCheck"/>
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-                    <include name="eValuePriorBiConfigCheck"/>
-                    <include name="pas232_eValuePriorBiConfigurationDependency"/>
+
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
@@ -86,14 +83,12 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValueAcknowledgementConfigCheck"/>
-                    <include name="eValueConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
+                    <include name="eValuePriorBiConfigCheck"/>
                     <include name="eValuePriorBiCurrentBiConfigCheck"/>
+                    <include name="eValueConfigCheck"/>
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-                    <include name="eValuePriorBiConfigCheck"/>
 
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
@@ -112,21 +107,45 @@
                 <methods>
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
                     <include name="eValuePriorBiCurrentBiConfigCheck"/>
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-                    <include name="eValuePriorBiConfigCheck"/>
 
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
-                    <include name="pas3007_eValueMembershipConfiguration"/>
                     <include name="pas3693_eValueConfiguration"/>
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                 </methods>
             </class>
         </classes>
     </test>
+
+    <test name="TestEValueDiscountOR4">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="eValuePriorBiConfigCheck"/>
+                    <include name="eValueAcknowledgementConfigCheck"/>
+                    <include name="pas232_eValuePriorBiConfigurationDependency"/>
+                    <include name="pas3693_eValueConfiguration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestEValueDiscountOR3">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="eValueMembershipConfigCheck"/>
+                    <include name="pas3007_eValueMembershipConfiguration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="TestEValueDiscountDC">
         <parameter name="state" value="DC"/>
         <classes>
@@ -192,8 +211,8 @@
         </classes>
     </test>
 
-    <test name="TestMessagingVerificationVA">
-        <parameter name="state" value="VA"/>
+    <test name="TestMessagingVerificationOR">
+        <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification"/>
         </classes>
@@ -220,8 +239,8 @@
         </classes>
     </test>
     <test name="TestNonPremiumBearingEndorsementsSS">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <!--<parameter name="state" value="VA, WV, WY"/>-->
+        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
+        <parameter name="state" value="VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
