@@ -210,10 +210,40 @@
         </classes>
     </test>
 
-    <test name="TestMessagingVerificationOR">
+    <test name="TestMessagingVerificationOR1">
         <parameter name="state" value="OR"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
+                <methods>
+                    <include name="pas7185_messagingConfigurablePayPlan1"/>
+                    <include name="pas7185_messagingConfigurablePayPlan2"/>
+                    <include name="pas7185_messagingConfigurablePayPlan3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestMessagingVerificationOR2">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
+                <methods>
+                    <include name="pas7185_messagingConfigurablePayPlan4"/>
+                    <include name="pas7185_messagingConfigurablePayPlan5"/>
+                    <include name="pas7185_messagingConfigurablePayPlan6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestMessagingVerificationOR3">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
+                <methods>
+                    <include name="pas7185_messagingConfigurablePayPlan7"/>
+                    <include name="pas7185_messagingConfigurablePayPlan8"/>
+                    <include name="pas7185_messagingConfigurablePayPlan9"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="TestSeniorDiscount">
