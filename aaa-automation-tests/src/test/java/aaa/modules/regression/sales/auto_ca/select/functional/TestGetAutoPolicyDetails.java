@@ -27,7 +27,7 @@ public class TestGetAutoPolicyDetails extends AutoCaSelectBaseTest {
 	*/
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-541")
 	public void pas541_checkCompCollSymbolPresence(@Optional("") String state) throws ErrorInfo, DatatypeConfigurationException {
 		mainApp().open();
 		createCustomerIndividual();

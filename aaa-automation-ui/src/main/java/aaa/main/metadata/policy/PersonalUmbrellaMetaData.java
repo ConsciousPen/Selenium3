@@ -2,6 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata.policy;
 
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
@@ -11,9 +14,6 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -464,13 +464,13 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<ComboBox> PREFILL_DATA_SOURCE = declare("Prefill/data source", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> POLICY = declare("Policy #", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> OCCURRENCE_DATE = declare("Occurrence Date", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX, false, By.xpath("//span[@id='policyDataGatherForm:driverListLabel']/../../td[2]/select"));
+			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:drivingRecordMVO_drivingRecord_activityType"));
+			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:drivingRecordMVO_drivingRecord_incidentDescription"));
+			public static final AssetDescriptor<TextBox> OCCURRENCE_DATE = declare("Occurrence Date", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:drivingRecordMVO_drivingRecord_accidentViolationDtInputDate"));
+			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class, Waiters.NONE, false, By.id("policyDataGatherForm:drivingRecordMVO_drivingRecord_lossPaymentAmt"));
 			public static final AssetDescriptor<ComboBox> LIABILITY_CODE = declare("Liability Code", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<Button> ADD_AUTO_VIOLATION_CLAIM_INFORMATION = declare("Add Violation/Claim Information", Button.class, Waiters.AJAX, true, By.xpath(".//input[@value='Add Violation/Claim Information']"));
+			public static final AssetDescriptor<Button> ADD_AUTO_VIOLATION_CLAIM_INFORMATION = declare("Add Violation/Claim Information", Button.class, Waiters.AJAX, true, By.xpath("//input[@value='Add Violation/Claim Information']"));
 		}
 		
 		public static final class PropertyClaims extends MetaData {

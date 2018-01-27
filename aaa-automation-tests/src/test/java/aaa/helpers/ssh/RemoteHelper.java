@@ -1,19 +1,18 @@
 package aaa.helpers.ssh;
 
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpATTRS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.SftpATTRS;
+import toolkit.config.PropertyProvider;
+import toolkit.config.TestProperties;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
 
 public class RemoteHelper {
 
@@ -55,6 +54,11 @@ public class RemoteHelper {
 	public static void downloadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
 		ssh.downloadFile(source, destination);
+	}
+	
+	public static void downloadBatchFiles(String source, File destination) {
+		log.info(String.format("SSH: Files downloading from '%s' has been started,", source));
+		ssh.downloadBatchFile(source, destination);
 	}
 
 	public static synchronized void uploadFile(String source, String destination) {

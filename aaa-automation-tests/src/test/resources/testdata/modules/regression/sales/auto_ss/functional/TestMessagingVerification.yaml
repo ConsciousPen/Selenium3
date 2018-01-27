@@ -1,15 +1,60 @@
-PurchaseTab_DC: {
-  PaymentMethods: ['@DC_Visa'],
-  Activate Autopay: true,
-  Autopay Selection: 'contains=Debit',
+TestData_UpdateBilling: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@Credit', '@ACH', '@Debit'],
+  }
+}
+
+ACH: {
+ Payment Method: 'Checking/Savings (ACH)',
+  'Transit #': '011104209',
+  'Account #': '1234567890'
+}
+
+Credit: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4916263715041330',
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
+}
+
+Debit: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4539343326426984',
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
+}
+
+PurchaseTab_ACH: {
+  PaymentMethods: ['@ACH'],
+  PaymentAllocation: {
+    ACH: '/rest'
+  }
+}
+
+PurchaseTab_Credit: {
+  PaymentMethods: ['@Credit'],
   PaymentAllocation: {
     Visa: '/rest'
   }
 }
 
-DC_Visa: {
-  Payment Method: 'Credit/Debit Card',
-  Type: 'Visa',
-  Number: '4539343326426984',
-  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
+PurchaseTab_Debit: {
+  PaymentMethods: ['@Debit'],
+  PaymentAllocation: {
+    Visa: '/rest'
   }
+}
+
+PurchaseTab_Cash: {
+  PaymentAllocation: {
+    Cash: '/rest'
+  }
+}
+
+PurchaseTab_Check: {
+  PaymentAllocation: {
+    Check: '/rest',
+    Check Number Check: '123456'
+  }
+}
+

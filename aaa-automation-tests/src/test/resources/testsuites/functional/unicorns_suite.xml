@@ -1,0 +1,81 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Unicorns Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+        </classes>
+    </test>
+    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+        </classes>
+    </test>
+    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+        </classes>
+    </test>
+    <test name="PAS-6663 Override Underwriting Tab during home conversion renewal">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+        </classes>
+    </test>
+    <test name="PAS-3002 View capping details and override capping for property polices">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-3002 View capping details and override capping for property polices">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-3002 View capping details and override capping for property polices">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-2293, PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
+        </classes>
+    </test>
+
+</suite>

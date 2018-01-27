@@ -3,11 +3,8 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -123,6 +120,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
         String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
         rfiDocumentContentCheck(policyNumber);
 
+
+
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NS");
@@ -135,6 +134,16 @@ public class TestServiceRFI extends AutoSSBaseTest {
         policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel(), "NS");
         policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "NS");
         policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NBA");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel(), "DISC");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel(), "POI");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(), "DISC");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(), "DISC");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel(), "POI");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel(), "DVUD");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel(), "DISC");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(), "DVUD");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel(), "INSPP");
         //PAS-341 End
 
         uploadDocuments(policyNumber);
@@ -146,6 +155,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
      * @author Oleg Stasyuk
      * @name RFI
      * @scenario
+     * Valid only for  <parameter name="state" value="AZ, IN, OH, OK, NV"/>
      * 1.Initiate quote creation.
      * Auto Insurance Application
      * Non-Owner Automobile Endorsement
@@ -154,19 +164,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341"})
-    public void pas349_rfiNano(@Optional("NV") String state) {
+    public void pas349_rfiNano(@Optional("OH") String state) {
         createQuoteWithCustomDataNano(state);
 
-        //CustomAssert.enableSoftMode();
+        CustomAssert.enableSoftMode();
         //TODO Question to Karen: IN has Uninsured Property Damage = No COverage, disabled, but required to have at least 25k
         String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
         rfiDocumentContentCheckNano(policyNumber);
 
         //PAS-341 Start
         RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
         //TODO Question to Karen: NV returns "Non-Owner Automobile Endorsement Form" instead of "Non-Owner Automobile Endorsement"
-        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel(), "NS");
+        policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT.getLabel());
         //PAS-341 End
 
         CustomAssert.disableSoftMode();
@@ -218,7 +228,15 @@ public class TestServiceRFI extends AutoSSBaseTest {
     }
 
     private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName, String expectedResult) {
+    private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName, String documentType) {
         RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
+        CustomAssert.assertTrue(rfiName + " rfiName not existent", allDocuments != null);
+        CustomAssert.assertTrue(rfiName + " has incorrect status", "NS".equals(allDocuments.status));
+        if (documentType == null) {
+            CustomAssert.assertTrue(rfiName + " has incorrect documentType", allDocuments.documentType == null);
+        } else {
+            CustomAssert.assertTrue(rfiName + " has incorrect documentType", documentType.equals(allDocuments.documentType));
+        }
         CustomAssert.assertTrue(allDocuments != null);
         CustomAssert.assertTrue(expectedResult.equals(allDocuments.status));
     }

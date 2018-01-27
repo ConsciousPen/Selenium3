@@ -1,5 +1,8 @@
 package aaa.modules.docgen.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -7,9 +10,6 @@ import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.verification.CustomAssert;
 
 /**
@@ -106,7 +106,8 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU03XX
 				);
 		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528_HO3, Documents.HSU03XX, Documents.WUAUCA, Documents.AHPNCA);
+		//CIN (Customer information notice) removed in scope of PAS-3152 //Documents.WUAUCA
+		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528_HO3, Documents.HSU03XX, Documents.AHPNCA);
 		
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
@@ -213,7 +214,8 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 		
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents.WUAUCA, 
+				//CIN (Customer information notice) removed in scope of PAS-3152
+				//Documents.WUAUCA, 
 				Documents._62_6500,
 //				Documents.WURFICA, // TODO Actually WURFICA is disabled, need to confirm the request
 				Documents.F1122, 
@@ -248,14 +250,15 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
-				Documents.WUAUCA, 
+				//CIN (Customer information notice) removed in scope of PAS-3152
+         		//Documents.WUAUCA, 
 				Documents._62_6500, 
 //				Documents.WURFICA, 
 				Documents.F1122
 				);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
-				Documents.WUAUCA, 
+				//Documents.WUAUCA, 
 				Documents._62_6500, 
 //				Documents.WURFICA, 
 				Documents.F1122

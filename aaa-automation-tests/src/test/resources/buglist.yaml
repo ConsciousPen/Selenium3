@@ -36,75 +36,12 @@ QC-44225:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit, aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin]
       messages: ['Unable to locate element', 'Errors: Time out. No session available.']
-QC-44023:
-  summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin, aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: purchaseForm:downpaymentComponent_remainingBalanceValue}', 'Errors: AAA_CLUE_order_validation; Error; CLUE reports should be reordered, because answer has no info or order data ha...']
-QC-44194:
-  summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.policy.auto_ss.TestPolicyOose]
-      messages: ["ERROR: Element productContextInfoForm:policyDetail_policyStatusCdText not found"]
-QC-44220:
-  summary: "Failed to rate policy QAZSS953305611,1528211031,quote"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.policy.auto_ss.TestPolicyBilling.testBilling, aaa.modules.policy.auto_ss.TestPolicyOose]
-      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id=''policyDataGatherForm:tabTree'']/div/div[@title=''Driver Activity Reports'']|//div[@title=''Driver Activity Reports'']/span[2]/span[2]"}']
 QC-44326:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
       messages: ['Cannot set value of AssetList', 'Errors: 090-83-4IN; Error']
-QC-44331:
-  summary: "Policy isn't cancelled after run 'aaaCancellationConfirmationAsyncJob' job"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancelRewrite.testPolicyCancelRewrite,
-              aaa.modules.regression.service.pup.TestPolicyCancelReinstate.testPolicyCancelReinstate,
-              aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationFlat,
-              aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm,
-              aaa.modules.regression.service.pup.TestPolicyReinstatementWithLapse.testPolicyReinstatementWithLapse,
-              aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation.testPolicyRenewFlatCancellation]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.e2e.pup.TestScenario3.TC04_Cancel_Policy, aaa.modules.e2e.pup.TestScenario5.TC09_1_Cancel_Policy]
-      messages: ['Value in control {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText} expected [Policy Cancelled] but found [Policy Active]']
-QC-44491:
-  summary: "Regression: Sales: System logs out after Propose action was performed for saved quote"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction.testQuotePropose]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
-QC-44518:
-  summary: "Regression: Out of sequence endorsement does not Calculate Premium for PUP NY policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.pup.TestPolicyEndorsementOos.testPolicyEndorsementOos]
-      messages: ['Unable to locate element:', 'Errors: Error; Failed to rate policy']
-QC-44702:
-  summary: "Regression: The message 'Current CLUE must be ordered' is getting displayed after clicking on Bind button on Endorsement of auto SS policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd.testPolicyEndorsementAdd]
-      messages: ["Error{Code='AAA_CLUE_order_validation_SS', Message='Current CLUE must be ordered'} is present"]
-QC-44726:
-  summary: "Regression: Exception on approve underwriting rule"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ca.ho3.TestQuoteTaskManager.testQuoteTaskManager]
-      messages: ['Unable to locate element', 'Errors: base00003; Error; Operation has failed due to illegal arguments']
-QC-44752:
-  summary: "Regression: Exception occurs on ordering CLUE reports for nano auto policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
-      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_SS; Error; Current CLUE must be ordered']
-    - tests: [aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.testPolicyNano, aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.testPolicyNano]
-      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
 QC-44846:
   summary: "DB Lookup 'cancellationConfirmationDays' is set to 19 days instead of 15 for AAA_HO_SS_NJ in Admin application"
   reason: PROD
@@ -119,31 +56,6 @@ QC-44890:
       messages: ["Row with values {Type=Cancellation Notice"]
     - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
       messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
-QC-44911:
-  summary: "Regression: Auto: Exception occurs on reports ordering trying to access rating"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario1.TC01_createPolicy,
-              aaa.modules.e2e.auto_ss.TestScenario2.TC01_createPolicy,
-              aaa.modules.e2e.auto_ss.TestScenario3.TC01_createPolicy,
-              aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy,
-              aaa.modules.e2e.auto_ss.TestScenario5.TC01_createPolicy,
-              aaa.modules.e2e.auto_ss.TestScenario6.TC01_createPolicy,
-              aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
-      messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
-                 "Errors: Time out. No session available."]
-PAS-6610:
-  summary: "The 'Purchase Date' field is cleared after calculating premium"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.deloitte.docgen.auto_ss.TestScenario4.TC01_CreatePolicy]
-      messages: ['Unable to locate element']
-PAS-7341:
-  summary: "PAS18.1 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
-      messages: ['Defensive Driving Course Discount', 'expected']
 QC-26288:
   summary: "Regression: Exception on approve underwriting rule"
   reason: PROD
@@ -152,34 +64,6 @@ QC-26288:
               aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckEndorsement,
               aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckRenewal]
       messages: ['Defensive Driving Course Discount']
-PAS-6591:
-  summary: "PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement:"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas300_eValueStatusConsViewPaperPrefYes]
-      messages: ['Cannot locate an element using By.chained']
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
-      messages: ['Cannot get value of StaticElement', 'expected']
-QC-11112:
-  summary: "OSI: requirements changed in previous sprint. Victoria will review if the test is already covered by new functionality or not."
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas265_MinimumStateLimitsForBIPreBind]
-      messages: ['Bodily Injury Limit has incorrect lower limit', 'expected', 'ComboBox {Bodily Injury Liability: {PremiumAndCoveragesTab: By.xpath:']
-QC-11113:
-  summary: "OSI: Waiting for Mindaugas to implement proper stub config"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethod]
-      messages: ['Visa-4113 expiring 01/22']
-QC-11114:
-  summary: "OSI: PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcess]
-      messages: ['Check Number']
 PAS-6667:
   summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
   reason: PROD
@@ -192,11 +76,11 @@ PAS-6612:
   summary: "Regression: Auto CA/ Property HSS CA: Can't change payment plan on Billing tab"
   reason: PROD
   failures:
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario10.TC01_createPolicy, 
+    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario10.TC01_createPolicy,
     aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Quarterly} in table 'Billing Account Policies' is present"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy, 
-    aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy] 
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy,
+    aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
 PAS-6539:
   summary: "View eRefunds and the Debit/Credit Card - Auto"
@@ -227,29 +111,13 @@ PAS-7673:
       messages: ["Cannot set value of AssetList {PurchaseTab"]
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
-OSI-1111:
-  summary: "OSI: no dxp configuration"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.*,
-    aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.*,
-    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.*]
-      messages: ["Entity input stream has already been closed."]
+
 OSI-1112:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
       messages: ["Timed out waiting for page load"]
-OSI-1113:
-  summary: "OSI: rummors have it that Issue link needs to be removed for Automated and Manual refunds"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck]
-      messages: ["Cannot get value of Link"]
 OSI-1114:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD
@@ -257,11 +125,17 @@ OSI-1114:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
       messages: ["LoginPanel is displayed expected"]
 OSI-1115:
-  summary: "OSI: Megha is checking the discrepency - AAAPaymentDetailsCheque vs PaymentDetailsCheque"
+  summary: "OSI: question to Karen about UMBI=No Coverage, which is not applicable for IN"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.*]
-      messages: ["AAAPaymentDetailsCheque"]
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["Cannot set value of AssetList {DriverActivityReportsTab"]
+OSI-1116:
+  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesn't"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["rfiName"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD
@@ -276,3 +150,21 @@ PAS-7972:
       messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
+PAS-8288:
+  summary: "Last Payment Method stub implementation and test refactoring to use it"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsDC,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
+    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC]
+      messages: ["Check"]
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsDC,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
+    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
+      messages: ["by zero"]

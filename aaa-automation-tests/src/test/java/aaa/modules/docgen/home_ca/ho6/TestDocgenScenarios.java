@@ -3,7 +3,6 @@ package aaa.modules.docgen.home_ca.ho6;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -11,6 +10,7 @@ import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.verification.CustomAssert;
 
 /**
  * 
@@ -85,7 +85,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents._61_6528_HO6,
 				Documents.F1122,
-				Documents.WUAUCA,
+				//Documents.WUAUCA,
 				Documents._61_6530,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -100,7 +100,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
 				Documents._61_6528_HO6,
 				Documents.F1122,
-				Documents.WUAUCA,
+				//Documents.WUAUCA,
 				Documents._61_6530,
 				Documents._60_5019,
 				Documents.HSU03XX,

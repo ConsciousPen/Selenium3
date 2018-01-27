@@ -1,0 +1,38 @@
+#---------- Test Data for PUP Prefill Tab with multiple active Underlying Policies ----------
+
+TestData_PrefillTab: '@PrefillTab'
+
+PrefillTab: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+
+ActiveUnderlyingPolicies: [
+  {
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: HO3,
+    Policy Number: hoPolicy1
+    },
+  ActiveUnderlyingPoliciesManual: {
+    Primary policy: 'Yes'
+    }
+  },
+
+  {
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: HO3,
+    Policy Number: hoPolicy2
+    }
+  },
+
+  {
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: Auto,
+    Policy Number: autoPolicy
+    },
+  }
+]}
