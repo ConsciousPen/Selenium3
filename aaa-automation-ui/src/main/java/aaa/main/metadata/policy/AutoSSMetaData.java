@@ -343,8 +343,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
 
-			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class);
-			//public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class, By.xpath("//div[@id='memberSinceDatePopup_container']"));
+			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class, By.xpath("//div[@id='memberSinceDatePopup_container']"));
 		}
 
 		public static final class AddMemberSinceDialog extends MetaData {
