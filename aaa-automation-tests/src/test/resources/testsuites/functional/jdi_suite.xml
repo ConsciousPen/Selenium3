@@ -6,7 +6,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="eValue Related Jobs">
+    <test name="eValue Related Jobs" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -15,7 +15,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountJobAdding">
+    <test name="TestEValueDiscountJobAdding" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -24,7 +24,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueMembershipProcessJobAdding">
+    <test name="TestEValueMembershipProcessJobAdding" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
@@ -33,7 +33,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountVA">
+    <test name="TestEValueDiscountVA" parallel="methods" thread-count="200">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -62,7 +62,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountDC">
+    <test name="TestEValueDiscountDC" parallel="methods" thread-count="200">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -73,7 +73,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountPA">
+    <test name="TestEValueDiscountPA" parallel="methods" thread-count="200">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -85,7 +85,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestPaperlessPreferencesVA">
+    <test name="TestPaperlessPreferencesVA" parallel="methods" thread-count="200">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
@@ -96,7 +96,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestPaperlessPreferencesMD">
+    <test name="TestPaperlessPreferencesMD" parallel="methods" thread-count="200">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
@@ -107,7 +107,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestPaperlessPreferencesPA">
+    <test name="TestPaperlessPreferencesPA" parallel="methods" thread-count="200">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
@@ -118,43 +118,43 @@
             </class>
         </classes>
     </test>
-    <test name="TestTriggersAH35XX">
+    <test name="TestTriggersAH35XX" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
-    <test name="TestInstallmentFees">
+    <test name="TestInstallmentFees" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
         </classes>
     </test>
-    <test name="TestMessagingVerificationVA">
+    <test name="TestMessagingVerificationVA" parallel="methods" thread-count="200">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification"/>
         </classes>
     </test>
-    <test name="TestSeniorDiscount">
+    <test name="TestSeniorDiscount" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
         </classes>
     </test>
-    <test name="TestContactInformation">
+    <test name="TestContactInformation" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
-    <test name="TestEndorsementActionRules">
+    <test name="TestEndorsementActionRules" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsCA">
+    <test name="TestNonPremiumBearingEndorsementsCA" parallel="methods" thread-count="200">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
