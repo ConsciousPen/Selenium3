@@ -388,13 +388,49 @@ public class Scenario13 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonRenewals.click();		
 		policy.policyInquiry().start(); 
 		
-		new GeneralTab().createVersion(); 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
-		new PremiumAndCoveragesTab().fillTab(createVersionTD);
-		PremiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();		
-
+		if (getPolicyType().isAutoPolicy()) { 
+			if (getPolicyType().isCaProduct()) {
+				new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get()); 
+				new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab().fillTab(createVersionTD);
+				aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+				new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().submitTab();
+			}
+			else {
+				new GeneralTab().createVersion(); 
+				NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
+				new PremiumAndCoveragesTab().fillTab(createVersionTD);
+				PremiumAndCoveragesTab.calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+				new DocumentsAndBindTab().submitTab();		
+			}
+		}
+		if (!getPolicyType().isAutoPolicy()) {
+			if (getPolicyType().isCaProduct()) {
+				new aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
+				new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().fillTab(createVersionTD);
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get()); 
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+				new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab().fillTab(createVersionTD);
+				new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab().calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+				new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().submitTab();
+			} 
+			else {
+				new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+				new aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab().fillTab(createVersionTD);
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get()); 
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+				new aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab().fillTab(createVersionTD);
+				new aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab().calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+				new aaa.main.modules.policy.home_ss.defaulttabs.BindTab().submitTab();
+			}
+		}		
+		
 		PolicySummaryPage.buttonRenewalQuoteVersion.isEnabled();
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();		
 		Dollar premiumNewVersion = PolicySummaryPage.TransactionHistory.readEndingPremium(1);
