@@ -129,14 +129,9 @@ public class ExcelCell implements Writable {
 		return getValue(LOCAL_DATE_TIME_TYPE);
 	}
 
-/*	private <T extends NumberCellType<?>> Set<T> getNumericCellTypes() {
-		Set<NumberCellType<?>> tt = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(NumberCellType.class::cast).collect(Collectors.toSet());
-		return tt;
-	}*/
-
-/*	public boolean isNumeric() {
+	public boolean isNumeric() {
 		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
-	}*/
+	}
 
 	@Override
 	public ExcelManager getExcelManager() {
