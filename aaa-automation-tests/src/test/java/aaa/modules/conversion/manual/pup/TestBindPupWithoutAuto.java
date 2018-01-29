@@ -51,8 +51,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         TestData tdPUP = getPolicyTD()
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .adjust(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()),
-                        getTestSpecificTD("TestData_NoAuto"));
+                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
 
         // Initiate PUP policy
         policy.initiate();
@@ -90,10 +89,8 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
         TestData tdPUP = getPupConversionTdNoPolicyCreation()
-                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
-                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
+                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
+                .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
 
         // Initiate manual renewal entry for PUP
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
@@ -107,7 +104,7 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
      * @return Test Data for an HO3 policy with no other active policies
      */
     private TestData getTdHome() {
-        return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData_NJ")
+        return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()));
     }
 }

@@ -15,7 +15,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 
-	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id, 'SearchTable') or contains(@id, 'SearchForm') or (contains(@id, 'SearchFrom') and not(contains(@id, 'birthDate')))]");
+	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id, 'SearchTable') or contains(@id, 'PriorActivePolicySearch') or (contains(@id, 'SearchFrom') and not(contains(@id, 'birthDate')))]");
 	private static final By ERROR_MESSAGE_LOCATOR = By.xpath(".//form[@id='customerSearchFrom']/span[2]");
 	public ResultTable tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
 	Button buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
