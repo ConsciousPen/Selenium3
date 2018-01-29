@@ -34,7 +34,7 @@ public class TestCFTScenario22 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		acceptTotalDuePlusOverpaymentOnDD1Minus20(new Dollar(200));
 		issuedRefundOnStartDatePlus25(new Dollar(200));
-		manualFutureCancellationStartDatePlus25Days();
+		manualFutureCancellationOnStartDatePlus25();
 	}
 
 	@Override

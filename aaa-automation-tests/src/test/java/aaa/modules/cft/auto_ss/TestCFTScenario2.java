@@ -10,6 +10,7 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
@@ -30,10 +31,10 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario2(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		endorsePolicyEffDatePlus2Days();
+		futureEndorsePolicyOnStartDatePlus2(new String[]{new EndorsementActionTab().getMetaKey(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
 		generateInstallmentBill(1);
 		waiveFeeOnStartDatePlus16();
-		manualFutureCancellationStartDatePlus25Days();
+		manualFutureCancellationOnStartDatePlus25();
 		updatePolicyStatusForPendedCancellation();
 		manualReinstatement();
 	}

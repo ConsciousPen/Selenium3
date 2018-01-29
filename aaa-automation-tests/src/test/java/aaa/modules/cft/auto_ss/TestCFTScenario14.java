@@ -22,7 +22,7 @@ public class TestCFTScenario14 extends ControlledFinancialBaseTest {
 	public void cftTestScenario14(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		flatCancellationStartDatePlus16();
+		flatCancellationOnStartDatePlus16();
 	}
 
 	@Override
