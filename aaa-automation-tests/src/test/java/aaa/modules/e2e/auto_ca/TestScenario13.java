@@ -48,9 +48,7 @@ public class TestScenario13 extends Scenario13 {
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
 			renewalOfferGeneration();  
-			/* method is not implemented for AutoCA
 			createRenewalVersion();
-			*/
 			payRenewalBill(); 
 			updatePolicyStatus();			
 		});
