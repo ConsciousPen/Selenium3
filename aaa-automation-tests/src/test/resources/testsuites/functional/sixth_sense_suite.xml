@@ -86,7 +86,7 @@
 
     <!--Tests for PUP-->
 
-<!--Commenting out the below lines until PUP conversion feature branch is merged with master
+
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -130,6 +130,6 @@
             <class name="aaa.modules.conversion.manual.pup.TestOverrideBindRelaxedCoverageLimits"/>
         </classes>
     </test>
--->
+
 
 </suite>
