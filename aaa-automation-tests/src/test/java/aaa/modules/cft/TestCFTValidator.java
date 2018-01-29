@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
-	private static final String SQL_GET_LEDGER_DATA = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id group by  le.LEDGERACCOUNTNO";
+	private static final String SQL_GET_LEDGER_DATA_P1 = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and lt.txdate >= '";
+	private static final String SQL_GET_LEDGER_DATA_P2 = "' group by  le.LEDGERACCOUNTNO";
+	// and lt.txdate >= '2018.01.29'
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
@@ -205,7 +208,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private Map<String, Double> getDataBaseValues() {
 		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		List<Map<String, String>> dbResult = DBService.get().getRows(SQL_GET_LEDGER_DATA);
+		String sqlGetLedgerData = SQL_GET_LEDGER_DATA_P1 + TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) + SQL_GET_LEDGER_DATA_P2;
+		List<Map<String, String>> dbResult = DBService.get().getRows(sqlGetLedgerData);
 		for (Map<String, String> dbEntry : dbResult) {
 			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
 		}
