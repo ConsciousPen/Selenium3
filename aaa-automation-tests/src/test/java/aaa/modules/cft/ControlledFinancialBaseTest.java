@@ -176,6 +176,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("OOS Endorsment action completed successfully");
 	}
 
+	protected void endorsePolicyCancellationDate() {
+		LocalDateTime endorsementDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		performEndorsementOnDate(endorsementDate);
+	}
+
 	protected void endorsePolicyOnCancellationNoticeDate() {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		performEndorsementOnDate(endorsementDate);
@@ -184,7 +189,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Future dated endorsement
 	 * on Cancellation Notice Date
-	 * 
 	 */
 	protected void futureEndorsePolicyOnCancellationNoticeDate(String[] endorsementEffDateDataKeys) {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
@@ -201,11 +205,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
 		performEndorsementOnDate(endorsementDate, endorsementEffDate);
 
-	}
-
-	protected void endorsePolicyCancellationDate() {
-		LocalDateTime endorsementDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		performEndorsementOnDate(endorsementDate);
 	}
 
 	protected void declineSuspensePaymentOnCancellationDate() {
@@ -640,7 +639,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Conversion completed successfully");
 	}
 
-	protected void manualFutureCancellationStartDatePlus25Days() {
+	protected void manualFutureCancellationOnStartDatePlus25() {
 		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		manualFutureCancellationOnDate(cancellationDate);
 	}
