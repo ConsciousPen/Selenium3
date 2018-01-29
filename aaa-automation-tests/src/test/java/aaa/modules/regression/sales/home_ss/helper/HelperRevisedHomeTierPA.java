@@ -184,7 +184,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-    private void verifyAlgoDate() {
+    public void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
         if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
             TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
