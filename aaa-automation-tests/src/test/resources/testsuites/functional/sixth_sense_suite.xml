@@ -7,7 +7,7 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <!--Tests for Auto-->
-
+<!--
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
         <classes>
@@ -34,10 +34,10 @@
         </classes>
     </test>
 
-
+-->
     <!--Tests for Property-->
 
-
+<!--
     <test name="Test Renovation Discount for KS DP3">
         <parameter name="state" value="KS"/>
         <classes>
@@ -64,8 +64,8 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPARevisedHomeTierAutoNA"/>
         </classes>
     </test>
-
-    <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->
+-->
+    <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->  <!--
     <test name="Policy Conversation without ordering reports">
         <classes>
             <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
@@ -83,7 +83,7 @@
         </classes>
     </test>
 
-
+-->
     <!--Tests for PUP-->
 
 
