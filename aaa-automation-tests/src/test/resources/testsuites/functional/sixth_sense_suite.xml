@@ -7,7 +7,8 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <!--Tests for Auto-->
-<!--
+
+
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
         <classes>
@@ -34,10 +35,10 @@
         </classes>
     </test>
 
--->
+
     <!--Tests for Property-->
 
-<!--
+
     <test name="Test Renovation Discount for KS DP3">
         <parameter name="state" value="KS"/>
         <classes>
@@ -45,6 +46,16 @@
         </classes>
     </test>
 
+    <test name="Policy Conversation without ordering reports">
+        <classes>
+            <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.conversion.manual.home_ss.ho4.TestConversionNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.conversion.manual.home_ss.ho6.TestConversionNoClueISO360InspectionReports"/>
+        </classes>
+    </test>
+
+<!-- Commenting out lines 55-80 until PA Revised Home Tier feature branch is merged with master
     <test name="PA View Rating Details Auto Tier value 1-16">
         <parameter name="state" value="PA"/>
         <classes>
@@ -64,17 +75,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPARevisedHomeTierAutoNA"/>
         </classes>
     </test>
--->
-    <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->  <!--
-    <test name="Policy Conversation without ordering reports">
-        <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.conversion.manual.home_ss.ho4.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.conversion.manual.home_ss.ho6.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-
 
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
         <parameter name="state" value="PA"/>
@@ -82,12 +82,11 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
         </classes>
     </test>
-
 -->
+
     <!--Tests for PUP-->
 
 
-    <!--Tests for Overridable rules Conversion/Organic Policy-->
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
         <classes>
