@@ -226,6 +226,82 @@ ReportsTab_NJ: {
   CLUEreport: [{Report: 'Order report'}]
 }
 
+# ====================== TD_Renewal_Actions AZ =======================
+
+TD_Renewal_Actions_AZ: {
+  InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+  Policy Type: HO6,
+  Previous Policy Number: '$<rx:123\d{5}>',
+  Previous Source System: SIS,
+  Risk State: AZ,
+  Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+  Inception Date: '$<today-10d:MM/dd/yyyy>',
+  Renewal Policy Premium: 1000,
+  Policy Term: Annual,
+  Program Code: LegacyConv,
+  Enrolled in Autopay: 'No',
+  Legacy policy had MPD discount: 'Yes'}
+}
+
+# --------- View Capping Details----------
+
+TD_View_Capping_Details_AZ: {
+  Ceiling Cap: 15,
+  Floor Cap: -15
+}
+
+# ====================== TestData AZ =======================
+
+TestData_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_AZ',
+  ReportsTab: '@ReportsTab_AZ',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab'
+}
+
+# --------- General Tab AZ ----------
+
+GeneralTab_AZ: {
+  Immediate prior carrier: 'CSAA Affinity Insurance Company',
+  Continuous years with immediate prior carrier: '5',
+}
+
+ApplicantTab_AZ: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_AZ',
+  AgentInfo: '@AgentInfo_AZ'
+}
+
+DwellingAddress_AZ: {
+ Zip code: '85003',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}
+
+AgentInfo_AZ: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Agency Location: 'Tucson West - 500005098 - Tucson',
+  Agent: 'Sally Anders'
+}
+
+# --------- Reports Tab AZ ----------
+
+ReportsTab_AZ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
 # ====================== TestData =======================
 
 # --------- Application Tab ----------
@@ -241,14 +317,6 @@ AAAMembership: {
   Current AAA Member: 'Yes',
   Membership number: '4290023667710001',
   Last name: Smith
-}
-
-AgentInfo: {
-  Channel Type: 'AAA Agent',
-  Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Draper - 500005417 - Draper',
-  Agent: 'House Account Draper',
-  TollFree Number: 1
 }
 
 # --------- PropertyInfo Tab ----------
