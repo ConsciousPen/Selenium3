@@ -46,7 +46,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
-	private static final String SQL_GET_LEDGER_DATA_P1 = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and lt.txdate >= '";
+	private static final String SQL_GET_LEDGER_DATA_P1 = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= '";
 	private static final String SQL_GET_LEDGER_DATA_P2 = "' group by  le.LEDGERACCOUNTNO";
 	// and lt.txdate >= '2018.01.29'
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
@@ -83,7 +83,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==2
 		// moving data from monitor to download dir
-		mainApp().reopen();
+		// mainApp().reopen();
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
@@ -208,7 +208,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private Map<String, Double> getDataBaseValues() {
 		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		String sqlGetLedgerData = SQL_GET_LEDGER_DATA_P1 + TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) + SQL_GET_LEDGER_DATA_P2;
+		String sqlGetLedgerData = SQL_GET_LEDGER_DATA_P1 + TimeSetterUtil.getInstance().getStartTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd")) + SQL_GET_LEDGER_DATA_P2;
 		List<Map<String, String>> dbResult = DBService.get().getRows(sqlGetLedgerData);
 		for (Map<String, String> dbEntry : dbResult) {
 			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
