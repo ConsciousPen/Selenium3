@@ -53,7 +53,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
 	public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
 
-		TestData testData = getAdjustedTD();
+		TestData testData = getAdjustedTD().adjust(getTestSpecificTD("OverrideErrors").resolveLinks());
 
 		List<String> testElements = Arrays.asList("numberNAFAccident", "autoInsurancePersistency");
 		//Add locked values to the global variable to clean them up then
@@ -82,7 +82,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		new PremiumAndCoveragesTab().submitTab();
 
-		overrideErrorsAndBind(testData);
+		fillAllInfoAndBind(testData);
 		policy.renew().start();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
@@ -148,7 +148,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		new PremiumAndCoveragesTab().submitTab();
 
 		//Issue the policy overriding all errors
-		overrideErrorsAndBind(testData);
+		fillAllInfoAndBind(testData);
 
 		//Initiate endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -219,7 +219,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		new PremiumAndCoveragesTab().submitTab();
 
 		//Issue the policy
-		overrideErrorsAndBind(testData);
+		fillAllInfoAndBind(testData);
 
 		//Initiate endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -276,16 +276,9 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 				.adjust(driverTabSimpleName, driverTabAdjustment);
 	}
 
-	private void overrideErrorsAndBind(TestData testData) {
-		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-		PurchaseTab purchaseTab = new PurchaseTab();
-
-		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-		documentsAndBindTab.submitTab();
-		new ErrorTab().overrideAllErrors();
-		documentsAndBindTab.submitTab();
-		purchaseTab.fillTab(testData);
-		purchaseTab.submitTab();
+	private void fillAllInfoAndBind(TestData testData) {
+		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
+		new PurchaseTab().submitTab();
 	}
 
 	private void setLockForTheElement(Iterable<String> testElements, String lockEffective) {
@@ -300,6 +293,5 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		elementNames.forEach(e ->
 				DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, e, String.format(toDate, currentDate), String.format(toDate, tomorrowDate), getState())));
 	}
-
 }
 
