@@ -76,6 +76,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Open the rating details dialogue box and verify Auto Tier
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")).isEqualTo("N/A");
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
 
 
