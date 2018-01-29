@@ -106,6 +106,8 @@ PAS-8994:
       messages: ["Entity input stream has already been closed"]
     - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
       messages: ["Entity input stream has already been closed"]
+    - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
+      messages: ["Entity input stream has already been closed"]
 OSI-1112:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD
