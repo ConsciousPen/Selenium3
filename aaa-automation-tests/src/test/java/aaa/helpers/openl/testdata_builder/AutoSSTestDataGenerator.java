@@ -49,11 +49,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		assertThat(openLPolicy.getCappingDetails()).as("Policies cappingDetails list should have only one element").hasSize(1);
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().get(0).getState());
 
+		TestData generalTabData = getGeneralTabData(openLPolicy);
+		String membershipNumber = generalTabData.getValue(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
-				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
+				new GeneralTab().getMetaKey(), generalTabData,
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
-				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy),
+				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy, membershipNumber),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
@@ -89,9 +91,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		);
 
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
-			//Might be any "membershipNumber" from "RetrieveMembershipSummaryMockData.xls" stub with empty "membershipEffectiveDate"
-			//TODO-dchubkov: try to find membershipNumber with needed membershipEffectiveDate = effectiveDate - memberPersistency, and only if no results found - use membershipNumber with empty date
-			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "3111111111111147");
+			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(),
+					getMemebershipFromMock(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()));
 		}
 
 		TestData contactInformationData = DataProviderFactory.emptyData();
@@ -118,6 +119,22 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 				/*AutoSSMetaData.PrefillTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.PrefillTab.ORDER_PREFILL.getLabel(), "click");*/
+	}
+
+	private String getMemebershipFromMock(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
+		LocalDateTime membershipEffectiveDate = policyEffectiveDate.minusYears(memberPersistency);
+		Double ersUsageCountPerMember = avgAnnualERSperMember.equals(99.9) ? null : avgAnnualERSperMember;
+
+		String number = getMembershipMockData().getMembershipNumber(membershipEffectiveDate, ersUsageCountPerMember);
+		if (number == null) {
+			log.warn("There is no membership number with \"membershipEffectiveDate={}\" and \"ersUsageCountPerActive_Member={}\" in {} mock file.\n"
+							+ "Will try to find membership with empty membershipEffectiveDate for same ersUsageCountPerMember and set this date in Rating Detail Reports Tab",
+					membershipEffectiveDate, ersUsageCountPerMember, MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME);
+			number = getMembershipMockData().getMembershipNumber(null, ersUsageCountPerMember);
+		}
+		assertThat(number).as("Unable to find membership number with \"ersUsageCountPerActive_Member={}\" in {} mock file", ersUsageCountPerMember, MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME)
+				.isNotNull();
+		return number;
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -185,7 +202,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				isAARPSet = true;
 				if (Boolean.TRUE.equals(openLPolicy.isEmployee())) {
 					assertThat(openLPolicy.getDrivers().size()).as("Policy with openl fields \"isEmployee\" and \"isAARP\" which are both TRUE should have at least 2 drivers"
-									+ " to fill \"%s\" UI field differently for each of them", AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel())
+							+ " to fill \"%s\" UI field differently for each of them", AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel())
 							.isGreaterThan(1);
 					isEmployeeSet = false; // will set "Affinity Group"="AAA Employee" to the next driver
 				}
@@ -269,7 +286,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return driversTestData;
 	}
 
-	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy) {
+	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy, String membershipNumber) {
 		TestData editInsuranceScoreDialogData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.NEW_SCORE.getLabel(), openLPolicy.getCreditScore(),
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
@@ -281,7 +298,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData ratingDetailReportsTab = DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
 
-		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
+		if (Boolean.TRUE.equals(openLPolicy.isAAAMember()) && getMembershipMockData().getMembershipEffectiveDate(membershipNumber) == null) {
 			TestData addMemberSinceDialogData = DataProviderFactory.dataOf(
 					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getMemberPersistency())
 							.format(DateTimeUtils.MM_DD_YYYY),

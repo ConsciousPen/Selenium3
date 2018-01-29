@@ -29,8 +29,8 @@ public class ExcelCell implements Writable {
 	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
-	protected Cell cell;
 	protected ExcelRow row;
+	protected Cell cell;
 	protected int columnIndex;
 	protected Set<CellType<?>> cellTypes;
 
@@ -39,8 +39,8 @@ public class ExcelCell implements Writable {
 	}
 
 	protected ExcelCell(Cell cell, ExcelRow row, int columnIndex, Set<CellType<?>> cellTypes) {
-		this.cell = normalizeCell(cell);
 		this.row = row;
+		this.cell = normalizeCell(cell);
 		this.columnIndex = columnIndex;
 	}
 

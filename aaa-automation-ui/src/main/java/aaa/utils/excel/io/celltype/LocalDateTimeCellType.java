@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,9 @@ public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 		commonDateTimeFormatters.add(DateTimeUtils.DD_MM_YYYY);
 		commonDateTimeFormatters.add(DateTimeUtils.TIME_STAMP);
 		commonDateTimeFormatters.add(DateTimeUtils.TIME_STAMP_WITH_MS);
+		commonDateTimeFormatters.add(DateTimeFormatter.ofPattern("M/d/yyyy"));
+		commonDateTimeFormatters.add(DateTimeFormatter.ofPattern("MM-dd-yy"));
+		commonDateTimeFormatters.add(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX"));
 		//TODO-dchubkov: extend list of date time formatters
 	}
 
@@ -64,8 +68,7 @@ public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 		}
 
 		DateTimeFormatter formatter;
-		for (DateTimeFormatter dateTimeFormatter : commonDateTimeFormatters) {
-
+		for (DateTimeFormatter dateTimeFormatter : getFormatters()) {
 			try {
 				TimeSetterUtil.getInstance().parse(text, dateTimeFormatter);
 				return dateTimeFormatter;
@@ -73,5 +76,9 @@ public class LocalDateTimeCellType extends AbstractCellType<LocalDateTime> {
 			}
 		}
 		return null;
+	}
+
+	protected Set<DateTimeFormatter> getFormatters() {
+		return Collections.unmodifiableSet(this.commonDateTimeFormatters);
 	}
 }

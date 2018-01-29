@@ -36,7 +36,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer yearsIncidentFree;
 	private Integer aggregateCompClaims;
 	private Integer nafAccidents;
-	private Integer avgAnnualERSperMember;
+	private Double avgAnnualERSperMember;
 	private Integer insuredAge;
 	private Integer noOfVehiclesExcludingTrailer;
 	private Boolean multiCar;
@@ -201,11 +201,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.nafAccidents = nafAccidents;
 	}
 
-	public Integer getAvgAnnualERSperMember() {
+	public Double getAvgAnnualERSperMember() {
 		return avgAnnualERSperMember;
 	}
 
-	public void setAvgAnnualERSperMember(Integer avgAnnualERSperMember) {
+	public void setAvgAnnualERSperMember(Double avgAnnualERSperMember) {
 		this.avgAnnualERSperMember = avgAnnualERSperMember;
 	}
 
