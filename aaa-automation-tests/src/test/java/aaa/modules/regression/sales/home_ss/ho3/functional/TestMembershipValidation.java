@@ -156,7 +156,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
      */
     private void validateMembership(){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.reorderReports();
+        reportsTab.reorderReports(); //noticed that for some reason reorderReports() doesn't work for Insurance Score Report on CHROME, worked on FF
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
