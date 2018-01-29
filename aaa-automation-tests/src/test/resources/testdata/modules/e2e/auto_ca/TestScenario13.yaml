@@ -1,0 +1,14 @@
+TestData: { 
+  PremiumAndCoveragesTab: {
+    Payment Plan: Standard Monthly, 
+  }, 
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Renewal - Create version -----
+TestData_CreateVersion: {
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000'
+  },
+}

@@ -4,15 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 public class TestCFTScenario12 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
@@ -21,7 +19,7 @@ public class TestCFTScenario12 extends ControlledFinancialBaseTest {
 	public void cftTestScenario12(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		manualCancellationDD1Plus5(TestData.makeKeyPath(CancellationActionTab.class.getSimpleName(), AutoSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()));
+		manualCancellationOnDD1Plus5();
 		rewritePolicyOnCancellationDate();
 	}
 

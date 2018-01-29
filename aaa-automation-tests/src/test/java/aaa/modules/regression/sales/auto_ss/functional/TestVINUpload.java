@@ -435,7 +435,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//1. Retrieve active policy (VIN matched)
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		pas2716_CommonSteps(NEW_VIN, pas2716VinTableFileName, pas2716ControlTableFileName, policyNumber, policyExpirationDate);
+		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
+		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate);
 	}
 
 	/**
@@ -468,7 +470,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		pas2716_CommonSteps(NEW_VIN, pas2716VinTableFileName, pas2716ControlTableFileName, policyNumber, policyExpirationDate.minusDays(45));
+		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
+		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(45));
 	}
 
 	/**
@@ -502,7 +505,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		pas2716_CommonSteps(NEW_VIN, pas2716VinTableFileName, pas2716ControlTableFileName, policyNumber, policyExpirationDate.minusDays(35));
+		vinMethods.uploadFiles(pas2716ControlTableFileName, pas2716VinTableFileName);
+		pas2716_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
 	/**

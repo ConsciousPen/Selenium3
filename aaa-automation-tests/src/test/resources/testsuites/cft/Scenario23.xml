@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CFT Scenario 23" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="AutoSS Scenario 23 CFT" parallel="none">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.cft.auto_ss.TestCFTScenario23"/>
+        </classes>
+    </test>
+    <test name="HomeSS Scenario 23 CFT" parallel="none">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario23"/>
+        </classes>
+    </test>
+</suite>

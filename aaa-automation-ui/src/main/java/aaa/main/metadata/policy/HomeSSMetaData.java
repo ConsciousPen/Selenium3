@@ -9,25 +9,13 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
-import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
+import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -198,8 +186,10 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class);
 
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
-				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE);
-				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
+				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE,
+						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyType"));
+				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE,
+						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyNumber"));
 			}
 
 			public static final class OtherActiveAAAPoliciesManual extends MetaData {
@@ -209,7 +199,8 @@ public final class HomeSSMetaData {
 				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> POLICY_BASE_YEAR = declare("Policy base year", TextBox.class, Waiters.AJAX);
-				public static final AssetDescriptor<ComboBox> POLICY_TIER = declare("Policy tier", ComboBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<ComboBox> POLICY_TIER = declare("Policy tier", ComboBox.class, Waiters.AJAX,
+						By.id("policyDataGatherForm:sedit_AAAHOOtherOrPriorPolicyComponent_autoPolicyTier"));
 				public static final AssetDescriptor<ComboBox> AUTO_POLICY_BI_LIMIT = declare("Auto policy BI limit", ComboBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<ComboBox> AUTO_POLICY_STATE = declare("Auto policy state", ComboBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> AUTO_INSURANCE_PERSISTENCY = declare("Auto Insurance Persistency", TextBox.class, Waiters.AJAX);
@@ -242,6 +233,8 @@ public final class HomeSSMetaData {
 				.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
 		public static final AssetDescriptor<FillableTable> ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
+		public static final AssetDescriptor<StaticElement> WARNING_MESSAGE_BOX = declare("Warning Message Box", StaticElement.class, By
+				.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul/li"));
 		// public static final AssetDescriptor<StaticElement> ADVERSELY_IMPACTED_APPLIED_MESSAGE = declare("Adversely Impacted was applied to the policy effective", StaticElement.class,
 		// By.xpath("//span[@id='policyDataGatherForm:warningMessage']"));
 
@@ -263,7 +256,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
 			public static final AssetDescriptor<Link> ADD_MEMBER_SINCE = declare("Add Member since", Link.class);
-
 			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class);
 		}
 
@@ -728,8 +720,8 @@ public final class HomeSSMetaData {
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_59 = declare("HS 04 59", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0459.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_61 = declare("HS 04 61", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0461.class,
-				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_61 = declare("HS 04 61", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0461.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_65 = declare("HS 04 65", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0465.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_77 = declare("HS 04 77", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0477.class, By
@@ -1565,8 +1557,7 @@ public final class HomeSSMetaData {
 				RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> APPLICANTS_WHO_HAVE_BEEN_CANCELLED_REFUSED_INSURANCE_OR_NONRENEWED = declare(
 				"Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.",
-				RadioGroup.class,
-				Waiters.AJAX);
+				RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES = declare("Is any business or farming activity conducted on the premises?",
 				RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES = declare(

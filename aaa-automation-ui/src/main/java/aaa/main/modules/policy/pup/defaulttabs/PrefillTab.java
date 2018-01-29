@@ -4,9 +4,7 @@ package aaa.main.modules.policy.pup.defaulttabs;
 
 import java.util.List;
 import java.util.Map;
-
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
@@ -25,7 +23,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class PrefillTab extends Tab {
@@ -38,8 +36,9 @@ public class PrefillTab extends Tab {
 	public Table tblActivePoliciesList = new Table(By.xpath("//table[@id='policyDataGatherForm:pupPolicyPrefillTable']"));
 	public Button buttonAddPolicy = new Button(By.id("policyDataGatherForm:addPupPrefill"));
 	public Button buttonRemovePolicy = new Button(By.id("policyDataGatherForm:removeManualPrefill"));
-	public SingleSelectSearchDialog searchDialog = new SingleSelectSearchDialog(By.xpath(".//div[@id='pupPolicySearchPopup_container']"), PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.class);
-	
+	public SingleSelectSearchDialog searchDialog =
+			new SingleSelectSearchDialog(By.xpath(".//div[@id='pupPolicySearchPopup_container']"), PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.class);
+
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
@@ -48,7 +47,7 @@ public class PrefillTab extends Tab {
 
 	/*
 	 * @Override public Tab fillTab(TestData td) { assetList.fill(td);
-	 * 
+	 *
 	 * return this; }
 	 */
 
@@ -79,27 +78,27 @@ public class PrefillTab extends Tab {
 	public Link getAdditionalPoliciesChangeLink(int rowNum) {
 		return getAdditionalPoliciesRow(rowNum).getCell(8).controls.links.get("View/Edit", Waiters.AJAX);
 	}
-	
-	 public MultiInstanceAfterAssetList getNamedInsuredAssetList() {
-	    	return getAssetList().getAsset(PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(), MultiInstanceAfterAssetList.class);
-		}
-	
-	public TestData adjustWithRealPolicies(TestData td, Map<String, String> policies){
+
+	public MultiInstanceAfterAssetList getNamedInsuredAssetList() {
+		return getAssetList().getAsset(PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(), MultiInstanceAfterAssetList.class);
+	}
+
+	public TestData adjustWithRealPolicies(TestData td, Map<String, String> policies) {
 		String pathToList = TestData.makeKeyPath(getMetaKey(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());
 		String pathToValue = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel();
 		String modifiedValueKey = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel();
 		String manualValueKey = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesManual.POLICY_NUMBER.getLabel();
 		List<TestData> tdl = td.getTestData(getMetaKey()).getTestDataList(PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());
-		for(TestData tempTD : tdl){
+		for (TestData tempTD : tdl) {
 			String key = null;
 			if (tempTD.getTestData(pathToValue) != null) {
 				key = tempTD.getTestData(pathToValue).getValue(modifiedValueKey);
-				if(policies.containsKey(key)) {
+				if (policies.containsKey(key)) {
 					tempTD.adjust(TestData.makeKeyPath(pathToValue, modifiedValueKey), policies.get(key));
 				}
-			} else { 
+			} else {
 				key = tempTD.getTestData("ActiveUnderlyingPoliciesManual").getValue(manualValueKey);
-				if(policies.containsKey(key)) {
+				if (policies.containsKey(key)) {
 					tempTD.adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesManual", manualValueKey), policies.get(key));
 				}
 			}

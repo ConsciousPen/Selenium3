@@ -1,5 +1,7 @@
 package com.exigen.ipb.etcsa.base.app;
 
+import java.util.HashMap;
+import java.util.function.Function;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,9 +10,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import toolkit.config.PropertyProvider;
-
-import java.util.HashMap;
-import java.util.function.Function;
 
 public class CSAACapabilityModifier implements Function<DesiredCapabilities, DesiredCapabilities> {
 
@@ -46,9 +45,9 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 			case FIREFOX: {
 				FirefoxProfile profile = new FirefoxProfile();
 				profile.setPreference("browser.download.dir", downloadPath);
-				profile.setPreference("browser.download.folderList",1);
-				profile.setPreference("browser.download.manager.showWhenStarting",false);
-				profile.setPreference("browser.helperApps.neverAsk.saveToDisk","application/ms-excel");
+				profile.setPreference("browser.download.folderList", 2);
+				profile.setPreference("browser.download.manager.showWhenStarting", false);
+				profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/ms-excel");
 				desiredCapabilities.setCapability(FirefoxDriver.PROFILE, profile);
 			}
 		}

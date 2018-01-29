@@ -11,7 +11,8 @@ TD_Renewal_Actions_VA: {
   Renewal Policy Premium: 1500,
   Policy Term: Annual,
   Program Code: LegacyConv,
-  Enrolled in Autopay: 'No'}
+  Enrolled in Autopay: 'No',
+  Legacy policy had MPD discount: 'Yes'}
 }
 
 # --------- View Capping Details----------
@@ -86,7 +87,8 @@ TD_Renewal_Actions_DE: {
   Renewal Policy Premium: 1500,
   Policy Term: Annual,
   Program Code: LegacyConv,
-  Enrolled in Autopay: 'No'}
+  Enrolled in Autopay: 'No',
+  Legacy policy had MPD discount: 'Yes'}
 }
 
 # --------- View Capping Details----------
@@ -160,7 +162,8 @@ TD_Renewal_Actions_NJ: {
   Renewal Policy Premium: 1000,
   Policy Term: Annual,
   Program Code: LegacyConv,
-  Enrolled in Autopay: 'No'}
+  Enrolled in Autopay: 'No',
+  Legacy policy had MPD discount: 'Yes'}
 }
 
 # --------- View Capping Details----------

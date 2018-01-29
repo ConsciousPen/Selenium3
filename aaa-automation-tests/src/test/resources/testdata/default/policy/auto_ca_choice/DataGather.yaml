@@ -30,12 +30,12 @@ GeneralTab: {
   PolicyInformation: '@PolicyInformation'
 }
 
+NamedInsuredInformation: {
+}
+
 ContactInformation: {
   Home Phone Number: 1234567890,
   Email: temp@gmail.com
-}
-
-NamedInsuredInformation: {
 }
 
 AAAProductOwned: {
