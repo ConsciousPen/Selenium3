@@ -55,7 +55,7 @@
         </classes>
     </test>
 
-<!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master
+<!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
     <test name="PA View Rating Details Auto Tier value 1-16">
         <parameter name="state" value="PA"/>
         <classes>
