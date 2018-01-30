@@ -174,7 +174,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	 * PAS-4311, PAS-6587 - Locking Advanced Shopping Discount --Newly Locked
 	 * @name Locking Advanced Shopping Discount Tier
 	 * @scenario 2. Verify that lock will NOT be applied for renewal if lock effective date > policy effective date
-	 * 1. Configure lock for ASD TIER. Lock effective date = policy effective date
+	 * 1. Configure lock for ASD TIER. Lock effective date > policy effective date
 	 * 2. Initiate Auto SS quote creation
 	 * 3. Note the values for ASD TIER
 	 * 4. Initiate Renewal for policy
