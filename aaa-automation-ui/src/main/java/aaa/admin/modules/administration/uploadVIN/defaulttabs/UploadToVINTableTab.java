@@ -9,11 +9,13 @@ import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class UploadToVINTableTab extends DefaultTab {
 
 	public UploadToVINTableTab() {
 		super(AdministrationMetaData.VinTableTab.class);
+		assetList = new AssetList(By.xpath("//*"), metaDataClass);
 	}
 
 	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
