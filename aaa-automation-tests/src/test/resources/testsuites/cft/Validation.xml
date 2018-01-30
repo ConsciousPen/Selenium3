@@ -9,9 +9,8 @@
 	</test>
     
     <test name="CFT Validation" parallel="none">
-        <!-- <parameter name="state" value="UT" /> -->
         <classes>
-            <class name="aaa.modules.cft.TestCFTValidator" /> <!-- TestCFTValidator TestCFTMonthEnd-->
+            <class name="aaa.modules.cft.TestCFTValidator" />
         </classes>
     </test>
 

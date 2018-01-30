@@ -10,6 +10,7 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
@@ -25,7 +26,7 @@ public class TestCFTScenario20 extends ControlledFinancialBaseTest {
 		acceptTotalDuePlusOverpaymentOnStartDatePlus2(new Dollar(200));
 		issuedRefundOnStartDatePlus16(new Dollar(200));
 		voidRefundOnStartDatePlus25();
-		futureEndorsePolicyCancellationNoticeDate();
+		futureEndorsePolicyOnCancellationNoticeDate(new String[]{new EndorsementActionTab().getMetaKey(), HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
 	}
 
 	@Override
