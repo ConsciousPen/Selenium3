@@ -13,8 +13,10 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.sales.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsOverrideInsuranceScore"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsUserDoesNotOrderReportOrOverrideErrorFires"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
         </classes>
     </test>
     <test name="PAS-3002 View capping details and override capping for property polices Pup Product" parallel="methods" thread-count="1024">
