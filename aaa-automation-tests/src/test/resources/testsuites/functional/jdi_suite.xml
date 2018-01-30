@@ -167,7 +167,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
+    <test name="GreenButtonService" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
