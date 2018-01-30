@@ -1,5 +1,7 @@
 package aaa.modules.cft.home_ca.ho6;
 
+import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -39,6 +41,10 @@ public class TestCFTScenario31 extends ControlledFinancialBaseTest {
 		generateFirstEarnedPremiumBill(1);
 		generateSecondEarnedPremiumBill(1);
 		generateThirdEarnedPremiumBill(1);
-		generateCollection(1);
+		try {
+			generateCollection(1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

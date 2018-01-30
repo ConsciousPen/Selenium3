@@ -1,8 +1,15 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -18,14 +25,8 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
 
 public class TestMembershipValidation extends AutoCaChoiceBaseTest {
     /**
@@ -230,13 +231,13 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
      * 3. Initiate Manual RENEWAL
      * 3. Add DUMMY member number on General tab
      * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is not displayed (repeat for all DUMMY numbers)
+     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is displayed (repeat for all DUMMY numbers)
      * @details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786")
-    public void pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal(@Optional("CA") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786 PAS-8815")
+    public void pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Manual_Renewal(@Optional("CA") String state) {
 
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_MembershipValid").resolveLinks());
 
@@ -245,10 +246,11 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
         log.info("Policy Creation Started...");
         policy.createPolicy(testData);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         //Renew policy and verify if rule fails, last name != membership last name
         policy.renew().start();
-        validateDummyNumbersOnRenewalIssue();
+        validateDummyNumbersOnRenewalIssue(policyNumber);
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         mainApp().close();
@@ -260,16 +262,16 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
      * @scenario
      * 1. Create Customer.
      * 2. Create Auto CA Choice Policy with membership NO.
-     * 3. Initiate Manual RENEWAL
+     * 3. Initiate Automated RENEWAL
      * 3. Add DUMMY member number on General tab
      * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is not displayed (repeat for all DUMMY numbers)
+     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is displayed (repeat for all DUMMY numbers)
      * @details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", enabled = false)
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786")
-    public void pas6668_ScenarioAC2_Dummy_Numbers_Automatic_Renewal(@Optional("CA") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786 8815")
+    public void pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal(@Optional("CA") String state) {
 
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_MembershipValid").resolveLinks());
 
@@ -293,42 +295,50 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
 
-        validateDummyNumbersOnRenewalIssue();
+        validateDummyNumbersOnRenewalIssue(policyNumber);
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         mainApp().close();
     }
 
-    private void validateDummyNumbersOnRenewalIssue() {
+    private void validateDummyNumbersOnRenewalIssue(String policyNumber) {
 
         TestData testData = getTestSpecificTD("TestData_MembershipInvalid");
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number1")), DocumentsAndBindTab.class, true);
-        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
+        retrievePolicy(policyNumber);
 
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number2")), DocumentsAndBindTab.class, true);
-        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
+        retrievePolicy(policyNumber);
 
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number3")), DocumentsAndBindTab.class, true);
-        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
+        retrievePolicy(policyNumber);
 
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number4")), DocumentsAndBindTab.class, true);
-        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
+        retrievePolicy(policyNumber);
 
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number5")), DocumentsAndBindTab.class, true);
-        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
+        retrievePolicy(policyNumber);
 
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number6")), DocumentsAndBindTab.class, true);
-        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
+        errorTab.overrideAllErrors();
+        errorTab.buttonOverride.click();
+        docAndBindTabSubmit.submitTab();
     }
 
     private void goToBindAndVerifyError(ErrorEnum.Errors errorCode, boolean present) {
@@ -336,13 +346,19 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
         docAndBindTabSubmit.submitTab();
 
-        if (errorTab.isVisible()) {
+        if (errorTab.isVisible()||present==true) {
             errorTab.verify.errorsPresent(present, errorCode);
         } else {
             if(PurchaseTab.buttonCancel.isPresent()) {
                 PurchaseTab.buttonCancel.click();
             }
         }
+    }
+
+    private void retrievePolicy(String policyNumber){
+        MainPage.QuickSearch.buttonSearchPlus.click();
+        Page.dialogConfirmation.confirm();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
     }
 
     /*

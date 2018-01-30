@@ -30,7 +30,7 @@ public class TestCFTScenario4 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		generateInstallmentBill(1);
 		payInstallmentWithMinDue();
-		endorsePolicyEffDatePlus16Days();
+		endorsePolicyOnStartDatePlus16();
 		acceptPaymentEffDatePlus25();
 	}
 
