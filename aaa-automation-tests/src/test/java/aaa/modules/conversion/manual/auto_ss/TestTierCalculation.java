@@ -45,8 +45,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.conversion.manual.ConvAutoSsBaseTest;
-import aaa.modules.conversion.manual.ConvHomeSsHO3BaseTest;
-import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
