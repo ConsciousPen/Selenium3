@@ -7,14 +7,13 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import net.sf.saxon.value.StringValue;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import aaa.modules.conversion.manual.ConvPUPBaseTest;
+import aaa.modules.regression.conversions.ConvPUPBaseTest;
 
 import java.time.LocalDateTime;
 
