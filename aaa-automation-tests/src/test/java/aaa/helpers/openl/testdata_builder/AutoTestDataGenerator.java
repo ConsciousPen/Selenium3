@@ -1,7 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -16,13 +15,8 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
-import aaa.helpers.openl.model.mock.MembershipMockData;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
-import aaa.utils.excel.bind.ExcelUnmarshaller;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -31,10 +25,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
-	static final String DESTINATION_TEMP_MOCKS_FOLDER = "src/test/resources/openl";
-	static final String SOURCE_MOCKS_FOLDER_PATTERN = "/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/"
-			+ "aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock";
-	static final String MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME = "RetrieveMembershipSummaryMockData.xls";
 
 	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -349,10 +339,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	MembershipMockData getMembershipMockData() {
-		return MembershipMockDataHolder.INSTANCE;
-	}
-
 	private String getVinFromDb(OpenLVehicle vehicle) {
 		String vin = "";
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
@@ -360,10 +346,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerCoverages(vehicle.getCoverages())) {
 			//TODO-dchubkov: add argument for stat code
 			String getVinQuery = String.format("select VIN \n"
-					+ "from VEHICLEREFDATAVIN\n"
-					+ "inner join VEHICLEREFDATAMODEL\n"
-					+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
-					+ "where PHYSICALDAMAGECOLLISION %1$s AND PHYSICALDAMAGECOMPREHENSIVE %2$s AND YEAR %3$s AND (RESTRAINTSCODE %4$s) AND ANTITHEFTCODE %5$s",
+							+ "from VEHICLEREFDATAVIN\n"
+							+ "inner join VEHICLEREFDATAMODEL\n"
+							+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
+							+ "where PHYSICALDAMAGECOLLISION %1$s AND PHYSICALDAMAGECOMPREHENSIVE %2$s AND YEAR %3$s AND (RESTRAINTSCODE %4$s) AND ANTITHEFTCODE %5$s",
 					vehicle.getCollSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
 					vehicle.getCompSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
 					vehicle.getModelYear() == null ? "IS NULL" : "= " + vehicle.getModelYear(),
@@ -413,26 +399,5 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			return null;
 		}
 		return vin.replaceAll("&", RandomStringUtils.randomNumeric(1)) + RandomStringUtils.randomNumeric(7);
-	}
-
-	private static class MembershipMockDataHolder {
-		static final MembershipMockData INSTANCE = getInstance();
-
-		private static MembershipMockData getInstance() {
-			String envName = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
-			String membershipMockSourcePath = String.format(SOURCE_MOCKS_FOLDER_PATTERN, envName) + File.separator + MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME;
-			String membershipMockTempPath = DESTINATION_TEMP_MOCKS_FOLDER + File.separator + System.currentTimeMillis() + "_" + MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME;
-			RemoteHelper.downloadFile(membershipMockSourcePath, membershipMockTempPath);
-			File membershipMockTempFile = new File(membershipMockTempPath);
-			MembershipMockData membershipMockData;
-			try {
-				ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller();
-				membershipMockData = excelUnmarshaller.unmarshal(membershipMockTempFile, MembershipMockData.class);
-			} finally {
-				assertThat(membershipMockTempFile.delete()).as("Unambe to delete temp mock file: %s", membershipMockTempPath).isTrue();
-			}
-
-			return membershipMockData;
-		}
 	}
 }

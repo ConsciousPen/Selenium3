@@ -2,12 +2,12 @@ package aaa.utils.excel.io.entity.area.table;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Cell;
@@ -119,42 +119,43 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 	}
 
 	public Object getValue(String headerColumnName) {
-		return getCell(headerColumnName).getValue();
+		return getValue(getIndex(headerColumnName));
 	}
 
 	public String getStringValue(String headerColumnName) {
-		return getCell(headerColumnName).getStringValue();
+		return getStringValue(getIndex(headerColumnName));
 	}
 
 	public Boolean getBoolValue(String headerColumnName) {
-		return getCell(headerColumnName).getBoolValue();
+		return getBoolValue(getIndex(headerColumnName));
 	}
 
 	public Integer getIntValue(String headerColumnName) {
-		return getCell(headerColumnName).getIntValue();
+		return getIntValue(getIndex(headerColumnName));
 	}
 
 	public Double getDoubleValue(String headerColumnName) {
-		return getCell(headerColumnName).getDoubleValue();
+		return getDoubleValue(getIndex(headerColumnName));
 	}
 
-	public LocalDateTime getDateValue(String headerColumnName) {
-		return getCell(headerColumnName).getDateValue();
+	public LocalDateTime getDateValue(String headerColumnName, DateTimeFormatter... formatters) {
+		return getDateValue(getIndex(headerColumnName), formatters);
 	}
 
-	public boolean hasValue(String headerColumnName, Object expectedValue) {
-		return Objects.equals(getCell(headerColumnName).getValue(), expectedValue);
+	public boolean hasValue(String headerColumnName, Object expectedValue, DateTimeFormatter... formatters) {
+		return hasValue(getIndex(headerColumnName), expectedValue, formatters);
+	}
+
+	public boolean isEmpty(String columnName) {
+		return isEmpty(getIndex(columnName));
 	}
 
 	public int getSum(String... headerColumnNames) {
-		return getSum(getCells(headerColumnNames).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
+		List<Integer> indexes = getCellsIndexes();
+		return getSum(indexes.toArray(new Integer[indexes.size()]));
 	}
 
 	public int getSumContains(String headerColumnNamePattern) {
 		return getSum(getCellsContains(headerColumnNamePattern).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
-	}
-
-	public boolean isEmpty(String columnName) {
-		return getCell(columnName).isEmpty();
 	}
 }

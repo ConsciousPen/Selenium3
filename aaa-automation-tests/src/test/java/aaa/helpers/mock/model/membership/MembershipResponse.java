@@ -1,9 +1,15 @@
-package aaa.helpers.openl.model.mock;
+package aaa.helpers.mock.model.membership;
 
 import java.time.LocalDateTime;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.ExcelTransient;
 
 public class MembershipResponse {
+	@ExcelTransient
+	private static final String DATE_PATTERN_1 = "M/d/yyyy";
+	@ExcelTransient
+	private static final String DATE_PATTERN_2 = "MM-dd-yy";
+
 	@ExcelTableColumnElement(name = "ID")
 	private String id;
 
@@ -27,15 +33,29 @@ public class MembershipResponse {
 	@ExcelTableColumnElement(name = "faultstring")
 	private String faultString;
 
+	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime membershipEndDate;
+
+	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime membershipEffectiveDate;
+
+	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDateTime memberStartDate;
+
+	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDateTime serviceDate;
+
+	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	private LocalDateTime birthDate;
+
+	@ExcelTableColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+	private LocalDateTime errorTimeStamp;
+
 	private Integer membershipEffectiveDateOffset;
 	private Integer membershipEndDateOffset;
 	private String membershipNumber;
-	private LocalDateTime memberStartDate;
 	private String status;
 	private String memberType;
-	private LocalDateTime serviceDate;
 	private String type;
 	private Boolean chargeble;
 	private String memberCoverageType;
@@ -44,14 +64,12 @@ public class MembershipResponse {
 	private String middleName;
 	private String suffixTitle;
 	private String prefixTitle;
-	private LocalDateTime birthDate;
 	private String city;
 	private String region;
 	private String postalCode;
 	private String addressLine1;
 	private String addressLine2;
 	private String comment;
-	private LocalDateTime errorTimeStamp;
 	private String errorCode;
 	private String errorMessageText;
 	private String friendlyErrorMessage;

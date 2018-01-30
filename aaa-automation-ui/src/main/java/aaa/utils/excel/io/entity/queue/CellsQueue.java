@@ -2,6 +2,7 @@ package aaa.utils.excel.io.entity.queue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -81,11 +82,6 @@ public abstract class CellsQueue implements Writable {
 		return getSum(getCellsIndexes().toArray(new Integer[getCellsMap().size()]));
 	}
 
-	public int getSum(Integer... cellsIndexes) {
-		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexes);
-		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
-	}
-
 	public int getMaxValue() {
 		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).max().getAsInt();
 	}
@@ -109,6 +105,15 @@ public abstract class CellsQueue implements Writable {
 		return getArea().getExcelManager();
 	}
 
+	public int getSum(Integer... cellsIndexes) {
+		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexes);
+		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
+	}
+
+	public boolean isEmpty(int queueIndex) {
+		return getCell(queueIndex).isEmpty();
+	}
+
 	public ExcelCell getCell(int queueIndex) {
 		assertThat(hasCell(queueIndex)).as("There is no cell with %s index", queueIndex, getIndex()).isTrue();
 		return getCellsMap().get(queueIndex);
@@ -130,15 +135,23 @@ public abstract class CellsQueue implements Writable {
 		return getCell(queueIndex).getIntValue();
 	}
 
-	public LocalDateTime getDateValue(int queueIndex) {
-		return getCell(queueIndex).getDateValue();
+	public Double getDoubleValue(int queueIndex) {
+		return getCell(queueIndex).getDoubleValue();
+	}
+
+	public LocalDateTime getDateValue(int queueIndex, DateTimeFormatter... formatters) {
+		return getCell(queueIndex).getDateValue(formatters);
 	}
 
 	public boolean hasCell(int queueIndex) {
 		return getCellsMap().containsKey(queueIndex);
 	}
 
-	public boolean hasValue(int queueIndex, Object expectedValue) {
-		return Objects.equals(getCell(queueIndex).getValue(), expectedValue);
+	public boolean hasValue(int queueIndex, Object expectedValue, DateTimeFormatter... formatters) {
+		ExcelCell cell = getCell(queueIndex);
+		if (cell.isDate(formatters)) {
+			return Objects.equals(cell.getDateValue(formatters), expectedValue);
+		}
+		return Objects.equals(cell.getValue(), expectedValue);
 	}
 }

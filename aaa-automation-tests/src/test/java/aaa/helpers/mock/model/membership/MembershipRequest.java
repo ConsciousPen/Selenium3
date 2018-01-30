@@ -1,4 +1,4 @@
-package aaa.helpers.openl.model.mock;
+package aaa.helpers.mock.model.membership;
 
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 

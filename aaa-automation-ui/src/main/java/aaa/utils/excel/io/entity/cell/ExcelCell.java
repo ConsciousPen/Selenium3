@@ -2,6 +2,7 @@ package aaa.utils.excel.io.entity.cell;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -125,12 +126,16 @@ public class ExcelCell implements Writable {
 		return getValue(DOUBLE_TYPE);
 	}
 
-	public LocalDateTime getDateValue() {
-		return getValue(LOCAL_DATE_TIME_TYPE);
+	public LocalDateTime getDateValue(DateTimeFormatter... formatters) {
+		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).getValueFrom(this, formatters);
 	}
 
 	public boolean isNumeric() {
 		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
+	}
+
+	public boolean isDate(DateTimeFormatter... formatters) {
+		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).isTypeOf(this, formatters);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -201,7 +202,7 @@ public class ExcelUnmarshaller {
 				setFieldValue(tableRowField, tableInstance, row.getStringValue(columnName));
 				break;
 			case "java.time.LocalDateTime":
-				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDateValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDateValue(columnName, getFormatters(tableRowField)));
 				break;
 			case "double":
 			case "java.lang.Double":
@@ -231,6 +232,20 @@ public class ExcelUnmarshaller {
 			default:
 				throw new IstfException(String.format("Field type \"%s\" is not supported for unmarshalling", tableRowField.getType().getName()));
 		}
+	}
+
+	private DateTimeFormatter[] getFormatters(Field tableRowField) {
+		List<DateTimeFormatter> dateTimeFormatters = new ArrayList<>();
+		if (tableRowField.isAnnotationPresent(ExcelTableColumnElement.class)) {
+			for (String datePattern : tableRowField.getAnnotation(ExcelTableColumnElement.class).dateFormatPatterns()) {
+				try {
+					dateTimeFormatters.add(DateTimeFormatter.ofPattern(datePattern));
+				} catch (IllegalArgumentException e) {
+					throw new IstfException(String.format("Unable to get valid DateTimeFormatter for field \"%1$s\" with date pattern \"%2$s\"", tableRowField.getName(), datePattern), e);
+				}
+			}
+		}
+		return dateTimeFormatters.toArray(new DateTimeFormatter[dateTimeFormatters.size()]);
 	}
 
 	private void setFieldValue(Field field, Object classInstance, Object value) {

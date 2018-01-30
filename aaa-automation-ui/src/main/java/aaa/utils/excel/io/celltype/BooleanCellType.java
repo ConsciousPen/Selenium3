@@ -12,7 +12,7 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 
 	@Override
 	public Boolean getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType()).isTrue();
+		assertThat(isTypeOf(cell)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
 		if (cell.getPoiCell() == null) {
 			return null;
 		}

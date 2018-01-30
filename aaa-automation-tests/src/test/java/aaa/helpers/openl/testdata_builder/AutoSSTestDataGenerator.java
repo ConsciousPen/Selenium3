@@ -13,6 +13,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.mock.MockDataHelper;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLVehicle;
@@ -125,15 +126,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		LocalDateTime membershipEffectiveDate = policyEffectiveDate.minusYears(memberPersistency);
 		Double ersUsageCountPerMember = avgAnnualERSperMember.equals(99.9) ? null : avgAnnualERSperMember;
 
-		String number = getMembershipMockData().getMembershipNumber(membershipEffectiveDate, ersUsageCountPerMember);
+		String number = MockDataHelper.getMembershipData().getMembershipNumber(membershipEffectiveDate, ersUsageCountPerMember);
 		if (number == null) {
 			log.warn("There is no membership number with \"membershipEffectiveDate={}\" and \"ersUsageCountPerActive_Member={}\" in {} mock file.\n"
 							+ "Will try to find membership with empty membershipEffectiveDate for same ersUsageCountPerMember and set this date in Rating Detail Reports Tab",
-					membershipEffectiveDate, ersUsageCountPerMember, MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME);
-			number = getMembershipMockData().getMembershipNumber(null, ersUsageCountPerMember);
+					membershipEffectiveDate, ersUsageCountPerMember, MockDataHelper.MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME);
+			number = MockDataHelper.getMembershipData().getMembershipNumber(null, ersUsageCountPerMember);
 		}
-		assertThat(number).as("Unable to find membership number with \"ersUsageCountPerActive_Member={}\" in {} mock file", ersUsageCountPerMember, MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME)
-				.isNotNull();
+		assertThat(number).as("Unable to find membership number with \"ersUsageCountPerActive_Member={}\" in {} mock file",
+				ersUsageCountPerMember, MockDataHelper.MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME).isNotNull();
 		return number;
 	}
 
@@ -298,7 +299,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData ratingDetailReportsTab = DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
 
-		if (Boolean.TRUE.equals(openLPolicy.isAAAMember()) && getMembershipMockData().getMembershipEffectiveDate(membershipNumber) == null) {
+		if (Boolean.TRUE.equals(openLPolicy.isAAAMember()) && MockDataHelper.getMembershipData().getMembershipEffectiveDate(membershipNumber) == null) {
 			TestData addMemberSinceDialogData = DataProviderFactory.dataOf(
 					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getMemberPersistency())
 							.format(DateTimeUtils.MM_DD_YYYY),

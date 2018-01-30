@@ -1,4 +1,4 @@
-package aaa.helpers.openl.model.mock;
+package aaa.helpers.mock.model.membership;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

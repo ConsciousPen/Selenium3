@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -37,7 +38,7 @@ public class ExcelManager {
 	public ExcelManager(File file, CellType<?>... allowableCellTypes) {
 		this.isOpened = false;
 		this.file = file;
-		this.allowableCellTypes = allowableCellTypes.length != 0 ? new HashSet<>(Arrays.asList(allowableCellTypes)) : ExcelCell.getBaseTypes();
+		this.allowableCellTypes = ArrayUtils.isNotEmpty(allowableCellTypes) ? new HashSet<>(Arrays.asList(allowableCellTypes)) : ExcelCell.getBaseTypes();
 	}
 
 	public boolean isOpened() {
