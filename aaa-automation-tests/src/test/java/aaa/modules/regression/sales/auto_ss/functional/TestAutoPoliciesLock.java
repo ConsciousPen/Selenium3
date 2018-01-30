@@ -52,7 +52,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
-	public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
+	public void pas2247_pas2248_AipAndNafLock(@Optional("") String state) {
 
 		TestData testData = getAdjustedTD().adjust(getTestSpecificTD("OverrideErrors").resolveLinks());
 
@@ -235,7 +235,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		log.info("SUCCESS: ASD Tier was NOT locked!");
 	}
 
-	@AfterTest(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)
 	private void cleanDB() {
 		//Restore lock parameters in DB to default values
 		deleteLockForTheElement();
