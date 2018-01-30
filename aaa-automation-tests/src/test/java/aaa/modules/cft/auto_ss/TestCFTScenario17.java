@@ -33,6 +33,7 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 		approveRefundOnStartDatePlus25(new Dollar(600));
 		endorsePolicyCancellationDate();
 		endorseOOSPolicyOnFirstEPBillDate(TestData.makeKeyPath(EndorsementActionTab.class.getSimpleName(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()));
+		verifyPolicyExpiredOnUpdatePolicyStatusDate();
 	}
 
 	@Override

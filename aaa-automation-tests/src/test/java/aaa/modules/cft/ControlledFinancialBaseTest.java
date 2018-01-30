@@ -76,6 +76,57 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected OperationalReport operationalReport = new OperationalReport();
 
 	/**
+	 * Accept cash payment on startDate + 25 days
+	 */
+	protected void acceptPaymentOnStartDatePlus25() {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
+		acceptManualPaymentOnDate(paymentDate);
+	}
+
+	/**
+	 * Accept cash payment on startDate + 2 days
+	 */
+	protected void acceptPaymentOnStartDatePlus2() {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		acceptManualPaymentOnDate(paymentDate);
+	}
+
+	/**
+	 * Accept Total Due payment
+	 * payment date = current application date 
+	 */
+	protected void acceptTotalDuePayment() {
+		log.info("Accept payment action started");
+		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), BillingSummaryPage.getTotalDue());
+		log.info("Accept payment action completed successfully");
+	}
+
+	/**
+	 * Accept TotalDue + Over payment on first bill generation date
+	 */
+	protected void acceptTotalDuePlusOverpaymentOnBillGenDate(Dollar overpayment) {
+		LocalDateTime paymentDate = getTimePoints().getBillGenerationDate(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	}
+
+	/**
+	 * Accept TotalDue + Over payment on start date + 2 days
+	 */
+	protected void acceptTotalDuePlusOverpaymentOnStartDatePlus2(Dollar overpayment) {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	}
+
+	/**
+	 * Accept TotalDue + Over payment on start date + 16 days
+	 */
+	protected void acceptTotalDuePlusOverpaymentOnStartDatePlus16(Dollar overpayment) {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	}
+
+	/**
 	 * Creating of the policy for test
 	 */
 	protected void createPolicyForTest() {
@@ -96,24 +147,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.build());
 	}
 
-	/**
-	 * Endorsement
-	 * On start date + 2 days
-	 */
-	protected void endorsePolicyOnStartDatePlus2() {
-		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		performEndorsementOnDate(endorsementDate);
+	protected void executeJobOnDate() {
+		String date = "03/05/2018"; // mm/dd/yyyy
+		LocalDateTime executeDate = TimeSetterUtil.getInstance().parse(date, DateTimeUtils.MM_DD_YYYY);
+		TimeSetterUtil.getInstance().nextPhase(executeDate);
+		log.info("Starting cftDcsEodJob execution on {}", executeDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		log.info("cftDcsEodJob executed successfully{}");
 	}
 
 	/**
-	 * Endorsement 
-	 * On start date + 16 days
-	 */
-	protected void endorsePolicyOnStartDatePlus16() {
-		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		performEndorsementOnDate(endorsementDate);
-	}
-
+	 * OOS Endorsement on First Earned Premium bill date
+	 * Endorsement effective date is 2 days before Cancellation Date
+	*/
 	protected void endorseOOSPolicyOnFirstEPBillDate(String keyPath) {
 		LocalDateTime firstEPBillDate =
 			getTimePoints().getEarnedPremiumBillFirst(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
@@ -153,7 +201,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * OOS endorsement
 	 * on start date + 16 days
 	 */
-	protected void endorseOOSPolicyOnStartDatePlus16() {
+	protected void endorseOOSPolicyOnStartDatePlus16(String[] endorsementEffDateDataKeys) {
 		LocalDateTime date = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		TimeSetterUtil.getInstance().nextPhase(date);
 		log.info("OOS Endorsment action started on {}", date);
@@ -161,7 +209,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOS"));
-		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue("EndorsementActionTab", "Endorsement Date");
+		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue(endorsementEffDateDataKeys);
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
 				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber)).isPresent());
@@ -174,6 +222,24 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 		log.info("OOS Endorsment action completed successfully");
+	}
+
+	/**
+	 * Endorsement
+	 * On start date + 2 days
+	 */
+	protected void endorsePolicyOnStartDatePlus2() {
+		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		performEndorsementOnDate(endorsementDate);
+	}
+
+	/**
+	 * Endorsement 
+	 * On start date + 16 days
+	 */
+	protected void endorsePolicyOnStartDatePlus16() {
+		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		performEndorsementOnDate(endorsementDate);
 	}
 
 	protected void endorsePolicyCancellationDate() {
@@ -228,57 +294,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setStatus(PaymentsAndOtherTransactionStatus.DECLINED)
 			.verifyPresent();
 		log.info("Decline Suspense Payment action completed successfully");
-	}
-
-	/**
-	 * Accept cash payment on startDate + 25 days
-	 */
-	protected void acceptPaymentEffDatePlus25() {
-		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
-		acceptManualPaymentOnDate(paymentDate);
-	}
-
-	/**
-	 * Accept cash payment on startDate + 2 days
-	 */
-	protected void acceptPaymentOnStartDatePlus2() {
-		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		acceptManualPaymentOnDate(paymentDate);
-	}
-
-	/**
-	 * Accept Total Due payment
-	 * payment date = current application date 
-	 */
-	protected void acceptTotalDuePayment() {
-		log.info("Accept payment action started");
-		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), BillingSummaryPage.getTotalDue());
-		log.info("Accept payment action completed successfully");
-	}
-
-	/**
-	 * Accept TotalDue + Over payment on first bill generation date
-	 */
-	protected void acceptTotalDuePlusOverpaymentOnBillGenDate(Dollar overpayment) {
-		LocalDateTime paymentDate = getTimePoints().getBillGenerationDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
-	}
-
-	/**
-	 * Accept TotalDue + Over payment on start date + 2 days
-	 */
-	protected void acceptTotalDuePlusOverpaymentOnStartDatePlus2(Dollar overpayment) {
-		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
-	}
-
-	/**
-	 * Accept TotalDue + Over payment on start date + 16 days
-	 */
-	protected void acceptTotalDuePlusOverpaymentOnStartDatePlus16(Dollar overpayment) {
-		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
 	}
 
 	/**

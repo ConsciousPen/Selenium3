@@ -32,10 +32,10 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	public void cftTestScenario1(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		futureEndorsePolicyOnStartDatePlus2(new String[]{new EndorsementActionTab().getMetaKey(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
-		generateInstallmentBill(1);
-		automaticCancellationNotice(1);
-		automaticCancellation(1);
-		writeOff(1);
+		generateInstallmentBill();
+		automaticCancellationNotice();
+		automaticCancellation();
+		writeOff();
 	}
 
 	@Override
