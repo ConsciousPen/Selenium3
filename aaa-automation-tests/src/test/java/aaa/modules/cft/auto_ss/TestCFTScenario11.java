@@ -31,12 +31,12 @@ public class TestCFTScenario11 extends ControlledFinancialBaseTest {
 	public void cftTestScenario11(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		endorsePolicyOnStartDatePlus2();
-		generateInstallmentBill();
-		automaticCancellationNotice();
-		automaticCancellation();
-		generateFirstEarnedPremiumBill();
-		generateSecondEarnedPremiumBill();
-		generateThirdEarnedPremiumBill();
+		generateInstallmentBill(1);
+		automaticCancellationNotice(1);
+		automaticCancellation(1);
+		generateFirstEarnedPremiumBill(1);
+		generateSecondEarnedPremiumBill(1);
+		generateThirdEarnedPremiumBill(1);
 		try {
 			generateCollection(1);
 		} catch (IOException e) {

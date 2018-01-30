@@ -102,11 +102,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Accept TotalDue + Over payment on first bill generation date
+	 * Accept TotalDue + Over payment on first Bill Generation date
 	 */
 	protected void acceptTotalDuePlusOverpaymentOnBillGenDate(Dollar overpayment) {
 		LocalDateTime paymentDate = getTimePoints().getBillGenerationDate(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	}
+
+	/**
+	 * Accept TotalDue + Over payment on policy Effective date - 20 days (Effective date != Start date)
+	 */
+	protected void acceptTotalDuePlusOverpaymentOnEffDateMinus20(Dollar overpayment) {
+		LocalDateTime paymentDate = getTimePoints().getBillGenerationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate());
 		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
 	}
 
@@ -145,6 +153,29 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 					.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY).plusYears(1))
 					.build())
 				.build());
+	}
+
+	protected void declineSuspensePaymentOnCancellationDate() {
+		LocalDateTime declineDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		TimeSetterUtil.getInstance().nextPhase(declineDate);
+		log.info("Decline Suspense Payment action started on {}", declineDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		HashMap<String, String> map = new HashMap<>();
+		map.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, suspenseDate.format(DateTimeUtils.MM_DD_YYYY));
+		map.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+		map.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.SUSPENSE);
+
+		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), map);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(suspenseDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SUSPENSE)
+			.setStatus(PaymentsAndOtherTransactionStatus.DECLINED)
+			.verifyPresent();
+		log.info("Decline Suspense Payment action completed successfully");
 	}
 
 	protected void executeJobOnDate() {
@@ -272,37 +303,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		performEndorsementOnDate(endorsementDate, endorsementEffDate);
 
 	}
-
-	protected void declineSuspensePaymentOnCancellationDate() {
-		LocalDateTime declineDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		TimeSetterUtil.getInstance().nextPhase(declineDate);
-		log.info("Decline Suspense Payment action started on {}", declineDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		HashMap<String, String> map = new HashMap<>();
-		map.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, suspenseDate.format(DateTimeUtils.MM_DD_YYYY));
-		map.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
-		map.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.SUSPENSE);
-
-		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), map);
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(suspenseDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SUSPENSE)
-			.setStatus(PaymentsAndOtherTransactionStatus.DECLINED)
-			.verifyPresent();
-		log.info("Decline Suspense Payment action completed successfully");
+	/**
+	 * Bill generation on first Bill Generation date
+	 */
+	protected void generateInstallmentBill() {
+		generateInstallmentBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1));
 	}
 
 	/**
-	 * Accept TotalDue + Over payment on DD1 - 20 days
+	 * Bill generation for provided installment of the policy
+	 * @param installmentNumber number of the installment
 	 */
-
-	protected void acceptTotalDuePlusOverpaymentOnDD1Minus20(Dollar overpayment) {
-		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
-		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	protected void generateInstallmentBill(int installmentNumber) {
+		generateInstallmentBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 	}
 
 	protected void acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(Dollar overpayment) {
@@ -579,21 +592,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		otherAdjustmentOnDate(cancellationDate);
 	}
 
-	/**
-	 * Bill generation on DD1 date (i.e. Start Date + one month)
-	 */
-	protected void generateInstallmentBill() {
-		generateInstallmentBillDueDate(TimeSetterUtil.getInstance().getStartTime().plusMonths(1));
-	}
-
-	/**
-	 * Bill generation for provided installment of the policy
-	 * @param installmentNumber number of the installment
-	 */
-	protected void generateInstallmentBill(int installmentNumber) {
-		generateInstallmentBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-	}
-
 	protected void splitPolicyOnFirstDueDate() {
 		TimeSetterUtil.getInstance().nextPhase(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		log.info("Split policy action started");
@@ -754,10 +752,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Policy Cancellation due DD1 date (i.e. Start Date + one month)
+	 * Policy Cancellation due DD1 date (i.e. Policy Effective Date + one month)
 	 */
 	protected void automaticCancellation() {
-		automaticCancellationDueInsallmentDate(TimeSetterUtil.getInstance().getStartTime().plusMonths(1));
+		automaticCancellationDueInsallmentDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1));
 	}
 
 	/**
@@ -769,10 +767,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Cancellation Notice due DD1 date (i.e. Start Date + one month)
+	 * Cancellation Notice due DD1 date (i.e. Policy Effective Date + one month)
 	 */
 	protected void automaticCancellationNotice() {
-		automaticCancellationNoticeDueInsallmentDate(TimeSetterUtil.getInstance().getStartTime().plusMonths(1));
+		automaticCancellationNoticeDueInsallmentDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1));
 	}
 
 	/**
@@ -834,10 +832,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Generate 3rd EP bill due DD1 date (i.e. Start Date + one month)
+	 * Generate 3rd EP bill due DD1 date (i.e. Policy Effective date plus one month)
 	 */
 	protected void generateThirdEarnedPremiumBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(TimeSetterUtil.getInstance().getStartTime().plusMonths(1)));
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1)));
 	}
 
 	/**
@@ -850,10 +849,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Generate EP write off due DD1 date (i.e. Start Date + one month)
+	 * Generate EP write off due DD1 date (i.e. Policy Effective date plus one month)
 	 */
 	protected void writeOff() {
-		writeOffOnDate(getTimePoints().getEarnedPremiumWriteOff(TimeSetterUtil.getInstance().getStartTime().plusMonths(1)));
+		writeOffOnDate(getTimePoints().getEarnedPremiumWriteOff(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1)));
 	}
 
 	/**
