@@ -36,7 +36,8 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO3Ba
 		TestData reportTab = testdata.getTestData(reportTabInfo);
 		testdata.adjust(reportTabInfo, reportTab);
 
-		reportTab.mask(HomeSSMetaData.ReportsTab.ISO360_REPORT.getLabel(), HomeSSMetaData.ReportsTab.CLUE_REPORT.getLabel());
+		reportTab.mask(HomeSSMetaData.ReportsTab.ISO360_REPORT.getLabel(), HomeSSMetaData.ReportsTab.CLUE_REPORT.getLabel())
+				.removeAdjustment(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel());
 
 		mainApp().open();
 
