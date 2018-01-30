@@ -27,7 +27,7 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO6Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-7211")
-	public void pas7211_ConversionNoClueISO360InspectionReports(@Optional("DE") String state) {
+	public void pas7211_ConversionNoClueISO360InspectionReports(@Optional("") String state) {
 
 		String reportTabInfo = new ReportsTab().getMetaKey();
 

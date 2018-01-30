@@ -47,6 +47,7 @@
     </test>
 
     <test name="Policy Conversation without ordering reports">
+        <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
             <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
