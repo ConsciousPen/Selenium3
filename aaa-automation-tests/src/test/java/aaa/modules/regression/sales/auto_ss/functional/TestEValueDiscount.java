@@ -76,7 +76,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
     private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
     private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
-    private static final String MESSAGE_INFO_5 = "In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
     private static final String MESSAGE_BULLET_1 = "Payment Options: Pay in full with any payment method or enroll in AutoPay with a checking/savings account or debit card";
     private static final String MESSAGE_BULLET_1_A = "Payment Options: Pay in full with any payment method or enroll in AutoPay";
     private static final String MESSAGE_BULLET_3 = "Paperless Preferences: Enroll in paperless notifications for policy and billing documents";
@@ -87,6 +86,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
     private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
     private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
+
+    private static final String PAPERLESS_PREFRENCES_NOT_ENROLLED = "In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
 
     private static final List<String> PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
     private static final List<String> NOT_PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_8, MESSAGE_BULLET_9, MESSAGE_BULLET_7);
@@ -1150,32 +1151,26 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         eValueQuoteCreation();
         simplifiedQuoteIssue();
 
-    if (state.equals("DC")) {
-        policy.endorse().perform(getPolicyTD("Endorsement",
-            "TestData_Plus170Days"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
+    if (state.equals("DC")) {
         //Check if error message is displayed, when response from API is OPT_IN. (state==DC)
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
             .APPLY_EVALUE_DISCOUNT).setValue("Yes");
 
             assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab
-                    .APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(MESSAGE_INFO_5)).isTrue();
+                    .APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED)).isTrue();
         }else{
-        policy.endorse().perform(getPolicyTD("Endorsement",
-                "TestData_Plus10Day"));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
         //Check if error message is not displayed, when response from API is other than OPT_IN
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
                 .APPLY_EVALUE_DISCOUNT).setValue("Yes");
 
             assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab
-                    .APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(MESSAGE_INFO_5))
+                    .APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED))
                     .isFalse();
         }
     }
-
     /**
      * @author Megha Gubbala
      * @name Test Configuration for eValue for Membership eligibility
