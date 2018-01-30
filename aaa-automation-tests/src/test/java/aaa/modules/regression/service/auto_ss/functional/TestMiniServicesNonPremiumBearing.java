@@ -58,13 +58,13 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
      * @name Test Email change through service
      * @scenario 1. Create customer
      * 2. Create a policy
-     * 3. Create endorsement
-     * 4. Check Endorsement is allowed and there are no errors
+     * 3. Create an endorsement, issue
+     * 4. Check Green Button endorsement is allowed and there are no errors
      * @details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
 
         CustomAssert.enableSoftMode();
@@ -73,10 +73,18 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         CustomAssert.assertAll();
     }
 
-
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy
+     * 3. Start an endorsement created by user, but not finish (Pended Endorsement)
+     * 4. Check Green Button endorsement is allowed and there are no errors
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
 
         CustomAssert.enableSoftMode();
@@ -90,54 +98,97 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
      * @name Test Email change through service
      * @scenario 1. Create customer
      * 2. Create a policy
-     * 3. Create endorsement
-     * 4. Check Endorsement is allowed and there are no errors
+     * 3. Create endorsement in the Future, issue
+     * 4. Check Endorsement is Not allowed and there is an error about OOSE or Future Dated Endorsement
      * @details
      */
-
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-    public void pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+    public void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
 
         CustomAssert.enableSoftMode();
-        pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
+        pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a NANO policy
+     * 3. Check Green Button endorsement is not allowed. There is a PolicyRules error about NANO
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-    public void pas6560_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+    public void pas6562_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
 
         CustomAssert.enableSoftMode();
-        pas6560_endorsementValidateNotAllowedNano(getPolicyType(), state);
+        pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
 
 
-
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy
+     * 3. Start an endorsement created by System, but not finish (Pended Endorsement)
+     * 4. Check Green Button endorsement is not allowed. There is a PolicyRules error about System Pended Endorsement
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-    public void pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+    public void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
 
         CustomAssert.enableSoftMode();
-        pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
+        pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy with a vehicle with UBI
+     * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-    public void pas6560_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+    public void pas6562_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
 
         CustomAssert.enableSoftMode();
-        pas6560_endorsementValidateNotAllowedUBI(getPolicyType());
+        pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy with a vehicle with UBI
+     * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+    public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }

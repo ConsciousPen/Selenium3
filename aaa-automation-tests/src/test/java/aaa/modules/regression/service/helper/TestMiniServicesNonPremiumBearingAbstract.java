@@ -101,7 +101,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
+    protected void pas6562_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
 /*        mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
@@ -154,7 +154,7 @@ String policyNumber = "VASS926232046";
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(PolicyType policyType) {
+    protected void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(PolicyType policyType) {
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyTD());
@@ -194,7 +194,7 @@ String policyNumber = "VASS926232046";
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
+    protected void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyTD());
@@ -223,7 +223,7 @@ String policyNumber = "VASS926232046";
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedUBI(PolicyType policyType) {
+    protected void pas6562_endorsementValidateNotAllowedUBI(PolicyType policyType) {
 /*       mainApp().open();
         createCustomerIndividual();
         policyType.get().createQuote(getPolicyTD());
