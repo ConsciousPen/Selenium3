@@ -160,18 +160,6 @@ PAS-8994:
       messages: ["Entity input stream has already been closed"]
     - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
       messages: ["Entity input stream has already been closed"]
-OSI-1112:
-  summary: "OSI: the test passes locally, but fails in Jenkins"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
-      messages: ["unknown error: Element"]
-OSI-1114:
-  summary: "OSI: the test passes locally, but fails in Jenkins"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
-      messages: ["LoginPanel is displayed expected"]
 PAS-9101:
   summary: "Regression: Home CA: Payment plan of renewal changes incorrectly after renewal offer generated"
   reason: PROD
@@ -198,11 +186,3 @@ PAS-8288:
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
     aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
       messages: ["by zero"]
-PAS-8994:
-  summary: "Entity of type VASS926232462 and with a number of 1 was not found"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
