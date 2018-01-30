@@ -142,7 +142,7 @@ public class TestTierCalculation extends ConvAutoSsBaseTest {
         Tab acceptPayment = new AcceptPaymentActionTab();
         acceptPayment.fillTab(getTestSpecificTD("TestData").
                 adjust(TestData.makeKeyPath(acceptPayment.getMetaKey(), AMOUNT.getLabel()), premiumValue.add(20).toString())).submitTab();
-        proposePolicyIfNeeded();
+        //proposePolicyIfNeeded();
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
         mainApp().reopen();
