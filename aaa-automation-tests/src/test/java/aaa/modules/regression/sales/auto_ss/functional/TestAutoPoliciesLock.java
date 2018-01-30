@@ -164,6 +164,8 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 		assertThat(renewalValue).isEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was locked!");
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -233,6 +235,8 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 		assertThat(renewalValue).isNotEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was NOT locked!");
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
 	@AfterMethod(alwaysRun = true)
