@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional.helpers;
+package aaa.modules.regression.sales.template;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -21,7 +21,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.queries.MsrpQueries;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
@@ -55,13 +54,11 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Custom Van");
 	}
 
-	protected void pas2716_CommonSteps(String vinNumber, String vinTableFile, String controlTableFile, String policyNumber, LocalDateTime policyExpirationDate) {
+	protected void pas2716_CommonSteps(String vinNumber, String policyNumber, LocalDateTime policyExpirationDate) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		adminApp().open();
-		vinMethods.uploadFiles(controlTableFile, vinTableFile);
 		moveTimeAndRunRenewJobs(policyExpirationDate);
 		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
-		mainApp().open();
+		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
 		//4. System rates renewal image according to renewal timeline

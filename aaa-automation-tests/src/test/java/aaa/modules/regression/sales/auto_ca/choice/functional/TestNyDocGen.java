@@ -17,7 +17,7 @@ public class TestNyDocGen extends TestSymbolsPresenceTemplate {
 
 	/**
 	 * @author Viktor Petrenko
-	 * @name NY doc gen check for AA11NY
+	 * @name NY doc gen check for AA11CA
 	 * @scenario
 	 * 1. Issue NY policy
 	 * 2. Get DeclarationPage from db

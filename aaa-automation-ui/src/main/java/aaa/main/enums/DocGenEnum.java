@@ -310,7 +310,9 @@ public final class DocGenEnum {
 		_551003("551003", "Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement"),
 		_553333("553333", "Auto Billing Plan Explanation"),
 		// CA Auto Insurance Application
+		// Needed for Queries, in database there is a space
 		_55_4000("55 4000", "California Car Policy Application"),
+		// Needed for UI, to generate on demand document for example
 		_554000("554000", "California Car Policy Application"),
 		_58_1027("58 1027", "Designated Recreational Motor Vehicle Exclusion Endorsement"),
 		_58_1500("58 1500", ""),
