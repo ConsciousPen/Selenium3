@@ -4,9 +4,9 @@ package aaa.common.components;
 
 import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.By;
-
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class Efolder {
 
@@ -30,6 +30,7 @@ public abstract class Efolder {
 
         String[] pathParts = path.split("/");
         for (String p : pathParts) {
+            Waiters.SLEEP(3000).go();
             new Link(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]", p))).click();
         }
     }

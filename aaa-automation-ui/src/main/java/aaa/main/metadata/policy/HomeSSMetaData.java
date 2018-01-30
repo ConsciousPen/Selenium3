@@ -183,8 +183,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<SingleSelectSearchDialog> ACTIVE_UNDERLYING_POLICIES_SEARCH = declare("ActiveUnderlyingPoliciesSearch", SingleSelectSearchDialog.class,
 					OtherActiveAAAPoliciesSearch.class,
 					By.xpath(".//form[@id='policySearchForm_AAAHOOtherOrPriorActivePolicySearch']"));
-			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class,
-					By.xpath("//*[@id='policyDataGatherForm:j_id__v_11_bls-panel']/table/tbody/tr/td/table"));
+			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class);
 
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
 				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE,
@@ -234,6 +233,8 @@ public final class HomeSSMetaData {
 				.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
 		public static final AssetDescriptor<FillableTable> ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
+		public static final AssetDescriptor<StaticElement> WARNING_MESSAGE_BOX = declare("Warning Message Box", StaticElement.class, By
+				.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul/li"));
 		// public static final AssetDescriptor<StaticElement> ADVERSELY_IMPACTED_APPLIED_MESSAGE = declare("Adversely Impacted was applied to the policy effective", StaticElement.class,
 		// By.xpath("//span[@id='policyDataGatherForm:warningMessage']"));
 
@@ -255,7 +256,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
 			public static final AssetDescriptor<Link> ADD_MEMBER_SINCE = declare("Add Member since", Link.class);
-
 			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class);
 		}
 

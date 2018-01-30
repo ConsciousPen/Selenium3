@@ -1,0 +1,162 @@
+TestData_NotOrderedMembershipValidationAU_SS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# ------------- Tabs ----------
+
+PrefillTab: {
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: '@<auto_ss>@DataGather@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+NamedInsuredInformation: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: Smith
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890,
+   Email: 'test@gmail.com'
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
+}
+
+DriverTab: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{Select: 'No'}],
+  OrderInsuranceScoreReport: [{}]
+}
+
+VehicleTab: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+# ------ Test Data for Not Ordering Report ------
+
+TestData_DontOrderMembership: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_DontOrder',
+}
+
+RatingDetailReportsTab_DontOrder: {
+  AAAMembershipReport: [{Select: 'No'}]
+}
+
+# ------- Test Data for Endorsement Policy ------
+
+TestData_NotOrderedMembershipValidationAU_SS_Endorsement: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_Endorsement',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Endorsement',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_Endorsement: {
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned_Endorsement',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+AAAProductOwned_Endorsement: {
+  Current AAA Member: 'No'
+}
+
+RatingDetailReportsTab_Endorsement: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  OrderInsuranceScoreReport: [{}]
+}
+
+# ------- Test Data for Endorsement Changes------
+
+TestData_NotOrderedMembershipValidationAU_SS_Endorsement_Changes: {
+  GeneralTab: '@GeneralTab_Endorsement_Changes',
+  DriverTab: '@DriverTab_Endorsement_Changes',
+  RatingDetailReportsTab: '@RatingDetailReportsTab_DontOrder'
+}
+
+GeneralTab_Endorsement_Changes: {
+  AAAProductOwned: '@AAAProductOwned_Endorsement_Changes'
+}
+
+AAAProductOwned_Endorsement_Changes: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: Smith
+}
+
+DriverTab_Endorsement_Changes: {}

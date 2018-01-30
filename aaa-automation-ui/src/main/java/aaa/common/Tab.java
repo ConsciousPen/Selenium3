@@ -2,10 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import java.util.Arrays;
+import java.util.List;
+import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.*;
@@ -13,9 +15,6 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Abstract tab class.
@@ -33,7 +32,7 @@ public abstract class Tab {
 		+ "and not(@class = 'hidden') and not(contains(@style, 'none'))]"));
 	public static Button buttonFinish = new Button(By.xpath("//input[@value = 'Finish' and not(@class = 'hidden') and not(contains(@style,'none')) and contains(@id,'_footer')]"));
 	public static Button buttonNext = new Button(By
-		.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer']"));
+			.xpath("//input[(@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer') and @onclick != '']"));
 	public static Button buttonSave = new Button(By.xpath("//input[@value = 'Save' and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonBack = new Button(By.xpath("//input[(@value = 'Back' or @value = 'BACK') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonTopSave = new Button(By.id("topSaveLink"));

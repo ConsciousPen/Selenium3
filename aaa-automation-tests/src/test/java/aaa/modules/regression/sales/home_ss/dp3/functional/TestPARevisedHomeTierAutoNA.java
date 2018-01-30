@@ -56,7 +56,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSDP3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("") String state) {
 
-    helper.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
+        helper.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
 
     }
 }

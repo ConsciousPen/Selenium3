@@ -4,7 +4,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
 
     <!--Tests for Auto-->
 
@@ -76,7 +76,7 @@
     </test>
 
     <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->
-    <test name="Policy Conversation without ordering reports" parallel="methods" thread-count="200">
+    <test name="Policy Conversation without ordering reports">
         <classes>
             <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
             <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
