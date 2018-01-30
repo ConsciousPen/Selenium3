@@ -100,10 +100,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
-        pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
+        pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
     }
 
     /**
@@ -119,7 +116,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6562_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
 
-        pas6560_endorsementValidateNotAllowedNano(getPolicyType(), state);
+        pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
     }
 
 
@@ -138,7 +135,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
 
-        pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
+        pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
     }
 
 
@@ -155,7 +152,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6562_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
 
-        pas6560_endorsementValidateNotAllowedUBI(getPolicyType());
+        pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
     }
 
     /**
