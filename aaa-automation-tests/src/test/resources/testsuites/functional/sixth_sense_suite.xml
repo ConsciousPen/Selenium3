@@ -24,14 +24,16 @@
     </test>
 
     <test name="Test Calculate Tier for NY converted policies">
+        <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.conversion.manual.auto_ss.TestTierCalculation"/>
         </classes>
     </test>
 
     <test name="Test Enroll Usage Based Endorsement">
+        <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.EnrollUsageBasedEndorsementCheck"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck"/>
         </classes>
     </test>
 
@@ -87,7 +89,7 @@
 
     <!--Tests for PUP-->
 
-
+<!--Commenting out below tests until PUP conversion dev code is merged
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -131,6 +133,6 @@
             <class name="aaa.modules.conversion.manual.pup.TestOverrideBindRelaxedCoverageLimits"/>
         </classes>
     </test>
-
+-->
 
 </suite>

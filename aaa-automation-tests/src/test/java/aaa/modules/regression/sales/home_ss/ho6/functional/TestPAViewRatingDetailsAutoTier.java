@@ -32,7 +32,7 @@ public class TestPAViewRatingDetailsAutoTier extends HomeSSHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - UI Change : View Rating Details screen")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6676")
-	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
+	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("") String state) {
 
 		helper.pas6676_TestPAViewRatingDetailsAutoTier(getPolicyType());
 	}

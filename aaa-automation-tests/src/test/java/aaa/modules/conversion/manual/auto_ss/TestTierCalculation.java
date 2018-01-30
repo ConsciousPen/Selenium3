@@ -44,7 +44,9 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.conversion.manual.ConvAutoSsBaseTest;
 import aaa.modules.conversion.manual.ConvHomeSsHO3BaseTest;
+import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -53,7 +55,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
-public class TestTierCalculation extends ConvHomeSsHO3BaseTest {
+public class TestTierCalculation extends ConvAutoSsBaseTest {
     private final Tab generalTab = new GeneralTab();
     private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
@@ -83,7 +85,7 @@ public class TestTierCalculation extends ConvHomeSsHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckNB(@Optional("AZ") String state) {
+    public void pas4145_calculateTierNyConversionCheckNB(@Optional("") String state) {
         //Prepare TD
         TestData policyData = DataProviderFactory.emptyData().adjust(getPolicyTD().resolveLinks());
         policyData.adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()));
@@ -99,7 +101,7 @@ public class TestTierCalculation extends ConvHomeSsHO3BaseTest {
         Tab.buttonTopCancel.click();
 
         //Initiate manual conversion policy
-        initiateManualConversion();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         TestData policy2 = DataProviderFactory.emptyData().adjust(policyData.resolveLinks()).resolveLinks();
         policy.getDefaultView().fillUpTo(prepareConvTD(policyData)
                 , PremiumAndCoveragesTab.class, true);
@@ -132,7 +134,7 @@ public class TestTierCalculation extends ConvHomeSsHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "pas4145_calculateTierNyConversionCheckNB")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckRenewal(@Optional("NY") String state) {
+    public void pas4145_calculateTierNyConversionCheckRenewal(@Optional("") String state) {
         LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationJob);

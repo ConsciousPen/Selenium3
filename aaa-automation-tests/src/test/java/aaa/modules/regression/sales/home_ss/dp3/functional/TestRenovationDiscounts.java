@@ -38,7 +38,7 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-4317")
-	public void pas4317_RenovationDiscounts(@Optional("KS") String state) {
+	public void pas4317_RenovationDiscounts(@Optional("") String state) {
 		String expectedValue = "Safe Home";
 		String infoTabName = new PropertyInfoTab().getMetaKey();
 		String docTabName = new DocumentsTab().getMetaKey();
