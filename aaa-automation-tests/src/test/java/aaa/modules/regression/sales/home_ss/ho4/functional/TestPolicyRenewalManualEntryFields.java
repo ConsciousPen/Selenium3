@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
  * @author S. Jaraminas
@@ -47,9 +48,9 @@ public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO4BaseTest {
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
         TestData td = getTestSpecificTD("TestData");
-        String currentDate = LocalDateTime.now().format(DateTimeUtils.MM_DD_YYYY);
-        String inceptionDate = LocalDateTime.now().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
-        String effectiveDate = LocalDateTime.now().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+        String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+        String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+        String effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
         mainApp().open();
 
