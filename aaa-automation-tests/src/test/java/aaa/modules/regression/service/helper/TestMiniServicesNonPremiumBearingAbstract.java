@@ -101,16 +101,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
-        mainApp().open();
+    protected void pas6562_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
+/*        mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
 
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        String policyNumber = PolicySummaryPage.getPolicyNumber();*/
 
-        //String policyNumber = "VASS926232045";
+        String policyNumber = "VASS926232045";
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
@@ -126,7 +126,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
     }
 
     protected void pas6560_endorsementValidateAllowedPendedEndorsementUser(PolicyType policyType) {
-
+/*
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyTD());
@@ -138,8 +138,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         NavigationPage.toViewSubTab(getDocumentsAndBindTab());
         getDocumentsAndBindTabElement().saveAndExit();
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
-
-        //String policyNumber = "VASS926232046";
+*/
+String policyNumber = "VASS926232046";
 
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
@@ -154,7 +154,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(PolicyType policyType) {
+    protected void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(PolicyType policyType) {
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyTD());
@@ -180,14 +180,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         String policySummaryId = DBService.get().getValue(String.format(getPolicySummaryId, policyNumber)).get();
         DBService.get().executeUpdate(String.format(updateSystemGeneratedInd, policySummaryId));
 
-        //String policyNumber = "VASS926232066";
-
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
+        //TODO should fail here
         assertSoftly(softly -> {
             softly.assertThat(response.allowedEndorsements).isEmpty();
             softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-            softly.assertThat(response.ruleSets.get(0).errors.get(0).toString()).contains("System Created Pended Endorsement");
+            softly.assertThat(response.ruleSets.get(0).errors.get(0).toString()).contains("NANO Policy");
             softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
             softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
             softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
@@ -195,7 +194,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
+    protected void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyTD());
@@ -224,10 +223,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         });
     }
 
-    protected void pas6560_endorsementValidateNotAllowedUBI(PolicyType policyType) {
-        mainApp().open();
+    protected void pas6562_endorsementValidateNotAllowedUBI(PolicyType policyType) {
+/*       mainApp().open();
         createCustomerIndividual();
         policyType.get().createQuote(getPolicyTD());
+
+       *//* mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232039");*//*
 
         policy.dataGather().start();
         NavigationPage.toViewTab(getVehicleTab());
@@ -239,8 +241,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         getPremiumAndCoverageTabElement().saveAndExit();
 
         TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();*/
 
+
+        String policyNumber = "VASS926232039";
 
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
