@@ -119,8 +119,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
     }
 
-
-
     /**
      * @author Oleg Stasyuk
      * @name Test Email change through service
@@ -137,7 +135,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
         pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
     }
-
 
     /**
      * @author Oleg Stasyuk
@@ -168,10 +165,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     @Override
