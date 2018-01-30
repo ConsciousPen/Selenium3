@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,14 +70,9 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		//Save the values of listed items to compare them with values on Renewal Later
-		String previousCCValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRow(4, "Number of Comprehensive Claims").getCell(5).getValue();
-
-		String previousNAFValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRow(4, "Number of Not-At-Fault Accidents").getCell(5).getValue();
-
-		String previousAIPValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRow(1, "AAA Insurance Persistency").getCell("Value").getValue();
+		String previousCCValue = getComprehensiveClaimsValue();
+		String previousNAFValue = getNafAccidentsValue();
+		String previousAIPValue = getAaaInsurancePersistencyValue();
 
 		//Close rating details pop-up, issue the policy, initiate renewal and verify items values in VRD
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -91,18 +87,12 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		//Verify that values of NAF and AIP are locked and not changed in VRD. Verify that CC values is increased
-		CustomAssert.enableSoftMode();
-
-		PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Number of Not-At-Fault Accidents").getCell(5)
-				.verify.value("Number of Not-At-Fault Accidents is not locked on Renewal", previousNAFValue);
-		PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "AAA Insurance Persistency").getCell("Value")
-				.verify.value("Value for AAA Insurance Persistency is not locked on Renewal", previousAIPValue);
-		CustomAssert.assertFalse("Number of Comprehensive Claims is locked on Renewal, but shouldn't",
-				previousCCValue.equals(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Number of Comprehensive Claims").getCell(5).getValue()));
-		CustomAssert.disableSoftMode();
-
-		CustomAssert.assertAll();
+		//Verify that values of NAF and AIP are locked and not changed in VRD. Verify that CC values is increased (was not locked)
+		assertSoftly(softly -> {
+			softly.assertThat(getNafAccidentsValue()).isEqualTo(previousNAFValue);
+			softly.assertThat(getAaaInsurancePersistencyValue()).isEqualTo(previousAIPValue);
+			softly.assertThat(getComprehensiveClaimsValue()).isNotEqualTo(previousCCValue);
+		});
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
@@ -140,8 +130,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		//Save the ASD Tier Value to compare it with values on Renewal
-		String previousASDTierValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
+		String previousASDTierValue = getAdvanceShoppingDiscountValue();
 
 		//Close rating details pop-up
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -171,8 +160,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		//Verify that values of ASD tier are locked and not changed in VRD
-		String renewalValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
+		String renewalValue = getAdvanceShoppingDiscountValue();
 
 		assertThat(renewalValue).isEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was locked!");
@@ -211,8 +199,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		//Save the ASD Tier Value to compare it with values on Renewal
-		String previousASDTierValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
+		String previousASDTierValue = getAdvanceShoppingDiscountValue();
 
 		//Close rating details pop-up
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -242,8 +229,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		//Verify that values of ASD tier are locked and not changed in VRD
-		String renewalValue = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
-				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
+		String renewalValue = getAdvanceShoppingDiscountValue();
 
 		assertThat(renewalValue).isNotEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was NOT locked!");
@@ -292,6 +278,26 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	private void deleteLockForTheElement() {
 		elementNames.forEach(e ->
 				DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, e, String.format(toDate, currentDate), String.format(toDate, tomorrowDate), getState())));
+	}
+
+	private String getComprehensiveClaimsValue(){
+		return PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
+				.getRow(4, "Number of Comprehensive Claims").getCell(5).getValue();
+	}
+
+	private String getNafAccidentsValue(){
+		return PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
+				.getRow(4, "Number of Not-At-Fault Accidents").getCell(5).getValue();
+	}
+
+	private String getAaaInsurancePersistencyValue(){
+		return PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
+				.getRow(1, "AAA Insurance Persistency").getCell("Value").getValue();
+	}
+
+	private String getAdvanceShoppingDiscountValue(){
+		return PremiumAndCoveragesTab.tableRatingDetailsUnderwriting
+				.getRowContains("4", "Advance Shopping Discount").getCell(5).getValue();
 	}
 }
 
