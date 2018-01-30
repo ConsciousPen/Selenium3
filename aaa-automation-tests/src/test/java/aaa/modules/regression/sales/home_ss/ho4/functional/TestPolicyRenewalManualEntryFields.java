@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho4.functional;
 
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -10,8 +9,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
-import aaa.modules.conversion.manual.ConvHomeSsHO4BaseTest;
-import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.modules.regression.conversions.ConvHomeSsHO4BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
