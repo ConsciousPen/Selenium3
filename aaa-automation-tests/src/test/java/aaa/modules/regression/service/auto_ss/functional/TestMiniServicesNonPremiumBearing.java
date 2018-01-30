@@ -28,7 +28,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         return PolicyType.AUTO_SS;
     }
 
-
     /**
      * @author Oleg Stasyuk
      * @name Test Email change through service
@@ -67,22 +66,15 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
     public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6560_endorsementValidateAllowed(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
-
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
     public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     /**
@@ -100,10 +92,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
     public void pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     @Parameters({"state"})
@@ -111,24 +100,15 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
     public void pas6560_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6560_endorsementValidateNotAllowedNano(getPolicyType(), state);
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
-
-
-
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
     public void pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     @Parameters({"state"})
@@ -136,10 +116,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
     public void pas6560_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
         pas6560_endorsementValidateNotAllowedUBI(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     @Override
