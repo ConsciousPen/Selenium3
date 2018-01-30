@@ -79,49 +79,129 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
-    public void pas7185_messagingConfigurablePayPlan(@org.testng.annotations.Optional("VA") String state) {
+    public void pas7185_messagingConfigurablePayPlan1(@org.testng.annotations.Optional("OR") String state) {
 
         TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
-        TestData eft = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1);
-        TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 
         CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Annual", "Eleven Pay - Standard",true,"Debit");
         updatePaymentMethodBillingAccount(true,true, Optional.of(ccVisa), Optional.of("Credit"));
         verifyEvalueDiscount(false);
 
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan2(@org.testng.annotations.Optional("OR") String state) {
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard",true, "Debit");
         updatePaymentMethodBillingAccount(true, false, Optional.empty(), Optional.empty());
         verifyEvalueDiscount(false);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan3(@org.testng.annotations.Optional("OR") String state) {
+
+        TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Annual", "Quarterly",true, "ACH");
         updatePaymentMethodBillingAccount(false,true, Optional.of(dcVisa), Optional.of("Debit"));
         verifyEvalueDiscount(true);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan4(@org.testng.annotations.Optional("OR") String state) {
+
+        TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Semi-annual", "Semi-Annual",true, "Cash");
         updatePaymentMethodBillingAccount(false,true, Optional.of(ccVisa), Optional.of("Credit"));
         verifyEvalueDiscount(true);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan5(@org.testng.annotations.Optional("OR") String state) {
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Annual", "Annual",true, "Debit");
         updatePaymentMethodBillingAccount(false,false, Optional.empty(), Optional.empty());
         verifyEvalueDiscount(true);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan6(@org.testng.annotations.Optional("OR") String state) {
+
+        TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Annual", "Quarterly",false,"Cash");
         updatePaymentMethodBillingAccount(false,true, Optional.of(ccVisa), Optional.of("Credit"));
         verifyEvalueDiscount(true);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan7(@org.testng.annotations.Optional("OR") String state) {
+
+        TestData eft = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1);
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Annual", "Eleven Pay - Standard",false, "Credit");
         updatePaymentMethodBillingAccount(false,true, Optional.of(eft), Optional.of("ACH"));
         verifyEvalueDiscount(true);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan8(@org.testng.annotations.Optional("OR") String state) {
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard",false, "ACH");
         updatePaymentMethodBillingAccount(false,false, Optional.empty(), Optional.empty());
         verifyEvalueDiscount(true);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7185, PAS-7192")
+    public void pas7185_messagingConfigurablePayPlan9(@org.testng.annotations.Optional("OR") String state) {
+
+        TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
+
+        CustomAssert.enableSoftMode();
         creationPolicyWithDiffPayPlan("Annual", "Semi-Annual",false, "Check");
         updatePaymentMethodBillingAccount(false,true, Optional.of(dcVisa), Optional.of("Debit"));
         verifyEvalueDiscount(true);
-
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }

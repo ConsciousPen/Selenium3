@@ -150,6 +150,7 @@ GeneralTab_AZ: {
 }
 
 NamedInsuredInformation: {
+  InsuredSearchDialog: {},
   First Name: Sam,
   Last Name: Alonso,
   Base Date: $<today>,

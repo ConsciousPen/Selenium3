@@ -5,9 +5,8 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
-    <test name="eValue Related Jobs">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="eValue Related Jobs" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -16,7 +15,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountJobAdding">
+    <test name="TestEValueDiscountJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -25,42 +24,16 @@
             </class>
         </classes>
     </test>
-
-    <test name="TestRefundProcessJobAdding">
+    <test name="TestEValueMembershipProcessJobAdding" parallel="methods" thread-count="1024">
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="precondJobAdding"/>
                 </methods>
             </class>
         </classes>
     </test>
-
-
-
-    <test name="TestRefundProcessCT">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRefundProcessDC">
-        <parameter name="state" value="DC"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas1952_MessageWhenOnlyMethodIsCheck"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestEValueDiscountVA1">
+    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -72,53 +45,15 @@
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-                    <include name="eValuePriorBiConfigCheck"/>
-                    <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestEValueDiscountVA2">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="eValueAcknowledgementConfigCheck"/>
-                    <include name="eValueConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
-                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
-                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
-                    <include name="paperlessPreferencesConfigCheck"/>
-                    <include name="precondJobAdding"/>
-                    <include name="eValuePriorBiConfigCheck"/>
-
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
                     <include name="pas305_eValueDiscountApplied"/>
                     <include name="pas325_eValueCommissionRelatedFields"/>
+                    <include name="pas325_eValueCommissionRelatedFields"/>
                     <include name="pas436_eValueDiscountVariations"/>
-
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestEValueDiscountVA3">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="eValueAcknowledgementConfigCheck"/>
-                    <include name="eValueConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
-                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
-                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
-                    <include name="paperlessPreferencesConfigCheck"/>
-                    <include name="precondJobAdding"/>
-                    <include name="eValuePriorBiConfigCheck"/>
-
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
                     <include name="pas3693_eValueConfiguration"/>
@@ -127,7 +62,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountDC">
+    <test name="TestEValueDiscountDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -138,7 +73,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountPA">
+    <test name="TestEValueDiscountPA" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -150,20 +85,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="TestPaperlessPreferencesMD">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
-                <methods>
-                    <include name="eValueConfigCheck"/>
-                    <include name="pas3097_PaperlessPreferencesOnBindPageFinalCleanUp"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="TestPaperlessPreferencesVA">
+    <test name="TestPaperlessPreferencesVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
@@ -174,8 +96,18 @@
             </class>
         </classes>
     </test>
-
-    <test name="TestPaperlessPreferencesPA">
+    <test name="TestPaperlessPreferencesMD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
+                <methods>
+                    <include name="eValueConfigCheck"/>
+                    <include name="pas3097_PaperlessPreferencesOnBindPageFinalCleanUp"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestPaperlessPreferencesPA" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
@@ -186,83 +118,53 @@
             </class>
         </classes>
     </test>
-    <test name="TestTriggersAH35XX">
+    <test name="TestTriggersAH35XX" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
-
-    <test name="TestMessagingVerificationVA">
+    <test name="TestInstallmentFees" parallel="methods" thread-count="1024">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
+        </classes>
+    </test>
+    <test name="TestMessagingVerificationVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification"/>
         </classes>
     </test>
-    <test name="TestSeniorDiscount">
+    <test name="TestSeniorDiscount" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
         </classes>
     </test>
-    <test name="TestContactInformation">
+    <test name="TestContactInformation" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
-
-    <test name="TestNonPremiumBearingEndorsementsCA">
+    <test name="TestEndorsementActionRules" parallel="methods" thread-count="1024">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
+        </classes>
+    </test>
+    <test name="TestNonPremiumBearingEndorsementsCA" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsSS">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <!--<parameter name="state" value="VA, WV, WY"/>-->
+    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, WV, WY"/>
+        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
-        </classes>
-    </test>
-
-    <test name="TestRFI-AutoSS">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-            <methods>
-                <include name="pas349_rfiAuto"/>
-            </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRFI-AutoSSNano">
-        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiNano"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRFI-Ho3SS">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
-        </classes>
-    </test>
-    <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-        </classes>
-    </test>
-    <test name="TestInstallmentFeesPopUpAndSavingsMsg-Ho3SS">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
 </suite>

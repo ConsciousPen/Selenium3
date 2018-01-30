@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -9,10 +8,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
-import aaa.modules.conversion.manual.ConvAutoSsBaseTest;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import aaa.modules.conversion.manual.ConvHomeSsHO3BaseTest;
+import aaa.modules.regression.conversions.ConvHomeSsHO3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,7 +19,6 @@ import toolkit.utils.datetime.DateTimeUtils;
 import java.time.LocalDateTime;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

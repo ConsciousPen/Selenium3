@@ -56,16 +56,14 @@ VehicleTab: {
 }
 
 AddSuspenseActionTab: {
-  'Suspense Reference #': 123456,
   Suspense Amount: 50
 }  
 
 ClearSuspenseActionTab: {
   Allocation: {},
-  Payment Amount: 50,
+  Payment Amount: 50
 }
 
 SearchSuspenseActionTab: {
-  'Suspense Reference #': 123456,
   'Missing [status]': Outstanding
 }
