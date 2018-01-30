@@ -4,6 +4,8 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,6 +76,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
     private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
     private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
+    private static final String MESSAGE_INFO_5 = "In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
     private static final String MESSAGE_BULLET_1 = "Payment Options: Pay in full with any payment method or enroll in AutoPay with a checking/savings account or debit card";
     private static final String MESSAGE_BULLET_1_A = "Payment Options: Pay in full with any payment method or enroll in AutoPay";
     private static final String MESSAGE_BULLET_3 = "Paperless Preferences: Enroll in paperless notifications for policy and billing documents";
@@ -1125,6 +1128,52 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).fill(territoryChannelData);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(eValueDiscountPresence);
+    }
+    /**
+     * @author Jovita Pukenaite
+     * @name Bind Endorsement - Paperless Billing Preferences Other Than OPT_IN
+     * @scenario 1. Create new eValue eligible quote for DC
+     * 2. Bind Policy, check eValueDiscount field is disabled in P&C tab
+     * 3. Do midTerm Endorsement,
+     * 4. set eValue = Yes in P&C tab
+     * 5. Check if error message is displayed, when response from API is OPT_IN. (state==DC)
+     * 6. Do Endorsement NB+14d,
+     * 7. Check if error message is not displayed, when response from API is other than OPT_IN
+     * (state==MD).
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+    public void pas294_PaperlessBillingPreferencesOtherThanOptIn(@Optional("") String state) {
+
+        eValueQuoteCreation();
+        simplifiedQuoteIssue();
+
+    if (state.equals("DC")) {
+        policy.endorse().perform(getPolicyTD("Endorsement",
+            "TestData_Plus170Days"));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+        //Check if error message is displayed, when response from API is OPT_IN. (state==DC)
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
+            .APPLY_EVALUE_DISCOUNT).setValue("Yes");
+
+            assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab
+                    .APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(MESSAGE_INFO_5)).isTrue();
+        }else{
+        policy.endorse().perform(getPolicyTD("Endorsement",
+                "TestData_Plus10Day"));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+        //Check if error message is not displayed, when response from API is other than OPT_IN
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
+                .APPLY_EVALUE_DISCOUNT).setValue("Yes");
+
+            assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab
+                    .APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(MESSAGE_INFO_5))
+                    .isFalse();
+        }
     }
 
     /**

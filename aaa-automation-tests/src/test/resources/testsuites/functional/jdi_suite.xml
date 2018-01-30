@@ -263,7 +263,6 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
-
     <test name="TestNonPremiumBearingEndorsementsCA">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
@@ -277,7 +276,6 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
-
     <test name="TestRFI-AutoSS">
         <parameter name="state" value="VA"/>
         <classes>
@@ -294,6 +292,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas349_rfiNano"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountDCandVA">
+        <parameter name="state" value="DC, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="pas294_PaperlessBillingPreferencesOtherThanOptIn"/>
                 </methods>
             </class>
         </classes>
