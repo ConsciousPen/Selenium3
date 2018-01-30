@@ -67,7 +67,7 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		policy.policyDocGen().start();
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
 			generateDocument(selectDocument, policyNumber);
-			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, selectDocument.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 4000", ADHOC_DOC_ON_DEMAND_GENERATE);
 			docsToCheck = getEnumList(Arrays.asList("_55_4000"));
 		}
 		else{
