@@ -23,8 +23,8 @@ public class TestCFTScenario16 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario16(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		addSuspenseStartDatePlus25();
-		refundSuspenseDD1plus5();
+		addSuspenseOnStartDatePlus25();
+		refundSuspenseOnDD1plus5();
 	}
 
 	@Override

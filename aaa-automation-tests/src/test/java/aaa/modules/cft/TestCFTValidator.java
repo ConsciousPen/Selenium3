@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -19,11 +21,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
+
+import toolkit.config.PropertyProvider;
+import toolkit.config.TestProperties;
+import toolkit.db.DBService;
+import toolkit.utils.SSHController;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.helpers.cft.CFTHelper;
 import aaa.helpers.constants.Groups;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
@@ -31,29 +35,29 @@ import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
 import aaa.modules.cft.report.ReportGeneratorService;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
-import toolkit.db.DBService;
-import toolkit.utils.SSHController;
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.waiters.Waiters;
+
+import com.exigen.ipb.etcsa.utils.ExcelUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
-	private static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
-	private static final String SQL_GET_LEDGER_DATA =
-			"select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id group by  le.LEDGERACCOUNTNO";
+	private static final String SQL_GET_LEDGER_DATA_P1 = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= '";
+	private static final String SQL_GET_LEDGER_DATA_P2 = "' group by  le.LEDGERACCOUNTNO";
+	// and lt.txdate >= '2018.01.29'
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
 	private static final String CFT_VALIDATION_REPORT = "CFT_Validations.xls";
 
 	private SSHController sshController = new SSHController(
-			PropertyProvider.getProperty(TestProperties.APP_HOST),
-			PropertyProvider.getProperty(TestProperties.SSH_USER),
-			PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
+		PropertyProvider.getProperty(TestProperties.APP_HOST),
+		PropertyProvider.getProperty(TestProperties.SSH_USER),
+		PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
@@ -79,15 +83,15 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==2
 		// moving data from monitor to download dir
-		mainApp().reopen();
+		// mainApp().reopen();
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
 			SSHController sshControllerRemote = new SSHController(
-					monitorAddress,
-					PropertyProvider.getProperty("test.ssh.user"),
-					PropertyProvider.getProperty("test.ssh.password"));
+				monitorAddress,
+				PropertyProvider.getProperty("test.ssh.user"),
+				PropertyProvider.getProperty("test.ssh.password"));
 			sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
 			Waiters.SLEEP(15000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
 		}
@@ -103,9 +107,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		roundValuesToTwo(accountsMapSummaryFromOR);
 
 		ReportGeneratorService
-				.generateReport(ReportGeneratorService
-								.generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR)
-						, CFT_VALIDATION_DIRECTORY + CFT_VALIDATION_REPORT);
+			.generateReport(ReportGeneratorService
+				.generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR)
+				, CFT_VALIDATION_DIRECTORY + CFT_VALIDATION_REPORT);
 
 	}
 
@@ -130,7 +134,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			for (CSVRecord record : parser.getRecords()) {
 				// Each header has length == 22, footer ==56 and record == 123
 				switch (record.get(0).length()) {
-					case 22: {
+					case 22 : {
 						// parse header here
 						object = new FinancialPSFTGLObject();
 						Header entryHeader = new Header();
@@ -140,7 +144,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 						object.setHeader(entryHeader);
 						break;
 					}
-					case 56: {
+					case 56 : {
 						// parse footer here
 						Footer footer = new Footer();
 						footer.setCode(record.get(0).substring(0, 11).trim());
@@ -151,7 +155,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 						objectsFromCSV.add(object);
 						break;
 					}
-					case 123: {
+					case 123 : {
 						// parse record body here
 						Record entryRecord = new Record();
 						entryRecord.setCode(record.get(0).substring(0, 11).trim());
@@ -165,7 +169,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 						object.getRecords().add(entryRecord);
 						break;
 					}
-					default: {
+					default : {
 						// ignore
 					}
 				}
@@ -192,7 +196,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				}
 				if (accountsMapSummaryFromOR.containsKey(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))) {
 					double amount = accountsMapSummaryFromOR.get(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))
-							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
+						+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
 					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), amount);
 				} else {
 					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell))));
@@ -204,7 +208,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private Map<String, Double> getDataBaseValues() {
 		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		List<Map<String, String>> dbResult = DBService.get().getRows(SQL_GET_LEDGER_DATA);
+		String sqlGetLedgerData = SQL_GET_LEDGER_DATA_P1 + TimeSetterUtil.getInstance().getStartTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd")) + SQL_GET_LEDGER_DATA_P2;
+		List<Map<String, String>> dbResult = DBService.get().getRows(sqlGetLedgerData);
 		for (Map<String, String> dbEntry : dbResult) {
 			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
 		}
@@ -241,8 +246,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// Rounding values to 2
 		for (Map.Entry<String, Double> stringDoubleEntry : stringDoubleMap.entrySet()) {
 			stringDoubleMap.put(stringDoubleEntry.getKey(), BigDecimal.valueOf(stringDoubleEntry.getValue())
-					.setScale(2, RoundingMode.HALF_UP)
-					.doubleValue());
+				.setScale(2, RoundingMode.HALF_UP)
+				.doubleValue());
 		}
 	}
 }
