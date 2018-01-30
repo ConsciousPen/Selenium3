@@ -14,6 +14,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -52,6 +53,94 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         CustomAssert.assertAll();
     }
 
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy
+     * 3. Create endorsement
+     * 4. Check Endorsement is allowed and there are no errors
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6560_endorsementValidateAllowed(getPolicyType());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy
+     * 3. Create endorsement
+     * 4. Check Endorsement is allowed and there are no errors
+     * @details
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    public void pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6560_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    public void pas6560_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6560_endorsementValidateNotAllowedNano(getPolicyType(), state);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+
+
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    public void pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6560_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+    public void pas6560_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
+
+        CustomAssert.enableSoftMode();
+        pas6560_endorsementValidateNotAllowedUBI(getPolicyType());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
     @Override
     protected String getGeneralTab() {
@@ -69,6 +158,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     }
 
     @Override
+    protected String getVehicleTab() {
+        return NavigationEnum.AutoSSTab.VEHICLE.get();
+    }
+
+    @Override
     protected Tab getGeneralTabElement() {
         return new GeneralTab();
     }
@@ -83,6 +177,10 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         return new DocumentsAndBindTab();
     }
 
+    @Override
+    protected Tab getVehicleTabElement() {
+        return new VehicleTab();
+    }
 
     @Override
     protected AssetDescriptor<Button> getCalculatePremium() {

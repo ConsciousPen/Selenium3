@@ -43,6 +43,15 @@ public class HelperCommon {
 		}
 	}
 
+	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
+		EndorsementsValidateRequest request = new EndorsementsValidateRequest();
+			request.policyNumber = policyNumber;
+			request.endorsementDate = endorsementDate;
+			String requestUrl = urlBuilderDxp(PropertyProvider.getProperty(CustomTestProperties.DXP_ENDORSEMENTS_VALIDATE_ENDPOINT));
+			ValidateEndorsementResponse ver = runJsonRequestPostDxp(requestUrl, request, ValidateEndorsementResponse.class);
+			return ver;
+	}
+
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME),"") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 	}
@@ -79,7 +88,11 @@ public class HelperCommon {
 		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
 	}
 
-	private static void runJsonRequestPostDxp(String url, RestBodyRequest request) {
+    private static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
+	    return runJsonRequestPostDxp(url, request, String.class);
+    }
+
+	private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -91,12 +104,13 @@ public class HelperCommon {
 					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.post(Entity.json(request));
-			response.readEntity(String.class);
+			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}
+			return responseObj;
 		} finally {
 			if (response != null) {
 				response.close();
