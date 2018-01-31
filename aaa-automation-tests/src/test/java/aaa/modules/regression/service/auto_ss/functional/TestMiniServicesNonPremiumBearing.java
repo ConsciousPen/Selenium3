@@ -58,7 +58,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
      * @scenario 1. Create customer
      * 2. Create a policy
      * 3. Create an endorsement, issue
-     * 4. Check Green Button endorsement is allowed and there are no errors
+     * 4. Check Green Button endorsement is allowed and there are no errors present
      * @details
      */
     @Parameters({"state"})

@@ -3,27 +3,25 @@ package aaa.modules.regression.service.helper;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
@@ -104,12 +102,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
-
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
         assertSoftly(softly -> {
             softly.assertThat(response.allowedEndorsements).isEmpty();
