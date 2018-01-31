@@ -14,6 +14,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -68,6 +69,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     }
 
     @Override
+    protected String getVehicleTab() {
+        return NavigationEnum.AutoCaTab.VEHICLE.get();
+    }
+
+    @Override
     protected Tab getGeneralTabElement() {
         return new GeneralTab();
     }
@@ -82,6 +88,10 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         return new DocumentsAndBindTab();
     }
 
+    @Override
+    protected Tab getVehicleTabElement() {
+        return new VehicleTab();
+    }
 
     @Override
     protected AssetDescriptor<Button> getCalculatePremium() {

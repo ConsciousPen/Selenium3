@@ -348,7 +348,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<TextBox> COMBINED_SINGLE_LIMIT = declare("Combined Single Limit", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<DoubleTextBox> BI_LIMITS = declare("BI Limits", DoubleTextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> PD_LIMITS = declare("PD Limits", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> USAGE = declare("Usage", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> USAGE = declare("Usage", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> EXCLUDED = declare("Excluded", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> REASON_FOR_EXCLUSION = declare("Reason for exclusion", TextBox.class, Waiters.NONE);
 			//public static final AssetDescriptor<Button> ADD = declare("Add", Button.class, Waiters.AJAX, true, By.xpath(".//input[@value='Add']"));
