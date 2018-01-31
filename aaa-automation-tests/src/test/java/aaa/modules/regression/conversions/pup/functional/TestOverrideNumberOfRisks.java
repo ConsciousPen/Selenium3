@@ -45,7 +45,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7003")
-    public void pas7003_TestOverrideNumberOfRisksNB(@Optional("") String state) {
+    public void pas7003_TestOverrideNumberOfRisksNB(@Optional("NJ") String state) {
 
         // Create customer
         mainApp().open();
@@ -104,7 +104,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7003")
-    public void pas7003_TestOverrideNumberOfRisksConversion(@Optional("") String state) {
+    public void pas7003_TestOverrideNumberOfRisksConversion(@Optional("NJ") String state) {
 
         // Create customer
         mainApp().open();
