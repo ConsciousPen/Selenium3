@@ -154,8 +154,8 @@ public abstract class PropertyQuoteTab extends Tab {
 	}
 
 	public static class RatingDetailsViewPUP {
-		public static PropertyQuoteTab.RatingDetailsTable policyInformation = new PropertyQuoteTab.RatingDetailsTable("//table[@id='pupratingDetailsPopupForm:ratingDetailsTable']");
-		public static PropertyQuoteTab.RatingDetailsTable pupInformation = new PropertyQuoteTab.RatingDetailsTable("//table[@id='pupratingDetailsPopupForm_1:ratingDetailsTable']");
+		public static RatingDetailsTable policyInformation = new RatingDetailsTable("//table[@id='pupratingDetailsPopupForm:ratingDetailsTable']");
+		public static RatingDetailsTable pupInformation = new RatingDetailsTable("//table[@id='pupratingDetailsPopupForm_1:ratingDetailsTable']");
 
 		public static void open() {
 			linkViewRatingDetailsPUP.click();
