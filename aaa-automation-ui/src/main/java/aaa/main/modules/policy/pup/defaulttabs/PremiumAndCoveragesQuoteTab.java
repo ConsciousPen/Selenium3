@@ -54,5 +54,4 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     public static Dollar getPolicyTermPremium() {
   		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
       }
-
 }
