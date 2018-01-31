@@ -30,7 +30,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6849")
-    public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("") String state) {
+    public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("PA") String state) {
 
         helper.pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
 
@@ -53,7 +53,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6849")
-    public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("") String state) {
+    public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("PA") String state) {
 
         helper.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
 

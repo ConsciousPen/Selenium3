@@ -18,7 +18,7 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
-public class EnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
+public class TestEnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
     private final Tab vehicleTab = new VehicleTab();
 
     /**
@@ -35,8 +35,8 @@ public class EnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
-    public void pas4247_testEnrollInUsageBasedInsuranceOnEndorsementAction(@Optional("AZ") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4247")
+    public void pas4247_testEnrollInUsageBasedInsuranceOnEndorsementAction(@Optional("") String state) {
         mainApp().open();
 
         createCustomerIndividual();
