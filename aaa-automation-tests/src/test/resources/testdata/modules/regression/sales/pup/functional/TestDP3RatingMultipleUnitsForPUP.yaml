@@ -1,55 +1,8 @@
-# Test data for multiple other active policies on various tabs
+# Test data for multiple underlying policies on PUP Prefill Tab
 
-TestData_OtherActive_HO: '@OtherActiveHO'
+TestData_PrefillTab: '@PrefillTab'
 
-TestData_ApplicantTab_DP3: '@ApplicantTab_DP3'
-
-TestData_PrefillTab_PUP: '@PrefillTab_PUP'
-
-# Test Data for Other Active Policies - HO3
-
-OtherActiveHO: {
-  Other active AAA policies: 'Yes',
-  Add: 'click',
-  ActiveUnderlyingPoliciesSearch: {
-    Policy Type: Auto,
-    Policy Number: Primary_Auto
-  },
-  ActiveUnderlyingPoliciesManual: {}
-}
-
-# Test Data for Other Active Policies - DP3
-
-ApplicantTab_DP3: {
-  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
-  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
-  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress',
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo',
-  OtherActiveAAAPolicies: [{
-    Other active AAA policies: 'Yes',
-    Add: 'click',
-    ActiveUnderlyingPoliciesSearch: {
-      Policy Type: Auto,
-      Policy Number: Primary_Auto
-    },
-    ActiveUnderlyingPoliciesManual: {}
-    },
-    {
-    ActiveUnderlyingPoliciesSearch: {
-      Policy Type: HO3,
-      Policy Number: Primary_HO3
-    },
-    ActiveUnderlyingPoliciesManual: {}
-    }
-  ]
-}
-
-# Test Data for Active Underlying Policies - PUP
-
-PrefillTab_PUP: {
+PrefillTab: {
   NamedInsured: [{
     Relationship to primary named insured: Primary Insured,
     Marital status: Single,
