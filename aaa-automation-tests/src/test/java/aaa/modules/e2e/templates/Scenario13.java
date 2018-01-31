@@ -257,15 +257,15 @@ public class Scenario13 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 	
-	protected void refundGeneration() {
-		LocalDateTime refundDate = getTimePoints().getRefundDate(installmentDueDates.get(6)); 
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
+	protected void smallBalanceGeneration() { 
+		LocalDateTime smallBalanceGenDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(smallBalanceGenDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		
 		Dollar amount = new Dollar(4.99);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(refundDate)
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(smallBalanceGenDate)
 			.setAmount(amount.negate())
 			.setType(PaymentsAndOtherTransactionType.ADJUSTMENT)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.SMALL_BALANCE_WRITE_OFF)
@@ -443,9 +443,16 @@ public class Scenario13 extends ScenarioBaseTest {
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
 			.setAmount(premiumNewVersion.subtract(premiumFirstRenewal)).verifyPresent();
 		
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+		if (getState().equals(Constants.States.CA)) {
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER)
 			.setDueDate(policyExpirationDate)
 			.setMinDue(renewalBillAmount).verifyPresent();
+		}
+		else {
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(policyExpirationDate)
+			.setMinDue(renewalBillAmount).verifyPresent();
+		}
 		
 		BillingSummaryPage.getMinimumDue().verify.equals(renewalBillAmount);		
 	}	
