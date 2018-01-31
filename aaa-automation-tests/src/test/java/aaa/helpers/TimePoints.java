@@ -253,6 +253,13 @@ public class TimePoints {
 		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
 	}
 
+	public LocalDateTime getConversionPremiumCalculationDate(LocalDateTime date) {
+		//we wanna calculate premium exactly 5 days before the Renewal Offer date
+		//as an option, we can store the premium calculation date along with others in order not to have magic '5' here
+		List<String> timepoint = td.getList(TimepointsList.RENEW_GENERATE_OFFER.get());
+		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0))-5);
+	}
+
 	public enum TimepointsList {
 		RENEW_GENERATE_IMAGE("Renew generate image"), //
 		RENEW_CHECK_UW_RULES("Renew check uw rules"), //

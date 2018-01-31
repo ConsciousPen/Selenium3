@@ -1320,10 +1320,9 @@ public final class HomeSSMetaData {
 	public static final class PremiumsAndCoveragesQuoteTab extends MetaData {
 		public static final AssetDescriptor<ComboBox> PRODUCT = declare("Product", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<CheckBox> RECURRING_PAYMENT = declare("Recurring payment", CheckBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment plan", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> BILL_TO_AT_RENEWAL = declare("Bill to at renewal", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment plan", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN_AT_RENEWAL = declare("Payment plan at renewal", ComboBox.class, Waiters.AJAX);
-
 		public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);

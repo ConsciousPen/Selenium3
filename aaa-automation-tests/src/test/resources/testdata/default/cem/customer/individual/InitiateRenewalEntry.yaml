@@ -6,44 +6,59 @@ TestData_Home_Default: {
 InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home'
 }
 
+TestData_Pup_Default: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PUP'
+}
+
 InitiateRenewalEntryActionTab_Home: {
-   Product Name: 'Homeowners Signature Series',
-   Previous Policy Number: '$<rx:\d{10}>',
-   Previous Source System: SIS,
-   Risk State: AZ,
-   Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
-   Renewal Policy Premium: 0,
-   Policy Term: Annual,
-   Enrolled in Autopay: 'No'
- }
+  Product Name: 'Homeowners Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: AZ,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No',
+  Legacy policy had Multi-Policy discount: 'Yes'
+}
 
 
 InitiateRenewalEntryActionTab_Auto: {
   Previous Policy Number: '$<rx:\d{10}>',
-   Previous Source System: SIS,
-   Risk State: NY,
-   Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
-   Renewal Policy Premium: 0,
-   Policy Term: Annual,
-   Enrolled in Autopay: 'No'
- }
+  Previous Source System: SIS,
+  Risk State: NY,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+InitiateRenewalEntryActionTab_PUP: {
+  Product Name: 'Personal Umbrella Policy',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: VA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
 
 
 InitiateRenewalEntryActionTab_R35_NY: {
- InitiateRenewalEntryActionTab: {
-  Previous Policy Number: '$<rx:\d{10}>',
-   Previous Source System: SIS,
-   Risk State: NY,
-   Renewal Effective Date: '$<today+35d:MM/dd/yyyy>',
-   Renewal Policy Premium: 0,
-   Policy Term: Annual,
-   Enrolled in Autopay: 'No'
- }
+  InitiateRenewalEntryActionTab: {
+    Previous Policy Number: '$<rx:\d{10}>',
+    Previous Source System: SIS,
+    Risk State: NY,
+    Renewal Effective Date: '$<today+35d:MM/dd/yyyy>',
+    Renewal Policy Premium: 0,
+    Policy Term: Annual,
+    Enrolled in Autopay: 'No'
+  }
 }
 
 ########################################
 #                                      #
-#       State-specific data            #
+#       State-specific MAIG data       #
 #                                      #
 ########################################
 

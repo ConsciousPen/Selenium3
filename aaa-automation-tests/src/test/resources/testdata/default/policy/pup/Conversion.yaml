@@ -1,0 +1,64 @@
+########################################
+#                                      #
+#   Conversion State-specific data     #
+#                                      #
+########################################
+
+# ---------- Conversion Data for UT ---------------
+
+TestData_ConversionPUP_UT: {
+  PrefillTab: '@PrefillTab_ConversionPUP',
+  GeneralTab: '@GeneralTab_ConversionPUP_UT',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab_ConversionPUP',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab',
+  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+}
+
+GeneralTab_ConversionPUP_UT: {
+  PolicyInfo: '@PolicyInfo_ConversionPUP_UT',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_ConversionPUP_UT: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  TollFree Number: 1,
+  Commission Type: New Business
+}
+
+PrefillTab_ConversionPUP: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    Occupation: 'index=3',
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+
+  ActiveUnderlyingPolicies: [{
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: Primary_HO3
+    },
+    ActiveUnderlyingPoliciesManual: {
+      Primary policy: 'Yes'
+    }
+  }]
+}
+
+PremiumAndCoveragesQuoteTab_ConversionPUP: {
+  Payment Plan: 'Pay in Full (Renewal)',
+  Recurring Payment: false,
+  Personal Umbrella: '$1,000,000'
+}
