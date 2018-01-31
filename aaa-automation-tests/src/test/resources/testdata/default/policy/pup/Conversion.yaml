@@ -4,11 +4,11 @@
 #                                      #
 ########################################
 
-# ---------- Conversion Data for UT ---------------
+# ---------- Conversion Data for VA ---------------
 
-TestData_ConversionPUP_UT: {
+TestData_ConversionPUP_VA: {
   PrefillTab: '@PrefillTab_ConversionPUP',
-  GeneralTab: '@GeneralTab_ConversionPUP_UT',
+  GeneralTab: '@GeneralTab_ConversionPUP_VA',
   UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab',
   UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
@@ -21,18 +21,17 @@ TestData_ConversionPUP_UT: {
   PurchaseTab: '@<pup>@DataGather@PurchaseTab'
 }
 
-GeneralTab_ConversionPUP_UT: {
-  PolicyInfo: '@PolicyInfo_ConversionPUP_UT',
+GeneralTab_ConversionPUP_VA: {
+  PolicyInfo: '@PolicyInfo_ConversionPUP_VA',
   NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
 }
 
-PolicyInfo_ConversionPUP_UT: {
+PolicyInfo_ConversionPUP_VA: {
   Application type: New,
   Channel Type: 'AAA Agent',
-  Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'contains=Draper - 500005417 - Draper',
-  Agent: 'House Account Draper',
-  TollFree Number: 1,
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
   Commission Type: New Business
 }
 
