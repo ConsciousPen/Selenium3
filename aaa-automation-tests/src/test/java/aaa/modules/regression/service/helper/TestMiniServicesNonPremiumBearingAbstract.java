@@ -76,6 +76,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         secondEndorsementIssueCheck();
     }
 
+    protected void pas6560_endorsementValidateAllowedNoEffectiveDate(PolicyType policyType) {
+        mainApp().open();
+        createCustomerIndividual();
+        policyType.get().createPolicy(getPolicyTD());
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+        assertSoftly(softly -> {
+            softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+            softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
+            softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+            softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
+            softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
+            softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
+            softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
+        });
+    }
+
     protected void pas6560_endorsementValidateAllowed(PolicyType policyType) {
         mainApp().open();
         createCustomerIndividual();

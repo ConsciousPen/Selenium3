@@ -324,4 +324,22 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
+
+    <test name="GreenButtonService" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas6560_endorsementValidateAllowed"/>
+                    <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
+                    <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
+                    <include name="pas6562_endorsementValidateNotAllowedFutureDatedEndorsement"/>
+                    <include name="pas6562_endorsementValidateNotAllowedNano"/>
+                    <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
+                    <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
+                    <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

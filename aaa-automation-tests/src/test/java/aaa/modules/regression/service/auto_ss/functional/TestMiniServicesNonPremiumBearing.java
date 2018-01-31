@@ -67,7 +67,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
     public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("VA") String state) {
 
-        pas6560_endorsementValidateAllowed(getPolicyType());
+        pas6560_endorsementValidateAllowedNoEffectiveDate(getPolicyType());
     }
 
     /**
