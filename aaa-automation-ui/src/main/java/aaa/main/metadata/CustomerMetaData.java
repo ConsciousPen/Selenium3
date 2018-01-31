@@ -120,13 +120,13 @@ public final class CustomerMetaData {
 
 		public static final class AddAgencyMetaData extends MetaData {
 			public static final AssetDescriptor<ComboBox> AGENCY_CHANNEL =
-					declare("Channel", ComboBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_channelCd"));
-			public static final AssetDescriptor<TextBox> AGENCY_NAME = declare("Agency Name", TextBox.class, Waiters.NONE, false);
-			public static final AssetDescriptor<TextBox> AGENCY_CODE = declare("Agency Code", TextBox.class, Waiters.NONE, false);
+					declare("Channel", ComboBox.class, Waiters.AJAX, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_channelCd"));
+			public static final AssetDescriptor<TextBox> AGENCY_NAME = declare("Agency Name", TextBox.class, Waiters.AJAX, false);
+			public static final AssetDescriptor<TextBox> AGENCY_CODE = declare("Agency Code", TextBox.class, Waiters.AJAX, false);
 			public static final AssetDescriptor<TextBox> AGENCY_ZIP_CODE =
-					declare("Zip Code", TextBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_postalCode"));
-			public static final AssetDescriptor<TextBox> AGENCY_CITY = declare("City", TextBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_city"));
-			public static final AssetDescriptor<TextBox> AGENCY_STATE = declare("State", TextBox.class, Waiters.NONE, false);
+					declare("Zip Code", TextBox.class, Waiters.AJAX, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_postalCode"));
+			public static final AssetDescriptor<TextBox> AGENCY_CITY = declare("City", TextBox.class, Waiters.AJAX, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_city"));
+			public static final AssetDescriptor<TextBox> AGENCY_STATE = declare("State", TextBox.class, Waiters.AJAX, false);
 		}
 	}
 
