@@ -95,7 +95,11 @@
                     <include name="eValueMembershipConfigCheck"/>
 
                     <include name="pas232_eValuePriorBiConfigurationDependency"/>
-                    <include name="pas3693_eValueConfiguration"/>
+                    <include name="pas3693_eValueConfiguration1"/>
+                    <include name="pas3693_eValueConfiguration2"/>
+                    <include name="pas3693_eValueConfiguration3"/>
+                    <include name="pas3693_eValueConfiguration4"/>
+                    <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
                 </methods>
             </class>

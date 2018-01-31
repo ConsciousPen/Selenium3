@@ -1,23 +1,25 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.MsrpQueries;
+import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
-import aaa.modules.regression.queries.MsrpQueries;
-import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
+import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQueries, TestVinUploadPostConditions {
+public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQueries{
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_CHOICE;
@@ -54,8 +56,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_VehicleTypeRegular(@Optional("") String state) {
-		TestData vehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(new VehicleTab().getMetaKey()).mask("VIN");
-		TestData testData = getPolicyTD().adjust(new VehicleTab().getMetaKey(), vehicleTab).resolveLinks();
+		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData(getPolicyTD(),"");
 
 		vehicleTypeRegular(testData);
 	}
@@ -137,11 +138,17 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(),getState());
+
 		String vinNumber = "7MSRP15H5V1011111";
 		VehicleTab vehicleTab = new VehicleTab();
 		TestData testData = getPolicyTD().adjust(testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
+
+		// Vin control ta   ble has version which overrides VERSION_2000, it is needed and important to get symbols for next steps
+		adminApp().open();
+		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.ADDED_VIN.get()));
 
 		renewalVINDoesMatchNBandNoMatchOn(testData);
 	}

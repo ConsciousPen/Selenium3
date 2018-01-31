@@ -5,9 +5,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -79,17 +77,18 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         BillingAccount billingAccount = new BillingAccount();
         billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
-        String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #"); //ACH
+        //ACH
+        String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #");
         documentPaymentMethodCheckInDb(policyNumber, numberACH, 1);
         pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 1, vehicle1);
-
+        //Visa
         autopaySelection("contains=Visa");
-        String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");  //Visa
+        String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");
         documentPaymentMethodCheckInDb(policyNumber, visaNumber, 2);
         pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 2, vehicle1);
-
+        //Master Card
         autopaySelection("contains=Master");
-        String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number"); //Master
+        String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number");
         documentPaymentMethodCheckInDb(policyNumber, numberMaster, 3);
         pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 3, vehicle1);
 
