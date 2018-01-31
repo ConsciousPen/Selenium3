@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -105,7 +105,7 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	@AfterTest(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	public void disableAAAMembershipError() {
 		int result = DBService.get().executeUpdate(String.format(LookupQueries.UPDATE_AAA_MEMBERSHIP_CONFIG_LOOKUP, "false",getState()));
 		Assertions.assertThat(result).isGreaterThan(0);

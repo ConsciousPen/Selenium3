@@ -17,18 +17,19 @@ public class TestNyDocGen extends TestSymbolsPresenceTemplate {
 
 	/**
 	 * @author Viktor Petrenko
-	 * @name NY doc gen check for AA11CA
+	 * @name  doc gen check for AA11CA
 	 * @scenario
-	 * 1. Issue NY policy
+	 * 1. Issue CA policy
 	 * 2. Get DeclarationPage from db
-	 * 3. Check symbols presence
+	 * 3. Check symbols presence CompDmgSymbl and CollDmgSymbl
+	 * 4. Check stat code
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2713")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("CA") String state) {
+	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("") String state) {
 		verifySymbolsPresenceInDocs();
 	}
 
