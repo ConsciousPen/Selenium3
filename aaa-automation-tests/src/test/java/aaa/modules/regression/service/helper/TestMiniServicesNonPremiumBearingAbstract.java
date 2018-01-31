@@ -86,7 +86,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         secondEndorsementIssueCheck();
-        //String policyNumber = "VASS926232034";
 
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
@@ -102,22 +101,20 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
     }
 
     protected void pas6562_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
-/*        mainApp().open();
+        mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
 
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();*/
-
-        String policyNumber = "VASS926232045";
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
         assertSoftly(softly -> {
             softly.assertThat(response.allowedEndorsements).isEmpty();
             softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-            softly.assertThat(response.ruleSets.get(0).errors.get(0).toString()).contains("NANO Policy");
+            softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("NANO Policy");
             softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
             softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
             softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
@@ -126,7 +123,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
     }
 
     protected void pas6560_endorsementValidateAllowedPendedEndorsementUser(PolicyType policyType) {
-/*
+
         mainApp().open();
         createCustomerIndividual();
         policyType.get().createPolicy(getPolicyTD());
@@ -138,8 +135,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         NavigationPage.toViewSubTab(getDocumentsAndBindTab());
         getDocumentsAndBindTabElement().saveAndExit();
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
-*/
-String policyNumber = "VASS926232046";
+
 
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
@@ -166,7 +162,7 @@ String policyNumber = "VASS926232046";
         NavigationPage.toViewSubTab(getDocumentsAndBindTab());
         getDocumentsAndBindTabElement().saveAndExit();
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
-
+        //Update to make the endorsement SYSTEM
         String getPolicySummaryId = "select id from (\n"
                 + "select ps.id, ps.SYSGENERATEDTXIND\n"
                 + "from policysummary ps\n"
@@ -186,7 +182,7 @@ String policyNumber = "VASS926232046";
         assertSoftly(softly -> {
             softly.assertThat(response.allowedEndorsements).isEmpty();
             softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-            softly.assertThat(response.ruleSets.get(0).errors.get(0).toString()).contains("NANO Policy");
+            softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("System Created Pended Endorsement");
             softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
             softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
             softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
@@ -215,7 +211,7 @@ String policyNumber = "VASS926232046";
         assertSoftly(softly -> {
             softly.assertThat(response.allowedEndorsements).isEmpty();
             softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-            softly.assertThat(response.ruleSets.get(0).errors.get(0).toString()).contains("OOSE or Future Dated Endorsement Exists");
+            softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("OOSE or Future Dated Endorsement Exists");
             softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
             softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
             softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
@@ -224,12 +220,9 @@ String policyNumber = "VASS926232046";
     }
 
     protected void pas6562_endorsementValidateNotAllowedUBI(PolicyType policyType) {
-/*       mainApp().open();
+        mainApp().open();
         createCustomerIndividual();
         policyType.get().createQuote(getPolicyTD());
-
-       *//* mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232039");*//*
 
         policy.dataGather().start();
         NavigationPage.toViewTab(getVehicleTab());
@@ -241,10 +234,7 @@ String policyNumber = "VASS926232046";
         getPremiumAndCoverageTabElement().saveAndExit();
 
         TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();*/
-
-
-        String policyNumber = "VASS926232039";
+        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 
         String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
