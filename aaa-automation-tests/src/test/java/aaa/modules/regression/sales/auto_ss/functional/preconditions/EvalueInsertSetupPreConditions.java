@@ -41,7 +41,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ ", channelCd = 'AZ Club Agent'\n" //AAA Agent
 			+ "WHERE LOOKUPLIST_ID IN (\n"
 			+ "    SELECT ID \n"
-			+ "    FROM PASADM.LOOKUPLIST \n"
+			+ "    FROM LOOKUPLIST \n"
 			+ "    WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ "AND CODE='eMember' \n"
 			+ "and RiskStateCd = 'VA'";
