@@ -156,14 +156,13 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static class RatingDetailsViewPUP {
 		public static PropertyQuoteTab.RatingDetailsTable policyInformation = new PropertyQuoteTab.RatingDetailsTable("//table[@id='pupratingDetailsPopupForm:ratingDetailsTable']");
 		public static PropertyQuoteTab.RatingDetailsTable pupInformation = new PropertyQuoteTab.RatingDetailsTable("//table[@id='pupratingDetailsPopupForm_1:ratingDetailsTable']");
-		public static Button btn_Ok = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
 		public static void open() {
-			linkViewRatingDetails.click();
+			linkViewRatingDetailsPUP.click();
 		}
 
 		public static void close() {
-			btn_Ok.click();
+			RatingDetailsView.btn_Ok.click();
 		}
 
 	}
