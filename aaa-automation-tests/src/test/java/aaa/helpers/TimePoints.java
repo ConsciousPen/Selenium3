@@ -245,19 +245,18 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getConversionEffectiveDate() {
-		return getConversionEffectiveDate(TimeSetterUtil.getInstance().getCurrentTime());
+		return getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimepointsList.RENEW_GENERATE_PREVIEW);
 	}
 
-	public LocalDateTime getConversionEffectiveDate(LocalDateTime date) {
-		List<String> timepoint = td.getList(TimepointsList.RENEW_GENERATE_PREVIEW.get());
+	/**
+	 * Retrieves effective date based on incoming params
+	 *
+	 * @param date      {@link LocalDateTime}
+	 * @param timePoint {@link TimepointsList}
+	 */
+	public LocalDateTime getEffectiveDateForTimePoint(LocalDateTime date, TimepointsList timePoint) {
+		List<String> timepoint = td.getList(timePoint.get());
 		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
-	}
-
-	public LocalDateTime getConversionPremiumCalculationDate(LocalDateTime date) {
-		//we wanna calculate premium exactly 5 days before the Renewal Offer date
-		//as an option, we can store the premium calculation date along with others in order not to have magic '5' here
-		List<String> timepoint = td.getList(TimepointsList.RENEW_GENERATE_OFFER.get());
-		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0))-5);
 	}
 
 	public enum TimepointsList {
