@@ -1,5 +1,8 @@
 package aaa.modules.conversion.manual;
 
+import static aaa.common.enums.Constants.States.*;
+import java.util.Arrays;
+import java.util.List;
 import aaa.helpers.TestDataManager;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -13,9 +16,6 @@ import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import toolkit.datax.TestData;
-import static aaa.common.enums.Constants.States.*;
-import java.util.Arrays;
-import java.util.List;
 
 public interface ManualConversionHelper {
     TestData tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
@@ -42,7 +42,7 @@ public interface ManualConversionHelper {
         if (td.getTestData("InitiateRenewalEntryActionTab|Policy Type") == null) {
             td.adjust("InitiateRenewalEntryActionTab|Policy Type",
                     !type.getShortName().contains("_") ? "HO3" : type.getShortName().replaceAll(".+_", ""))
-            .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT.getLabel()), "No");
+            .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT.getLabel()), "No");
         }
 
         return td.resolveLinks();

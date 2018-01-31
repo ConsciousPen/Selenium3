@@ -10,12 +10,11 @@ InitiateRenewalEntryActionTab_Home: {
    Product Name: 'Homeowners Signature Series',
    Previous Policy Number: '$<rx:\d{10}>',
    Previous Source System: SIS,
-   Risk State: UT,
+   Risk State: AZ,
    Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
    Renewal Policy Premium: 0,
    Policy Term: Annual,
-   Enrolled in Autopay: 'No',
-   Legacy policy had Multi-Policy discount: 'Yes'
+   Enrolled in Autopay: 'No'
  }
 
 
@@ -50,7 +49,7 @@ InitiateRenewalEntryActionTab_R35_NY: {
 
 # ---------- Test Data for DE ----------------
 TestData_Home_MAIG_DE: {
-  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_VA'
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_Home_MAIG_DE'
 }
 
 InitiateRenewalEntryActionTab_Home_MAIG_DE: {

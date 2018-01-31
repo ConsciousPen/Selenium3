@@ -1,7 +1,7 @@
 package aaa.modules.conversion.manual;
 
-import aaa.main.modules.policy.PolicyType;
 import com.google.common.collect.ImmutableMap;
+import aaa.main.modules.policy.PolicyType;
 
 public class ManualConversionUtil {
     private static final ImmutableMap<String, String> productTypeMap = ImmutableMap.of(

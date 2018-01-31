@@ -1,21 +1,21 @@
 TestData_ConversionHomeSS_VA: {
   GeneralTab: '@GeneralTab_ConversionHomeSS',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS',
-  ReportsTab: '@<home_ss_ho4>@DataGather@ReportsTab_VA',
-  PropertyInfoTab: '@<home_ss_ho4>@DataGather@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho4>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho4>@DataGather@EndorsementTab',
+  ApplicantTab: '@<home_ss_ho3>@ApplicantTab_ConversionHomeSS',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
-  MortgageesTab: '@<home_ss_ho4>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<home_ss_ho4>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho4>@DataGather@BindTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
   PurchaseTab: {}
 }
 
 GeneralTab_ConversionHomeSS: {
   State: 'VA',
-  Policy type: 'HO4',
+  Policy type: 'HO6',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
@@ -23,40 +23,25 @@ GeneralTab_ConversionHomeSS: {
   Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
 }
 
-ApplicantTab_ConversionHomeSS: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
-  DwellingAddress: '@<home_ss_ho4>@DataGather@DwellingAddress_VA',
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: '@<home_ss_ho4>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo_ConversionHomeSS',
-  OtherActiveAAAPolicies: {}
-}
-
-NamedInsured_ConversionHomeSS: {
-  Relationship to primary named insured:  Primary Insured,
-  Social security number: 1234567890,
-  Marital status: 'Married',
-  Employer: '1234567890'
-}
-
-AAAMembership_ConversionHomeSS: {
-  Current AAA Member: 'Yes',
-  Membership number: '4290023667710001',
-  Last name: Smith
-}
-
-AgentInfo_ConversionHomeSS: {
-  Channel Type: 'AAA Agent',
-  Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
-  Agent: 'House Agent Mid-Atlantic'
-}
-
 PremiumsAndCoveragesQuoteTab_ConversionHomeSS: {
   Payment plan: 'Pay in Full (Renewal)',
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+MortgageesTab_ConversionHomeSS: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: {
+    Name: TestName,
+    Zip code:  24541,
+    Street address 1: 265 CHIPMAN AVE,
+    Loan number: 12345678,
+    Validate Address: '',
+    Validate Address Dialog: {}
+  }
+}
+
+PremiumsAndCoveragesQuoteTab_Mortgagee_ConversionHomeSS: {
+  Bill to at renewal: 'Mortgagee',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
 
