@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CFT Precondition" verbose="1">
+	<test name="CFT Precondition" preserve-order="true">
+		<classes>
+   			<class name="aaa.modules.preconditions.SetTodayDate"/>
+			<class name="aaa.modules.cft.TestCFTCleanFeedFiles" />
+		</classes>
+	</test>
+</suite>

@@ -734,8 +734,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AHAUXX
 			AHPNXX*/
 			
-		   DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber,AHAUXX,AHPNXX,AA10XX,AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
-				.adjust(TestData.makeKeyPath("AHAUXX", "form", "PlcyNum", "TextField"), policyNumber)
+		   DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber,AHPNXX,AA10XX,AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
 				.adjust(TestData.makeKeyPath("AA10XX", "form", "PlcyNum", "TextField"), policyNumber)
 				.adjust(TestData.makeKeyPath("AA10XX", "form", "TermEffDt","DateTimeField"), termEffDt)
 				.adjust(TestData.makeKeyPath("AA10XX", "form", "TermExprDt","DateTimeField"), termExprDt)
@@ -772,8 +771,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				AA10XX
 				AHAUXX
 				AHPNXX*/
-			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHAUXX,AHPNXX,AA10XX,AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
-					.adjust(TestData.makeKeyPath("AHAUXX", "form", "PlcyNum", "TextField"), policyNumber)
+			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber,AHPNXX,AA10XX,AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
 					.adjust(TestData.makeKeyPath("AA10XX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10XX", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA10XX", "form", "TermExprDt","DateTimeField"), termExprDt)
@@ -810,8 +808,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				AA10OK
 				AHAUXX
 				AHPNXX*/
-			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHAUXX,AHPNXX,AA10OK,AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
-					.adjust(TestData.makeKeyPath("AHAUXX", "form", "PlcyNum", "TextField"), policyNumber)
+			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHPNXX,AA10OK,AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
 					.adjust(TestData.makeKeyPath("AA10OK", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10OK", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA10OK", "form", "TermExprDt","DateTimeField"), termExprDt)
@@ -850,8 +847,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				AADNPAD
 				AADNPAE
 				AADNPAC*/
-			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHAUXX,AHPNXX,AA10PA,AA02PA,F122G,AASDPA,AADNPAD,AADNPAE,AADNPAC).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
-					.adjust(TestData.makeKeyPath("AHAUXX", "form", "PlcyNum", "TextField"), policyNumber)
+			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber,AHPNXX,AA10PA,AA02PA,F122G,AASDPA,AADNPAD,AADNPAE,AADNPAC).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDtPA) 

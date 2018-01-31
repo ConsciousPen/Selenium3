@@ -29,15 +29,15 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario13(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptPaymentStartDatePlus2();
-		addSuspenseStartDatePlus2();
+		acceptPaymentOnStartDatePlus2();
+		addSuspenseOnStartDatePlus2();
 		generateInstallmentBill(1);
-		flatCancellationStartDatePlus16();
-		clearSuspenseEffDatePlus16();
+		flatCancellationOnStartDatePlus16();
+		clearSuspenseOnStartDatePlus16();
 		acceptMinDuePaymentOnStartDatePlus25();
-		manualReinstatementStartDatePlus25();
-		endorsePolicyCancellationNoticeDate();
-		declineSuspensePaymentCancellationDate();
+		manualReinstatementOnStartDatePlus25();
+		endorsePolicyOnCancellationNoticeDate();
+		declineSuspensePaymentOnCancellationDate();
 	}
 
 	@Override
