@@ -206,12 +206,7 @@
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
-        </classes>
-    </test>
+
     <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -275,6 +270,17 @@
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas1441_emailChangeOutOfPas"/>
                 </methods>
             </class>
         </classes>
