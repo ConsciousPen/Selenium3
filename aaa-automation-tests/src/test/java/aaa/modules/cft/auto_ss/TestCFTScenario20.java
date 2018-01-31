@@ -8,7 +8,9 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -32,7 +34,7 @@ public class TestCFTScenario20 extends ControlledFinancialBaseTest {
 		acceptTotalDuePlusOverpaymentOnStartDatePlus2(new Dollar(200));
 		issuedRefundOnStartDatePlus16(new Dollar(200));
 		voidRefundOnStartDatePlus25();
-		futureEndorsePolicyCancellationNoticeDate();
+		futureEndorsePolicyOnCancellationNoticeDate(new String[]{new EndorsementActionTab().getMetaKey(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
 	}
 
 	@Override

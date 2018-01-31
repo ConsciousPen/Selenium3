@@ -36,10 +36,10 @@ public final class HomeCaMetaData {
 
 		// PolicyInfo
 		public static final class PolicyInfo extends MetaData {
-			public static final AssetDescriptor<TextBox> STATE = declare("State", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> STATE = declare("State", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> SOURCE_POLICY_NUM = declare("Source Policy #", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> SOURCE_POLICY_NUM = declare("Source Policy #", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> APPLICATION_TYPE = declare("Application Type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> PRIOR_BASE_YEAR = declare("Prior base year", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COMMISSION_TYPE = declare("Commission Type", ComboBox.class);
@@ -183,9 +183,9 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class);
 
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
-				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE);
-				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
-				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.NONE, By
+				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.AJAX, By
 						.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
 			}
 
@@ -373,12 +373,12 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class HssPPCDialog extends MetaData {
-			public static final AssetDescriptor<StaticElement> FIRE_DEPARTMENT_TYPE = declare("Fire department type", StaticElement.class, Waiters.NONE);
-			public static final AssetDescriptor<StaticElement> PUBLIC_PROTECTION_CLASS = declare("Public protection class", StaticElement.class, Waiters.NONE);
+			public static final AssetDescriptor<StaticElement> FIRE_DEPARTMENT_TYPE = declare("Fire department type", StaticElement.class, Waiters.AJAX);
+			public static final AssetDescriptor<StaticElement> PUBLIC_PROTECTION_CLASS = declare("Public protection class", StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> DISTANCE_TO_FIRE_HYDRANT = declare("Distance to fire hydrant", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<StaticElement> FIRE_PROTECTION_AREA = declare("Fire protection area", StaticElement.class, Waiters.NONE);
+			public static final AssetDescriptor<StaticElement> FIRE_PROTECTION_AREA = declare("Fire protection area", StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<StaticElement> SYSTEM_PUBLIC_PROTECTION_CLASS = declare("System public protection class", StaticElement.class, Waiters.NONE);
+			public static final AssetDescriptor<StaticElement> SYSTEM_PUBLIC_PROTECTION_CLASS = declare("System public protection class", StaticElement.class, Waiters.AJAX);
 		}
 	}
 
@@ -536,10 +536,10 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class AdditionalQuestions extends MetaData {
-			public static final AssetDescriptor<RadioGroup> IS_THE_LENGTH_OF_DRIVEWAY_LESS_THAN_500_FEET = declare("Is the length of driveway less than 500 feet?", RadioGroup.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> IS_THE_ROAD_TO_THE_HOME_AND_DRIVEWAY_PAVED = declare("Is the road to the home and driveway paved?", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> IS_THE_LENGTH_OF_DRIVEWAY_LESS_THAN_500_FEET = declare("Is the length of driveway less than 500 feet?", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> IS_THE_ROAD_TO_THE_HOME_AND_DRIVEWAY_PAVED = declare("Is the road to the home and driveway paved?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> IS_THERE_A_CREDITABLE_ALTERNATIVE_WATER_SOURCE_WITHIN_1_000_FEET_OF_THE_PROPERTY = declare(
-					"Is there a creditable alternative water source within 1,000 feet of the property?", RadioGroup.class, Waiters.NONE);
+					"Is there a creditable alternative water source within 1,000 feet of the property?", RadioGroup.class, Waiters.AJAX);
 		}
 
 		public static final class Interior extends MetaData {
@@ -685,7 +685,7 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> CATASTROPHE_LOSS_CODE_REMARKS = declare("Catastrophe loss code/remarks", TextBox.class);
 			public static final AssetDescriptor<ComboBox> LOSS_FOR = declare("Loss for", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> CHARGEABLE = declare("Chargeable", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class RentalInformation extends MetaData {
@@ -700,13 +700,13 @@ public final class HomeCaMetaData {
 		public static final class OilPropaneStorageTank extends MetaData {
 			public static final AssetDescriptor<ComboBox> OIL_FUEL_OR_PROPANE_STORAGE_TANK = declare("Oil Fuel or Propane Storage Tank", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> ADD_FUEL_SYSTEM_STORAGE_TANK_COVERAGE = declare("Add fuel system storage tank coverage?", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> AGE_OF_OIL_OR_PROPANE_FUEL_STORAGE_TANK = declare("Age of oil or propane fuel storage tank", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> AGE_OF_OIL_OR_PROPANE_FUEL_STORAGE_TANK = declare("Age of oil or propane fuel storage tank", TextBox.class, Waiters.AJAX);
 		}
 	}
 
 	// --------- Premium and Coverage - Endorsement Tab --------
 	public static final class EndorsementTab extends MetaData {
-		public static final AssetDescriptor<TextBox> OPTIONAL_ENDORSEMENTS_FILTER = declare("Optional Endorsements Filter", TextBox.class, Waiters.NONE, false, By
+		public static final AssetDescriptor<TextBox> OPTIONAL_ENDORSEMENTS_FILTER = declare("Optional Endorsements Filter", TextBox.class, Waiters.AJAX, false, By
 				.id("policyDataGatherForm:filterCriteria_AAAHoPolicyEndorsementFormManager"));
 		public static final AssetDescriptor<Button> BTN_FILTER =
 				declare("Filter", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:filterFormsButton_AAAHoPolicyEndorsementFormManager"));
@@ -895,21 +895,21 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHARI extends MetaData {
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO0410 extends MetaData {
 		}
 
 		public static final class EndorsementHO164 extends MetaData {
-			public static final AssetDescriptor<TextBox> MAKE = declare("Make", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> MAKE = declare("Make", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MODEL = declare("Model", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.AJAX);
 		}
 
@@ -918,8 +918,8 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO42C extends MetaData {
-			public static final AssetDescriptor<ComboBox> OFFICE_TYPE = declare("Office type", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> OFFICE_TYPE = declare("Office type", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> BUSINESS_EQUIPMENT_OVER_50_000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> EMPLOYEES_WORKING_ON_THE_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
@@ -932,13 +932,13 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO43C extends MetaData {
-			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> BUSINESS_EQUIPMENT_OVER_50_000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> EMPLOYEES_WORKING_ON_THE_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
@@ -951,13 +951,13 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO70 extends MetaData {
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO71 extends MetaData {
@@ -971,59 +971,59 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO626501 extends MetaData {
-			public static final AssetDescriptor<TextBox> NAME_OF_EVENT = declare("Name of Event", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> NAME_OF_EVENT = declare("Name of Event", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> START_DATE = declare("Start Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> END_DATE = declare("End Date", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_EVENT = declare("Description of event", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_EVENT = declare("Description of event", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO28 extends MetaData {
-			public static final AssetDescriptor<TextBox> AMOUNT_OF_INSURANCE = declare("Amount of insurance", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> AMOUNT_OF_INSURANCE = declare("Amount of insurance", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHW0906 extends MetaData {
-			public static final AssetDescriptor<TextBox> MORTGAGE_COVERAGE_LIMIT_PER_MONTH_MAXIMUM = declare("Mortgage coverage limit (per month / maximum)", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> MORTGAGE_COVERAGE_LIMIT_PER_MONTH_MAXIMUM = declare("Mortgage coverage limit (per month / maximum)", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHW0528 extends MetaData {
-			public static final AssetDescriptor<ComboBox> LIMIT_OF_LIABILITY = declare("Limit of liability", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> YEAR = declare("Year", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> MAKE_OR_MODEL = declare("Make or model", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> SERIAL_NUMBER = declare("Serial number", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> LIMIT_OF_LIABILITY = declare("Limit of liability", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> YEAR = declare("Year", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MAKE_OR_MODEL = declare("Make or model", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> SERIAL_NUMBER = declare("Serial number", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class Endorsement611004 extends MetaData {
-			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO210C extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO164C extends MetaData {
-			public static final AssetDescriptor<TextBox> MAKE = declare("Make", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> MODEL = declare("Model", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> MAKE = declare("Make", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MODEL = declare("Model", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementDW0420 extends MetaData {
-			public static final AssetDescriptor<ComboBox> ADDITIONAL_COVERAGE_LIMIT = declare("Additional coverage limit", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> ADDITIONAL_COVERAGE_LIMIT = declare("Additional coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO300 extends MetaData {
-			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_EXCLUDED_STRUCTURES = declare("Description of excluded structures", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_EXCLUDED_STRUCTURES = declare("Description of excluded structures", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO40 extends MetaData {
@@ -1033,39 +1033,39 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementDW0925 extends MetaData {
-			public static final AssetDescriptor<TextBox> REASON_FOR_VACANCY = declare("Reason for vacancy", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> LENGTH_OF_VACANCY = declare("Length of vacancy", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> REASON_FOR_VACANCY = declare("Reason for vacancy", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> LENGTH_OF_VACANCY = declare("Length of vacancy", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHW0495 extends MetaData {
-			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DEDUCTIBLE = declare("Deductible", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DEDUCTIBLE = declare("Deductible", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHW0435 extends MetaData {
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> LOCATION_TYPE = declare("Location Type", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> DESCRIPTION_OF_STRUCTURE = declare("Description of structure", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> LOCATION_TYPE = declare("Location Type", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> DESCRIPTION_OF_STRUCTURE = declare("Description of structure", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO48 extends MetaData {
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO43 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business/equipment", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> BUSSINESS_EQUIPMENT_OVER_$5000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FOOT_TRAFIC_EXCEEDING_2_CUSTOMERS = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> EMPLOYEES_WORKING_ON_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
@@ -1080,8 +1080,8 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO42 extends MetaData {
-			public static final AssetDescriptor<ComboBox> OFFICE_TYPE = declare("Office type", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> OFFICE_TYPE = declare("Office type", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> BUSINESS_EQUIPMENT_OVER_50_000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> EMPLOYEES_WORKING_ON_THE_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
@@ -1094,11 +1094,11 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementDP0422 extends MetaData {
-			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementDP0471 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementDW0463 extends MetaData {
@@ -1106,7 +1106,7 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementDP0418 extends MetaData {
-			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Structure coverage limit", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Structure coverage limit", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementDW0421 extends MetaData {
@@ -1115,8 +1115,8 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementDP0495 extends MetaData {
-			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DEDUCTIBLE = declare("Deductible", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DEDUCTIBLE = declare("Deductible", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHO75 extends MetaData {
@@ -1159,72 +1159,72 @@ public final class HomeCaMetaData {
 
 		public static final class Boats extends MetaData {
 			public static final AssetDescriptor<ComboBox> BOAT_TYPE = declare("Boat type", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> HIN_NO = declare("HIN#", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> YEAR = declare("Year", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> MAKE = declare("Make", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> HIN_NO = declare("HIN#", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> YEAR = declare("Year", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MAKE = declare("Make", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MODEL = declare("Model", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LENGTH_INCHES = declare("Length(inches)", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> AMOUNT_OF_INSURANCE = declare("Amount of insurance", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> LOSS_PAYEE = declare("Loss payee", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class Cameras extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class Coins extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> NUMBER_OF_ARTICLES = declare("Number of articles", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class FineArts extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> FORM_OF_ART = declare("Form of art", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> FORM_OF_ART = declare("Form of art", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class Furs extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class GolfEquipment extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> LEFT_OR_RIGHT_HANDED_CLUB = declare("Left- or right-handed club", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> LEFT_OR_RIGHT_HANDED_CLUB = declare("Left- or right-handed club", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class Jewelry extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> JEWELRY_CATEGORY = declare("Jewelry category", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> JEWELRY_CATEGORY = declare("Jewelry category", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class MusicalInstruments extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class PostageStamps extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> NUMBER_OF_STAMPS = declare("Number of stamps", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class Silverware extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> SET_OR_INDIVIDUAL_PIECE = declare("Set or individual piece", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SET_OR_INDIVIDUAL_PIECE = declare("Set or individual piece", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 		}
 
 		// TODO-dchubkov: old metadata, should we remove it?
@@ -1411,12 +1411,12 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address validated", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address validated", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN =
 					declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMortAddressButton"));
 			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class,
 					DialogsMetaData.AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOMortgageeAddressValidation_container']"));
-			public static final AssetDescriptor<TextBox> LOAN_NUMBER = declare("Loan number", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> LOAN_NUMBER = declare("Loan number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> USE_LEGAL_MORTGAGEE_FOR_EVIDENCE_OF_INSURANCE = declare("Use legal mortgagee for evidence of insurance", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LEGAL_MORTGAGEE_NAME = declare("Legal mortgagee name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOMortgageeInfo"));
@@ -1435,8 +1435,8 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class AdditionalInsured extends MetaData {
-			public static final AssetDescriptor<ComboBox> INTEREST = declare("Interest", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> INTEREST = declare("Interest", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SAME_AS_INSURED_S_MAILING_ADDRESS =
 					declare("Same as insured mailing address?", RadioGroup.class, Waiters.AJAX, By.id("policyDataGatherForm:sedit_AAAHOAdditionalInsured_differentAddressInd"));
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
@@ -1537,22 +1537,22 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<RadioGroup> CONDOMINIUM_OWNERS_INSURANCE_QUOTE_PAGE = declare("Condominium Owners Insurance Quote Page", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> APPLICATION_FOR_HOMEOWNERS_INSURANCE = declare("Application for Homeowners Insurance", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> APPRAISALS_RECEIPTS_FOR_SCHEDULED_PERSONAL_PROPERTY = declare("Appraisals/sales receipts for scheduled personal property items",
-					RadioGroup.class, Waiters.NONE);
+					RadioGroup.class, Waiters.AJAX);
 		}
 
 		public static final class DocumentsToBind extends MetaData {
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_UNDERLYING_INSURANCE_POLICY = declare("Proof of Underlying Insurance policy for the tenant(s) received?", RadioGroup.class,
-					Waiters.NONE);
+					Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_CENTRAL_FIRE_ALARM = declare("Proof of central fire alarm", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_CENTRAL_THEFT_ALARM = declare("Proof of central theft alarm", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_OCCUPATION = declare("Proof of occupation", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT = declare("Proof of subscription to fire department", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT = declare("Proof of subscription to fire department", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION = declare("Proof of home renovations for the Home Modernization discount", RadioGroup.class,
-					Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> PROOF_OF_ENERGY_STAR_APPLIANCES = declare("Proof of ENERGY STAR appliances or green home features", RadioGroup.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> PROOF_OF_COMPANION_DP3_POLICY = declare("Proof of companion DP3 policy", RadioGroup.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> PROOF_OF_COMPANION_PUP_POLICY = declare("Proof of companion PUP policy", RadioGroup.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> PROOF_OF_ACTIVE_AAA_AUTO_POLICY = declare("Proof of active AAA auto policy", RadioGroup.class, Waiters.NONE);
+					Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_ENERGY_STAR_APPLIANCES = declare("Proof of ENERGY STAR appliances or green home features", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_COMPANION_DP3_POLICY = declare("Proof of companion DP3 policy", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_COMPANION_PUP_POLICY = declare("Proof of companion PUP policy", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_ACTIVE_AAA_AUTO_POLICY = declare("Proof of active AAA auto policy", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> CERTIFICATE_CONFIRMING_NO_CONTAMINATION_CAUSED_BY_STORAGE_TANK = declare(
 					"Certificate confirming no contamination caused by inactive underground oil storage tank", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_PLUMBING_AND_OTHERS_RENOVATIONS = declare("Proof of plumbing, electrical, heating/cooling system and roof renovations",
@@ -1560,14 +1560,14 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_AN_UNDERLYING_RENTERS_INSURANCE = declare("Proof of an underlying renters insurance policy for your tenant(s)", RadioGroup.class,
 					Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> ACTUAL_CASH_VALUE_LOSS_TO_ROOF_SURFACING = declare("Actual Cash Value Loss Settlement Windstorm Or Hail Losses To Roof Surfacing",
-					RadioGroup.class, Waiters.NONE);
+					RadioGroup.class, Waiters.AJAX);
 		}
 
 		public static final class DocumentsToIssue extends MetaData {
 			public static final AssetDescriptor<RadioGroup> CALIFORNIA_RESIDENTIAL_PROPERTY_INSURANCE_DISCLOSURE = declare("California Residential Property Insurance Disclosure", RadioGroup.class,
 					Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.AJAX);
 		}
 	}
 
@@ -1594,9 +1594,9 @@ public final class HomeCaMetaData {
 
 	public static final class CancelNoticeActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<ComboBox> CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.NONE);
+		public static final AssetDescriptor<ComboBox> CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class RescindCancellationActionTab extends MetaData {
@@ -1632,7 +1632,7 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
-		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> REINSTATE_DATE = declare("Reinstate date", TextBox.class, Waiters.AJAX);
 	}
 
@@ -1830,7 +1830,7 @@ public final class HomeCaMetaData {
 		public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
 		public static final AssetDescriptor<TextBox> RENEWAL_DATE = declare("Renewal Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {

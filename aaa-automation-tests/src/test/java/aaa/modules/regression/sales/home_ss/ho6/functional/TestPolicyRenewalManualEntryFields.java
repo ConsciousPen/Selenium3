@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho6.functional;
 
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -10,8 +9,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
-import aaa.modules.conversion.manual.ConvHomeSsHO6BaseTest;
-import aaa.modules.policy.HomeSSHO6BaseTest;
+import aaa.modules.regression.conversions.ConvHomeSsHO6BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
  * @author S. Jaraminas
@@ -49,9 +48,9 @@ public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
         TestData td = getTestSpecificTD("TestData");
-        String currentDate = LocalDateTime.now().format(DateTimeUtils.MM_DD_YYYY);
-        String inceptionDate = LocalDateTime.now().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
-        String effectiveDate = LocalDateTime.now().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+        String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+        String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+        String effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
         mainApp().open();
 

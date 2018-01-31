@@ -9,27 +9,35 @@
 	<test name="HDES Conversion Test" parallel="methods" thread-count="200">
 		<parameter name="state" value="CA" />
 		<classes>
-			<class name="aaa.modules.conversion.HdesConversionTest" />
+			<class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest" />
+			<class name="aaa.modules.regression.conversions.home_ca.ho4.HdesConversionTest" />
+			<class name="aaa.modules.regression.conversions.home_ca.ho6.HdesConversionTest" />
 		</classes>
 	</test>
 
-	<test name="Sis Conversion Test" parallel="methods" thread-count="200">
+	<test name="SIS DP3 Conversion Test" parallel="methods" thread-count="200">
 		<parameter name="state" value="CA" />
 		<classes>
-			<class name="aaa.modules.conversion.SisConversionTest" />
+			<class name="aaa.modules.regression.conversions.home_ca.dp3.SisConversionTest" />
 		</classes>
 	</test>
 
-	<test name="FoxPro Conversion Test" parallel="methods" thread-count="200">
+	<test name="FoxPro PUP Conversion Test" parallel="methods" thread-count="200">
 		<parameter name="state" value="CA" />
 		<classes>
-			<class name="aaa.modules.conversion.FoxProConversionTest" />
+			<class name="aaa.modules.regression.conversions.pup.FoxProConversionTest" />
 		</classes>
 	</test>
 
 	<test name="MAIG Conversion Test" parallel="methods" thread-count="200">
 		<classes>
-			<class name="aaa.modules.conversion.MaigConversionTest" />
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest" />
+		</classes>
+	</test>
+
+	<test name="MAIG Manual Conversion Test" parallel="methods" thread-count="200">
+		<classes>
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigManualConversionTest" />
 		</classes>
 	</test>
 
