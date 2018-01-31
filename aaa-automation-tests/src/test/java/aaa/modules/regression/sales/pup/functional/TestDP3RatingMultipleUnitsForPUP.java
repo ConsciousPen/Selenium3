@@ -12,11 +12,9 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
@@ -95,7 +93,7 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
 
         // Open rating details and verify the number of units charged is correct
         PremiumAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")).isEqualTo("N/A");
+        assertThat(PremiumAndCoveragesQuoteTab.RatingDetailsView.pupInformation.getValueByKey("Rental units")).isEqualTo("N/A");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
 }
