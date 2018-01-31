@@ -76,6 +76,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Open the rating details dialogue box and verify Auto Tier
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")).isEqualTo("N/A");
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
 
 
@@ -183,7 +184,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-    private void verifyAlgoDate() {
+    public void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
         if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
             TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);

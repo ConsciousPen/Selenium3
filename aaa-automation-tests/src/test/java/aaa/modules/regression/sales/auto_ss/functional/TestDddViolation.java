@@ -45,7 +45,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
-	public void pas3663_DddForDriverWithMinorViolationCheckNb(@Optional("") String state) {
+	public void pas3663_DddForDriverWithMinorViolationCheckNb(@Optional("PA") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -81,7 +81,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
-	public void pas3663_DddForDriverWithMinorViolationCheckEndorsement(@Optional("") String state) {
+	public void pas3663_DddForDriverWithMinorViolationCheckEndorsement(@Optional("PA") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -108,7 +108,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
-	public void pas3663_DddForDriverWithMinorViolationCheckRenewal(@Optional("") String state) {
+	public void pas3663_DddForDriverWithMinorViolationCheckRenewal(@Optional("PA") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(getBackDatedPolicyTD());
