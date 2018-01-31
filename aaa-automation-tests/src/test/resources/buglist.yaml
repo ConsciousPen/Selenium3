@@ -192,3 +192,10 @@ PAS-9157:
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
+PAS-9361:
+  summary: "Generate eSignature Document button doesnt open email popup"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
+      messages: ["Email"]
+

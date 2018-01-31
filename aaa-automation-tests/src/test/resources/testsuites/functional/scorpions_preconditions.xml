@@ -8,9 +8,29 @@
 
     <test name="Renewal job adding">
         <classes>
-            <class name="aaa.modules.regression.queries.preconditions.JobAdding">
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
                 <methods>
                     <include name="renewalJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Renewal job adding">
+        <classes>
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
+                <methods>
+                    <include name="renewalJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+  <test name="doc Gen Stub End point Insert">
+        <classes>
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
+                <methods>
+                    <include name="docGenStubEndpointInsert"/>
                 </methods>
             </class>
         </classes>

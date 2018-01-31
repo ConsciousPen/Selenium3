@@ -1,5 +1,6 @@
 VehicleTab_UnmatchedVIN: {
-  Usage: Pleasure,
+    Usage: Pleasure,
+    Primary Use: 'index=1',
     VIN: 2GNWGPFG9B2222222,
     Make: 'OTHER',
     Other Make: 'Other Make',
@@ -10,8 +11,7 @@ VehicleTab_UnmatchedVIN: {
     Body Style: 'OTHER',
     Other Body Style: 'Body Style',
     'Value($)': '10000',
-    Stat Code: 'index=1',
-    Primary Use: 'index=1',
+    Stat Code: 'index=2',
     'Miles One-way to Work or School': '500',
     Odometer Reading: 1,
     'Salvaged?': 'No',
