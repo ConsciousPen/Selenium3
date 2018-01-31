@@ -213,6 +213,7 @@ public final class DocGenEnum {
         AA52OK(""),
 		AHDRXX("DISCOUNT REMOVAL AT ENDORSEMENT"),
 		AHDEXX("DISCOUNT REMOVAL AT RENEWAL"),
+		HSPRNXX("Pre-Renewal letter"),
 
         AA11CA("California Choice Auto Insurance Application"),
         AA41CA("Non-Owner Automobile Endorsement"),

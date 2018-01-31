@@ -1,0 +1,35 @@
+TestData_ConversionHomeSS_VA: {
+  GeneralTab: '@GeneralTab_ConversionHomeSS',
+  ApplicantTab: '@<home_ss_ho3>@ApplicantTab_ConversionHomeSS',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+  PropertyInfoTab: '@<home_ss_ho4>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: {}
+}
+
+GeneralTab_ConversionHomeSS: {
+  State: 'VA',
+  Policy type: 'HO4',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
+}
+
+PremiumsAndCoveragesQuoteTab_ConversionHomeSS: {
+  Payment plan: 'Pay in Full (Renewal)',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+TestData_ConversionAutoSS: {
+}
+
+TestData_ConversionPUP: {
+}
