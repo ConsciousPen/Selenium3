@@ -94,8 +94,8 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
         new PremiumAndCoveragesQuoteTab().calculatePremium();
 
         // Open rating details and verify the number of units charged is correct
-        PremiumAndCoveragesQuoteTab.RatingDetailsView.open();
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo("1: $15.00");
-        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
     }
 }

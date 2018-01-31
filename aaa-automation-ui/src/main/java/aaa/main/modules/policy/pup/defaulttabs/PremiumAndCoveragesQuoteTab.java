@@ -11,7 +11,6 @@ import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -29,7 +28,6 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
-
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
