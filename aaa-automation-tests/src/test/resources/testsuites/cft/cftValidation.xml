@@ -1,15 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="CFT Validation">
-    <parameter name="timeshift-scenario-mode" value="test"/>
-    
-	<test name="Test Preconditions" preserve-order="true">
+
+    <test name="CFT Validation" preserve-order="true">
 		<classes>
    			<class name="aaa.modules.preconditions.SetTodayDate"/>
-   		</classes>
-	</test>
-    
-    <test name="CFT Validation" parallel="none">
-        <classes>
             <class name="aaa.modules.cft.TestCFTValidator" />
         </classes>
     </test>

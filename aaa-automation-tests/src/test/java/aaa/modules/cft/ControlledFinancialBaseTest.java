@@ -4,12 +4,8 @@ package aaa.modules.cft;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,19 +22,19 @@ import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
-import aaa.helpers.cft.CFTHelper;
+import aaa.helpers.billing.RemittancePaymentsHelper;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
 import aaa.helpers.conversion.MaigConversionData;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ActionConstants;
 import aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
+import aaa.main.enums.BillingConstants.ExternalPaymentSystem;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
@@ -781,17 +777,31 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		automaticCancellationNoticeDueInsallmentDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 	}
 
-	protected void generateCollection(int installmentNumber) throws IOException {
+	protected void generateCollectionOnEPWriteOffDate() {
 		LocalDateTime collectionDate = getTimePoints().getEarnedPremiumWriteOff(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		TimeSetterUtil.getInstance().nextPhase(collectionDate);
-		log.info("Generate collection action started on {}", collectionDate);
+		log.info("Collection feed file generation started on {}", collectionDate);
 		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		String policyNum = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openBilling(policyNum);
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		Dollar minDue = BillingSummaryPage.getMinimumDue();
+
 		if (totalDue.moreThan(new Dollar(100))) {
-			generateCollectionFile(totalDue);
-			log.info("Collection generated successfully");
+			File remitanceFile = RemittancePaymentsHelper.createRemittanceFile(getState(), policyNum, minDue, ExternalPaymentSystem.REGONLN);
+			RemittancePaymentsHelper.copyRemittanceFileToServer(remitanceFile);
+			log.info("Collection feed file moved successfully");
+			JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
+			mainApp().open();
+			SearchPage.openBilling(policyNum);
+			new BillingPaymentsAndTransactionsVerifier()
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REGULUS_ONLINE)
+				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
+				.setAmount(minDue.negate())
+				.verifyPresent();
+			log.info("Collection transaction generated successfully");
 		}
 		else {
 			writeOffOnDate(collectionDate);
@@ -1120,27 +1130,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 		log.info("Earned Premium bill generated successfully");
-	}
-
-	private void generateCollectionFile(Dollar totalDue) throws IOException {
-		File collectionDir = new File(CFT_COLLECTION_DIRECTORY);
-		CFTHelper.checkDirectory(collectionDir);
-		String collectionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String fileName = CFT_COLLECTION_DIRECTORY + collectionDate + CFT_COLECTION_NAME;
-		File collectionFeedFile = new File(fileName);
-		try (FileWriter fw = new FileWriter(collectionFeedFile)) {
-			try (BufferedWriter bw = new BufferedWriter(fw)) {
-				bw.flush();
-				bw.write("HDR|DEV|PMTCTRL|PMT_E_PMTCTRL_PASSYS_7001_D|P01AWU410|0c131710-a94c-404f-850d-2a86ab3e0fd7");
-				bw.newLine();
-				bw.write("DTL|90201|PMT|20151009|095800|NCOCOL||||||4WUIC|HO||" + BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber() + "|||"
-					+ collectionDate + "|713113927747003|0000" + totalDue + "0|CHCK||||||||548521632|N");
-				bw.newLine();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		RemoteHelper.uploadFile(fileName, FEED_FILE_LOCATION + collectionDate + CFT_COLECTION_NAME);
 	}
 
 	private void generateInstallmentBillDueDate(LocalDateTime billDueDate) {
