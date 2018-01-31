@@ -872,8 +872,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EVALUE_ACKNOWLEDGEMENT).setValue("Yes");
 
-        documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)
-                .click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
+        //BUG  PAS-9361 Generate eSignature Document button doesnt open email popup
+        documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS).click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
         documentsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS)
                 .setValue("test@email.com");
         documentsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
@@ -1260,16 +1260,48 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
-    public void pas3693_eValueConfiguration(@Optional("OR") String state) {
+    public void pas3693_eValueConfiguration1(@Optional("OR") String state) {
         CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
         checkBlueBoxMessagesWithDiffData(8, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, "membership");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration2(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
         checkBlueBoxMessagesWithDiffData(12, MESSAGE_INFO_4, CURRENT_BI_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
         checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
         checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
         checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior");
         CustomAssert.disableSoftMode();
