@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
-import static aaa.helpers.product.DatabaseCleanHelper.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
