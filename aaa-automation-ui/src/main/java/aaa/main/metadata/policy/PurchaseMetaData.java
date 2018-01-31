@@ -35,9 +35,9 @@ public class PurchaseMetaData {
 				.id("purchaseForm:PaymentDetailsTable"));
 
 		public static final class ComunityServiceSurveyPromt extends MetaData {
-			public static final AssetDescriptor<TextBox> NAMED_INSURED = declare("Named Insured", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> GENDER = declare("Gender", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> RACE_OF_ORIGIN = declare("Race or National Origin", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> NAMED_INSURED = declare("Named Insured", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> GENDER = declare("Gender", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> RACE_OF_ORIGIN = declare("Race or National Origin", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> OK = declare("Ok", Button.class, Waiters.AJAX, false, By.id("purchaseForm:okBtn"));
 
 		}

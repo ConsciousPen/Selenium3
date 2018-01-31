@@ -8,6 +8,7 @@
 
     <!--Tests for Auto-->
 
+
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
         <classes>
@@ -23,14 +24,16 @@
     </test>
 
     <test name="Test Calculate Tier for NY converted policies">
+        <parameter name="state" value="NY"/>
         <classes>
-            <class name="aaa.modules.conversion.manual.auto_ss.TestTierCalculation"/>
+            <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation"/>
         </classes>
     </test>
 
     <test name="Test Enroll Usage Based Endorsement">
+        <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.EnrollUsageBasedEndorsementCheck"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck"/>
         </classes>
     </test>
 
@@ -45,6 +48,17 @@
         </classes>
     </test>
 
+    <test name="Policy Conversation without ordering reports">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionNoClueISO360InspectionReports"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionNoClueISO360InspectionReports"/>
+        </classes>
+    </test>
+
+<!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
     <test name="PA View Rating Details Auto Tier value 1-16">
         <parameter name="state" value="PA"/>
         <classes>
@@ -75,29 +89,17 @@
         </classes>
     </test>
 
-    <!--Tests for Property Policy Conversion when not ordering Clue and ISO360 reports-->
-    <test name="Policy Conversation without ordering reports">
-        <classes>
-            <class name="aaa.modules.conversion.manual.home_ss.dp3.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.conversion.manual.home_ss.ho3.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.conversion.manual.home_ss.ho4.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.conversion.manual.home_ss.ho6.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-
-
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
         </classes>
     </test>
-
+-->
 
     <!--Tests for PUP-->
 
-
-    <!--Tests for Overridable rules Conversion/Organic Policy-->
+<!--Commenting out below tests until PUP conversion dev code is merged
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -108,39 +110,44 @@
     <test name="Test Override Ineligible Underlying Risks">
         <parameter name="state" value="NJ"/>
         <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestOverrideIneligibleUnderlyingRisks"/>
-        </classes>
-    </test>
-    <test name="Test Bind PUP without Auto policies">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestBindPupWithoutAuto"/>
-        </classes>
-    </test>
-    <test name="Test Override Drivers with Major Violations">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindDriversWithMajorViolations"/>
-        </classes>
-    </test>
-    <test name="Test Override PUP policies with 2 or more violations">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindWithPropertyLosses"/>
-        </classes>
-    </test>
-    <test name="Test Override PUP policies with high number of exposures/risks">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestOverrideNumberOfRisks"/>
-        </classes>
-    </test>
-    <test name="Test Override PUP policies with relaxed coverage limits">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.conversion.manual.pup.TestOverrideBindRelaxedCoverageLimits"/>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideIneligibleUnderlyingRisks"/>
         </classes>
     </test>
 
+    <test name="Test Bind PUP without Auto policies">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestBindPupWithoutAuto"/>
+        </classes>
+    </test>
+
+    <test name="Test Override Drivers with Major Violations">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindDriversWithMajorViolations"/>
+        </classes>
+    </test>
+
+    <test name="Test Override PUP policies with 2 or more violations">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindWithPropertyLosses"/>
+        </classes>
+    </test>
+
+    <test name="Test Override PUP policies with high number of exposures/risks">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideNumberOfRisks"/>
+        </classes>
+    </test>
+
+    <test name="Test Override PUP policies with relaxed coverage limits">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits"/>
+        </classes>
+    </test>
+-->
 
 </suite>

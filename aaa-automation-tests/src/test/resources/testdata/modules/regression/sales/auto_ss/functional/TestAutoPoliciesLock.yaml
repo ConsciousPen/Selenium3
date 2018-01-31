@@ -39,3 +39,19 @@ InsuranceScoreOverride_OverrideTo850: {
     Save: 'click'
   }
 }
+
+#Override Errors DATA
+#####################
+OverrideErrors: {
+  ErrorTab: '@ErrorTab_OverrideErrors',
+}
+
+ErrorTab_OverrideErrors: {
+   ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other'
+   }]
+}

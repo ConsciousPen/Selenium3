@@ -3,9 +3,7 @@
 package aaa.main.modules.policy.pup.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -28,7 +26,7 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     }
     
     public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
-	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
+	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
 	@Override
 	public Tab fillTab(TestData td) {
@@ -37,6 +35,7 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
 		return this;
 	}
 
+	@Override
 	public void calculatePremium() {
 		if (!btnCalculatePremium.isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());

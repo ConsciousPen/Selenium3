@@ -1,19 +1,17 @@
 package aaa.modules.docgen.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-
-import java.time.LocalDateTime;
-
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestScenario4_OK extends AutoSSBaseTest {
 
@@ -22,14 +20,14 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 	 * @name Verify the documents generated during first endorsement
 	 * @scenario 1. Create a active policy 
 	 * 			 2. Make an endorsement to this policy. It should change the policy so it meets conditions for forms generation:
-					AASR22 - ("Financial Responsibility Filling Needed" select Yes in Driver Tab(SR22))
-					AA41XX - (Policy Type = Named Non Owner)
+	AASR22 - ("Financial Responsibility Filling Needed" select Yes in Driver Tab(SR22))
+	AA41XX - (Policy Type = Named Non Owner)
 	 * 			 3. Calculate premium and bind the policy 
 	 * 			 4. Verify the documents generate AASR22, AA41XX, AA10OK
 	 * @details
 	 */
-	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Parameters({"state"})
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_EndorsementOne(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();

@@ -19,6 +19,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
@@ -44,6 +45,8 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6795")
     public void pas6795_disableReorderReport(@Optional("PA") String state) {
+
+        new HelperRevisedHomeTierPA().verifyAlgoDate();
 
         mainApp().open();
 
