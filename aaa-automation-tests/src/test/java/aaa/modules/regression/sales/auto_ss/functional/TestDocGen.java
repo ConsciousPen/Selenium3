@@ -50,7 +50,7 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 
-public class TestNyDocGen extends AutoSSBaseTest {
+public class TestDocGen extends AutoSSBaseTest {
 
 	private final Tab generalTab = new GeneralTab();
 	private final Tab premiumCovTab = new PremiumAndCoveragesTab();
