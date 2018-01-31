@@ -35,14 +35,15 @@ public class TestScenario2 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);
+		
 		if (States.VA.equals(getState())){
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARIVA);
 			policy.policyInquiry().start();
 			NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 			DocumentsAndBindTab.btnGenerateDocuments.click();
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AHEVAXX);
-		}
+		} else 
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);
 	}
 	
 	@Parameters({ "state" })

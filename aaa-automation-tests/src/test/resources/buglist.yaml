@@ -186,3 +186,9 @@ PAS-8288:
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
     aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
       messages: ["by zero"]
+PAS-9157:
+  summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
+      messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]

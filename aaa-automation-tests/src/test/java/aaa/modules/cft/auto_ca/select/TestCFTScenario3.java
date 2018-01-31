@@ -30,7 +30,7 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		generateInstallmentBill(1);
 		endorsePolicyOnStartDatePlus16();
-		acceptPaymentEffDatePlus25();
+		acceptPaymentOnStartDatePlus25();
 		declinePaymentOnCancellationNoticeDate();
 		automaticCancellation(1);
 		generateFirstEarnedPremiumBill(1);
