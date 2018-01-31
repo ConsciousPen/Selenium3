@@ -63,11 +63,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		//Set the lock for values DB
 		setLockForTheElement(testElements, currentDate);
 
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		createQuoteAndOpenVRD(testData);
 
 		//Save the values of listed items to compare them with values on Renewal Later
 		String previousCCValue = getComprehensiveClaimsValue();
@@ -75,9 +71,6 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		String previousAIPValue = getAaaInsurancePersistencyValue();
 
 		//Close rating details pop-up, issue the policy, initiate renewal and verify items values in VRD
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		new PremiumAndCoveragesTab().submitTab();
-
 		fillAllInfoAndBind(testData);
 		policy.renew().start();
 
@@ -123,18 +116,10 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		setLockForTheElement(testElements, currentDate);
 
 		//Initiate new policy and fill up to the View Rating Details screen of the P&C Page
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		createQuoteAndOpenVRD(testData);
 
 		//Save the ASD Tier Value to compare it with values on Renewal
 		String previousASDTierValue = getAdvanceShoppingDiscountValue();
-
-		//Close rating details pop-up
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		new PremiumAndCoveragesTab().submitTab();
 
 		//Issue the policy overriding all errors
 		fillAllInfoAndBind(testData);
@@ -194,18 +179,10 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		setLockForTheElement(testElements, tomorrowDate);
 
 		//Initiate new policy and fill up to the View Rating Details screen of the P&C Page
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		createQuoteAndOpenVRD(testData);
 
 		//Save the ASD Tier Value to compare it with values on Renewal
 		String previousASDTierValue = getAdvanceShoppingDiscountValue();
-
-		//Close rating details pop-up
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		new PremiumAndCoveragesTab().submitTab();
 
 		//Issue the policy
 		fillAllInfoAndBind(testData);
@@ -267,6 +244,10 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	}
 
 	private void fillAllInfoAndBind(TestData testData) {
+		//Close rating details pop-up
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		new PremiumAndCoveragesTab().submitTab();
+
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
 	}
@@ -282,6 +263,14 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	private void deleteLockForTheElement() {
 		elementNames.forEach(e ->
 				DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, e, String.format(toDate, currentDate), String.format(toDate, tomorrowDate), getState())));
+	}
+
+	private void createQuoteAndOpenVRD(TestData testData) {
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	}
 
 	private String getComprehensiveClaimsValue(){
