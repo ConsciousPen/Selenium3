@@ -443,9 +443,16 @@ public class Scenario13 extends ScenarioBaseTest {
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
 			.setAmount(premiumNewVersion.subtract(premiumFirstRenewal)).verifyPresent();
 		
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+		if (getState().equals(Constants.States.CA)) {
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER)
 			.setDueDate(policyExpirationDate)
 			.setMinDue(renewalBillAmount).verifyPresent();
+		}
+		else {
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(policyExpirationDate)
+			.setMinDue(renewalBillAmount).verifyPresent();
+		}
 		
 		BillingSummaryPage.getMinimumDue().verify.equals(renewalBillAmount);		
 	}	
