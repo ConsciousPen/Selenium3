@@ -12,6 +12,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
@@ -37,11 +38,12 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
 
         // Create Customer
         mainApp().open();
-        createCustomerIndividual();
+        //createCustomerIndividual();
+        SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032633");
 
         // Create Auto Policy
-        PolicyType.AUTO_SS.get().createPolicy(tdAuto);
-        String autoPolicy = PolicySummaryPage.getPolicyNumber();
+        //PolicyType.AUTO_SS.get().createPolicy(tdAuto);
+        String autoPolicy = "OHSS926232317";//PolicySummaryPage.getPolicyNumber();
         tdHO3.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel() + "[0]",
                     HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
                     HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesSearch.POLICY_TYPE.getLabel()), "Auto")
@@ -54,8 +56,8 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
                     HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL.getLabel()));
 
         // Create HO3 Policy with underlying Auto policy
-        PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3);
-        String hoPolicy = PolicySummaryPage.getPolicyNumber();
+        //PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3);
+        String hoPolicy = "OHH3926232318";//PolicySummaryPage.getPolicyNumber();
         tdDP3.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(),
                     HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel()), "index=3")
             .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel() + "[0]",
@@ -77,8 +79,8 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
 
 
         // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
-        PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
-        String dpPolicy = PolicySummaryPage.getPolicyNumber();
+        //PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
+        String dpPolicy = "OHD3926232328";//PolicySummaryPage.getPolicyNumber();
         TestData tdPrefillTabPUP = getTestSpecificTD("TestData_PrefillTab")
                 .adjust("ActiveUnderlyingPolicies[0]|ActiveUnderlyingPoliciesSearch|Policy Number", hoPolicy)
                 .adjust("ActiveUnderlyingPolicies[1]|ActiveUnderlyingPoliciesSearch|Policy Number", dpPolicy)
@@ -93,7 +95,7 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
 
         // Open rating details and verify the number of units charged is correct
         PremiumAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumAndCoveragesQuoteTab.RatingDetailsView.pupInformation.getValueByKey("Rental units")).isEqualTo("N/A");
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo("1: $15.00");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
 }

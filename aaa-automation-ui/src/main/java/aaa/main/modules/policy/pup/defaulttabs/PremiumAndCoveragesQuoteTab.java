@@ -12,7 +12,6 @@ import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -30,7 +29,7 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
-	public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingPUPDetailsPopupLink"), Waiters.AJAX);
+
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
@@ -58,18 +57,4 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
   		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
       }
 
-	public static class RatingDetailsView {
-		public static PropertyQuoteTab.RatingDetailsTable policyInformation = new PropertyQuoteTab.RatingDetailsTable("//table[@id='pupratingDetailsPopupForm:ratingDetailsTable']");
-		public static PropertyQuoteTab.RatingDetailsTable pupInformation = new PropertyQuoteTab.RatingDetailsTable("//table[@id='pupratingDetailsPopupForm_1:ratingDetailsTable']");
-		public static Button btn_Ok = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
-
-		public static void open() {
-			linkViewRatingDetails.click();
-		}
-
-		public static void close() {
-			btn_Ok.click();
-		}
-
-	}
 }
