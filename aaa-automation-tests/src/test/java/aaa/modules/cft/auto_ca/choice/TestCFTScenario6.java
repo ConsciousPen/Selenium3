@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
@@ -31,7 +32,7 @@ public class TestCFTScenario6 extends ControlledFinancialBaseTest {
 	public void cftTestScenario6(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		endorsePolicyOnStartDatePlus2();
-		endorseOOSPolicyOnStartDatePlus16();
+		endorseOOSPolicyOnStartDatePlus16(new String[]{new EndorsementActionTab().getMetaKey(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
 	}
 
 	@Override
