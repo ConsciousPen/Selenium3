@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CFT Validation">
+
+    <test name="CFT Validation" preserve-order="true">
+		<classes>
+   			<class name="aaa.modules.preconditions.SetTodayDate"/>
+            <class name="aaa.modules.cft.TestCFTValidator" />
+        </classes>
+    </test>
+
+</suite>

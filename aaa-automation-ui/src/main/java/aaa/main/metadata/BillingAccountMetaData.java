@@ -53,12 +53,12 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<TextBox> BILLING_CONTACT_MIDDLE_NAME = declare("Billing Contact Middle Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> BILLING_CONTACT_LAST_NAME = declare("Billing Contact Last Name", TextBox.class);
 		public static final AssetDescriptor<ComboBox> COUNTRY = declare("Country", ComboBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class, Waiters.AJAX);
 
 		public static final AssetDescriptor<AddPaymentMethodsMultiAssetList> PAYMENT_METHODS =

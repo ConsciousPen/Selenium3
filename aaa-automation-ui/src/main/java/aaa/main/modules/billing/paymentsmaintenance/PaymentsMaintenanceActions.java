@@ -98,6 +98,12 @@ public final class PaymentsMaintenanceActions {
 			return this;
 		}
 
+		public void perform(TestData td, String reference) {
+			td.adjust(TestData.makeKeyPath(PaymentsMaintenanceMetaData.AddSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.AddSuspenseActionTab.SUSPENSE_REFERENCE.getLabel()),
+				reference);
+			perform(td);
+		}
+
 		public AbstractAction perform(TestData td, String amount, String reference) {
 			td.adjust(TestData.makeKeyPath(PaymentsMaintenanceMetaData.AddSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.AddSuspenseActionTab.SUSPENSE_AMOUNT.getLabel()), amount)
 				.adjust(TestData
@@ -260,6 +266,17 @@ public final class PaymentsMaintenanceActions {
 		public AbstractAction perform(TestData td, String policy) {
 			td.adjust(TestData.makeKeyPath(PaymentsMaintenanceMetaData.ClearSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.ClearSuspenseActionTab.ALLOCATION.getLabel(),
 				PaymentsMaintenanceMetaData.ClearSuspenseActionTab.AllocationMultiSelector.POLICY_NUMBER.getLabel()), policy);
+			start();
+			getView().fill(td);
+			return submit();
+		}
+
+		public AbstractAction perform(TestData td, String policy, String suspenseReference) {
+			td.adjust(
+				TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.SearchSuspenseActionTab.SUSPENSE_REFERENCE.getLabel()),
+				suspenseReference)
+				.adjust(TestData.makeKeyPath(PaymentsMaintenanceMetaData.ClearSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.ClearSuspenseActionTab.ALLOCATION.getLabel(),
+					PaymentsMaintenanceMetaData.ClearSuspenseActionTab.AllocationMultiSelector.POLICY_NUMBER.getLabel()), policy);
 			start();
 			getView().fill(td);
 			return submit();

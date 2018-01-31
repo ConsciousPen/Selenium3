@@ -47,6 +47,6 @@ public class TestCFTScenario11 extends ControlledFinancialBaseTest {
 		generateFirstEarnedPremiumBill(1);
 		generateSecondEarnedPremiumBill(1);
 		generateThirdEarnedPremiumBill(1);
-		generateCollection(1);
+		generateCollectionOnEPWriteOffDate();
 	}
 }

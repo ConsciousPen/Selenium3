@@ -29,9 +29,9 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 	public void cftTestScenario3(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		endorsePolicyEffDatePlus16Days();
-		acceptPaymentEffDatePlus25();
-		decline10DollarsPaymentOnCancellationNoticeDate();
+		endorsePolicyOnStartDatePlus16();
+		acceptPaymentOnStartDatePlus25();
+		declinePaymentOnCancellationNoticeDate();
 		automaticCancellation(1);
 		generateFirstEarnedPremiumBill(1);
 		generateSecondEarnedPremiumBill(1);
