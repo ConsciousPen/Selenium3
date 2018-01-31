@@ -52,6 +52,24 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         CustomAssert.assertAll();
     }
 
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Email change through service
+     * @scenario 1. Create customer
+     * 2. Create a policy
+     * 3. Create an endorsement, issue
+     * 4. Check Green Button endorsement is allowed and there are no errors present
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+    public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("VA") String state) {
+
+        pas6560_endorsementValidateAllowed(getPolicyType());
+    }
+
     /**
      * @author Oleg Stasyuk
      * @name Test Email change through service
