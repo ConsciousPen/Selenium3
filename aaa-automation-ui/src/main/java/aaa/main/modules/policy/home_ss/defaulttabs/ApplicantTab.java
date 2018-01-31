@@ -7,7 +7,6 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -43,8 +42,8 @@ public class ApplicantTab extends Tab {
         return this;
     }
 
-    public MultiInstanceAfterAssetList getNamedInsuredAssetList() {
-        return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiInstanceAfterAssetList.class);
+    public AssetList getNamedInsuredAssetList() {
+        return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
     }
 
     public AssetList getAAAMembershipAssetList() {
@@ -63,8 +62,8 @@ public class ApplicantTab extends Tab {
         return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
     }
 
-    public MultiInstanceAfterAssetList getOtherAAAPoliciesAssetList() {
-        return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), MultiInstanceAfterAssetList.class);
+    public AssetList getOtherAAAPoliciesAssetList() {
+        return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
     }
 
     public AssetList getAgentInfoAssetList() {
