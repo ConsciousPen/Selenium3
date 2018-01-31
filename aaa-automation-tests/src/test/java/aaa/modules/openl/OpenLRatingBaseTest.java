@@ -54,6 +54,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
+		//TODO-dchubkov: assert that date in openLFileName is valid
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
@@ -82,7 +83,11 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 		if (CollectionUtils.isNotEmpty(policyNumbers)) {
 			// Exclude extra rows from policies table to reduce time required for excel unmarshalling
-			ExcelTable policiesTable = openLFileManager.getSheet(OpenLFile.POLICY_SHEET_NAME).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
+			String policySheetName = OpenLFile.POLICY_SHEET_NAME;
+			if (getPolicyType().equals(PolicyType.AUTO_SS)) {
+				policySheetName = policySheetName + "AZ";
+			}
+			ExcelTable policiesTable = openLFileManager.getSheet(policySheetName).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
 			List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
 			policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()])).setComparisonRules(false, true);
 		}

@@ -7,36 +7,20 @@ import aaa.utils.excel.bind.ExcelTableElement;
 
 public class OpenLVehicle {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
-	private Integer number;
-	private String airbagCode;
-	private Integer annualMileage;
-	private String antiTheftString;
-	private Integer collSymbol;
-	private Integer compSymbol;
-	private String id;
-	private Boolean isHybrid;
-	private Boolean isTelematic; // OR specific
-	private Boolean isTeenTelematic; // CT specific ?
-	private Integer modelYear;
-	private Boolean newCarAddedProtection;
-	private Integer safetyScore;
-	private String statCode;
-	private String usage;
-	private Integer vehicleAge;
-	private Boolean isABS; // DC specific ?
-	private Boolean isDaytimeRunning; // DC specific ?
-	private String firstOrAddlVehicle; // NJ specific ?
-	private Integer maxDriverAge; // VA specific ?
-	private Integer totalVehiclePoint; // VA specific ?
+	protected Integer number;
 
-	@ExcelTableElement(sheetName = "Batch- Address", headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
-	private List<OpenLAddress> address;
+	protected Integer annualMileage;
+	protected Integer collSymbol;
+	protected Integer compSymbol;
+	protected String id;
+	protected Integer modelYear;
+	protected String statCode;
 
-	@ExcelTableElement(sheetName = "Batch- CoverageAZ", headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-	private List<OpenLCoverage> coverages;
+	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
+	protected List<OpenLAddress> address;
 
-	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<OpenLDriver> ratedDriver;
+	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	protected List<OpenLCoverage> coverages;
 
 	public Integer getNumber() {
 		return number;
@@ -46,28 +30,12 @@ public class OpenLVehicle {
 		this.number = number;
 	}
 
-	public String getAirbagCode() {
-		return airbagCode;
-	}
-
-	public void setAirbagCode(String airbagCode) {
-		this.airbagCode = airbagCode;
-	}
-
 	public Integer getAnnualMileage() {
 		return annualMileage;
 	}
 
 	public void setAnnualMileage(Integer annualMileage) {
 		this.annualMileage = annualMileage;
-	}
-
-	public String getAntiTheftString() {
-		return antiTheftString;
-	}
-
-	public void setAntiTheftString(String antiTheftString) {
-		this.antiTheftString = antiTheftString;
 	}
 
 	public Integer getCollSymbol() {
@@ -102,36 +70,12 @@ public class OpenLVehicle {
 		this.modelYear = modelYear;
 	}
 
-	public Integer getSafetyScore() {
-		return safetyScore;
-	}
-
-	public void setSafetyScore(Integer safetyScore) {
-		this.safetyScore = safetyScore;
-	}
-
 	public String getStatCode() {
 		return statCode;
 	}
 
 	public void setStatCode(String statCode) {
 		this.statCode = statCode;
-	}
-
-	public String getUsage() {
-		return usage;
-	}
-
-	public void setUsage(String usage) {
-		this.usage = usage;
-	}
-
-	public Integer getVehicleAge() {
-		return vehicleAge;
-	}
-
-	public void setVehicleAge(Integer vehicleAge) {
-		this.vehicleAge = vehicleAge;
 	}
 
 	public List<OpenLAddress> getAddress() {
@@ -150,113 +94,18 @@ public class OpenLVehicle {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public List<OpenLDriver> getRatedDriver() {
-		return new ArrayList<>(ratedDriver);
-	}
-
-	public void setRatedDriver(List<OpenLDriver> ratedDriver) {
-		this.ratedDriver = new ArrayList<>(ratedDriver);
-	}
-
-	public void setHybrid(Boolean hybrid) {
-		isHybrid = hybrid;
-	}
-
-	public void setTelematic(Boolean isTelematic) {
-		this.isTelematic = isTelematic;
-	}
-
-	public void setNewCarAddedProtection(Boolean newCarAddedProtection) {
-		this.newCarAddedProtection = newCarAddedProtection;
-	}
-
-	public void setTeenTelematic(Boolean isTeenTelematic) {
-		this.isTeenTelematic = isTeenTelematic;
-	}
-
-	public void setABS(Boolean isABS) {
-		this.isABS = isABS;
-	}
-
-	public void setDaytimeRunning(Boolean isDaytimeRunning) {
-		this.isDaytimeRunning = isDaytimeRunning;
-	}
-
 	@Override
 	public String toString() {
 		return "OpenLVehicle{" +
 				"number=" + number +
-				", airbagCode='" + airbagCode + '\'' +
 				", annualMileage=" + annualMileage +
-				", antiTheftString='" + antiTheftString + '\'' +
 				", collSymbol=" + collSymbol +
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
-				", isHybrid=" + isHybrid +
-				", isTelematic=" + isTelematic +
-				", isTeenTelematic=" + isTeenTelematic +
 				", modelYear=" + modelYear +
-				", newCarAddedProtection=" + newCarAddedProtection +
-				", safetyScore=" + safetyScore +
 				", statCode='" + statCode + '\'' +
-				", usage='" + usage + '\'' +
-				", vehicleAge=" + vehicleAge +
 				", address=" + address +
 				", coverages=" + coverages +
-				", ratedDriver=" + ratedDriver +
-				", isABS=" + isABS +
-				", isDaytimeRunning=" + isDaytimeRunning +
-				", firstOrAddlVehicle=" + firstOrAddlVehicle +
-				", maxDriverAge=" + maxDriverAge +
-				", totalVehiclePoint=" + totalVehiclePoint +
 				'}';
-	}
-
-	public Boolean isABS() {
-		return isABS;
-	}
-
-	public Boolean isDaytimeRunning() {
-		return isDaytimeRunning;
-	}
-
-	public Boolean isHybrid() {
-		return isHybrid;
-	}
-
-	public Boolean isTelematic() {
-		return isTelematic;
-	}
-
-	public Boolean isNewCarAddedProtection() {
-		return newCarAddedProtection;
-	}
-
-	public Boolean isTeenTelematic() {
-		return isTeenTelematic;
-	}
-
-	public String getFirstOrAddlVehicle() {
-		return firstOrAddlVehicle;
-	}
-
-	public void setFirstOrAddlVehicle(String firstOrAddlVehicle) {
-		this.firstOrAddlVehicle = firstOrAddlVehicle;
-	}
-
-	public Integer getMaxDriverAge() {
-		return maxDriverAge;
-	}
-
-	public void setMaxDriverAge(Integer maxDriverAge) {
-		this.maxDriverAge = maxDriverAge;
-	}
-
-	public Integer getTotalVehiclePoint() {
-		return totalVehiclePoint;
-	}
-
-	public void setTotalVehiclePoint(Integer totalVehiclePoint) {
-		this.totalVehiclePoint = totalVehiclePoint;
 	}
 }

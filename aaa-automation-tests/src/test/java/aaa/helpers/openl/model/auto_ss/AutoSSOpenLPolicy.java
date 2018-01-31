@@ -1,15 +1,15 @@
 package aaa.helpers.openl.model.auto_ss;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
-import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class AutoSSOpenLPolicy extends OpenLPolicy {
+	private LocalDateTime effectiveDate;
 	private Integer term;
 	private Boolean isHomeOwner;
 	private Integer creditScore;
@@ -56,14 +56,14 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer ycfAfterInception; // NY specific ?
 	private String tort; // PA specific ?
 
-	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = "Batch- VehicleAZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
-	private List<OpenLVehicle> vehicles;
+	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLVehicle> vehicles;
 
-	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<OpenLDriver> drivers;
+	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLDriver> drivers;
 
 	public Integer getTerm() {
 		return term;
@@ -225,11 +225,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
-	public List<OpenLVehicle> getVehicles() {
+	public List<AutoSSOpenLVehicle> getVehicles() {
 		return new ArrayList<>(vehicles);
 	}
 
-	public void setVehicles(List<OpenLVehicle> vehicles) {
+	public void setVehicles(List<AutoSSOpenLVehicle> vehicles) {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
@@ -241,11 +241,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.noOfVehiclesExcludingTrailer = noOfVehiclesExcludingTrailer;
 	}
 
-	public List<OpenLDriver> getDrivers() {
+	public List<AutoSSOpenLDriver> getDrivers() {
 		return new ArrayList<>(drivers);
 	}
 
-	public void setDrivers(List<OpenLDriver> drivers) {
+	public void setDrivers(List<AutoSSOpenLDriver> drivers) {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
@@ -361,6 +361,14 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.tort = tort;
 	}
 
+	public LocalDateTime getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDateTime effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
 	public void setHomeOwner(Boolean homeOwner) {
 		isHomeOwner = homeOwner;
 	}
@@ -408,7 +416,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String toString() {
 		return "AutoSSOpenLPolicy{" +
-				"term=" + term +
+				"effectiveDate=" + effectiveDate +
+				", term=" + term +
 				", isHomeOwner=" + isHomeOwner +
 				", creditScore=" + creditScore +
 				", isAAAMember=" + isAAAMember +
@@ -436,25 +445,28 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 				", nafAccidents=" + nafAccidents +
 				", avgAnnualERSperMember=" + avgAnnualERSperMember +
 				", insuredAge=" + insuredAge +
-				", cappingDetails=" + cappingDetails +
-				", vehicles=" + vehicles +
 				", noOfVehiclesExcludingTrailer=" + noOfVehiclesExcludingTrailer +
 				", multiCar=" + multiCar +
-				", drivers=" + drivers +
+				", supplementalSpousalLiability=" + supplementalSpousalLiability +
 				", umbiConvCode=" + umbiConvCode +
 				", aaaAPIPIncomeContBenLimit=" + aaaAPIPIncomeContBenLimit +
-				", aaaAPIPLengthIncomeCont=" + aaaAPIPLengthIncomeCont +
+				", aaaAPIPLengthIncomeCont='" + aaaAPIPLengthIncomeCont + '\'' +
 				", aaaPIPExtMedPayLimit=" + aaaPIPExtMedPayLimit +
 				", aaaPIPMedExpDeductible=" + aaaPIPMedExpDeductible +
 				", aaaPIPMedExpLimit=" + aaaPIPMedExpLimit +
-				", aaaPIPNonMedExp=" + aaaPIPNonMedExp +
-				", aaaPIPPrimaryInsurer=" + aaaPIPPrimaryInsurer +
+				", aaaPIPNonMedExp='" + aaaPIPNonMedExp + '\'' +
+				", aaaPIPPrimaryInsurer='" + aaaPIPPrimaryInsurer + '\'' +
 				", noOfAPIPAddlNamedRel=" + noOfAPIPAddlNamedRel +
 				", previousAaaInsurancePersistency=" + previousAaaInsurancePersistency +
-				", rbTier=" + rbTier +
+				", rbTier='" + rbTier + '\'' +
 				", yafAfterInception=" + yafAfterInception +
 				", ycfAfterInception=" + ycfAfterInception +
-				", tort=" + tort +
+				", tort='" + tort + '\'' +
+				", cappingDetails=" + cappingDetails +
+				", vehicles=" + vehicles +
+				", drivers=" + drivers +
+				", number=" + number +
+				", policyNumber='" + policyNumber + '\'' +
 				'}';
 	}
 

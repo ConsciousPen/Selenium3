@@ -4,10 +4,10 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLAddress {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
-	private Integer number;
+	protected Integer number;
 
-	private String state;
-	private String zip;
+	protected String state;
+	protected String zip;
 
 	public Integer getNumber() {
 		return number;

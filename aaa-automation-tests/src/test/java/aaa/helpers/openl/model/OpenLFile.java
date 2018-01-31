@@ -28,22 +28,22 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final int TESTS_HEADER_ROW_NUMBER = 5;
 
 	@ExcelTransient
-	public static final String POLICY_SHEET_NAME = "Batch- PolicyAZ";
+	public static final String POLICY_SHEET_NAME = "Batch- Policy";
 
 	@ExcelTransient
 	public static final String CAPPINGDETAILS_SHEET_NAME = "Batch- CappingDetails";
 
 	@ExcelTransient
-	public static final String VEHICLE_SHEET_NAME = "Batch- VehicleAZ";
+	public static final String VEHICLE_SHEET_NAME = "Batch- Vehicle";
 
 	@ExcelTransient
 	public static final String ADDRESS_SHEET_NAME = "Batch- Address";
 
 	@ExcelTransient
-	public static final String DRIVER_SHEET_NAME = "Batch- DriverAZ";
+	public static final String DRIVER_SHEET_NAME = "Batch- Driver";
 
 	@ExcelTransient
-	public static final String COVERAGE_SHEET_NAME = "Batch- CoverageAZ";
+	public static final String COVERAGE_SHEET_NAME = "Batch- Coverage";
 
 	@ExcelTransient
 	public static final String TESTS_SHEET_NAME = "Tests";

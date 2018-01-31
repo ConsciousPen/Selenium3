@@ -3,24 +3,19 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -75,104 +70,45 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|Not Licensed|Learner's Permit|";
 	}
 
-	TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
-		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
+	boolean isTrailer(String statCode) {
+		List<String> trailerStatCodes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
+		return trailerStatCodes.contains(statCode);
+	}
 
-		String vin = getVinFromDb(vehicle);
-		Map<String, Object> vehicleInformation = new HashMap<>();
-		if (StringUtils.isNotBlank(vin)) {
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto");
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
-		} else {
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
-			//TODO-dchubkov: Replace with valid stat code as soon as I get answer how to make these values appear on UI
-			//vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode());
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "regex=.*\\S.*");
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>00");
+	boolean isTrailerOrMotorHome(String usage) {
+		return Arrays.asList("P1", "P2", "P3", "PT", "PR").contains(usage);
+	}
 
-			if (isTrailerOrMotorHomeUsage(vehicle.getUsage())) {
-				boolean isTrailer = isTrailerCoverages(vehicle.getCoverages());
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), isTrailer ? "Trailer" : "Motor Home");
-				vehicleInformation.put(isTrailer ? AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel() : AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
-				if (!isTrailer) {
-					vehicleInformation.remove(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()); // not available for Motor Home
-				}
-			} else {
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getRandom("Private Passenger Auto", "Conversion Van"));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
-			}
-		}
-
-		int streetNumber = RandomUtils.nextInt(100, 1000);
-		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip());
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName));
-
-		switch (vehicle.getUsage()) {
-			case "A":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Artisan");
-				break;
-			case "B":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Business");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "No");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some description $<rx:\\d{3}>");
-				break;
-			case "F":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Farm");
-				break;
-			case "W1":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Commute");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel(), RandomUtils.nextInt(1, 15));
-				break;
-			case "W2":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Commute");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel(), RandomUtils.nextInt(16, 100));
-				break;
-			case "P":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure"); // or Nano in case of Nano policy
-				break;
-
-			//For Tailer, Golf Cart and Motor Home
-			case "P1":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied Less than 30 Days a Year");
-				break;
-			case "P2":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied 30-150 Days a Year");
-				break;
-			case "P3":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied More than 150 Days a Year");
-				break;
+	String getVehicleTabTrailerType(String statCode) {
+		switch (statCode) {
+			case "FW":
+			case "RT":
+			case "RQ":
+				return "Travel Trailer";
+			case "UT":
+				return "Utility Trailer";
+			case "PC":
+				return "Pickup Camper";
+			case "HT":
+				return "Horse Trailer";
 			case "PT":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Traveling Primary Residence");
-				break;
-			case "PR":
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Non-Traveling Primary Residence");
-				break;
+				return "Pop-up Tent";
 			default:
-				throw new IstfException("Unknown mapping for usage: " + vehicle.getUsage());
+				throw new IstfException("Unknown trailer type for statCode: " + statCode);
 		}
-
-		return new SimpleDataProvider(vehicleInformation);
 	}
 
-	boolean isTrailerCoverages(List<OpenLCoverage> coverages) {
-		return coverages.size() <= 2 && coverages.stream().allMatch(c -> "COMP".equals(c.getCoverageCD()) || "COLL".equals(c.getCoverageCD()));
-	}
-
-	boolean isTrailerOrMotorHomeUsage(String usage) {
-		return "P1".equals(usage) || "P2".equals(usage) || "P3".equals(usage) || "PT".equals(usage) || "PR".equals(usage);
+	String getVehicleTabMotorHomeType(String statCode) {
+		switch (statCode) {
+			case "MA":
+				return "Conventional Motor Home (Class A)";
+			case "MB":
+				return "Mini Motor Home (Class C)";
+			case "MC":
+				return "Camper Van (Class B)";
+			default:
+				throw new IstfException("Unknown motor home type for statCode: " + statCode);
+		}
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
@@ -231,7 +167,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPolicyLevelCoverage(String coverageCD) {
-		return "BI".equals(coverageCD) || "PD".equals(coverageCD) || "UMBI".equals(coverageCD) || "MP".equals(coverageCD) || "PIP".equals(coverageCD);
+		return Arrays.asList("BI", "PD", "UMBI", "MP", "PIP").contains(coverageCD);
 	}
 
 	TestData getVehicleTabVehicleDetailsData(String safetyScore) {
@@ -268,7 +204,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
 		String[] limitRange = limitOrDeductible.split("/");
-		assertThat(limitRange.length).as("Unknown mapping for limit/Deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 
 		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCD());
 		if (limitRange.length == 2) {
@@ -295,7 +231,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		LocalDateTime inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
 				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
 
-		int duration = Math.abs((int) Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays());
+		int duration = Math.abs(Math.toIntExact(Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
 		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt(duration));
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
@@ -339,29 +275,15 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	private String getVinFromDb(OpenLVehicle vehicle) {
-		String vin = "";
-		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
-		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerCoverages(vehicle.getCoverages())) {
-			//TODO-dchubkov: add argument for stat code
-			String getVinQuery = String.format("select VIN \n"
-							+ "from VEHICLEREFDATAVIN\n"
-							+ "inner join VEHICLEREFDATAMODEL\n"
-							+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
-							+ "where PHYSICALDAMAGECOLLISION %1$s AND PHYSICALDAMAGECOMPREHENSIVE %2$s AND YEAR %3$s AND (RESTRAINTSCODE %4$s) AND ANTITHEFTCODE %5$s",
-					vehicle.getCollSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
-					vehicle.getCompSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
-					vehicle.getModelYear() == null ? "IS NULL" : "= " + vehicle.getModelYear(),
-					vehicle.getAirbagCode() == null || "N".equals(vehicle.getAirbagCode()) ? "IS NULL" : "= " + getDbRestraintsCode(vehicle.getAirbagCode()),
-					vehicle.getAntiTheftString() == null ? "IS NULL" : "= " + getDbAntitheftCode(vehicle.getAntiTheftString()));
-
-			vin = DBService.get().getValue(getVinQuery).orElse(null);
+	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
+		Dollar cLimit = new Dollar(coverageLimit);
+		if (isPolicyLevelCoverage(coverageCD)) {
+			cLimit = cLimit.multiply(1000);
 		}
-		return vin;
+		return cLimit.toString().replaceAll("\\.00", "");
 	}
 
-	private String getDbRestraintsCode(String openlAirbagCode) {
+	String getDbRestraintsCode(String openlAirbagCode) {
 		switch (openlAirbagCode) {
 			case "N":
 				return null;
@@ -382,19 +304,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	private String getDbAntitheftCode(String openlAntiTheftString) {
+	String getDbAntitheftCode(String openlAntiTheftString) {
 		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
 	}
 
-	private String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
-		String formattedLimit = coverageLimit;
-		if ("BI".equals(coverageCD) || "PD".equals(coverageCD) || "UMBI".equals(coverageCD) || "MP".equals(coverageCD) || "PIP".equals(coverageCD)) {
-			formattedLimit += "000";
-		}
-		return new Dollar(formattedLimit).toString().replaceAll("\\.00", "");
-	}
-
-	private String covertToValidVin(String vin) {
+	String covertToValidVin(String vin) {
 		if (StringUtils.isBlank(vin)) {
 			return null;
 		}

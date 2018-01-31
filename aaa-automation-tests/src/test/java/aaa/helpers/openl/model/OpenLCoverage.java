@@ -4,13 +4,13 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLCoverage {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
-	private Integer number;
+	protected Integer number;
 
-	private Integer additionalLimitAmount;
-	private String coverageCD;
-	private String deductible;
-	private String glassDeductible;
-	private String limit;
+	protected Integer additionalLimitAmount;
+	protected String coverageCD;
+	protected String deductible;
+	protected String glassDeductible;
+	protected String limit;
 
 	public Integer getNumber() {
 		return number;
