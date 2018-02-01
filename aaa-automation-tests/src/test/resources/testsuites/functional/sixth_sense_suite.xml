@@ -58,6 +58,15 @@
         </classes>
     </test>
 
+    <test name="Removing Spp Lowers Total Premium HO3, HO6">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <!-- Commented out until defect PAS-5847 is fixed and merged to master
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium"/> -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium"/>
+        </classes>
+    </test>
+
 <!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
     <test name="PA View Rating Details Auto Tier value 1-16">
         <parameter name="state" value="PA"/>
@@ -69,7 +78,17 @@
         </classes>
     </test>
 
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display">
+    <test name="PA View Rating Details Market Tier value A-J">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetailsMarketTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsMarketTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetailsMarketTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetailsMarketTier"/>
+        </classes>
+    </test>
+
+    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="200">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
