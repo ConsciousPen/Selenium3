@@ -2,23 +2,22 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Chris Johns
@@ -40,7 +39,6 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6166")
-
 	public void pas6166_vehPageStatCodes(@Optional("") String state) {
 
 		//Adjust default test data to use a junk vin on the vehicle tab (junk vin will not have vin match) and enter other vehicle info fields
@@ -61,13 +59,10 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 
 		//Create a new list of Current Stat Codes available for selection on the Vehicle Page
-		List<String> availStatCodes = new ArrayList<>();
-		availStatCodes.addAll(new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE).getAllValues());
+		List<String> availStatCodes = new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE).getAllValues();
 
 		//Create a lit of Values that should be available in the STAT Code dropdown
-		ArrayList<String> correctStatSymbols = new ArrayList<>();
-		correctStatSymbols.addAll(Arrays.asList(
-				"",
+		List<String> correctStatSymbols = Arrays.asList("",
 				"Small SUV",
 				"Midsize High Exposure Vehicle",
 				"Large SUV",
@@ -80,12 +75,10 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 				"Small pickup or Utility Truck",
 				"Passenger Van",
 				"Small High Exposure Vehicle",
-				"Crossover/Station Wagon"
-		));
+				"Crossover/Station Wagon");
 
 		//Create a lit of Values that should NOT be available in the STAT Code dropdown
-		ArrayList<String> oldStatSymbols = new ArrayList<>();
-		oldStatSymbols.addAll(Arrays.asList(
+		List<String> oldStatSymbols = Arrays.asList(
 				"AC - Small SUV",
 				"AD - Midsize High Exposure Vehicle",
 				"AE - Large SUV",
@@ -99,11 +92,11 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 				"AX - Passenger Van",
 				"AY - Small High Exposure Vehicle",
 				"AZ - Crossover/Station Wagon"
-		));
+		);
 
 		//Verify the stat symbols were removed from the list of stat codes by comparing the Expected List of Values with the Actual Dropdown Values
 		assertThat(availStatCodes).doesNotContainAnyElementsOf(oldStatSymbols);
-		assertThat(availStatCodes).containsExactlyElementsOf(correctStatSymbols);
+		assertThat(availStatCodes).containsAll(correctStatSymbols);
 		log.info("SUCCESS: No STAT Code Symbols Present in STAT Code Dropdown during quote creation!");
 
 		//continue to bind: fill data until the
@@ -119,7 +112,7 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 
 		//Verify the stat symbols were removed from the list of stat codes by comparing the Expected List of Values with the Actual Dropdown Values
 		assertThat(availStatCodes).doesNotContainAnyElementsOf(oldStatSymbols);
-		assertThat(availStatCodes).containsExactlyElementsOf(correctStatSymbols);
+		assertThat(availStatCodes).containsAll(correctStatSymbols);
 		log.info("SUCCESS: No STAT Code Symbols Present in STAT Code Dropdown during endorsement!");
 
 	}
