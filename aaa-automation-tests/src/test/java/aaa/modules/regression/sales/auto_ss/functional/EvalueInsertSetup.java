@@ -2,14 +2,20 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
 @Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
+	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
 
 	@Test(description = "Delete old tasks")
 	public static void deleteOldTasksUpdate() {
@@ -53,9 +59,12 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for eValue related Document Generation, different endpoint than Master or PAS13")
 	public static void eValueDocGenStubEndpointInsert() {
-		DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
-		DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
-		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
+		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+			log.info("not a scrum env");
+			DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
+			DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
+			DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
+		}
 	}
 
 	@Test(description = "Precondition for enabling eValue Configuration for States with Paperless Preferences stubbed")
