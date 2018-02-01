@@ -82,7 +82,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE = "update PROPERTYCONFIGURERENTITY\n"
-			+ "set value ='http://%s:%srecordFinancialAccount.do'\n"
+			+ "set value ='http://%s%srecordFinancialAccount.do'\n"
 			+ "where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
@@ -172,7 +172,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set  DISPLAYVALUE='TRUE' where CODE='eRefunds'";
 
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s:%sws/billing/lastPayment'\n"
+			+ "set value = 'http://%s%sws/billing/lastPayment'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 }
