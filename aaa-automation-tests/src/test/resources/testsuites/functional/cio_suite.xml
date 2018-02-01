@@ -1,14 +1,93 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CIO Functional Test Suite" verbose="1" parallel="false" thread-count="1">
+<suite name="CIO Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS">
+    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
         <!--<parameter name="state" value="AZ"/>-->
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestMembershipValidationHomeSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas3786_validateMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_1" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas7524_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_2" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas7524_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas6142_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestNotOrderedMembershipError">
+                <methods>
+                    <include name="pas6142_checkNotOrderedMembershipErrors"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestMembershipValidation" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas3786_ScenarioAC1_Validate_Override"/>
+                    <include name="pas6800_pas3786_ScenarioAC1_Validate_NoOverride"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
+                    <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas3786_ScenarioAC1_Validate_Override"/>
+                    <include name="pas6800_pas3786_ScenarioAC1_Validate_NoOverride"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Endorsement"/>
+                    <include name="pas3786_ScenarioAC1_Validate_Override_Renewal"/>
+                    <include name="pas6668_ScenarioAC2_Dummy_Numbers_Manual_Renewal"/>
+                </methods>
             </class>
         </classes>
     </test>
