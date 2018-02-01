@@ -28,7 +28,7 @@ public interface TestEValueDiscountPreConditions {
 			+ "FROM LOOKUPVALUE \n"
 			+ "WHERE LOOKUPLIST_ID IN (\n"
 			+ "    SELECT ID \n"
-			+ "    FROM PASADM.LOOKUPLIST \n"
+			+ "    FROM LOOKUPLIST \n"
 			+ "    WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ "    AND CODE='eMember' \n"
 			+ "    and RiskStateCd = 'VA')";
@@ -38,7 +38,7 @@ public interface TestEValueDiscountPreConditions {
 			+ "FROM LOOKUPVALUE \n"
 			+ "WHERE LOOKUPLIST_ID IN (\n"
 			+ "    SELECT ID \n"
-			+ "    FROM PASADM.LOOKUPLIST \n"
+			+ "    FROM LOOKUPLIST \n"
 			+ "    WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ "    AND CODE='eMember' \n"
 			+ "    and RiskStateCd = 'VA')";
@@ -79,7 +79,7 @@ public interface TestEValueDiscountPreConditions {
 	String PAPERLESS_PRFERENCE_STUB_POINT = "select VALUE from "
 			+ "PROPERTYCONFIGURERENTITY"
 			+ " WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' "
-			+ " and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'";
+			+ " and  VALUE= 'http://%s%sws/policy/preferences'";
 
 	String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK = "select Effective from (\n"
 			+ "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"

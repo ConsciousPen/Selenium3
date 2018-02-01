@@ -135,7 +135,7 @@ BCT_ONL_031_PaymentMethod: {
 }
 
 BCT_ONL_032_ModifyPaymentMethod_PaymentPlan: {
-  SelectPolicy: "select DISTINCT A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C where LOB = 'AUTO' and riskstatecd = '/STATE/'  and A.policynumber = B.policynumber and B.account_id =C.account_id /*and C.signatureonfile is null*/ and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and trunc(expiration) > '/EXECDATE/'  and   trunc(expiration)-180 < '/EXECDATE/' and  rownum = 1"
+  SelectPolicy: "select DISTINCT A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C where LOB = 'AUTO' and riskstatecd = '/STATE/'  and A.policynumber = B.policynumber and B.account_id =C.account_id and txtype in ('policy') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and trunc(expiration)-90 > '/EXECDATE/' and  rownum = 1"
 }
 
 BCT_ONL_033_ModifyPaymentPlan: {
@@ -638,3 +638,24 @@ BCT_ONL_185_Refund_Validation: {
 BCT_ONL_186_Refund_Validation: {
   SelectPolicy: "select ps.policynumber from pasadm.policysummary ps, pasadm.INVOICE I, pasadm.billablepolicyterm p,pasadm.balanceinfo bi, pasadm.balanceamount ba, pasadm.paymentdetails pd, pasadm.billingaccount bact where ps.LOB = 'AUTO' and ps.IMPORTED ='NEW' and ps.riskstatecd ='CA' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.timedpolicystatuscd in ('inForce') and ps.currentrevisionind = 1 and (ps.donotrenewind is null or ps.donotrenewind = 0) and (ps.manualrenewind is null or ps.manualrenewind = 0)  and I.account_id = p.account_id and I.balance_info_id = bi.id and bi.balancedue_id = ba.id and p.account_id = pd.account_id and ps.policynumber = p.policynumber and p.paymentplan like '%annual%' and p.account_id = bact.id and bact.ENABLERECURRINGPAYMENTS = 1 and pd.DTYPE IN ('AAAPaymentDetailsPCICreditCard', 'AAAPaymentDetailsEFT') and ps.expiration - 25 = '/EXECDATE/' and  rownum = 1"
 }
+
+BCT_Empty_Endorsement_AAA_SS: {
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_SS' and timedpolicystatuscd in ('inForce') and LOB = 'AUTO' and riskstatecd = '/STATE/' and EXPIRATION - 100 > '/EXECDATE/' and rownum=1"
+}
+
+BCT_Empty_Endorsement_PUP: {
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_PUP_SS' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and EXPIRATION - 100 > '/EXECDATE/' and rownum=1"
+}
+
+BCT_Empty_Endorsement_Home_SS: {
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and policyformcd = 'HO4' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and EXPIRATION - 100 > '/EXECDATE/' and rownum=1"
+}
+
+BCT_Empty_Endorsement_Auto_CA: {
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_CSA' and policyformcd = 'CHOICE' and timedpolicystatuscd in ('inForce') and EXPIRATION - 100 > '/EXECDATE/' and rownum=1"
+}
+
+BCT_Empty_Endorsement_Home_CA: {
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_HO_CA' and policyformcd = 'HO6' and timedpolicystatuscd in ('inForce') and EXPIRATION - 100 > '/EXECDATE/' and rownum=1"
+}
+

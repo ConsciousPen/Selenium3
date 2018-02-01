@@ -35,6 +35,7 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 		generateInstallmentBill(1);
 		automaticCancellationNotice(1);
 		automaticCancellation(1);
+		writeOff(1);
 	}
 
 	@Override

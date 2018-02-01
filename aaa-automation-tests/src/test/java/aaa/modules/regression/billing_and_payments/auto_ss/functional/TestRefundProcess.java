@@ -47,6 +47,7 @@ import toolkit.webdriver.controls.TextBox;
 public class TestRefundProcess extends PolicyBilling {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
@@ -62,7 +63,7 @@ public class TestRefundProcess extends PolicyBilling {
 			" WHERE LOOKUPLIST_ID IN (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME LIKE '%Rollout%' and CODE='eRefunds' and DISPLAYVALUE='TRUE' )";
 
 	private static final String LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK = "select value from PROPERTYCONFIGURERENTITY " +
-			" where propertyname = 'lastPaymentService.lastPaymentServiceUrl' and value = 'http://%s:9098/aaa-external-stub-services-app/ws/billing/lastPayment'";
+			" where propertyname = 'lastPaymentService.lastPaymentServiceUrl' and value = 'http://%s%s/ws/billing/lastPayment'";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -98,7 +99,7 @@ public class TestRefundProcess extends PolicyBilling {
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertTrue("Erefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
 		CustomAssert.assertTrue("Erefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
-				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get()
 				.contains(APP_HOST));
 
 		CustomAssert.disableSoftMode();

@@ -2,14 +2,20 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
 @Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
+	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
 
 	@Test(description = "Delete old tasks")
 	public static void deleteOldTasksUpdate() {
@@ -19,12 +25,12 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
 	public static void paperlessPreferencesStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub")
 	public static void retrieveMembershipSummaryStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition for AHDRXX form generation")
@@ -53,9 +59,12 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for eValue related Document Generation, different endpoint than Master or PAS13")
 	public static void eValueDocGenStubEndpointInsert() {
-		DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
-		DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
-		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
+		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+			log.info("not a scrum env");
+			DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
+			DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
+			DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
+		}
 	}
 
 	@Test(description = "Precondition for enabling eValue Configuration for States with Paperless Preferences stubbed")
@@ -108,7 +117,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed")
 	public static void paymentCentralStubEndPointUpdate() {
-		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition")
@@ -137,6 +146,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points")
 	public static void lastPaymentMethodStubPointUpdate() {
-		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 }
