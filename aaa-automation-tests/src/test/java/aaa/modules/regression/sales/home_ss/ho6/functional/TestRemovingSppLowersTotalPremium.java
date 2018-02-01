@@ -72,7 +72,7 @@ public class TestRemovingSppLowersTotalPremium extends HomeSSHO6BaseTest {
         Dollar preEndorsement = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getColumn(2).getValue().get(0));
         Dollar actualPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getColumn(5).getValue().get(0));
 
-        assertThat(actualPremium.lessThan(preEndorsement)).as(preEndorsement + "should be less than " + actualPremium);
+        assertThat(actualPremium.lessThan(preEndorsement)).as(preEndorsement + "should be less than " + actualPremium).isTrue();
 
     }
 }
