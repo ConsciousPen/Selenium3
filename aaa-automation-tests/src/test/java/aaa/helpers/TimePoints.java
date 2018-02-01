@@ -245,11 +245,17 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getConversionEffectiveDate() {
-		return getConversionEffectiveDate(TimeSetterUtil.getInstance().getCurrentTime());
+		return getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimepointsList.RENEW_GENERATE_PREVIEW);
 	}
 
-	public LocalDateTime getConversionEffectiveDate(LocalDateTime date) {
-		List<String> timepoint = td.getList(TimepointsList.RENEW_GENERATE_PREVIEW.get());
+	/**
+	 * Retrieves effective date based on incoming params
+	 *
+	 * @param date      {@link LocalDateTime}
+	 * @param timePoint {@link TimepointsList}
+	 */
+	public LocalDateTime getEffectiveDateForTimePoint(LocalDateTime date, TimepointsList timePoint) {
+		List<String> timepoint = td.getList(timePoint.get());
 		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
 	}
 

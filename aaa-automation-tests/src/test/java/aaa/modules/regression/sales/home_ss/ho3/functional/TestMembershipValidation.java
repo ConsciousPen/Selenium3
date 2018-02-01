@@ -1,5 +1,8 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -11,9 +14,6 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -156,7 +156,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
      */
     private void validateMembership(){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportsTab.reorderReports();
+        reportsTab.reorderReports(); //noticed that for some reason reorderReports() doesn't work for Insurance Score Report on CHROME, worked on FF
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -237,11 +237,9 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
             bindTab.confirmRenewPurchase.buttonYes.click(Waiters.AJAX);
         }
 
-        if (errorTab.isVisible()){
-            errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+            errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME); //PAS-3786 PAS-8815
             errorTab.cancel();
             bindTab.submitTab();
-        }
 
         log.info("Membership Error Validation with Dummy Number Passed.");
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

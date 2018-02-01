@@ -1,0 +1,77 @@
+########################################
+#                                      #
+#   Conversion State-specific data     #
+#                                      #
+########################################
+
+# ---------- Conversion Data for UT ---------------
+
+TestData_ConversionAutoSS_UT: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_ConversionAutoSS_UT',
+  DriverTab: '@DriverTab_ConversionAutoSS_UT',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab_ConversionAutoSS',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ConversionAutoSS',
+  DriverActivityReportsTab: '@DriverActivityReportsTab_ConversionAutoSS',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ConversionAutoSS',
+  PurchaseTab: {}
+}
+
+GeneralTab_ConversionAutoSS_UT: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_ConversionAutoSS'
+}
+
+PolicyInformation_ConversionAutoSS: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  #Agency Location: 'Draper - 500005417 - Draper',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DriverTab_ConversionAutoSS_UT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'UT',
+  License Number: 400064773
+}
+
+VehicleTab_ConversionAutoSS: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  Type: 'Private Passenger Auto'
+}
+
+PremiumAndCoveragesTab_ConversionAutoSS: {
+  Payment Plan: 'Eleven Pay - Standard (Renewal)',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750'
+}
+
+DriverActivityReportsTab_ConversionAutoSS: {
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+DocumentsAndBindTab_ConversionAutoSS: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
