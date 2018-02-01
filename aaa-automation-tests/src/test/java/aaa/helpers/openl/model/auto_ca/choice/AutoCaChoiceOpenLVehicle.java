@@ -1,12 +1,19 @@
-package aaa.helpers.openl.model.auto_ca;
+package aaa.helpers.openl.model.auto_ca.choice;
 
+import java.util.ArrayList;
+import java.util.List;
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.utils.excel.bind.ExcelTableElement;
 
-public class AutoCaCOpenLVehicle extends OpenLVehicle {
-	protected Boolean antiLock;
-	protected Boolean antiTheft;
-	protected String vehType;
-	protected String vehicleUsageCd;
+public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
+	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	private List<AutoCaChoiceOpenLCoverage> coverages;
+
+	private Boolean antiLock;
+	private Boolean antiTheft;
+	private String vehType;
+	private String vehicleUsageCd;
 
 	public String getVehType() {
 		return vehType;
@@ -24,8 +31,24 @@ public class AutoCaCOpenLVehicle extends OpenLVehicle {
 		this.vehicleUsageCd = vehicleUsageCd;
 	}
 
+	public List<AutoCaChoiceOpenLCoverage> getCoverages() {
+		return new ArrayList<>(coverages);
+	}
+
+	public void setCoverages(List<AutoCaChoiceOpenLCoverage> coverages) {
+		this.coverages = new ArrayList<>(coverages);
+	}
+
+	public Boolean getAntiLock() {
+		return antiLock;
+	}
+
 	public void setAntiLock(Boolean antiLock) {
 		this.antiLock = antiLock;
+	}
+
+	public Boolean getAntiTheft() {
+		return antiTheft;
 	}
 
 	public void setAntiTheft(Boolean antiTheft) {
@@ -34,8 +57,9 @@ public class AutoCaCOpenLVehicle extends OpenLVehicle {
 
 	@Override
 	public String toString() {
-		return "AutoCaCOpenLVehicle{" +
-				"antiLock=" + antiLock +
+		return "AutoCaChoiceOpenLVehicle{" +
+				"coverages=" + coverages +
+				", antiLock=" + antiLock +
 				", antiTheft=" + antiTheft +
 				", vehType='" + vehType + '\'' +
 				", vehicleUsageCd='" + vehicleUsageCd + '\'' +
@@ -47,7 +71,6 @@ public class AutoCaCOpenLVehicle extends OpenLVehicle {
 				", modelYear=" + modelYear +
 				", statCode='" + statCode + '\'' +
 				", address=" + address +
-				", coverages=" + coverages +
 				'}';
 	}
 

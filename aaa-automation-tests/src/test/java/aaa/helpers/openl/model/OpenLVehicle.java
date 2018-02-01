@@ -19,9 +19,6 @@ public class OpenLVehicle {
 	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	protected List<OpenLAddress> address;
 
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-	protected List<OpenLCoverage> coverages;
-
 	public Integer getNumber() {
 		return number;
 	}
@@ -86,14 +83,6 @@ public class OpenLVehicle {
 		this.address = new ArrayList<>(address);
 	}
 
-	public List<OpenLCoverage> getCoverages() {
-		return new ArrayList<>(coverages);
-	}
-
-	public void setCoverages(List<OpenLCoverage> coverages) {
-		this.coverages = new ArrayList<>(coverages);
-	}
-
 	@Override
 	public String toString() {
 		return "OpenLVehicle{" +
@@ -105,7 +94,6 @@ public class OpenLVehicle {
 				", modelYear=" + modelYear +
 				", statCode='" + statCode + '\'' +
 				", address=" + address +
-				", coverages=" + coverages +
 				'}';
 	}
 }

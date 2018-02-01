@@ -1,21 +1,21 @@
 package aaa.helpers.openl.testdata_builder;
 
 import org.apache.commons.lang3.NotImplementedException;
-import aaa.helpers.openl.model.auto_ca.AutoCaCOpenLPolicy;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-public class AutoCaCTestDataGenerator extends TestDataGenerator<AutoCaCOpenLPolicy> {
-	public AutoCaCTestDataGenerator(String state) {
+public class AutoCaSelectTestDataGenerator extends TestDataGenerator<AutoCaSelectOpenLPolicy> {
+	public AutoCaSelectTestDataGenerator(String state) {
 		super(state);
 	}
 
-	public AutoCaCTestDataGenerator(String state, TestData ratingDataPattern) {
+	public AutoCaSelectTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
 	}
 
 	@Override
-	public TestData getRatingData(AutoCaCOpenLPolicy openLPolicy) {
+	public TestData getRatingData(AutoCaSelectOpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();
 	}
 

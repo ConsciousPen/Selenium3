@@ -1,8 +1,8 @@
-package aaa.helpers.openl.model.auto_ca;
+package aaa.helpers.openl.model.auto_ca.choice;
 
 import aaa.helpers.openl.model.OpenLDriver;
 
-public class AutoCaCOpenLDriver extends OpenLDriver {
+public class AutoCaChoiceOpenLDriver extends OpenLDriver {
 	private Boolean driverTrainingDiscount;
 	private Boolean goodDriver;
 	private Boolean matureDriver;

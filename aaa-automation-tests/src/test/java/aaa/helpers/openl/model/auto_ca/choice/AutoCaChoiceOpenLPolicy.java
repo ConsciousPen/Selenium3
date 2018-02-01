@@ -1,4 +1,4 @@
-package aaa.helpers.openl.model.auto_ca;
+package aaa.helpers.openl.model.auto_ca.choice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,30 +6,30 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.ExcelTableElement;
 
-public class AutoCaCOpenLPolicy extends OpenLPolicy {
+public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoCaCOpenLDriver> drivers;
+	private List<AutoCaChoiceOpenLDriver> drivers;
 
 	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
-	private List<AutoCaCOpenLVehicle> vehicles;
+	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	private Boolean multiCar;
 	private String nanoPolicyType;
 	private Integer term;
 
-	public List<AutoCaCOpenLDriver> getDrivers() {
+	public List<AutoCaChoiceOpenLDriver> getDrivers() {
 		return new ArrayList<>(drivers);
 	}
 
-	public void setDrivers(List<AutoCaCOpenLDriver> drivers) {
+	public void setDrivers(List<AutoCaChoiceOpenLDriver> drivers) {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
-	public List<AutoCaCOpenLVehicle> getVehicles() {
+	public List<AutoCaChoiceOpenLVehicle> getVehicles() {
 		return new ArrayList<>(vehicles);
 	}
 
-	public void setVehicles(List<AutoCaCOpenLVehicle> vehicles) {
+	public void setVehicles(List<AutoCaChoiceOpenLVehicle> vehicles) {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 

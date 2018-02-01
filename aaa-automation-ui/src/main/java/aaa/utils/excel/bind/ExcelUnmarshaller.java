@@ -262,9 +262,11 @@ public class ExcelUnmarshaller {
 	}
 
 	private Field getPrimaryKeyField(Class<?> tableRowClass) {
-		for (Field field : tableRowClass.getDeclaredFields()) {
-			if (field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
-				return field;
+		for (Class<?> clazz : getThisAndAllSuperClasses(tableRowClass)) {
+			for (Field field : clazz.getDeclaredFields()) {
+				if (isAccessible(field, tableRowClass) && field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
+					return field;
+				}
 			}
 		}
 		throw new IstfException(String.format("\"%s\" class does not have any primary key field", tableRowClass.getName()));

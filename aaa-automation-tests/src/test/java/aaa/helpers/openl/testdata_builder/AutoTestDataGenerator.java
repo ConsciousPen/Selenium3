@@ -10,7 +10,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -194,23 +193,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
 		}
-	}
-
-	String getPremiumAndCoveragesTabLimitOrDeductible(OpenLCoverage coverage) {
-		String coverageCD = coverage.getCoverageCD();
-		if ("SP EQUIP".equals(coverageCD)) {
-			return new Dollar(coverage.getLimit()).toString();
-		}
-
-		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
-		String[] limitRange = limitOrDeductible.split("/");
-		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
-
-		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCD());
-		if (limitRange.length == 2) {
-			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCD());
-		}
-		return returnLimit;
 	}
 
 	String getPremiumAndCoveragesFullSafetyGlass(String glassDeductible) {

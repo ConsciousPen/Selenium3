@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLCappingDetails;
-import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.ExcelTableElement;
@@ -32,7 +31,7 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME + "AZ", headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
-	private List<OpenLCoverage> coverages;
+	private List<AutoSSOpenLCoverage> coverages;
 
 	public List<OpenLCappingDetails> getCappingDetails() {
 		return new ArrayList<>(cappingDetails);
@@ -66,11 +65,11 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
-	public List<OpenLCoverage> getCoverages() {
+	public List<AutoSSOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
 
-	public void setCoverages(List<OpenLCoverage> coverages) {
+	public void setCoverages(List<AutoSSOpenLCoverage> coverages) {
 		this.coverages = new ArrayList<>(coverages);
 	}
 

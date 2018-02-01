@@ -13,10 +13,11 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.MockDataHelper;
-import aaa.helpers.openl.model.OpenLCoverage;
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
@@ -377,7 +378,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
 
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHome(vehicle.getUsage());
-			for (OpenLCoverage coverage : vehicle.getCoverages()) {
+			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCD());
 				if (isPolicyLevelCoverage(coverage.getCoverageCD())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -532,5 +533,22 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			vin = DBService.get().getValue(getVinQuery).orElse(null);
 		}
 		return vin;
+	}
+
+	private String getPremiumAndCoveragesTabLimitOrDeductible(AutoSSOpenLCoverage coverage) {
+		String coverageCD = coverage.getCoverageCD();
+		if ("SP EQUIP".equals(coverageCD)) {
+			return new Dollar(coverage.getLimit()).toString();
+		}
+
+		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
+		String[] limitRange = limitOrDeductible.split("/");
+		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+
+		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCD());
+		if (limitRange.length == 2) {
+			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCD());
+		}
+		return returnLimit;
 	}
 }

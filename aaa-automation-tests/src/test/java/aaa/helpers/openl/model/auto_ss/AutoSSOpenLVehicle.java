@@ -2,12 +2,17 @@ package aaa.helpers.openl.model.auto_ss;
 
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class AutoSSOpenLVehicle extends OpenLVehicle {
+	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	protected List<AutoSSOpenLCoverage> coverages;
+
+	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLDriver> ratedDriver;
+
 	private String airbagCode;
 	private String antiTheftString;
 	private Boolean isHybrid;
@@ -22,9 +27,6 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	private String firstOrAddlVehicle; // NJ specific ?
 	private Integer maxDriverAge; // VA specific ?
 	private Integer totalVehiclePoint; // VA specific ?
-
-	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<OpenLDriver> ratedDriver;
 
 	public String getAirbagCode() {
 		return airbagCode;
@@ -66,11 +68,11 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 		this.vehicleAge = vehicleAge;
 	}
 
-	public List<OpenLDriver> getRatedDriver() {
+	public List<AutoSSOpenLDriver> getRatedDriver() {
 		return new ArrayList<>(ratedDriver);
 	}
 
-	public void setRatedDriver(List<OpenLDriver> ratedDriver) {
+	public void setRatedDriver(List<AutoSSOpenLDriver> ratedDriver) {
 		this.ratedDriver = new ArrayList<>(ratedDriver);
 	}
 
@@ -96,6 +98,14 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 
 	public void setTotalVehiclePoint(Integer totalVehiclePoint) {
 		this.totalVehiclePoint = totalVehiclePoint;
+	}
+
+	public List<AutoSSOpenLCoverage> getCoverages() {
+		return new ArrayList<>(coverages);
+	}
+
+	public void setCoverages(List<AutoSSOpenLCoverage> coverages) {
+		this.coverages = new ArrayList<>(coverages);
 	}
 
 	public void setHybrid(Boolean hybrid) {
@@ -125,7 +135,9 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	@Override
 	public String toString() {
 		return "AutoSSOpenLVehicle{" +
-				"airbagCode='" + airbagCode + '\'' +
+				"coverages=" + coverages +
+				", ratedDriver=" + ratedDriver +
+				", airbagCode='" + airbagCode + '\'' +
 				", antiTheftString='" + antiTheftString + '\'' +
 				", isHybrid=" + isHybrid +
 				", isTelematic=" + isTelematic +
@@ -139,7 +151,6 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 				", firstOrAddlVehicle='" + firstOrAddlVehicle + '\'' +
 				", maxDriverAge=" + maxDriverAge +
 				", totalVehiclePoint=" + totalVehiclePoint +
-				", ratedDriver=" + ratedDriver +
 				", number=" + number +
 				", annualMileage=" + annualMileage +
 				", collSymbol=" + collSymbol +
@@ -148,7 +159,6 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 				", modelYear=" + modelYear +
 				", statCode='" + statCode + '\'' +
 				", address=" + address +
-				", coverages=" + coverages +
 				'}';
 	}
 
