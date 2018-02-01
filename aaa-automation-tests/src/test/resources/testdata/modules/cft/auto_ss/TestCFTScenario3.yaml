@@ -7,12 +7,10 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  },
+  DocumentsAndBindTab: {},
   AcceptPaymentActionTab: {
     Payment Method: 'Cash',
-    Amount: 10,
+    Amount: 10
   },
   DeclinePaymentActionTab: {
   }

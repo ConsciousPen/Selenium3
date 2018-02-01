@@ -8,8 +8,8 @@ OperationalReportsTab: {
     Category : 'Policy',
     Type: 'Policy Balancing and Reconciliation',
     Name: 'Policy Trial Balance (Sub Ledger)',
-    Accounting Date From: '/startTime:MM/dd/yyyy',
-    Accounting Date To: '/startTime+1y+13M+25d:MM/dd/yyyy',
+    Accounting Date From: $<today-27M>,
+    Accounting Date To: $<today>
   }
 }
 
@@ -18,7 +18,7 @@ OperationalReportsTab: {
     Category : 'Billing',
     Type: 'Billing Balancing and Reconciliation',
     Name: 'Billing Trial Balance (Sub Ledger)',
-    Activity Date From: '/startTime:MM/dd/yyyy',
-    Activity Date To: '/startTime+1y+13M+25d:MM/dd/yyyy',
+    Activity Date From: $<today-27M>,
+    Activity Date To: $<today>
   }
 }

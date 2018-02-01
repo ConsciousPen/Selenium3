@@ -21,7 +21,8 @@ AcceptPaymentActionTab: {
 }
 
 CancellationActionTab: {
-  Cancellation reason: 'Rewrite Accommodation',
+  Cancellation effective date: $<startTime+2d>,
+  Cancellation reason: 'Rewrite Accommodation'
 }
 
 ReinstatementActionTab: {
@@ -35,7 +36,7 @@ AddSuspenseActionTab: {
 
 ClearSuspenseActionTab: {
   Allocation: {},
-  Payment Amount: 50,
+  Payment Amount: 50
 }
 
 SearchSuspenseActionTab: {

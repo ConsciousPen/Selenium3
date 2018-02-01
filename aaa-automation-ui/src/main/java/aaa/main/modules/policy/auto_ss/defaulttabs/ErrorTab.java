@@ -18,7 +18,8 @@ import toolkit.webdriver.controls.composite.table.Table;
  * @category Generated
  */
 public class ErrorTab extends CommonErrorTab {
-	public Table tableErrorInfo = new Table(By.xpath("//form[@id='errorsForm']//table"));
+
+	public Table tableErrors = new Table(By.xpath(".//form[@id='errorsForm']//table"));
 
 	public ErrorTab() {
 		super(AutoSSMetaData.ErrorTab.class);

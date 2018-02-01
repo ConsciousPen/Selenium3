@@ -83,6 +83,10 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 	}
 
 	private XmlSuite alterSuite(XmlSuite suite) {
+		String customSuiteName = PropertyProvider.getProperty("test.suitename");
+		if (!customSuiteName.isEmpty()) {
+			suite.setName(customSuiteName);
+		}
 		XmlTest newCATest = new XmlTest();
 		CustomLogger.getInstance().info(suite.toXml());
 		List<XmlTest> newTests = new LinkedList<>();

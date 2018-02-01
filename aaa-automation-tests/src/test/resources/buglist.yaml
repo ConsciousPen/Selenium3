@@ -117,7 +117,7 @@ OSI-1112:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
-      messages: ["Timed out waiting for page load"]
+      messages: ["unknown error: Element"]
 OSI-1114:
   summary: "OSI: the test passes locally, but fails in Jenkins"
   reason: PROD
@@ -129,7 +129,7 @@ OSI-1115:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["Cannot set value of AssetList {DriverActivityReportsTab"]
+      messages: ["Cannot set value"]
 OSI-1116:
   summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesn't"
   reason: PROD
@@ -150,6 +150,24 @@ PAS-7972:
       messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
+PAS-8994:
+  summary: "Entity of type VASS926232462 and with a number of 1 was not found"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
+      messages: ["Entity input stream has already been closed"]
+    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
+      messages: ["Entity input stream has already been closed"]
+    - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
+      messages: ["Entity input stream has already been closed"]
+PAS-9101:
+  summary: "Regression: Home CA: Payment plan of renewal changes incorrectly after renewal offer generated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario13.TC01_createPolicy]
+      messages: ["Column 'Payment Plan' expected [Semi-Annual (Renewal)] but found [Monthly Standard (Renewal)]"]
+    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy]
+      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
 PAS-8288:
   summary: "Last Payment Method stub implementation and test refactoring to use it"
   reason: PROD
@@ -168,3 +186,16 @@ PAS-8288:
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
     aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
       messages: ["by zero"]
+PAS-9157:
+  summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
+      messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
+PAS-9361:
+  summary: "Generate eSignature Document button doesnt open email popup"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
+      messages: ["Email"]
+

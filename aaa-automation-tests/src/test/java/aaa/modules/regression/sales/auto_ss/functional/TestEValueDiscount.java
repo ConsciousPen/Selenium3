@@ -4,11 +4,14 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
@@ -84,6 +87,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
     private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
     private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
+
+    private static final String PAPERLESS_PREFRENCES_NOT_ENROLLED =
+            "In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
 
     private static final List<String> PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
     private static final List<String> NOT_PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_8, MESSAGE_BULLET_9, MESSAGE_BULLET_7);
@@ -249,6 +255,111 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
     /**
      * @author Oleg Stasyuk
+     * @name Test eValue Configurations check
+     * @scenario 1. Check DB lookups
+     * @details
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231"})
+    public void pas436_AAAeValueLookups(@Optional("VA") String state) {
+
+        String lookupCheckNoState = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
+                + "from lookupvalue where 1=1\n"
+                + "and dtype = '%s'\n"
+                + "and code = '%s'\n"
+                + "and displayvalue = '%s'\n"
+                + "and PRODUCTCD = '%s'\n"
+                + "and RISKSTATECD is null\n"
+                + "and EFFECTIVE is null\n"
+                + "and EXPIRATION is null\n"
+                + "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
+
+        String lookupCheckWithState = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
+                + "from lookupvalue where 1=1\n"
+                + "and dtype = '%s'\n"
+                + "and code = '%s'\n"
+                + "and displayvalue = '%s'\n"
+                + "and PRODUCTCD = '%s'\n"
+                + "and RISKSTATECD ='%s'\n"
+                + "and EFFECTIVE is null\n"
+                + "and EXPIRATION is null\n"
+                + "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
+
+        String lookupCheckNoStateNoProduct = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
+                + "from lookupvalue where 1=1\n"
+                + "and dtype = '%s'\n"
+                + "and code = '%s'\n"
+                + "and displayvalue = '%s'\n"
+                + "and PRODUCTCD is null\n"
+                + "and RISKSTATECD is null\n"
+                + "and EFFECTIVE is null\n"
+                + "and EXPIRATION is null\n"
+                + "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
+
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "annualSS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "semiAnnual6SS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "annualSS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "semiAnnual6SS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciDebitCard", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciCreditCard", "FALSE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "eft", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "25000/50000", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBILimits", "50000/100000", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorInsurance", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "membershipEligibility", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBIRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paymentPlanRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "myPolicyRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paperlessPreferencesRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications"))
+                .isPresent());
+
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "eMember", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "AHDRXX", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "AHDEXX", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert.assertTrue(DBService.get()
+                .getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert.assertTrue(DBService.get()
+                .getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_HO_SS", state, "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "AHMVXX2", "FALSE", "AAA_SS", state, "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE", "AAA_SS", state, "AAARolloutEligibilityLookup"))
+                .isPresent());
+
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eMember", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDRXX", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDEXX", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "FALSE", "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVXX2", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "FALSE", "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup"))
+                .isPresent());
+        CustomAssert
+                .assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+    }
+
+    /**
+     * @author Oleg Stasyuk
      * @name Test eValue Discount
      * @scenario 1. Create new eValue eligible quote
      * 2. Check Default properties of eValue Discount field
@@ -359,7 +470,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
      * 3. See if eMember status = No
      * 4. DB check for evalue status in the Database NOTENROLLED
      * @details
-
      * @scenario 3. Create new eValue eligible policy with membership yes and paperless preferences yes evalue yes
      * 2. Check policy consolidated view.
      * 3. See if eMember status = active
@@ -427,7 +537,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
      * 3. See if eMember status = Pending
      * 4. DB check for evalue status in the Database Pending
      * @details
-     * */
+     */
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
@@ -762,8 +872,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EVALUE_ACKNOWLEDGEMENT).setValue("Yes");
 
-        documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)
-                .click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
+        //BUG  PAS-9361 Generate eSignature Document button doesnt open email popup
+        documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS).click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
         documentsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS)
                 .setValue("test@email.com");
         documentsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
@@ -807,7 +917,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValuePriorBiConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232"})
-    public void pas232_eValuePriorBiConfigurationDependency(@Optional("VA") String state) {
+    public void pas232_eValuePriorBiConfigurationDependency(@Optional("OR") String state) {
         eValueQuoteCreation();
         CustomAssert.enableSoftMode();
 
@@ -1045,6 +1155,43 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     }
 
     /**
+     * @author Jovita Pukenaite
+     * @name Bind Endorsement - Paperless Billing Preferences Other Than OPT_IN
+     * @scenario 1. Create new eValue eligible quote for DC
+     * 2. Bind Policy, check eValueDiscount field is disabled in P&C tab
+     * 3. Do midTerm Endorsement,
+     * 4. set eValue = Yes in P&C tab
+     * 5. Check if error message is displayed, when response from API is OPT_IN. (state==DC)
+     * 6. Do Endorsement NB+14d,
+     * 7. Check if error message is not displayed, when response from API is other than OPT_IN
+     * (state==MD).
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+    public void pas294_PaperlessBillingPreferencesOtherThanOptIn(@Optional("DC") String state) {
+
+        eValueQuoteCreation();
+        simplifiedQuoteIssue();
+
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
+                .APPLY_EVALUE_DISCOUNT).setValue("Yes");
+
+        if ("DC".equals(state)) {
+            //Check if error message is displayed, when response from API is OPT_IN. (state==DC)
+            assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED))
+                    .isTrue();
+        } else {
+            //Check if error message is not displayed, when response from API is other than OPT_IN
+            assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED))
+                    .isFalse();
+        }
+    }
+
+    /**
      * @author Megha Gubbala
      * @name Test Configuration for eValue for Membership eligibility
      * @scenario 1. Create new eValue eligible quote for VA
@@ -1058,7 +1205,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueMembershipConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3007")
-    public void pas3007_eValueMembershipConfiguration(@Optional("VA") String state) {
+    public void pas3007_eValueMembershipConfiguration(@Optional("OR") String state) {
 
         eValueQuoteCreation();
 
@@ -1113,16 +1260,48 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
-    public void pas3693_eValueConfiguration(@Optional("VA") String state) {
+    public void pas3693_eValueConfiguration1(@Optional("OR") String state) {
         CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
         checkBlueBoxMessagesWithDiffData(8, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, "membership");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration2(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
         checkBlueBoxMessagesWithDiffData(12, MESSAGE_INFO_4, CURRENT_BI_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
         checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
         checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior");
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+    public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
+        CustomAssert.enableSoftMode();
         verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
         checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior");
         CustomAssert.disableSoftMode();
@@ -1174,7 +1353,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3694")
-    public void pas3694_eValueBlueBoxAndStaticText(@Optional("VA") String state) {
+    public void pas3694_eValueBlueBoxAndStaticText(@Optional("OR") String state) {
 
         eValueQuoteCreation();
 
@@ -1331,10 +1510,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     void eValueQuoteCreation() {
         //Default VA test data didn't work, so had to use multiple adjustments
         TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-        //TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
+        TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
         TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
         TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
-                //.adjust("PolicyInformation", policyInformationSectionAdjusted)
+                .adjust("PolicyInformation", policyInformationSectionAdjusted)
                 .adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
 
         TestData eValuePolicyData = defaultTestData

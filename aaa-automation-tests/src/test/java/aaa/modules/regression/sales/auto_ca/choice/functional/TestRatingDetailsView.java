@@ -24,7 +24,8 @@ public class TestRatingDetailsView extends TestSymbolsPresenceTemplate {
 	*@author Viktor Petrenko
 	*@modified Lev Kazarnovskiy
 	*@name View Rating details UI update.
-	*@scenario 0. Create customer
+	*@scenario
+	*0. Create customer
 	*1. Initiate Auto Select quote creation
 	*2. Go to the vehicle tab, fill info with valid VIN
 	*3. Add second vehicle with VIN that do not match any values in DB

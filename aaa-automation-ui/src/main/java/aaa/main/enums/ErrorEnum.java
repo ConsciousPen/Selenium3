@@ -112,6 +112,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA9231984("AAA_CSA9231984", "At least one phone number must be provided (AAA_CSA9231984) [for AAADocumentRulesComponent.attributeForRules]"),
 		ERROR_AAA_CAC7150833("AAA_CAC7150833_CA_CHOICE", "Driver with more than 2 Major violations in the last 3 years is unacceptable ..."),
 		ERROR_AAA_CA_HOCN0400("AAA_CA_HOCN0400", "A high level premium variance has been detected between the legacy renewal pr..."),
+		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT","A valid insurance score report for at least one named insured or insurance sc..."),
 
 		// Auto Errors
 		ERROR_AAA_SS171018("AAA_SS171018","Non-members are ineligible for coverage."),

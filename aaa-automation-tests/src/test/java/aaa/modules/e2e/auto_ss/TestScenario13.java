@@ -4,7 +4,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
@@ -39,10 +38,10 @@ public class TestScenario13 extends Scenario13 {
 			generateFifthBill();
 			removeAutoPay();
 			payFifthBill();
-			changePaymentPlanDuringEndorsement(); 
+			changePaymentPlan(); 
 			generateSixthBill(); 
 			paySixthBill();
-			refundGeneration(); 
+			smallBalanceGeneration(); 
 			cancelNoticeNotGenerated(); 
 			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 

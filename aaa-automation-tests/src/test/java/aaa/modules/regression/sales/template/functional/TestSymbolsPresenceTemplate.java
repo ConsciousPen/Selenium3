@@ -4,8 +4,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
-import static aaa.main.enums.DocGenEnum.Documents._554000;
-import static aaa.main.enums.DocGenEnum.Documents._55_4000;
+import static aaa.main.enums.DocGenEnum.Documents.AA11CA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.PolicyBaseTest;
@@ -53,32 +53,36 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		// End of PAS-2712 Update UI (View Rating Details)
 	}
 
-	public void verifySymbolsPresenceInDocs(){
+	public void verifySymbolsPresenceInDocs() {
+		DocGenEnum.Documents selectDocument = DocGenEnum.Documents._554000;
+		DocGenEnum.Documents choiceDocument = DocGenEnum.Documents.AA11CA;
+
+		String query;
+		List<DocGenEnum.Documents> docsToCheck;
+
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
-		/*String policyNumber = "CAAS926232191";
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);*/
 
 		policy.policyDocGen().start();
-		generateOnDemandDocumentActionTab.verify.documentsPresent(_554000);
-		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, _554000.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
-		generateOnDemandDocumentActionTab.generateDocuments(_554000);
-
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber,_55_4000.getId(),ADHOC_DOC_ON_DEMAND_GENERATE);
-
-		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList("_55_4000"));
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			generateDocument(selectDocument, policyNumber);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 4000", ADHOC_DOC_ON_DEMAND_GENERATE);
+			docsToCheck = getEnumList(Arrays.asList("_55_4000"));
+		}
+		else{
+			generateDocument(choiceDocument, policyNumber);
+			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, choiceDocument.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
+			docsToCheck = getEnumList(Arrays.asList(AA11CA.getId()));
+		}
 
 		docsToCheck.forEach(docID -> {
-			//Select doc from DB
+			// Start PAS-2713 Scenario 1: all states except CA/NY  stat code != N/A
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStAbrv", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
-			//Check that doc contains expected node
 			assertSoftly(softly -> softly.assertThat(actualNode).isNotEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
+			// End PAS-2713 Scenario 1: all states except CA/NY  stat code != N/A
+
 			// Start Check that changes doesn't affect CA PAS-532
 			List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, query);
 			assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNullOrEmpty());
@@ -89,6 +93,22 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		});
 	}
 
+	public void generateDocument(DocGenEnum.Documents document, String policyNumber) {
+		generateOnDemandDocumentActionTab.verify.documentsPresent(document);
+		generateOnDemandDocumentActionTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, document.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+		generateOnDemandDocumentActionTab.generateDocuments(document);
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+	}
+
+	public void pas532_CommonChecks(String query, DocGenEnum.Documents docID) {
+		List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, query);
+		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNullOrEmpty());
+
+		List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, query);
+		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNullOrEmpty());
+	}
 
 	private List<DocGenEnum.Documents> getEnumList(List<String> valuesList) {
 		return valuesList.stream().map(DocGenEnum.Documents::valueOf).collect(Collectors.toList());

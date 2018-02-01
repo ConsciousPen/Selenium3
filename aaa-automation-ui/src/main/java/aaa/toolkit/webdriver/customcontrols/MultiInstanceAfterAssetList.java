@@ -23,9 +23,6 @@ public class MultiInstanceAfterAssetList extends MultiAssetList {
 		if (index > 0) {
 			((Button) getAssetCollection().get("Add")).click();
 		}
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.reject();
-		}
 	}
 
 	@Override

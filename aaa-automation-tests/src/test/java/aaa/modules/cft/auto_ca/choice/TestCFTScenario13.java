@@ -1,16 +1,15 @@
 package aaa.modules.cft.auto_ca.choice;
 
-import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.actiontabs.CancellationActionTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.modules.cft.ControlledFinancialBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -30,13 +29,15 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario13(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptPaymentStartDatePlus2();
-		addSuspenseEffDatePlus2();
-		manualCancellationStartDatePlus16(TestData.makeKeyPath(CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()));
-		clearSuspenseEffDatePlus16();
-		manualReinstatementStartDatePlus25();
-		endorsePolicyCancellationNoticeDate();
-		declineSuspensePaymentCancellationDate();
+		acceptPaymentOnStartDatePlus2();
+		addSuspenseOnStartDatePlus2();
+		generateInstallmentBill(1);
+		flatCancellationOnStartDatePlus16();
+		clearSuspenseOnStartDatePlus16();
+		acceptMinDuePaymentOnStartDatePlus25();
+		manualReinstatementOnStartDatePlus25();
+		endorsePolicyOnCancellationNoticeDate();
+		declineSuspensePaymentOnCancellationDate();
 	}
 
 	@Override

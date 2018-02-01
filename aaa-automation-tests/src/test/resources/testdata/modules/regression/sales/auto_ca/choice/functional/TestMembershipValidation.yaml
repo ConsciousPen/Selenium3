@@ -113,9 +113,9 @@ TestData_Dummy_Number2: {
   GeneralTab:{
     NamedInsuredInformation: {},
     AAAProductOwned: {
-#      Current AAA Member: 'Yes',
+      Current AAA Member: 'Yes',
       Membership Number: 9999991111111112,
-#      Member Last Name: Test,
+      Member Last Name: Test,
     },
     ContactInformation: {},
     PolicyInformation: {
@@ -136,9 +136,9 @@ TestData_Dummy_Number3: {
   GeneralTab:{
     NamedInsuredInformation: {},
     AAAProductOwned: {
-#      Current AAA Member: 'Yes',
+      Current AAA Member: 'Yes',
       Membership Number: 9999992222222228,
-#      Member Last Name: Test,
+      Member Last Name: Test,
     },
     ContactInformation: {},
     PolicyInformation: {
@@ -159,9 +159,9 @@ TestData_Dummy_Number4: {
   GeneralTab:{
     NamedInsuredInformation: {},
     AAAProductOwned: {
-#      Current AAA Member: 'Yes',
+      Current AAA Member: 'Yes',
       Membership Number: 9999993333333334,
-#      Member Last Name: Test,
+      Member Last Name: Test,
     },
     ContactInformation: {},
     PolicyInformation: {
@@ -181,9 +181,9 @@ TestData_Dummy_Number5: {
   GeneralTab:{
     NamedInsuredInformation: {},
     AAAProductOwned: {
-#      Current AAA Member: 'Yes',
+      Current AAA Member: 'Yes',
       Membership Number: 9999994444444440,
-#      Member Last Name: Test,
+      Member Last Name: Test,
     },
     ContactInformation: {},
     PolicyInformation: {
@@ -203,9 +203,9 @@ TestData_Dummy_Number6: {
   GeneralTab:{
     NamedInsuredInformation: {},
     AAAProductOwned: {
-#      Current AAA Member: 'Yes',
+      Current AAA Member: 'Yes',
       Membership Number: 9999995555555551,
-#      Member Last Name: Test,
+      Member Last Name: Test,
     },
     ContactInformation: {},
     PolicyInformation: {

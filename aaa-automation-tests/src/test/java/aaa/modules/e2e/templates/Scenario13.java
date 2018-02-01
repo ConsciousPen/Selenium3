@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
+import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -12,6 +13,7 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -42,6 +44,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.TextBox;
 
 public class Scenario13 extends ScenarioBaseTest {
 	
@@ -187,20 +190,26 @@ public class Scenario13 extends ScenarioBaseTest {
 	}
 	
 	//DD6-21
-	protected void changePaymentPlanDuringEndorsement() {
+	protected void changePaymentPlan() {
 		LocalDateTime endorseDueDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(6)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(endorseDueDate);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);		
 		Dollar totalDueBeforeEndorsement =  new Dollar(BillingSummaryPage.getTotalDue());
+		Dollar endorseAmount = new Dollar(0);
 		
-		BillingSummaryPage.openPolicy(policyEffectiveDate);				
-		TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
-		policy.endorse().performAndFill(endorsementTD);
-		Dollar endorseAmount = new Dollar(PolicySummaryPage.TransactionHistory.getTranPremium()); 
+		if (getPolicyType().isCaProduct()) {
+			billingAccount.changePaymentPlan().perform("Semi-Annual");
+		}
+		else {
+			BillingSummaryPage.openPolicy(policyEffectiveDate);	
+			TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+			policy.endorse().performAndFill(endorsementTD);
+			endorseAmount = new Dollar(PolicySummaryPage.TransactionHistory.getTranPremium()); 
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
+		}
 		
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
 		Dollar totalDueAfterEndorsement;
 		if (endorseAmount.isNegative()) {
 			totalDueAfterEndorsement = new Dollar(totalDueBeforeEndorsement.add(endorseAmount));
@@ -221,13 +230,15 @@ public class Scenario13 extends ScenarioBaseTest {
 			softly.assertThat(installmentDues.get(6)).as("Last installment amount is incorrect").isEqualTo(totalDueAfterEndorsement);
 		});		
 		
-		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(endorseDueDate)
-			.setPolicy(policyNum)
-			.setType(PaymentsAndOtherTransactionType.PREMIUM)
-			.setSubtypeReason(reason)
-			.setAmount(endorseAmount).verifyPresent();
-		
+		if (!getPolicyType().isCaProduct()) {
+			TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+			String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(endorseDueDate)
+				.setPolicy(policyNum)
+				.setType(PaymentsAndOtherTransactionType.PREMIUM)
+				.setSubtypeReason(reason)
+				.setAmount(endorseAmount).verifyPresent();
+		}	
 	}
 	
 	protected void generateSixthBill() {
@@ -246,15 +257,15 @@ public class Scenario13 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 	
-	protected void refundGeneration() {
-		LocalDateTime refundDate = getTimePoints().getRefundDate(installmentDueDates.get(6)); 
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
+	protected void smallBalanceGeneration() { 
+		LocalDateTime smallBalanceGenDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(smallBalanceGenDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		
 		Dollar amount = new Dollar(4.99);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(refundDate)
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(smallBalanceGenDate)
 			.setAmount(amount.negate())
 			.setType(PaymentsAndOtherTransactionType.ADJUSTMENT)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.SMALL_BALANCE_WRITE_OFF)
@@ -371,16 +382,54 @@ public class Scenario13 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		Dollar renewalBillAmount = new Dollar(BillingHelper.getBillCellValue(policyExpirationDate, BillingBillsAndStatmentsTable.MINIMUM_DUE)); 
 		BillingSummaryPage.openPolicy(policyExpirationDate);
+				
+		TestData createVersionTD = getTestSpecificTD("TestData_CreateVersion");		
 		
-		TestData createVersionTD = getTestSpecificTD("TestData_CreateVersion");			
 		PolicySummaryPage.buttonRenewals.click();		
 		policy.policyInquiry().start(); 
-		new GeneralTab().createVersion(); 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
-		new PremiumAndCoveragesTab().fillTab(createVersionTD);
-		PremiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		
+		if (getPolicyType().isAutoPolicy()) { 
+			if (getPolicyType().isCaProduct()) {
+				new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get()); 
+				new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab().fillTab(createVersionTD);
+				aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+				new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().submitTab();
+			}
+			else {
+				new GeneralTab().createVersion(); 
+				NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
+				new PremiumAndCoveragesTab().fillTab(createVersionTD);
+				PremiumAndCoveragesTab.calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+				new DocumentsAndBindTab().submitTab();		
+			}
+		}
+		if (!getPolicyType().isAutoPolicy()) {
+			if (getPolicyType().isCaProduct()) {
+				new aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
+				new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().fillTab(createVersionTD);
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get()); 
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+				new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab().fillTab(createVersionTD);
+				new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab().calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+				new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().submitTab();
+			} 
+			else {
+				new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+				new aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab().fillTab(createVersionTD);
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get()); 
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+				new aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab().fillTab(createVersionTD);
+				new aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab().calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+				new aaa.main.modules.policy.home_ss.defaulttabs.BindTab().submitTab();
+			}
+		}		
 		
 		PolicySummaryPage.buttonRenewalQuoteVersion.isEnabled();
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();		
@@ -394,9 +443,16 @@ public class Scenario13 extends ScenarioBaseTest {
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
 			.setAmount(premiumNewVersion.subtract(premiumFirstRenewal)).verifyPresent();
 		
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+		if (getState().equals(Constants.States.CA)) {
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER)
 			.setDueDate(policyExpirationDate)
 			.setMinDue(renewalBillAmount).verifyPresent();
+		}
+		else {
+			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(policyExpirationDate)
+			.setMinDue(renewalBillAmount).verifyPresent();
+		}
 		
 		BillingSummaryPage.getMinimumDue().verify.equals(renewalBillAmount);		
 	}	

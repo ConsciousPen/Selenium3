@@ -1,0 +1,40 @@
+VehicleTab_MotorHome: {
+  Type: 'Motor Home',
+  InformationNoticeDialog:{
+    OK: 'click'
+  },
+  Motor Home Type: 'index=1',
+  Usage: 'index=1',
+  Year: '2018',
+  Other Model: 'Model',
+  Other Make: 'Other Make',
+  Stated Amount: '10000',
+}
+
+VehicleTab_Antique: {
+  Type: 'Limited Production/Antique',
+   InformationNoticeDialog:{
+      OK: 'click'
+    },
+  Usage: 'index=1',
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Other Model: 'Other Model',
+  Other Series: 'Other Series',
+  Other Body Style: 'index=1',
+  Stated Amount: '10000',
+}
+
+VehicleTab_PrivatePassengerAuto: {
+  Type: 'Private Passenger Auto',
+  Usage: 'Pleasure',
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Other Model: 'Model',
+  Other Series: 'Other Series',
+  Other Body Style: 'index=1',
+  Stat Code: 'index=1',
+  'Stated Amount': '10000',
+  'Salvaged?': 'No',
+  'Existing Damage': 'Rust',
+}
