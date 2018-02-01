@@ -25,6 +25,8 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
@@ -61,9 +63,12 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 		
-		mainApp().open();
-		
+		mainApp().open();		
 		createCustomerIndividual();	
+		
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNum = createPolicy(policyCreationTD); 
 		
 		policyTerm = getPolicyTerm(policyCreationTD);
