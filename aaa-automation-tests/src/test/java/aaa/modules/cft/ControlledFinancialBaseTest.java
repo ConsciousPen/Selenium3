@@ -1125,7 +1125,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		log.info("Earned Premium bill generation started on {}", date);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
