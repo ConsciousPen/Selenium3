@@ -55,7 +55,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	/**
 	 * @author Lina Li
 	 * @name Verify the documents generated during quote
-	 * @scenario 
+	 * @scenario
 	 * 1. Create a active quote with 1NI/2DR/1V 
 	 * 2. At least one of the drivers should have the age less than or equal to 18 
 	 * 3. The License status of the teenage driver should be 'Licensed(US)'
@@ -64,8 +64,8 @@ public class TestScenario5 extends AutoSSBaseTest {
 	 * @details
 	 */
 
-	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Parameters({"state"})
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_GenerateQuoteDocuments(@Optional("") String state) {
 
 		CustomAssert.enableSoftMode();
@@ -74,53 +74,52 @@ public class TestScenario5 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class,true);
-		
+		policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class, true);
+
 		storeCoveragesData();
 		premiumAndCoveragesTab.submitTab();
-		
-		policy.getDefaultView().fillFromTo(tdpolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
+
+		policy.getDefaultView().fillFromTo(tdpolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
 		buttongenerate.click();
 		WebDriverHelper.switchToWindow(currentHandle);
 		Tab.buttonSaveAndExit.click();
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		plcyEffDt =  DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
+		plcyEffDt = DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
 		log.info("Create the quote" + policyNumber);
 
-		
-//		Verify the document AAIQAZ,AATSXX
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AAIQAZ,AATSXX).verify.mapping(getTestSpecificTD("TestData_Verification")
-				.adjust(TestData.makeKeyPath("AAIQAZ", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "form", "PlcyEffDt","DateTimeField"), plcyEffDt)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "PaymentDetails", "DnPayReq", "TextField"), dnPayReq)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "PlcyTotSopPrem", "TextField"), plcyTotSopPrem)	
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "PlcyMpEaPers"), plcyMpEaPers)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtDed"), vehSpclEqpmtDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehClsnDed"), vehClsnDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehCompDed"), vehCompDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehNwAddPrtcDed"), vehNwAddPrtcDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTwgLbrDed" ), vehTwgLbrDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehLnPrtcDed"), vehLnPrtcDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehRntlReimbsDed"), vehRntlReimbsDed)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehPDPrem"), vehPDPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehUMPrem"), vehUMPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehUIMBPrem"), vehUIMBPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehMPPrem"), vehMPPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehCompPrem"), vehCompPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem),
-//				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
-				policyNumber);	
-		
+		//		Verify the document AAIQAZ,AATSXX
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AAIQAZ, AATSXX).verify.mapping(getTestSpecificTD("TestData_Verification")
+						.adjust(TestData.makeKeyPath("AAIQAZ", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "PaymentDetails", "DnPayReq", "TextField"), dnPayReq)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "PlcyTotSopPrem", "TextField"), plcyTotSopPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "PlcyMpEaPers"), plcyMpEaPers)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtDed"), vehSpclEqpmtDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehClsnDed"), vehClsnDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehCompDed"), vehCompDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehNwAddPrtcDed"), vehNwAddPrtcDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTwgLbrDed"), vehTwgLbrDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehLnPrtcDed"), vehLnPrtcDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehRntlReimbsDed"), vehRntlReimbsDed)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehPDPrem"), vehPDPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehUMPrem"), vehUMPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehUIMBPrem"), vehUIMBPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehMPPrem"), vehMPPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehCompPrem"), vehCompPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
+						.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem),
+				//				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
+				policyNumber);
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
-	
+
 	private void storeCoveragesData() {
 		for (TestData td : premiumAndCoveragesTab.getRatingDetailsVehiclesData()) {
 			vehClsnDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
@@ -152,10 +151,9 @@ public class TestScenario5 extends AutoSSBaseTest {
 
 		plcyTotSopPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());
 		plcyTotPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());
-		dnPayReq = plcyTotPrem+"(100%)";
+		dnPayReq = plcyTotPrem + "(100%)";
 	}
-	
-	
+
 	private String formatValue(String value) {
 		return value.contains("No Coverage") ? "0.00" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
 	}

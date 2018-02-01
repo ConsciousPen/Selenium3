@@ -394,9 +394,9 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<FillableTable> DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By.xpath("//table[@id='policyDataGatherForm:driverVehicleRelationshipSummary']"));
 
 		public static final class DriverVehicleRelationshipTableRow extends MetaData {
-			public static final AssetDescriptor<StaticElement> VEHICLE = declare("Vehicle", StaticElement.class, Waiters.NONE);
+			public static final AssetDescriptor<StaticElement> VEHICLE = declare("Vehicle", StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> PRIMARY_DRIVER = declare("Primary Driver", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<StaticElement> SYSTEM_RATED_DRIVER = declare("System Rated Driver", StaticElement.class, Waiters.NONE);
+			public static final AssetDescriptor<StaticElement> SYSTEM_RATED_DRIVER = declare("System Rated Driver", StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> MANUALLY_RATED_DRIVER = declare("Manually Rated Driver", ComboBox.class, Waiters.AJAX);
 		}
 	}
@@ -768,6 +768,21 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> FOLLOW_UP_REQUIRED = declare("Follow-up required", RadioGroup.class);
 	}
 
+	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS =
+				declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs']//table)[1]"));
+		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD =
+				declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body']/table"));
+		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
+
+		public static final class DocumentsRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
+		}
+	}
+
 	public static final class CancellationActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancel Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> CANCELLATION_REASON = declare("Cancellation Reason", ComboBox.class, Waiters.AJAX);
@@ -799,9 +814,9 @@ public final class AutoCaMetaData {
 	public static final class CancelNoticeActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> CANCELLATION_REASON = declare("Cancellation Reason", ComboBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> SUPPORTING_DATA = declare("Supporting Data", TextBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> SUPPORTING_DATA = declare("Supporting Data", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> PRINT_NOTICE = declare("Print Notice", RadioGroup.class);
 	}
 
@@ -840,7 +855,7 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
-		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class);
 	}
@@ -860,7 +875,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
 		public static final AssetDescriptor<TextBox> RENEWAL_DATE = declare("Renewal Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class UpdateRulesOverrideActionTab extends MetaData {

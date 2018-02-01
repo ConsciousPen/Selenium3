@@ -27,7 +27,7 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO6Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-7211")
-	public void pas7211_ConversionNoClueISO360InspectionReports(@Optional("DE") String state) {
+	public void pas7211_ConversionNoClueISO360InspectionReports(@Optional("") String state) {
 
 		String reportTabInfo = new ReportsTab().getMetaKey();
 
@@ -36,7 +36,8 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO6Ba
 		TestData reportTab = testdata.getTestData(reportTabInfo);
 		testdata.adjust(reportTabInfo, reportTab);
 
-		reportTab.mask(HomeSSMetaData.ReportsTab.ISO360_REPORT.getLabel(), HomeSSMetaData.ReportsTab.CLUE_REPORT.getLabel());
+		reportTab.mask(HomeSSMetaData.ReportsTab.ISO360_REPORT.getLabel(), HomeSSMetaData.ReportsTab.CLUE_REPORT.getLabel())
+				.removeAdjustment(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel());
 
 		mainApp().open();
 
