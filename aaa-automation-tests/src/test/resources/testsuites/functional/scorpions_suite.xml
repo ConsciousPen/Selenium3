@@ -51,7 +51,7 @@
                     <include name="pas6203_VinAndControlTablesUpload"/>
                     <include name="pas533_newVinAdded"/>
                     <include name="pas2714_Endorsement"/>
-                    <include name="pas4253_RestrictVehicleRefresh"/>
+                    <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
@@ -68,7 +68,7 @@
                 <methods>
                     <include name="pas533_newVinAdded"/>
                     <include name="pas2714_Endorsement"/>
-                    <include name="pas4253_RestrictVehicleRefresh"/>
+                    <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
@@ -86,7 +86,7 @@
                 <methods>
                     <include name="pas533_newVinAdded"/>
                     <include name="pas2714_Endorsement"/>
-                    <include name="pas4253_RestrictVehicleRefresh"/>
+                    <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
