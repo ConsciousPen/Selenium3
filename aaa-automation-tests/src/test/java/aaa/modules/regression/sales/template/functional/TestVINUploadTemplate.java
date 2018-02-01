@@ -178,7 +178,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		// Verify pas-938 'Rerate' Error message on error tab
 		ErrorTab errorTab = new ErrorTab();
-		Assertions.assertThat(errorTab.tableErrorInfo.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_CSA1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		Assertions.assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_CSA1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
 		log.info("PAS-938 Rerate Error Verified as Present");
 		errorTab.cancel();
 

@@ -174,7 +174,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//Verify pas-938 'Rerate' Error message on error tab
 		ErrorTab errorTab = new ErrorTab();
-		assertThat(errorTab.tableErrorInfo.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
 		log.info("PAS-938 Rerate Error Verified as Present");
 		errorTab.cancel();
 
