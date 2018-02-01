@@ -33,8 +33,39 @@
             </class>
         </classes>
     </test>
-
-
+    <test name="TestRefundProcess" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessageCredit"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessageDebit"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessMD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessageEft"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
         <parameter name="state" value="CT"/>
         <classes>
@@ -57,7 +88,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
+       <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -69,7 +100,6 @@
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
