@@ -64,10 +64,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected static final String STATE_PARAM = "state";
 	protected static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
 
-	private static final String CFT_COLLECTION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/CollectionFile/";
-	private static final String CFT_COLECTION_NAME = "_220825_PMT_E_PMTCTRL_PASSYS_7001_D.DAT";
-	private static final String FEED_FILE_LOCATION = "/home/mp2/pas/sit/PMT_E_PMTCTRL_PASSYS_7001_D/inbound/";
-
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected OperationalReport operationalReport = new OperationalReport();
 
@@ -1125,7 +1121,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		log.info("Earned Premium bill generation started on {}", date);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
