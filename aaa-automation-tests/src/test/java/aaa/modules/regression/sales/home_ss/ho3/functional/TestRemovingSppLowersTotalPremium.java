@@ -25,7 +25,11 @@ import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestRemovingSpp extends HomeSSHO3BaseTest {
+public class TestRemovingSppLowersTotalPremium extends HomeSSHO3BaseTest {
+
+    private PersonalPropertyTab personalPropertyTab = new PersonalPropertyTab();
+    private EndorsementTab endorsementTab = new EndorsementTab();
+    private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
     /**
      * @author Igor Garkusha
@@ -39,9 +43,12 @@ public class TestRemovingSpp extends HomeSSHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-5847")
-    public void pas5847_removingSPPDoesNotLowerTotalPremium(@Optional("AZ") String state) {
+    public void pas5847_removingSPPDoesNotLowerTotalPremium(@Optional("NJ") String state) {
+
         mainApp().open();
         createCustomerIndividual();
+
+        // adjust default testdata with testdata from ho3(re-usable in ho6 test)
         TestData testTd = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
         testTd.adjust(TestData.makeKeyPath(HomeSSMetaData.DocumentsTab.class.getSimpleName(),
                 APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel()), "true");
@@ -53,14 +60,14 @@ public class TestRemovingSpp extends HomeSSHO3BaseTest {
         Arrays.asList(PREMIUMS_AND_COVERAGES, ENDORSEMENT, PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY).
                 forEach(tab -> NavigationPage.toViewTab(tab.get()));
 
-        new PersonalPropertyTab().getAssetList().getAsset("Cameras", PersonalPropertyMultiAssetList.class).removeAll();
+        personalPropertyTab.getAssetList().getAsset("Cameras", PersonalPropertyMultiAssetList.class).removeAll();
         NavigationPage.toViewTab(ENDORSEMENT.get());
-        new EndorsementTab().tblIncludedEndorsements.getRow("Form ID", HS_04_61.getLabel()).getCell(6).
+        endorsementTab.tblIncludedEndorsements.getRow("Form ID", HS_04_61.getLabel()).getCell(6).
                 controls.links.get(1).click();
         Page.dialogConfirmation.confirm();
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        new PremiumsAndCoveragesQuoteTab().calculatePremium();
+        premiumsAndCoveragesQuoteTab.calculatePremium();
 
         Dollar preEndorsement = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getColumn(2).getValue().get(0));
         Dollar actualPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getColumn(5).getValue().get(0));
