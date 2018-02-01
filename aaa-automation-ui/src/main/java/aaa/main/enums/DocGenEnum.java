@@ -29,7 +29,7 @@ public final class DocGenEnum {
 		AA11CO("Colorado Auto Insurance Application"),
 		AA11CT("Auto Insurance Application"),
 		AA11DC("Auto Insurance Application"),
-		AA11DE("Deleware Auto Insurance Application"),
+		AA11DE("Delaware Auto Insurance Application"),
 		AA11ID("Auto Insurance Application"),
 		AA11IN("Indiana Auto Insurance Application"),
 		AA11KS("Auto Insurance Application"),
