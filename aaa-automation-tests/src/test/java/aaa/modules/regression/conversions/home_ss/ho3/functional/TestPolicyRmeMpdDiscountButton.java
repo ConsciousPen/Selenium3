@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho4.functional;
+package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -8,7 +8,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,11 +27,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * 5. TBD (PAS-2310 should be cover)
  */
 
-public class TestPolicyRmeMpdDiscountButton extends HomeSSHO4BaseTest{
+public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest{
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4,testCaseId = "PAS-2293,PAS-7979")
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-2293,PAS-7979")
 
     public void testPolicyRmeMpd (@Optional("") String state) {
 
