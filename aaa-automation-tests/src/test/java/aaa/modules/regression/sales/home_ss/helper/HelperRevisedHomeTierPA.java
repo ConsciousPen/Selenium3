@@ -178,55 +178,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-	public void pas7025_TestPAViewRatingDetailsMarketTier(PolicyType policyType) {
-
-		List<String> range = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J");
-
-		// TODO This needs to be removed after 5/28/18 (new algo implementation)
-		verifyAlgoDate();
-
-		mainApp().open();
-		createCustomerIndividual();
-
-		TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
-		TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
-
-		// Initiate Home Policy and add Auto policy as a companion
-		policyType.get().initiate();
-		policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
-
-		if (policyType.equals(PolicyType.HOME_SS_DP3)) {
-			applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
-			policySearchDialog.cancel();
-			applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
-		}
-
-		applicantTab.submitTab();
-		policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-
-		// Assert that the Market tier is using A-J
-		PropertyQuoteTab.RatingDetailsView.open();
-		assertThat(range.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
-		PropertyQuoteTab.RatingDetailsView.close();
-
-		// Issue Policy and initiate renewal
-		premiumsAndCoveragesQuoteTab.submitTab();
-		policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
-		purchaseTab.submitTab();
-		policyType.get().renew().start().submit();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsAndCoveragesQuoteTab.calculatePremium();
-
-		// Assert that the Market tier is using A-J
-		PropertyQuoteTab.RatingDetailsView.open();
-		assertThat(range.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
-		PropertyQuoteTab.RatingDetailsView.close();
-
-		mainApp().close();
-
-	}
-
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
         TestData tdOtherActive = testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_OtherActiveAAAPolicies")
