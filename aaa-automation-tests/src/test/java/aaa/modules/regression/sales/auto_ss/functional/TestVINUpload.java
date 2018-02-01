@@ -24,7 +24,6 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
-import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -66,9 +65,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * 0. Create customer
 	 * 1. Initiate Auto SS quote creation
 	 * 2. Go to the vehicle tab, fill info with not existing VIN and fill all mandatory info
-	 * 3. Move time by two days
 	 * 3. On Administration tab in Admin upload Excel to add this VIN to the system
-	 * 4. Open application and quote, navigate to Documents and Bind Tab, verify rerate Error
+	 * 4. Open application and quote
 	 * 5. Calculate premium and navigate back to vehicle page
 	 * 6. Verify that VIN was uploaded and all fields are populated, VIN refresh works after premium calculation
 	 * @details
