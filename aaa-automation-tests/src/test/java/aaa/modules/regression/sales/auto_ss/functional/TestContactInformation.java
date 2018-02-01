@@ -20,6 +20,8 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -56,9 +58,10 @@ public class TestContactInformation extends AutoSSBaseTest {
 	 * 15.Verify that policy is bound.
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-270")
-	public void pas270_contactInformation() {
+	public void pas270_contactInformation(@Optional("") String state) {
 		initiateQuote();
 
 		CustomAssert.enableSoftMode();
@@ -146,7 +149,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 		DriverActivityReportsTab.buttonNext.click();
 		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS10240324);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS10240324.getMessage());
 		CustomAssert.assertEquals("Error with code 'AAA_SS10240324' should be displayed only for first named insured", 1, errorTab.getErrorsControl().getTable().getRowsCount());
 		errorTab.cancel();
 	}

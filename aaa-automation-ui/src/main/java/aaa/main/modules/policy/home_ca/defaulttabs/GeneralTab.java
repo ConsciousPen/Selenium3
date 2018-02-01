@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import toolkit.webdriver.controls.Button;
@@ -23,7 +22,8 @@ public class GeneralTab extends Tab {
         super(HomeCaMetaData.GeneralTab.class);
     }
 
-	public Button btnContinue = new Button(By.id("policyDataGatherForm:continueBtn_AAAGeneralPageContinueAction_footer"), Waiters.AJAX);
+    public Button btnContinue =
+            new Button(By.xpath("//input[@id='policyDataGatherForm:continueBtn_AAAGeneralPageContinueAction_footer' or @id='policyDataGatherForm:nextInquiry_footer']"), Waiters.AJAX);
 
     @Override
     public Tab submitTab() {

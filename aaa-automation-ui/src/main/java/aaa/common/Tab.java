@@ -2,38 +2,41 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import java.util.Arrays;
+import java.util.List;
+import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Abstract tab class.
- * 
+ *
  * @category Static
  */
 public abstract class Tab {
 
 	public static Button buttonOk = new Button(By.xpath("//input[(@value = 'OK' or @value = 'Ok') and contains(@id, '_footer') "
-		+ "and not(@class = 'hidden') and not(contains(@class, 'secondaryButton')) and not(contains(@style, 'none')) "
-		+ "and not(contains(@id, 'Dialog')) and not(contains(@id, 'serviceCallButtonOk')) and not(ancestor::*[@class='popupButtonsPanel'])]"));
+			+ "and not(@class = 'hidden') and not(contains(@class, 'secondaryButton')) and not(contains(@style, 'none')) "
+			+ "and not(contains(@id, 'Dialog')) and not(contains(@id, 'serviceCallButtonOk')) and not(ancestor::*[@class='popupButtonsPanel'])]"));
 	public static Button buttonCancel = new Button(By.xpath("//*[((@value = 'Cancel') or (text() = 'Cancel')) and (contains(@id, '_footer') or @id='errorsForm:back') "
-		+ "and not(@class = 'hidden') and not(contains(@style, 'none')) "
-		+ "and not(contains(@id, 'Dialog')) and not(contains(@id, 'serviceCallButtonCancel')) and not(ancestor::*[@class='popupButtonsPanel'])]|//button[contains(., 'Cancel') "
-		+ "and not(@class = 'hidden') and not(contains(@style, 'none'))]"));
+			+ "and not(@class = 'hidden') and not(contains(@style, 'none')) "
+			+ "and not(contains(@id, 'Dialog')) and not(contains(@id, 'serviceCallButtonCancel')) and not(ancestor::*[@class='popupButtonsPanel'])]|//button[contains(., 'Cancel') "
+			+ "and not(@class = 'hidden') and not(contains(@style, 'none'))]"));
 	public static Button buttonFinish = new Button(By.xpath("//input[@value = 'Finish' and not(@class = 'hidden') and not(contains(@style,'none')) and contains(@id,'_footer')]"));
 	public static Button buttonNext = new Button(By
-		.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer']"));
+			.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiry_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"));
 	public static Button buttonSave = new Button(By.xpath("//input[@value = 'Save' and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonBack = new Button(By.xpath("//input[(@value = 'Back' or @value = 'BACK') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonTopSave = new Button(By.id("topSaveLink"));
@@ -45,7 +48,7 @@ public abstract class Tab {
 	public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonCreateVersion = new Button(By.id("topCreateQuoteVersionLink"));
-	
+
 	public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
 	public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));
 
@@ -67,7 +70,7 @@ public abstract class Tab {
 
 	/**
 	 * Get name of metadata associated with this tab
-	 * 
+	 *
 	 * @return metadata name
 	 */
 	public String getMetaKey() {
@@ -76,7 +79,7 @@ public abstract class Tab {
 
 	/**
 	 * Get asset list of this tab in Inquiry Mode
-	 * 
+	 *
 	 * @return inquiry asset list
 	 */
 	public InquiryAssetList getInquiryAssetList() {
@@ -92,19 +95,8 @@ public abstract class Tab {
 		return assetList;
 	}
 
-	/**
-	 * Fill this tab. Override if tab is filled in non-standard manner (e.g.
-	 * there are several asset lists, extra buttons have to be clicked etc.)
-	 * 
-	 * @param td
-	 *            TestData object which may contain another TestData by key
-	 *            returned by {@link #getMetaKey()} and possibly other keys.
-	 *            Note: normally the same TestData is passed here as in
-	 *            {@link products.Workspace.fill()}.
-	 */
-	public Tab fillTab(TestData td) {
-		assetList.fill(td);
-		return this;
+	public String getPolicyNumber() {
+		return labelPolicyNumber.getValue();
 	}
 
 	public Tab verifyTab(TestData td) {
@@ -144,11 +136,18 @@ public abstract class Tab {
 		return this;
 	}
 
-	public Tab verifyFieldsAreNotDisplayed(String [] labels) {
-		List<String> listOfLabels = Arrays.asList(labels);
-		for (String label : listOfLabels) {
-			verifyFieldIsNotDisplayed(label);
-		}
+	/**
+	 * Fill this tab. Override if tab is filled in non-standard manner (e.g.
+	 * there are several asset lists, extra buttons have to be clicked etc.)
+	 *
+	 * @param td
+	 *            TestData object which may contain another TestData by key
+	 *            returned by {@link #getMetaKey()} and possibly other keys.
+	 *            Note: normally the same TestData is passed here as in
+	 *            {@link products.Workspace.fill()}.
+	 */
+	public Tab fillTab(TestData td) {
+		assetList.fill(td);
 		return this;
 	}
 
@@ -226,10 +225,14 @@ public abstract class Tab {
 		return this;
 	}
 
-	public String getPolicyNumber(){
-		return labelPolicyNumber.getValue();
+	public Tab verifyFieldsAreNotDisplayed(String[] labels) {
+		List<String> listOfLabels = Arrays.asList(labels);
+		for (String label : listOfLabels) {
+			verifyFieldIsNotDisplayed(label);
+		}
+		return this;
 	}
-	
+
 	public Tab createVersion() {
 		buttonCreateVersion.click();
 		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {

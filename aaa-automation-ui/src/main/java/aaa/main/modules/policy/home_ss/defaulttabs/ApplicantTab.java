@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.Button;
@@ -23,8 +22,9 @@ public class ApplicantTab extends Tab {
     public ApplicantTab() {
         super(HomeSSMetaData.ApplicantTab.class);
     }
-    public Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
-    public Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent']//table"));
+
+	public Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='policyDataGatherForm:nextInquiry_footer']"), Waiters.AJAX);
+	public Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent']//table"));
 
     @Override
     public Tab submitTab() {
