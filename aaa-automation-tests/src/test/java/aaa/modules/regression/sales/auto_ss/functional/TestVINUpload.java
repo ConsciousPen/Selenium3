@@ -563,7 +563,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		openAndSearchActivePolicy(policyNumber);
 		// 4. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(5));
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(2));
 		openAndSearchActivePolicy(policyNumber);
 
 		policy.createPriorTermEndorsement(getPolicyTD("Endorsement", "TestData_Plus10Day")

@@ -162,7 +162,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 			// Start PAS-2713 Scenario 1: all states except CA/NY stat code = N/A
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
-			assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull().isNotNull());
+			assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
 			// End PAS-2713 Scenario 1
 
 			// Start PAS-532 All States except NY

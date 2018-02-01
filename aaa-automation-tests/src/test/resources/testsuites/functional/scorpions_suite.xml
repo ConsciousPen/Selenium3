@@ -25,13 +25,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
         </classes>
     </test>
-    <test name="PAS-1904 Adapt MSRP (separate comp/coll to comp and coll - but same value)">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
-        </classes>
-    </test>
     <test name="PAS-3794,PAS-3795 New Business NJ_DE: Non-Member Message and validation error">
         <parameter name="state" value="DE, NJ"/>
         <classes>
