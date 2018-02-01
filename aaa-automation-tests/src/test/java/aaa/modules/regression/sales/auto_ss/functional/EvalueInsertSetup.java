@@ -19,12 +19,12 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
 	public static void paperlessPreferencesStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub")
 	public static void retrieveMembershipSummaryStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition for AHDRXX form generation")
@@ -108,7 +108,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed")
 	public static void paymentCentralStubEndPointUpdate() {
-		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition")
@@ -137,6 +137,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points")
 	public static void lastPaymentMethodStubPointUpdate() {
-		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST));
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 }

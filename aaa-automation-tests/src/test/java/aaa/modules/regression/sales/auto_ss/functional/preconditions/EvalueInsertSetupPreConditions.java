@@ -6,6 +6,7 @@ import toolkit.config.PropertyProvider;
 public interface EvalueInsertSetupPreConditions {
 
 	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
 	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
@@ -81,11 +82,11 @@ public interface EvalueInsertSetupPreConditions {
 			+ "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE = "update PROPERTYCONFIGURERENTITY\n"
-			+ "set value ='http://%s:9098/aaa-external-stub-services-app/recordFinancialAccount.do'\n"
+			+ "set value ='http://%s:%srecordFinancialAccount.do'\n"
 			+ "where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'\n"
+			+ "set value = 'http://%s%s/ws/policy/preferences'\n"
 			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
 	String AHDRXX_CONFIG_CHECK = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
@@ -117,7 +118,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n"
+			+ "set value = 'http://%s%sws/membershipsummary'\n"
 			+ "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
 	String EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
@@ -171,7 +172,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set  DISPLAYVALUE='TRUE' where CODE='eRefunds'";
 
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/billing/lastPayment'\n"
+			+ "set value = 'http://%s:%sws/billing/lastPayment'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 }

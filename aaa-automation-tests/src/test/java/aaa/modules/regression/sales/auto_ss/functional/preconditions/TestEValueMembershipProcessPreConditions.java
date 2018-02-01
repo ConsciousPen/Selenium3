@@ -1,11 +1,8 @@
 package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
-import aaa.helpers.config.CustomTestProperties;
-import toolkit.config.PropertyProvider;
+
 
 public interface TestEValueMembershipProcessPreConditions {
-
-	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK = "select  value\n"
 			+ "from PROPERTYCONFIGURERENTITY\n"
