@@ -24,6 +24,20 @@ PrefillTab: {
 
     {
     ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO4,
+      Policy Number: HO4 policy
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO6,
+      Policy Number: HO6 Policy
+      },
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
       Policy Type: DP3,
       Policy Number: DP3 policy
       }
@@ -32,8 +46,8 @@ PrefillTab: {
     {
     ActiveUnderlyingPoliciesSearch: {
       Policy Type: Auto,
-      Policy Number: Auto Policy
-      },
+      Policy Number: Auto policy
+      }
     }
   ]
 }
