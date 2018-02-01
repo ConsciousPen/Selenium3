@@ -40,8 +40,10 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
     public void pas8369_testPUPWithMultipleUnitsOnDP3ForSS(@Optional("") String state) {
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData");
-        TestData tdDP3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_DP3), "DataGather", "TestData");
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
+        TestData tdDP3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_DP3), "DataGather", "TestData")
+            .adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(),
+                    HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel()), "3-Triplex");
 
         String firstPolicy = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel() + "[0]");
         String secondPolicy = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel() + "[1]");
@@ -66,9 +68,7 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
         String hoPolicy = PolicySummaryPage.getPolicyNumber();
         tdDP3.mask(TestData.makeKeyPath(firstPolicy, manualPolicy)).mask(TestData.makeKeyPath(secondPolicy, manualPolicy))
                 .adjust(TestData.makeKeyPath(firstPolicy, searchPolicyType), "Auto").adjust(TestData.makeKeyPath(firstPolicy, searchPolicyNumber), autoPolicy)
-                .adjust(TestData.makeKeyPath(secondPolicy, searchPolicyType), "HO3").adjust(TestData.makeKeyPath(secondPolicy, searchPolicyNumber), hoPolicy)
-                .adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(),
-                        HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel()), "3-Triplex");
+                .adjust(TestData.makeKeyPath(secondPolicy, searchPolicyType), "HO3").adjust(TestData.makeKeyPath(secondPolicy, searchPolicyNumber), hoPolicy);
 
         // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
         PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
@@ -96,36 +96,27 @@ public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-8369")
     public void pas8369_testPUPWithMultipleUnitsOnDP3ForCA(@Optional("CA") String state) {
 
-        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_CHOICE), "DataGather", "TestData");
-        TestData tdDP3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_DP3), "DataGather", "TestData");
+        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DataGather", "TestData");
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather", "TestData");
-
-        String firstPolicy = TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel() + "[0]");
-        String secondPolicy = TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel() + "[1]");
-        String manualPolicy = HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL.getLabel();
-        String searchPolicyType = TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
-                HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesSearch.POLICY_TYPE.getLabel());
-        String searchPolicyNumber = TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
-                HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesSearch.POLICY_NUMBER.getLabel());
+        TestData tdDP3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_DP3), "DataGather", "TestData")
+                .adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(), HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(),
+                        HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel()), "3-Triplex");
 
         // Create Customer
         mainApp().open();
         createCustomerIndividual();
 
         // Create Auto Policy
-        PolicyType.AUTO_CA_CHOICE.get().createPolicy(tdAuto);
+        PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAuto);
         String autoPolicy = PolicySummaryPage.getPolicyNumber();
-        tdHO3.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
+        tdHO3.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
                 getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", autoPolicy));
 
         // Create HO3 Policy with underlying Auto policy
         PolicyType.HOME_CA_HO3.get().createPolicy(tdHO3);
         String hoPolicy = PolicySummaryPage.getPolicyNumber();
-        tdDP3.mask(TestData.makeKeyPath(firstPolicy, manualPolicy)).mask(TestData.makeKeyPath(secondPolicy, manualPolicy))
-                .adjust(TestData.makeKeyPath(firstPolicy, searchPolicyType), "Auto").adjust(TestData.makeKeyPath(firstPolicy, searchPolicyNumber), autoPolicy)
-                .adjust(TestData.makeKeyPath(secondPolicy, searchPolicyType), "HO3").adjust(TestData.makeKeyPath(secondPolicy, searchPolicyNumber), hoPolicy)
-                .adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(), HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(),
-                        HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel()), "3-Triplex");
+        tdDP3.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
+                getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", hoPolicy));
 
         // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
         PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);

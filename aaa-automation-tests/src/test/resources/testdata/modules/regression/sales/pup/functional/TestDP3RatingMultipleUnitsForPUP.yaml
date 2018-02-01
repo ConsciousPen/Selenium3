@@ -38,7 +38,7 @@ PrefillTab: {
   ]
 }
 
-# Test Data for other active AAA Policies for HO
+# Test Data for other active AAA Policies section
 
 OtherActiveAAAPolicies: {
   Other active AAA policies: "Yes",
