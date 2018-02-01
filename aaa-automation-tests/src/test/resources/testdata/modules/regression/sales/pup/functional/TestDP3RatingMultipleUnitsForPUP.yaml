@@ -37,3 +37,15 @@ PrefillTab: {
     }
   ]
 }
+
+# Test Data for other active AAA Policies for HO
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: 'Auto',
+    Policy Number: 'AutoSS'
+  },
+  ActiveUnderlyingPoliciesManual: {}
+}
