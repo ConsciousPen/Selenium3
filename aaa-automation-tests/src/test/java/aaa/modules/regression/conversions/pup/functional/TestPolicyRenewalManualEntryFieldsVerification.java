@@ -38,7 +38,7 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6951, PAS-6831, PAS-6838")
+    @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-6951, PAS-6831, PAS-6838")
     public void pas6951_PolicyRenewalActions(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();

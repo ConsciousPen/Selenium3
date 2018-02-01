@@ -41,7 +41,7 @@ public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6663")
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = "PAS-6663")
     public void pas6663_PolicyRenewal(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();
