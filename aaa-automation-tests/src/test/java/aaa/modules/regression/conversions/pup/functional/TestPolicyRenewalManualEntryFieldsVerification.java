@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.pup.functional;
+package aaa.modules.regression.conversions.pup.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;

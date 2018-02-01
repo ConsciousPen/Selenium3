@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -47,7 +47,7 @@ public class TestPolicyRenewalManualEntryFields extends ConvHomeSsDP3BaseTest {
         GeneralTab generalTab = new GeneralTab();
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
-        TestData td = getTestSpecificTD("TestData");
+        TestData td = getConversionPolicyDefaultTD();
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
         String effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
