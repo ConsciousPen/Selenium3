@@ -29,7 +29,7 @@ public final class DocGenEnum {
 		AA11CO("Colorado Auto Insurance Application"),
 		AA11CT("Auto Insurance Application"),
 		AA11DC("Auto Insurance Application"),
-		AA11DE("Auto Insurance Application"),
+		AA11DE("Deleware Auto Insurance Application"),
 		AA11ID("Auto Insurance Application"),
 		AA11IN("Indiana Auto Insurance Application"),
 		AA11KS("Auto Insurance Application"),
@@ -47,7 +47,7 @@ public final class DocGenEnum {
 		AA11UT("Auto Insurance Application"),
 		AA11VA("Virginia Auto Insurance Application"),
 		AA11WV("Auto Insurance Application"),
-		AA11WY("Auto Insurance Application"),
+		AA11WY("Wyoming Auto Insurance Application"),
 		AA16CO("MEDICAL PAYMENTS REJECTION OF COVERAGE"),
 		AA16NV("Rejection of Medical Payments Coverage"),
 		AA41CA("Non-Owner Automobile Endorsement"),
@@ -312,7 +312,9 @@ public final class DocGenEnum {
 		_551003("551003", "Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement"),
 		_553333("553333", "Auto Billing Plan Explanation"),
 		// CA Auto Insurance Application
+		// Needed for Queries, in database there is a space
 		_55_4000("55 4000", "California Car Policy Application"),
+		// Needed for UI, to generate on demand document for example
 		_554000("554000", "California Car Policy Application"),
 		_58_1027("58 1027", "Designated Recreational Motor Vehicle Exclusion Endorsement"),
 		_58_1500("58 1500", ""),
