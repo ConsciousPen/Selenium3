@@ -292,7 +292,7 @@
             <artifactId>commons-csv</artifactId>
             <version>1.4</version>
         </dependency>
-<<<<<<< HEAD
+
         <!--Apache POI to read/write excel files-->
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <dependency>
@@ -311,8 +311,5 @@
             <artifactId>HikariCP</artifactId>
             <version>2.7.1</version>
         </dependency>
-=======
-
->>>>>>> ebc2b7b52a9f1b8679d14542e19d883c89d93e86
     </dependencies>
 </project>
