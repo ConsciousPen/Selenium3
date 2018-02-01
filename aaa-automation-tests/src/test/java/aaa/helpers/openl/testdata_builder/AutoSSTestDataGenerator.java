@@ -124,9 +124,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private String getMemebershipFromMock(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		LocalDateTime memberStartDate = policyEffectiveDate.minusYears(memberPersistency);
-		Double ersUsageCountPerMember = avgAnnualERSperMember.equals(99.9) ? null : avgAnnualERSperMember;
-
-		String number = MockDataHelper.getMembershipData().getMembershipNumber(memberStartDate, ersUsageCountPerMember);
+		//Double ersUsageCountPerMember = avgAnnualERSperMember.equals(99.9) ? null : avgAnnualERSperMember;
+		String number = "NULL"; //TODO-dchubkov: to be changed
+		/*String number = MockDataHelper.getMembershipData().getMembershipNumber(policyEffectiveDate, memberPersistency, avgAnnualERSperMember);
 		if (number == null) {
 			log.warn("There is no membership number with \"memberStartDate={}\" and \"ersUsageCountPerActive_Member={}\" in {} mock file.\n"
 							+ "Will try to find membership with empty memberStartDate for same ersUsageCountPerMember and set this date in Rating Detail Reports Tab",
@@ -134,7 +134,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			number = MockDataHelper.getMembershipData().getMembershipNumber(null, ersUsageCountPerMember);
 		}
 		assertThat(number).as("Unable to find membership number with \"ersUsageCountPerActive_Member={}\" in {} mock file",
-				ersUsageCountPerMember, MockDataHelper.MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME).isNotNull();
+				ersUsageCountPerMember, MockDataHelper.MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME).isNotNull();*/
 		return number;
 	}
 

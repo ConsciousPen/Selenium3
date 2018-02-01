@@ -76,6 +76,7 @@ public class MembershipResponse {
 	private String serviceName;
 	private String sourceSystem;
 	private String ruleDecision;
+	private Integer memberStartDateMonthsOffset;
 
 	public String getId() {
 		return id;
@@ -389,6 +390,14 @@ public class MembershipResponse {
 		this.ruleDecision = ruleDecision;
 	}
 
+	public Integer getMemberStartDateMonthsOffset() {
+		return memberStartDateMonthsOffset;
+	}
+
+	public void setMemberStartDateMonthsOffset(Integer memberStartDateMonthsOffset) {
+		this.memberStartDateMonthsOffset = memberStartDateMonthsOffset;
+	}
+
 	@Override
 	public String toString() {
 		return "MembershipResponse{" +
@@ -402,13 +411,15 @@ public class MembershipResponse {
 				", faultString='" + faultString + '\'' +
 				", membershipEndDate=" + membershipEndDate +
 				", membershipEffectiveDate=" + membershipEffectiveDate +
+				", memberStartDate=" + memberStartDate +
+				", serviceDate=" + serviceDate +
+				", birthDate=" + birthDate +
+				", errorTimeStamp=" + errorTimeStamp +
 				", membershipEffectiveDateOffset=" + membershipEffectiveDateOffset +
 				", membershipEndDateOffset=" + membershipEndDateOffset +
 				", membershipNumber='" + membershipNumber + '\'' +
-				", memberStartDate=" + memberStartDate +
 				", status='" + status + '\'' +
 				", memberType='" + memberType + '\'' +
-				", serviceDate=" + serviceDate +
 				", type='" + type + '\'' +
 				", chargeble=" + chargeble +
 				", memberCoverageType='" + memberCoverageType + '\'' +
@@ -417,20 +428,19 @@ public class MembershipResponse {
 				", middleName='" + middleName + '\'' +
 				", suffixTitle='" + suffixTitle + '\'' +
 				", prefixTitle='" + prefixTitle + '\'' +
-				", birthDate=" + birthDate +
 				", city='" + city + '\'' +
 				", region='" + region + '\'' +
 				", postalCode='" + postalCode + '\'' +
 				", addressLine1='" + addressLine1 + '\'' +
 				", addressLine2='" + addressLine2 + '\'' +
 				", comment='" + comment + '\'' +
-				", errorTimeStamp=" + errorTimeStamp +
 				", errorCode='" + errorCode + '\'' +
 				", errorMessageText='" + errorMessageText + '\'' +
 				", friendlyErrorMessage='" + friendlyErrorMessage + '\'' +
 				", serviceName='" + serviceName + '\'' +
 				", sourceSystem='" + sourceSystem + '\'' +
 				", ruleDecision='" + ruleDecision + '\'' +
+				", memberStartDateMonthsOffset=" + memberStartDateMonthsOffset +
 				'}';
 	}
 }
