@@ -189,7 +189,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto");
 
 		List<TestData> listVehicleTab = new ArrayList<>();
-		listVehicleTab.add(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber));
+		listVehicleTab.add(testData.getTestData(vehicleTab.getMetaKey()));
 		listVehicleTab.add(secondVehicle);
 		return testData.adjust(vehicleTab.getMetaKey(), listVehicleTab);
 	}

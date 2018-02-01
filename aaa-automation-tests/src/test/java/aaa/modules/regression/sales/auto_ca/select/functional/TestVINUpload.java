@@ -1,12 +1,14 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -194,5 +196,19 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		 * Automated Renewal R-35 Expiration Date
 		 */
 		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+	public void test(@Optional("") String state) {
+		String methodName = "TestNameWasNotFound";
+		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().startsWith("aaa.modules")).reduce((a, b) -> b).orElse(null);
+		if (result != null) {
+			methodName = result.getClassName() + "." + result.getMethodName() + "_" + getState();
+		}
+		String pathToLogs = "/AAA/tcserver/pivotal-tc-server-developer-3.0.0.RELEASE/tomcat-7.0.55.A.RELEASE/logs/aaa.log";
+		String log = RemoteHelper.getFileContent(pathToLogs);
+
 	}
 }

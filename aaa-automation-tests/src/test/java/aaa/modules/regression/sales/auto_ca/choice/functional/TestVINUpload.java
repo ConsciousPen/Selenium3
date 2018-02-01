@@ -84,7 +84,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 * PAS-2714 New Liability Symbols
 	 *
 	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#endorsement(String, String)}
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})

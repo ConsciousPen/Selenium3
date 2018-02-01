@@ -31,7 +31,7 @@ public class ScorpionsPreconditions extends BaseTest {
 
 	@Test(description = "Enable vin refresh")
 	public void enableVinRefresh() {
-		int result = DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "TRUE"));
+		int result = DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "true"));
 		assertThat(result).isGreaterThan(0);
 	}
 
