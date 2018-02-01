@@ -157,7 +157,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
-//Start 938 - edited steps for CA products
+//Start PAS-938 - edited steps for CA products
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
@@ -186,7 +186,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
-		//End 938
+		//End PAS-938
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PurchaseTab.class, true);
