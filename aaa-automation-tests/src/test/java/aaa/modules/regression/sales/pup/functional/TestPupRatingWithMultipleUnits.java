@@ -164,8 +164,8 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
                 .adjust("ActiveUnderlyingPolicies[1]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho4Policy"))
                 .adjust("ActiveUnderlyingPolicies[2]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho6Policy"))
                 .adjust("ActiveUnderlyingPolicies[3]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("dpPolicy1"))
-                .adjust("ActiveUnderlyingPolicies[3]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("dpPolicy2"))
-                .adjust("ActiveUnderlyingPolicies[4]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
+                .adjust("ActiveUnderlyingPolicies[4]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("dpPolicy2"))
+                .adjust("ActiveUnderlyingPolicies[5]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
         return getPolicyTD().adjust(PrefillTab.class.getSimpleName(), prefillTab).mask(UnderlyingRisksAutoTab.class.getSimpleName());
     }
 
