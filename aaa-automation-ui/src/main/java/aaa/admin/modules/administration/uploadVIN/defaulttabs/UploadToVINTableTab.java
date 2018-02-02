@@ -47,7 +47,7 @@ public class UploadToVINTableTab extends DefaultTab {
 				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
 		if (labelUploadSuccessful.isPresent()) {
-			log.info("File %s was uploaded successfully", fileName);
+			log.info("File {} was uploaded successfully", fileName);
 		}
 		else {
 			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
