@@ -167,7 +167,7 @@
         <classes>
             <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
-                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
+                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForCA"/>
                 </methods>
             </class>
         </classes>
@@ -178,7 +178,7 @@
         <classes>
             <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
-                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForCA"/>
+                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
                 </methods>
             </class>
         </classes>
