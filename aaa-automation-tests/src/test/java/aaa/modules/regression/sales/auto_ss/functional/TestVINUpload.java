@@ -160,10 +160,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
-		//Johns - Move system time by two days
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
+		//Move system time by one day - The re-rate error message will only present itself if the quote is at least one day old
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
-		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
+		//Go back to MainApp, open quote, verify re-rate error message, calculate premium and verify if VIN value is applied
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 		policy.dataGather().start();
@@ -172,7 +172,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//Verify pas-938 'Rerate' Error message on error tab
 		ErrorTab errorTab = new ErrorTab();
-		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage())).exists();
+
 		log.info("PAS-938 Rerate Error Verified as Present");
 		errorTab.cancel();
 
