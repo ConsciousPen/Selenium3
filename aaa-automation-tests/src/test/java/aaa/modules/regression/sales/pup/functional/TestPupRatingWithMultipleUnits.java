@@ -86,7 +86,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyType), "HO3")
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyNumber), policies.get("ho3Policy"));
         for (int i = 1; i <= 2; i++) {
-            PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
+            PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
             policies.put("dpPolicy" + i, PolicySummaryPage.getPolicyNumber());
         }
 
