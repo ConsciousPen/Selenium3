@@ -154,7 +154,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         // Initiate PUP and verify units in rating details dialog
         TestData tdPUP = getPupTD(policies).adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]", PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()), "index=1");
-        initiatePupVerifyUnits(tdPUP, "");
+        initiatePupVerifyUnits(tdPUP, "2 : $60.00");
 
     }
 
