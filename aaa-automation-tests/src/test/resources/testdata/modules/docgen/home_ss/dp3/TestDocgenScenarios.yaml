@@ -96,7 +96,7 @@ PropertyInfoTab: {
   Stoves: {},
   RecreationalEquipment: {},
   ClaimHistory: {},
-  RentalInformation: '@<home_ss_ho3>@DataGather@RentalInformation'
+  RentalInformation: '@<home_ss_dp3>@DataGather@RentalInformation'
 }
   
 EndorsementTab: {

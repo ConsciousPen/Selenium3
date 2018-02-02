@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.conversions.home_ss.ho6.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -8,7 +8,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.modules.policy.HomeSSHO6BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,11 +27,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * 5. TBD (PAS-2310 should be cover)
  */
 
-public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest{
+public class TestPolicyRmeMpdDiscountButton extends HomeSSHO6BaseTest{
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-2293,PAS-7979")
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = "PAS-2293,PAS-7979")
 
     public void testPolicyRmeMpd (@Optional("") String state) {
 
@@ -45,7 +45,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest{
         customer.initiateRenewalEntry().start();
         initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions"));
 
-        //Verify that "Legacy policy had MPD discount" radio button is exist on RME screen
+        //Verify "Legacy policy had MPD discount" radio button is exist on RME screen
         assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
                 .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT.getLabel())
                 .isPresent()).isTrue();
