@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
 import org.apache.commons.lang.math.IntRange;
+import java.util.Arrays;
+import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -174,6 +176,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         mainApp().close();
 
     }
+
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
