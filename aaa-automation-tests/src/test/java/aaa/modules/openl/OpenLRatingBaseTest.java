@@ -64,11 +64,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 					policyAndPremium.getKey().getNumber(), policyAndPremium.getValue(), openLFileName);
 
 			TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
-
-			/*SearchPage.openQuote("QORSS952012721");
-			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());*/
-			//TestData quoteRatingData = getPolicyDefaultTD();
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 			new PremiumAndCoveragesTab().fillTab(quoteRatingData);

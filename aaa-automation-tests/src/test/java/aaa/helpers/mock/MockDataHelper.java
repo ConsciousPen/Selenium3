@@ -18,32 +18,36 @@ public class MockDataHelper {
 	private static final String SOURCE_MOCKS_FOLDER_PATTERN = String.format("/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/"
 			+ "aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
 
-	public static MembershipMockData getMembershipData() {
-		return MocksHolder.membershipData;
-	}
+	private static MembershipMockData membershipData;
+	private static VehicleUBIDetailsMockData vehicleUBIDetailsData;
 
-	public static VehicleUBIDetailsMockData getVehicleUBIDetailsData() {
-		return MocksHolder.vehicleUBIDetailsData;
-	}
-
-	private static class MocksHolder {
-		private static MembershipMockData membershipData = getMockDataObject(MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME, MembershipMockData.class);
-		private static VehicleUBIDetailsMockData vehicleUBIDetailsData = getMockDataObject(VEHICLE_UBI_DETAIL_SMOCK_DATA_FILENAME, VehicleUBIDetailsMockData.class);
-
-		private static <M> M getMockDataObject(String mockFilename, Class<M> mockDataClass) {
-			String mockSourcePath = SOURCE_MOCKS_FOLDER_PATTERN + File.separator + mockFilename;
-			String mockTempDestinationPath = DESTINATION_TEMP_MOCKS_FOLDER + File.separator + System.currentTimeMillis() + "_" + mockFilename;
-
-			RemoteHelper.downloadFile(mockSourcePath, mockTempDestinationPath);
-			File mockTempFile = new File(mockTempDestinationPath);
-			ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller();
-			M mockObject;
-			try {
-				mockObject = excelUnmarshaller.unmarshal(mockTempFile, mockDataClass);
-			} finally {
-				assertThat(mockTempFile.delete()).as("Unambe to delete temp mock file: %s", mockTempDestinationPath).isTrue();
-			}
-			return mockObject;
+	public static synchronized MembershipMockData getMembershipData() {
+		if (membershipData == null) {
+			membershipData = getMockDataObject(MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME, MembershipMockData.class);
 		}
+		return membershipData;
+	}
+
+	public static synchronized VehicleUBIDetailsMockData getVehicleUBIDetailsData() {
+		if (vehicleUBIDetailsData == null) {
+			vehicleUBIDetailsData = getMockDataObject(VEHICLE_UBI_DETAIL_SMOCK_DATA_FILENAME, VehicleUBIDetailsMockData.class);
+		}
+		return vehicleUBIDetailsData;
+	}
+
+	private static <M> M getMockDataObject(String mockFilename, Class<M> mockDataClass) {
+		String mockSourcePath = SOURCE_MOCKS_FOLDER_PATTERN + "/" + mockFilename;
+		String mockTempDestinationPath = DESTINATION_TEMP_MOCKS_FOLDER + "/" + System.currentTimeMillis() + "_" + mockFilename;
+
+		RemoteHelper.downloadFile(mockSourcePath, mockTempDestinationPath);
+		File mockTempFile = new File(mockTempDestinationPath);
+		ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller();
+		M mockObject;
+		try {
+			mockObject = excelUnmarshaller.unmarshal(mockTempFile, mockDataClass);
+		} finally {
+			assertThat(mockTempFile.delete()).as("Unambe to delete temp mock file: %s", mockTempDestinationPath).isTrue();
+		}
+		return mockObject;
 	}
 }

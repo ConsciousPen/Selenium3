@@ -13,6 +13,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
@@ -54,30 +55,35 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		assertThat(openLPolicy.getCappingDetails()).as("Policies cappingDetails list should have only one element").hasSize(1);
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().get(0).getState());
 
-		TestData generalTabData = getGeneralTabData(openLPolicy);
-		String membershipNumber = generalTabData.getValue(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+		Pair<String, Boolean> membershipNumber = Pair.of(null, false);
+		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
+			//TODO-dchubkov: current algorithm is incomplete, to be fixed
+			membershipNumber = MockDataHelper.getMembershipData()
+					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
+			//membershipNumber = Pair.of("3111111111111147", false); // to change since date manually
+			//membershipNumber = Pair.of("1111111111111166", true); // to have avgAnnualERSperMember=0 and memberPersistency=5
+		} else {
+			getRatingDataPattern().mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())
+					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
+		}
+
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
-				new GeneralTab().getMetaKey(), generalTabData,
+				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy, membershipNumber.getLeft()),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
-				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy, membershipNumber),
+				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy, membershipNumber.getRight()),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
-		TestData resultData = TestDataHelper.merge(getRatingDataPattern(), td);
 
-		if (Boolean.FALSE.equals(openLPolicy.isAAAMember())) {
-			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
-		}
-		return resultData;
+		return TestDataHelper.merge(getRatingDataPattern(), td);
 	}
 
 	private TestData getPrefillTabData() {
 		return DataProviderFactory.emptyData();
 	}
 
-	private TestData getGeneralTabData(AutoSSOpenLPolicy openLPolicy) {
+	private TestData getGeneralTabData(AutoSSOpenLPolicy openLPolicy, String membershipNumber) {
 		assertThat(openLPolicy.getAaaInsurancePersistency()).as("\"aaaInsurancePersistency\" openL field should be equal to \"aaaAsdInsurancePersistency\" "
 				+ "since both are equally calculated").isEqualTo(openLPolicy.getAaaAsdInsurancePersistency());
 
@@ -95,9 +101,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 		);
 
-		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
-			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(),
-					getMemebershipFromMock(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()));
+		if (membershipNumber != null) {
+			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		TestData currentCarrierInformationData = DataProviderFactory.dataOf(
@@ -120,22 +125,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), currentCarrierInformationData,
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
-	}
-
-	private String getMemebershipFromMock(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
-		LocalDateTime memberStartDate = policyEffectiveDate.minusYears(memberPersistency);
-		//Double ersUsageCountPerMember = avgAnnualERSperMember.equals(99.9) ? null : avgAnnualERSperMember;
-		String number = "NULL"; //TODO-dchubkov: to be changed
-		/*String number = MockDataHelper.getMembershipData().getMembershipNumber(policyEffectiveDate, memberPersistency, avgAnnualERSperMember);
-		if (number == null) {
-			log.warn("There is no membership number with \"memberStartDate={}\" and \"ersUsageCountPerActive_Member={}\" in {} mock file.\n"
-							+ "Will try to find membership with empty memberStartDate for same ersUsageCountPerMember and set this date in Rating Detail Reports Tab",
-					memberStartDate, ersUsageCountPerMember, MockDataHelper.MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME);
-			number = MockDataHelper.getMembershipData().getMembershipNumber(null, ersUsageCountPerMember);
-		}
-		assertThat(number).as("Unable to find membership number with \"ersUsageCountPerActive_Member={}\" in {} mock file",
-				ersUsageCountPerMember, MockDataHelper.MEMBERSHIP_SUMMARY_MOCK_DATA_FILENAME).isNotNull();*/
-		return number;
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -287,7 +276,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return driversTestData;
 	}
 
-	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy, String membershipNumber) {
+	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy, boolean isMemberSinceDateSet) {
 		TestData editInsuranceScoreDialogData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.NEW_SCORE.getLabel(), openLPolicy.getCreditScore(),
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
@@ -299,7 +288,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData ratingDetailReportsTab = DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
 
-		if (Boolean.TRUE.equals(openLPolicy.isAAAMember()) && MockDataHelper.getMembershipData().getMembershipEffectiveDate(membershipNumber) == null) {
+		if (Boolean.TRUE.equals(openLPolicy.isAAAMember()) && !isMemberSinceDateSet) {
 			TestData addMemberSinceDialogData = DataProviderFactory.dataOf(
 					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getMemberPersistency())
 							.format(DateTimeUtils.MM_DD_YYYY),
@@ -315,7 +304,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
-		int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailer(v.getStatCode())).count());
+		int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(v.getStatCode())).count());
 		int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 		assertThat(trailersCount).as("Number of vehicles recognized by their coverages set [%s] is not equal to "
 				+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount).isEqualTo(expectedTrailersCount);
@@ -377,7 +366,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Map<String, Object> detailedCoveragesData = new HashMap<>();
 		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
 
-			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHome(vehicle.getUsage());
+			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeType(vehicle.getUsage());
 			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCD());
 				if (isPolicyLevelCoverage(coverage.getCoverageCD())) {
@@ -424,36 +413,35 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		String vin = getVinFromDb(vehicle);
 		Map<String, Object> vehicleInformation = new HashMap<>();
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(vehicle.getStatCode()));
+
 		if (StringUtils.isNotBlank(vin)) {
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto");
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
-
-			if (isTrailerOrMotorHome(vehicle.getUsage())) {
-				if (isTrailer(vehicle.getStatCode())) {
-					String trailerType = getVehicleTabTrailerType(vehicle.getStatCode());
-					vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Trailer");
-					vehicleInformation.put(AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel(), trailerType);
-					if ("Travel Trailer".equals(trailerType)) {
-						vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "starts=" + vehicle.getStatCode());
-					}
-				} else {
-					vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home");
-					vehicleInformation.put(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), getVehicleTabMotorHomeType(vehicle.getStatCode()));
-				}
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>");
+			if (isTrailerOrMotorHomeType(vehicle.getUsage())) {
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
+
+				if (isTrailerType(vehicle.getStatCode())) {
+					String trailerType = getVehicleTabTrailerType(vehicle.getStatCode());
+					vehicleInformation.put(AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel(), trailerType);
+					if ("Travel Trailer".equals(trailerType)) {
+						vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(vehicle.getStatCode()));
+					}
+				} else {
+					vehicleInformation.put(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), getVehicleTabMotorHomeType(vehicle.getStatCode()));
+				}
 			} else {
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getRandom("Private Passenger Auto", "Conversion Van"));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "regex=.*\\S.*");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "regex=.*\\S.*");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "starts=" + vehicle.getStatCode());
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(vehicle.getStatCode()));
 			}
 		}
 
@@ -517,7 +505,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		String vin = "";
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
 		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailer(vehicle.getStatCode())) {
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(vehicle.getStatCode())) {
 			//TODO-dchubkov: add argument for stat code
 			String getVinQuery = String.format("select VIN \n"
 							+ "from VEHICLEREFDATAVIN\n"

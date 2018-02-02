@@ -1,8 +1,10 @@
 package aaa.helpers.mock.model.membership;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -35,43 +37,53 @@ public class MembershipMockData {
 		this.membershipResponses = new ArrayList<>(membershipResponses);
 	}
 
-	public Pair<String, Boolean> getMembershipNumber(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
-		boolean isMemberSinceDateFound = true;
-		Set<String> membershipNumbers = getMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
-		if (membershipNumbers.isEmpty()) {
-			isMemberSinceDateFound = false;
-			membershipNumbers = getNonActiveAndPrimaryMembershipNumbers();
-		}
-
-		for (String membershipNumber : membershipNumbers) {
-			int ersCount = 0;
-			for (MembershipResponse mResponse : getMembershipResponses(membershipNumber)) {
-				if ("Active".equals(mResponse.getStatus()) && "Primary".equals(mResponse.getMemberType())) {
-					LocalDateTime serviceDate = mResponse.getServiceDate() != null ? mResponse.getServiceDate() : TimeSetterUtil.getInstance().getCurrentTime();
-					if (policyEffectiveDate.getYear() - serviceDate.getYear() <= 3) {
-						ersCount++;
-					}
-				}
-
-				//TODO-dchubkov: calculate correct membershipTotalYears
-				double membershipTotalYears = 0;
-
-				if (ersCount / membershipTotalYears == avgAnnualERSperMember) {
-					return Pair.of(getMembershipRequestNumber(mResponse.getId()), isMemberSinceDateFound);
-				}
+	public Set<String> getNonActiveAndNotPrimaryMembershipNumbers() {
+		//TODO-dchubkov: current algorithm is incomplete, to be fixed
+		Set<String> nonActiveOrNotPrimaryMembershipNumbers = new HashSet<>();
+		for (String membershipNumber : getMembershipRequestNumbers()) {
+			boolean isValidMembership = getMembershipResponses(membershipNumber).stream().noneMatch(m -> "Active".equals(m.getStatus()) && "Primary".equals(m.getMemberType()));
+			if (isValidMembership) {
+				nonActiveOrNotPrimaryMembershipNumbers.add(membershipNumber);
 			}
-
 		}
-
-		//TODO-dchubkov: add faster search if avgAnnualERSperMember == 0
-
-		return Pair.of("EMPTY", isMemberSinceDateFound);
+		return nonActiveOrNotPrimaryMembershipNumbers;
 	}
 
-	public Set<String> getMembershipNumbers(LocalDateTime memberSinceDate) {
+	public List<String> getMembershipRequestNumbers() {
+		return getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
+	}
+
+	public Pair<String, Boolean> getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
+		//TODO-dchubkov: handle default value of avgAnnualERSperMember=99.9
+		String membershipNumber;
+		boolean isMemberSinceDateSet = true;
+
+		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
+		if (membershipNumbersSet.isEmpty()) {
+			membershipNumbersSet = getNonActiveAndNotPrimaryMembershipNumbers();
+			assertThat(membershipNumbersSet).as("No valid membership numbers were found").isNotEmpty();
+			isMemberSinceDateSet = false;
+		}
+
+		membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
+		if (membershipNumber == null) {
+			if (isMemberSinceDateSet) {
+				membershipNumbersSet = getNonActiveAndNotPrimaryMembershipNumbers();
+				membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
+				assertThat(membershipNumber).as("No valid membership numbers were found").isNotNull();
+				isMemberSinceDateSet = false;
+			} else {
+				throw new IstfException("No valid membership numbers were found");
+			}
+		}
+
+		return Pair.of(membershipNumber, isMemberSinceDateSet);
+	}
+
+	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDateTime memberSinceDate) {
 		// Collecting all unique membership IDs with memberStartDate=memberSinceDate AND Status=Active AND memberType=Primary
 		Set<String> membershipIds = getMembershipResponses().stream()
-				.filter(mr -> mr.getMemberStartDate().equals(memberSinceDate) && "Active".equals(mr.getStatus()) && "Primary".equals(mr.getMemberType()))
+				.filter(mr -> Objects.equals(mr.getMemberStartDate(), memberSinceDate) && "Active".equals(mr.getStatus()) && "Primary".equals(mr.getMemberType()))
 				.map(MembershipResponse::getId).collect(Collectors.toSet());
 
 		// Adding membership IDs with empty memberStartDate AND Status=Active AND memberType=Primary AND today - memberStartDateMonthsOffset = memberStartDate
@@ -92,16 +104,6 @@ public class MembershipMockData {
 		return getMembershipRequests().stream().filter(m -> membershipIds.contains(m.getId())).map(MembershipRequest::getId).collect(Collectors.toSet());
 	}
 
-	public Set<String> getNonActiveAndPrimaryMembershipNumbers() {
-		return Collections.emptySet();
-	}
-
-	//TODO-dchubkov: remove>>>>>>>>>>>>>
-	public LocalDateTime getMembershipEffectiveDate(String membershipNumber) {
-		return getMembershipResponses().stream().filter(r -> Objects.equals(r.getMembershipNumber(), membershipNumber))
-				.findFirst().map(MembershipResponse::getMembershipEffectiveDate).orElse(null);
-	}
-
 	public List<MembershipResponse> getMembershipResponses(String membershipRequestNumber) {
 		String membershipRequestId = getMembershipRequests().stream().filter(m -> m.getMembershipNumber().equals(membershipRequestNumber)).map(MembershipRequest::getId).findFirst().get();
 		return getMembershipResponses().stream().filter(m -> m.getId().equals(membershipRequestId)).collect(Collectors.toList());
@@ -110,5 +112,37 @@ public class MembershipMockData {
 	public String getMembershipRequestNumber(String id) {
 		return getMembershipRequests().stream().filter(m -> m.getId().equals(id)).findFirst()
 				.orElseThrow(() -> new IstfException("There is no request membership number with id=" + id)).getMembershipNumber();
+	}
+
+	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDateTime policyEffectiveDate, Double avgAnnualERSperMember) {
+		for (String mNumber : membershipNumbers) {
+			int ersCount = 0;
+			int totalYearsCount = 0;
+
+			for (MembershipResponse mResponse : getMembershipResponses(mNumber)) {
+				if ("Active".equals(mResponse.getStatus())) {
+					LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+					LocalDateTime serviceDate = mResponse.getServiceDate() != null ? mResponse.getServiceDate() : today;
+					LocalDateTime memberStartDate = mResponse.getMemberStartDate() != null ? mResponse.getMemberStartDate() : today;
+
+					if (Math.abs(policyEffectiveDate.getYear() - serviceDate.getYear()) <= 3) {
+						ersCount++;
+					}
+					int yearsCount = Math.abs(policyEffectiveDate.getYear() - memberStartDate.getYear());
+					totalYearsCount += yearsCount <= 3 ? yearsCount : 3;
+				}
+			}
+
+			if (totalYearsCount == 0) {
+				// to not allow division by zero
+				continue;
+			}
+
+			if (ersCount / totalYearsCount == avgAnnualERSperMember) {
+				return mNumber;
+			}
+		}
+
+		return null;
 	}
 }

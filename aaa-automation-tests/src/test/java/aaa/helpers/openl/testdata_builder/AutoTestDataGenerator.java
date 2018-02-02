@@ -4,7 +4,9 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -69,12 +71,25 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|Not Licensed|Learner's Permit|";
 	}
 
-	boolean isTrailer(String statCode) {
-		List<String> trailerStatCodes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
-		return trailerStatCodes.contains(statCode);
+	boolean isPrivatePassengerAutoType(String statCode) {
+		List<String> codes = Arrays.asList("AP", "AH", "AU", "AW", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
+		return codes.contains(statCode);
 	}
 
-	boolean isTrailerOrMotorHome(String usage) {
+	boolean isConversionVanType(String statCode) {
+		return "AW".equals(statCode) || "AV".equals(statCode);
+	}
+
+	boolean isMotorHomeType(String statCode) {
+		return "MA".equals(statCode) || "MB".equals(statCode) || "MC".equals(statCode);
+	}
+
+	boolean isTrailerType(String statCode) {
+		List<String> codes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
+		return codes.contains(statCode);
+	}
+
+	boolean isTrailerOrMotorHomeType(String usage) {
 		return Arrays.asList("P1", "P2", "P3", "PT", "PR").contains(usage);
 	}
 
@@ -97,6 +112,22 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
+	String getVehicleTabType(String statCode) {
+		if (isPrivatePassengerAutoType(statCode)) {
+			return "Private Passenger Auto";
+		}
+		if (isConversionVanType(statCode)) {
+			return "Conversion Van";
+		}
+		if (isMotorHomeType(statCode)) {
+			return "Motor Home";
+		}
+		if (isTrailerType(statCode)) {
+			return "Trailer";
+		}
+		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
+	}
+
 	String getVehicleTabMotorHomeType(String statCode) {
 		switch (statCode) {
 			case "MA":
@@ -108,6 +139,38 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			default:
 				throw new IstfException("Unknown motor home type for statCode: " + statCode);
 		}
+	}
+
+	String getVehicleTabStatCode(String statCode) {
+		Map<String, String> statCodesMap = new HashMap<>();
+
+		// Private Passenger Auto stat codes
+		statCodesMap.put("AN", "Small car");
+		statCodesMap.put("AI", "Midsize car");
+		statCodesMap.put("AQ", "Large car");
+		statCodesMap.put("AC", "Small SUV");
+		statCodesMap.put("AK", "Midsize SUV");
+		statCodesMap.put("AE", "Large SUV");
+		statCodesMap.put("AX", "Passenger Van");
+		statCodesMap.put("AZ", "Crossover/Station Wagon");
+		statCodesMap.put("AR", "Small pickup or Utility Truck");
+		statCodesMap.put("AO", "Standard pickup or Utility Truck");
+		statCodesMap.put("AY", "Small High Exposure Vehicle");
+		statCodesMap.put("AD", "Midsize High Exposure Vehicle");
+		statCodesMap.put("AJ", "Large High Exposure Vehicle");
+
+		// Conversion Van stat codes
+		statCodesMap.put("AW", "Cargo Van");
+		statCodesMap.put("AV", "Custom Van");
+
+		// Trailer stat codes
+		statCodesMap.put("FW", "Fifth-Wheel Trailer");
+		statCodesMap.put("RQ", "Recreational/Cargo Quarter");
+		statCodesMap.put("RT", "Recreational Trailer");
+
+		String uiStatCode = statCodesMap.get(statCode);
+		assertThat(uiStatCode).as("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode).isNotNull();
+		return uiStatCode;
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
