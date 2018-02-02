@@ -2,14 +2,20 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
 @Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
+	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
 
     @Test(description = "Delete old tasks")
     public static void deleteOldTasksUpdate() {
