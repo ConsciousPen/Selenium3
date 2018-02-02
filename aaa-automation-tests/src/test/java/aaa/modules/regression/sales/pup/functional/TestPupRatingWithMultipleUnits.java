@@ -18,6 +18,7 @@ import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
@@ -91,7 +92,12 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         }
 
         // Initiate PUP and verify units in rating details dialog
-        initiatePupVerifyUnits(getPupTD(policies), "2 : $90.00");
+        initiateFillPup(getPupTD(policies));
+
+        // Open rating details and verify the number of units charged is correct
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo("2 : $90.00");
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
 
     }
 
@@ -154,7 +160,11 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         // Initiate PUP and verify units in rating details dialog
         TestData tdPUP = getPupTD(policies).adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]", PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()), "index=1");
-        initiatePupVerifyUnits(tdPUP, "2 : $60.00");
+        initiateFillPup(tdPUP);
+
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Residences rented to others")).isEqualTo("$60");
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
 
     }
 
@@ -169,16 +179,12 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         return getPolicyTD().adjust(PrefillTab.class.getSimpleName(), prefillTab).mask(UnderlyingRisksAutoTab.class.getSimpleName());
     }
 
-    private void initiatePupVerifyUnits(TestData tdPUP, String expected) {
+    private void initiateFillPup(TestData tdPUP) {
         // Initiate PUP policy, fill, and calculate premium
         policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPUP, PremiumAndCoveragesQuoteTab.class);
+        policy.getDefaultView().fillUpTo(tdPUP, UnderlyingRisksPropertyTab.class);
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         new PremiumAndCoveragesQuoteTab().calculatePremium();
-
-        // Open rating details and verify the number of units charged is correct
-        PropertyQuoteTab.RatingDetailsViewPUP.open();
-        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo(expected);
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
     }
 }
