@@ -27,12 +27,12 @@
         </classes>
     </test>
     <test name="PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ"/>
+        <parameter name="state" value="VA, DE, NJ, AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
 </suite>
