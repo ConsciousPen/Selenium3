@@ -112,9 +112,11 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 		TestData testDataPolicyInformation = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), TRIGGER_ON_EFFECTIVE_DATE);
+
 		TestData testDataAAAProductsOwned = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes")
 				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "9920702826992041");
+
 		TestData generalTabAdjusted = testDataGeneralTab
 				.adjust(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), testDataAAAProductsOwned)
 				.adjust(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), testDataPolicyInformation);

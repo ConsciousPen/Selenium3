@@ -62,6 +62,8 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
 	public void pas730_VehicleTypeRegular(@Optional("") String state) {
 		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData(getPolicyTD(), "");
+		// required to match MSRP version which will be added later
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2018");
 
 		vehicleTypeRegular(testData);
 	}
