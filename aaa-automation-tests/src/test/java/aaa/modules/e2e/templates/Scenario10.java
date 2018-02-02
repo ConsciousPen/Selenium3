@@ -24,10 +24,12 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
@@ -64,11 +66,13 @@ public class Scenario10 extends ScenarioBaseTest {
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 		
-		mainApp().open();
-		
+		mainApp().open();		
 		createCustomerIndividual();	
-		policyNum = createPolicy(policyCreationTD); 
 		
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
+		policyNum = createPolicy(policyCreationTD); 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -194,7 +198,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		PolicySummaryPage.buttonRenewals.click(); 
 		TestData renewalTD = getTestSpecificTD("TestData_Renewal");
-		policy.dataGather().start(); 
+		policy.dataGather().start(); 		
+		//policy.dataGather().perform(renewalTD); 
 		
 		if (getPolicyType().isAutoPolicy()) {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 

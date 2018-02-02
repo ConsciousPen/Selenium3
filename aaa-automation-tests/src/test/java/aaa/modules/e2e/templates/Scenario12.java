@@ -39,10 +39,12 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -78,9 +80,12 @@ public class Scenario12 extends ScenarioBaseTest {
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();		
-		mainApp().open();
-		
+		mainApp().open();		
 		createCustomerIndividual();	
+		
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNum = createPolicy(policyCreationTD); 
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
@@ -305,6 +310,14 @@ public class Scenario12 extends ScenarioBaseTest {
 			new DocumentsAndBindTab().fillTab(td);
 			new DocumentsAndBindTab().submitTab();
 		} 
+		else if (getPolicyType().equals(PolicyType.PUP)) {
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+			new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().fillTab(td);
+			new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+			new aaa.main.modules.policy.pup.defaulttabs.BindTab().submitTab();
+		}
 		else {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get()); 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get()); 
@@ -403,7 +416,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		policyExpirationDate_FirstRenewal = PolicySummaryPage.getExpirationDate();		
 	}
 	
-	protected void generateFirstBillOfFirstRenewal(){
+	protected void generateFirstBillOfFirstRenewal() {
 		generateAndCheckBill(installmentDueDates_FirstRenewal.get(1)); 
 	}
 	
