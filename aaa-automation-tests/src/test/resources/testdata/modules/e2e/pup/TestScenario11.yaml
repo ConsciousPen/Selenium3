@@ -1,0 +1,135 @@
+TestData: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Pay in Full,
+    Personal Umbrella: '$1,000,000'
+  },
+}
+
+TestData_CA: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Annual,
+    Personal Umbrella: '$1,000,000'
+  },
+}
+
+# ----- Endorsement 1 -----
+TestData_Endorsement1: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'DODGE',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      Usage: Pleasure,
+      Excluded: 'No'
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement1_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'CHEVROLET',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      State: CA,
+      Coverage Type: Split,
+      "BI Limits": [500000, 500000],
+      PD Limits: 100000,
+      Usage: Pleasure,
+      Excluded:  'No'
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+# ----- Endorsement 2 -----
+TestData_Endorsement2: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: '@DocumentsTab',
+  BindTab: {}
+}
+
+TestData_Endorsement2_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab', 
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: '@DocumentsTab',
+  BindTab: {}
+}
+
+UnderlyingRisksOtherVehiclesTab: {
+  Watercraft: {
+    Add watercraft: 'Yes',
+    Type: 'index=1',
+    Year: '2009',
+    Make: 'DX',
+    Model: 'DQ',
+    Length: 'index=1',
+    Horsepower: 'index=1',
+    State: 'index=1',
+    Combined Single Limit: '500000'
+  },
+  RecreationalVehicle: {
+    Add recreational vehicle (off-road): 'Yes',
+    Type: 'index=1',
+    VIN: '3254785454',
+    Year: '2008',
+    Make: 'SD',
+    Model: 'FE',
+    Current Carrier: 'index=1',
+    State: 'index=1',
+    Coverage Type: 'Single',
+    Combined Single Limit: '500000'
+  }
+}
+
+DocumentsTab: {
+  RequiredToBind: {
+    Proof of underlying insurance for each vehicle/watercraft not insured with AAA/AMIG: 'Yes'
+  }
+}
