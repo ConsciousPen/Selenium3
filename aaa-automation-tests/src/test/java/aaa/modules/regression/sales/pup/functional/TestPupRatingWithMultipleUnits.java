@@ -21,7 +21,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestDP3RatingMultipleUnitsForPUP extends PersonalUmbrellaBaseTest {
+public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
 
     /**
      * @author Josh Carpenter
