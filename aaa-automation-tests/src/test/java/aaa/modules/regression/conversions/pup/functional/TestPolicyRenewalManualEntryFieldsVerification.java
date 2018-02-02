@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.pup.functional;
+package aaa.modules.regression.conversions.pup.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -38,7 +38,7 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6951, PAS-6831, PAS-6838")
+    @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-6951, PAS-6831, PAS-6838")
     public void pas6951_PolicyRenewalActions(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();

@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.conversions.home_ss.ho6.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -9,7 +9,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
-import aaa.modules.regression.conversions.ConvHomeSsDP3BaseTest;
+import aaa.modules.regression.conversions.ConvHomeSsHO6BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,17 +37,17 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
  * 7. Navigates to GeneralTab page and verify if CONVERSION_DATE field is correct
  */
 
-public class TestPolicyRenewalManualEntryFields extends ConvHomeSsDP3BaseTest {
+public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6663")
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = "PAS-6663")
     public void pas6663_PolicyRenewal(@Optional("") String state) {
 
         GeneralTab generalTab = new GeneralTab();
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
-        TestData td = getTestSpecificTD("TestData");
+        TestData td = getConversionPolicyDefaultTD();
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
         String effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
