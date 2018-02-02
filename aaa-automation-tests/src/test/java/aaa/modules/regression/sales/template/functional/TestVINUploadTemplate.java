@@ -8,13 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -493,19 +491,4 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		PremiumAndCoveragesTab.calculatePremium();
 	}
 
-	/**
-	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	 each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	 tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-
-	 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
-	 files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	 this after method should be updated. But such updates are not supposed to be done.
-	 Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
-	 */
-	@AfterMethod(alwaysRun = true)
-	protected void vinTablesCleaner() {
-		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT')";
-		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
-	}
 }

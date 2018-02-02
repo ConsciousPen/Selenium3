@@ -149,7 +149,7 @@ public class TestMSRPRefresh extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeNotPPA(@Optional("") String state) {
+	public void pas730_VehicleTypeNotPPA(@Optional("UT") String state) {
 		// Build override Informational Notice dialog
 		TestData testDataInformationNoticeDialog =
 				DataProviderFactory.emptyData().adjust(AutoSSMetaData.VehicleTab.InformationNoticeDialog.BTN_OK.getLabel(), "click");
