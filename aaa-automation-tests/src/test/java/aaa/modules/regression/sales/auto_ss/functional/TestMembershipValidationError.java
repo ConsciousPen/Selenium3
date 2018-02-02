@@ -58,7 +58,7 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3795,PAS-3794")
-	public void pas3795_MembershipValidationError(@Optional("DE") String state) {
+	public void pas3795_MembershipValidationError(@Optional("NJ") String state) {
 		int result = DBService.get().executeUpdate(String.format(LookupQueries.UPDATE_AAA_MEMBERSHIP_CONFIG_LOOKUP, "true",getState()));
 		Assertions.assertThat(result).isGreaterThan(0);
 		TestData testDataAdjusted = getAdjustedTestData();

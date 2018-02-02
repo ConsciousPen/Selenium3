@@ -139,7 +139,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713, PAS-532")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationForm(@Optional("") String state) {
+	public void pas2713_ApplicationForm(@Optional("ID") String state) {
 		String documentId = String.format("AA11%s", state);
 		DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(documentId);
 		// "AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"
