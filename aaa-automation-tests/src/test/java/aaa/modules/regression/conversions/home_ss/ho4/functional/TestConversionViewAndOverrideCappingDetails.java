@@ -91,5 +91,5 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO4Ba
         assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue()).isEqualTo(String.format("%s.00%%", tdOverrideCappingDetails.getTestData
                 ("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue("Manual Capping Factor (%)").toString()));
         assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(4).getCell(4).getValue()).isNotEqualTo(cappedTermPremium);
-        }
+    }
 }
