@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import org.apache.commons.lang.StringUtils;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -294,7 +294,19 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods implements Ms
 	}
 
 	private int getUniqVehicleRefDataVinControlID() {
-		return Integer.parseInt(DBService.get().getColumn(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get(0)) + new Random().nextInt(10000);
+		int timeoutInSeconds = 5;
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000;
+		int uniqId = 0;
+		do {
+			String temp = DBService.get().getValue(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get();
+			if (StringUtils.isNumeric(temp)) {
+				uniqId = Integer.parseInt(temp);
+				break;
+			}
+		} while (timeout > System.currentTimeMillis());
+
+		return uniqId;
 	}
 
 	private void addRegularVehicleToDBSelect() {
