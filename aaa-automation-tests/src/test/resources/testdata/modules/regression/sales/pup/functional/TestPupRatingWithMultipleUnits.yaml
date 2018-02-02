@@ -39,7 +39,14 @@ PrefillTab: {
     {
     ActiveUnderlyingPoliciesSearch: {
       Policy Type: DP3,
-      Policy Number: DP3 policy
+      Policy Number: DP3 policy 1
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: DP3,
+      Policy Number: DP3 policy 2
       }
     },
 

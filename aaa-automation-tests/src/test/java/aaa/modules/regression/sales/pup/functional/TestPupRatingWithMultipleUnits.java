@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.pup.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.HashMap;
+import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -54,6 +56,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
                                         HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesSearch.POLICY_TYPE.getLabel());
         String searchPolicyNumber = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(),
                                         HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesSearch.POLICY_NUMBER.getLabel());
+        Map<String, String> policies = new HashMap<>();
 
         // Create Customer
         mainApp().open();
@@ -61,32 +64,34 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
 
         // Create Auto Policy
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
-        String autoPolicy = PolicySummaryPage.getPolicyNumber();
-        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", autoPolicy);
+        policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
+        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
 
         // Create HO3 Policy with underlying Auto policy
         PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        String ho3Policy = PolicySummaryPage.getPolicyNumber();
+        policies.put("ho3Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create HO4 Policy with underlying Auto policy
         PolicyType.HOME_SS_HO4.get().createPolicy(tdHO4.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        String ho4Policy = PolicySummaryPage.getPolicyNumber();
+        policies.put("ho4Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create HO6 Policy with underlying Auto policy
         PolicyType.HOME_SS_HO6.get().createPolicy(tdHO6.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        String ho6Policy = PolicySummaryPage.getPolicyNumber();
+        policies.put("ho6Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
         tdDP3.mask(TestData.makeKeyPath(otherActiveKeyPath + "[0]", manualPolicy)).mask(TestData.makeKeyPath(otherActiveKeyPath + "[1]", manualPolicy))
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[0]", searchPolicyType), "Auto")
-                .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[0]", searchPolicyNumber), autoPolicy)
+                .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[0]", searchPolicyNumber), policies.get("autoPolicy"))
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyType), "HO3")
-                .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyNumber), ho3Policy);
-        PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
-        String dpPolicy = PolicySummaryPage.getPolicyNumber();
+                .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyNumber), policies.get("ho3Policy"));
+        for (int i = 1; i <= 2; i++) {
+            PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
+            policies.put("dpPolicy" + i, PolicySummaryPage.getPolicyNumber());
+        }
 
         // Initiate PUP and verify units in rating details dialog
-        initiatePupVerifyUnits(getPupTD(autoPolicy, ho3Policy, ho4Policy, ho6Policy, dpPolicy));
+        initiatePupVerifyUnits(getPupTD(policies), "2 : $90.00");
 
     }
 
@@ -116,6 +121,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
                         HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel()), "3-Triplex");
 
         String otherActiveKeyPath = TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
+        Map<String, String> policies = new HashMap<>();
 
         // Create Customer
         mainApp().open();
@@ -123,44 +129,47 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
 
         // Create Auto Policy
         PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAuto);
-        String autoPolicy = PolicySummaryPage.getPolicyNumber();
-        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", autoPolicy);
+        policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
+        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
 
         // Create HO3 Policy with underlying Auto policy
         PolicyType.HOME_CA_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        String ho3Policy = PolicySummaryPage.getPolicyNumber();
+        policies.put("ho3Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create HO4 Policy with underlying Auto policy
         PolicyType.HOME_CA_HO4.get().createPolicy(tdHO4.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        String ho4Policy = PolicySummaryPage.getPolicyNumber();
+        policies.put("ho4Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create HO6 Policy with underlying Auto policy
         PolicyType.HOME_CA_HO6.get().createPolicy(tdHO6.adjust(otherActiveKeyPath, tdOtherActiveAuto));
-        String ho6Policy = PolicySummaryPage.getPolicyNumber();
+        policies.put("ho6Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
-        tdDP3.adjust(otherActiveKeyPath, getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", ho3Policy));
-        PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
-        String dpPolicy = PolicySummaryPage.getPolicyNumber();
+        tdDP3.adjust(otherActiveKeyPath, getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho3Policy")));
+        for (int i = 1; i <= 2; i++) {
+            PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
+            policies.put("dpPolicy" + i, PolicySummaryPage.getPolicyNumber());
+        }
 
         // Initiate PUP and verify units in rating details dialog
-        TestData tdPUP = getPupTD(autoPolicy, ho3Policy, ho4Policy, ho6Policy, dpPolicy).adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
+        TestData tdPUP = getPupTD(policies).adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
                 PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]", PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()), "index=1");
-        initiatePupVerifyUnits(tdPUP);
+        initiatePupVerifyUnits(tdPUP, "");
 
     }
 
-    private TestData getPupTD(String autoPolicy, String ho3Policy, String ho4Policy, String ho6Policy, String dpPolicy) {
+    private TestData getPupTD(Map<String, String> policies) {
         TestData prefillTab = getTestSpecificTD("TestData_PrefillTab")
-                .adjust("ActiveUnderlyingPolicies[0]|ActiveUnderlyingPoliciesSearch|Policy Number", ho3Policy)
-                .adjust("ActiveUnderlyingPolicies[1]|ActiveUnderlyingPoliciesSearch|Policy Number", ho4Policy)
-                .adjust("ActiveUnderlyingPolicies[2]|ActiveUnderlyingPoliciesSearch|Policy Number", ho6Policy)
-                .adjust("ActiveUnderlyingPolicies[3]|ActiveUnderlyingPoliciesSearch|Policy Number", dpPolicy)
-                .adjust("ActiveUnderlyingPolicies[4]|ActiveUnderlyingPoliciesSearch|Policy Number", autoPolicy);
+                .adjust("ActiveUnderlyingPolicies[0]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho3Policy"))
+                .adjust("ActiveUnderlyingPolicies[1]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho4Policy"))
+                .adjust("ActiveUnderlyingPolicies[2]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho6Policy"))
+                .adjust("ActiveUnderlyingPolicies[3]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("dpPolicy1"))
+                .adjust("ActiveUnderlyingPolicies[3]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("dpPolicy2"))
+                .adjust("ActiveUnderlyingPolicies[4]|ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
         return getPolicyTD().adjust(PrefillTab.class.getSimpleName(), prefillTab).mask(UnderlyingRisksAutoTab.class.getSimpleName());
     }
 
-    private void initiatePupVerifyUnits(TestData tdPUP) {
+    private void initiatePupVerifyUnits(TestData tdPUP, String expected) {
         // Initiate PUP policy, fill, and calculate premium
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdPUP, PremiumAndCoveragesQuoteTab.class);
@@ -169,7 +178,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
 
         // Open rating details and verify the number of units charged is correct
         PropertyQuoteTab.RatingDetailsViewPUP.open();
-        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo("1 : $15.00");  // TODO assertion needs updated after fix
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo(expected);
         PropertyQuoteTab.RatingDetailsViewPUP.close();
     }
 }
