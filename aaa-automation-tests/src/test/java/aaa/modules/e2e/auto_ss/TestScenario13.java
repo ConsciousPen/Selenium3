@@ -41,7 +41,7 @@ public class TestScenario13 extends Scenario13 {
 			changePaymentPlan(); 
 			generateSixthBill(); 
 			paySixthBill();
-			refundGeneration(); 
+			smallBalanceGeneration(); 
 			cancelNoticeNotGenerated(); 
 			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 

@@ -1,0 +1,63 @@
+########################################
+#                                      #
+#   Conversion State-specific data     #
+#                                      #
+########################################
+
+# ---------- Conversion Data for VA ---------------
+
+TestData_ConversionPUP_VA: {
+  PrefillTab: '@PrefillTab_ConversionPUP',
+  GeneralTab: '@GeneralTab_ConversionPUP_VA',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab_ConversionPUP',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab',
+  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+}
+
+GeneralTab_ConversionPUP_VA: {
+  PolicyInfo: '@PolicyInfo_ConversionPUP_VA',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_ConversionPUP_VA: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business
+}
+
+PrefillTab_ConversionPUP: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    Occupation: 'index=3',
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+
+  ActiveUnderlyingPolicies: [{
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: Primary_HO3
+    },
+    ActiveUnderlyingPoliciesManual: {
+      Primary policy: 'Yes'
+    }
+  }]
+}
+
+PremiumAndCoveragesQuoteTab_ConversionPUP: {
+  Payment Plan: 'Pay in Full (Renewal)',
+  Recurring Payment: false,
+  Personal Umbrella: '$1,000,000'
+}

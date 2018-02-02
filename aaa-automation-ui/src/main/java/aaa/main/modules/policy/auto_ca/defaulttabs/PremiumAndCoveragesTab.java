@@ -5,6 +5,7 @@
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
 import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -33,7 +34,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
 	// -- old controls
-	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
+	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
@@ -62,5 +63,9 @@ public class PremiumAndCoveragesTab extends Tab {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		}
 		buttonCalculatePremium.click();
+	}
+
+	public static Dollar getPolicyTermPremium() {
+		return new Dollar(tablePremiumSummary.getRow(1).getCell(4).getValue());
 	}
 }

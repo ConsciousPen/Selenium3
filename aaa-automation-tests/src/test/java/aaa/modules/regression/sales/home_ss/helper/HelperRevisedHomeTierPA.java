@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
 import org.apache.commons.lang.math.IntRange;
+import java.util.Arrays;
+import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -76,6 +78,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Open the rating details dialogue box and verify Auto Tier
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")).isEqualTo("N/A");
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
 
 
@@ -174,6 +177,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     }
 
+
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
         TestData tdOtherActive = testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_OtherActiveAAAPolicies")
@@ -183,7 +187,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-    private void verifyAlgoDate() {
+    public void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
         if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
             TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
