@@ -117,6 +117,10 @@ public interface EvalueInsertSetupPreConditions {
 			+ "values\n"
 			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
+	String CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s%sws/channelIdResolver'\n"
+			+ "where propertyname = 'channelIdRetrievalServiceImpl.channelIdRetrievalUri'";
+
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = 'http://%s%sws/membershipsummary'\n"
 			+ "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
@@ -175,4 +179,12 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set value = 'http://%s%sws/billing/lastPayment'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
+	String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
+			+ "where priv_id =  (select id from s_authority ar\n"
+			+ "where name = 'Billing Refund Cash')\n";
+
+	//original endpoint - https://preferenceUI-perf.tent.trt.csaa.pri/prefmgmt-portal/prefsetup, but none of envs are connected to it.
+	String PAPERLESS_PREFERENCES_POPUP_STUB_POINT = "update propertyconfigurerentity\n"
+			+ "set value = 'http://localhost:8090/prefmgmt-portal/prefsetup'\n"
+			+ "where propertyname = 'aaaPreferenceUrlBuilder.prefSharedUrl'";
 }
