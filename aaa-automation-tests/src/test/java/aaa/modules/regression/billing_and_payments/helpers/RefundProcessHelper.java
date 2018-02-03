@@ -350,22 +350,17 @@ public class RefundProcessHelper extends PolicyBilling {
         }
     }
 
-    public void manualRefundAmountMessageVerify(Dollar amount, String paymentMethodMessage) {
+    public void manualRefundAmountMessageVerify(String amount, String paymentMethodMessage) {
 
         billingAccount.refund().start();
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
-        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount.toString());
-        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE.getLabel(), StaticElement.class).verify
-                .value("The amount you entered exceeds the maximum amount for this payment method.");
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(new Dollar(amount).add(0.01).toString());
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE.getLabel(), StaticElement.class).verify.value("The amount you entered exceeds the maximum amount for this payment method.");
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE.getLabel(), StaticElement.class).verify.value("");
+        acceptPaymentActionTab.submitTab();
     }
-    public void manualRefundAmountMessageVerifyWhenAmountIsLastPayment(Dollar amount, String paymentMethodMessage) {
 
-        billingAccount.refund().start();
-        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
-        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount.toString());
-        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE.getLabel(), StaticElement.class).verify
-                .value("");
-    }
     /**
      * *@author Viktoria Lutsenko
      * *@name Creation of manual refund
