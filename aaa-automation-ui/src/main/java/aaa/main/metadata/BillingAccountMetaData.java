@@ -39,6 +39,7 @@ public final class BillingAccountMetaData {
 		//Fee specific fields
 		public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> TRANSACTION_SUBTYPE = declare("Transaction Subtype", ComboBox.class);
+		public static final AssetDescriptor<StaticElement> PAYMENT_AMOUNT_ERROR_MESSAGE = declare("Enter too much amount message", StaticElement.class, By.id("paymentForm:paymentAmount_error"));
 	}
 
 	public static final class UpdateBillingAccountActionTab extends MetaData {

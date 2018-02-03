@@ -111,7 +111,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         //PAS-2186, PAS-1940, PAS-7858, PAS-352
         refundProcessHelper.unissuedManualRefundGeneration(Optional.empty(), billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
         refundProcessHelper.unissuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
-        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false,false);
+        refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
         //PAS-1939
         refundProcessHelper.voidedManualRefundGeneration(refund);
@@ -995,7 +995,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String paymentMethod = "ACH";
 
         String policyNumber = refundProcessHelper.policyCreation();
-
         CustomAssert.enableSoftMode();
         refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
@@ -1050,5 +1049,46 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         CustomAssert.assertAll();
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
+    @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-5743"})
+    public void pas5743_EnterTooMuchAndGetMessageCredit(@org.testng.annotations.Optional("VA") String state) {
+
+        refundProcessHelper.policyCreation();
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.manualRefundAmountMessageVerify(AMOUNT_CREDIT_CARD, MESSAGE_CREDIT_CARD);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
+    @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-5743"})
+    public void pas5743_EnterTooMuchAndGetMessageDebit(@org.testng.annotations.Optional("AZ") String state) {
+
+        refundProcessHelper.policyCreation();
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.manualRefundAmountMessageVerify(AMOUNT_DEBIT_CARD, MESSAGE_DEBIT_CARD);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
+    @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-5743"})
+    public void pas5743_EnterTooMuchAndGetMessageEft(@org.testng.annotations.Optional("MD") String state) {
+
+        refundProcessHelper.policyCreation();
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+        CustomAssert.enableSoftMode();
+        refundProcessHelper.manualRefundAmountMessageVerify(AMOUNT_ACH, MESSAGE_ACH);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 }
 
