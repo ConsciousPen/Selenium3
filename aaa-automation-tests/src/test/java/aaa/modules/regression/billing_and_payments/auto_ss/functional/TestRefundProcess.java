@@ -1056,9 +1056,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         refundProcessHelper.policyCreation();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
         CustomAssert.enableSoftMode();
         refundProcessHelper.manualRefundAmountMessageVerify(AMOUNT_CREDIT_CARD, MESSAGE_CREDIT_CARD);
-
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1070,9 +1070,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         refundProcessHelper.policyCreation();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
         CustomAssert.enableSoftMode();
         refundProcessHelper.manualRefundAmountMessageVerify(AMOUNT_DEBIT_CARD, MESSAGE_DEBIT_CARD);
-
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }

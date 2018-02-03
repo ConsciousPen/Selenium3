@@ -350,6 +350,16 @@ public class RefundProcessHelper extends PolicyBilling {
         }
     }
 
+    /**
+     * *@author Megha Gubbala
+     * *@name Enter Too much and get message
+     * *@scenario
+     * 1. Create a debit card, credit card and ACH refund more than last payment method amount.
+     * 2. Verify message saying The amount you entered exceeds the maximum amount for this payment method.
+     * 3. Create a debit card, credit card and ACH refund same as last payment method amount.
+     * 4. Verify not getting message saying The amount you entered exceeds the maximum amount for this payment method.
+     * *@details
+     */
     public void manualRefundAmountMessageVerify(String amount, String paymentMethodMessage) {
 
         billingAccount.refund().start();
