@@ -54,9 +54,15 @@
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeNotPPA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
                 <methods>
                     <include name="pas730_PartialMatch"/>
+                    <include name="pas730_VehicleTypePPA"/>
                 </methods>
             </class>
         </classes>
@@ -71,9 +77,15 @@
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeNotRegular"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
                     <include name="pas730_PartialMatch"/>
+                    <include name="pas730_VehicleTypeRegular"/>
                     <include name="pas730_vinDoesNotMatchDB"/>
                 </methods>
             </class>
@@ -89,9 +101,15 @@
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
                     <include name="pas730_PartialMatch"/>
+                    <include name="pas730_VehicleTypeRegular"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
+                <methods>
+                    <include name="pas730_VehicleTypeNotRegular"/>
                 </methods>
             </class>
         </classes>
@@ -126,39 +144,7 @@
             </class>
         </classes>
     </test>
-    <test name="Auto SS MSRP liability symbols refresh tests">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
-                <methods>
-                    <include name="pas730_VehicleTypePPA"/>
-                    <include name="pas730_VehicleTypeNotPPA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA Select  MSRP liability symbols refresh tests">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
-                <methods>
-                    <include name="pas730_VehicleTypeRegular"/>
-                    <include name="pas730_VehicleTypeNotRegular"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA Choice MSRP liability symbols refresh tests">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefresh">
-                <methods>
-                    <include name="pas730_VehicleTypeRegular"/>
-                    <include name="pas730_VehicleTypeNotRegular"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
     <test name="pas2713 Application Form Stat Code NA All states">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
