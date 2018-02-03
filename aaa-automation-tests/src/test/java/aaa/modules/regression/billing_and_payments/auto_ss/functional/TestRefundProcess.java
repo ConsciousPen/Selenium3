@@ -995,7 +995,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String paymentMethod = "ACH";
 
         String policyNumber = refundProcessHelper.policyCreation();
-
         CustomAssert.enableSoftMode();
         refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
         CustomAssert.disableSoftMode();
@@ -1058,6 +1057,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.policyCreation();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         refundProcessHelper.manualRefundAmountMessageVerify(new Dollar(AMOUNT_CREDIT_CARD).add(0.01), MESSAGE_CREDIT_CARD);
+        acceptPaymentActionTab.cancel();
+        refundProcessHelper.manualRefundAmountMessageVerifyWhenAmountIsLastPayment(new Dollar(AMOUNT_CREDIT_CARD), MESSAGE_CREDIT_CARD);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1070,6 +1071,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.policyCreation();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         refundProcessHelper.manualRefundAmountMessageVerify(new Dollar(AMOUNT_DEBIT_CARD).add(0.01), MESSAGE_DEBIT_CARD);
+        acceptPaymentActionTab.cancel();
+        refundProcessHelper.manualRefundAmountMessageVerifyWhenAmountIsLastPayment(new Dollar(AMOUNT_DEBIT_CARD), MESSAGE_DEBIT_CARD);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1082,6 +1085,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         refundProcessHelper.policyCreation();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         refundProcessHelper.manualRefundAmountMessageVerify(new Dollar(AMOUNT_ACH).add(0.01), MESSAGE_ACH);
+        acceptPaymentActionTab.cancel();
+        refundProcessHelper.manualRefundAmountMessageVerifyWhenAmountIsLastPayment(new Dollar(AMOUNT_ACH), MESSAGE_ACH);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
