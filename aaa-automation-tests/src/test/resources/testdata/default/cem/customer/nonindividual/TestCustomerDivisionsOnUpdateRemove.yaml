@@ -1,8 +1,0 @@
-TestData: {
-  GeneralTab: {},
-  DivisionsTab: {
-    Division Name: Group,
-    Billing Method: Annual
-  },
-  RelationshipTab: {}
-}
