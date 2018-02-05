@@ -317,7 +317,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", 20150102, 20500102, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
 
 		// Add New  msrp version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
 	}
 
 	private void pas730_addMotorHomeVehicleToDBChoice() {
