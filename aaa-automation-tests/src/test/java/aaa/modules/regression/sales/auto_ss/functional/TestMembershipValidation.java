@@ -490,7 +490,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.endorse().performAndFill(tdSpecificEnd);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().submitTab(true);
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
@@ -506,7 +506,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().submitTab(true);
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
@@ -541,7 +541,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().submitTab(true);
 		checkAndOverrideErrors(ruleShouldFire);
 
 	}
