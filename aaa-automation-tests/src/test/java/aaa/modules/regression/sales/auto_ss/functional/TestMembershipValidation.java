@@ -551,7 +551,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		if (ruleShouldFire) {
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
 			errorTab.overrideAllErrors();
-			new DocumentsAndBindTab().submitTab();
+			errorTab.submitTab();
 		}
 		PolicySummaryPage.labelPolicyStatus.isVisible(); //this indicates that transaction was completed and errors was not displayed
 
