@@ -410,6 +410,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AssetList> INFORMATION_NOTICE_DIALOG =
 				declare("InformationNoticeDialog", AssetList.class, InformationNoticeDialog.class, By.xpath("//div[@id='confirmVehicleTypeChangePopup_container']"));
 		public static final AssetDescriptor<AdvancedComboBox> MOTOR_HOME_TYPE = declare("Motor Home Type", AdvancedComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> TRAILER_TYPE = declare("Trailer Type", AdvancedComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> PRIMARY_OPERATOR = declare("Primary operator", AdvancedComboBox.class);
 		public static final AssetDescriptor<AssetListConfirmationDialog> CHANGE_VEHICLE_CONFIRMATION =
 			declare("Change Vehicle Confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.xpath(".//div[@id='confirmVehicleTypeChangePopup_container']"));
