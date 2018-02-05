@@ -111,19 +111,6 @@ PAS-7673:
       messages: ["Cannot set value of AssetList {PurchaseTab"]
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
-
-OSI-1112:
-  summary: "OSI: the test passes locally, but fails in Jenkins"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
-      messages: ["unknown error: Element"]
-OSI-1114:
-  summary: "OSI: the test passes locally, but fails in Jenkins"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
-      messages: ["LoginPanel is displayed expected"]
 OSI-1115:
   summary: "OSI: question to Karen about UMBI=No Coverage, which is not applicable for IN"
   reason: PROD

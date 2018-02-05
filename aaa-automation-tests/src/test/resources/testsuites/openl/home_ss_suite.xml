@@ -7,9 +7,9 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/home_ss"/>
 
-    <test name="Home CA [OR] Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="OR"/>
-        <parameter name="fileName" value="ORTests-20170915.xls"/>
+    <test name="HomeSS [AZ] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="AZ"/>
+        <parameter name="fileName" value="AZTests-20170920.xls"/>
         <parameter name="policyNumbers" value="2"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>

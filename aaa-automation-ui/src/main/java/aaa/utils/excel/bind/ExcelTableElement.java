@@ -23,5 +23,5 @@ public @interface ExcelTableElement {
 	/**
 	 * If {@link #headerRowNumber()} is negative, this argument means return lowest or highest table on sheet in case if header row search returns multiple results
 	 */
-	boolean isLowest() default true;
+	boolean isLowest() default false;
 }
