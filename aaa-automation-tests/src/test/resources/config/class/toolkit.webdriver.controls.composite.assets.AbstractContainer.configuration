@@ -24,6 +24,7 @@
     "aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl": "/.",
     "toolkit.webdriver.controls.DoubleTextBox": "/.",
     "aaa.toolkit.webdriver.customcontrols.AdvancedComboBox": "//select",
+    "aaa.toolkit.webdriver.customcontrols.ConfirmationComboBox": "//select",
     "aaa.toolkit.webdriver.customcontrols.CalendarBox": "/."
   }
 }

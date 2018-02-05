@@ -3,46 +3,34 @@ package aaa.modules.e2e.templates;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
-import aaa.helpers.billing.BillingHelper;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
-import aaa.helpers.billing.RemittancePaymentsHelper;
+import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
-import aaa.main.enums.BillingConstants.BillsAndStatementsType;
-import aaa.main.enums.BillingConstants.ExternalPaymentSystem;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -78,9 +66,12 @@ public class Scenario12 extends ScenarioBaseTest {
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();		
-		mainApp().open();
-		
+		mainApp().open();		
 		createCustomerIndividual();	
+		
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNum = createPolicy(policyCreationTD); 
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
@@ -305,6 +296,14 @@ public class Scenario12 extends ScenarioBaseTest {
 			new DocumentsAndBindTab().fillTab(td);
 			new DocumentsAndBindTab().submitTab();
 		} 
+		else if (getPolicyType().equals(PolicyType.PUP)) {
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+			new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().fillTab(td);
+			new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+			new aaa.main.modules.policy.pup.defaulttabs.BindTab().submitTab();
+		}
 		else {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get()); 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get()); 
@@ -403,7 +402,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		policyExpirationDate_FirstRenewal = PolicySummaryPage.getExpirationDate();		
 	}
 	
-	protected void generateFirstBillOfFirstRenewal(){
+	protected void generateFirstBillOfFirstRenewal() {
 		generateAndCheckBill(installmentDueDates_FirstRenewal.get(1)); 
 	}
 	

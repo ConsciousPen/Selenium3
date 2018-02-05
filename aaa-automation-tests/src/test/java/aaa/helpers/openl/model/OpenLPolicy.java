@@ -1,13 +1,11 @@
 package aaa.helpers.openl.model;
 
-import java.time.LocalDateTime;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLPolicy {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 	protected String policyNumber;
-	protected LocalDateTime effectiveDate;
 
 	public Integer getNumber() {
 		return number;
@@ -25,11 +23,11 @@ public class OpenLPolicy {
 		this.policyNumber = policyNumber;
 	}
 
-	public LocalDateTime getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
-		this.effectiveDate = effectiveDate;
+	@Override
+	public String toString() {
+		return "OpenLPolicy{" +
+				"number=" + number +
+				", policyNumber='" + policyNumber + '\'' +
+				'}';
 	}
 }

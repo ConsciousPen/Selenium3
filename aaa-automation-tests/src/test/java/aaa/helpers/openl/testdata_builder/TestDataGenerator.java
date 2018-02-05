@@ -1,12 +1,16 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.Random;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public abstract class TestDataGenerator<P extends OpenLPolicy> {
+	protected static final Logger log = LoggerFactory.getLogger(TestDataGenerator.class);
+
 	private String state;
 	private TestData ratingDataPattern;
 
@@ -37,8 +41,8 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 
 	public abstract TestData getRatingData(P openLPolicy);
 
-	String getYesOrNo(boolean value) {
-		return value ? "Yes" : "No";
+	String getYesOrNo(Boolean value) {
+		return Boolean.TRUE.equals(value) ? "Yes" : "No";
 	}
 
 	String getYesOrNo(String value) {
