@@ -42,13 +42,7 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 	public void pas6166_vehPageStatCodes(@Optional("") String state) {
 
 		//Adjust default test data to use a junk vin on the vehicle tab (junk vin will not have vin match) and enter other vehicle info fields
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1FDEU15H7KL055795")
-				.adjust(TestData.makeKeyPath("VehicleTab", "Make"), "OTHER")
-				.adjust(TestData.makeKeyPath("VehicleTab", "Other Make"), "OTHER")
-				.adjust(TestData.makeKeyPath("VehicleTab", "Other Model"), "OTHER")
-				.adjust(TestData.makeKeyPath("VehicleTab", "Other Body Style"), "Sedan")
-				.adjust(TestData.makeKeyPath("VehicleTab", "Stated Amount"), "11000")
-				.adjust(TestData.makeKeyPath("VehicleTab", "Stat Code"), "Midsize car");
+		TestData testData = getPolicyTD();
 
 		//Create new customer
 		mainApp().open();
