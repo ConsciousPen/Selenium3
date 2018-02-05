@@ -4,15 +4,15 @@ import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLCoverage {
 	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private int number;
+	private Integer number;
 
-	private int additionalLimitAmount;
+	private Integer additionalLimitAmount;
 	private String coverageCD;
 	private String deductible;
 	private String glassDeductible;
 	private String limit;
 
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 
@@ -20,7 +20,7 @@ public class OpenLCoverage {
 		this.number = number;
 	}
 
-	public int getAdditionalLimitAmount() {
+	public Integer getAdditionalLimitAmount() {
 		return additionalLimitAmount;
 	}
 

@@ -3,11 +3,12 @@ package aaa.helpers.ssh;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Vector;
-
-import com.jcraft.jsch.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.jcraft.jsch.*;
+import toolkit.config.PropertyProvider;
 
 @SuppressWarnings("unchecked")
 public class Ssh {
@@ -312,6 +313,10 @@ public class Ssh {
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
 				session.setConfig("PreferredAuthentications", "password");
+				if(!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && "true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))){
+					session.setConfig("PreferredAuthentications",
+							"publickey,keyboard-interactive,password");
+				}
 				session.connect();
 				log.info("SSH: Started SSH Session for " + session.getHost() + " host");
 			} catch (JSchException e) {

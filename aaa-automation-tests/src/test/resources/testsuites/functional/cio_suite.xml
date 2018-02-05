@@ -1,8 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="CIO Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-    </listeners>
+         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+     </listeners>
+
     <parameter name="timeshift-scenario-mode" value="method"/>
 
     <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
@@ -92,4 +93,8 @@
         </classes>
     </test>
 
+<<<<<<< HEAD
 </suite>
+=======
+</suite>
+>>>>>>> 9e120ed280ae12244e23787b813fa89af9dde2bd

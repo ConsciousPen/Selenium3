@@ -24,7 +24,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestEValueMembershipProcessJobAdding">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -34,5 +33,13 @@
             </class>
         </classes>
     </test>
-
+    <test name="TestRefundProcessJobAdding">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

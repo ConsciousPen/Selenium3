@@ -5,18 +5,7 @@
 package aaa.main.modules.policy.home_ca.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantEndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PersonalPropertyTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 
 /**
  * Concrete workspace implementation.
@@ -26,7 +15,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
  */
 public class DataGatheringEndorsementView extends Workspace {
 	public DataGatheringEndorsementView() {
-		super();
 		registerTab(GeneralTab.class);
 		registerTab(ApplicantEndorsementTab.class);
 		registerTab(ReportsTab.class);

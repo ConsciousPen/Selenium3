@@ -3,8 +3,6 @@ package aaa.modules.docgen.delta.home_ss.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.verification.CustomAssert;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -12,6 +10,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentAction
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.verification.CustomAssert;
 
 /**
  * 
@@ -76,20 +75,20 @@ public class TestVADocgenScenarios extends HomeSSHO3BaseTest{
 		createCustomerIndividual();
 		String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
 		
-		policy.quoteDocGen().start();
-		documentActionTab.verify.documentsEnabled(Documents.HSAUDVA);
-		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
-		documentActionTab.generateDocuments(Documents.HSAUDVA);
-		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
+		//policy.quoteDocGen().start();
+		//documentActionTab.verify.documentsEnabled(Documents.HSAUDVA);
+		//documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
+		//documentActionTab.generateDocuments(Documents.HSAUDVA);
+		//WebDriverHelper.switchToWindow(currentHandle);
+		//DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		//PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HSHUVA, Documents.HS_03_30, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS_03_30, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
 		
 		policy.policyDocGen().start();
-		documentActionTab.verify.documentsPresent(false, Documents.HSHUVA, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
+		documentActionTab.verify.documentsPresent(false, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
     }

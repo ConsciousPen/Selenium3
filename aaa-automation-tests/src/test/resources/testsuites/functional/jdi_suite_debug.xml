@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Debug Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="JDI debug Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
@@ -7,50 +7,6 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-<!--    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership">
         <parameter name="state" value="VA"/>
         <classes>
@@ -95,7 +51,50 @@
             </class>
         </classes>
     </test>
-
+    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending">
         <parameter name="state" value="DC"/>
         <classes>
@@ -106,28 +105,6 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
-
-
-    <test name="eValueEnabled">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="donsTest_evalueEnabledForStates"/>
-                </methods>
-            </class>
-        </classes>
     </test>
 
-    <test name="eValueDisabled">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="donsTest_evalueDisabledForStates"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 </suite>

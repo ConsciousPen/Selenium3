@@ -1,0 +1,47 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Unicorns Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+
+    <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification Property Product" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+        </classes>
+    </test>
+    <test name="PAS-3002 View capping details and override capping for property polices Pup Product" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
+        </classes>
+    </test>
+    <test name="PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyViewAndOverrideCappingDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-2293,PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRmeMpdDiscountButton"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
+        </classes>
+    </test>
+</suite>

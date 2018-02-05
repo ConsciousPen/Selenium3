@@ -4991,7 +4991,7 @@ AA02PA_ED: {
 # ------------- Documents Verification for Renewal AZ State----------
 TestData_VerificationRenewal_AZ: {
   AA02AZ: '@AA02AZ_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_AZ',
+  #AHAUXX: '@AHAUXX_Renewal_AZ',
   AA10XX: '@AA10XX_Renewal_AZ',
   AHPNXX: '@AHPNXX_Renewal_AZ'
 }
@@ -5360,7 +5360,7 @@ AA02AZ_Renewal: {
 #----------Document Verification for Renewal of IN state----------------
 TestData_VerificationRenewal_IN: {
   AA02IN: '@AA02IN_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_IN',
+  #AHAUXX: '@AHAUXX_Renewal_IN',
   AA10XX: '@AA10XX_Renewal_IN',
   AHPNXX: '@AHPNXX_Renewal_IN'
 }
@@ -5679,7 +5679,7 @@ AA02IN_Renewal: {
 # ------------- Documents Verification for Renewal OK State----------
 TestData_VerificationRenewal_OK: {
   AA02OK: '@AA02OK_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_OK',
+  #AHAUXX: '@AHAUXX_Renewal_OK',
   AA10OK: '@AA10OK_Renewal',
   AHPNXX: '@AHPNXX_Renewal_OK'
 }
@@ -5983,7 +5983,7 @@ AA02OK_Renewal: {
 #----------Document Verification for Renewal of PA state----------------
 TestData_VerificationRenewal_PA: {
   AA02PA: '@AA02PA_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_PA',
+  #AHAUXX: '@AHAUXX_Renewal_PA',
   AA10PA: '@AA10PA_Renewal',
   AHPNXX: '@AHPNXX_Renewal_PA',
   F122G: '@F122G',

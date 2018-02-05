@@ -1,0 +1,294 @@
+TestData_MembershipValidation: {
+  GeneralTab: '@GeneralTab',
+  EndorsementActionTab: '@EndorsementActionTab'
+}
+
+TestData_MembershipInvalid: {
+  GeneralTab: '@GeneralTab'
+}
+
+TestData_MembershipValid: {
+  GeneralTab: '@GeneralTab_MembershipValid',
+}
+
+TestData_Membership_Valid_First_Name: {
+  PrefillTab: { },
+  GeneralTab: {
+    NamedInsuredInformation: {
+      First Name: Ronhald,
+      Last Name: INVALID,
+    },
+    AAAProductOwned: {
+      Member Last Name: INVALID,
+    },
+    ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
+  },
+  DriverActivityReportsTab: { },
+  DocumentsAndBindTab: {  }
+}
+
+TestData_Membership_Valid_Last_Name: {
+  PrefillTab: { },
+  GeneralTab: {
+   NamedInsuredInformation: {
+     First Name: INVALID,
+     Last Name: McGrager,
+   },
+   AAAProductOwned: {
+     Member Last Name: McGrager,
+   },
+   ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
+  },
+  DriverActivityReportsTab: { },
+  DocumentsAndBindTab: {  }
+}
+
+TestData_Membership_Valid_DOB: {
+  PrefillTab: { },
+   GeneralTab: {
+     NamedInsuredInformation: {
+       First Name: INVALID,
+       Last Name: INVALID,
+     },
+     AAAProductOwned: {
+       Member Last Name: INVALID,
+     },
+     ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
+   },
+   DriverTab: {
+    Date of Birth: 1/4/1962
+   },
+  DriverActivityReportsTab: { },
+  DocumentsAndBindTab: {  }
+ }
+
+
+
+TestData_Endorsement_Renewal: {
+  GeneralTab:{
+    NamedInsuredInformation: '@NamedInsuredInformation',
+    AAAProductOwned: '@AAAProductOwned',
+    ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+
+
+TestData_Dummy_Number1: {
+  GeneralTab:{
+    NamedInsuredInformation: {
+      First Name: Tester,
+      Last Name: McTest,
+    },
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999999999999995,
+      Member Last Name: Test,
+    },
+    ContactInformation: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+TestData_Dummy_Number2: {
+  GeneralTab:{
+    NamedInsuredInformation: {},
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999991111111112,
+      Member Last Name: Test,
+    },
+    ContactInformation: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+
+TestData_Dummy_Number3: {
+  GeneralTab:{
+    NamedInsuredInformation: {},
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999992222222228,
+      Member Last Name: Test,
+    },
+    ContactInformation: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+
+TestData_Dummy_Number4: {
+  GeneralTab:{
+    NamedInsuredInformation: {},
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999993333333334,
+      Member Last Name: Test,
+    },
+    ContactInformation: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+TestData_Dummy_Number5: {
+  GeneralTab:{
+    NamedInsuredInformation: {},
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999994444444440,
+      Member Last Name: Test,
+    },
+    ContactInformation: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+TestData_Dummy_Number6: {
+  GeneralTab:{
+    NamedInsuredInformation: {},
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 9999995555555551,
+      Member Last Name: Test,
+    },
+    ContactInformation: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+    DriverTab: {},
+    MembershipTab: {
+      Order Report: click
+    },
+    VehicleTab: {},
+    AssignmentTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+}
+
+GeneralTab: {
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+}
+
+GeneralTab_MembershipValid: {
+  NamedInsuredInformation: '@NamedInsuredInformation_MembershipValid',
+  AAAProductOwned: '@AAAProductOwned_MembershipValid',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+}
+
+
+NamedInsuredInformation: {
+  InsuredSearchDialog: {},
+  First Name: Tester,
+  Last Name: McTest,
+  Base Date: '$<today:MM/dd/yyyy>',
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+   "Home Phone #": 1234567890
+}
+
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 9436258506738011,
+  Member Last Name: Test,
+}
+
+NamedInsuredInformation_MembershipValid: {
+  InsuredSearchDialog: {},
+  First Name: Ronhald,
+  Last Name: Ronaldjo,
+  Base Date: '$<today:MM/dd/yyyy>',
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  "Home Phone #": 1234567890
+}
+
+AAAProductOwned_MembershipValid: {
+  Current AAA Member: 'No',
+}
+
+EndorsementActionTab: {
+  Endorsement Date: '$<today:MM/dd/yyyy>',
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
+RenewActionTab: {
+  Renewal Date: '$<today-1y:MM/dd/yyyy>'
+}
+
+# --- Test Data for Overriding Errors ---
+
+TestData_MembershipValidation_OverrideErrors: {
+  ErrorTab: '@ErrorTab_OverrideErrors',
+}
+
+ErrorTab_OverrideErrors: {
+   ErrorsOverride: [{
+    Message: "contains=Membership Validation Failed",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Term,
+    Reason for override: 'Other'
+   }]
+}

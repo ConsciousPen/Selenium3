@@ -5,6 +5,7 @@ import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -211,42 +212,51 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
 	public void TC03_BillingDocuments(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
+		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
 		billing.generateFutureStatement().perform();
 		new BillingBillsAndStatementsVerifier().setType("Bill").verify(1).verifyPresent();
 		
-		// Decline deposit payment with reason "Fee + No Restriction" (to get 605001)
-		Map<String, String> map = new HashMap<String, String>();
-		map.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Deposit Payment");
-		map.put(BillingPaymentsAndOtherTransactionsTable.STATUS, "Issued");
-		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), map);
+		makePayments();
 		
-		// Decline previous manual payment with reason "Fee + Restriction" (to get 60 5000)
-		billing.acceptPayment().perform(check_payment, new Dollar(200));
+		//Decline previous manual payment with reason "Fee + Restriction" (to get 60 5000)
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($200.00)");
-		
-		// Decline previous manual payment with reason "No Fee + No Restriction" (to get 60 5002)
-		billing.acceptPayment().perform(check_payment, new Dollar(300));
-		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($300.00)");
-
-		// Decline previous manual payment with reason "Fee + Restriction" (to get 60 5003)
-		billing.acceptPayment().perform(check_payment, new Dollar(400));
-		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($400.00)");
+		verifyPaymentDeclinedTransactionPresent("200");
 		
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5000);
 		
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum,
-				Documents._60_5000,
-				Documents._60_5001,
-				Documents._60_5002,
-				Documents._60_5003
-				);
-		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHIBXX);
+		//Decline previous manual payment with reason "Fee + Restriction" (to get 60 5003)
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($300.00)");
 		
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5003);
+		
+		
+		//Decline deposit payment with reason "Fee + No Restriction" (to get 605001)
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "($400.00)");
+		
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5001);
+		
+		//Decline previous manual payment with reason "No Fee + No Restriction" (to get 60 5002)
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($500.00)");
+		
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5002);
+		
+	}
+	
+	private void makePayments() {
+        billing.acceptPayment().perform(check_payment, new Dollar(200));
+        billing.acceptPayment().perform(check_payment, new Dollar(300));
+        billing.acceptPayment().perform(check_payment, new Dollar(400));
+        billing.acceptPayment().perform(check_payment, new Dollar(500));
+	}
+	
+	private void verifyPaymentDeclinedTransactionPresent(String amount) {
+		new BillingPaymentsAndTransactionsVerifier().setType("Adjustment").setSubtypeReason("Payment Declined").setAmount(new Dollar(amount)).setStatus("Applied").verifyPresent();
 	}
 }

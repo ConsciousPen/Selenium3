@@ -71,7 +71,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION)
 				.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 
-		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
+		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
 		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 		CustomAssert.disableSoftMode();
 	}

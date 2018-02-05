@@ -4,11 +4,11 @@ package aaa.main.modules.policy.pup.defaulttabs;
 
 import org.openqa.selenium.By;
 
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -17,24 +17,24 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class BindTab extends Tab {
-    public BindTab() {
-        super(PersonalUmbrellaMetaData.BindTab.class);
-    }
+	// public Button btnPurchase = new Button(By.id("policyDataGatherForm:moveToBilling_footer"), Waiters.AJAX);
+	public Button btnPurchase = new Button(By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' " +
+		"or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"), Waiters.AJAX);
+	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
+	public Dialog confrimEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 
-    //public Button btnPurchase = new Button(By.id("policyDataGatherForm:moveToBilling_footer"), Waiters.AJAX);
-    public Button btnPurchase = new Button(By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"), Waiters.AJAX);
-    public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
-    public Dialog confrimEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
-    
-    @Override
-    public Tab submitTab() {
-        btnPurchase.click();
-        if (confirmPurchase.isPresent() && confirmPurchase.isVisible()){
-        	confirmPurchase.confirm();
-        }
-        else if (confrimEndorsementPurchase.isPresent() && confrimEndorsementPurchase.isVisible()) {
-        	confrimEndorsementPurchase.confirm();
-        }
-        return this;
-    }
+	public BindTab() {
+		super(PersonalUmbrellaMetaData.BindTab.class);
+	}
+
+	@Override
+	public Tab submitTab() {
+		btnPurchase.click();
+		if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {
+			confirmPurchase.confirm();
+		} else if (confrimEndorsementPurchase.isPresent() && confrimEndorsementPurchase.isVisible()) {
+			confrimEndorsementPurchase.confirm();
+		}
+		return this;
+	}
 }

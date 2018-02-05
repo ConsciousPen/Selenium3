@@ -1,10 +1,11 @@
 package aaa.helpers.xml.model;
 
+import aaa.main.enums.DocGenEnum;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import aaa.main.enums.DocGenEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = DocGenEnum.XmlnsNamespaces.AAAN_URI)

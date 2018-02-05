@@ -1,11 +1,9 @@
 package aaa.modules.regression.sales.pup;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -17,6 +15,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.utils.TestInfo;
 
 
 /**
@@ -31,7 +30,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	//private final String VOICE_SIGNATURE_ERROR = "Voice Signature is not available if cash or check is selected as a payment method.";
 	private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
-	
+
 	//verify alert works specifically on different browsers (doesn't work on chrome, temp switch off)
 	/*
     @Parameters({"state"})
@@ -78,12 +77,12 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
         //Verify Voice signature dialogue appears.
         //Verify it contains due amount.
         //Confirm the dialogue
-        assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
-        //CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
-        Purchase.confirmVoiceSignature.confirm();
+	    assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
+	    //CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
+	    Purchase.confirmVoiceSignature.confirm();
         //Verify that the policy is in active state.
-        
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+	    assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
     
@@ -101,10 +100,10 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 		// four digits of credit card number.
 		// Confirm the dialogue
 		//CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
-        assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
-        Purchase.confirmVoiceSignature.confirm();
+		assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
+		Purchase.confirmVoiceSignature.confirm();
 		// Verify that the policy is in active state.
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 	
 	private void precondition(){

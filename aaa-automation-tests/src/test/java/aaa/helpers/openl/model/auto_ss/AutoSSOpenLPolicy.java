@@ -10,37 +10,37 @@ import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class AutoSSOpenLPolicy extends OpenLPolicy {
-	private int term;
-	private boolean isHomeOwner;
-	private int creditScore;
-	private boolean isAAAMember;
+	private Integer term;
+	private Boolean isHomeOwner;
+	private Integer creditScore;
+	private Boolean isAAAMember;
 	private String aaaHomePolicy;
 	private String aaaRentersPolicy;
 	private String aaaCondoPolicy;
-	private boolean aaaLifePolicy;
-	private boolean aaaMotorcyclePolicy;
-	private boolean isEMember;
-	private int memberPersistency;
-	private int autoInsurancePersistency;
-	private int aaaInsurancePersistency;
-	private int aaaAsdInsurancePersistency;
-	private boolean isAARP;
-	private boolean isEmployee;
-	private boolean isAdvanceShopping;
+	private Boolean aaaLifePolicy;
+	private Boolean aaaMotorcyclePolicy;
+	private Boolean isEMember;
+	private Integer memberPersistency;
+	private Integer autoInsurancePersistency;
+	private Integer aaaInsurancePersistency;
+	private Integer aaaAsdInsurancePersistency;
+	private Boolean isAARP;
+	private Boolean isEmployee;
+	private Boolean isAdvanceShopping;
 	private String paymentPlanType;
 	private String distributionChannel;
-	private boolean unacceptableRisk;
+	private Boolean unacceptableRisk;
 	private String priorBILimit;
-	private int reinstatements;
-	private int yearsAtFaultAccidentFree;
-	private int yearsIncidentFree;
-	private int aggregateCompClaims;
-	private int nafAccidents;
-	private int avgAnnualERSperMember;
-	private int insuredAge;
-	private int noOfVehiclesExcludingTrailer;
-	private boolean multiCar;
-	private boolean supplementalSpousalLiability; // OR specific
+	private Integer reinstatements;
+	private Integer yearsAtFaultAccidentFree;
+	private Integer yearsIncidentFree;
+	private Integer aggregateCompClaims;
+	private Integer nafAccidents;
+	private Integer avgAnnualERSperMember;
+	private Integer insuredAge;
+	private Integer noOfVehiclesExcludingTrailer;
+	private Boolean multiCar;
+	private Boolean supplementalSpousalLiability; // OR specific
 
 	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
@@ -51,35 +51,35 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<OpenLDriver> drivers;
 
-	public int getTerm() {
+	public Integer getTerm() {
 		return term;
 	}
 
-	public void setTerm(int term) {
+	public void setTerm(Integer term) {
 		this.term = term;
 	}
 
-	public boolean isHomeOwner() {
+	public Boolean isHomeOwner() {
 		return isHomeOwner;
 	}
 
-	public void setHomeOwner(boolean homeOwner) {
+	public void setHomeOwner(Boolean homeOwner) {
 		isHomeOwner = homeOwner;
 	}
 
-	public int getCreditScore() {
+	public Integer getCreditScore() {
 		return creditScore;
 	}
 
-	public void setCreditScore(int creditScore) {
+	public void setCreditScore(Integer creditScore) {
 		this.creditScore = creditScore;
 	}
 
-	public boolean isAAAMember() {
+	public Boolean isAAAMember() {
 		return isAAAMember;
 	}
 
-	public void setAAAMember(boolean isAAAMember) {
+	public void setAAAMember(Boolean isAAAMember) {
 		this.isAAAMember = isAAAMember;
 	}
 
@@ -107,83 +107,83 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.aaaCondoPolicy = aaaCondoPolicy;
 	}
 
-	public boolean isAaaLifePolicy() {
+	public Boolean isAaaLifePolicy() {
 		return aaaLifePolicy;
 	}
 
-	public void setAaaLifePolicy(boolean aaaLifePolicy) {
+	public void setAaaLifePolicy(Boolean aaaLifePolicy) {
 		this.aaaLifePolicy = aaaLifePolicy;
 	}
 
-	public boolean isAaaMotorcyclePolicy() {
+	public Boolean isAaaMotorcyclePolicy() {
 		return aaaMotorcyclePolicy;
 	}
 
-	public void setAaaMotorcyclePolicy(boolean aaaMotorcyclePolicy) {
+	public void setAaaMotorcyclePolicy(Boolean aaaMotorcyclePolicy) {
 		this.aaaMotorcyclePolicy = aaaMotorcyclePolicy;
 	}
 
-	public boolean isEMember() {
+	public Boolean isEMember() {
 		return isEMember;
 	}
 
-	public void setEMember(boolean isEMember) {
+	public void setEMember(Boolean isEMember) {
 		this.isEMember = isEMember;
 	}
 
-	public int getMemberPersistency() {
+	public Integer getMemberPersistency() {
 		return memberPersistency;
 	}
 
-	public void setMemberPersistency(int memberPersistency) {
+	public void setMemberPersistency(Integer memberPersistency) {
 		this.memberPersistency = memberPersistency;
 	}
 
-	public int getAutoInsurancePersistency() {
+	public Integer getAutoInsurancePersistency() {
 		return autoInsurancePersistency;
 	}
 
-	public void setAutoInsurancePersistency(int autoInsurancePersistency) {
+	public void setAutoInsurancePersistency(Integer autoInsurancePersistency) {
 		this.autoInsurancePersistency = autoInsurancePersistency;
 	}
 
-	public int getAaaInsurancePersistency() {
+	public Integer getAaaInsurancePersistency() {
 		return aaaInsurancePersistency;
 	}
 
-	public void setAaaInsurancePersistency(int aaaInsurancePersistency) {
+	public void setAaaInsurancePersistency(Integer aaaInsurancePersistency) {
 		this.aaaInsurancePersistency = aaaInsurancePersistency;
 	}
 
-	public int getAaaAsdInsurancePersistency() {
+	public Integer getAaaAsdInsurancePersistency() {
 		return aaaAsdInsurancePersistency;
 	}
 
-	public void setAaaAsdInsurancePersistency(int aaaAsdInsurancePersistency) {
+	public void setAaaAsdInsurancePersistency(Integer aaaAsdInsurancePersistency) {
 		this.aaaAsdInsurancePersistency = aaaAsdInsurancePersistency;
 	}
 
-	public boolean isAARP() {
+	public Boolean isAARP() {
 		return isAARP;
 	}
 
-	public void setAARP(boolean isAARP) {
+	public void setAARP(Boolean isAARP) {
 		this.isAARP = isAARP;
 	}
 
-	public boolean isEmployee() {
+	public Boolean isEmployee() {
 		return isEmployee;
 	}
 
-	public void setEmployee(boolean employee) {
+	public void setEmployee(Boolean employee) {
 		isEmployee = employee;
 	}
 
-	public boolean isAdvanceShopping() {
+	public Boolean isAdvanceShopping() {
 		return isAdvanceShopping;
 	}
 
-	public void setAdvanceShopping(boolean advanceShopping) {
+	public void setAdvanceShopping(Boolean advanceShopping) {
 		isAdvanceShopping = advanceShopping;
 	}
 
@@ -203,11 +203,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.distributionChannel = distributionChannel;
 	}
 
-	public boolean isUnacceptableRisk() {
+	public Boolean isUnacceptableRisk() {
 		return unacceptableRisk;
 	}
 
-	public void setUnacceptableRisk(boolean unacceptableRisk) {
+	public void setUnacceptableRisk(Boolean unacceptableRisk) {
 		this.unacceptableRisk = unacceptableRisk;
 	}
 
@@ -219,59 +219,59 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.priorBILimit = priorBILimit;
 	}
 
-	public int getReinstatements() {
+	public Integer getReinstatements() {
 		return reinstatements;
 	}
 
-	public void setReinstatements(int reinstatements) {
+	public void setReinstatements(Integer reinstatements) {
 		this.reinstatements = reinstatements;
 	}
 
-	public int getYearsAtFaultAccidentFree() {
+	public Integer getYearsAtFaultAccidentFree() {
 		return yearsAtFaultAccidentFree;
 	}
 
-	public void setYearsAtFaultAccidentFree(int yearsAtFaultAccidentFree) {
+	public void setYearsAtFaultAccidentFree(Integer yearsAtFaultAccidentFree) {
 		this.yearsAtFaultAccidentFree = yearsAtFaultAccidentFree;
 	}
 
-	public int getYearsIncidentFree() {
+	public Integer getYearsIncidentFree() {
 		return yearsIncidentFree;
 	}
 
-	public void setYearsIncidentFree(int yearsIncidentFree) {
+	public void setYearsIncidentFree(Integer yearsIncidentFree) {
 		this.yearsIncidentFree = yearsIncidentFree;
 	}
 
-	public int getAggregateCompClaims() {
+	public Integer getAggregateCompClaims() {
 		return aggregateCompClaims;
 	}
 
-	public void setAggregateCompClaims(int aggregateCompClaims) {
+	public void setAggregateCompClaims(Integer aggregateCompClaims) {
 		this.aggregateCompClaims = aggregateCompClaims;
 	}
 
-	public int getNafAccidents() {
+	public Integer getNafAccidents() {
 		return nafAccidents;
 	}
 
-	public void setNafAccidents(int nafAccidents) {
+	public void setNafAccidents(Integer nafAccidents) {
 		this.nafAccidents = nafAccidents;
 	}
 
-	public int getAvgAnnualERSperMember() {
+	public Integer getAvgAnnualERSperMember() {
 		return avgAnnualERSperMember;
 	}
 
-	public void setAvgAnnualERSperMember(int avgAnnualERSperMember) {
+	public void setAvgAnnualERSperMember(Integer avgAnnualERSperMember) {
 		this.avgAnnualERSperMember = avgAnnualERSperMember;
 	}
 
-	public int getInsuredAge() {
+	public Integer getInsuredAge() {
 		return insuredAge;
 	}
 
-	public void setInsuredAge(int insuredAge) {
+	public void setInsuredAge(Integer insuredAge) {
 		this.insuredAge = insuredAge;
 	}
 
@@ -291,7 +291,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
-	public int getNoOfVehiclesExcludingTrailer() {
+	public Integer getNoOfVehiclesExcludingTrailer() {
 		return noOfVehiclesExcludingTrailer;
 	}
 
@@ -299,11 +299,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.noOfVehiclesExcludingTrailer = noOfVehiclesExcludingTrailer;
 	}
 
-	public boolean isMultiCar() {
+	public Boolean isMultiCar() {
 		return multiCar;
 	}
 
-	public void setMultiCar(boolean multiCar) {
+	public void setMultiCar(Boolean multiCar) {
 		this.multiCar = multiCar;
 	}
 
@@ -315,11 +315,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
-	public boolean isSupplementalSpousalLiability() {
+	public Boolean isSupplementalSpousalLiability() {
 		return supplementalSpousalLiability;
 	}
 
-	public void setSupplementalSpousalLiability(boolean supplementalSpousalLiability) {
+	public void setSupplementalSpousalLiability(Boolean supplementalSpousalLiability) {
 		this.supplementalSpousalLiability = supplementalSpousalLiability;
 	}
 

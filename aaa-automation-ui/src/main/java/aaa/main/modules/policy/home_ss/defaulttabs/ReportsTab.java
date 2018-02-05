@@ -11,8 +11,12 @@ import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -63,9 +67,34 @@ public class ReportsTab extends Tab {
 		return this;
 	}
 
+	public void reorderReports() {
+		RadioGroup agentAgreement = getAssetList().getAsset(HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class);
+		if (agentAgreement.isPresent()) {
+			agentAgreement.setValue("I Agree");
+		}
+		reOrderReports(tblAAAMembershipReport);
+		reOrderReports(tblFirelineReport);
+		reOrderReports(tblPublicProtectionClass);
+		reOrderReports(tblClueReport);
+		reOrderReports(tblInsuranceScoreReport);
+	}
+
+	protected void reOrderReports(Table reportTable) {
+		if (reportTable.isPresent()) {
+			for (int i = 1; i <= reportTable.getRowsCount(); i++) {
+				Cell cell = reportTable.getRow(i).getCell("Report");
+				Link report = cell.controls.links.get("Re-order report') or contains(.,'Re-order report");
+				if (report.isPresent() && !report.getAttribute("class").equals("link_disabled")) {
+					report.click(Waiters.AJAX);
+				}
+			}
+		}
+	}
+
 	private TestData createTestData() {
 		LinkedHashMap data = new LinkedHashMap();
 		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "$<today-1y:MM/dd/yyyy>");
+		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBERSHIP_EXPIRATION_DATE.getLabel(), "$<today+1y:MM/dd/yyyy>");
 		data.put(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "true");
 		return new SimpleDataProvider(data);
 	}

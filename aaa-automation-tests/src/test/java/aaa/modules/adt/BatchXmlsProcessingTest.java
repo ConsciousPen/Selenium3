@@ -5,11 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -64,7 +60,7 @@ public class BatchXmlsProcessingTest {
 	}
 	
 	public void uploadFilesToRemoteHost(String source) {
-		Ssh ssh = new Ssh(doc_host, ssh_user, ssh_password); 
+		Ssh ssh = new Ssh(doc_host, ssh_user, ssh_password);
 		File directory = new File(source);
 		File[] files = directory.listFiles(File::isFile);
 		if (files != null && files.length != 0) {

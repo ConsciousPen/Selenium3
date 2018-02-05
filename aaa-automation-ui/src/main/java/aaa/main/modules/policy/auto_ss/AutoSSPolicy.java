@@ -4,21 +4,16 @@ package aaa.main.modules.policy.auto_ss;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import aaa.utils.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
+import aaa.utils.EntityLogger;
 import toolkit.datax.TestData;
 
 /**
@@ -69,7 +64,12 @@ public class AutoSSPolicy implements IPolicy {
         endorse().performAndFill(td);
     }
 
-    @Override
+	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		priorTermEndorsement().performAndFill(td);
+	}
+
+	@Override
     public void purchase(TestData td) {
     	dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -85,8 +85,11 @@ public class AutoSSPolicy implements IPolicy {
         //no error if general tab is opened before premium calculation
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-	    new RatingDetailReportsTab().fillTab(td);
+	    new RatingDetailReportsTab().fillTab(td).submitTab();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+	    if ("$0.00".equals(PremiumAndCoveragesTab.totalTermPremium.getValue()))  
+	    	PremiumAndCoveragesTab.calculatePremium();
+	    	
     }
 
     @Override
@@ -111,7 +114,12 @@ public class AutoSSPolicy implements IPolicy {
         return new AutoSSPolicyActions.Endorse();
     }
 
-    @Override
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return new AutoSSPolicyActions.PriorTermEndorsement();
+	}
+
+	@Override
     public PolicyActions.Renew renew() {
         return new AutoSSPolicyActions.Renew();
     }

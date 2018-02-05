@@ -3,7 +3,6 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
@@ -21,6 +20,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.verification.CustomAssert;
 
 public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
@@ -68,19 +68,19 @@ public class TestScenario4 extends AutoSSBaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		switch(getState()){
 		case States.AZ:
-			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11AZ, Documents.AA43AZ, Documents.AHAUXX, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11AZ, Documents.AA43AZ, Documents.AHAPXX);
 			break;
 		case States.IN:
-			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11IN, Documents.AA43IN, Documents.AHAUXX, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11IN, Documents.AA43IN, Documents.AHAPXX);
 			break;
 		case States.OH:
-			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11OH, Documents.AA43OH, Documents.AHAUXX, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11OH, Documents.AA43OH, Documents.AHAPXX);
 			break;
 		case States.VA:
-			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11VA, Documents.AHAPXX, Documents.AAAUVA);
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11VA, Documents.AHAPXX);
 			break;
 		case States.WV:
-			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11WV, Documents.AA43WV, Documents.AHAUXX, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11WV, Documents.AA43WV, Documents.AHAPXX);
 			break;
 		}
 		documentsAndBindTab.cancel();
@@ -215,23 +215,23 @@ public class TestScenario4 extends AutoSSBaseTest {
 		switch(getState()){
 		case States.AZ:
 			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02AZ);
-			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43AZ, Documents.AASR22, Documents.AAPNXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43AZ, Documents.AASR22, Documents.AAPNXX);
 			break;
 		case States.IN:
 			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02IN);
-			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43IN, Documents.AASR22, Documents.AAPNXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43IN, Documents.AASR22, Documents.AAPNXX);
 			break;
 		case States.OH:
 			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02OH);
-			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43OH, Documents.AASR22, Documents.AAPNXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43OH, Documents.AASR22, Documents.AAPNXX);
 			break;
 		case States.VA:
 			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02VA);
-			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AASR22, Documents.AAPNXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAPXX, Documents.AASR22, Documents.AAPNXX);
 			break;
 		case States.WV:
 			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02WV);
-			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43WV, Documents.AASR22, Documents.AAPNXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43WV, Documents.AASR22, Documents.AAPNXX);
 			break;
 		}
 	

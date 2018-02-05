@@ -14,6 +14,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -42,7 +43,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-1441", "PAS-5986", "PAS-343"})
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 
 		CustomAssert.enableSoftMode();
@@ -67,6 +68,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	@Override
+	protected String getVehicleTab() {
+		return NavigationEnum.AutoCaTab.VEHICLE.get();
+	}
+
+	@Override
 	protected Tab getGeneralTabElement() {
 		return new GeneralTab();
 	}
@@ -79,6 +85,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Override
 	protected Tab getDocumentsAndBindTabElement() {
 		return new DocumentsAndBindTab();
+	}
+
+	@Override
+	protected Tab getVehicleTabElement() {
+		return new VehicleTab();
 	}
 
 	@Override

@@ -4,17 +4,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * Controlled Financial Testing Scenario 33
@@ -24,6 +22,19 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  * Escheatment
  */
 public class TestCFTScenario33 extends ControlledFinancialBaseTest {
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
+
+	@Override
+	protected TestData getPolicyTestData() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
+		td.adjust(TestData.makeKeyPath(PremiumAndCoveragesQuoteTab.class.getSimpleName(), PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
+				"PremiumAndCoveragesQuoteTab_DataGather").getValue(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel())).resolveLinks();
+		return new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+	}
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
@@ -39,19 +50,6 @@ public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
 		issuedRefundOnRefundDate();
 		verifyEscheatmentOnExpDatePlus25Plus13Months();
-	}
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.PUP;
-	}
-
-	@Override
-	protected TestData getPolicyTestData() {
-		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(TestData.makeKeyPath(PremiumAndCoveragesQuoteTab.class.getSimpleName(), PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
-			"PremiumAndCoveragesQuoteTab_DataGather").getValue(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel())).resolveLinks();
-		return new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
 	}
 
 }
