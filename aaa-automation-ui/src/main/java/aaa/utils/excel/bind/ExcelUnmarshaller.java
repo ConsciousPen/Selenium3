@@ -170,6 +170,7 @@ public class ExcelUnmarshaller {
 	}
 
 	private boolean isAccessible(Field field, Class<?> clazz) {
+		//TODO-dchubkov: check package-private modifier
 		return Objects.equals(field.getDeclaringClass(), clazz) || Modifier.isProtected(field.getModifiers()) || Modifier.isPublic(field.getModifiers());
 	}
 

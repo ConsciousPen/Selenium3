@@ -87,7 +87,7 @@ public class TableHeader extends CellsQueue implements Iterable<HeaderCell> {
 	}
 
 	public HeaderCell getCell(String headerColumnName) {
-		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
+		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()).isTrue();
 		return getCellsMap().entrySet().stream().filter(cm -> cm.getValue().getStringValue().equals(headerColumnName)).findFirst().get().getValue();
 	}
 
@@ -100,12 +100,12 @@ public class TableHeader extends CellsQueue implements Iterable<HeaderCell> {
 	}
 
 	public int getColumnIndexOnSheet(int columnIndex) {
-		assertThat(hasColumn(columnIndex)).as("There is no column index %s in the table's header", columnIndex).isTrue();
+		assertThat(hasColumn(columnIndex)).as("There is no column index %s in the table %2$s", columnIndex, getTable()).isTrue();
 		return getCell(columnIndex).getColumnIndexOnSheet();
 	}
 
 	public String getColumnName(int columnIndex) {
-		assertThat(hasCell(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
+		assertThat(hasCell(columnIndex)).as("There is no column with %s index in the table %2$s", columnIndex, getTable()).isTrue();
 		return getCell(columnIndex).getStringValue();
 	}
 }
