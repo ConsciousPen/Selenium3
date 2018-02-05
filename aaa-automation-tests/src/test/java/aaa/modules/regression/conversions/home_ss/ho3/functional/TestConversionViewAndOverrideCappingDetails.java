@@ -3,6 +3,8 @@ package aaa.modules.regression.conversions.home_ss.ho3.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.PolicyHelper;
@@ -10,11 +12,13 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ProductOfferingTab;
 import aaa.modules.regression.conversions.ConvHomeSsHO3BaseTest;
 import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.Button;
 
 /**
  * @author R. Kazlauskiene
@@ -33,7 +37,6 @@ import toolkit.utils.TestInfo;
  * 9. Check Capping Factor and Capped Term Premium values
  *
  **/
-
 public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3BaseTest {
 
 	@Parameters({"state"})
@@ -43,16 +46,9 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
 
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
-		TestData td = getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(),
-				HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel()), getTestSpecificTD("TestData")
-					.getTestData("GeneralTab").getValue("Immediate prior carrier"));
-		TestData initiateRenewalEntry = getManualConversionInitiationTd()
-				.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
-						CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()),
-						getTestSpecificTD("TestData").getTestData("InitiateRenewalEntryActionTab")
-								.getValue("Renewal Policy Premium"));
+		TestData td = initTestData();
+		TestData initiateRenewalEntry = initInitiateRenewalEntry();
 
-		TestData tdOverrideCappingDetails = getTestSpecificTD("TestData_OverideCappingDetails");
 		TestData tdViewCappingDetails = getTestSpecificTD("TD_ViewCappingDetails");
 		String renewalTermPremiumOld = getTestSpecificTD("TestData").getTestData
 				("InitiateRenewalEntryActionTab").getValue("Renewal Policy Premium");
@@ -83,14 +79,139 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
 				.isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(5).getCell(4).getValue()).isEqualTo("LegacyConv");
 		//Override Capping Factor
-		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_CAPPING_DETAILS_DIALOG)
-				.fill(tdOverrideCappingDetails.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
+		overrideCappingFactor(premiumsAndCoveragesQuoteTab);
 
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue()).isEqualTo(String.format("%s.00%%", tdOverrideCappingDetails.getTestData
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue()).isEqualTo(String.format("%s.00%%", getTestSpecificTD("TestData_OverideCappingDetails").getTestData
 				("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue("Manual Capping Factor (%)").toString()));
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(4).getCell(4).getValue()).isNotEqualTo(cappedTermPremium);
+	}
+
+/**
+ * @author R. Kazlauskiene
+ * @name Test check Capping Factor
+ * @scenario
+ * Preconditions: policy qualifies for capping and
+ * user have the capping privilege
+ * 1. Create Individual Customer / Account
+ * 2. Create converted SS home policy
+ * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
+ * 4. Select the "View capping details" link
+ * 5. Check Capping Factor
+ * 6. Navigate to Product Offering tab and change variations
+ * 7. Calculate Quote again from Quote tab
+ * 7. Check Capping factor
+ * **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-9350")
+	public void testPolicyCheckCappingFactor(@Optional("VA") String state) {
+
+		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
+
+		TestData td = initTestData();
+		TestData initiateRenewalEntry = initInitiateRenewalEntry();
+
+		mainApp().open();
+
+		//Initiate Renewal manual entry
+		initiateManualConversion(initiateRenewalEntry);
+
+		//Fill Quote
+		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
+		//View Capping Details
+		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
+
+		String cappingFactor = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue();
+
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.VIEW_CAPPING_DETAILS_DIALOG).getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.ViewCappingDetailsDialog.BUTTON_TO_PREMIUM_AND_COVERAGES.getLabel(), Button.class).click();
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
+
+		productOfferingTab.buttonSelectLegacy.click();
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
+		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
+
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue())
+				.isEqualTo(cappingFactor);
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+				.isEqualTo(cappingFactor);
+
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.VIEW_CAPPING_DETAILS_DIALOG).getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.ViewCappingDetailsDialog.BUTTON_TO_PREMIUM_AND_COVERAGES.getLabel(),Button.class).click();
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
+
+		productOfferingTab.buttonSelectPrestige.click();
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
+		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
+
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue())
+				.isEqualTo(cappingFactor);
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+				.isEqualTo(cappingFactor);
+
+		overrideCappingFactor(premiumsAndCoveragesQuoteTab);
+
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
+
+		String cappingFactorAfterOverride = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue();
+
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.VIEW_CAPPING_DETAILS_DIALOG).getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.ViewCappingDetailsDialog.BUTTON_TO_PREMIUM_AND_COVERAGES.getLabel(), Button.class).click();
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
+
+		productOfferingTab.buttonSelectLegacy.click();
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
+		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
+
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+				.isEqualTo(cappingFactorAfterOverride);
+
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.VIEW_CAPPING_DETAILS_DIALOG).getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.ViewCappingDetailsDialog.BUTTON_TO_PREMIUM_AND_COVERAGES.getLabel(),Button.class).click();
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
+
+		productOfferingTab.buttonSelectPrestige.click();
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
+		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
+
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+				.isEqualTo(cappingFactorAfterOverride);
+	}
+
+	private TestData initInitiateRenewalEntry() {
+		return getManualConversionInitiationTd()
+					.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
+							CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()),
+							getTestSpecificTD("TestData").getTestData("InitiateRenewalEntryActionTab")
+									.getValue("Renewal Policy Premium"));
+	}
+
+	private TestData initTestData() {
+		return getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(),
+				HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel()), getTestSpecificTD("TestData")
+				.getTestData("GeneralTab").getValue("Immediate prior carrier"));
+	}
+
+	private void overrideCappingFactor(PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab) {
+		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
+				.VIEW_CAPPING_DETAILS_DIALOG).fill(getTestSpecificTD("TestData_OverideCappingDetails")
+				.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
 	}
 }
