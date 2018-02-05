@@ -39,7 +39,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-8369")
     public void pas8369_testPUPWithMultipleUnitsOnDP3ForSS(@Optional("") String state) {
 
@@ -114,7 +114,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-8369")
     public void pas8369_testPUPWithMultipleUnitsOnDP3ForCA(@Optional("CA") String state) {
 
