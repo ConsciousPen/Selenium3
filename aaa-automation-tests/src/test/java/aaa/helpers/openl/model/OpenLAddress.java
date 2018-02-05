@@ -3,11 +3,11 @@ package aaa.helpers.openl.model;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLAddress {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private Integer number;
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	protected Integer number;
 
-	private String state;
-	private String zip;
+	protected String state;
+	protected String zip;
 
 	public Integer getNumber() {
 		return number;
@@ -31,5 +31,14 @@ public class OpenLAddress {
 
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	@Override
+	public String toString() {
+		return "OpenLAddress{" +
+				"number=" + number +
+				", state='" + state + '\'' +
+				", zip='" + zip + '\'' +
+				'}';
 	}
 }

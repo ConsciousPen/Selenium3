@@ -137,7 +137,6 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
         assetList.getAsset(getValidateDrivingHistory()).click();
         getDriverActivityReportsTabElement().submitTab();
         getDocumentsAndBindElement().submitTab();
-        getErrorTabElement().verify.errorsPresent(getVerificationError());
         CustomAssert.assertEquals(String.format("%s should be displayed only for first named insured", getVerificationError().getCode()),
                 1, getErrorTabElement().getErrorsControl().getTable().getRowsCount());
         getErrorTabElement().cancel();

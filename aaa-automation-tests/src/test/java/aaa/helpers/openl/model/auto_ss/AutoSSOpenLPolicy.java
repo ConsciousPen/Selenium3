@@ -1,15 +1,15 @@
 package aaa.helpers.openl.model.auto_ss;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
-import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class AutoSSOpenLPolicy extends OpenLPolicy {
+	private LocalDateTime effectiveDate;
 	private Integer term;
 	private Boolean isHomeOwner;
 	private Integer creditScore;
@@ -24,7 +24,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer autoInsurancePersistency;
 	private Integer aaaInsurancePersistency;
 	private Integer aaaAsdInsurancePersistency;
-	private Boolean isAARP;
+	private Boolean isAARP; // NV specific
 	private Boolean isEmployee;
 	private Boolean isAdvanceShopping;
 	private String paymentPlanType;
@@ -36,20 +36,34 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer yearsIncidentFree;
 	private Integer aggregateCompClaims;
 	private Integer nafAccidents;
-	private Integer avgAnnualERSperMember;
+	private Double avgAnnualERSperMember;
 	private Integer insuredAge;
 	private Integer noOfVehiclesExcludingTrailer;
 	private Boolean multiCar;
-	private Boolean supplementalSpousalLiability; // OR specific
+	private Boolean supplementalSpousalLiability; // NY specific (but field was also found in OR file with FALSE value)
+	private Boolean umbiConvCode; // CT specific ?
+	private Integer aaaAPIPIncomeContBenLimit; // NJ specific ?
+	private String aaaAPIPLengthIncomeCont; // NJ specific ?
+	private Integer aaaPIPExtMedPayLimit; // NJ specific ?
+	private Integer aaaPIPMedExpDeductible; // NJ specific ?
+	private Integer aaaPIPMedExpLimit; // NJ specific ?
+	private String aaaPIPNonMedExp; // NJ specific ?
+	private String aaaPIPPrimaryInsurer; // NJ specific ?
+	private Integer noOfAPIPAddlNamedRel; // NJ specific ?
+	private Integer previousAaaInsurancePersistency; // NJ specific ?
+	private String rbTier; // NY specific ?
+	private Integer yafAfterInception; // NY specific ?
+	private Integer ycfAfterInception; // NY specific ?
+	private String tort; // PA specific ?
 
-	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = "Batch- VehicleAZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
-	private List<OpenLVehicle> vehicles;
+	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLVehicle> vehicles;
 
-	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<OpenLDriver> drivers;
+	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLDriver> drivers;
 
 	public Integer getTerm() {
 		return term;
@@ -59,28 +73,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.term = term;
 	}
 
-	public Boolean isHomeOwner() {
-		return isHomeOwner;
-	}
-
-	public void setHomeOwner(Boolean homeOwner) {
-		isHomeOwner = homeOwner;
-	}
-
 	public Integer getCreditScore() {
 		return creditScore;
 	}
 
 	public void setCreditScore(Integer creditScore) {
 		this.creditScore = creditScore;
-	}
-
-	public Boolean isAAAMember() {
-		return isAAAMember;
-	}
-
-	public void setAAAMember(Boolean isAAAMember) {
-		this.isAAAMember = isAAAMember;
 	}
 
 	public String getAaaHomePolicy() {
@@ -105,30 +103,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	public void setAaaCondoPolicy(String aaaCondoPolicy) {
 		this.aaaCondoPolicy = aaaCondoPolicy;
-	}
-
-	public Boolean isAaaLifePolicy() {
-		return aaaLifePolicy;
-	}
-
-	public void setAaaLifePolicy(Boolean aaaLifePolicy) {
-		this.aaaLifePolicy = aaaLifePolicy;
-	}
-
-	public Boolean isAaaMotorcyclePolicy() {
-		return aaaMotorcyclePolicy;
-	}
-
-	public void setAaaMotorcyclePolicy(Boolean aaaMotorcyclePolicy) {
-		this.aaaMotorcyclePolicy = aaaMotorcyclePolicy;
-	}
-
-	public Boolean isEMember() {
-		return isEMember;
-	}
-
-	public void setEMember(Boolean isEMember) {
-		this.isEMember = isEMember;
 	}
 
 	public Integer getMemberPersistency() {
@@ -163,30 +137,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.aaaAsdInsurancePersistency = aaaAsdInsurancePersistency;
 	}
 
-	public Boolean isAARP() {
-		return isAARP;
-	}
-
-	public void setAARP(Boolean isAARP) {
-		this.isAARP = isAARP;
-	}
-
-	public Boolean isEmployee() {
-		return isEmployee;
-	}
-
-	public void setEmployee(Boolean employee) {
-		isEmployee = employee;
-	}
-
-	public Boolean isAdvanceShopping() {
-		return isAdvanceShopping;
-	}
-
-	public void setAdvanceShopping(Boolean advanceShopping) {
-		isAdvanceShopping = advanceShopping;
-	}
-
 	public String getPaymentPlanType() {
 		return paymentPlanType;
 	}
@@ -201,14 +151,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	public void setDistributionChannel(String distributionChannel) {
 		this.distributionChannel = distributionChannel;
-	}
-
-	public Boolean isUnacceptableRisk() {
-		return unacceptableRisk;
-	}
-
-	public void setUnacceptableRisk(Boolean unacceptableRisk) {
-		this.unacceptableRisk = unacceptableRisk;
 	}
 
 	public String getPriorBILimit() {
@@ -259,11 +201,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.nafAccidents = nafAccidents;
 	}
 
-	public Integer getAvgAnnualERSperMember() {
+	public Double getAvgAnnualERSperMember() {
 		return avgAnnualERSperMember;
 	}
 
-	public void setAvgAnnualERSperMember(Integer avgAnnualERSperMember) {
+	public void setAvgAnnualERSperMember(Double avgAnnualERSperMember) {
 		this.avgAnnualERSperMember = avgAnnualERSperMember;
 	}
 
@@ -276,18 +218,18 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<OpenLCappingDetails> getCappingDetails() {
-		return cappingDetails;
+		return new ArrayList<>(cappingDetails);
 	}
 
 	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
-	public List<OpenLVehicle> getVehicles() {
-		return vehicles;
+	public List<AutoSSOpenLVehicle> getVehicles() {
+		return new ArrayList<>(vehicles);
 	}
 
-	public void setVehicles(List<OpenLVehicle> vehicles) {
+	public void setVehicles(List<AutoSSOpenLVehicle> vehicles) {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
@@ -299,24 +241,172 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.noOfVehiclesExcludingTrailer = noOfVehiclesExcludingTrailer;
 	}
 
-	public Boolean isMultiCar() {
-		return multiCar;
+	public List<AutoSSOpenLDriver> getDrivers() {
+		return new ArrayList<>(drivers);
+	}
+
+	public void setDrivers(List<AutoSSOpenLDriver> drivers) {
+		this.drivers = new ArrayList<>(drivers);
+	}
+
+	public Boolean getUmbiConvCode() {
+		return umbiConvCode;
+	}
+
+	public void setUmbiConvCode(Boolean umbiConvCode) {
+		this.umbiConvCode = umbiConvCode;
+	}
+
+	public Integer getAaaAPIPIncomeContBenLimit() {
+		return aaaAPIPIncomeContBenLimit;
+	}
+
+	public void setAaaAPIPIncomeContBenLimit(Integer aaaAPIPIncomeContBenLimit) {
+		this.aaaAPIPIncomeContBenLimit = aaaAPIPIncomeContBenLimit;
+	}
+
+	public String getAaaAPIPLengthIncomeCont() {
+		return aaaAPIPLengthIncomeCont;
+	}
+
+	public void setAaaAPIPLengthIncomeCont(String aaaAPIPLengthIncomeCont) {
+		this.aaaAPIPLengthIncomeCont = aaaAPIPLengthIncomeCont;
+	}
+
+	public Integer getAaaPIPExtMedPayLimit() {
+		return aaaPIPExtMedPayLimit;
+	}
+
+	public void setAaaPIPExtMedPayLimit(Integer aaaPIPExtMedPayLimit) {
+		this.aaaPIPExtMedPayLimit = aaaPIPExtMedPayLimit;
+	}
+
+	public Integer getAaaPIPMedExpDeductible() {
+		return aaaPIPMedExpDeductible;
+	}
+
+	public void setAaaPIPMedExpDeductible(Integer aaaPIPMedExpDeductible) {
+		this.aaaPIPMedExpDeductible = aaaPIPMedExpDeductible;
+	}
+
+	public Integer getAaaPIPMedExpLimit() {
+		return aaaPIPMedExpLimit;
+	}
+
+	public void setAaaPIPMedExpLimit(Integer aaaPIPMedExpLimit) {
+		this.aaaPIPMedExpLimit = aaaPIPMedExpLimit;
+	}
+
+	public String getAaaPIPNonMedExp() {
+		return aaaPIPNonMedExp;
+	}
+
+	public void setAaaPIPNonMedExp(String aaaPIPNonMedExp) {
+		this.aaaPIPNonMedExp = aaaPIPNonMedExp;
+	}
+
+	public String getAaaPIPPrimaryInsurer() {
+		return aaaPIPPrimaryInsurer;
+	}
+
+	public void setAaaPIPPrimaryInsurer(String aaaPIPPrimaryInsurer) {
+		this.aaaPIPPrimaryInsurer = aaaPIPPrimaryInsurer;
+	}
+
+	public Integer getNoOfAPIPAddlNamedRel() {
+		return noOfAPIPAddlNamedRel;
+	}
+
+	public void setNoOfAPIPAddlNamedRel(Integer noOfAPIPAddlNamedRel) {
+		this.noOfAPIPAddlNamedRel = noOfAPIPAddlNamedRel;
+	}
+
+	public Integer getPreviousAaaInsurancePersistency() {
+		return previousAaaInsurancePersistency;
+	}
+
+	public void setPreviousAaaInsurancePersistency(Integer previousAaaInsurancePersistency) {
+		this.previousAaaInsurancePersistency = previousAaaInsurancePersistency;
+	}
+
+	public String getRbTier() {
+		return rbTier;
+	}
+
+	public void setRbTier(String rbTier) {
+		this.rbTier = rbTier;
+	}
+
+	public Integer getYafAfterInception() {
+		return yafAfterInception;
+	}
+
+	public void setYafAfterInception(Integer yafAfterInception) {
+		this.yafAfterInception = yafAfterInception;
+	}
+
+	public Integer getYcfAfterInception() {
+		return ycfAfterInception;
+	}
+
+	public void setYcfAfterInception(Integer ycfAfterInception) {
+		this.ycfAfterInception = ycfAfterInception;
+	}
+
+	public String getTort() {
+		return tort;
+	}
+
+	public void setTort(String tort) {
+		this.tort = tort;
+	}
+
+	public LocalDateTime getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDateTime effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	public void setHomeOwner(Boolean homeOwner) {
+		isHomeOwner = homeOwner;
+	}
+
+	public void setAAAMember(Boolean isAAAMember) {
+		this.isAAAMember = isAAAMember;
+	}
+
+	public void setAaaLifePolicy(Boolean aaaLifePolicy) {
+		this.aaaLifePolicy = aaaLifePolicy;
+	}
+
+	public void setAaaMotorcyclePolicy(Boolean aaaMotorcyclePolicy) {
+		this.aaaMotorcyclePolicy = aaaMotorcyclePolicy;
+	}
+
+	public void setEMember(Boolean isEMember) {
+		this.isEMember = isEMember;
+	}
+
+	public void setAARP(Boolean isAARP) {
+		this.isAARP = isAARP;
+	}
+
+	public void setEmployee(Boolean employee) {
+		isEmployee = employee;
+	}
+
+	public void setAdvanceShopping(Boolean advanceShopping) {
+		isAdvanceShopping = advanceShopping;
+	}
+
+	public void setUnacceptableRisk(Boolean unacceptableRisk) {
+		this.unacceptableRisk = unacceptableRisk;
 	}
 
 	public void setMultiCar(Boolean multiCar) {
 		this.multiCar = multiCar;
-	}
-
-	public List<OpenLDriver> getDrivers() {
-		return drivers;
-	}
-
-	public void setDrivers(List<OpenLDriver> drivers) {
-		this.drivers = new ArrayList<>(drivers);
-	}
-
-	public Boolean isSupplementalSpousalLiability() {
-		return supplementalSpousalLiability;
 	}
 
 	public void setSupplementalSpousalLiability(Boolean supplementalSpousalLiability) {
@@ -326,7 +416,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String toString() {
 		return "AutoSSOpenLPolicy{" +
-				"term=" + term +
+				"effectiveDate=" + effectiveDate +
+				", term=" + term +
 				", isHomeOwner=" + isHomeOwner +
 				", creditScore=" + creditScore +
 				", isAAAMember=" + isAAAMember +
@@ -354,11 +445,72 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 				", nafAccidents=" + nafAccidents +
 				", avgAnnualERSperMember=" + avgAnnualERSperMember +
 				", insuredAge=" + insuredAge +
-				", cappingDetails=" + cappingDetails +
-				", vehicles=" + vehicles +
 				", noOfVehiclesExcludingTrailer=" + noOfVehiclesExcludingTrailer +
 				", multiCar=" + multiCar +
+				", supplementalSpousalLiability=" + supplementalSpousalLiability +
+				", umbiConvCode=" + umbiConvCode +
+				", aaaAPIPIncomeContBenLimit=" + aaaAPIPIncomeContBenLimit +
+				", aaaAPIPLengthIncomeCont='" + aaaAPIPLengthIncomeCont + '\'' +
+				", aaaPIPExtMedPayLimit=" + aaaPIPExtMedPayLimit +
+				", aaaPIPMedExpDeductible=" + aaaPIPMedExpDeductible +
+				", aaaPIPMedExpLimit=" + aaaPIPMedExpLimit +
+				", aaaPIPNonMedExp='" + aaaPIPNonMedExp + '\'' +
+				", aaaPIPPrimaryInsurer='" + aaaPIPPrimaryInsurer + '\'' +
+				", noOfAPIPAddlNamedRel=" + noOfAPIPAddlNamedRel +
+				", previousAaaInsurancePersistency=" + previousAaaInsurancePersistency +
+				", rbTier='" + rbTier + '\'' +
+				", yafAfterInception=" + yafAfterInception +
+				", ycfAfterInception=" + ycfAfterInception +
+				", tort='" + tort + '\'' +
+				", cappingDetails=" + cappingDetails +
+				", vehicles=" + vehicles +
 				", drivers=" + drivers +
+				", number=" + number +
+				", policyNumber='" + policyNumber + '\'' +
 				'}';
+	}
+
+	public Boolean isHomeOwner() {
+		return isHomeOwner;
+	}
+
+	public Boolean isAAAMember() {
+		return isAAAMember;
+	}
+
+	public Boolean isAaaLifePolicy() {
+		return aaaLifePolicy;
+	}
+
+	public Boolean isAaaMotorcyclePolicy() {
+		return aaaMotorcyclePolicy;
+	}
+
+	public Boolean isEMember() {
+		return isEMember;
+	}
+
+	public Boolean isAARP() {
+		return isAARP;
+	}
+
+	public Boolean isEmployee() {
+		return isEmployee;
+	}
+
+	public Boolean isAdvanceShopping() {
+		return isAdvanceShopping;
+	}
+
+	public Boolean isUnacceptableRisk() {
+		return unacceptableRisk;
+	}
+
+	public Boolean isMultiCar() {
+		return multiCar;
+	}
+
+	public Boolean isSupplementalSpousalLiability() {
+		return supplementalSpousalLiability;
 	}
 }

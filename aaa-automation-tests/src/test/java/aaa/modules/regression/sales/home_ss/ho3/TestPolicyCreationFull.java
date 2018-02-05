@@ -18,6 +18,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * @author Olga Reva
@@ -50,6 +51,8 @@ public class TestPolicyCreationFull extends HomeSSHO3BaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, EndorsementTab.class, true);
 
+		Waiters.SLEEP(5000);
+		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 		ReportsTab reportsTab = new ReportsTab();
 		reportsTab.fillTab(td_orderPPC);

@@ -1,0 +1,32 @@
+TestData: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Quarterly,
+    Personal Umbrella: '$1,000,000'
+  },
+  PurchaseTab: '@PurchaseTab'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+# ----- Renewal -----
+TestData_Renewal: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {}, 
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Eleven Pay Standard (Renewal)
+  }, 
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,26 +19,39 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.entity.ExcelSheet;
-import aaa.utils.excel.io.entity.ExcelTable;
-import aaa.utils.excel.io.entity.TableRow;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
+import aaa.utils.excel.io.entity.area.table.ExcelTable;
+import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller {
 	protected static Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
 	private Map<Class<?>, Pair<ExcelTable, List<Field>>> tableClasses = new HashMap<>();
 
+	//TODO-dchubkov: implement registerCellType(CellType<?>... cellTypes) method
+
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel) {
 		return unmarshal(excelFile, excelFileModel, false);
 	}
 
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
+		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch);
+	}
+
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel) {
+		return unmarshal(excelManager, excelFileModel, false);
+	}
+
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch) {
+		return unmarshal(excelManager, excelFileModel, strictMatch, true);
+	}
+
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, boolean closeManagerOnFinish) {
 		//TODO: check excelFileModel is valid class (not primitive, etc...)
 		log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
-				excelFileModel.getSimpleName(), excelFile.getAbsolutePath(), strictMatch ? "with" : "without"));
+				excelFileModel.getSimpleName(), excelManager.getFile().getAbsolutePath(), strictMatch ? "with" : "without"));
 
 		T excelFileInstance = getInstance(excelFileModel);
-		ExcelManager excelManager = new ExcelManager(excelFile);
 
 		for (Field tableField : getAllFields(excelFileModel, true)) {
 			Pair<ExcelTable, List<Field>> tableRowAndFields = getTableAndAllFields(excelManager, tableField, strictMatch);
@@ -51,7 +65,10 @@ public class ExcelUnmarshaller {
 			}
 			setFieldValue(tableField, excelFileInstance, tableFieldsInstances);
 		}
-		excelManager.close();
+
+		if (closeManagerOnFinish) {
+			excelManager.close();
+		}
 		tableClasses.clear();
 
 		log.info("Excel unmarshalling was successful.");
@@ -101,14 +118,16 @@ public class ExcelUnmarshaller {
 		ExcelTable table = getExcelTable(excelManager, tableField, tableFields, strictMatch);
 
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableFields);
-		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasColumnName(getHeaderColumnName(f))).collect(Collectors.toList());
+		List<Field> fieldsWithMissingColumns = tableFields.stream().filter(f -> !table.getHeader().hasColumn(getHeaderColumnName(f))).collect(Collectors.toList());
 
 		if (!fieldsWithMissingColumns.isEmpty()) {
-			List<String> missingTableColumns = getHeaderColumnNames(fieldsWithMissingColumns);
+			Map<String, String> missingTableColumns = new HashMap<>();
+			fieldsWithMissingColumns.forEach(f -> missingTableColumns.put(f.getType().getSimpleName(), getHeaderColumnName(f)));
+
 			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s.",
-					table.getSheet().getSheetName(), tableClass.getName(), missingTableColumns);
+					table.getSheet().getSheetName(), tableClass.getName(), missingTableColumns.entrySet());
 			if (strictMatch) {
-				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
+				throw new IstfException("Excel unmarshalling with strict match has been failed." + message);
 			}
 			log.warn("{} Field(s) with missed column(s) in result object will have default value(s) of appropriate type(s)", message);
 		}
@@ -136,7 +155,7 @@ public class ExcelUnmarshaller {
 		}
 
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableRowFields);
-		List<String> missingFieldColumns = table.getColumnNames().stream().filter(cn -> !expectedFieldsColumns.contains(cn)).collect(Collectors.toList());
+		List<String> missingFieldColumns = table.getColumnsNames().stream().filter(cn -> !expectedFieldsColumns.contains(cn)).collect(Collectors.toList());
 
 		if (!missingFieldColumns.isEmpty()) {
 			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s.",
@@ -173,24 +192,28 @@ public class ExcelUnmarshaller {
 		switch (tableRowField.getType().getName()) {
 			case "int":
 			case "java.lang.Integer":
-				setFieldValue(tableRowField, tableInstance, row.getIntValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getIntValue(columnName));
 				break;
 			case "boolean":
 			case "java.lang.Boolean":
-				setFieldValue(tableRowField, tableInstance, row.getBoolValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getBoolValue(columnName));
 				break;
 			case "java.lang.String":
 				setFieldValue(tableRowField, tableInstance, row.getStringValue(columnName));
 				break;
 			case "java.time.LocalDateTime":
-				setFieldValue(tableRowField, tableInstance, row.getDateValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDateValue(columnName, getFormatters(tableRowField)));
+				break;
+			case "double":
+			case "java.lang.Double":
+				setFieldValue(tableRowField, tableInstance, row.isEmpty(columnName) ? null : row.getDoubleValue(columnName));
 				break;
 			case "java.util.List":
 				String linkedRowsIds = row.getStringValue(columnName);
 				if (linkedRowsIds.isEmpty()) {
 					break;
 				}
-				Pair<ExcelTable, List<Field>> tableRowAndlinkedTableRowFields = getTableAndAllFields(row.getSheet().getExcelManager(), tableRowField, strictMatch);
+				Pair<ExcelTable, List<Field>> tableRowAndlinkedTableRowFields = getTableAndAllFields(row.getTable().getExcelManager(), tableRowField, strictMatch);
 				List<Object> linkedTableRows = new ArrayList<>();
 				Class<?> linkedTableRowClass = getTableRowType(tableRowField);
 				Field primaryKeyField = getPrimaryKeyField(linkedTableRowClass);
@@ -211,6 +234,20 @@ public class ExcelUnmarshaller {
 		}
 	}
 
+	private DateTimeFormatter[] getFormatters(Field tableRowField) {
+		List<DateTimeFormatter> dateTimeFormatters = new ArrayList<>();
+		if (tableRowField.isAnnotationPresent(ExcelTableColumnElement.class)) {
+			for (String datePattern : tableRowField.getAnnotation(ExcelTableColumnElement.class).dateFormatPatterns()) {
+				try {
+					dateTimeFormatters.add(DateTimeFormatter.ofPattern(datePattern));
+				} catch (IllegalArgumentException e) {
+					throw new IstfException(String.format("Unable to get valid DateTimeFormatter for field \"%1$s\" with date pattern \"%2$s\"", tableRowField.getName(), datePattern), e);
+				}
+			}
+		}
+		return dateTimeFormatters.toArray(new DateTimeFormatter[dateTimeFormatters.size()]);
+	}
+
 	private void setFieldValue(Field field, Object classInstance, Object value) {
 		if (!field.isAccessible()) {
 			//TODO-dchubkov: find appropriate setter method and use it for set value
@@ -225,9 +262,11 @@ public class ExcelUnmarshaller {
 	}
 
 	private Field getPrimaryKeyField(Class<?> tableRowClass) {
-		for (Field field : tableRowClass.getDeclaredFields()) {
-			if (field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
-				return field;
+		for (Class<?> clazz : getThisAndAllSuperClasses(tableRowClass)) {
+			for (Field field : clazz.getDeclaredFields()) {
+				if (isAccessible(field, tableRowClass) && field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
+					return field;
+				}
 			}
 		}
 		throw new IstfException(String.format("\"%s\" class does not have any primary key field", tableRowClass.getName()));
