@@ -24,7 +24,7 @@ aaa-automation-tests/src/test/resources/testsuites/debug-pef.xml
 aaa-automation-tests/src/test/resources/testsuites/retry.xml
 aaa-automation-tests/src/test/resources/testsuites/openl/test.xml
 
-aaa-automation-tests/src/test/openl/
+aaa-automation-tests/src/test/resources/openl/
 
 /.metadata/*
 /*.iml
