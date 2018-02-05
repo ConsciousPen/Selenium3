@@ -204,7 +204,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void test(@Optional("") String state) {
-		String methodName = "TestNameWasNotFound";
+		String methodName = "pas730_VehicleTypeRegular";
 		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().startsWith("aaa.modules")).reduce((a, b) -> b).orElse(null);
 		if (result != null) {
 			methodName = result.getClassName() + "." + result.getMethodName() + "_" + getState();
