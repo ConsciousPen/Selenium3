@@ -13,4 +13,6 @@ public @interface ExcelTableColumnElement {
 	String name() default "##default";
 
 	String primaryKeysSeparator() default ",";
+
+	String[] dateFormatPatterns() default {};
 }

@@ -33,19 +33,19 @@ public interface ManualConversionHelper {
     default TestData modifyInitiationTd(TestData testData, TestData tdCustomer, String state) {
         if (testData == null) {
             testData = tdCustomer.getTestData(CustomerActions.InitiateRenewalEntry.class.getSimpleName()).getTestData(getTdName() + "_Default").
-                    adjust("InitiateRenewalEntryActionTab|Risk State", state);
+                    adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.RISK_STATE.getLabel()), state);
         }
         if (isMaigConversion(state)) {
-            testData.adjust("InitiateRenewalEntryActionTab|Previous Source System", "MAIG");
+            testData.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_SOURCE_SYSTEM.getLabel()), "MAIG");
         }
 
         return testData.resolveLinks();
     }
 
     default TestData modifyInitiationTdForHome(PolicyType type, TestData td) {
-        td.adjust("InitiateRenewalEntryActionTab|Product Name", type.getName());
-        if (td.getTestData("InitiateRenewalEntryActionTab|Policy Type") == null) {
-            td.adjust("InitiateRenewalEntryActionTab|Policy Type",
+        td.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel()), type.getName());
+        if (td.getTestData(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TYPE.getLabel())) == null) {
+            td.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TYPE.getLabel()),
                     !type.getShortName().contains("_") ? "HO3" : type.getShortName().replaceAll(".+_", ""))
                     .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT.getLabel()), "No");
         }

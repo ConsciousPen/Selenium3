@@ -15,14 +15,18 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Link;
 
 public class TestVINUploadTemplate extends CommonTemplateMethods{
@@ -130,16 +134,20 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 * PAS-1487  No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
+	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Create customer
 	 * 1. Initiate Auto CA quote creation
-	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
-	 * 3. On Administration tab in Admin upload Excel to add this VIN to the system
-	 * 4. Open application and policy
-	 * 5. Initiate Renewal for policy
-	 * 6. Verify that VIN was uploaded and all fields are populated
+	 * 2. Go to the vehicle tab, fill info with not existing VIN, and calculate the premium
+	 * 3. Save and exit the quote, move system time by 2 days and retrieve the quote
+	 * 4. Attempt to bind without calculating premium; verify the Rerate Error message
+	 * 5. Continue to bind the quote
+	 * 6. On Administration tab in Admin upload Excel to add this VIN to the system
+	 * 7. Open application and policy
+	 * 8. Initiate Renewal for policy
+	 * 9. Verify that VIN was uploaded and all fields are populated
 	 * @details
 	 */
 	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
@@ -153,7 +161,38 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
+//Start PAS-938 - edited steps for CA products
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
+		//save quote number to open it later
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
+
+		//Johns - Move system time by two days
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
+
+		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnPurchase.click();
+
+		// Verify pas-938 'Rerate' Error message on error tab
+		ErrorTab errorTab = new ErrorTab();
+		Assertions.assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_CSA1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		log.info("PAS-938 Rerate Error Verified as Present");
+		errorTab.cancel();
+
+		//Change Quote Effective Date to current date, because CA quotes can't be back dated >=\
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
+		GeneralTab generalTab = new GeneralTab();
+		generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+		//End PAS-938
+
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 

@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -21,8 +22,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.ExcelCell;
-import aaa.utils.excel.io.entity.ExcelSheet;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 import toolkit.exceptions.IstfException;
 
 public class ExcelManager {
@@ -34,15 +35,10 @@ public class ExcelManager {
 	private Workbook workbook;
 	private Map<Integer, ExcelSheet> sheets;
 
-	@SuppressWarnings("ZeroLengthArrayAllocation")
-	public ExcelManager(File excelFile) {
-		this(excelFile, new CellType<?>[0]);
-	}
-
 	public ExcelManager(File file, CellType<?>... allowableCellTypes) {
 		this.isOpened = false;
 		this.file = file;
-		this.allowableCellTypes = allowableCellTypes.length != 0 ? new HashSet<>(Arrays.asList(allowableCellTypes)) : ExcelCell.getBaseTypes();
+		this.allowableCellTypes = ArrayUtils.isNotEmpty(allowableCellTypes) ? new HashSet<>(Arrays.asList(allowableCellTypes)) : ExcelCell.getBaseTypes();
 	}
 
 	public boolean isOpened() {
@@ -155,7 +151,7 @@ public class ExcelManager {
 	@SuppressWarnings("resource")
 	private Map<Integer, ExcelSheet> getSheetsMap() {
 		if (this.sheets == null) {
-			this.sheets = new HashMap<>();
+			this.sheets = new LinkedHashMap<>();
 			for (Sheet sheet : getWorkbook()) {
 				int sheetNumber = getWorkbook().getSheetIndex(sheet.getSheetName()) + 1;
 				this.sheets.put(sheetNumber, new ExcelSheet(sheet, sheetNumber, this, getCellTypes()));

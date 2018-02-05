@@ -3,7 +3,7 @@
 	<test name="CFT Precondition" preserve-order="true">
 		<classes>
    			<class name="aaa.modules.preconditions.SetTodayDate"/>
-			<class name="aaa.modules.cft.TestCFTCleanFeedFiles" />
+<!-- 		<class name="aaa.modules.cft.TestCFTCleanFeedFiles" />-->
 		</classes>
 	</test>
 </suite>
