@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -24,7 +23,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 
-public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
+public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected final String INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
 					+ "(%1$d,'%2$s','%3$s','%4$s','%5$s','%6$d','%7$d','%8$s')";
@@ -284,7 +283,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000", formTypeSelect));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getUniqVehicleRefDataVinControlID();
+		int getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
 				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", 20150102, 20500102, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION));
@@ -298,7 +297,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000", formTypeSelect));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getUniqVehicleRefDataVinControlID();
+		int getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
 				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", 20150102, 20500102, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
@@ -312,7 +311,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_CHOICE", formTypeChoice));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getUniqVehicleRefDataVinControlID();
+		int getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
 				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 20500102, CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION));
@@ -328,7 +327,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_CHOICE", formTypeChoice));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getUniqVehicleRefDataVinControlID();
+		int getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_BY_VERSION,
 				getUniqId, productTypeAAACSA, formTypeChoice, getState(), "SYMBOL_2000_CHOICE", 20150102, 20500102, CA_CHOICE_REGULAR_VEH_MSRP_VERSION));
@@ -337,22 +336,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 2015, 2011, 4));
 		// Add New  msrp version
 		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_CHOICE_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
-	}
-
-	private int getUniqVehicleRefDataVinControlID() {
-		int timeoutInSeconds = 5;
-		long searchStart = System.currentTimeMillis();
-		long timeout = searchStart + timeoutInSeconds * 1000;
-		int uniqId = 0;
-		do {
-			String temp = DBService.get().getValue(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get();
-			if (StringUtils.isNumeric(temp)) {
-				uniqId = Integer.parseInt(temp);
-				break;
-			}
-		} while (timeout > System.currentTimeMillis());
-
-		return uniqId;
 	}
 
 	private void findQuoteAndOpenRenewal(String quoteNumber) {
@@ -381,7 +364,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	protected void pas730_ChoiceCleanDataBase(String state,String vehicleTypeMSRPVersion, String vehicleType) {
+	protected void pas730_ChoiceCleanDataBase(String state, String vehicleTypeMSRPVersion, String vehicleType) {
 		// Reset 'default' msrp version
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 9999, 2011, EXPECTED_MSRP_KEY));
 		// Reset to the default state  MSRP_2000
@@ -392,9 +375,9 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods{
 		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, COMP_COLL_SYMBOL_KEY, vehicleType));
 	}
 
-	protected void pas730_SelectCleanDataBase(String state,String vehicleTypeMSRPVersion, String vehicleType) {
+	protected void pas730_SelectCleanDataBase(String state, String vehicleTypeMSRPVersion, String vehicleType) {
 		// DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE
-		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE, vehicleType,vehicleTypeMSRPVersion));
+		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE, vehicleType, vehicleTypeMSRPVersion));
 		// DELETE new VEHICLEREFDATAVINCONTROL version
 		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, vehicleTypeMSRPVersion, state));
 		// Reset to the default state  MSRP_2000

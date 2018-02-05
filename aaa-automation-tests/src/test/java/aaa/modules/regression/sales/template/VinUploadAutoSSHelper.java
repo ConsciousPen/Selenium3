@@ -12,6 +12,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.db.queries.MsrpQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.VinUploadHelper;
@@ -105,7 +106,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getAvailableIdFromVehicleDataVinControl();
+		int getUniqId = MsrpQueries.getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
 				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION));
@@ -126,10 +127,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 
 		// Add new MSRP version
 		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
-	}
-
-	protected int getAvailableIdFromVehicleDataVinControl() {
-		return Integer.parseInt(DBService.get().getColumn(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get(0)) + 1;
 	}
 
 	protected void createAndFillUpTo(TestData testData, Class<? extends Tab> tab) {

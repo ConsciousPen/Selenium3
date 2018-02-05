@@ -1,5 +1,8 @@
 package aaa.helpers.db.queries;
 
+import static aaa.helpers.db.DbAwaitHelper.getQueryResult;
+import java.util.Random;
+
 public class MsrpQueries {
     public static final String UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX = "UPDATE MSRPCompCollCONTROL SET VEHICLEYEARMAX = %1$d WHERE MSRPVERSION = '%2$s'";
     public static final String UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN = "UPDATE MSRPCompCollCONTROL SET VEHICLEYEARMAX = %1$d WHERE VEHICLEYEARMIN = %2$d AND KEY = %3$d";
@@ -25,5 +28,13 @@ public class MsrpQueries {
 
     public static final String CA_SELECT_REGULAR_VEH_MSRP_VERSION = "MSRP_2000_SELECT_TEST";
     public static final String CA_SELECT_MOTORHOME_VEH_MSRP_VERSION = "MSRP_2000_MOTORHOME_SELECT_TEST";
+
+
+    public static int getAvailableIdFromVehicleDataVinControl() {
+        int uniqId = 0;
+        boolean sucess = false;
+        String temp = getQueryResult(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID, 5);
+        return Integer.parseInt(temp) + new Random().nextInt(1000);
+    }
 
 }
