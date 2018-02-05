@@ -6,13 +6,11 @@ import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import aaa.common.enums.Constants;
-import aaa.main.modules.policy.PolicyType;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
+import aaa.main.modules.policy.PolicyType;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -247,11 +245,17 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getConversionEffectiveDate() {
-		return getConversionEffectiveDate(TimeSetterUtil.getInstance().getCurrentTime());
+		return getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimepointsList.RENEW_GENERATE_PREVIEW);
 	}
 
-	public LocalDateTime getConversionEffectiveDate(LocalDateTime date) {
-		List<String> timepoint = td.getList(TimepointsList.RENEW_GENERATE_PREVIEW.get());
+	/**
+	 * Retrieves effective date based on incoming params
+	 *
+	 * @param date      {@link LocalDateTime}
+	 * @param timePoint {@link TimepointsList}
+	 */
+	public LocalDateTime getEffectiveDateForTimePoint(LocalDateTime date, TimepointsList timePoint) {
+		List<String> timepoint = td.getList(timePoint.get());
 		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
 	}
 

@@ -1,9 +1,10 @@
 package aaa.helpers.docgen.searchNodes;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.xml.model.BatchFileInfo;
 import aaa.helpers.xml.model.StandardDocumentRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BatchFileInfoNode extends SearchBy<BatchFileInfoNode, BatchFileInfo> {
 	public BatchFileInfoNode batchFileName(String value) {

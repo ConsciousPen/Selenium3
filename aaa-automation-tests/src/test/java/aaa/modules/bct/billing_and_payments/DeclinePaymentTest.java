@@ -1,6 +1,9 @@
 package aaa.modules.bct.billing_and_payments;
 
-import aaa.common.components.Efolder;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -9,10 +12,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.verification.CustomAssert;
 
 public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
@@ -71,7 +70,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION)
 				.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 
-		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
+		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
 		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 		CustomAssert.disableSoftMode();
 	}

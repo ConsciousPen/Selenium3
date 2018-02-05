@@ -1,7 +1,7 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import java.util.*;
 import org.openqa.selenium.By;
-
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
@@ -13,8 +13,6 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.util.*;
 
 /**
  * Control for filling tables (e.g. on Report Tabs) with different types of inner controls.
@@ -179,7 +177,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		for (String assetName : rowData.getKeys()) {
 			BaseElement<?, ?> control = getAssetCollection().get(assetName);
 
-			if (control.getParent() == null) {
+			if (control.getParent() == null || control instanceof AbstractContainer) {
 				control.fill(rowData);
 			} else {
 				String value = rowData.getValue(assetName);

@@ -1,5 +1,10 @@
 package aaa.modules.regression.common;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.NavigationPage;
@@ -15,16 +20,10 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	private Map<String, TestData> fullSearchData = new HashMap<>(2);

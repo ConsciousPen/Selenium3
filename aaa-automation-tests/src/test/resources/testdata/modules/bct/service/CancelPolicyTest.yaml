@@ -1,6 +1,6 @@
 Cancellation_005: {
   CancellationActionTab: {
-    Cancellation Reason: "New Business Rescission - Underwriting Material Misrepresentation",
+    Cancellation Reason: 'index=12',
     Authorized By: QA
   }
 }

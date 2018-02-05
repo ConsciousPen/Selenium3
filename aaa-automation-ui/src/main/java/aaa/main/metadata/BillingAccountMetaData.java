@@ -22,6 +22,7 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<TextBox> AMOUNT = declare("Amount", TextBox.class);
 		public static final AssetDescriptor<ComboBox> INVOICE = declare("Invoice", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> PAYMENT_METHOD = declare("Payment Method", ComboBox.class);
+		public static final AssetDescriptor<StaticElement> TRANSACTION_ID = declare("Transaction ID", StaticElement.class);
 		public static final AssetDescriptor<TextBox> CHECK_NUMBER = declare("Check Number", TextBox.class);
 		public static final AssetDescriptor<TextBox> CHECK_DATE = declare("Check Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> PAYEE_NAME = declare("Payee Name", TextBox.class);
@@ -32,11 +33,13 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<RadioButton> UPDATE_LIVES_VOLUME_NO = declare("Update Lives/Volume? NO", RadioButton.class, By.id("paymentForm:updateLivesVolume_radio:1"));
 		public static final AssetDescriptor<StaticElement> PAYMENT_METHOD_MESSAGE_TABLE = declare("Payment Method message", StaticElement.class, By.id("paymentForm:refundAmountMessage"));
 		public static final AssetDescriptor<StaticElement> PAYMENT_SUBMIT_REFUND = declare("Payment Submit Refund", StaticElement.class, By.id("paymentForm:saveButton_footer"));
+		public static final AssetDescriptor<StaticElement> MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK =
+				declare("Payment Methods is only check", StaticElement.class, By.id("paymentForm:refundErrorReasonMessage"));
 
 		//Fee specific fields
 		public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> TRANSACTION_SUBTYPE = declare("Transaction Subtype", ComboBox.class);
-
+		public static final AssetDescriptor<StaticElement> PAYMENT_AMOUNT_ERROR_MESSAGE = declare("Enter too much amount message", StaticElement.class, By.id("paymentForm:paymentAmount_error"));
 	}
 
 	public static final class UpdateBillingAccountActionTab extends MetaData {
@@ -51,12 +54,12 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<TextBox> BILLING_CONTACT_MIDDLE_NAME = declare("Billing Contact Middle Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> BILLING_CONTACT_LAST_NAME = declare("Billing Contact Last Name", TextBox.class);
 		public static final AssetDescriptor<ComboBox> COUNTRY = declare("Country", ComboBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.NONE);
+		public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class, Waiters.AJAX);
 
 		public static final AssetDescriptor<AddPaymentMethodsMultiAssetList> PAYMENT_METHODS =
@@ -228,6 +231,8 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
+		public static final AssetDescriptor<TextBox> NET_PREMIUM = declare("Net Premium", TextBox.class);
+		public static final AssetDescriptor<TextBox> POLICY_FEE = declare("Policy Fee", TextBox.class);
 	}
 
 	public static final class ChangePaymentPlanActionTab extends MetaData {

@@ -66,6 +66,11 @@ public class AutoCaPolicy implements IPolicy {
 	}
 
 	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		priorTermEndorsement().performAndFill(td);
+	}
+
+	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
@@ -103,6 +108,11 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public PolicyActions.Endorse endorse() {
 		return new AutoCaPolicyActions.Endorse();
+	}
+
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return new AutoCaPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override

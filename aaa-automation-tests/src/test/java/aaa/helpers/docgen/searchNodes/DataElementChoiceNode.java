@@ -1,9 +1,10 @@
 package aaa.helpers.docgen.searchNodes;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.StandardDocumentRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DataElementChoiceNode extends SearchBy<DataElementChoiceNode, DataElementChoice> {
 	public DataElementChoiceNode textField(String value) {

@@ -1,16 +1,36 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
+<suite name="Scorpions Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
     <!-- Listener commented out for local runs-->
     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="example">
+    <test name="Renewal job adding">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
                 <methods>
-                    <include name="precondJobAdding"/>
+                    <include name="renewalJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Renewal job adding">
+        <classes>
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
+                <methods>
+                    <include name="renewalJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+  <test name="doc Gen Stub End point Insert">
+        <classes>
+            <class name="aaa.modules.preconditions.ScorpionsPreconditions">
+                <methods>
+                    <include name="docGenStubEndpointInsert"/>
                 </methods>
             </class>
         </classes>

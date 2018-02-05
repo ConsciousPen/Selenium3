@@ -73,6 +73,54 @@ public final class PolicyActions {
 		public abstract AbstractAction performAndFill(TestData td);
 	}
 
+	public abstract static class PriorTermEndorsement extends AbstractAction {
+		@Override
+		public String getName() {
+			return "Prior Term Endorsement";
+		}
+
+		/**
+		 * Fill Endorsement action tab, confirm endorsement and stay in Data Gathering mode</br>
+		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
+		 *
+		 * @param td - test data for filling Endorsement action tab
+		 */
+		@Override
+		public AbstractAction perform(TestData td) {
+			return super.perform(td);
+		}
+
+		@Override
+		public AbstractAction submit() {
+			Tab.buttonOk.click();
+			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+				Page.dialogConfirmation.confirm();
+			}
+			return this;
+		}
+
+		/**
+		 * Fill Endorsement action tab, confirm endorsement and press Save and Exit without filling policy
+		 *
+		 * @param td - test data for filling Endorsement action tab
+		 */
+		public AbstractAction performAndExit(TestData td) {
+			start();
+			getView().fill(td);
+			submit();
+			Tab.buttonSaveAndExit.click();
+			return this;
+		}
+
+		/**
+		 * Fill Endorsement action tab, confirm endorsement, fill policy endorsement and purchase
+		 *
+		 * @param td - test data for filling Endorsement action tab and policy endorsement
+		 */
+		public abstract AbstractAction performAndFill(TestData td);
+
+	}
+
 	public abstract static class Renew extends AbstractAction {
 		@Override
 		public String getName() {

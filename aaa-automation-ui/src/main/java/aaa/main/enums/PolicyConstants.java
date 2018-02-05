@@ -74,16 +74,11 @@ public final class PolicyConstants {
         public static final String ANNUAL_PREMIUM = "Annual Premium";
     }
 
-
-
     public static final class PolicyCoverageInstallmentFeeTable {
         public static final String PAYMENT_METHOD = "Payment Method";
         public static final String ENROLLED_IN_AUTO_PAY = "Enrolled in Auto Pay";
         public static final String INSTALLMENT_FEE = "Installment Fee";
     }
-
-
-
 
     public static final class PolicyCoveragePremiumSummaryTable {
         public static final String BILLABLE_PREMIUM = "Billable Premium";
@@ -209,5 +204,30 @@ public final class PolicyConstants {
         public static final String MINIMUM_DOWNPAYMENT = "Minimum Downpayment";
         public static final String INSTALLMENT_AMOUNT = "Installment Amount (w/o fees)";
         public static final String NUMBER_OF_REMAINING_INSTALLMENTS = "# of Remaining Installments";
+    }
+
+    public static final class PolicyCappedPremiumTable {
+        public static final String RENEWAL_TERM_PREMIUM_OLD_RATER = "Renewal Term Premium - Old Rater";
+        public static final String CHANGE_IN_POLICY_PREMIUM = "% Change in Policy Premium";
+        public static final String PRIOR_TERM_CAPPING_FACTOR = "Prior Term Capping Factor";
+        public static final String CEILING_CAP = "Ceiling Cap %";
+        public static final String FLOOR_CAP = "Floor Cap %";
+        public static final String SYSTEM_CALCULATED_CAPPING_FACTOR = "System Calculated Capping Factor";
+        public static final String APPLIED_CAPPING_FACTOR = "Applied Capping Factor";
+        public static final String CALCULATED_TERM_PREMIUM = "Calculated Term Premium";
+        public static final String CAPPED_TERM_PREMIUM = "Capped Term Premium";
+        public static final String PROGRAM_CODE = "Program Code";
+    }
+
+    public static final class InitiateRenewalEntryScreenErrorMessages {
+        public static final String PREVIOUS_POLICY_NUMBER_IS_REQUIRED = "Previous Policy Number.";
+        public static final String PREVIOUS_SOURCE_SYSTEM_IS_REQUIRED = "Premium Waiver Start.";
+        public static final String RISK_STATE_IS_REQUIRED = "Risk State is required.";
+        public static final String RENEWAL_EFFECTIVE_DATE_IS_REQUIRED = "Renewal Effective Date " +
+                "is required.";
+        public static final String RENEWAL_POLICY_PREMIUM_IS_REQUIRED = "Renewal Policy Premium " +
+                "is required.";
+        public static final String LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED =
+                "Multi-Policy Discount should be selected.";
     }
 }

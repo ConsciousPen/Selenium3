@@ -36,6 +36,23 @@ public final class HomeCaPolicyActions {
         }
     }
 
+    public static class PriorTermEndorsement extends PolicyActions.PriorTermEndorsement {
+        @Override
+        public Workspace getView() {
+            return new EndorseView();
+        }
+
+        @Override
+        public AbstractAction performAndFill(TestData td) {
+            start();
+            getView().fill(td);
+            submit();
+            new DataGatheringEndorsementView().fill(td);
+            return this;
+        }
+    }
+
+
     public static class Renew extends PolicyActions.Renew {
         @Override
         public Workspace getView() {

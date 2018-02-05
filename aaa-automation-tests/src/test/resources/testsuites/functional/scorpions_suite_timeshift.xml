@@ -1,0 +1,93 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <!--The tests are updating configuration on the fly and sequential execution is needed-->
+    <test name="PAS-2716 Update VIN Refresh Auto SS">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
+                <methods>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                    <include name="pas527_NewVinAddedRenewal"/>
+                    <include name="pas527_UpdatedVinRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!--The tests are updating configuration on the fly and sequential execution is needed-->
+    <test name="PAS-2716 Update VIN Refresh CA Select">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
+                <methods>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                    <include name="pas527_NewVinAddedRenewal"/>
+                    <include name="pas527_UpdatedVinRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!--The tests are updating configuration on the fly and sequential execution is needed-->
+    <test name="PAS-2716 Update VIN Refresh CA Choice">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
+                <methods>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                    <include name="pas527_NewVinAddedRenewal"/>
+                    <include name="pas527_UpdatedVinRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto SS MSRP liability symbols refresh tests">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto CA Select  MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
+                <parameter name="state" value="CA"/>
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto CA Choice MSRP liability symbols refresh tests">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefresh">
+                <parameter name="state" value="CA"/>
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

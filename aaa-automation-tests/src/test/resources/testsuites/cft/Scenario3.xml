@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="CFT Scenario 3" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-    	<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
@@ -19,11 +19,10 @@
             <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario3" />
         </classes>
     </test>
-
     <test name="AutoCA Select Scenario 3 CFT" parallel="none">
-        <parameter name="state" value="CA" />
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario3" />
+            <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario3"/>
         </classes>
     </test>
 

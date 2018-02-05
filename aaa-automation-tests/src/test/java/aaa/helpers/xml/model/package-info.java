@@ -10,7 +10,8 @@
 
 package aaa.helpers.xml.model;
 
+import aaa.main.enums.DocGenEnum;
+
 import javax.xml.bind.annotation.XmlNs;
 import javax.xml.bind.annotation.XmlNsForm;
 import javax.xml.bind.annotation.XmlSchema;
-import aaa.main.enums.DocGenEnum;

@@ -1,12 +1,7 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import org.apache.commons.lang3.NotImplementedException;

@@ -22,13 +22,14 @@ public abstract class Purchase extends Tab {
     public static Table tablePaymentPlan = new Table(By.id("purchaseForm:PaymentPlanTable"));
     public static Button btnApplyPayment = new Button(By.id("purchaseForm:finishBtn_footer"), Waiters.AJAX);
     public static Dialog confirmPurchase = new Dialog("//div[@id='purchaseForm:FinishConfirmationDialog_container']");
-    public static Dialog confirmVoiceSignature = new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
+    public static Dialog confirmVoiceSignature= new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
     public static StaticElement totalRemainingTermPremium = new StaticElement(By.id("purchaseForm:downpaymentComponent_totalRemainingDueValue"));
     public static StaticElement remainingBalanceDueToday = new StaticElement(By.id("purchaseForm:downpaymentComponent_remainingBalanceValue"));
 
-    public static Table autoPaySetupSavingMessage = new Table(By.id("purchaseForm:installmentFeeAmountSavedPanel"));
-    public static Link linkViewApplicableFeeSchedule = new Link(By.id("purchaseForm:installmentFeeDetails"), Waiters.AJAX);
-    public static Table tableInstallmentFeeDetails = new Table(By.id("purchaseForm:installmentFeeDetailsTable"));
+    public static Table autoPaySetupSavingMessage = new Table (By.id("purchaseForm:installmentFeeAmountSavedPanel"));
+	public static Link linkViewApplicableFeeSchedule = new Link(By.id("purchaseForm:installmentFeeDetails"), Waiters.AJAX);
+	public static Table tableInstallmentFeeDetails = new Table(By.id("purchaseForm:installmentFeeDetailsTable"));
+
 
     protected Purchase(Class<? extends MetaData> mdClass) {
         super(mdClass);
@@ -59,7 +60,7 @@ public abstract class Purchase extends Tab {
     @Override
     public Tab fillTab(TestData td) {
         ErrorTab errorTab = new ErrorTab();
-        if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME.getCode())) {
+        if(errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME.getCode())){
             errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
             DocumentsAndBindTab.btnPurchase.click();
             DocumentsAndBindTab.confirmPurchase.buttonYes.click();

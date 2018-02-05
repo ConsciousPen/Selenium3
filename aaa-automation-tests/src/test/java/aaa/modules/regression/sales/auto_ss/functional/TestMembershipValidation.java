@@ -5,7 +5,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -27,6 +26,8 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMembershipValidation extends AutoSSBaseTest {
+	private ErrorTab errorTab = new ErrorTab();
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test Membership validation - FN, LN and DOB don't match (New business)
@@ -455,7 +456,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	private void goToBindAndVerifyError(ErrorEnum.Errors errorCode) {
 		DocumentsAndBindTab.btnPurchase.click();
-		new ErrorTab().verify.errorsPresent(errorCode);
+		errorTab.verify.errorsPresent(errorCode);
 	}
 
 	private void validate_NewBusiness(TestData tdSpecific, Boolean ruleShouldFire) {
@@ -469,11 +470,11 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
 		if (ruleShouldFire) {
 			goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
-			new ErrorTab().overrideAllErrors();
-			new ErrorTab().buttonOverride.click();
+			errorTab.overrideAllErrors();
+			errorTab.buttonOverride.click();
 		}
 
-		new DocAndBindTabSubmit().submitTab();
+		new DocumentsAndBindTab().submitTab();
 		new PurchaseTab().fillTab(testData).submitTab();
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -489,7 +490,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.endorse().performAndFill(tdSpecificEnd);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocAndBindTabSubmit().submitTab();
+		new DocumentsAndBindTab().submitTab();
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
@@ -505,7 +506,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocAndBindTabSubmit().submitTab();
+		new DocumentsAndBindTab().submitTab();
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
@@ -540,7 +541,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocAndBindTabSubmit().submitTab();
+		new DocumentsAndBindTab().submitTab();
 		checkAndOverrideErrors(ruleShouldFire);
 
 	}
@@ -548,24 +549,12 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	////if rule should fire, check the error and override
 	private void checkAndOverrideErrors(boolean ruleShouldFire) {
 		if (ruleShouldFire) {
-			new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
-			new ErrorTab().overrideAllErrors();
-			new ErrorTab().buttonOverride.click();
-			new DocAndBindTabSubmit().submitTab();
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+			errorTab.overrideAllErrors();
+			new DocumentsAndBindTab().submitTab();
 		}
 		PolicySummaryPage.labelPolicyStatus.isVisible(); //this indicates that transaction was completed and errors was not displayed
-	}
 
-	/*Tests were broken because DocumentsAndBindTab().submitTab() method is updated to always override ERROR_AAA_AUTO_SS_MEM_LASTNAME.
-	Tests fixed by overriding DocumentsAndBindTab().submitTab() method to not override ERROR_AAA_AUTO_SS_MEM_LASTNAME.*/
-	private class DocAndBindTabSubmit extends DocumentsAndBindTab {
-
-		@Override
-		public Tab submitTab() {
-			btnPurchase.click();
-			confirmPurchase();
-			return this;
-		}
 	}
 
 }

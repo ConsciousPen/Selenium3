@@ -1,0 +1,160 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1', '@DriverTab2', '@DriverTab3', '@DriverTab4'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  AssignmentTab: '@AssignmentTab_VA',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation'
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+DriverTab1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Student,
+  Age First Licensed: 17,
+  License Type: 'Licensed (Canadian)',
+  License Number: 400064774,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: '$<today-10d:MM/dd/yyyy>',
+  Smart Driver Course Certificate Number: 'OSI123'
+}
+
+DriverTab3: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'Allstate',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'not available',
+  Last Name: 'For Rating',
+  Date of Birth: 01/01/1999,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064771
+}
+
+DriverTab4: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'Allstate',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'to be excluded',
+  Last Name: 'driver',
+  Date of Birth: 01/01/1994,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064772
+}
+
+VehicleTab1: {
+  Usage: Pleasure,
+  VIN: 1G1YL2D7XG5100001,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: KIA,
+  Other Model: vehicle,
+  Other Body Style: Sedan,
+  Stat Code: 'Small car',
+  Stated Amount: 1000,
+  'Salvaged?': 'Yes',
+}
+
+VehicleTab2: {
+  Usage: Pleasure,
+  VIN: 1G1YL2D7XG5100002,
+  Year: '$<today:yyyy>',
+  Make: OTHER,
+  Other Make: FORD,
+  Other Model: Model,
+  Other Body Style: Sedan,
+  Stat Code: 'Small SUV',
+  Stated Amount: 30000,
+      'Enroll in Usage Based Insurance?': 'Yes',
+      Get Vehicle Details: click,
+      Vehicle Eligibility Response: Vehicle Eligible,
+      AAA UBI Device Status: Active,
+      Device Voucher Number: 1GNWGPFG8B6548273,
+      Grant Participation Discount: click
+}
+
+AssignmentTab_VA: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+}
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=Jenny',
+    Select Vehicle: 'index=2'
+}
+
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: '$<today-20d>'
+    },
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: '$<today-40d>'
+    }
+  ]
+}

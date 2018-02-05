@@ -3,7 +3,6 @@
 package aaa.modules.regression.service.template;
 
 import org.openqa.selenium.By;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -113,9 +112,9 @@ public abstract class PolicyOose extends PolicyBaseTest {
         }
         
         getPolicyType().get().rollOn().submit();
-        
-        //for VA and NY [Oose rull JIRA https://jira.exigeninsurance.com/browse/AAASS-23637]
-        //At “Roll On” of the pended endorsement, the system will fire an error that user must manually re-enter the assignment page for the non-OOS endorsement(s)
+
+		//for VA and NY [Oose rull JIRA https://jira.exigeninsurance.com/browse/AAASS-23637]
+		//At “Roll On” of the pended endorsement, the system will fire an error that user must manually re-enter the assignment page for the non-OOS endorsement(s)
         getPolicyType().get().rollOn().getView().fill(getTestSpecificTD("ErrorProceed"));
         getPolicyType().get().dataGather().getView().fill(getTestSpecificTD("DataGather_EP"));
         

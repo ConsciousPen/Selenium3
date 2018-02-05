@@ -1,9 +1,10 @@
 package aaa.helpers.docgen.searchNodes;
 
-import java.util.ArrayList;
-import java.util.List;
 import aaa.helpers.xml.model.DocumentDataElement;
 import aaa.helpers.xml.model.StandardDocumentRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DocumentDataElementNode extends SearchBy<DocumentDataElementNode, DocumentDataElement> {
 	public DataElementChoiceNode dataElementChoice = new DataElementChoiceNode();

@@ -63,7 +63,7 @@ RentalInformation: {
 }
 
 UnderwritingAndApprovalTab: {
-  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
   "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
   "Has the property been in foreclosure proceedings within the past 18 months?": "No",
   "Do employees of any resident or applicant reside in the dwelling?": "No",
