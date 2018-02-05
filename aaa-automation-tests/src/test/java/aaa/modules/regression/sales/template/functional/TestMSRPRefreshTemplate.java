@@ -43,6 +43,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected VehicleTab vehicleTab = new VehicleTab();
 	protected PurchaseTab purchaseTab = new PurchaseTab();
 	protected MembershipTab membershipTab = new MembershipTab();
+	protected PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void vehicleTypeRegular(TestData testData) {
 
@@ -65,6 +66,8 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		findAndRateQuote(testData, quoteNumber);
 
 		pas730_commonChecks(compSymbol, collSymbol);
+
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	protected void vehicleTypeNotRegular(TestData testData) {
@@ -88,6 +91,10 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		findAndRateQuote(testData, quoteNumber);
 
 		pas730_commonChecks(compSymbol, collSymbol);
+
+		premiumAndCoveragesTab.saveAndExit();
+
+
 	}
 
 	protected void renewalVehicleTypeRegular(TestData testData) {
@@ -113,6 +120,8 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	protected void renewalVehicleTypeNotRegular(TestData testData) {
@@ -139,6 +148,8 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	protected void renewalVINDoesMatchNBandNoMatchOnRenewal(TestData testData) {
@@ -165,6 +176,8 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+
+		premiumAndCoveragesTab.saveAndExit();
 
 	}
 
@@ -291,7 +304,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		// Add New  msrp version
 		DBService.get()
-				.executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeMotorHome, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
+				.executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeMotorHome, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
 	}
 
 	private void pas730_addRegularVehicleToDBSelect() {
@@ -304,7 +317,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 				getUniqId, productTypeAAACSA, formTypeSelect, getState(), "SYMBOL_2000", 20150102, 20500102, CA_SELECT_REGULAR_VEH_MSRP_VERSION));
 
 		// Add New  msrp version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeRegular, CA_SELECT_REGULAR_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
 	}
 
 	private void pas730_addMotorHomeVehicleToDBChoice() {
@@ -384,7 +397,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		// Reset to the default state  MSRP_2000
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE, state, formTypeSelect));
 		// DELETE new MSRP version pas730_VehicleTypeRegular
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, EXPECTED_MSRP_KEY, vehicleType));
+		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, COMP_COLL_SYMBOL_KEY, vehicleType));
 	}
 
 }

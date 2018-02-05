@@ -147,6 +147,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		PremiumAndCoveragesTab.calculatePremium();
 
 		pas730_commonChecks(compSymbol, collSymbol);
+
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	/**
@@ -161,8 +163,9 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void resetMSRPTables() {
-		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION,getState(),vehicleTypeRegular);
+		pas730_SelectCleanDataBase(getState(),CA_SELECT_REGULAR_VEH_MSRP_VERSION,vehicleTypeRegular);
 	}
+
 	@AfterClass(alwaysRun = true)
 	protected void resetVinUploadTables() {
 		String configNames = "('SYMBOL_2000_CA_SELECT')";

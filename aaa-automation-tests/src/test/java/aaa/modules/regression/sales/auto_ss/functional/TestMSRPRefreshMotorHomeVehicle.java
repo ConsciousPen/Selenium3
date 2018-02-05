@@ -113,6 +113,8 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		pas730_commonChecks(compSymbolBeforeRenewal, collSymbolBeforeRenewal);
+
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
 

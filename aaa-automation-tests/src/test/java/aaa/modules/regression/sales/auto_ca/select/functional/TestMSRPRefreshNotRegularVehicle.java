@@ -74,7 +74,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void resetMSRPTables() {
-		pas730_SelectCleanDataBase(CA_SELECT_MOTORHOME_VEH_MSRP_VERSION,getState(),vehicleTypeMotorHome);
+		pas730_SelectCleanDataBase(getState(),CA_SELECT_MOTORHOME_VEH_MSRP_VERSION,vehicleTypeMotorHome);
 	}
 
 	@AfterClass(alwaysRun = true)
