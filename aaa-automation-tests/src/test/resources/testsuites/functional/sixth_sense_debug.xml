@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sixth Sense Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+
+    <!--Used for debug purposes-->
+
+    <test name="Test Calculate Tier for NY converted policies">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation"/>
+        </classes>
+    </test>
+
+</suite>
