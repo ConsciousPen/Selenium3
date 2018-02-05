@@ -144,6 +144,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 	 */
 	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
+		VinUploadHelper vinUploadHelper = new VinUploadHelper(getPolicyType(), getState());
+
 		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
@@ -161,7 +163,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
-		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
+		vinUploadHelper.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber);
@@ -171,7 +173,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		new VinUploadHelper(getPolicyType(), getState()).verifyActivitiesAndUserNotes(vinNumber);
+		vinUploadHelper.verifyActivitiesAndUserNotes(vinNumber);
 	}
 
 	/**
@@ -194,7 +196,11 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 	 */
 	protected void updatedVinRenewal(String vinTableFile, String vinNumber) {
 
-		TestData testData = getTestDataTwoVehicles(vinNumber);
+		VinUploadHelper vinUploadHelper = new VinUploadHelper(getPolicyType(), getState());
+
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(new AssignmentTab().getMetaKey()), getTestSpecificTD("AssignmentTab"));
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -213,33 +219,24 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		//open Admin application and navigate to Administration tab
 		adminApp().reopen();
-		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
+		vinUploadHelper.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+
 		searchForPolicy(policyNumber);
+
+		//Perform Endorsement to have an ability to open policy and verify all values
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-		VehicleTab.buttonAddVehicle.click();
-		// Add third vehicle to the quote
-		List<TestData> existingVehicles = testData.getTestDataList("VehicleTab");
 
-		TestData thirdVehicle = new SimpleDataProvider().adjust(vehicleTab.getMetaKey(), existingVehicles.get(1)
-				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular")
-				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>")));
-		policy.getDefaultView().fill(thirdVehicle.resolveLinks());
-		// Add third assignment and fill quote till P&C tab
-		List<TestData> existingAssignment = testData.getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable");
-		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", existingAssignment);
-
-		policy.getDefaultView().fill(new SimpleDataProvider().adjust("AssignmentTab", testDataAssignmentTab).resolveLinks());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Start PAS-2714 Renewal Update Vehicle
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		// PAS-2714 using Oldest Entry Date
-		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(4).getValue()).isEqualTo("O"));
+		// PAS-2714 using Oldest Entry Date and 'Valid' fields
+		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualTo("O"));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
@@ -257,7 +254,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		new VinUploadHelper(getPolicyType(), getState()).verifyActivitiesAndUserNotes(vinNumber);
+		vinUploadHelper.verifyActivitiesAndUserNotes(vinNumber);
 	}
 
 	/**
