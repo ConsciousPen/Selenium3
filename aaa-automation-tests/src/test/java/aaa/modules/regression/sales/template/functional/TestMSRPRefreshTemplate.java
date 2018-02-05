@@ -70,7 +70,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	protected void vehicleTypeNotRegular(TestData testData) {
+	protected void  vehicleTypeNotRegular(TestData testData) {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -304,7 +304,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		// Add New  msrp version
 		DBService.get()
-				.executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeMotorHome, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION, COMP_COLL_SYMBOL_KEY));
+				.executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, vehicleTypeMotorHome, CA_SELECT_MOTORHOME_VEH_MSRP_VERSION, EXPECTED_MSRP_KEY));
 	}
 
 	private void pas730_addRegularVehicleToDBSelect() {
@@ -397,7 +397,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		// Reset to the default state  MSRP_2000
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE, state, formTypeSelect));
 		// DELETE new MSRP version pas730_VehicleTypeRegular
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, COMP_COLL_SYMBOL_KEY, vehicleType));
+		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, EXPECTED_MSRP_KEY, vehicleType));
 	}
 
 }

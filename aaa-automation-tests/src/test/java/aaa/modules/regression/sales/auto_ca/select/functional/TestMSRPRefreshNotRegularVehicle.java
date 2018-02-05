@@ -32,7 +32,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeNotRegular(@Optional("") String state) {
+	public void pas730_VehicleTypeNotRegular(@Optional("CA") String state) {
 		TestData testDataVehicleTabMotorHome = getVehicleMotorHomeTestData();
 
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();

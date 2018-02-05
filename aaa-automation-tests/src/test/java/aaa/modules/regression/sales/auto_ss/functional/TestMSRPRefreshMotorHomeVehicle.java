@@ -77,6 +77,8 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		findAndRateQuote(testData, quoteNumber);
 
 		pas730_commonChecks(compSymbol, collSymbol);
+
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
 	/**
