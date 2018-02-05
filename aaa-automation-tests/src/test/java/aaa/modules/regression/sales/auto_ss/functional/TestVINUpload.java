@@ -214,7 +214,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		searchForPolicy(policyNumber);
 
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		//Open Renewal to verify the fields
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.buttonAddVehicle.click();
@@ -247,6 +249,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VehicleTab.buttonSaveAndExit.click();
 
+		//method added for verification of PAS-544 - Activities and User Notes
 		vinMethods.verifyActivitiesAndUserNotes(UPDATABLE_VIN);
 	}
 

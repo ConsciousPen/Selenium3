@@ -226,8 +226,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		searchForPolicy(policyNumber);
 
-		//Perform Endorsement to have an ability to open policy and verify all values
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		//Open Renewal to verify the fields
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 
