@@ -36,7 +36,7 @@
         </classes>
     </test>
     <test name="PAS-2293,PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>

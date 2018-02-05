@@ -32,7 +32,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest{
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-2293,PAS-7979")
 
-    public void testPolicyRmeMpd (@Optional("") String state) {
+    public void testPolicyRmeMpd (@Optional("NJ") String state) {
 
         InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
         GeneralTab generalTab = new GeneralTab();
