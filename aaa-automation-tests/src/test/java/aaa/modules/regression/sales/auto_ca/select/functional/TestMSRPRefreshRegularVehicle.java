@@ -119,7 +119,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
-	public void pas730_vinDoesNotMatchDB(@Optional("") String state) {
+	public void pas730_vinDoesNotMatchDB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String vinNumber = "7MSRP15H5V1011111";

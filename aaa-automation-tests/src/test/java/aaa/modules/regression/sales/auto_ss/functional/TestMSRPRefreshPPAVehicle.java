@@ -112,7 +112,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
-	public void pas730_VehicleTypePPA(@Optional("") String state) {
+	public void pas730_VehicleTypePPA(@Optional("UT") String state) {
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey()).mask("VIN");
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 
@@ -131,6 +131,8 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		findAndRateQuote(testData, quoteNumber);
 
 		pas730_commonChecks(compSymbol, collSymbol);
+
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
 	/**
