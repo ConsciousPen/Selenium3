@@ -95,7 +95,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
-		pas730_commonChecks(compSymbol, collSymbol);
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 	}
 
