@@ -163,7 +163,7 @@
 
 
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
-        <parameter name="state" value="NJ, CO, OH, MD"/>
+        <parameter name="state" value="CO, OH, MD"/>
         <classes>
             <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
