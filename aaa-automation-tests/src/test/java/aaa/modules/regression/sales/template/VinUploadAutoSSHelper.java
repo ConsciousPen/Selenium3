@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.template;
 
 import static aaa.helpers.db.queries.MsrpQueries.*;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +107,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = MsrpQueries.getAvailableIdFromVehicleDataVinControl();
+		BigInteger getUniqId = MsrpQueries.getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
 				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION));
@@ -120,7 +121,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getAvailableIdFromVehicleDataVinControl();
+		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
 				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
