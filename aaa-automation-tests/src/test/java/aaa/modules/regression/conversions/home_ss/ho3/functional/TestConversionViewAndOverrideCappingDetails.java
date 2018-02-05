@@ -24,8 +24,7 @@ import toolkit.webdriver.controls.Button;
  * @author R. Kazlauskiene
  * @name Test View And Override Capping Details
  * @scenario
- * Preconditions: policy qualifies for capping and
- * user have the capping privilege
+ * Preconditions: policy qualifies for capping and user have the capping privilege
  * 1. Create Individual Customer / Account
  * 2. Create converted SS home policy
  * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
@@ -93,8 +92,7 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
  * @author R. Kazlauskiene
  * @name Test check Capping Factor
  * @scenario
- * Preconditions: policy qualifies for capping and
- * user have the capping privilege
+ * Preconditions: policy qualifies for capping and user have the capping privilege
  * 1. Create Individual Customer / Account
  * 2. Create converted SS home policy
  * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
@@ -122,7 +120,7 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
 
 		//Fill Quote
 		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
-		//View Capping Details
+		//View Capping Factor
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
 		String cappingFactor = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue();
@@ -159,8 +157,10 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
 				.isEqualTo(cappingFactor);
 
+		//Override Capping Factor
 		overrideCappingFactor(premiumsAndCoveragesQuoteTab);
 
+		//View Capping Factor
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
