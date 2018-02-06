@@ -96,7 +96,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
 
         // Open rating details and verify the number of units charged is correct
         PropertyQuoteTab.RatingDetailsViewPUP.open();
-        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo("2 : $90.00");
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Rental units")).isEqualTo("6 : $90.00");
         PropertyQuoteTab.RatingDetailsViewPUP.close();
 
     }
