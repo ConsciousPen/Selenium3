@@ -1,7 +1,8 @@
 package aaa.utils.excel.io.celltype;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
 public class BooleanCellType extends AbstractCellType<Boolean> {
 
@@ -11,26 +12,26 @@ public class BooleanCellType extends AbstractCellType<Boolean> {
 
 	@Override
 	public Boolean getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType()).isTrue();
+		assertThat(isTypeOf(cell)).as("Unable to get value with \"%1$s\" type from %2$s", getEndType(), cell).isTrue();
 		if (cell.getPoiCell() == null) {
 			return null;
 		}
-		return hasTextValue(cell) ? Boolean.valueOf(getText(cell)) : cell.getPoiCell().getBooleanCellValue();
+		return hasValueInTextFormat(cell) ? Boolean.valueOf(getText(cell)) : cell.getPoiCell().getBooleanCellValue();
 	}
 
 	@Override
-	public void setValueTo(ExcelCell cell, Boolean value) {
+	public void setValueTo(EditableCell cell, Boolean value) {
 		createPoiCellIfNull(cell).getPoiCell().setCellValue(value);
 	}
 
 	@Override
 	public boolean isTypeOf(ExcelCell cell) {
-		return cell.getPoiCell() == null || cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.BOOLEAN || hasTextValue(cell);
+		return cell.getPoiCell() == null || cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.BOOLEAN || hasValueInTextFormat(cell);
 	}
 
 	@Override
-	public boolean hasTextValue(ExcelCell cell) {
-		if (super.hasTextValue(cell)) {
+	public boolean hasValueInTextFormat(ExcelCell cell) {
+		if (super.hasValueInTextFormat(cell)) {
 			String value = getText(cell);
 			return "true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value);
 		}

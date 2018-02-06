@@ -7,12 +7,39 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/home_ca"/>
 
-    <test name="Home CA [OR] Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="OR"/>
-        <parameter name="fileName" value="ORTests-20170915.xls"/>
-        <parameter name="policyNumbers" value="2"/>
+    <test name="Home CA DP3 Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <parameter name="fileName" value="DP3Tests_eff_03012018.xls"/>
+        <parameter name="policyNumbers" value="1"/>
         <classes>
-            <class name="aaa.modules.openl.HomeCaPremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeCaDP3PremiumCalculationTest"/>
+        </classes>
+    </test>
+
+    <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <parameter name="fileName" value="HO3Tests_eff_09142017.xls"/>
+        <parameter name="policyNumbers" value="1"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>
+        </classes>
+    </test>
+
+    <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <parameter name="fileName" value="HO4Tests_eff_01012018.xls"/>
+        <parameter name="policyNumbers" value="1"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeCaHO4PremiumCalculationTest"/>
+        </classes>
+    </test>
+
+    <test name="Home CA HO6 Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <parameter name="fileName" value="HO6Tests_eff_01012018.xls"/>
+        <parameter name="policyNumbers" value="1"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeCaHO6PremiumCalculationTest"/>
         </classes>
     </test>
 </suite>

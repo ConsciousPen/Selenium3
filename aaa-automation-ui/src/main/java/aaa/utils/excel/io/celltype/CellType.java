@@ -1,13 +1,14 @@
 package aaa.utils.excel.io.celltype;
 
-import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
 
 public interface CellType<T> {
 	Class<T> getEndType();
 
 	T getValueFrom(ExcelCell cell);
 
-	void setValueTo(ExcelCell cell, T value);
+	void setValueTo(EditableCell cell, T value);
 
 	boolean isTypeOf(ExcelCell cell);
 

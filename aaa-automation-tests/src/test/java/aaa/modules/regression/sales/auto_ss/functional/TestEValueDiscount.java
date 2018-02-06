@@ -58,6 +58,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
     private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+    private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
     private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 
     private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
