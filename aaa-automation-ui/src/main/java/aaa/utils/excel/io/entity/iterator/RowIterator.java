@@ -1,24 +1,26 @@
 package aaa.utils.excel.io.entity.iterator;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
-import aaa.utils.excel.io.entity.ExcelRow;
+import aaa.utils.excel.io.entity.queue.ExcelRow;
 
 public class RowIterator<R extends ExcelRow> implements Iterator<R> {
-	private int currentIndex;
-	private int endIndex;
+	private List<Integer> rowsIndexes;
+	private Integer currentIndex;
 	private Function<Integer, R> getRowFunction;
 
-	public RowIterator(int startIndex, int endIndex, Function<Integer, R> getRowFunction) {
-		this.currentIndex = startIndex;
-		this.endIndex = endIndex;
+	public RowIterator(List<Integer> rowsIndexes, Function<Integer, R> getRowFunction) {
+		this.rowsIndexes = new ArrayList<>(rowsIndexes);
+		this.currentIndex = rowsIndexes.isEmpty() ? -1 : rowsIndexes.get(0);
 		this.getRowFunction = getRowFunction;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return currentIndex <= endIndex;
+		return currentIndex > 0;
 	}
 
 	@Override
@@ -27,7 +29,8 @@ public class RowIterator<R extends ExcelRow> implements Iterator<R> {
 			throw new NoSuchElementException("There is no next row");
 		}
 		R returnRow = getRowFunction.apply(currentIndex);
-		currentIndex++;
+		rowsIndexes.remove(currentIndex);
+		currentIndex = rowsIndexes.isEmpty() ? -1 : rowsIndexes.get(0);
 		return returnRow;
 	}
 }

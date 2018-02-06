@@ -2,7 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import toolkit.utils.TestInfo;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -11,13 +16,16 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
 public class TestContactInformation extends AutoSSBaseTest {
 
@@ -50,6 +58,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	 * 15.Verify that policy is bound.
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-270", "PAS-267"})
 	public void pas270_contactInformation() {
@@ -137,13 +146,14 @@ public class TestContactInformation extends AutoSSBaseTest {
 	private void verificationOfMandatoryPhoneNumber() {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonNext.click();
-		if(driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()&&driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isEnabled()) {
+		if (driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()
+			&& driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isEnabled()) {
 			driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
 		}
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 		DriverActivityReportsTab.buttonNext.click();
 		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS10240324);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS10240324.getMessage());
 		CustomAssert.assertEquals("Error with code 'AAA_SS10240324' should be displayed only for first named insured", 1, errorTab.getErrorsControl().getTable().getRowsCount());
 		errorTab.cancel();
 	}

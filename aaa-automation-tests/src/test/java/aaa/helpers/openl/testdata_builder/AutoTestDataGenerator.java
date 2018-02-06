@@ -1,19 +1,26 @@
 package aaa.helpers.openl.testdata_builder;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
-	AutoTestDataGenerator(String state) {
-		super(state);
-	}
 
 	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -30,27 +37,31 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getDriverTabMartialStatus(String martialStatus) {
+		// Rating engine accepts S, M and W
 		switch (martialStatus) {
 			case "M":
-				return "Married";
+				return getRandom("Married", "Registered Domestic Partner");//, "Common Law", "Civil Union");
 			case "S":
-				return "Single";
-			case "D":
-				return "Divorced";
+				return getRandom("Single", "Divorced", "Separated");
 			case "W":
 				return "Widowed";
-			case "P": //TODO-dchubkov: double check openl value
-				return "Separated";
-			case "R":
-				return "Registered Domestic Partner";
 			default:
-				throw new IstfException("Unknown mapping for martialStatus: " + martialStatus);
+				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
 		}
 	}
 
+	String getDriverTabDateOfBirth(Integer driverAge, LocalDateTime policyEffectiveDate) {
+		LocalDateTime dateOfBirth = policyEffectiveDate.minusYears(driverAge);
+		// If driver's age is 24 and his birthday is within 30 days of the policy effective date, then driver's age is mapped as 25
+		if (driverAge == 24 && dateOfBirth.isAfter(policyEffectiveDate) && dateOfBirth.isBefore(policyEffectiveDate.plusDays(30))) {
+			dateOfBirth = dateOfBirth.plusYears(1);
+		}
+		return dateOfBirth.format(DateTimeUtils.MM_DD_YYYY);
+	}
+
 	String getDriverTabDateOfBirth(int ageFirstLicensed, int totalYearsDrivingExperience) {
-		LocalDateTime dob = TimeSetterUtil.getInstance().getCurrentTime().minusYears(ageFirstLicensed + totalYearsDrivingExperience);
-		return dob.format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime dateOfBirth = TimeSetterUtil.getInstance().getCurrentTime().minusYears(ageFirstLicensed + totalYearsDrivingExperience);
+		return dateOfBirth.format(DateTimeUtils.MM_DD_YYYY);
 	}
 
 	String getDriverTabLicenseType(boolean isForeignLicense) {
@@ -60,89 +71,137 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|Not Licensed|Learner's Permit|";
 	}
 
-	String getVehicleTabUsage(String usage) {
-		switch (usage) {
-			case "A":
-				return "Artisan";
-			case "B":
-				return "Business";
-			case "F":
-				return "Farm";
-			case "W1": // <15 miles to school or work
-			case "W2": // 15+ miles to school or work
-				return "Commute";
-			//For Tailer, Golf Cart and Motor Home
-			case "P":
-			case "P1": // Occupied Less than 30 Days a Year
-			case "P2": // Occupied 30-150 Days a Year
-			case "P3": // Occupied More than 150 Days a Year
-				return "Pleasure"; // or Nano in case of Nano policy
+	boolean isPrivatePassengerAutoType(String statCode) {
+		List<String> codes = Arrays.asList("AP", "AH", "AU", "AW", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
+		return codes.contains(statCode);
+	}
+
+	boolean isConversionVanType(String statCode) {
+		return "AW".equals(statCode) || "AV".equals(statCode);
+	}
+
+	boolean isMotorHomeType(String statCode) {
+		return "MA".equals(statCode) || "MB".equals(statCode) || "MC".equals(statCode);
+	}
+
+	boolean isTrailerType(String statCode) {
+		List<String> codes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
+		return codes.contains(statCode);
+	}
+
+	boolean isTrailerOrMotorHomeType(String usage) {
+		return Arrays.asList("P1", "P2", "P3", "PT", "PR").contains(usage);
+	}
+
+	String getVehicleTabTrailerType(String statCode) {
+		switch (statCode) {
+			case "FW":
+			case "RT":
+			case "RQ":
+				return "Travel Trailer";
+			case "UT":
+				return "Utility Trailer";
+			case "PC":
+				return "Pickup Camper";
+			case "HT":
+				return "Horse Trailer";
 			case "PT":
-				return "Traveling Primary Residence";
-			case "PR":
-				return "Non-Traveling Primary Residence";
+				return "Pop-up Tent";
 			default:
-				throw new IstfException("Unknown mapping for usage: " + usage);
+				throw new IstfException("Unknown trailer type for statCode: " + statCode);
 		}
 	}
 
-	String getVehicleTabAntiTheft(String antiTheft) {
-		if ("N".equals(antiTheft)) {
-			return "None";
+	String getVehicleTabType(String statCode) {
+		if (isPrivatePassengerAutoType(statCode)) {
+			return "Private Passenger Auto";
 		}
-		return "Vehicle Recovery Device";
+		if (isConversionVanType(statCode)) {
+			return "Conversion Van";
+		}
+		if (isMotorHomeType(statCode)) {
+			return "Motor Home";
+		}
+		if (isTrailerType(statCode)) {
+			return "Trailer";
+		}
+		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
+	}
+
+	String getVehicleTabMotorHomeType(String statCode) {
+		switch (statCode) {
+			case "MA":
+				return "Conventional Motor Home (Class A)";
+			case "MB":
+				return "Mini Motor Home (Class C)";
+			case "MC":
+				return "Camper Van (Class B)";
+			default:
+				throw new IstfException("Unknown motor home type for statCode: " + statCode);
+		}
+	}
+
+	String getVehicleTabStatCode(String statCode) {
+		Map<String, String> statCodesMap = new HashMap<>();
+
+		// Private Passenger Auto stat codes
+		statCodesMap.put("AN", "Small car");
+		statCodesMap.put("AI", "Midsize car");
+		statCodesMap.put("AQ", "Large car");
+		statCodesMap.put("AC", "Small SUV");
+		statCodesMap.put("AK", "Midsize SUV");
+		statCodesMap.put("AE", "Large SUV");
+		statCodesMap.put("AX", "Passenger Van");
+		statCodesMap.put("AZ", "Crossover/Station Wagon");
+		statCodesMap.put("AR", "Small pickup or Utility Truck");
+		statCodesMap.put("AO", "Standard pickup or Utility Truck");
+		statCodesMap.put("AY", "Small High Exposure Vehicle");
+		statCodesMap.put("AD", "Midsize High Exposure Vehicle");
+		statCodesMap.put("AJ", "Large High Exposure Vehicle");
+
+		// Conversion Van stat codes
+		statCodesMap.put("AW", "Cargo Van");
+		statCodesMap.put("AV", "Custom Van");
+
+		// Trailer stat codes
+		statCodesMap.put("FW", "Fifth-Wheel Trailer");
+		statCodesMap.put("RQ", "Recreational/Cargo Quarter");
+		statCodesMap.put("RT", "Recreational Trailer");
+
+		String uiStatCode = statCodesMap.get(statCode);
+		assertThat(uiStatCode).as("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode).isNotNull();
+		return uiStatCode;
+	}
+
+	String getVehicleTabAntiTheft(String antiTheft) {
+		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
 	}
 
 	String getVehicleTabAirBags(String airBagCode) {
 		switch (airBagCode) {
 			case "N":
 				return "None";
-			case "0004":
-				return getRandom("Both Front and Side", "Both Front and Side with Rear Side");
-			case "0002":
-				return getRandom("None", "Both Front");
-			case "000B":
-			case "000D":
-			case "000M":
-			case "0001":
+			case "1":
 				return "Driver";
-			case "000C":
-			case "000E":
-			case "000F":
-			case "000L":
-			case "000U":
-			case "000G":
-			case "000J":
-			case "000K":
-			case "000X":
-			case "0003":
-			case "000R":
-			case "000S":
+			case "2":
 				return "Both Front";
-			case "000H":
-			case "000I":
-			case "000Y":
-			case "000V":
-			case "000W":
-			case "0007":
-			case "0006":
-			case "000T":
+			case "3":
 				return "Both Front and Side";
-			case "AUTOSB": //TODO-dchubkov: need to double check
-				return "";
+			case "4":
+				return "Both Front and Side with Rear Side";
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + airBagCode);
 		}
 	}
 
-	String getPremiumAndCoveragesTabCoverageKey(String coverageCD) {
+	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
 		switch (coverageCD) {
 			case "BI":
 				return AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel();
 			case "PD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel();
 			case "UMBI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
+				return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
 			case "SP EQUIP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel();
 			case "COMP":
@@ -151,6 +210,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel();
 			case "UMPD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
+			case "UIMBI":
+				//TODO-dchubkov: replace with correct coverage name key
+				return "UNKNOWN COVERAGE (AZ)";
+			case "UIMPD":
+				//TODO-dchubkov: replace with correct coverage name key
+				return "UNKNOWN COVERAGE (DC)";
+			case "UM/SUM":
+				//TODO-dchubkov: replace with correct coverage name key
+				return "UNKNOWN COVERAGE (NY)";
+			case "MP":
+				return AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel();
 			case "PIP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel();
 			default:
@@ -158,19 +228,135 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getPremiumAndCoveragesTabCoverageLimit(String coverageCD, String limit) {
-		if ("SP EQUIP".equals(coverageCD)) {
-			return new Dollar(limit).toString();
+	boolean isPolicyLevelCoverage(String coverageCD) {
+		return Arrays.asList("BI", "PD", "UMBI", "MP", "PIP").contains(coverageCD);
+	}
+
+	TestData getVehicleTabVehicleDetailsData(String safetyScore) {
+		return DataProviderFactory.dataOf(
+				AutoSSMetaData.VehicleTab.ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), "Yes",
+				AutoSSMetaData.VehicleTab.GET_VEHICLE_DETAILS.getLabel(), "click",
+				AutoSSMetaData.VehicleTab.SAFETY_SCORE.getLabel(), safetyScore);
+	}
+
+	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
+		switch (paymentPlanType) {
+			case "A":
+				return "Quarterly";
+			case "B":
+				return "Eleven Pay - Standard";
+			case "C":
+				return "Semi-Annual";
+			case "L":
+				return getRandom("Eleven Pay - Low Down", "Monthly - Low Down"); //TODO-dchubkov: to be verified
+			case "P":
+				return getGeneralTabTerm(term);
+			case "Z":
+				return getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down");
+			default:
+				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
 		}
-		String[] limitRange = limit.split("/");
-		String returnLimit;
-		if (limitRange.length > 2) {
-			throw new IstfException("Unknown mapping for limit: " + limit);
+	}
+
+	String getPremiumAndCoveragesFullSafetyGlass(String glassDeductible) {
+		return "N/A".equals(glassDeductible) ? "No Coverage" : "Yes";
+	}
+
+	String getGeneralTabResidence(boolean isHomeOwner) {
+		if (isHomeOwner) {
+			return getRandom("Own Home", "Own Condo", "Own Mobile Home");
 		}
-		returnLimit = "contains=" + new Dollar(limitRange[0] + "000").toString().replaceAll("\\.00", "");
-		if (limitRange.length == 2) {
-			returnLimit = returnLimit + "/" + new Dollar(limitRange[1] + "000").toString().replaceAll("\\.00", "");
+		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
+	}
+
+	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDateTime policyEffectiveDate) {
+		assertThat(autoInsurancePersistency).as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"")
+				.isGreaterThanOrEqualTo(aaaInsurancePersistency);
+
+		LocalDateTime inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
+				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
+
+		int duration = Math.abs(Math.toIntExact(Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
+		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt(duration));
+
+		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
+				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
+	}
+
+	String getGeneralTabTerm(int term) {
+		switch (term) {
+			case 12:
+				return "Annual";
+			case 6:
+				return "regex=Semi-[aA]nnual";
+			default:
+				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}
-		return returnLimit;
+	}
+
+	String generalTabIsAdvanceShopping(boolean isAdvanceShopping) {
+		if (isAdvanceShopping) {
+			throw new IstfException("Unknown mapping for isAdvanceShopping = true");
+		}
+		return "No Discount";
+	}
+
+	String getGeneralTabPriorBILimit(String priorBILimit) {
+		switch (priorBILimit) {
+			case "N":
+				return "None";
+			case "FR":
+				return getRandom(getRangedDollarValue(15_000, 30_000), getRangedDollarValue(20_000, 40_000), getRangedDollarValue(25_000, 50_000), getRangedDollarValue(30_000, 60_000));
+			case "50/XX":
+				return getRangedDollarValue(50_000, 100_000);
+			case "100/XX":
+				return getRangedDollarValue(100_000, 300_000);
+			case "200/XX":
+				return getRandom(getRangedDollarValue(250_000, 500_000), getRangedDollarValue(300_000, 500_000));
+			case "500/XX":
+				return getRandom(getRangedDollarValue(500_000, 500_000), getRangedDollarValue(500_000, 1_000_000), getRangedDollarValue(1_000_000, 1_000_000));
+			default:
+				throw new IstfException("Unknown mapping for priorBILimit = " + priorBILimit);
+		}
+	}
+
+	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
+		Dollar cLimit = new Dollar(coverageLimit);
+		if (isPolicyLevelCoverage(coverageCD)) {
+			cLimit = cLimit.multiply(1000);
+		}
+		return cLimit.toString().replaceAll("\\.00", "");
+	}
+
+	String getDbRestraintsCode(String openlAirbagCode) {
+		switch (openlAirbagCode) {
+			case "N":
+				return null;
+			case "0":
+				return "'0002' OR RESTRAINTSCODE = 'AUTOSB'";
+			case "1":
+				return "'000B' OR RESTRAINTSCODE = '000D' OR RESTRAINTSCODE = '000M' OR RESTRAINTSCODE = '0001'";
+			case "2":
+				return "'0002' OR RESTRAINTSCODE = '000C' OR RESTRAINTSCODE = '000E' OR RESTRAINTSCODE = '000F' OR RESTRAINTSCODE = '000L' OR RESTRAINTSCODE = '000U'";
+			case "3":
+				return "'0004' OR RESTRAINTSCODE = '000G' OR RESTRAINTSCODE = '000J' OR RESTRAINTSCODE = '000K' OR RESTRAINTSCODE = '000X' OR RESTRAINTSCODE = '0003' "
+						+ "OR RESTRAINTSCODE = '000R' OR RESTRAINTSCODE = '000S'";
+			case "4":
+				return "'0004' OR RESTRAINTSCODE = '000H' OR RESTRAINTSCODE = '000I' OR RESTRAINTSCODE = '000Y' OR RESTRAINTSCODE = '000V' OR RESTRAINTSCODE = '000W' "
+						+ "OR RESTRAINTSCODE = '0007' OR RESTRAINTSCODE = '0006' OR RESTRAINTSCODE = '000T'";
+			default:
+				throw new IstfException("Unknown mapping for airbagCode: " + openlAirbagCode);
+		}
+	}
+
+	String getDbAntitheftCode(String openlAntiTheftString) {
+		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
+	}
+
+	String covertToValidVin(String vin) {
+		if (StringUtils.isBlank(vin)) {
+			return null;
+		}
+		return vin.replaceAll("&", RandomStringUtils.randomNumeric(1)) + RandomStringUtils.randomNumeric(7);
 	}
 }

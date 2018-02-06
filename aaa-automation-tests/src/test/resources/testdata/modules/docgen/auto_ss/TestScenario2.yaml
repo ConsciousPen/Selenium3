@@ -1025,7 +1025,7 @@ AARFIXX_AZ: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
     PlcyGrp: {TextField: 'AUTO'},
-    PrdcrFullNm: {TextField: 'House Agent Mesa'},
+    PrdcrFullNm: {TextField: 'Foster Bottenberg'},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'}
   }
@@ -1139,7 +1139,7 @@ AA02AZ: {
     GenlAgntNum: {TextField: '500001004'},
     SubAgntNum: {TextField: '500010032'},
     AgntAddr1: {TextField: '4126 East Valley Auto Drive'},
-    AgntIdString: {TextField: 'AAA Arizona/500010032/House Agent Mesa'},
+    AgntIdString: {TextField: 'AAA Arizona/500010032/Foster Bottenberg'},
     AgntCityNm: {TextField: 'Mesa'},
     AgntStAbrv: {TextField: 'AZ'},
     AgntZipPls4: {TextField: '85206'},
@@ -3310,7 +3310,7 @@ AA02AZ_ED: {
     GenlAgntNum: {TextField: '500001004'},
     SubAgntNum: {TextField: '500010032'},
     AgntAddr1: {TextField: '4126 East Valley Auto Drive'},
-    AgntIdString: {TextField: 'AAA Arizona/500010032/House Agent Mesa'},
+    AgntIdString: {TextField: 'AAA Arizona/500010032/Foster Bottenberg'},
     AgntCityNm: {TextField: 'Mesa'},
     AgntStAbrv: {TextField: 'AZ'},
     AgntZipPls4: {TextField: '85206'},
@@ -4991,7 +4991,7 @@ AA02PA_ED: {
 # ------------- Documents Verification for Renewal AZ State----------
 TestData_VerificationRenewal_AZ: {
   AA02AZ: '@AA02AZ_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_AZ',
+  #AHAUXX: '@AHAUXX_Renewal_AZ',
   AA10XX: '@AA10XX_Renewal_AZ',
   AHPNXX: '@AHPNXX_Renewal_AZ'
 }
@@ -5140,7 +5140,7 @@ AA02AZ_Renewal: {
     GenlAgntNum: {TextField: '500001004'},
     SubAgntNum: {TextField: '500010032'},
     AgntAddr1: {TextField: '4126 East Valley Auto Drive'},
-    AgntIdString: {TextField: 'AAA Arizona/500010032/House Agent Mesa'},
+    AgntIdString: {TextField: 'AAA Arizona/500010032/Foster Bottenberg'},
     AgntCityNm: {TextField: 'Mesa'},
     AgntStAbrv: {TextField: 'AZ'},
     AgntZipPls4: {TextField: '85206'},
@@ -5340,7 +5340,7 @@ AA02AZ_Renewal: {
     TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0210'},
     PlcyStAbrv: {TextField: 'AZ'},
-    PlcyInsrdSnc: {TextField: '$<today:yyyy>'},
+    PlcyInsrdSnc: {TextField: '$<today-1y:yyyy>'},
     PlcyProgDesc: {TextField: 'AAA Select'},
     SR22Fee:  {TextField: '0'},
     SR22FilgFlg: {TextField: 'N'},
@@ -5360,7 +5360,7 @@ AA02AZ_Renewal: {
 #----------Document Verification for Renewal of IN state----------------
 TestData_VerificationRenewal_IN: {
   AA02IN: '@AA02IN_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_IN',
+  #AHAUXX: '@AHAUXX_Renewal_IN',
   AA10XX: '@AA10XX_Renewal_IN',
   AHPNXX: '@AHPNXX_Renewal_IN'
 }
@@ -5657,7 +5657,7 @@ AA02IN_Renewal: {
     TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0210'},
     PlcyStAbrv: {TextField: 'IN'},
-    PlcyInsrdSnc: {TextField: '$<today:yyyy>'},
+    PlcyInsrdSnc: {TextField: '$<today-1y:yyyy>'},
     PlcyProgDesc: {TextField: 'AAA Select'},
     SR22Fee:  {TextField: '0'},
     SR22FilgFlg: {TextField: 'N'},
@@ -5679,7 +5679,7 @@ AA02IN_Renewal: {
 # ------------- Documents Verification for Renewal OK State----------
 TestData_VerificationRenewal_OK: {
   AA02OK: '@AA02OK_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_OK',
+  #AHAUXX: '@AHAUXX_Renewal_OK',
   AA10OK: '@AA10OK_Renewal',
   AHPNXX: '@AHPNXX_Renewal_OK'
 }
@@ -5962,7 +5962,7 @@ AA02OK_Renewal: {
     TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0210'},
     PlcyStAbrv: {TextField: 'OK'},
-    PlcyInsrdSnc: {TextField: '$<today:yyyy>'},
+    PlcyInsrdSnc: {TextField: '$<today-1y:yyyy>'},
     PlcyProgDesc: {TextField: 'AAA Select'},
     SR22Fee:  {TextField: '0'},
     SR22FilgFlg: {TextField: 'N'},
@@ -5983,7 +5983,7 @@ AA02OK_Renewal: {
 #----------Document Verification for Renewal of PA state----------------
 TestData_VerificationRenewal_PA: {
   AA02PA: '@AA02PA_Renewal',
-  AHAUXX: '@AHAUXX_Renewal_PA',
+  #AHAUXX: '@AHAUXX_Renewal_PA',
   AA10PA: '@AA10PA_Renewal',
   AHPNXX: '@AHPNXX_Renewal_PA',
   F122G: '@F122G',
@@ -6531,7 +6531,7 @@ AA02PA_Renewal: {
   }
  ],
  form: {
-  PlcyInsrdSnc: {TextField: '$<today:yyyy>'},
+  PlcyInsrdSnc: {TextField: '$<today-1y:yyyy>'},
   PlcyProgDesc: {TextField: 'AAA Select'},
   PlcyTransCd: {TextField: '0210'},
   PlcyNum: {TextField: ''},

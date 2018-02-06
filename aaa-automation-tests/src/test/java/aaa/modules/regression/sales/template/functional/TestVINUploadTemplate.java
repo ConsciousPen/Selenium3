@@ -13,25 +13,28 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.product.DatabaseCleanHelper;
+import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.queries.postconditions.DatabaseCleanHelper;
-import aaa.modules.regression.queries.postconditions.TestVinUploadPostConditions;
-import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Link;
 
-public class TestVINUploadTemplate extends CommonTemplateMethods implements TestVinUploadPostConditions {
+public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	private AssignmentTab assignmentTab = new AssignmentTab();
 
 	protected void pas2716_AutomatedRenewal(String policyNumber,LocalDateTime nextPhaseDate,String  vinNumber) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
@@ -87,7 +90,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
-		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -100,7 +103,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//open Admin application and navigate to Administration tab
-		vinMethods.uploadFiles(vinTableFile);
+		adminApp().open();
+		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -128,29 +132,63 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 * PAS-1487  No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
+	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Create customer
 	 * 1. Initiate Auto CA quote creation
-	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
-	 * 3. On Administration tab in Admin upload Excel to add this VIN to the system
-	 * 4. Open application and policy
-	 * 5. Initiate Renewal for policy
-	 * 6. Verify that VIN was uploaded and all fields are populated
+	 * 2. Go to the vehicle tab, fill info with not existing VIN, and calculate the premium
+	 * 3. Save and exit the quote, move system time by 2 days and retrieve the quote
+	 * 4. Attempt to bind without calculating premium; verify the Rerate Error message
+	 * 5. Continue to bind the quote
+	 * 6. On Administration tab in Admin upload Excel to add this VIN to the system
+	 * 7. Open application and policy
+	 * 8. Initiate Renewal for policy
+	 * 9. Verify that VIN was uploaded and all fields are populated
 	 * @details
 	 */
 	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(),vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
+//Start PAS-938 - edited steps for CA products
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
+		//save quote number to open it later
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
+
+		//Johns - Move system time by two days
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
+
+		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnPurchase.click();
+
+		// Verify pas-938 'Rerate' Error message on error tab
+		ErrorTab errorTab = new ErrorTab();
+		Assertions.assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_CSA1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		log.info("PAS-938 Rerate Error Verified as Present");
+		errorTab.cancel();
+
+		//Change Quote Effective Date to current date, because CA quotes can't be back dated >=\
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
+		GeneralTab generalTab = new GeneralTab();
+		generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+		//End PAS-938
+
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 
@@ -159,7 +197,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
-		vinMethods.uploadFiles(vinTableFile);
+		adminApp().open();
+		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber);
@@ -169,7 +208,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinMethods.verifyActivitiesAndUserNotes(vinNumber);
+		new VinUploadHelper(getPolicyType(), getState()).verifyActivitiesAndUserNotes(vinNumber);
 	}
 
 	/**
@@ -181,7 +220,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * PAS-544 Activities and User Notes
 	 *
 	 * @name Test VINupload 'Update VIN' scenario.
-	 * @scenario 0. Create customer
+	 * @scenario
+	 * 0. Create customer
 	 * 1. Initiate Auto SS quote creation
 	 * 2. Go to the vehicle tab, enter some existed VIN and bind the policy
 	 * 3. On Administration tab in Admin upload Excel files to update this VIN in the system
@@ -209,7 +249,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
-		vinMethods.uploadFiles(vinTableFile);
+		adminApp().reopen();
+		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
@@ -252,7 +293,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		vinMethods.verifyActivitiesAndUserNotes(vinNumber);
+		new VinUploadHelper(getPolicyType(), getState()).verifyActivitiesAndUserNotes(vinNumber);
 	}
 
 	/**
@@ -272,12 +313,11 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * 7. Check that data was retrieved from db
 	 * @details
 	 */
-	protected void endorsement(String vinTableFile, String vinNumber) {
-		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber).resolveLinks();
-
+	protected void endorsement(TestData testData,String vinTableFile, String vinNumber) {
 		String policyNumber = createPolicyPreconds(testData);
 
-		vinMethods.uploadFiles(vinTableFile);
+		adminApp().reopen();
+		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -285,18 +325,34 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("Other Make");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
 
-		TestData testData2 = getTestDataTwoVehicles(vinNumber);
+		TestData firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD(), vinNumber).getTestData("VehicleTab");
+		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+						.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber);
 
-		policy.getDefaultView().fillFromTo(testData2, VehicleTab.class, PremiumAndCoveragesTab.class);
+		// Build Vehicle Tab old version vin + updated vehicle
+		List<TestData> testDataVehicleTab = new ArrayList<>();
+		testDataVehicleTab.add(firstVehicle);
+		testDataVehicleTab.add(secondVehicle);
+
+		// Build Assignment Tab
+		TestData testDataAssignmentTab = getTwoAssignmentsTestData();
+
+		// add 2 vehicles + 2 assignments to the common testdata
+		testData
+				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
+				.adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
+
+		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("OTHER");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("OTHER");
 		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
 
 		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
@@ -324,20 +380,16 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 	 * @details
 	 */
 	protected void pas4253_restrictVehicleRefreshNB(String vinTableFile, String vinNumber) {
-
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
+		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(),TestMSRPRefreshTemplate.getVehicleMotorHomeTestData());
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Motor Home");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Motorhome");
 		});
 
 		VehicleTab.buttonSaveAndExit.click();
@@ -345,18 +397,19 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		vinMethods.uploadFiles(vinTableFile);
+		adminApp().reopen();
+		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Regular");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Motor Home");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Motorhome");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
 		});
 	}
 
@@ -369,7 +422,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Van");
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Van");
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
@@ -383,7 +436,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		vinMethods.uploadFiles(vinTableFile);
+		adminApp().reopen();
+		new VinUploadHelper(getPolicyType(), getState()).uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -411,12 +465,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 
 	private TestData getTestDataTwoVehicles(String vinNumber) {
 		// Build test data with 2 vehicles
-		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
-
-		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
-				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
-				.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)")
-				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "20000").resolveLinks();
+		TestData firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD(), vinNumber);
+		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
 
 		// Build Vehicle Tab
 		List<TestData> testDataVehicleTab = new ArrayList<>();
@@ -429,9 +479,36 @@ public class TestVINUploadTemplate extends CommonTemplateMethods implements Test
 		// add 2 vehicles + 2 assignments to the common testdata
 		return getPolicyDefaultTD()
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
-				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
+				.adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
 	}
 
+	public TestData getNonExistingVehicleTestData(TestData testData, String vinNumber) {
+		TestData testDataAdjusted = modifyVehicleTabNonExistingVin(testData, vinNumber);
+
+		TestData firstAssignment = testDataAdjusted.getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle");
+
+		List<TestData> listDataAssignmentTab = new ArrayList<>();
+		listDataAssignmentTab.add(firstAssignment);
+
+		return testDataAdjusted.adjust("AssignmentTab", new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab));
+	}
+
+	public TestData modifyVehicleTabNonExistingVin(TestData testData, String vinNumber) {
+		testData
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), "OTHER")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2005")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()), "Other Make")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()), "Other Model")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel()), "Other Series")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel()), "Other Body Style")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel()), "20")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel()), "40000")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Car Large")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VALUE.getLabel()), "40000")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel()), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"));
+		return testData;
+	}
 
 	protected TestData getTestDataWithSinceMembershipAndSpecificVinNumber(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())

@@ -10,7 +10,7 @@ public final class ErrorEnum {
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
 		ERROR_AAA_SS9140068("AAA_SS9140068", "It is too late in the term to change to the selected bill plan."),
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
-		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided. (AAA_SS10240324) [for AAADocumentRulesComponent.attributeForRules]"),
+		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 
 		// Property errors
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
@@ -112,12 +112,15 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA9231984("AAA_CSA9231984", "At least one phone number must be provided (AAA_CSA9231984) [for AAADocumentRulesComponent.attributeForRules]"),
 		ERROR_AAA_CAC7150833("AAA_CAC7150833_CA_CHOICE", "Driver with more than 2 Major violations in the last 3 years is unacceptable ..."),
 		ERROR_AAA_CA_HOCN0400("AAA_CA_HOCN0400", "A high level premium variance has been detected between the legacy renewal pr..."),
+		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT","A valid insurance score report for at least one named insured or insurance sc..."),
 
 		// Auto Errors
 		ERROR_AAA_SS171018("AAA_SS171018","Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE","Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ","Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171019("AAA_SS171019", "Policies being rated as having no prior insurance are ineligible for coverage"),
+		ERROR_AAA_CSA1801266BZWW("AAA_CSA180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
+		ERROR_AAA_SS1801266BZWW("AAA_SS180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),

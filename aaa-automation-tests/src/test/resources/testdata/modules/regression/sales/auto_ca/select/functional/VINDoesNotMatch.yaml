@@ -10,7 +10,7 @@ VehicleTab_UnmatchedVIN: {
     Body Style: 'OTHER',
     Other Body Style: 'Body Style',
     'Value($)': '10000',
-    Stat Code: 'index=1',
+    Stat Code: 'index=2',
     Primary Use: 'index=1',
     'Miles One-way to Work or School': '500',
     Odometer Reading: 1,

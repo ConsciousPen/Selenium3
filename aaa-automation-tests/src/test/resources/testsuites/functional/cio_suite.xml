@@ -3,6 +3,7 @@
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
      </listeners>
+
     <parameter name="timeshift-scenario-mode" value="method"/>
 
     <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
@@ -24,7 +25,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors">
+    <test name="Test Not Ordered Membership Errors_1" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestNotOrderedMembershipError">
@@ -35,7 +36,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors">
+    <test name="Test Not Ordered Membership Errors_2" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestNotOrderedMembershipError">
@@ -46,7 +47,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors">
+    <test name="Test Not Ordered Membership Errors_3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestNotOrderedMembershipError">
@@ -57,7 +58,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors">
+    <test name="Test Not Ordered Membership Errors_4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestNotOrderedMembershipError">
@@ -68,7 +69,7 @@
         </classes>
     </test>
 
-    <test name="TestMembershipValidation">
+    <test name="TestMembershipValidation" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">

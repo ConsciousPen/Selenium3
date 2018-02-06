@@ -35,4 +35,11 @@
         </classes>
     </test>
     
+    <test name="PUP Scenario 9" parallel="none">
+        <parameter name="state" value="UT, CA" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario9"/>
+        </classes>
+    </test>
+    
 </suite>
