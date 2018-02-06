@@ -1,8 +1,0 @@
-TestData: {
-  GeneralTab: {
-    First Name: Will,
-    Last Name: Smith
-    },
-  BusinessEntityTab: {},
-  RelationshipTab: {}
-}

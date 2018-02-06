@@ -128,7 +128,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/channelIdResolver'\n"
+			+ "set value = 'http://%s%sws/channelIdResolver'\n"
 			+ "where propertyname = 'channelIdRetrievalServiceImpl.channelIdRetrievalUri'";
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
@@ -192,7 +192,7 @@ public interface EvalueInsertSetupPreConditions {
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pcDisbursementEngine' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/local/authentication'\n"
+			+ "set value = 'http://%s%sws/local/authentication'\n"
 			+ "where propertyname = 'oAuthClient.oAuthPingUri'";
 
 	String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
@@ -200,7 +200,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "where name = 'Billing Refund Cash')\n";
 
 	//original endpoint - https://preferenceUI-perf.tent.trt.csaa.pri/prefmgmt-portal/prefsetup, but none of envs are connected to it.
-	String PAPERLESS_PREFERENCES_STUB_POINT = "update propertyconfigurerentity\n"
+	String PAPERLESS_PREFERENCES_POPUP_STUB_POINT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://localhost:8090/prefmgmt-portal/prefsetup'\n"
 			+ "where propertyname = 'aaaPreferenceUrlBuilder.prefSharedUrl'";
 }

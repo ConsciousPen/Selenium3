@@ -490,7 +490,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.endorse().performAndFill(tdSpecificEnd);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().submitTab(true);
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
@@ -506,7 +506,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().submitTab(true);
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
@@ -541,7 +541,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().submitTab(true);
 		checkAndOverrideErrors(ruleShouldFire);
 
 	}
@@ -551,7 +551,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		if (ruleShouldFire) {
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
 			errorTab.overrideAllErrors();
-			new DocumentsAndBindTab().submitTab();
+			errorTab.submitTab();
 		}
 		PolicySummaryPage.labelPolicyStatus.isVisible(); //this indicates that transaction was completed and errors was not displayed
 
