@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.auto_ca.choice;
 
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.ExcelTableElement;
@@ -25,7 +26,7 @@ public class AutoCaChoiceOpenLFile extends OpenLFile<AutoCaChoiceOpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
-	private List<AutoCaChoiceOpenLCoverage> coverages;
+	private List<AutoOpenLCoverage> coverages;
 
 	public List<AutoCaChoiceOpenLVehicle> getVehicles() {
 		return new ArrayList<>(vehicles);
@@ -51,11 +52,11 @@ public class AutoCaChoiceOpenLFile extends OpenLFile<AutoCaChoiceOpenLPolicy> {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
-	public List<AutoCaChoiceOpenLCoverage> getCoverages() {
+	public List<AutoOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
 
-	public void setCoverages(List<AutoCaChoiceOpenLCoverage> coverages) {
+	public void setCoverages(List<AutoOpenLCoverage> coverages) {
 		this.coverages = new ArrayList<>(coverages);
 	}
 

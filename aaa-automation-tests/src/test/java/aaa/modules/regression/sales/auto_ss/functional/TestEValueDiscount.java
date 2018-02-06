@@ -131,7 +131,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     @Test(description = "Precondition")
     public static void paperlessPreferencesConfigCheck() {
         CustomAssert
-                .assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST, APP_STUB_URL))
+                .assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST))
                         .get()
                         .contains(APP_HOST));
     }
