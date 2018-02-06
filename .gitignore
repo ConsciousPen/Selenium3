@@ -18,6 +18,7 @@ aaa-automation-tests/external_run_id.txt
 aaa-automation-tests/test-output/*
 aaa-automation-tests/target/*
 aaa-automation-tests/src/test/resources/config/local.properties
+aaa-automation-tests/.gitignore
 
 aaa-automation-tests/src/test/resources/testsuites/debug.xml
 aaa-automation-tests/src/test/resources/testsuites/debug-pef.xml 
