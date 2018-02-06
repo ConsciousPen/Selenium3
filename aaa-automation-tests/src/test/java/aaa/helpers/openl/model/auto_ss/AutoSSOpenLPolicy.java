@@ -3,7 +3,6 @@ package aaa.helpers.openl.model.auto_ss;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.ExcelTableElement;
@@ -57,7 +56,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private String tort; // PA specific ?
 
 	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<OpenLCappingDetails> cappingDetails;
+	private List<AutoSSOpenLCappingDetails> cappingDetails;
 
 	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLVehicle> vehicles;
@@ -217,11 +216,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.insuredAge = insuredAge;
 	}
 
-	public List<OpenLCappingDetails> getCappingDetails() {
+	public List<AutoSSOpenLCappingDetails> getCappingDetails() {
 		return new ArrayList<>(cappingDetails);
 	}
 
-	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
+	public void setCappingDetails(List<AutoSSOpenLCappingDetails> cappingDetails) {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 

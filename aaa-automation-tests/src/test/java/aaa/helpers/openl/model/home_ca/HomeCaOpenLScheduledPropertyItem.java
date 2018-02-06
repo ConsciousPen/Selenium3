@@ -3,7 +3,7 @@ package aaa.helpers.openl.model.home_ca;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
-public class HomeCaScheduledPropertyItem {
+public class HomeCaOpenLScheduledPropertyItem {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 

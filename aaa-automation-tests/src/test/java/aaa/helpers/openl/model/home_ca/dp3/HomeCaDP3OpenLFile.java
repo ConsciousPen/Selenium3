@@ -7,7 +7,6 @@ import aaa.utils.excel.bind.ExcelTableElement;
 import aaa.utils.excel.bind.ExcelTransient;
 
 public class HomeCaDP3OpenLFile extends HomeCaOpenLFile<HomeCaDP3OpenLPolicy> {
-
 	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLPolicy> policies;
 

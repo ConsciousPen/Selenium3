@@ -3,7 +3,7 @@ package aaa.helpers.openl.model.home_ca.ho3;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
-import aaa.helpers.openl.model.home_ca.HomeCaScheduledPropertyItem;
+import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
 import aaa.utils.excel.bind.ExcelTableElement;
 import aaa.utils.excel.bind.ExcelTransient;
 
@@ -24,7 +24,7 @@ public class HomeCaHO3OpenLFile extends HomeCaOpenLFile<HomeCaHO3OpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowNumber = SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
-	protected List<HomeCaScheduledPropertyItem> scheduledPropertyItems;
+	protected List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	public List<HomeCaHO3OpenLForm> getForms() {
 		return new ArrayList<>(forms);

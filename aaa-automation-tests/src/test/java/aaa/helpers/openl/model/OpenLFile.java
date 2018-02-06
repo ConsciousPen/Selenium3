@@ -13,6 +13,27 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	public static final int FORM_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
+	public static final int NAMED_INSURED_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int CONSTRUCTION_INFO_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int LOSS_INFORMATION_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int COVERAGE_DEDUCTIBLE_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int DISCOUNT_INFORMATION_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int RISK_METER_DATA_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
+	public static final int DWELLING_RATING_INFO_HEADER_ROW_NUMBER = 3;
+
+	@ExcelTransient
 	public static final int CAPPINGDETAILS_HEADER_ROW_NUMBER = 3;
 
 	@ExcelTransient
@@ -38,6 +59,27 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 
 	@ExcelTransient
 	public static final String FORM_SHEET_NAME = "Batch- Form";
+
+	@ExcelTransient
+	public static final String NAMED_INSURED_SHEET_NAME = "Batch- NamedInsured";
+
+	@ExcelTransient
+	public static final String CONSTRUCTION_INFO_SHEET_NAME = "Batch- ConstructionInfo";
+
+	@ExcelTransient
+	public static final String LOSS_INFORMATION_SHEET_NAME = "Batch- LossInformation";
+
+	@ExcelTransient
+	public static final String COVERAGE_DEDUCTIBLE_SHEET_NAME = "Batch- CoverageDeductible";
+
+	@ExcelTransient
+	public static final String DISCOUNT_INFORMATION_SHEET_NAME = "Batch- DiscountInformation";
+
+	@ExcelTransient
+	public static final String RISK_METER_DATA_SHEET_NAME = "Batch- RiskMeterData";
+
+	@ExcelTransient
+	public static final String DWELLING_RATING_INFO_SHEET_NAME = "Batch- DwellingRatingInfo";
 
 	@ExcelTransient
 	public static final String CAPPINGDETAILS_SHEET_NAME = "Batch- CappingDetails";

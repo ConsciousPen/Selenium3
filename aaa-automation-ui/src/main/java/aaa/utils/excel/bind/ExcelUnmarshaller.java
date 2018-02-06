@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +54,8 @@ public class ExcelUnmarshaller {
 
 		T excelFileInstance = getInstance(excelFileModel);
 
-		for (Field tableField : getAllFields(excelFileModel, true)) {
-			Pair<ExcelTable, List<Field>> tableRowAndFields = getTableAndAllFields(excelManager, tableField, strictMatch);
+		for (Field tableField : getAllAccessibleFields(excelFileModel, true)) {
+			Pair<ExcelTable, List<Field>> tableRowAndFields = getTableAndAllAccessibleFields(excelManager, tableField, strictMatch);
 			List<Object> tableFieldsInstances = new ArrayList<>();
 			for (TableRow row : tableRowAndFields.getLeft()) {
 				Object tableInstance = getInstance(getTableRowType(tableField));
@@ -75,6 +76,11 @@ public class ExcelUnmarshaller {
 		return excelFileInstance;
 	}
 
+	public void marshal(Object excelFileObject, File excelFile) {
+		//TODO-dchubkov: To be implemented...
+		throw new NotImplementedException("Excel marshalling is not implemented yet");
+	}
+
 	private <T> T getInstance(Class<T> clazz) {
 		try {
 			return clazz.getConstructor().newInstance();
@@ -83,19 +89,36 @@ public class ExcelUnmarshaller {
 		}
 	}
 
-	private List<Field> getAllFields(Class<?> tableClass, boolean onlyTables) {
+	private List<Field> getAllAccessibleFields(Class<?> tableClass, boolean onlyTables) {
 		List<Field> fields = new ArrayList<>();
-		for (Class<?> clazz : getThisAndAllSuperClasses(tableClass)) {
-			for (Field field : clazz.getDeclaredFields()) {
-				if (isAccessible(field, tableClass)) {
-					if (field.isAnnotationPresent(ExcelTransient.class) || onlyTables && !isTableField(field)) {
-						continue;
-					}
-					fields.add(field);
+		for (Field field : getAllAccessibleFieldsFromThisAndSuperClasses(tableClass)) {
+			if (!field.isAnnotationPresent(ExcelTransient.class)) {
+				if (onlyTables && !isTableField(field)) {
+					continue;
 				}
+				fields.add(field);
 			}
 		}
 		return fields;
+	}
+
+	private List<Field> getAllAccessibleFieldsFromThisAndSuperClasses(Class<?> tableClass) {
+		List<Field> accessibleFields = new ArrayList<>();
+		for (Class<?> clazz : getThisAndAllSuperClasses(tableClass)) {
+			for (Field field : clazz.getDeclaredFields()) {
+				boolean isLocalField = Objects.equals(field.getDeclaringClass(), clazz);
+				boolean isPublic = Modifier.isPublic(field.getModifiers());
+				boolean isProtected = Modifier.isProtected(field.getModifiers());
+				boolean isPackagePrivateAndAccessible =
+						!Modifier.isPrivate(field.getModifiers()) && !isPublic && !isProtected && field.getDeclaringClass().getPackage().getName().equals(clazz.getPackage().getName());
+				boolean isNotHiddenField = accessibleFields.stream().noneMatch(f -> Objects.equals(field.getName(), f.getName()));
+
+				if ((isLocalField || isPublic || isProtected || isPackagePrivateAndAccessible) && isNotHiddenField) {
+					accessibleFields.add(field);
+				}
+			}
+		}
+		return accessibleFields;
 	}
 
 	private List<Class<?>> getThisAndAllSuperClasses(Class<?> clazz) {
@@ -108,13 +131,13 @@ public class ExcelUnmarshaller {
 		return allSuperClasses;
 	}
 
-	private Pair<ExcelTable, List<Field>> getTableAndAllFields(ExcelManager excelManager, Field tableField, boolean strictMatch) {
+	private Pair<ExcelTable, List<Field>> getTableAndAllAccessibleFields(ExcelManager excelManager, Field tableField, boolean strictMatch) {
 		Class<?> tableClass = getTableRowType(tableField);
 		if (tableClasses.containsKey(tableClass)) {
 			return tableClasses.get(tableClass);
 		}
 
-		List<Field> tableFields = getAllFields(tableClass, false);
+		List<Field> tableFields = getAllAccessibleFields(tableClass, false);
 		ExcelTable table = getExcelTable(excelManager, tableField, tableFields, strictMatch);
 
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableFields);
@@ -169,11 +192,6 @@ public class ExcelUnmarshaller {
 		return table;
 	}
 
-	private boolean isAccessible(Field field, Class<?> clazz) {
-		//TODO-dchubkov: check package-private modifier
-		return Objects.equals(field.getDeclaringClass(), clazz) || Modifier.isProtected(field.getModifiers()) || Modifier.isPublic(field.getModifiers());
-	}
-
 	private boolean isTableField(Field field) {
 		boolean isTableField = List.class.equals(field.getType());
 		assertThat(!isTableField && field.isAnnotationPresent(ExcelTableElement.class))
@@ -214,7 +232,7 @@ public class ExcelUnmarshaller {
 				if (linkedRowsIds.isEmpty()) {
 					break;
 				}
-				Pair<ExcelTable, List<Field>> tableRowAndlinkedTableRowFields = getTableAndAllFields(row.getTable().getExcelManager(), tableRowField, strictMatch);
+				Pair<ExcelTable, List<Field>> tableRowAndlinkedTableRowFields = getTableAndAllAccessibleFields(row.getTable().getExcelManager(), tableRowField, strictMatch);
 				List<Object> linkedTableRows = new ArrayList<>();
 				Class<?> linkedTableRowClass = getTableRowType(tableRowField);
 				Field primaryKeyField = getPrimaryKeyField(linkedTableRowClass);
@@ -263,11 +281,9 @@ public class ExcelUnmarshaller {
 	}
 
 	private Field getPrimaryKeyField(Class<?> tableRowClass) {
-		for (Class<?> clazz : getThisAndAllSuperClasses(tableRowClass)) {
-			for (Field field : clazz.getDeclaredFields()) {
-				if (isAccessible(field, tableRowClass) && field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
-					return field;
-				}
+		for (Field field : getAllAccessibleFieldsFromThisAndSuperClasses(tableRowClass)) {
+			if (field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
+				return field;
 			}
 		}
 		throw new IstfException(String.format("\"%s\" class does not have any primary key field", tableRowClass.getName()));
