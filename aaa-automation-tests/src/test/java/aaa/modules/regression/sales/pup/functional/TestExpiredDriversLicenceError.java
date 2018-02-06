@@ -3,10 +3,7 @@
 package aaa.modules.regression.sales.pup.functional;
 
 
-import static aaa.common.enums.NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS;
-import static aaa.common.enums.NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO;
-import static aaa.common.enums.NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES;
-import static aaa.common.enums.NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE;
+import static aaa.common.enums.NavigationEnum.PersonalUmbrellaTab.*;
 import java.util.Arrays;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,8 +24,10 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.ComboBox;
 
 public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 
@@ -39,25 +38,29 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
-	 * @name Liability losses bind rules can now be overridden
+	 * @name Expired Driver Licence Error
 	 * @scenario
 	 * 1. Create PUP Policy
-	 * 2. Add Liability
-	 * 3. Override Bind Error
-	 * 4. Issue Policy
+	 * 2. Add Home Policy with PPC = 9
+	 * 3. Add Driver with expired licence
+	 * 4. Calculate Premium
+	 * 5. Verify Error
+	 * 6. Navigate to change driver with valid licence status
+	 * 7. Calculate Premium
+	 * 8. Submit Premium and Coverages Page
 	 * @details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6963")
-	public void pas6963_OverrideLiabilityLosses(@Optional("NJ") String state) {
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-4270")
+	public void pas4270_VerifyExpiredDriversLicenceError(@Optional("VA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual(getTdCustomer());
 
 		PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
 
-		// Create Test Data
+//		 Create Test Data
 		TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
 				.adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
 		TestData tdPUP = getPolicyTD()
@@ -66,8 +69,9 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 
 
 		PolicyType.PUP.get().initiate();
-		policy.getDefaultView().fillUpTo(tdPUP, PremiumAndCoveragesQuoteTab.class, true);
+		policy.getDefaultView().fillUpTo(tdPUP, PremiumAndCoveragesQuoteTab.class);
 
+		premiumAndCoveragesQuoteTab.calculatePremium();
 
 		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS2260177);
 		errorTab.cancel();
@@ -75,13 +79,12 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 		Arrays.asList(UNDERLYING_RISKS, UNDERLYING_RISKS_AUTO).
 				forEach(tab -> NavigationPage.toViewTab(tab.get()));
 
-		underlyingRisksAutoTab.fillTab(getTestSpecificTD("TestData_ValidDriver"));
+		underlyingRisksAutoTab.getAssetList().getAsset("Drivers", MultiInstanceAfterAssetList.class).getAsset("License Status", ComboBox.class).setValue("Licensed (US)");
 
 		Arrays.asList(PREMIUM_AND_COVERAGES, PREMIUM_AND_COVERAGES_QUOTE).
 				forEach(tab -> NavigationPage.toViewTab(tab.get()));
 
 		premiumAndCoveragesQuoteTab.calculatePremium();
-
 		premiumAndCoveragesQuoteTab.submitTab();
 	}
 

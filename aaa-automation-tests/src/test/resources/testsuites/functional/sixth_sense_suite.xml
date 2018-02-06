@@ -158,5 +158,11 @@
         </classes>
     </test>
 -->
+    <test name="Test Expired Drivers Licence Error">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError"/>
+        </classes>
+    </test>
 
 </suite>
