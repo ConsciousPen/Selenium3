@@ -1,0 +1,72 @@
+# Test data for multiple underlying policies on PUP Prefill Tab
+
+TestData_PrefillTab: '@PrefillTab'
+
+PrefillTab: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+
+  ActiveUnderlyingPolicies: [
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: HO3 policy
+      },
+    ActiveUnderlyingPoliciesManual: {
+      Primary policy: 'Yes'
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO4,
+      Policy Number: HO4 policy
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO6,
+      Policy Number: HO6 Policy
+      },
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: DP3,
+      Policy Number: DP3 policy 1
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: DP3,
+      Policy Number: DP3 policy 2
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: Auto,
+      Policy Number: Auto policy
+      }
+    }
+  ]
+}
+
+# Test Data for other active AAA Policies section
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {
+    Policy type: 'Auto',
+    Policy number: 'AutoSS'
+  },
+  ActiveUnderlyingPoliciesManual: {}
+}
