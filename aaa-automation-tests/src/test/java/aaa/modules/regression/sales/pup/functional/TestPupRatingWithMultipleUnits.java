@@ -80,16 +80,18 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         PolicyType.HOME_SS_HO6.get().createPolicy(tdHO6.adjust(otherActiveKeyPath, tdOtherActiveAuto));
         policies.put("ho6Policy", PolicySummaryPage.getPolicyNumber());
 
-        // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
+        // Create 2 DP3 Policies with above underlying policies AND more than 1 unit (3 - triplex)
         tdDP3.mask(TestData.makeKeyPath(otherActiveKeyPath + "[0]", manualPolicy)).mask(TestData.makeKeyPath(otherActiveKeyPath + "[1]", manualPolicy))
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[0]", searchPolicyType), "Auto")
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[0]", searchPolicyNumber), policies.get("autoPolicy"))
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyType), "HO3")
                 .adjust(TestData.makeKeyPath(otherActiveKeyPath + "[1]", searchPolicyNumber), policies.get("ho3Policy"));
-        for (int i = 1; i <= 2; i++) {
-            PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
-            policies.put("dpPolicy" + i, PolicySummaryPage.getPolicyNumber());
-        }
+
+        PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
+        policies.put("dpPolicy1", PolicySummaryPage.getPolicyNumber());
+        PolicyType.HOME_SS_DP3.get().createPolicy(tdDP3);
+        policies.put("dpPolicy2", PolicySummaryPage.getPolicyNumber());
+
 
         // Initiate PUP and verify units in rating details dialog
         initiateFillPup(getPupTD(policies));
@@ -150,12 +152,12 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         PolicyType.HOME_CA_HO6.get().createPolicy(tdHO6.adjust(otherActiveKeyPath, tdOtherActiveAuto));
         policies.put("ho6Policy", PolicySummaryPage.getPolicyNumber());
 
-        // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
+        // Create 2 DP3 Policies with above underlying policies AND more than 1 unit (3 - triplex)
         tdDP3.adjust(otherActiveKeyPath, getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("ho3Policy")));
-        for (int i = 1; i <= 2; i++) {
-            PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
-            policies.put("dpPolicy" + i, PolicySummaryPage.getPolicyNumber());
-        }
+        PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
+        policies.put("dpPolicy1", PolicySummaryPage.getPolicyNumber());
+        PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
+        policies.put("dpPolicy2", PolicySummaryPage.getPolicyNumber());
 
         // Initiate PUP and verify units in rating details dialog
         TestData tdPUP = getPupTD(policies).adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(),
