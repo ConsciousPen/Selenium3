@@ -3,75 +3,77 @@ package aaa.helpers.openl.model.auto_ss;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLAddress;
-import aaa.helpers.openl.model.OpenLCappingDetails;
-import aaa.helpers.openl.model.OpenLCoverage;
-import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.ExcelTransient;
 
 public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLPolicy> policies;
+	@ExcelTableElement(sheetName = POLICY_SHEET_NAME + "AZ", headerRowNumber = POLICY_HEADER_ROW_NUMBER)
+	protected List<AutoSSOpenLPolicy> policies;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = CAPPINGDETAILS_SHEET_NAME, headerRowNumber = CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<OpenLCappingDetails> cappingDetails;
+	private List<AutoSSOpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME, headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
-	private List<OpenLVehicle> vehicles;
+	@ExcelTransient
+	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME + "AZ", headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLVehicle> vehicles;
 
+	@ExcelTransient
 	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
 
-	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME, headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
-	private List<OpenLDriver> drivers;
+	@ExcelTransient
+	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME + "AZ", headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLDriver> drivers;
 
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
-	private List<OpenLCoverage> coverages;
+	@ExcelTransient
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME + "AZ", headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	private List<AutoSSOpenLCoverage> coverages;
 
-	public List<OpenLCappingDetails> getCappingDetails() {
-		return cappingDetails;
+	public List<AutoSSOpenLCappingDetails> getCappingDetails() {
+		return new ArrayList<>(cappingDetails);
 	}
 
-	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
+	public void setCappingDetails(List<AutoSSOpenLCappingDetails> cappingDetails) {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
-	public List<OpenLVehicle> getVehicles() {
-		return vehicles;
+	public List<AutoSSOpenLVehicle> getVehicles() {
+		return new ArrayList<>(vehicles);
 	}
 
-	public void setVehicles(List<OpenLVehicle> vehicles) {
+	public void setVehicles(List<AutoSSOpenLVehicle> vehicles) {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
 	public List<OpenLAddress> getAddress() {
-		return address;
+		return new ArrayList<>(address);
 	}
 
 	public void setAddress(List<OpenLAddress> address) {
 		this.address = new ArrayList<>(address);
 	}
 
-	public List<OpenLDriver> getDrivers() {
-		return drivers;
+	public List<AutoSSOpenLDriver> getDrivers() {
+		return new ArrayList<>(drivers);
 	}
 
-	public void setDrivers(List<OpenLDriver> drivers) {
+	public void setDrivers(List<AutoSSOpenLDriver> drivers) {
 		this.drivers = new ArrayList<>(drivers);
 	}
 
-	public List<OpenLCoverage> getCoverages() {
-		return coverages;
+	public List<AutoSSOpenLCoverage> getCoverages() {
+		return new ArrayList<>(coverages);
 	}
 
-	public void setCoverages(List<OpenLCoverage> coverages) {
+	public void setCoverages(List<AutoSSOpenLCoverage> coverages) {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
 	@Override
 	public List<AutoSSOpenLPolicy> getPolicies() {
-		return policies;
+		return new ArrayList<>(policies);
 	}
 
 	public void setPolicies(List<AutoSSOpenLPolicy> policies) {

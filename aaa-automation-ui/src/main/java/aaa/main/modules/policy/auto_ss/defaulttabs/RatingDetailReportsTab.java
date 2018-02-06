@@ -38,7 +38,7 @@ public class RatingDetailReportsTab extends Tab {
 	}
 
 	private TestData createTestData() {
-		LinkedHashMap data = new LinkedHashMap();
+		LinkedHashMap<String, String> data = new LinkedHashMap<>();
 		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "$<today-1y:MM/dd/yyyy>");
 		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "true");
 		return new SimpleDataProvider(data);

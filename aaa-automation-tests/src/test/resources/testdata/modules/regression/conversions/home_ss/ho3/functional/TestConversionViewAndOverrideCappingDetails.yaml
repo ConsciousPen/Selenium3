@@ -1,0 +1,41 @@
+# ====================== TestData VA, DE, AZ =======================
+TestData: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
+  GeneralTab: '@GeneralTab'
+}
+
+# ====================== TestData NJ =======================
+TestData_NJ: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
+  GeneralTab: '@GeneralTab_NJ',
+  ReportsTab: '@ReportsTab'
+}
+
+GeneralTab_NJ: {
+  Immediate prior carrier: 'CSAA Mid-Atlantic Insurance Company of New Jersey',
+}
+
+GeneralTab: {
+  Immediate prior carrier: 'CSAA Affinity Insurance Company',
+}
+
+InitiateRenewalEntryActionTab: {
+  Renewal Policy Premium: 1500
+}
+
+# --------- View Capping Details----------
+TD_ViewCappingDetails: {
+  Ceiling Cap: 15,
+  Floor Cap: -15
+}
+
+TestData_OverideCappingDetails: {
+  PremiumsAndCoveragesQuoteTab: {
+    View Capping Details: {
+      Manual Capping Factor (%): '120',
+      Capping Override Reason: 'index=1',
+      Calculate: 'click',
+      Save and Return to Premium & Coverages: 'click'
+    }
+  }
+}

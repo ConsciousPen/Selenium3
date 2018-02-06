@@ -3,14 +3,10 @@ package aaa.helpers.openl.model;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLCoverage {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private Integer number;
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	protected Integer number;
 
-	private Integer additionalLimitAmount;
-	private String coverageCD;
-	private String deductible;
-	private String glassDeductible;
-	private String limit;
+	protected String limit;
 
 	public Integer getNumber() {
 		return number;
@@ -20,43 +16,19 @@ public class OpenLCoverage {
 		this.number = number;
 	}
 
-	public Integer getAdditionalLimitAmount() {
-		return additionalLimitAmount;
-	}
-
-	public void setAdditionalLimitAmount(int additionalLimitAmount) {
-		this.additionalLimitAmount = additionalLimitAmount;
-	}
-
-	public String getCoverageCD() {
-		return coverageCD;
-	}
-
-	public void setCoverageCD(String coverageCD) {
-		this.coverageCD = coverageCD;
-	}
-
-	public String getDeductible() {
-		return deductible;
-	}
-
-	public void setDeductible(String deductible) {
-		this.deductible = deductible;
-	}
-
-	public String getGlassDeductible() {
-		return glassDeductible;
-	}
-
-	public void setGlassDeductible(String glassDeductible) {
-		this.glassDeductible = glassDeductible;
-	}
-
 	public String getLimit() {
 		return limit;
 	}
 
 	public void setLimit(String limit) {
 		this.limit = limit;
+	}
+
+	@Override
+	public String toString() {
+		return "OpenLCoverage{" +
+				"number=" + number +
+				", limit='" + limit + '\'' +
+				'}';
 	}
 }

@@ -42,7 +42,6 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
      * @details
      */
 
-    private DocAndBindTabSubmit docAndBindTabSubmit = new DocAndBindTabSubmit();
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
@@ -127,7 +126,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, false);
         errorTab.cancel();
 
-        docAndBindTabSubmit.submitTab();
+        documentsAndBindTab.submitTab(true);
         errorTab.overrideAllErrors();
         errorTab.submitTab();
         purchaseTab.payRemainingBalance(BillingConstants.AcceptPaymentMethod.CASH).submitTab();
@@ -337,8 +336,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         policy.getDefaultView().fillUpTo(testData.adjust(getTestSpecificTD("TestData_Dummy_Number6")), DocumentsAndBindTab.class, true);
         goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME, true);
         errorTab.overrideAllErrors();
-        errorTab.buttonOverride.click();
-        docAndBindTabSubmit.submitTab();
+        errorTab.submitTab();
     }
     /*
     Method validates that validation error existence
@@ -346,7 +344,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
     private void goToBindAndVerifyError( ErrorEnum.Errors errorCode, boolean present) {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 
-        docAndBindTabSubmit.submitTab();
+        documentsAndBindTab.submitTab(true);
 
         if (errorTab.isVisible()|| present==true) {
             errorTab.verify.errorsPresent(present, errorCode);
@@ -357,23 +355,9 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         }
     }
 
-    private void retrievePolicy(String policyNumber){
+    private void retrievePolicy(String policyNumber) {
         MainPage.QuickSearch.buttonSearchPlus.click();
         Page.dialogConfirmation.confirm();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-    }
-
-    /*
-    Tests were broken because DocumentsAndBindTab().submitTab() method is updated to always override ERROR_AAA_AUTO_SS_MEM_LASTNAME.
-    Tests fixed by overriding DocumentsAndBindTab().submitTab() method to not override ERROR_AAA_AUTO_SS_MEM_LASTNAME.
-    */
-    private class DocAndBindTabSubmit extends DocumentsAndBindTab {
-
-        @Override
-        public Tab submitTab() {
-            btnPurchase.click();
-            confirmPurchase();
-            return this;
-        }
     }
 }

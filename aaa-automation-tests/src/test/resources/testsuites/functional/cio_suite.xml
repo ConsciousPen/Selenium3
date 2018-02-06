@@ -3,6 +3,7 @@
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
      </listeners>
+
     <parameter name="timeshift-scenario-mode" value="method"/>
 
     <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" parallel="methods" thread-count="1024">
