@@ -3,8 +3,6 @@ package aaa.helpers.openl.model.auto_ss;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLAddress;
-import aaa.helpers.openl.model.OpenLCappingDetails;
-import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.ExcelTableElement;
 import aaa.utils.excel.bind.ExcelTransient;
@@ -15,7 +13,7 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = CAPPINGDETAILS_SHEET_NAME, headerRowNumber = CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<OpenLCappingDetails> cappingDetails;
+	private List<AutoSSOpenLCappingDetails> cappingDetails;
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME + "AZ", headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
@@ -27,17 +25,17 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME + "AZ", headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
-	private List<OpenLDriver> drivers;
+	private List<AutoSSOpenLDriver> drivers;
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME + "AZ", headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLCoverage> coverages;
 
-	public List<OpenLCappingDetails> getCappingDetails() {
+	public List<AutoSSOpenLCappingDetails> getCappingDetails() {
 		return new ArrayList<>(cappingDetails);
 	}
 
-	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
+	public void setCappingDetails(List<AutoSSOpenLCappingDetails> cappingDetails) {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
@@ -57,11 +55,11 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 		this.address = new ArrayList<>(address);
 	}
 
-	public List<OpenLDriver> getDrivers() {
+	public List<AutoSSOpenLDriver> getDrivers() {
 		return new ArrayList<>(drivers);
 	}
 
-	public void setDrivers(List<OpenLDriver> drivers) {
+	public void setDrivers(List<AutoSSOpenLDriver> drivers) {
 		this.drivers = new ArrayList<>(drivers);
 	}
 

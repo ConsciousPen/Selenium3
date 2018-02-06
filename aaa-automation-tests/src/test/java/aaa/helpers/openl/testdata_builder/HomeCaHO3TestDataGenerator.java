@@ -1,21 +1,21 @@
 package aaa.helpers.openl.testdata_builder;
 
 import org.apache.commons.lang3.NotImplementedException;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
+import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-public class HomeCaTestDataGenerator extends TestDataGenerator<HomeCaOpenLPolicy> {
-	public HomeCaTestDataGenerator(String state) {
+public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenLPolicy> {
+	public HomeCaHO3TestDataGenerator(String state) {
 		super(state);
 	}
 
-	public HomeCaTestDataGenerator(String state, TestData ratingDataPattern) {
+	public HomeCaHO3TestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
 	}
 
 	@Override
-	public TestData getRatingData(HomeCaOpenLPolicy openLPolicy) {
+	public TestData getRatingData(HomeCaHO3OpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();
 	}
 

@@ -2,13 +2,14 @@ package aaa.helpers.openl.model.auto_ca.choice;
 
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-	private List<AutoCaChoiceOpenLCoverage> coverages;
+	private List<AutoOpenLCoverage> coverages;
 
 	private Boolean antiLock;
 	private Boolean antiTheft;
@@ -31,11 +32,11 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 		this.vehicleUsageCd = vehicleUsageCd;
 	}
 
-	public List<AutoCaChoiceOpenLCoverage> getCoverages() {
+	public List<AutoOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
 
-	public void setCoverages(List<AutoCaChoiceOpenLCoverage> coverages) {
+	public void setCoverages(List<AutoOpenLCoverage> coverages) {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
