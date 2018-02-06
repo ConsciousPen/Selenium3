@@ -20,19 +20,14 @@ aaa-automation-tests/target/*
 aaa-automation-tests/src/test/resources/config/local.properties
 
 aaa-automation-tests/src/test/resources/testsuites/debug.xml
-aaa-automation-tests/src/test/resources/testsuites/debug-pef.xml 
-aaa-automation-tests/src/test/resources/testsuites/retry.xml
-aaa-automation-tests/src/test/resources/testsuites/openl/test.xml
-
-aaa-automation-tests/src/test/resources/openl/
+aaa-automation-tests/src/test/resources/testsuites/debug-pef.xml
 
 /.metadata/*
 /*.iml
 /aaa-automation-tests/*.iml
 /aaa-automation-ui/*.iml
 
-# dchubkov files to be ignored
-aaa-automation-tests/src/test/java/aaa/modules/debug/
-aaa-automation-tests/src/test/resources/testdata/modules/debug/
-aaa-automation-tests/src/test/resources/config/browserpools/CustomBrowserPool.xml
+aaa-automation-tests/src/test/java/aaa/modules/debug/*
+aaa-automation-tests/src/test/resources/testdata/modules/debug/*
+aaa-automation-tests/src/test/resources/config/browserpools/DebugBrowserPool.xml
 /patches/
