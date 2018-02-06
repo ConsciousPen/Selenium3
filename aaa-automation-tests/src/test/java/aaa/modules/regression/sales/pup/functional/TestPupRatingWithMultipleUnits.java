@@ -66,7 +66,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         // Create Auto Policy
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
         policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
-        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
+        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("autoPolicy"));
 
         // Create HO3 Policy with underlying Auto policy
         PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
@@ -136,7 +136,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         // Create Auto Policy
         PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAuto);
         policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
-        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("autoPolicy"));
+        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("autoPolicy"));
 
         // Create HO3 Policy with underlying Auto policy
         PolicyType.HOME_CA_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
@@ -151,7 +151,7 @@ public class TestPupRatingWithMultipleUnits extends PersonalUmbrellaBaseTest {
         policies.put("ho6Policy", PolicySummaryPage.getPolicyNumber());
 
         // Create DP3 Policy with above underlying policies AND more than 1 unit (3 - triplex)
-        tdDP3.adjust(otherActiveKeyPath, getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy Number", policies.get("ho3Policy")));
+        tdDP3.adjust(otherActiveKeyPath, getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("ho3Policy")));
         for (int i = 1; i <= 2; i++) {
             PolicyType.HOME_CA_DP3.get().createPolicy(tdDP3);
             policies.put("dpPolicy" + i, PolicySummaryPage.getPolicyNumber());

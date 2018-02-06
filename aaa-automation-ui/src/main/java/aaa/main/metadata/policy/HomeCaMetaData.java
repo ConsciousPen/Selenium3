@@ -183,10 +183,8 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class);
 
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
-				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.AJAX,
-						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyType"));
-				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX,
-						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyNumber"));
+				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.AJAX, By
 						.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
 			}
