@@ -1458,9 +1458,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
         premiumAndCoveragesTab.saveAndExit();
 
-        simplifiedQuoteIssue("ACH");
-
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        String policyNumber = simplifiedQuoteIssue("ACH");
 
         //Add new card to the billing account
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -1478,9 +1476,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         checkIfEvalueWasRemovedBySystem(false);
 
         //LogOut is needed because policy is lock
-        mainApp().getLogin().reLogin();
+        mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        // BillingSummaryPage.tableBillingAccounts.getRow(1).getCell(1).controls.links.get(1).click();
 
         //Remove autoPay
         BillingSummaryPage.linkUpdateBillingAccount.click();
@@ -1500,13 +1497,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
     }
 
-    private void checkIfEvalueWasRemovedBySystem(Boolean value) {
+    private void checkIfEvalueWasRemovedBySystem(Boolean removed) {
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
         PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
         PolicySummaryPage.buttonTransactionHistory.click();
-        assertThat("eValue Removed - ACH...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(value);
+        assertThat("eValue Removed - ACH...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(removed);
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-        assertThat("Endorsement - Other".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(5).getValue())).isEqualTo(value);
+        assertThat("Endorsement - Other".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(5).getValue())).isEqualTo(removed);
     }
 
     private void testEvalueDiscount(String membershipStatus, String currentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
