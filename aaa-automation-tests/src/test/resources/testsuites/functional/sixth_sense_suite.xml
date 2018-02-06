@@ -159,4 +159,29 @@
     </test>
 -->
 
+    <!--Tests for Defects-->
+
+
+    <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
+        <parameter name="state" value="CO, OH, MD"/>
+        <classes>
+            <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
+                <methods>
+                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForCA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
+                <methods>
+                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
