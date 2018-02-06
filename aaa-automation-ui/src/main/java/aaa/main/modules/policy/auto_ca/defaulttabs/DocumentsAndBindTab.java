@@ -50,10 +50,14 @@ public class DocumentsAndBindTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
+		return submitTab(false);
+	}
+
+	public Tab submitTab(boolean errorExpected) {
 		btnPurchase.click();
 		confirmPurchase();
 		ErrorTab errorTab = new ErrorTab();
-		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME.getCode())) {
+		if (!errorExpected && errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME.getCode())) {
 			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME);
 			errorTab.override();
 			btnPurchase.click();
