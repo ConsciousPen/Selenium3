@@ -1,0 +1,45 @@
+
+# --------- TestData for Underlying Risks Auto  ------------
+
+TestData_UnderlyingAuto: '@Drivers'
+
+Drivers: {
+
+  Add drivers: 'Yes',
+  License Status: 'Expired',
+  First Name: 'First1',
+  Last Name: 'Lastn',
+  Date of Birth: $<today-30y>,
+  Age First Licensed: '20',
+  License Number: 'A12345678987657'
+}
+
+# --------- TestData for Underlying Risks Auto  ------------
+
+TestData_ValidDriver: '@Driver1'
+
+Driver1: {
+  License Status: 'Licensed(US)',
+  First Name: 'First1',
+  Last Name: 'Lastn',
+  Date of Birth: $<today-30y>,
+  Age First Licensed: '20',
+  License Number: 'A12345678987657'
+}
+
+
+# --------- TestData for PUP underlying HO policy ------------
+
+TestData_ActiveUnderlyingPolicies: '@ActiveUnderlyingPolicies'
+
+ActiveUnderlyingPolicies: {
+  ActiveUnderlyingPoliciesSearch: {
+    Policy Type: HO3,
+    Policy Number: Primary_HO3
+  },
+  ActiveUnderlyingPoliciesManual: {
+    Primary policy: 'Yes'
+  }
+}
+
+
