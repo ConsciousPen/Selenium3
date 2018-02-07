@@ -14,8 +14,8 @@ OtherActiveAAAPolicies: {
   Other active AAA policies: 'Yes',
   Add: 'click',
   ActiveUnderlyingPoliciesSearch: {
-    Policy Type: Auto,
-    Policy Number: Primary_Auto
+    Policy type: Auto,
+    Policy number: Primary_Auto
   },
   ActiveUnderlyingPoliciesManual: {}
 }

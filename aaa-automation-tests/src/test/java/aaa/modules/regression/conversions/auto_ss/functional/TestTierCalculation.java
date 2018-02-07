@@ -168,6 +168,7 @@ public class TestTierCalculation extends ConvAutoSsBaseTest {
         new AutoSSPolicyActions.DataGather().start();
         PremiumAndCoveragesTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         mainApp().close();
         return result;
     }
