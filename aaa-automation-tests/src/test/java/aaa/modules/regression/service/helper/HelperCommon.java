@@ -28,7 +28,7 @@ public class HelperCommon {
 			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
 
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
-	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/policy/v1/endorsements/update-contact-info/";
+	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/policy/v1/endorsements/%s/contact-info/";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/policy/v1/endorsements/validate";
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/xx/xx/xe";
 
@@ -55,7 +55,7 @@ public class HelperCommon {
 			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
 			request.email = emailAddressChanged;
 			request.authorizedBy = authorizedBy;
-			String requestUrl = urlBuilderDxp(DXP_CONTACT_INFO_UPDATE_ENDPOINT) + policyNumber;
+			String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 			runJsonRequestPostDxp(requestUrl, request);
 		}
 	}
