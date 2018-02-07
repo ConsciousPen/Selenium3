@@ -3,21 +3,22 @@ package aaa.modules.regression.service.helper;
 import java.util.Arrays;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import toolkit.verification.CustomAssert;
 
 public class HelperRfi {
-    public final static String UPDATE_DOCUMENT_STATUS = "UPDATE SUPPORTINGDOCENTITY " +
+    public static final String UPDATE_DOCUMENT_STATUS = "UPDATE SUPPORTINGDOCENTITY " +
             "SET DOCUMENTSTATUS = 'Archived', DOCUMENTUPDATETIME=TO_DATE('%s', 'MM/dd/yyyy')  " +
             "WHERE DOCUMENTTEXT = '%s' " +
             "AND AAAAUTOPOLICY_ID IN ( " +
             "SELECT ID FROM POLICYSUMMARY WHERE POLICYNUMBER='%s')";
-    public  final static String GET_POLICY_SUMMARY_FIELD = "select %s from(\n"
+    public static final String GET_POLICY_SUMMARY_FIELD = "select %s from(\n"
             + "select * \n"
             + "from policysummary \n"
             + "where POLICYNUMBER = '%s' \n"
             + "order by id desc\n"
             + ") where rownum=1";
-    public final static String UPDATE_POLICY_VERSION = "update POLICYSUMMARY set version = %s where id = '%s'";
+    public static final String UPDATE_POLICY_VERSION = "update POLICYSUMMARY set version = %s where id = '%s'";
 
     public static void policyServiceRfiValuesCheck(RfiDocumentResponse[] result, String rfiName, String documentType, String status) {
         RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
