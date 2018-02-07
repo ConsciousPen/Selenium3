@@ -9,6 +9,8 @@ public class OpenLLossInformation {
 
 	private String autoTier;
 	private Integer creditBands;
+	private Integer autoCreditBands; // PA specific
+	private String multipolicyStatus; // PA specific
 	private Integer expClaimPoint;
 	private Integer priorClaimPoint;
 	private Integer recentYCF;
@@ -61,13 +63,31 @@ public class OpenLLossInformation {
 		this.recentYCF = recentYCF;
 	}
 
+	public Integer getAutoCreditBands() {
+		return autoCreditBands;
+	}
+
+	public void setAutoCreditBands(Integer autoCreditBands) {
+		this.autoCreditBands = autoCreditBands;
+	}
+
+	public String getMultipolicyStatus() {
+		return multipolicyStatus;
+	}
+
+	public void setMultipolicyStatus(String multipolicyStatus) {
+		this.multipolicyStatus = multipolicyStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "OpenLLossInformation{" +
 				"number=" + number +
 				", autoTier='" + autoTier + '\'' +
 				", creditBands=" + creditBands +
+				", autoCreditBands=" + autoCreditBands +
 				", expClaimPoint=" + expClaimPoint +
+				", multipolicyStatus='" + multipolicyStatus + '\'' +
 				", priorClaimPoint=" + priorClaimPoint +
 				", recentYCF=" + recentYCF +
 				'}';

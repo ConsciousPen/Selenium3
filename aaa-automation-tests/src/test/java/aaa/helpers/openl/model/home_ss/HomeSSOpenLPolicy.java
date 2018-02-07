@@ -72,6 +72,8 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	private String policyType;
 	private String prevLevel;
 	private String transactionType;
+	private String chamberOfCommerce; // NJ specific ?
+	private String profession; // OK specific ?
 
 	public List<OpenLCappingDetails> getCappingDetails() {
 		return new ArrayList<>(cappingDetails);
@@ -209,6 +211,22 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.transactionType = transactionType;
 	}
 
+	public String getChamberOfCommerce() {
+		return chamberOfCommerce;
+	}
+
+	public void setChamberOfCommerce(String chamberOfCommerce) {
+		this.chamberOfCommerce = chamberOfCommerce;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
 	@Override
 	public String getPolicyNumber() {
 		return policyNumber;
@@ -240,6 +258,8 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 				", policyType='" + policyType + '\'' +
 				", prevLevel='" + prevLevel + '\'' +
 				", transactionType='" + transactionType + '\'' +
+				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
+				", profession='" + profession + '\'' +
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';

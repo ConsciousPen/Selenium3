@@ -24,6 +24,7 @@ public class OpenLDiscountInformation {
 	private Boolean isPUPPolicyInd;
 	private Boolean isPrivateCommunity;
 	private Boolean isUnderlyingRenterPolicy;
+	private Boolean isLightningProtected;
 	private Integer memberPersistency;
 	private Integer noOfConsecutiveYrs;
 	private Integer noOfYrsSinceLoanInception;
@@ -186,6 +187,14 @@ public class OpenLDiscountInformation {
 		this.isUnderlyingRenterPolicy = isUnderlyingRenterPolicy;
 	}
 
+	public Boolean isLightningProtected() {
+		return isLightningProtected;
+	}
+
+	public void setLightningProtected(Boolean isLightningProtected) {
+		this.isLightningProtected = isLightningProtected;
+	}
+
 	public Integer getMemberPersistency() {
 		return memberPersistency;
 	}
@@ -343,6 +352,7 @@ public class OpenLDiscountInformation {
 				", isPUPPolicyInd=" + isPUPPolicyInd +
 				", isPrivateCommunity=" + isPrivateCommunity +
 				", isUnderlyingRenterPolicy=" + isUnderlyingRenterPolicy +
+				", isLightningProtected=" + isLightningProtected +
 				", memberPersistency=" + memberPersistency +
 				", noOfConsecutiveYrs=" + noOfConsecutiveYrs +
 				", noOfYrsSinceLoanInception=" + noOfYrsSinceLoanInception +
@@ -359,7 +369,7 @@ public class OpenLDiscountInformation {
 				", timeSinceRenovHeatOrCooling=" + timeSinceRenovHeatOrCooling +
 				", timeSinceRenovPlumbing=" + timeSinceRenovPlumbing +
 				", timeSinceRenovRoof=" + timeSinceRenovRoof +
-				", windStorm=" + windStorm +
+				", windStorm='" + windStorm + '\'' +
 				'}';
 	}
 }

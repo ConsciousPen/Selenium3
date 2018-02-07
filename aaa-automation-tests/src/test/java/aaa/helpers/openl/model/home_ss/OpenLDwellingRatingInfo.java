@@ -18,6 +18,8 @@ public class OpenLDwellingRatingInfo {
 	private Integer roofAge;
 	private String roofType;
 	private Integer yearBuilt;
+	private String hailResistiveCode;
+	private String laundryLocation;
 
 	public Integer getNumber() {
 		return number;
@@ -99,6 +101,22 @@ public class OpenLDwellingRatingInfo {
 		this.yearBuilt = yearBuilt;
 	}
 
+	public String getHailResistiveCode() {
+		return hailResistiveCode;
+	}
+
+	public void setHailResistiveCode(String hailResistiveCode) {
+		this.hailResistiveCode = hailResistiveCode;
+	}
+
+	public String getLaundryLocation() {
+		return laundryLocation;
+	}
+
+	public void setLaundryLocation(String laundryLocation) {
+		this.laundryLocation = laundryLocation;
+	}
+
 	@Override
 	public String toString() {
 		return "OpenLDwellingRatingInfo{" +
@@ -112,6 +130,8 @@ public class OpenLDwellingRatingInfo {
 				", roofAge=" + roofAge +
 				", roofType='" + roofType + '\'' +
 				", yearBuilt=" + yearBuilt +
+				", hailResistiveCode='" + hailResistiveCode + '\'' +
+				", laundryLocation='" + laundryLocation + '\'' +
 				'}';
 	}
 }

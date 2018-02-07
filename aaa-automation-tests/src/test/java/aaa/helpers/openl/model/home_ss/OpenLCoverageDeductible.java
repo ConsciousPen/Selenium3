@@ -7,7 +7,7 @@ public class OpenLCoverageDeductible {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	private Integer coverageDeductible;
+	private String coverageDeductible;
 
 	public Integer getNumber() {
 		return number;
@@ -17,11 +17,11 @@ public class OpenLCoverageDeductible {
 		this.number = number;
 	}
 
-	public Integer getCoverageDeductible() {
+	public String getCoverageDeductible() {
 		return coverageDeductible;
 	}
 
-	public void setCoverageDeductible(Integer coverageDeductible) {
+	public void setCoverageDeductible(String coverageDeductible) {
 		this.coverageDeductible = coverageDeductible;
 	}
 
