@@ -1,11 +1,9 @@
-package aaa.helpers.openl.model.auto_ca.choice;
+package aaa.helpers.openl.model;
 
-import aaa.helpers.openl.model.OpenLCoverage;
-
-public class AutoCaChoiceOpenLCoverage extends OpenLCoverage {
-	private Integer additionalLimitAmount;
-	private String coverageCD;
-	private String deductible;
+public class AutoOpenLCoverage extends OpenLCoverage {
+	protected Integer additionalLimitAmount;
+	protected String coverageCD;
+	protected String deductible;
 
 	public Integer getAdditionalLimitAmount() {
 		return additionalLimitAmount;
@@ -33,7 +31,7 @@ public class AutoCaChoiceOpenLCoverage extends OpenLCoverage {
 
 	@Override
 	public String toString() {
-		return "AutoCaChoiceOpenLCoverage{" +
+		return "AutoOpenLCoverage{" +
 				"additionalLimitAmount=" + additionalLimitAmount +
 				", coverageCD='" + coverageCD + '\'' +
 				", deductible='" + deductible + '\'' +
