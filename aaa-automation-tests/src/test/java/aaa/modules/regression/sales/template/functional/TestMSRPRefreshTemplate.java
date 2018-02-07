@@ -1,8 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.*;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -381,8 +381,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	protected void pas730_ChoiceCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
 		// Reset 'default' msrp version
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 9999, 2011, EXPECTED_MSRP_KEY));
-		// Reset to the default state  MSRP_2000
-		resetChoiceDefaultMSRPVersionValuesVinControlTable(getState());
 		// DELETE new VEHICLEREFDATAVINCONTROL version
 		deleteVersionFromVehicleControlTable(vehicleTypeMSRPVersion,getState());
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
@@ -394,8 +392,6 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE, vehicleType, vehicleTypeMSRPVersion));
 		// DELETE new VEHICLEREFDATAVINCONTROL version
 		deleteVersionFromVehicleControlTable(vehicleTypeMSRPVersion,getState());
-		// Reset to the default state  MSRP_2000
-		resetSelectDefaultMSRPVersionValuesVinControlTable(getState());
 		// DELETE new MSRP version pas730_VehicleTypeRegular
 		deleteAddedMsrpVersionFormMsrpControlTable(vehicleTypeMSRPVersion, EXPECTED_MSRP_KEY, vehicleType);
 	}
@@ -409,11 +405,11 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	// Used in After suite method, cause of cross-test interruptions
-	public void resetChoiceDefaultMSRPVersionValuesVinControlTable(String state) {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, state));
+	public void resetChoiceDefaultMSRPVersionValuesVinControlTable() {
+		DBService.get().executeUpdate(UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION);
 	}
 
-	public void resetSelectDefaultMSRPVersionValuesVinControlTable(String state) {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE, state, formTypeSelect));
+	public void resetSelectDefaultMSRPVersionValuesVinControlTable() {
+		DBService.get().executeUpdate(UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION);
 	}
 }

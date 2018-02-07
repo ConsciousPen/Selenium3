@@ -136,6 +136,6 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@AfterSuite(alwaysRun = true)
 	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000
-		resetChoiceDefaultMSRPVersionValuesVinControlTable(getState());
+		resetChoiceDefaultMSRPVersionValuesVinControlTable();
 	}
 }
