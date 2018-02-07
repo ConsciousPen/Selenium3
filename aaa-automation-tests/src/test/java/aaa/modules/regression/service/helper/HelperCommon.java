@@ -44,12 +44,22 @@ public class HelperCommon {
     }
 
     static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
-        EndorsementsValidateRequest request = new EndorsementsValidateRequest();
+        ValidateEndorsementRequest request = new ValidateEndorsementRequest();
         request.policyNumber = policyNumber;
         request.endorsementDate = endorsementDate;
         String requestUrl = urlBuilderDxp(PropertyProvider.getProperty(CustomTestProperties.DXP_ENDORSEMENTS_VALIDATE_ENDPOINT));
         ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestPostDxp(requestUrl, request, ValidateEndorsementResponse.class);
         return validateEndorsementResponse;
+    }
+
+    static VinValidateResponse executeVinValidate(String vin, String policyNumber, String endorsementEffectiveDate) {
+        VinValidateRequest request = new VinValidateRequest();
+        request.vin = vin;
+        request.policyNumber = policyNumber;
+        request.endorsementDate = endorsementEffectiveDate;
+        String requestUrl = urlBuilderDxp(PropertyProvider.getProperty(CustomTestProperties.DXP_VIN_VALIDATE_ENDPOINT));
+        VinValidateResponse validateVinResponse = runJsonRequestPostDxp(requestUrl, request, VinValidateResponse.class);
+        return validateVinResponse;
     }
 
     private static String urlBuilderDxp(String endpointUrlPart) {

@@ -186,6 +186,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
         pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
+    public void pas8275_endorsementValidateNotAllowedOutOfBound(@Optional("VA") String state) {
+
+        pas8275_vinValidate(getPolicyType());
+    }
+
     @Override
     protected String getGeneralTab() {
         return NavigationEnum.AutoSSTab.GENERAL.get();

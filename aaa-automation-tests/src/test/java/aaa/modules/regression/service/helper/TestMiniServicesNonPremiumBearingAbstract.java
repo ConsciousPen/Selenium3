@@ -264,6 +264,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
     }
 
 
+    protected void pas8275_vinValidate(PolicyType policyType) {
+        mainApp().open();
+        createCustomerIndividual();
+        policyType.get().createQuote(getPolicyTD());
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        policy.dataGather().start();
+        NavigationPage.toViewTab(getPremiumAndCoverageTab());
+        getPremiumAndCoverageTabElement().saveAndExit();
+
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String vin1 = "aaaa";
+        VinValidateResponse response = HelperCommon.executeVinValidate(vin1, policyNumber, endorsementDate);
+        assertSoftly(softly -> {
+            softly.assertThat(response.vehicles).isEmpty();
+            softly.assertThat(response.validationMessage.contentEquals("sfs"));
+        });
+    }
+
 
     private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
         policy.policyInquiry().start();
