@@ -31,4 +31,11 @@
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario13"/>
         </classes>
     </test>
+    
+    <test name="PUP Scenario 13" parallel="none">
+        <parameter name="state" value="UT, CA" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario13"/>
+        </classes>
+    </test>
 </suite>
