@@ -1,6 +1,5 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -10,7 +9,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.regression.conversions.ConvHomeSsDP3BaseTest;
+import aaa.modules.regression.conversions.ConvHomeSsHO3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends ConvHomeSsDP3BaseTest {
+public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends ConvHomeSsHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-6663")
