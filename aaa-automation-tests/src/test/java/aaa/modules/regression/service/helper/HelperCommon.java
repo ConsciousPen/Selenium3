@@ -16,7 +16,9 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
+import aaa.modules.regression.service.helper.dtoDxp.UpdateContactInfoRequest;
+import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
@@ -28,9 +30,9 @@ public class HelperCommon {
 			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
 
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
-	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/policy/v1/endorsements/%s/contact-info/";
-	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/policy/v1/endorsements/validate";
-	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/xx/xx/xe";
+	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
+	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
+	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
@@ -61,11 +63,11 @@ public class HelperCommon {
 	}
 
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
-		AAAEndorseRequest request = new AAAEndorseRequest();
-		//request.policyNumber = policyNumber;
-		request.endorsementDate = endorsementDate;
-		String requestUrl = urlBuilderDxp(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT);
-		ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestPostDxp(requestUrl, request, ValidateEndorsementResponse.class);
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		if(endorsementDate!=null) {
+			requestUrl = requestUrl+"?endorsementDate="+endorsementDate;
+		}
+		ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
 		return validateEndorsementResponse;
 	}
 
@@ -74,7 +76,7 @@ public class HelperCommon {
 		request.vin = vin;
 		request.policyNumber = policyNumber;
 		request.endorsementDate = endorsementEffectiveDate;
-		String requestUrl = urlBuilderDxp(DXP_VIN_VALIDATE_ENDPOINT);
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
 		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestPostDxp(requestUrl, request, AAAVehicleVinInfoRestResponseWrapper.class);
 		return validateVinResponse;
 	}
@@ -132,6 +134,35 @@ public class HelperCommon {
 				throw new IstfException(response.readEntity(String.class));
 			}
 			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(url);
+
+			response = target
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.get();
+			T result = response.readEntity(responseType);
+			log.info(response.toString());
+			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+				//handle error
+				throw new IstfException(response.readEntity(String.class));
+			}
+			return result;
 		} finally {
 			if (response != null) {
 				response.close();

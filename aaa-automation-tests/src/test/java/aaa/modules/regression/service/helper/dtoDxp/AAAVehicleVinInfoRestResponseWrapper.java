@@ -1,9 +1,8 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.util.List;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.List;
 
 /**
  * Validation information and retrieved by VIN data from PAS VIN tables.
