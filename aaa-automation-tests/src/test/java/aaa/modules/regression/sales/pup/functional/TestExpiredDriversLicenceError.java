@@ -3,11 +3,12 @@
 package aaa.modules.regression.sales.pup.functional;
 
 
-import static aaa.common.enums.NavigationEnum.PersonalUmbrellaTab.*;
-import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -41,7 +42,7 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 	 * @name Expired Driver Licence Error
 	 * @scenario
 	 * 1. Create PUP Policy
-	 * 2. Add Home Policy with PPC = 9
+	 * 2. Add Home Policy with PPC = 8
 	 * 3. Add Driver with expired licence
 	 * 4. Calculate Premium
 	 * 5. Verify Error
@@ -76,23 +77,24 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS2260177);
 		errorTab.cancel();
 
-		Arrays.asList(UNDERLYING_RISKS, UNDERLYING_RISKS_AUTO).
-				forEach(tab -> NavigationPage.toViewTab(tab.get()));
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+		NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 
 		underlyingRisksAutoTab.getAssetList().getAsset("Drivers", MultiInstanceAfterAssetList.class).getAsset("License Status", ComboBox.class).setValue("Licensed (US)");
 
-		Arrays.asList(PREMIUM_AND_COVERAGES, PREMIUM_AND_COVERAGES_QUOTE).
-				forEach(tab -> NavigationPage.toViewTab(tab.get()));
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 
 		premiumAndCoveragesQuoteTab.calculatePremium();
-		premiumAndCoveragesQuoteTab.submitTab();
+		assertThat(premiumAndCoveragesQuoteTab.getAssetList().getAsset("Payment Plan").isPresent()).isTrue();
+
 	}
 
 
 	// TD for home policy
 	private TestData getTdHome() {
 		return getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather"), "TestData_VA")
-				.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel()), "9")
+				.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel()), "8")
 				.mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()));
 	}
 
