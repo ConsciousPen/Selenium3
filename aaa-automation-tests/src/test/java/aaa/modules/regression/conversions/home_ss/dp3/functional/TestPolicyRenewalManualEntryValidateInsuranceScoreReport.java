@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
 
 import aaa.common.enums.NavigationEnum;
@@ -10,7 +10,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.policy.HomeSSDP3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,10 +21,12 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends HomeSSHO3BaseTest {
+
+
+public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends HomeSSDP3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6663")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6663")
     public void testPolicyRenewalValidateOrderInsuranceScoreNoErrorFires(@Optional("VA") String state) {
         /**
          * @author S. Sivaram
@@ -54,7 +56,7 @@ public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends Ho
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6663")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6663")
     public void testPolicyRenewalValidateOverrideingReportDoesNotThrowError(@Optional("VA") String state) {
         /**
          * @author S. Sivaram
