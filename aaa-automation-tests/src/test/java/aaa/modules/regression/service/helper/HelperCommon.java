@@ -71,13 +71,12 @@ public class HelperCommon {
 		return validateEndorsementResponse;
 	}
 
-	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String vin, String policyNumber, String endorsementEffectiveDate) {
-		VinValidateRequest request = new VinValidateRequest();
-		request.vin = vin;
-		request.policyNumber = policyNumber;
-		request.endorsementDate = endorsementEffectiveDate;
+	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String vin, String policyNumber, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
-		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestPostDxp(requestUrl, request, AAAVehicleVinInfoRestResponseWrapper.class);
+		if(endorsementDate!=null) {
+			requestUrl = requestUrl+"?endorsementDate="+endorsementDate;
+		}
+		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl,AAAVehicleVinInfoRestResponseWrapper.class);
 		return validateVinResponse;
 	}
 
