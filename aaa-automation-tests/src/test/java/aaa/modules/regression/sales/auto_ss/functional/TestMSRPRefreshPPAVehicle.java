@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static aaa.helpers.db.queries.MsrpQueries.*;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -19,7 +17,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
@@ -233,19 +230,18 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	 */
 	@AfterTest(alwaysRun = true)
 	protected void resetMSRPTables() {
-		// Reset 'default' msrp version
-		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX, 9999, "MSRP_2000"));
-		// Reset to the default state  MSRP_2000
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, getState()));
-		// DELETE new VEHICLEREFDATAVINCONTROL version
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, AUTO_SS_PPA_VEH_MSRP_VERSION, getState()));
-		// DELETE new MSRP version pas730_VehicleTypePPA
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, AUTO_SS_PPA_VEH_MSRP_VERSION, 4, "PPA"));
+		resetMsrpPPAVeh();
 	}
 
 	@AfterClass(alwaysRun = true)
 	protected void resetVinUploadTables() {
 		// pas730_PartialMatch clean
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
+	}
+
+	@AfterSuite(alwaysRun = true)
+	protected void resetVinControlTable() {
+		// Reset to the default state  MSRP_2000
+		resetDefaultMSRPVersionValuesVinControlTable();
 	}
 }

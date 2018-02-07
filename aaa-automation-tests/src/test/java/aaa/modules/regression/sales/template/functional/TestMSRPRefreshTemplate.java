@@ -378,26 +378,42 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
-	protected void pas730_ChoiceCleanDataBase(String state, String vehicleTypeMSRPVersion, String vehicleType) {
+	protected void pas730_ChoiceCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
 		// Reset 'default' msrp version
 		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX_BY_KEY_VEHICLEYEARMIN, 9999, 2011, EXPECTED_MSRP_KEY));
 		// Reset to the default state  MSRP_2000
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, state));
+		resetChoiceDefaultMSRPVersionValuesVinControlTable(getState());
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, vehicleTypeMSRPVersion, state));
+		deleteVersionFromVehicleControlTable(vehicleTypeMSRPVersion,getState());
 		// DELETE new MSRP version pas730_VehicleTypeNotPPA
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, COMP_COLL_SYMBOL_KEY, vehicleType));
+		deleteAddedMsrpVersionFormMsrpControlTable(vehicleTypeMSRPVersion, COMP_COLL_SYMBOL_KEY, vehicleType);
 	}
 
-	protected void pas730_SelectCleanDataBase(String state, String vehicleTypeMSRPVersion, String vehicleType) {
+	protected void pas730_SelectCleanDataBase(String vehicleTypeMSRPVersion, String vehicleType) {
 		// DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE
 		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE, vehicleType, vehicleTypeMSRPVersion));
 		// DELETE new VEHICLEREFDATAVINCONTROL version
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, vehicleTypeMSRPVersion, state));
+		deleteVersionFromVehicleControlTable(vehicleTypeMSRPVersion,getState());
 		// Reset to the default state  MSRP_2000
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE, state, formTypeSelect));
+		resetSelectDefaultMSRPVersionValuesVinControlTable(getState());
 		// DELETE new MSRP version pas730_VehicleTypeRegular
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, EXPECTED_MSRP_KEY, vehicleType));
+		deleteAddedMsrpVersionFormMsrpControlTable(vehicleTypeMSRPVersion, EXPECTED_MSRP_KEY, vehicleType);
 	}
 
+	private void deleteAddedMsrpVersionFormMsrpControlTable(String vehicleTypeMSRPVersion, int compCollSymbolKey, String vehicleType2) {
+		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, vehicleTypeMSRPVersion, compCollSymbolKey, vehicleType2));
+	}
+
+	private void deleteVersionFromVehicleControlTable(String vehicleTypeMSRPVersion, String state) {
+		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, vehicleTypeMSRPVersion, state));
+	}
+
+	// Used in After suite method, cause of cross-test interruptions
+	public void resetChoiceDefaultMSRPVersionValuesVinControlTable(String state) {
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, state));
+	}
+
+	public void resetSelectDefaultMSRPVersionValuesVinControlTable(String state) {
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE, state, formTypeSelect));
+	}
 }

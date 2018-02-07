@@ -124,12 +124,18 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 
 	@AfterMethod(alwaysRun = true)
 	protected void resetMSRPTables() {
-		pas730_ChoiceCleanDataBase(getState(), CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
+		pas730_ChoiceCleanDataBase(CA_CHOICE_REGULAR_VEH_MSRP_VERSION, vehicleTypeRegular);
 	}
 
 	@AfterClass(alwaysRun = true)
 	protected void resetVinUploadTables() {
 		// pas730_PartialMatch clean
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_CHOICE_T')", getState());
+	}
+
+	@AfterSuite(alwaysRun = true)
+	protected void resetVinControlTable() {
+		// Reset to the default state  MSRP_2000
+		resetChoiceDefaultMSRPVersionValuesVinControlTable(getState());
 	}
 }

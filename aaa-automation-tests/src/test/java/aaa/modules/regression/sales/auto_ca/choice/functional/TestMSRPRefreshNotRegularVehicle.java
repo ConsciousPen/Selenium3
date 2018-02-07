@@ -1,10 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import static aaa.helpers.db.queries.MsrpQueries.CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -76,8 +73,12 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void resetMSRPTables() {
-		pas730_ChoiceCleanDataBase(getState(), CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, vehicleTypeMotorHome);
+		pas730_ChoiceCleanDataBase(CA_CHOICE_MOTORHOME_VEH_MSRP_VERSION, vehicleTypeMotorHome);
 	}
 
-
+	@AfterSuite(alwaysRun = true)
+	protected void resetVinControlTable() {
+		// Reset to the default state  MSRP_2000
+		resetChoiceDefaultMSRPVersionValuesVinControlTable(getState());
+	}
 }

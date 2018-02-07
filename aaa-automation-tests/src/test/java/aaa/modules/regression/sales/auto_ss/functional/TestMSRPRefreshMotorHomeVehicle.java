@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static aaa.helpers.db.queries.MsrpQueries.*;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.testng.annotations.*;
@@ -18,7 +16,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
@@ -119,7 +116,6 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
 
-
 	/**
 	 * Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
 	 * each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
@@ -132,20 +128,18 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 	 */
 	@AfterTest(alwaysRun = true)
 	protected void resetMSRPTables() {
-		// Reset 'default' msrp version
-		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX, 9999, "MSRP_2000"));
-		// Reset to the default state  MSRP_2000
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, getState()));
-		// DELETE new VEHICLEREFDATAVINCONTROL version
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, getState()));
-		// DELETE new MSRP version pas730_VehicleTypeNotPPA
-		DBService.get()
-				.executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, 4, "Motor"));
+		resetMsrpHomeVehHelper();
 	}
 
 	@AfterClass(alwaysRun = true)
 	protected void resetVinUploadTables() {
 		// pas730_PartialMatch clean
 		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_SS_TEST')", getState());
+	}
+
+	@AfterSuite(alwaysRun = true)
+	protected void resetVinControlTable() {
+		// Reset to the default state  MSRP_2000
+		resetDefaultMSRPVersionValuesVinControlTable();
 	}
 }
