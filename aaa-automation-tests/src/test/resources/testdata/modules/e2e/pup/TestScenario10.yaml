@@ -16,17 +16,13 @@ PurchaseTab: {
 
 # ----- Renewal -----
 TestData_Renewal: {
-  PrefillTab: {},
-  GeneralTab: {},
-  UnderlyingRisksPropertyTab: {},
-  UnderlyingRisksAutoTab: {}, 
-  UnderlyingRisksOtherVehiclesTab: {},
-  ClaimsTab: {},
-  EndorsementsTab: {},
   PremiumAndCoveragesQuoteTab: {
     Payment Plan: Eleven Pay Standard (Renewal)
-  }, 
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {}
+  }
+}
+
+TestData_Renewal_CA: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Monthly Standard (Renewal)
+  }
 }
