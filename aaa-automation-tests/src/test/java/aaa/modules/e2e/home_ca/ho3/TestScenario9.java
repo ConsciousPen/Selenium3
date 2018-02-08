@@ -32,8 +32,14 @@ public class TestScenario9 extends Scenario9 {
 			payNextSevenInstallments();
 			verifyThirdBillNotGenerated();
 			verifyPaymentNotGenerated();
-			renewalImageGeneration();
-			generateLastBill();
+			if (isBillGenDateAfterRenewImageGenDate()) {
+				renewalImageGeneration();
+				generateLastBill();
+			}
+			else {
+				generateLastBill();
+				renewalImageGeneration();
+			}
 			payLastBill();
 			removeAutoPay();
 			renewalPreviewGeneration();
