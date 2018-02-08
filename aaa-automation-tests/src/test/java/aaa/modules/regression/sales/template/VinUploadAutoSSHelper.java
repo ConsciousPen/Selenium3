@@ -83,7 +83,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 
 		assertSoftly(softly -> {
 		    //Verification of tableVehicleList instead of Vehicle page field (to avoid cache issue)
-			softly.assertThat(VehicleTab.tableVehicleList.getColumn("Make").getValue()).isEqualTo("UT_SS");
+			softly.assertThat(VehicleTab.tableVehicleList.getColumn("Make").getValue().contains("UT_SS")).isTrue();
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");

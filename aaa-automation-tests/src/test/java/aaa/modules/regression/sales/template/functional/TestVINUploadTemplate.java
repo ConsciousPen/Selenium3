@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -161,7 +160,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
-//Start PAS-938 - edited steps for CA products
+		//Start PAS-938 - edited steps for CA products
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
@@ -170,7 +169,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
-		//Johns - Move system time by two days
+		//3. Save and exit the quote, move system time by 2 days and retrieve the quote
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
 
 		//Go back to MainApp, open quote, verify rerate error message, calculate premium and verify if VIN value is applied
@@ -182,14 +181,14 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		// Verify pas-938 'Rerate' Error message on error tab
 		ErrorTab errorTab = new ErrorTab();
-		Assertions.assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_CSA1801266BZWW.getMessage()).isPresent()).isEqualTo(true);
+		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_CSA1801266BZWW.getMessage())).exists();
 		log.info("PAS-938 Rerate Error Verified as Present");
 		errorTab.cancel();
 
 		//Change Quote Effective Date to current date, because CA quotes can't be back dated >=\
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+		new GeneralTab().getPolicyInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE)
+				.setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 		//End PAS-938
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());

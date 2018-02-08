@@ -34,7 +34,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.TextBox;
 
@@ -152,7 +151,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
 
-//start pas 938
+		//start pas 938
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
@@ -172,7 +171,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//Verify pas-938 'Rerate' Error message on error tab
 		ErrorTab errorTab = new ErrorTab();
-		assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage())).exists();
+		assertThat(errorTab.tableErrors.getRowContains
+				(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS1801266BZWW.getMessage())).exists();
 
 		log.info("PAS-938 Rerate Error Verified as Present");
 		errorTab.cancel();
