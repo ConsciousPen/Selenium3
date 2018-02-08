@@ -8,6 +8,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.modules.regression.conversions.ConvHomeSsHO6BaseTest;
 import org.testng.annotations.Optional;
@@ -47,7 +48,16 @@ public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
         GeneralTab generalTab = new GeneralTab();
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
+        String reportTabInfo = new ReportsTab().getMetaKey();
+
         TestData td = getConversionPolicyDefaultTD();
+
+        TestData reportTab = td.getTestData(reportTabInfo);
+        td.adjust(reportTabInfo, reportTab);
+
+        reportTab.adjust(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel(),
+                getPolicyDefaultTD().getTestData("ReportsTab").getTestDataList("InsuranceScoreReport"));
+
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
         String effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
