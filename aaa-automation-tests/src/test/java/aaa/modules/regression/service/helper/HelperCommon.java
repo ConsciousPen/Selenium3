@@ -71,7 +71,7 @@ public class HelperCommon {
 		return validateEndorsementResponse;
 	}
 
-	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String vin, String policyNumber, String endorsementDate) {
+	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
 		if(endorsementDate!=null) {
 			requestUrl = requestUrl+"?endorsementDate="+endorsementDate;

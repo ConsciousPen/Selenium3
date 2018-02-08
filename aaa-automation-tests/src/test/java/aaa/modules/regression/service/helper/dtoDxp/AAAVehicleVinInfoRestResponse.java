@@ -55,21 +55,7 @@ public class AAAVehicleVinInfoRestResponse {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String entryDate;
 
-	public AAAVehicleVinInfoRestResponse(String vin, Integer year, String make, String modelText, String seriesText, String bodyStyleCd, String restraintsCode,
-			String restraintsCodeText, String antiLockCodeText, String antiTheftCode, String antiTheftCodeText, Boolean altFuel, String entryDate) {
-		this.vin = vin;
-		this.year = year;
-		this.make = make;
-		this.modelText = modelText;
-		this.seriesText = seriesText;
-		this.bodyStyleCd = bodyStyleCd;
-		this.restraintsCode = restraintsCode;
-		this.restraintsCodeText = restraintsCodeText;
-		this.antiLockCodeText = antiLockCodeText;
-		this.antiTheftCode = antiTheftCode;
-		this.antiTheftCodeText = antiTheftCodeText;
-		this.altFuel = altFuel;
-		this.entryDate = entryDate;
+	public AAAVehicleVinInfoRestResponse() {
 	}
 
 	public String getVin() {

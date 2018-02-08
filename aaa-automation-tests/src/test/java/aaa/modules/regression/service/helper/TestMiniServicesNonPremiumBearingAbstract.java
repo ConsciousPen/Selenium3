@@ -267,20 +267,58 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas8275_vinValidate(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
+/*		createCustomerIndividual();
 		policyType.get().createQuote(getPolicyTD());
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();*/
 
-		policy.dataGather().start();
-		NavigationPage.toViewTab(getPremiumAndCoverageTab());
-		getPremiumAndCoverageTabElement().saveAndExit();
+		String policyNumber = "VASS926232058";
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		String vin1 = "aaaa";
-		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinValidate(vin1, policyNumber, endorsementDate);
+		String vin1 = "aaaa"; //VIN too short
+		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinValidate(policyNumber, vin1, endorsementDate);
 		assertSoftly(softly -> {
 			softly.assertThat(response.getVehicles()).isEmpty();
-			softly.assertThat(response.getValidationMessage().contentEquals("sfs"));
+			softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid vin number length");
+		});
+
+		String vin2 = "12345678901234567890"; //VIN too long
+		AAAVehicleVinInfoRestResponseWrapper response2 = HelperCommon.executeVinValidate(policyNumber, vin2, null);
+		assertSoftly(softly -> {
+			softly.assertThat(response2.getVehicles()).isEmpty();
+			softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid vin number length");
+		});
+
+		String vin3 = "1D30E42K451234567"; //VIN check digit failed
+		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
+		assertSoftly(softly -> {
+			softly.assertThat(response3.getVehicles()).isEmpty();
+			softly.assertThat(response3.getValidationMessage()).isEqualTo("Invalid check digits");
+		});
+
+		String vin4 = "1D30E42K45"; //VIN from VIN table but too short
+		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
+		assertSoftly(softly -> {
+			softly.assertThat(response4.getVehicles()).isEmpty();
+			softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid vin number length");
+		});
+
+/*		String vin5 = "1D30E42J451234567"; //VIN NOT from VIN table to Check VIN service
+		AAAVehicleVinInfoRestResponseWrapper response5 = HelperCommon.executeVinValidate(policyNumber, vin5, null);
+		assertSoftly(softly -> {
+			softly.assertThat(response5.getVehicles()).isEmpty();
+			softly.assertThat(response5.getValidationMessage()).isEqualTo("");
+		});*/
+
+		String vin0 = "1D30E42K351234567"; //VIN from VIN table
+		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response0.getVehicles().get(0).getVin()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getYear().toString()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getMake()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getModelText()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getSeriesText()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getBodyStyleCd()).isNotEmpty();
+			softly.assertThat(response0.getValidationMessage()).isEmpty();
 		});
 	}
 
