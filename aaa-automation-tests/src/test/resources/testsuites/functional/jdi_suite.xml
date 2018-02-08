@@ -304,6 +304,9 @@
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                    <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas8275_vinValidate"/>
                 </methods>
             </class>
         </classes>

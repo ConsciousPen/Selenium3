@@ -16,9 +16,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
-import aaa.modules.regression.service.helper.dtoDxp.UpdateContactInfoRequest;
-import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
@@ -33,6 +31,7 @@ public class HelperCommon {
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
+	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
@@ -41,8 +40,6 @@ public class HelperCommon {
 	private static String urlBuilderAdmin(String endpointUrlPart) {
 		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.ADMIN_PORT) + endpointUrlPart;
 	}
-
-
 
 	public static <T> RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
 		String requestUrl = urlBuilderAdmin(ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT) + policyNumber + "/" + date;
@@ -64,8 +61,8 @@ public class HelperCommon {
 
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
-		if(endorsementDate!=null) {
-			requestUrl = requestUrl+"?endorsementDate="+endorsementDate;
+		if (endorsementDate != null) {
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
 		ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
 		return validateEndorsementResponse;
@@ -73,13 +70,25 @@ public class HelperCommon {
 
 	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
-		if(endorsementDate!=null) {
-			requestUrl = requestUrl+"?endorsementDate="+endorsementDate;
+		if (endorsementDate != null) {
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl,AAAVehicleVinInfoRestResponseWrapper.class);
+		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 		return validateVinResponse;
 	}
 
+	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
+		AAAEndorseRequest request = new AAAEndorseRequest();
+		request.endorsementDate = endorsementDate;
+		request.endorsementReason = "OTHPB";
+		request.endorsementReason = "Some reason why endorsement was done";
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_START_ENDPOINT, policyNumber));
+		if (endorsementDate != null) {
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+		}
+		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class);
+		return aaaEndorseResponse;
+	}
 
 	private void authentication() {
 		WebDriver driver = BrowserController.get().driver();
@@ -90,7 +99,6 @@ public class HelperCommon {
 		driver.switchTo().alert().accept();
 		driver.switchTo().defaultContent();
 	}
-
 
 	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
 		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
@@ -128,7 +136,7 @@ public class HelperCommon {
 					.post(Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+			if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != Response.Status.CREATED.getStatusCode()) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}

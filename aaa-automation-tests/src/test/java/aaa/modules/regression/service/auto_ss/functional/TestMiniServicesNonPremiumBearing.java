@@ -23,220 +23,263 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy
-     * 3. Run a request in Swagger-UI
-     * 4. Check Transaction history contains "Email Updated - External System"  for a new endorsement
-     * 5. Check quote in Inquiry mode has new eMail address in General Tab and in Documents Tab
-     * 6. Do one more endorsement, issue
-     * Check there is no extra Actions for the product
-     * Check that number of document records in the DB before running the eMail update is equal to the number of document records after update
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-1441", "PAS-5986, PAS-343"})
-    public void pas1441_emailChangeOutOfPas(@Optional("VA") String state) {
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test Email change through service
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Run a request in Swagger-UI
+	 * 4. Check Transaction history contains "Email Updated - External System"  for a new endorsement
+	 * 5. Check quote in Inquiry mode has new eMail address in General Tab and in Documents Tab
+	 * 6. Do one more endorsement, issue
+	 * Check there is no extra Actions for the product
+	 * Check that number of document records in the DB before running the eMail update is equal to the number of document records after update
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-1441", "PAS-5986, PAS-343"})
+	public void pas1441_emailChangeOutOfPas(@Optional("VA") String state) {
 
-        CustomAssert.enableSoftMode();
-        pas1441_emailChangeOutOfPasTestBody(getPolicyType());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+		CustomAssert.enableSoftMode();
+		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can be performed through service without sending Effective date
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create an endorsement, issue
+	 * 4. Check Green Button endorsement is allowed and there are no errors present
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy
-     * 3. Create an endorsement, issue
-     * 4. Check Green Button endorsement is allowed and there are no errors present
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("VA") String state) {
+		pas6560_endorsementValidateAllowedNoEffectiveDate(getPolicyType());
+	}
 
-        pas6560_endorsementValidateAllowedNoEffectiveDate(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can be performed through service when there is another completed endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create an endorsement, issue
+	 * 4. Check Green Button endorsement is allowed and there are no errors present
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy
-     * 3. Create an endorsement, issue
-     * 4. Check Green Button endorsement is allowed and there are no errors present
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
+		pas6560_endorsementValidateAllowed(getPolicyType());
+	}
 
-        pas6560_endorsementValidateAllowed(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can be performed through service when there is another User created Pended endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Start an endorsement created by user, but not finish (Pended Endorsement)
+	 * 4. Check Green Button endorsement is allowed and there are no errors
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
+	public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy
-     * 3. Start an endorsement created by user, but not finish (Pended Endorsement)
-     * 4. Check Green Button endorsement is allowed and there are no errors
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-    public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
+		pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
+	}
 
-        pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create endorsement in the Future, issue
+	 * 4. Check Endorsement is Not allowed and there is an error about OOSE or Future Dated Endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy
-     * 3. Create endorsement in the Future, issue
-     * 4. Check Endorsement is Not allowed and there is an error about OOSE or Future Dated Endorsement
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("VA") String state) {
+		pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
+	}
 
-        pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can NOT be performed through service for NANO policy
+	 * @scenario 1. Create customer
+	 * 2. Create a NANO policy
+	 * 3. Check Green Button endorsement is not allowed. There is a PolicyRules error about NANO
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6562_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a NANO policy
-     * 3. Check Green Button endorsement is not allowed. There is a PolicyRules error about NANO
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6562_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
+		pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
+	}
 
-        pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can NOT be performed through service when there is Pended System Endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Start an endorsement created by System, but not finish (Pended Endorsement)
+	 * 4. Check Green Button endorsement is not allowed. There is a PolicyRules error about System Pended Endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy
-     * 3. Start an endorsement created by System, but not finish (Pended Endorsement)
-     * 4. Check Green Button endorsement is not allowed. There is a PolicyRules error about System Pended Endorsement
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("VA") String state) {
+		pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
+	}
 
-        pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can be performed through service when the vehicle has UBI
+	 * @scenario 1. Create customer
+	 * 2. Create a policy with a vehicle with UBI
+	 * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6562_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy with a vehicle with UBI
-     * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6562_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
+		pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
+	}
 
-        pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test Email change through service
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Check Green Button endorsement is not allowed for the date outside of policy term
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("") String state) {
 
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Email change through service
-     * @scenario 1. Create customer
-     * 2. Create a policy with a vehicle with UBI
-     * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-    public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("VA") String state) {
+		pas6562_endorsementValidateNotAllowedOutOfBound(getPolicyType());
+	}
 
-        pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Pended System endorsement
+	 * 4. run Start Endorsement Service
+	 * 5. Check Endorsement is deleted and User Endorsement is created instead
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332"})
+	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
-    public void pas8275_vinValidate(@Optional("") String state) {
+		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "System");
+	}
 
-        pas8275_vinValidateCheck(getPolicyType());
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Pended Agent endorsement
+	 * 4. run Start Endorsement Service
+	 * 5. Check Endorsement is deleted and User Endorsement is created instead
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332"})
+	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
 
-    @Override
-    protected String getGeneralTab() {
-        return NavigationEnum.AutoSSTab.GENERAL.get();
-    }
+		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "Agent");
+	}
 
-    @Override
-    protected String getPremiumAndCoverageTab() {
-        return NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get();
-    }
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test Email change through service
+	 * @scenario 1. Create customer
+	 * 2. Create a policy with a vehicle with UBI
+	 * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
+	public void pas8275_vinValidate(@Optional("") String state) {
 
-    @Override
-    protected String getDocumentsAndBindTab() {
-        return NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get();
-    }
+		pas8275_vinValidateCheck(getPolicyType());
+	}
 
-    @Override
-    protected String getVehicleTab() {
-        return NavigationEnum.AutoSSTab.VEHICLE.get();
-    }
+	@Override
+	protected String getGeneralTab() {
+		return NavigationEnum.AutoSSTab.GENERAL.get();
+	}
 
-    @Override
-    protected Tab getGeneralTabElement() {
-        return new GeneralTab();
-    }
+	@Override
+	protected String getPremiumAndCoverageTab() {
+		return NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get();
+	}
 
-    @Override
-    protected Tab getPremiumAndCoverageTabElement() {
-        return new PremiumAndCoveragesTab();
-    }
+	@Override
+	protected String getDocumentsAndBindTab() {
+		return NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get();
+	}
 
-    @Override
-    protected Tab getDocumentsAndBindTabElement() {
-        return new DocumentsAndBindTab();
-    }
+	@Override
+	protected String getVehicleTab() {
+		return NavigationEnum.AutoSSTab.VEHICLE.get();
+	}
 
-    @Override
-    protected Tab getVehicleTabElement() {
-        return new VehicleTab();
-    }
+	@Override
+	protected Tab getGeneralTabElement() {
+		return new GeneralTab();
+	}
 
-    @Override
-    protected AssetDescriptor<Button> getCalculatePremium() {
-        return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
-    }
+	@Override
+	protected Tab getPremiumAndCoverageTabElement() {
+		return new PremiumAndCoveragesTab();
+	}
+
+	@Override
+	protected Tab getDocumentsAndBindTabElement() {
+		return new DocumentsAndBindTab();
+	}
+
+	@Override
+	protected Tab getVehicleTabElement() {
+		return new VehicleTab();
+	}
+
+	@Override
+	protected AssetDescriptor<Button> getCalculatePremium() {
+		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
+	}
 
 }

@@ -16,9 +16,11 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
 import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
 import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
 import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
@@ -178,23 +180,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		getDocumentsAndBindTabElement().saveAndExit();
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
-		//Update to make the endorsement SYSTEM
-		String getPolicySummaryId = "select id from (\n"
-				+ "select ps.id, ps.SYSGENERATEDTXIND\n"
-				+ "from policysummary ps\n"
-				+ "where policynumber = '%s'\n"
-				+ "order by id desc)\n"
-				+ "where rownum = 1 ";
-		String updateSystemGeneratedInd = "update policysummary ps\n"
-				+ "set ps.SYSGENERATEDTXIND = 1\n"
-				+ "where id = %s";
-
-		String policySummaryId = DBService.get().getValue(String.format(getPolicySummaryId, policyNumber)).get();
-		DBService.get().executeUpdate(String.format(updateSystemGeneratedInd, policySummaryId));
+		convertAgentEndorsementToSystemEndorsement(policyNumber);
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
-		//TODO should fail here
+
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -265,6 +255,27 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
+	protected void pas6562_endorsementValidateNotAllowedOutOfBound(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
+		//TODO will fail here due to not in policy term
+		assertSoftly(softly -> {
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
+			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
+			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
+		});
+	}
+
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
 		mainApp().open();
 /*		createCustomerIndividual();
@@ -320,6 +331,58 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response0.getVehicles().get(0).getBodyStyleCd()).isNotEmpty();
 			softly.assertThat(response0.getValidationMessage()).isEmpty();
 		});
+	}
+
+	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Pended Endorsement creation
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
+		NavigationPage.toViewSubTab(getPremiumAndCoverageTab());//to get status = Premium Calculated
+		getPremiumAndCoverageTabElement().saveAndExit();
+		if ("System".equals(endorsementType)) {
+			convertAgentEndorsementToSystemEndorsement(policyNumber);
+		}
+		createdEndorsementTransactionProperties("Premium Calculated", TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY), "QA QA user");
+		//Start endorsement service call
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertSoftly(softly ->
+			softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
+		);
+
+		//check that new endorsement was created
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		//TODO Megha's update
+		createdEndorsementTransactionProperties("Premium Calculated", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "QA QA user");
+	}
+
+	private void createdEndorsementTransactionProperties(String status, String date, String user) {
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value("Premium Calculated");
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer").verify.value("QA QA user");
+	}
+
+	private void convertAgentEndorsementToSystemEndorsement(String policyNumber) {
+		String getPolicySummaryId = "select id from (\n"
+				+ "select ps.id, ps.SYSGENERATEDTXIND\n"
+				+ "from policysummary ps\n"
+				+ "where policynumber = '%s'\n"
+				+ "order by id desc)\n"
+				+ "where rownum = 1 ";
+		String updateSystemGeneratedInd = "update policysummary ps\n"
+				+ "set ps.SYSGENERATEDTXIND = 1\n"
+				+ "where id = %s";
+
+		String policySummaryId = DBService.get().getValue(String.format(getPolicySummaryId, policyNumber)).get();
+		DBService.get().executeUpdate(String.format(updateSystemGeneratedInd, policySummaryId));
 	}
 
 	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
