@@ -57,7 +57,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 
 		initiateManualConversion(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d>"));
 		policy.getDefaultView().fillUpTo(testdata, BindTab.class);
-		overrideAndBind();
+		verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
 
 	/**
@@ -89,22 +89,9 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 
 		PolicyType.PUP.get().initiate();
 		policy.getDefaultView().fillUpTo(testdata, BindTab.class);
-		overrideAndBind();
+        verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
 
-	private void overrideAndBind() {
-		bindTab.submitTab();
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
-		errorTab.overrideAllErrors();
-		errorTab.override();
-		bindTab.submitTab();
-
-		if(!PolicySummaryPage.labelPolicyNumber.isPresent()){
-			purchaseTab.fillTab(getPolicyTD());
-			purchaseTab.submitTab();
-		}
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
 }
 
 
