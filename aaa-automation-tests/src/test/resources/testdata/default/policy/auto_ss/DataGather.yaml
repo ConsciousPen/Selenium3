@@ -72,6 +72,7 @@ DriverTab: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'UT',
   License Number: 400064773
 }
 
@@ -84,6 +85,7 @@ RatingDetailReportsTab: {
 }
 
 VehicleTab: {
+  Type: 'Private Passenger Auto',
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273,
 }
@@ -170,7 +172,7 @@ PolicyInformation_AZ: {
   Agency: 'AAA Arizona - 500001004',
   Sales Channel: 'Captive Branch Agents',
   Agency Location: 'contains=500005091 - Chandler',
-  Agent: 'House Agent Mesa',
+  Agent: 'Foster Bottenberg',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -180,6 +182,7 @@ DriverTab_AZ: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'AZ',
   License Number: A12345678
 }
 
@@ -224,6 +227,7 @@ DriverTab_CO: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'CO',
   License Number: A552183
 }
 
@@ -275,6 +279,7 @@ DriverTab_CT: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'CT',
   License Number: 156773434
 }
 
@@ -337,6 +342,7 @@ DriverTab_DC: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'DC',
   License Number: 9992617
 }
 
@@ -400,6 +406,7 @@ DriverTab_DE: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'DE',
   License Number: 7135439
 }
 
@@ -457,6 +464,7 @@ DriverTab_ID: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'ID',
   License Number: AA223456A
 }
 
@@ -501,6 +509,7 @@ DriverTab_IN: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'IN',
   License Number: 154673421
 }
 
@@ -545,6 +554,7 @@ DriverTab_KS: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'KS',
   License Number: B54673421
 }
 
@@ -600,6 +610,7 @@ DriverTab_KY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'KY',
   License Number: A12121215
 }
 
@@ -644,6 +655,7 @@ DriverTab_MD: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'MD',
   License Number: S123456789999
 }
 
@@ -709,6 +721,7 @@ DriverTab_MT: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'MT',
   License Number: 212790136
 }
 
@@ -761,6 +774,7 @@ DriverTab_NJ: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'NJ',
   License Number: A12345678987657
 }
 
@@ -818,6 +832,7 @@ DriverTab_NV: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'NV',
   License Number: 2127901365
 }
 
@@ -863,10 +878,12 @@ DriverTab_NY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'NY',
   License Number: A5467342112658242
 }
 
 VehicleTab_NY: {
+  Type: 'Private Passenger Auto',
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273,
   "Less Than 3,000 Miles": 'No'
@@ -926,6 +943,7 @@ DriverTab_OH: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'OH',
   License Number: AB546734
 }
 
@@ -970,6 +988,7 @@ DriverTab_OK: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'OK',
   License Number: 123123121
 }
 
@@ -1025,6 +1044,7 @@ DriverTab_OR: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'OR',
   License Number: 001234567
 }
 
@@ -1069,6 +1089,7 @@ DriverTab_PA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'PA',
   License Number: 83127880
 }
 
@@ -1107,6 +1128,7 @@ DriverTab_SD: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'SD',
   License Number: 112345678
 }
 
@@ -1174,6 +1196,7 @@ DriverTab_VA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'VA',
   License Number: 831278809
 }
 
@@ -1226,6 +1249,7 @@ DriverTab_WV: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'WV',
   License Number: S123456
 }
 
@@ -1281,5 +1305,6 @@ DriverTab_WY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
+  License State: 'WY',
   License Number: 4000647712
 }

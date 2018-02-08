@@ -74,7 +74,7 @@ NamedInsuredInformation: {
   Address Line 1: test,
   Residence: Own Home,
   Validate Address: click,
-  Validate Address Dialog: {}
+  Validate Address Dialog: {Street Name: test}
 }
 
 #AAAProductOwned: {

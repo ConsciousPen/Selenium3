@@ -24,7 +24,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueMembershipProcessJobAdding" parallel="methods" thread-count="1024">
+<!--    <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
@@ -32,10 +32,10 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
 
-    <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
+<!--    <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -45,8 +45,8 @@
                 </methods>
             </class>
         </classes>
-    </test>
-    <test name="TestRefundProcessDC" parallel="methods" thread-count="1024">
+    </test>-->
+<!--    <test name="TestRefundProcessDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -56,7 +56,7 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
     <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -211,7 +211,7 @@
         </classes>
     </test>
 
-    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
+<!--    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
@@ -230,7 +230,7 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
     <test name="TestEValueDiscountDCandVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC, VA"/>
         <classes>
@@ -261,7 +261,7 @@
         </classes>
     </test>
 
-    <test name="GreenButtonService" parallel="methods" thread-count="1024">
+<!--    <test name="GreenButtonService" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -277,10 +277,11 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <parameter name="state" value="VA, WV, WY"/>
+        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>

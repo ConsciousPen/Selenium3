@@ -1,0 +1,328 @@
+TestData: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_UT'
+}
+
+InitiateRenewalEntryActionTab_UT: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: UT,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_AZ: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_AZ'
+}
+
+InitiateRenewalEntryActionTab_AZ: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: AZ,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_CO: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_CO'
+}
+
+InitiateRenewalEntryActionTab_CO: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: CO,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_CT: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_CT'
+}
+
+InitiateRenewalEntryActionTab_CT: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: CT,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_ID: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_ID'
+}
+
+InitiateRenewalEntryActionTab_ID: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: ID,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_IN: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_IN'
+}
+
+InitiateRenewalEntryActionTab_IN: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: IN,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_KS: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_KS'
+}
+
+InitiateRenewalEntryActionTab_KS: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: KS,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_KY: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_KY'
+}
+
+InitiateRenewalEntryActionTab_KY: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: KY,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_MT: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_MT'
+}
+
+InitiateRenewalEntryActionTab_MT: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: MT,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_NV: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_NV'
+}
+
+InitiateRenewalEntryActionTab_NV: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: NV,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_NY: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_NY'
+}
+
+InitiateRenewalEntryActionTab_NY: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: NY,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+TestData_OH: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_OH'
+}
+
+InitiateRenewalEntryActionTab_OH: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: OH,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_OK: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_OK'
+}
+
+InitiateRenewalEntryActionTab_OK: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: OK,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_OR: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_OR'
+}
+
+InitiateRenewalEntryActionTab_OR: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: OR,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_SD: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_SD'
+}
+
+InitiateRenewalEntryActionTab_SD: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: SD,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_WV: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_WV'
+}
+
+InitiateRenewalEntryActionTab_WV: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: WV,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_WY: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_WY'
+}
+
+InitiateRenewalEntryActionTab_WY: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: SIS,
+  Risk State: WY,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_MD: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_MD'
+}
+
+InitiateRenewalEntryActionTab_MD: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: MD,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_PA: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_PA'
+}
+
+InitiateRenewalEntryActionTab_PA: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: PA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_DE: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_DE'
+}
+
+InitiateRenewalEntryActionTab_DE: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: DE,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_NJ: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_NJ'
+}
+
+InitiateRenewalEntryActionTab_NJ: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: NJ,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+TestData_VA: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_VA'
+}
+
+InitiateRenewalEntryActionTab_VA: {
+  Product Name: 'Auto Signature Series',
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: VA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
