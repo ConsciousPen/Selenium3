@@ -74,7 +74,7 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 
 		premiumAndCoveragesQuoteTab.calculatePremium();
 
-		//TODO Commented out because of new case introduction attached as an email on pas4270. If the Issue described is fixed these lines needs to be uncommented
+		//TODO If the Issue described in pas4270 attached email is fixed these lines needs to be uncommented. If it is decided that the issue will not be fixed they can be removed.
 //		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS2260177);
 //		errorTab.cancel();
 		assertThat(premiumAndCoveragesQuoteTab.getAssetList().getAsset("Payment Plan").isPresent()).isTrue();
