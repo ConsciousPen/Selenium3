@@ -47,7 +47,6 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		// Build MSRP Vehicle
 		TestData testDataVehicleTabMotorHome = DataProviderFactory.emptyData()
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
-				.adjust("InformationNoticeDialog", testDataInformationNoticeDialog)
 				.adjust(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), "index=2")
 				.adjust(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "index=1")
 				.adjust(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2018")
