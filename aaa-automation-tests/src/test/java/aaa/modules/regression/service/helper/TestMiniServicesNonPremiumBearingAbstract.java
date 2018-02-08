@@ -265,7 +265,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas8275_vinValidate(PolicyType policyType) {
+	protected void pas8275_vinValidateCheck(PolicyType policyType) {
 		mainApp().open();
 /*		createCustomerIndividual();
 		policyType.get().createQuote(getPolicyTD());
@@ -278,36 +278,36 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinValidate(policyNumber, vin1, endorsementDate);
 		assertSoftly(softly -> {
 			softly.assertThat(response.getVehicles()).isEmpty();
-			softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid vin number length");
+			softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid VIN length");
 		});
 
 		String vin2 = "12345678901234567890"; //VIN too long
 		AAAVehicleVinInfoRestResponseWrapper response2 = HelperCommon.executeVinValidate(policyNumber, vin2, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response2.getVehicles()).isEmpty();
-			softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid vin number length");
+			softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
 		});
 
 		String vin3 = "1D30E42K451234567"; //VIN check digit failed
 		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response3.getVehicles()).isEmpty();
-			softly.assertThat(response3.getValidationMessage()).isEqualTo("Invalid check digits");
+			softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
 		});
 
 		String vin4 = "1D30E42K45"; //VIN from VIN table but too short
 		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getVehicles()).isEmpty();
-			softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid vin number length");
+			softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid VIN length");
 		});
 
-/*		String vin5 = "1D30E42J451234567"; //VIN NOT from VIN table to Check VIN service
+		String vin5 = "1D30E42J451234567"; //VIN NOT from VIN table to Check VIN service
 		AAAVehicleVinInfoRestResponseWrapper response5 = HelperCommon.executeVinValidate(policyNumber, vin5, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response5.getVehicles()).isEmpty();
-			softly.assertThat(response5.getValidationMessage()).isEqualTo("");
-		});*/
+			softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
+		});
 
 		String vin0 = "1D30E42K351234567"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);

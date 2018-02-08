@@ -191,7 +191,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
     public void pas8275_vinValidate(@Optional("") String state) {
 
-        pas8275_vinValidate(getPolicyType());
+        pas8275_vinValidateCheck(getPolicyType());
     }
 
     @Override
