@@ -204,6 +204,14 @@ public class Scenario10 extends ScenarioBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			new DocumentsAndBindTab().submitTab();
 		} 
+		else if (getPolicyType().equals(PolicyType.PUP)) {
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+			new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().fillTab(renewalTD, true);
+			//new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+			new aaa.main.modules.policy.pup.defaulttabs.BindTab().submitTab();
+		}
 		else {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get()); 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get()); 
