@@ -1,11 +1,12 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
 
+import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Vehicle Information")
-public class Vehicle {
+public class Vehicle implements RestBodyRequest {
 
     @ApiModelProperty(value = "Model year", example = "2002")
     public String modelYear;
@@ -33,9 +34,6 @@ public class Vehicle {
         return modelYear;
     }
 
-    public void setModelYear(String modelYear) {
-        this.modelYear = modelYear;
-    }
 
     public String getManufacturer() {
         return manufacturer;
