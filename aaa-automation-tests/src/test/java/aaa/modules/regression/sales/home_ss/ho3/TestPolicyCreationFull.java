@@ -50,8 +50,6 @@ public class TestPolicyCreationFull extends HomeSSHO3BaseTest {
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, EndorsementTab.class, true);
-
-		Waiters.SLEEP(5000);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 		ReportsTab reportsTab = new ReportsTab();

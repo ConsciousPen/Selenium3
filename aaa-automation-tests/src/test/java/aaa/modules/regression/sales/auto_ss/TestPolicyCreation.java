@@ -13,6 +13,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.utils.TestInfo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Jelena Dembovska
@@ -35,7 +36,7 @@ public class TestPolicyCreation extends AutoSSBaseTest {
         createCustomerIndividual();
         createPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
     }
 }
