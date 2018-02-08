@@ -253,7 +253,7 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
-	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, String eventName) {
+	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
 		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
 

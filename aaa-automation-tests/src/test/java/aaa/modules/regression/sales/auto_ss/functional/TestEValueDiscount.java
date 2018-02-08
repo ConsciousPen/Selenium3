@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
@@ -1322,7 +1323,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         PremiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         DocumentsAndBindTab.btnGenerateDocuments.click();
-        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
+        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE);
         if (document != null) {
             verifyAHEVAXXTag(document, "AAAMemYN", aaaMemYN);
             verifyAHEVAXXTag(document, "CurrentBIYN", currentBIYN);
