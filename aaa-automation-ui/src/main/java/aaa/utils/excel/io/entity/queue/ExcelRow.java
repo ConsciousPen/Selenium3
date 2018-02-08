@@ -1,15 +1,14 @@
 package aaa.utils.excel.io.entity.queue;
 
 import org.apache.poi.ss.usermodel.Row;
-import aaa.utils.excel.io.entity.area.EditableCellsArea;
-import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.cell.ExcelCell;
 
-public abstract class ExcelRow extends EditableCellsQueue {
+public abstract class ExcelRow<C extends ExcelCell> extends CellsQueue<C> {
 	protected Row row;
 
-	protected ExcelRow(Row row, int rowIndex, EditableCellsArea cellsArea) {
-		super(rowIndex, cellsArea);
+	protected ExcelRow(Row row, int rowIndex, ExcelManager excelManager) {
+		super(rowIndex, excelManager);
 		this.row = row;
 	}
 
@@ -22,25 +21,25 @@ public abstract class ExcelRow extends EditableCellsQueue {
 		return getPoiRow() == null || getPoiRow().getLastCellNum() <= 0 || super.isEmpty();
 	}
 
-	@Override
-	public ExcelRow exclude() {
-		((EditableCellsArea) getArea()).excludeRows(this.getIndex());
+	/*@Override
+	public ExcelRow<C> exclude() {
+		getArea().excludeRows(this.getIndex());
 		return this;
-	}
+	}*/
 
-	@Override
-	public ExcelRow copy(int destinationRowIndex) {
-		for (ExcelCell cell : getCells()) {
-			((EditableCell) cell).copy(destinationRowIndex, cell.getColumnIndex());
+	/*@Override
+	public ExcelRow<C> copy(int destinationRowIndex) {
+		for (C cell : this) {
+			cell.copy(destinationRowIndex, cell.getColumnIndex());
 		}
 		return this;
-	}
+	}*/
 
-	@Override
-	public EditableCellsArea delete() {
-		((EditableCellsArea) getArea()).deleteRows(getIndex());
-		return (EditableCellsArea) getArea();
-	}
+	/*@Override
+	public EditableCellsArea<?, ?> delete() {
+		getArea().deleteRows(getIndex());
+		return getArea();
+	}*/
 
 	@Override
 	public String toString() {

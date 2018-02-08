@@ -4,19 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.EditableCellsArea;
-import aaa.utils.excel.io.entity.queue.ExcelRow;
+import aaa.utils.excel.io.entity.queue.EditableRow;
 
-public class EditableCell extends ExcelCell {
-
+public abstract class EditableCell extends ExcelCell {
 	protected static Logger log = LoggerFactory.getLogger(EditableCell.class);
 
-	public EditableCell(Cell cell, ExcelRow row, int columnIndex) {
+	public EditableCell(Cell cell, EditableRow<?> row, int columnIndex) {
 		super(cell, row, columnIndex);
 	}
 
@@ -29,10 +27,12 @@ public class EditableCell extends ExcelCell {
 		return this;
 	}
 
-	EditableCell setCellTypes(Set<CellType<?>> cellTypes) {
+	public EditableCell setCellTypes(Set<CellType<?>> cellTypes) {
 		this.cellTypes = new HashSet<>(cellTypes);
 		return this;
 	}
+
+	protected abstract <E extends EditableCell> EditableCellsArea<E, ?, ?> getArea();
 
 	public EditableCell registerCellType(CellType<?>... cellTypes) {
 		Set<CellType<?>> typesCopy = getCellTypes();
@@ -47,10 +47,7 @@ public class EditableCell extends ExcelCell {
 		return this;
 	}
 
-	public EditableCell excludeColumn() {
-		((EditableCellsArea) getRow().getArea()).excludeColumns(getColumnIndex());
-		return this;
-	}
+	public abstract EditableCell excludeColumn();
 
 	public EditableCell clear() {
 		if (!isEmpty()) {
@@ -69,7 +66,7 @@ public class EditableCell extends ExcelCell {
 	}
 
 	public EditableCell copy(int destinationRowIndex, int destinationCellIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
-		return copy((EditableCell) getRow().getArea().getCell(destinationRowIndex, destinationCellIndex), copyCellStyle, copyComment, copyHyperlink);
+		return copy(getArea().getCell(destinationRowIndex, destinationCellIndex), copyCellStyle, copyComment, copyHyperlink);
 	}
 
 	public EditableCell copy(EditableCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
@@ -93,8 +90,6 @@ public class EditableCell extends ExcelCell {
 		return this;
 	}
 
-	public EditableCell delete() {
-		//TODO-dchubkov: implement delete ExcelCell and TableCell
-		throw new NotImplementedException("Cell deletion is not implemented yet");
-	}
+	public abstract EditableCell delete();
+
 }

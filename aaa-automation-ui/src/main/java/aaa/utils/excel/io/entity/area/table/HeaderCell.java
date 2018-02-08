@@ -12,20 +12,15 @@ public class HeaderCell extends ExcelCell {
 	}
 
 	public String getHeaderColumnName() {
-		return getRow().getColumnName(getColumnIndex());
+		return ((TableRow) getRow()).getColumnName(getColumnIndex());
 	}
 
 	public ExcelTable getTable() {
-		return getRow().getTable();
+		return ((TableRow) getRow()).getTable();
 	}
 
 	public int getColumnIndexOnSheet() {
 		return this.columnIndex;
-	}
-
-	@Override
-	public TableRow getRow() {
-		return (TableRow) super.getRow();
 	}
 
 	@Override

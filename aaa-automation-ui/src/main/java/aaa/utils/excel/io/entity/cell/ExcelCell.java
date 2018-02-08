@@ -30,16 +30,16 @@ public class ExcelCell implements Writable {
 	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
-	protected ExcelRow row;
+	protected ExcelRow<?> row;
 	protected Cell cell;
 	protected int columnIndex;
 	protected Set<CellType<?>> cellTypes;
 
-	protected ExcelCell(Cell cell, ExcelRow row, int columnIndex) {
+	protected ExcelCell(Cell cell, ExcelRow<?> row, int columnIndex) {
 		this(cell, row, columnIndex, row.getCellTypes());
 	}
 
-	protected ExcelCell(Cell cell, ExcelRow row, int columnIndex, Set<CellType<?>> cellTypes) {
+	protected ExcelCell(Cell cell, ExcelRow<?> row, int columnIndex, Set<CellType<?>> cellTypes) {
 		this.row = row;
 		this.cell = normalizeCell(cell);
 		this.columnIndex = columnIndex;
@@ -53,7 +53,7 @@ public class ExcelCell implements Writable {
 		return cell;
 	}
 
-	public ExcelRow getRow() {
+	public ExcelRow<?> getRow() {
 		return row;
 	}
 
@@ -126,16 +126,8 @@ public class ExcelCell implements Writable {
 		return getValue(DOUBLE_TYPE);
 	}
 
-	public LocalDateTime getDateValue(DateTimeFormatter... formatters) {
-		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).getValueFrom(this, formatters);
-	}
-
 	public boolean isNumeric() {
 		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
-	}
-
-	public boolean isDate(DateTimeFormatter... formatters) {
-		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).isTypeOf(this, formatters);
 	}
 
 	@Override
@@ -151,6 +143,14 @@ public class ExcelCell implements Writable {
 				", Cell Types=" + getCellTypes() +
 				", Cell value=" + getStringValue() +
 				'}';
+	}
+
+	public LocalDateTime getDateValue(DateTimeFormatter... formatters) {
+		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).getValueFrom(this, formatters);
+	}
+
+	public boolean isDate(DateTimeFormatter... formatters) {
+		return ((LocalDateTimeCellType) LOCAL_DATE_TIME_TYPE).isTypeOf(this, formatters);
 	}
 
 	public <T> T getValue(CellType<T> cellType) {

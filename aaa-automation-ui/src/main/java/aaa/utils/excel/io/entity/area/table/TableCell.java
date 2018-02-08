@@ -1,5 +1,6 @@
 package aaa.utils.excel.io.entity.area.table;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.entity.cell.EditableCell;
 
@@ -23,6 +24,17 @@ public class TableCell extends EditableCell {
 		return this.columnIndex;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	protected ExcelTable getArea() {
+		return getTable();
+	}
+
+	/*@Override
+	public TableRow getRow() {
+		return (TableRow) super.getRow();
+	}*/
+
 	@Override
 	public TableRow getRow() {
 		return (TableRow) super.getRow();
@@ -43,6 +55,18 @@ public class TableCell extends EditableCell {
 				", Cell value=" + getStringValue() +
 				", Cell Types=" + getCellTypes() +
 				'}';
+	}
+
+	@Override
+	public EditableCell excludeColumn() {
+		getTable().excludeColumns(getColumnIndex());
+		return this;
+	}
+
+	@Override
+	public EditableCell delete() {
+		//TODO-dchubkov: implement delete ExcelCell and TableCell
+		throw new NotImplementedException("Cell deletion is not implemented yet");
 	}
 
 	public TableCell copy(int destinationRowIndex, String destinationHeaderColumnName) {

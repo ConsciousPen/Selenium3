@@ -1,33 +1,28 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.entity.cell.ExcelCell;
-import aaa.utils.excel.io.entity.iterator.CellIterator;
-import aaa.utils.excel.io.entity.queue.CellsQueue;
+import aaa.utils.excel.io.entity.queue.ExcelRow;
 
-public class TableHeader extends CellsQueue implements Iterable<HeaderCell> {
+public class TableHeader extends ExcelRow<HeaderCell> {
 	protected Row headerRow;
 	protected Map<Integer, HeaderCell> headerCells;
+	private ExcelTable table;
 
 	public TableHeader(Row headerRow, ExcelTable table) {
-		super(headerRow.getRowNum() + 1, table);
+		super(headerRow, headerRow.getRowNum() + 1, table.getExcelManager());
 		this.headerRow = headerRow;
+		this.table = table;
 		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
 	}
 
-	public Row getPoiRow() {
-		return this.headerRow;
-	}
-
 	public ExcelTable getTable() {
-		return (ExcelTable) getArea();
+		return this.table;
 	}
 
 	public List<String> getColumnsNames() {
@@ -55,16 +50,21 @@ public class TableHeader extends CellsQueue implements Iterable<HeaderCell> {
 	}
 
 	@Override
+	public Row getPoiRow() {
+		return this.headerRow;
+	}
+
+	@Override
 	public int getIndex() {
 		return 0;
 	}
 
-	@Override
+	/*@Override
 	@Nonnull
 	@SuppressWarnings("unchecked")
 	public Iterator<HeaderCell> iterator() {
 		return (Iterator<HeaderCell>) new CellIterator(this);
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -75,7 +75,7 @@ public class TableHeader extends CellsQueue implements Iterable<HeaderCell> {
 
 	@Override
 	public HeaderCell getCell(int queueIndex) {
-		return (HeaderCell) super.getCell(queueIndex);
+		return super.getCell(queueIndex);
 	}
 
 	public boolean hasColumn(String headerColumnName) {

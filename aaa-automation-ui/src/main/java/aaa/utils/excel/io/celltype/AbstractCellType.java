@@ -17,15 +17,6 @@ public abstract class AbstractCellType<T> implements CellType<T> {
 		return endType;
 	}
 
-	public EditableCell createPoiCellIfNull(EditableCell cell) {
-		Cell poiCell = cell.getPoiCell();
-		if (poiCell == null) {
-			poiCell = cell.getRow().getPoiRow().createCell(cell.getColumnIndex() - 1);
-			cell.setPoiCell(poiCell);
-		}
-		return cell;
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -50,16 +41,25 @@ public abstract class AbstractCellType<T> implements CellType<T> {
 				'}';
 	}
 
+	@Override
+	public String getText(ExcelCell cell) {
+		return ExcelCell.STRING_TYPE.getText(cell);
+	}
+
+	public EditableCell createPoiCellIfNull(EditableCell cell) {
+		Cell poiCell = cell.getPoiCell();
+		if (poiCell == null) {
+			poiCell = cell.getRow().getPoiRow().createCell(cell.getColumnIndex() - 1);
+			cell.setPoiCell(poiCell);
+		}
+		return cell;
+	}
+
 	public boolean hasValueInTextFormat(ExcelCell cell) {
 		if (cell.getPoiCell() == null) {
 			return false;
 		}
 		org.apache.poi.ss.usermodel.CellType type = cell.getPoiCell().getCellTypeEnum();
 		return type == org.apache.poi.ss.usermodel.CellType.STRING || type == org.apache.poi.ss.usermodel.CellType.BLANK;
-	}
-
-	@Override
-	public String getText(ExcelCell cell) {
-		return ExcelCell.STRING_TYPE.getText(cell);
 	}
 }

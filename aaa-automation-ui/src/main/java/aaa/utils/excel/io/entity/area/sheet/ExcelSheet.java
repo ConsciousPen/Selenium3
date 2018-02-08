@@ -4,12 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -19,13 +17,10 @@ import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.EditableCellsArea;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
-import aaa.utils.excel.io.entity.cell.EditableCell;
 import aaa.utils.excel.io.entity.cell.ExcelCell;
-import aaa.utils.excel.io.entity.iterator.RowIterator;
-import aaa.utils.excel.io.entity.queue.CellsQueue;
 import toolkit.exceptions.IstfException;
 
-public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> {
+public class ExcelSheet extends EditableCellsArea<SheetCell, SheetRow, SheetColumn> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelSheet.class);
 
 	private int sheetIndex;
@@ -52,7 +47,7 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 	}
 
 	/**
-	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and {@link #getTable(int, String...)} methods
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, boolean, String...)} and {@link #getTable(int, boolean, String...)} methods
 	 */
 	public List<ExcelTable> getTables() {
 		return new ArrayList<>(this.tables);
@@ -63,7 +58,7 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetRow> getRowsMap() {
 		if (this.rows == null) {
 			this.rows = new LinkedHashMap<>(this.rowsIndexes.size());
@@ -76,7 +71,7 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetColumn> getColumnsMap() {
 		if (this.columns == null) {
 			this.columns = new LinkedHashMap<>(this.columnsIndexes.size());
@@ -91,19 +86,19 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 	@Override
 	public ExcelSheet excludeColumns(Integer... columnsIndexes) {
 		for (Integer cIndex : columnsIndexes) {
-			for (CellsQueue row : getRows()) {
-				((SheetRow) row).getCellsMap().remove(cIndex);
+			for (SheetRow row : this) {
+				row.getCellsMap().remove(cIndex);
 			}
 			this.columnsIndexes.remove(cIndex);
 		}
 		return this;
 	}
 
-	@Override
+	/*@Override
 	@Nonnull
 	public Iterator<SheetRow> iterator() {
 		return new RowIterator<>(getRowsIndexes(), this::getRow);
-	}
+	}*/
 
 	/**
 	 * Register cell types for next found ExcelTables and ExcelRows and update cell types for found {@link #tables}
@@ -135,11 +130,15 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 	 * Only columns with unique names from array will be searched. Returns <b>last</b> found ExcelTable
 	 */
 	public ExcelTable getTable(String... headerColumnNames) {
-		return getTable(false, headerColumnNames);
+		return getTable(false, false, headerColumnNames);
 	}
 
-	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
-		return getTable(getRow(isLowest, headerColumnNames).getIndex(), headerColumnNames);
+	public ExcelTable getTable(boolean isLowest, boolean ignoreCase, String... headerColumnNames) {
+		return getTable(getRow(isLowest, ignoreCase, headerColumnNames).getIndex(), ignoreCase, headerColumnNames);
+	}
+
+	public ExcelTable getTable(int headerRowIndex, String... headerColumnNames) {
+		return getTable(headerRowIndex, false, headerColumnNames);
 	}
 
 	/**
@@ -149,7 +148,7 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 	 * @param headerColumnNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndex} will be used as column names
 	 * @return {@link ExcelTable} object representation of found excel table
 	 */
-	public ExcelTable getTable(int headerRowIndex, String... headerColumnNames) {
+	public ExcelTable getTable(int headerRowIndex, boolean ignoreCase, String... headerColumnNames) {
 		assertThat(headerRowIndex).as("Header row number should be greater than 0").isPositive();
 		SheetRow headerRow = getRow(headerRowIndex);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
@@ -159,7 +158,7 @@ public class ExcelSheet extends EditableCellsArea implements Iterable<SheetRow> 
 			Set<String> headerColumns = new HashSet<>(Arrays.asList(headerColumnNames));
 			Set<String> foundHeaderColumns = new HashSet<>();
 			columnIndexes = new HashSet<>();
-			for (EditableCell cell : headerRow) {
+			for (SheetCell cell : headerRow) {
 				String value = cell.getStringValue();
 				if (headerColumns.contains(value)) {
 					columnIndexes.add(cell.getColumnIndex());

@@ -4,28 +4,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import aaa.utils.excel.io.entity.iterator.CellIterator;
-import aaa.utils.excel.io.entity.queue.ExcelRow;
+import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.queue.EditableRow;
 
-public class TableRow extends ExcelRow implements Iterable<TableCell> {
+public class TableRow extends EditableRow<TableCell> {
 	protected Map<Integer, TableCell> tableCells;
 	private int tableRowIndex;
+	private ExcelTable table;
 
 	public TableRow(Row row, int tableRowIndex, int rowIndex, ExcelTable table) {
-		super(row, rowIndex, table);
+		super(row, rowIndex, table.getExcelManager());
 		this.tableRowIndex = tableRowIndex;
+		this.table = table;
 	}
 
 	public ExcelTable getTable() {
-		return (ExcelTable) getArea();
+		return this.table;
 	}
 
 	public TableHeader getHeader() {
@@ -64,20 +64,25 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		return this.tableCells;
 	}
 
+	@Override
+	protected EditableCellsArea<TableCell, ?, ?> getArea() {
+		return getTable();
+	}
+
 	int getIndexOnSheet() {
 		return this.index;
 	}
 
-	@Override
-	public int getIndex() {
-		return this.tableRowIndex;
-	}
-
-	@Override
+	/*@Override
 	@Nonnull
 	@SuppressWarnings("unchecked")
 	public Iterator<TableCell> iterator() {
 		return (Iterator<TableCell>) new CellIterator(this);
+	}*/
+
+	@Override
+	public int getIndex() {
+		return this.tableRowIndex;
 	}
 
 	@Override
@@ -86,6 +91,18 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 				"rowIndex=" + getIndex() +
 				", values=" + getTableValues() +
 				'}';
+	}
+
+	/*@Override
+	public EditableCellsArea<TableCell, ?, ?> exclude() {
+		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
+		return null;
+	}*/
+
+	@Override
+	public EditableCellsArea<TableCell, ?, ?> delete() {
+		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
+		return null;
 	}
 
 	public boolean hasColumn(String headerColumnName) {
@@ -104,14 +121,13 @@ public class TableRow extends ExcelRow implements Iterable<TableCell> {
 		return getHeader().getColumnName(columnIndex);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<TableCell> getCellsContains(String headerColumnNamePattern) {
-		return (List<TableCell>) getCells().stream().filter(c -> ((TableCell) c).getHeaderColumnName().contains(headerColumnNamePattern)).collect(Collectors.toList());
+		return getCells().stream().filter(c -> c.getHeaderColumnName().contains(headerColumnNamePattern)).collect(Collectors.toList());
 	}
 
 	public TableCell getCell(String headerColumnName) {
 		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
-		return (TableCell) getCells().stream().filter(c -> ((TableCell) c).getHeaderColumnName().equals(headerColumnName)).findFirst().get();
+		return getCells().stream().filter(c -> c.getHeaderColumnName().equals(headerColumnName)).findFirst().get();
 	}
 
 	public List<TableCell> getCells(String... headerColumnNames) {

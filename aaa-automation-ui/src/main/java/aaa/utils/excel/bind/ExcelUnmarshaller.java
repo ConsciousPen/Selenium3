@@ -178,7 +178,8 @@ public class ExcelUnmarshaller {
 		ExcelSheet sheet = excelManager.getSheet(getSheetName(tableRowField));
 		if (rowNumber < 0) {
 			List<String> headerColumnNames = getHeaderColumnNames(tableColumnsFields);
-			table = sheet.getTable(isLowestTable(tableRowField), headerColumnNames.toArray(new String[headerColumnNames.size()]));
+			//TODO-dchubkov: get and provide ignoreCase param from annotation
+			table = sheet.getTable(isLowestTable(tableRowField), false, headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		} else {
 			table = sheet.getTable(rowNumber);
 		}

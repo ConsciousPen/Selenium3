@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -24,10 +22,8 @@ import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.EditableCellsArea;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.cell.ExcelCell;
-import aaa.utils.excel.io.entity.iterator.RowIterator;
-import aaa.utils.excel.io.entity.queue.CellsQueue;
 
-public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> {
+public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColumn> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelTable.class);
 
 	private Row headerRow;
@@ -93,7 +89,7 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableRow> getRowsMap() {
 		if (this.rows == null) {
 			this.rows = new LinkedHashMap<>(this.rowsIndexes.size());
@@ -108,7 +104,7 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableColumn> getColumnsMap() {
 		if (this.columns == null) {
 			this.columns = new LinkedHashMap<>(this.columnsIndexes.size());
@@ -126,11 +122,11 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 		return headerRow;
 	}
 
-	@Override
+	/*@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
 		return new RowIterator<>(getRowsIndexes(), this::getRow);
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -178,10 +174,10 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 	public ExcelTable excludeColumns(Integer... columnsIndexes) {
 		List<Integer> sheetIndexes = new ArrayList<>();
 		for (Integer cIndex : columnsIndexes) {
-			for (CellsQueue row : getRows()) {
-				((TableRow) row).getCellsMap().remove(cIndex);
+			for (TableRow row : this) {
+				row.getCellsMap().remove(cIndex);
 				getHeader().getCellsMap().remove(cIndex);
-				sheetIndexes.add(((TableRow) row).getIndexOnSheet());
+				sheetIndexes.add(row.getIndexOnSheet());
 			}
 			this.columnsIndexes.removeAll(sheetIndexes);
 		}
@@ -290,7 +286,7 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 		return (ExcelTable) copyColumn(getColumnIndex(columnName), getHeader().getColumnIndex(destinationColumnName));
 	}
 
-	public EditableCellsArea deleteColumns(String... columnNames) {
+	public ExcelTable deleteColumns(String... columnNames) {
 		//TODO-dchubkov: implement delete columns by names
 		throw new NotImplementedException("Columns deletion by header column names is not implemented yet");
 	}

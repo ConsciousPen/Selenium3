@@ -6,30 +6,32 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
-import aaa.utils.excel.io.entity.area.CellsArea;
-import aaa.utils.excel.io.entity.area.EditableCellsArea;
 import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.iterator.CellIterator;
 
-public abstract class CellsQueue implements Writable {
+public abstract class CellsQueue<C extends ExcelCell> implements Writable, Iterable<C> {
 	protected int index;
-	protected CellsArea cellsArea;
+	protected ExcelManager excelManager;
 	protected Set<CellType<?>> cellTypes;
+	//protected A cellsArea;
 
-	protected CellsQueue(int index, EditableCellsArea cellsArea) {
-		this(index, cellsArea, cellsArea.getCellTypes());
+	protected CellsQueue(int index, ExcelManager excelManager) {
+		this(index, excelManager, excelManager.getCellTypes());
 	}
 
-	protected CellsQueue(int index, EditableCellsArea cellsArea, Set<CellType<?>> cellTypes) {
+	protected CellsQueue(int index, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.index = index;
-		this.cellsArea = cellsArea;
+		this.excelManager = excelManager;
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
 
@@ -37,7 +39,7 @@ public abstract class CellsQueue implements Writable {
 		return index;
 	}
 
-	public List<? extends ExcelCell> getCells() {
+	public List<C> getCells() {
 		return new ArrayList<>(getCellsMap().values());
 	}
 
@@ -54,11 +56,11 @@ public abstract class CellsQueue implements Writable {
 		return cellsIndexes.get(cellsIndexes.size() - 1);
 	}
 
-	public ExcelCell getFirstCell() {
+	public C getFirstCell() {
 		return getCell(getFirstCellIndex());
 	}
 
-	public ExcelCell getLastCell() {
+	public C getLastCell() {
 		return getCell(getLastCellIndex());
 	}
 
@@ -94,15 +96,21 @@ public abstract class CellsQueue implements Writable {
 		return new HashSet<>(this.cellTypes);
 	}
 
-	public CellsArea getArea() {
+	/*public A getArea() {
 		return cellsArea;
-	}
+	}*/
 
-	protected abstract <C extends ExcelCell> Map<Integer, C> getCellsMap();
+	protected abstract Map<Integer, C> getCellsMap();
+
+	@Override
+	@Nonnull
+	public Iterator<C> iterator() {
+		return new CellIterator<>(this);
+	}
 
 	@Override
 	public ExcelManager getExcelManager() {
-		return getArea().getExcelManager();
+		return this.excelManager;
 	}
 
 	public int getSum(Integer... cellsIndexes) {
@@ -114,7 +122,7 @@ public abstract class CellsQueue implements Writable {
 		return getCell(queueIndex).isEmpty();
 	}
 
-	public ExcelCell getCell(int queueIndex) {
+	public C getCell(int queueIndex) {
 		assertThat(hasCell(queueIndex)).as("There is no cell with %s index", queueIndex, getIndex()).isTrue();
 		return getCellsMap().get(queueIndex);
 	}
@@ -148,7 +156,7 @@ public abstract class CellsQueue implements Writable {
 	}
 
 	public boolean hasValue(int queueIndex, Object expectedValue, DateTimeFormatter... formatters) {
-		ExcelCell cell = getCell(queueIndex);
+		C cell = getCell(queueIndex);
 		if (cell.isDate(formatters)) {
 			return Objects.equals(cell.getDateValue(formatters), expectedValue);
 		}

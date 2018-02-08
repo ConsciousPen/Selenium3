@@ -159,4 +159,14 @@ public class ExcelManager {
 		}
 		return this.sheets;
 	}
+
+	@Override
+	public String toString() {
+		return "ExcelManager{" +
+				"isOpened=" + isOpened +
+				", file=" + file +
+				", allowableCellTypes=" + allowableCellTypes +
+				", sheets=" + sheets +
+				'}';
+	}
 }

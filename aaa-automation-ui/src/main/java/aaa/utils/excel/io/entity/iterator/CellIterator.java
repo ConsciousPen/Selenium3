@@ -8,12 +8,12 @@ import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.queue.CellsQueue;
 
 public class CellIterator<C extends ExcelCell> implements Iterator<C> {
-	private CellsQueue cellsQueue;
+	private CellsQueue<C> cellsQueue;
 	private List<Integer> cellsIndexes;
 	private Integer currentIndex;
 
 	@Nonnull
-	public CellIterator(CellsQueue cellsQueue) {
+	public CellIterator(CellsQueue<C> cellsQueue) {
 		this.cellsQueue = cellsQueue;
 		this.cellsIndexes = cellsQueue.getCellsIndexes();
 		this.currentIndex = cellsQueue.getFirstCellIndex();
@@ -25,12 +25,11 @@ public class CellIterator<C extends ExcelCell> implements Iterator<C> {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public C next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("There is no next cell");
 		}
-		C returnCell = (C) cellsQueue.getCell(currentIndex);
+		C returnCell = cellsQueue.getCell(currentIndex);
 		cellsIndexes.remove(currentIndex);
 		currentIndex = cellsIndexes.isEmpty() ? -1 : cellsIndexes.get(0);
 		return returnCell;

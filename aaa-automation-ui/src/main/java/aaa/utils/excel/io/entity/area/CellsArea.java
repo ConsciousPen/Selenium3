@@ -3,8 +3,8 @@ package aaa.utils.excel.io.entity.area;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import javax.annotation.Nonnull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,10 +21,12 @@ import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
 import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.iterator.RowIterator;
 import aaa.utils.excel.io.entity.queue.CellsQueue;
+import aaa.utils.excel.io.entity.queue.ExcelRow;
 import toolkit.exceptions.IstfException;
 
-public abstract class CellsArea implements Writable {
+public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C extends CellsQueue<E>> implements Writable, Iterable<R> {
 	protected Sheet sheet;
 	protected Set<Integer> columnsIndexes;
 	protected Set<Integer> rowsIndexes;
@@ -88,27 +91,31 @@ public abstract class CellsArea implements Writable {
 		return columnsIndexes.get(columnsIndexes.size() - 1);
 	}
 
-	public CellsQueue getFirstRow() {
+	public R getFirstRow() {
 		return getRow(getFirstRowIndex());
 	}
 
-	public CellsQueue getLastRow() {
+	public R getLastRow() {
 		return getRow(getLastRowIndex());
 	}
 
-	@SuppressWarnings("unchecked")
-	public <Q extends CellsQueue> List<Q> getRows() {
-		return new ArrayList<>((Collection<Q>) getRowsMap().values());
+	public List<R> getRows() {
+		return new ArrayList<>(getRowsMap().values());
 	}
 
-	@SuppressWarnings("unchecked")
-	public <Q extends CellsQueue> List<Q> getColumns() {
-		return new ArrayList<>((Collection<Q>) getColumnsMap().values());
+	public List<C> getColumns() {
+		return new ArrayList<>(getColumnsMap().values());
 	}
 
-	protected abstract <Q extends CellsQueue> Map<Integer, Q> getRowsMap();
+	protected abstract Map<Integer, R> getRowsMap();
 
-	protected abstract <Q extends CellsQueue> Map<Integer, Q> getColumnsMap();
+	protected abstract Map<Integer, C> getColumnsMap();
+
+	@Override
+	@Nonnull
+	public Iterator<R> iterator() {
+		return new RowIterator<>(getRowsIndexes(), this::getRow);
+	}
 
 	@Override
 	public boolean equals(Object other) {
@@ -120,7 +127,7 @@ public abstract class CellsArea implements Writable {
 		}
 
 		List<Boolean> conditions = new ArrayList<>();
-		CellsArea otherArea = (CellsArea) other;
+		CellsArea<?, ?, ?> otherArea = (CellsArea<?, ?, ?>) other;
 		conditions.add(Objects.equals(getPoiSheet().getSheetName(), otherArea.getPoiSheet().getSheetName()));
 		conditions.add(Objects.equals(getCellTypes(), otherArea.getCellTypes()));
 		if (considerRowsOnComparison) {
@@ -150,30 +157,38 @@ public abstract class CellsArea implements Writable {
 		return excelManager;
 	}
 
-	public CellsArea setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
+	@Override
+	public String toString() {
+		return "CellsArea{" +
+				"sheetName=" + getPoiSheet().getSheetName() +
+				", columnsIndexes=" + getColumnsIndexes() +
+				", rowsIndexes=" + getRowsIndexes() +
+				", cellTypes=" + getCellTypes() +
+				'}';
+	}
+
+	public CellsArea<E, R, C> setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
 		this.considerRowsOnComparison = considerRowsOnComparison;
 		this.considerColumnsOnComparison = considerColumnsOnComparison;
 		return this;
 	}
 
-	public ExcelCell getFirstColumnCell(int rowIndex) {
+	public E getFirstColumnCell(int rowIndex) {
 		return getRow(rowIndex).getFirstCell();
 	}
 
-	public ExcelCell getLastColumnCell(int rowIndex) {
+	public E getLastColumnCell(int rowIndex) {
 		return getRow(rowIndex).getLastCell();
 	}
 
-	@SuppressWarnings("unchecked")
-	public <Q extends CellsQueue> Q getRow(int rowIndex) {
+	public R getRow(int rowIndex) {
 		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s", rowIndex, getPoiSheet().getSheetName()).isTrue();
-		return (Q) getRowsMap().get(rowIndex);
+		return getRowsMap().get(rowIndex);
 	}
 
-	@SuppressWarnings("unchecked")
-	public <Q extends CellsQueue> Q getColumn(int columnIndex) {
+	public C getColumn(int columnIndex) {
 		assertThat(hasColumn(columnIndex)).as("There is no column number %1$s on sheet %2$s", columnIndex, getPoiSheet().getSheetName()).isTrue();
-		return (Q) getColumnsMap().get(columnIndex);
+		return getColumnsMap().get(columnIndex);
 	}
 
 	public boolean hasRow(int rowIndex) {
@@ -184,7 +199,7 @@ public abstract class CellsArea implements Writable {
 		return getColumnsMap().containsKey(columnIndex);
 	}
 
-	public ExcelCell getCell(int rowIndex, int columnIndex) {
+	public E getCell(int rowIndex, int columnIndex) {
 		return getRow(rowIndex).getCell(columnIndex);
 	}
 
@@ -242,15 +257,15 @@ public abstract class CellsArea implements Writable {
 		return IntStream.rangeClosed(fromRowIndex, toRowIndex).filter(getColumn(columnIndex)::hasCell).mapToObj(getColumn(columnIndex)::getValue).collect(Collectors.toList());
 	}
 
-	public CellsQueue getRow(String... valuesInCells) {
-		return getRow(false, valuesInCells);
+	public R getRow(String... valuesInCells) {
+		return getRow(false, false, valuesInCells);
 	}
 
-	public CellsQueue getRow(boolean isLowest, String... valuesInCells) {
+	public R getRow(boolean isLowest, boolean ignoreCase, String... valuesInCells) {
 		Set<String> initialExpectedValues = new HashSet<>(Arrays.asList(valuesInCells));
-		List<CellsQueue> foundRows = new ArrayList<>();
-		Map<Integer, Pair<CellsQueue, String>> foundRowsWithPartialMatch = new LinkedHashMap<>();
-		for (CellsQueue row : getRows()) {
+		List<R> foundRows = new ArrayList<>();
+		Map<Integer, Pair<R, String>> foundRowsWithPartialMatch = new LinkedHashMap<>();
+		for (R row : this) {
 			List<String> actualValues = row.getStringValues();
 			Set<String> expectedValues = new HashSet<>(initialExpectedValues);
 			if (actualValues.containsAll(expectedValues)) {
@@ -276,16 +291,6 @@ public abstract class CellsArea implements Writable {
 		}
 
 		return foundRows.get(foundRows.size() - 1);
-	}
-
-	@Override
-	public String toString() {
-		return "CellsArea{" +
-				"sheetName=" + getPoiSheet().getSheetName() +
-				", columnsIndexes=" + getColumnsIndexes() +
-				", rowsIndexes=" + getRowsIndexes() +
-				", cellTypes=" + getCellTypes() +
-				'}';
 	}
 
 	private Set<Integer> getColumnsIndexes(Sheet sheet) {
