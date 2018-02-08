@@ -12,6 +12,6 @@ TestData_Plus14Days: {
 
 TestData_ReinstateWithLapse: {
   ReinstatementActionTab: {
-    Reinstate Date: '$<today>'
+    Reinstate Date: '$<today-10d>'
   }
 }
