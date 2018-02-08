@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,6 +29,7 @@ import aaa.helpers.cft.CFTHelper;
 import aaa.helpers.constants.Groups;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Record;
+import aaa.modules.cft.report.ReportFutureDatedPolicy;
 import aaa.modules.cft.report.ReportGeneratorService;
 
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
@@ -39,30 +42,38 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
-	private static final String SQL_GET_LEDGER_DATA_P1 = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= '";
-	private static final String SQL_GET_LEDGER_DATA_P2 = "' group by  le.LEDGERACCOUNTNO";
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
 	private static final String CFT_VALIDATION_REPORT = "CFT_Validations.xls";
+	private static final String FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
+
+	private String sqlGetLedgerData = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= %s group by  le.LEDGERACCOUNTNO";
 
 	private SSHController sshController = new SSHController(
 		PropertyProvider.getProperty(TestProperties.APP_HOST),
 		PropertyProvider.getProperty(TestProperties.SSH_USER),
 		PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
 
-	@Test(groups = {Groups.CFT})
+	private File downloadDir;
+	private File cftResultDir;
+
+	@BeforeClass
+	public void precondition() throws IOException {
+		// refreshReports
+		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
+
+		downloadDir = new File(DOWNLOAD_DIR);
+		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
+		CFTHelper.checkDirectory(downloadDir);
+		CFTHelper.checkDirectory(cftResultDir);
+	}
+
+	// @Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
 
-		// refreshReports
-		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
-
-		File downloadDir = new File(DOWNLOAD_DIR);
-		File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-		CFTHelper.checkDirectory(downloadDir);
-		CFTHelper.checkDirectory(cftResultDir);
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
 		runCFTJobs();
 		// get map from OR reports
@@ -103,6 +114,32 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
+	@Test(groups = {Groups.CFT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void futureDatedTransactions(@Optional(StringUtils.EMPTY) String state) {
+
+		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE is null order by BILLINGACCOUNTNUMBER";
+		String query2 = "select BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where BILLINGACCOUNTNUMBER = %s and LEDGERACCOUNTNO = 1065 and to_char(txdate, 'yyyymmdd') < %s";
+		List<Map<String, String>> transactionsTable = new ArrayList<>();
+		List<Map<String, String>> dbResult = DBService.get().getRows(query1);
+		for (Map<String, String> dbEntry : dbResult) {
+			LocalDateTime txDate = TimeSetterUtil.getInstance().parse(dbEntry.get("TXDATE"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			String query = String.format(query2, dbEntry.get("ACCNUMBER"), txDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+			List<Map<String, String>> dbTransactions = DBService.get().getRows(query);
+			if (dbTransactions.size() > 0) {
+				transactionsTable.addAll(dbTransactions);
+				// for (Map<String, String> trEntry : dbTransactions) {
+				// log.info(dbEntry.get("ACCNUMBER") + " Transaction date " + trEntry.get("TXDATE"));
+				// }
+			}
+		}
+		if (transactionsTable.size() > 0) {
+			ReportFutureDatedPolicy.generateReport(transactionsTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
+		}
+		log.info("Future dated policies were verified");
+	}
+
 	// TODO move additional methods defined in TestClass to CFTHelper.class
 	// rename cft->csv package to helper package
 	// move CFTHelper to helper package
@@ -137,8 +174,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	private Map<String, Double> getDataBaseValues() {
 		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		String sqlGetLedgerData = SQL_GET_LEDGER_DATA_P1 + TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + SQL_GET_LEDGER_DATA_P2;
-		List<Map<String, String>> dbResult = DBService.get().getRows(sqlGetLedgerData);
+		String transactionDate = TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String query = String.format(sqlGetLedgerData, transactionDate);
+		List<Map<String, String>> dbResult = DBService.get().getRows(query);
 		for (Map<String, String> dbEntry : dbResult) {
 			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
 		}
