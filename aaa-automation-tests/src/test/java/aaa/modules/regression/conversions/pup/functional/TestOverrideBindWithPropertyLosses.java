@@ -36,7 +36,7 @@ public class TestOverrideBindWithPropertyLosses extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7242")
-    public void pas7242_TestOverrideBindWithPropertyLossesNB(@Optional("VA") String state) {
+    public void pas7242_TestOverrideBindWithPropertyLossesNB(@Optional("NJ") String state) {
 
         // Create customer
         mainApp().open();
@@ -68,7 +68,7 @@ public class TestOverrideBindWithPropertyLosses extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7242")
-    public void pas7242_TestOverrideBindWithPropertyLossesConversion(@Optional("VA") String state) {
+    public void pas7242_TestOverrideBindWithPropertyLossesConversion(@Optional("NJ") String state) {
 
         // Create customer
         mainApp().open();

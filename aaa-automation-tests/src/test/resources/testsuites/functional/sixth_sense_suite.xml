@@ -110,49 +110,49 @@
 
 
     <test name="Test Override Liability Losses">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestOverrideLiabilityLosses"/>
         </classes>
     </test>
 
     <test name="Test Override Ineligible Underlying Risks">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideIneligibleUnderlyingRisks"/>
         </classes>
     </test>
 
     <test name="Test Bind PUP without Auto policies">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestBindPupWithoutAuto"/>
         </classes>
     </test>
 
     <test name="Test Override Drivers with Major Violations">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindDriversWithMajorViolations"/>
         </classes>
     </test>
 
     <test name="Test Override PUP policies with 2 or more violations">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindWithPropertyLosses"/>
         </classes>
     </test>
 
     <test name="Test Override PUP policies with high number of exposures/risks">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideNumberOfRisks"/>
         </classes>
     </test>
 
     <test name="Test Override PUP policies with relaxed coverage limits">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits"/>
         </classes>
