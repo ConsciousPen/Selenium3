@@ -42,7 +42,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6977")
-	public void pas6977_OverrideRulesForConversionMAIG(@Optional("NJ") String state) {
+	public void pas6977_OverrideRulesForConversionMAIG(@Optional("VA") String state) {
 
 		mainApp().open();
 
@@ -75,7 +75,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6977")
-	public void pas6977_OverrideRulesForPup(@Optional("NJ") String state) {
+	public void pas6977_OverrideRulesForPup(@Optional("VA") String state) {
 
 		mainApp().open();
 

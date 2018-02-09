@@ -45,7 +45,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
-    public void pas6971_TestOverrideBindLimitsNB(@Optional("NJ") String state) {
+    public void pas6971_TestOverrideBindLimitsNB(@Optional("VA") String state) {
 
         TestData td = getPolicyTD()
             .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()))
@@ -90,7 +90,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
-    public void pas6971_TestOverrideBindLimitsConversion(@Optional("NJ") String state) {
+    public void pas6971_TestOverrideBindLimitsConversion(@Optional("VA") String state) {
 
         TestData td = getPupConversionTdNoPolicyCreation()
             .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()))
@@ -133,7 +133,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
-    public void pas6971_TestOverrideBindAutoCombinedSingleLimitNB(@Optional("NJ") String state) {
+    public void pas6971_TestOverrideBindAutoCombinedSingleLimitNB(@Optional("VA") String state) {
 
         // Create customer
         mainApp().open();
@@ -162,7 +162,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
-    public void pas6971_TestOverrideBindAutoCombinedSingleLimitConversion(@Optional("NJ") String state) {
+    public void pas6971_TestOverrideBindAutoCombinedSingleLimitConversion(@Optional("VA") String state) {
 
         // Create customer
         mainApp().open();
