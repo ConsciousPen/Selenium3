@@ -1,18 +1,15 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
@@ -21,6 +18,8 @@ import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
 import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
 import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
 import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -29,6 +28,13 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -491,13 +497,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		pas8785_createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
 	}
 
-	//***********************************
 	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(PolicyType policyType) {
 
-	/*	mainApp().open();
+		mainApp().open();
 		createCustomerIndividual();
 
 		VehicleTab vehicleTab = new VehicleTab();
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AllVehicles").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
@@ -506,77 +512,90 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-
-		String v1_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue();
-		String v1_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue();
-		String v1_series = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.SERIES.getLabel()).getValue();
-		String v1_model = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue();
-		String v1_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue();
+		//BUG PAS - Random sequence for Vehicles on DXP
+		String v1_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
+		String v1_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
+		String v1_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
+		String v1_model = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
+		String v1_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 
 		VehicleTab.tableVehicleList.selectRow(2);
 
-		String v2_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue();
-		String v2_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue();
-		String v2_series = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.SERIES.getLabel()).getValue();
-		String v2_model = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue();
-		String v2_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue();*/
-
-		String policyNumber = "VASS926232070";
+		String v2_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
+		String v2_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
+		String v2_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
+		String v2_model = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
+		String v2_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response).isEqualTo("fdgsg");
-			/*softly.assertThat(response.manufacturer).isEqualTo("fdhfd");*/
-			/*softly.assertThat(response.ruleSets.get(0).series).isEqualTo(v1_series);
-			softly.assertThat(response.ruleSets.get(0).model).isEqualTo(v1_model);
-			softly.assertThat(response.ruleSets.get(0).bodyStyle).isEqualTo(v1_bodyStyle);
-			softly.assertThat(response.ruleSets.get(1).modelYear).isEqualTo(v2_modelYear);
-			softly.assertThat(response.ruleSets.get(1).manufacturer).isEqualTo(v2_manufacturer);
-			softly.assertThat(response.ruleSets.get(1).series).isEqualTo(v2_series);
-			softly.assertThat(response.ruleSets.get(1).model).isEqualTo(v2_model);
-			softly.assertThat(response.ruleSets.get(1).bodyStyle).isEqualTo(v2_bodyStyle);
-*/
+			softly.assertThat(response[0].getModelYear()).isEqualTo(v1_modelYear);
+			softly.assertThat(response[0].getManufacturer()).isEqualTo(v1_manufacturer);
+			softly.assertThat(response[0].getSeries()).isEqualTo(v1_series);
+			softly.assertThat(response[0].getModel()).isEqualTo(v1_model);
+			softly.assertThat(response[0].getBodyStyle()).isEqualTo(v1_bodyStyle);
+
+			softly.assertThat(response[1].getModelYear()).isEqualTo(v2_modelYear);
+			softly.assertThat(response[1].getManufacturer()).isEqualTo(v2_manufacturer);
+			softly.assertThat(response[1].getSeries()).isEqualTo(v2_series);
+			softly.assertThat(response[1].getModel()).isEqualTo(v2_model);
+			softly.assertThat(response[1].getBodyStyle()).isEqualTo(v2_bodyStyle);
 		});
 
-/*
 		VehicleTab.buttonCancel.click();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue("1FMEU15H7KLB19840");
-
-		//CIA
-
+		vehicleTab.getAssetList().getAsset(VIN).setValue("1FMEU15H7KLB19840");
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
-		Tab.buttonSaveAndExit.click();
+		premiumAndCoveragesTab.saveAndExit();
 
-		//CIA
+		Vehicle[] response1 = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(response1[0].getModelYear()).isEqualTo(v1_modelYear);
+			softly.assertThat(response1[0].getManufacturer()).isEqualTo(v1_manufacturer);
+			softly.assertThat(response1[0].getSeries()).isEqualTo(v1_series);
+			softly.assertThat(response1[0].getModel()).isEqualTo(v1_model);
+			softly.assertThat(response1[0].getBodyStyle()).isEqualTo(v1_bodyStyle);
+
+			softly.assertThat(response1[1].getModelYear()).isEqualTo(v2_modelYear);
+			softly.assertThat(response1[1].getManufacturer()).isEqualTo(v2_manufacturer);
+			softly.assertThat(response1[1].getSeries()).isEqualTo(v2_series);
+			softly.assertThat(response1[1].getModel()).isEqualTo(v2_model);
+			softly.assertThat(response1[1].getBodyStyle()).isEqualTo(v2_bodyStyle);
+		});
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
 		policy.policyInquiry().start();
-
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 
-		v2_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue();
-		v2_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue();
-		v2_series = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.SERIES.getLabel()).getValue();
-		v2_model = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue();
-		v2_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue();
+		String v3_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
+		String v3_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
+		String v3_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
+		String v3_model = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
+		String v3_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 
-		//CIA
+		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(response2[0].getModelYear()).isEqualTo(v1_modelYear);
+			softly.assertThat(response2[0].getManufacturer()).isEqualTo(v1_manufacturer);
+			softly.assertThat(response2[0].getSeries()).isEqualTo(v1_series);
+			softly.assertThat(response2[0].getModel()).isEqualTo(v1_model);
+			softly.assertThat(response2[0].getBodyStyle()).isEqualTo(v1_bodyStyle);
 
-		//    TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement").getTestData("VehicleTab").resolveLinks()
-		//          .adjust(getPolicyTD("Endorsement", "TestData"));
-		//   policy.endorse().performAndFill(tdEndorsement);
-*/
-
+			softly.assertThat(response2[1].getModelYear()).isEqualTo(v3_modelYear);
+			softly.assertThat(response2[1].getManufacturer()).isEqualTo(v3_manufacturer);
+			softly.assertThat(response2[1].getSeries()).isEqualTo(v3_series);
+			softly.assertThat(response2[1].getModel()).isEqualTo(v3_model);
+			softly.assertThat(response2[1].getBodyStyle()).isEqualTo(v3_bodyStyle);
+		});
 	}
 
-	//***********************************
-	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
+	private void createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value("Premium Calculated");
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));

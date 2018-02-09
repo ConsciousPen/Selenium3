@@ -1,6 +1,20 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.admin.modules.IAdmin.log;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.main.modules.swaggerui.SwaggerUiTab;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
+import toolkit.webdriver.controls.waiters.Waiters;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -8,20 +22,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
-import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.waiters.Waiters;
+
+import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -78,7 +80,6 @@ public class HelperCommon {
 		return validateVinResponse;
 	}
 
-	//Jovita
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
