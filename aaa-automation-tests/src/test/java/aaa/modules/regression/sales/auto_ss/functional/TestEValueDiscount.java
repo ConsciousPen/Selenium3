@@ -1459,7 +1459,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         premiumAndCoveragesTab.saveAndExit();
 
         String policyNumber = simplifiedQuoteIssue("ACH");
-
+        //PAS-238 Start
         //Add new card to the billing account
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         BillingSummaryPage.linkUpdateBillingAccount.click();
@@ -1474,6 +1474,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
         //Check If eValue wasn't removed
         checkIfEvalueWasRemovedBySystem(false);
+        //PAS-238 End
 
         //LogOut is needed because policy is lock
         mainApp().reopen();
