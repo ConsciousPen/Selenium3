@@ -50,6 +50,7 @@
                 <methods>
                     <include name="pas6203_VinAndControlTablesUpload"/>
                     <include name="pas533_newVinAdded"/>
+                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -73,6 +74,7 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
                     <include name="pas533_newVinAdded"/>
+                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
@@ -97,6 +99,7 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
                     <include name="pas533_newVinAdded"/>
+                    <include name="pas527_updatedVinRenewal"/>
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                 </methods>
