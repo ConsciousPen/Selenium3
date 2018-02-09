@@ -1,15 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_REGULAR_VEH_MSRP_VERSION;
+import org.testng.annotations.*;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.MsrpQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -19,10 +15,9 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
-public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQueries {
+public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	@Override
@@ -59,33 +54,13 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_VehicleTypeRegular(@Optional("") String state) {
 		TestData testData = new TestVINUploadTemplate().getNonExistingVehicleTestData(getPolicyTD(), "");
+		// required to match MSRP version which will be added later
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2018");
 
 		vehicleTypeRegular(testData);
-	}
-
-	/**
-	 * @author Viktor Petrenko
-	 * @scenario Comp/Coll symbols refresh VIN Doesn't match to DB Vehicle type (NOT PPA/Regular)
-	 * 1. Create Auto quote: VIN doesn't match, type NOT PPA/Regular
-	 * 2. Calculate premium and validate comp/coll symbols
-	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
-	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_VehicleTypeNotRegular(@Optional("") String state) {
-		TestData testDataVehicleTabMotorHome = getVehicleMotorHomeTestData();
-
-		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTabMotorHome).resolveLinks();
-		testData.getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver").resolveLinks();
-
-		vehicleTypeNotRegular(testData);
 	}
 
 	/**
@@ -100,7 +75,7 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypeRegular(@Optional("") String state) {
 		// Some kind of random vin number
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData")
@@ -108,26 +83,6 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 
 		renewalVehicleTypeRegular(testData);
-	}
-
-	/**
-	 * @author Viktor Petrenko
-	 * @scenario Renewal: Comp/Coll symbols refresh VIN Doesn't match to DB Vehicle type (PPA/Regular)
-	 * 1. Auto Policy created: VIN doesn't match, type NOT PPA/Regular
-	 * 2. Add new Active MSRP versions to DB, Adjust values in MSRP tables
-	 * 3. Generate and rate renewal image
-	 * 4. Open generated renewal image
-	 * 5. Navigate to P&C page and validate comp/coll symbols
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_RenewalVehicleTypeNotRegular(@Optional("") String state) {
-		TestData testData = getMSRPTestDataTwoVehicles(getPolicyTD());
-		testData.adjust("AssignmentTab", getTwoAssignmentsTestData()).resolveLinks();
-
-		renewalVehicleTypeNotRegular(testData);
 	}
 
 	/**
@@ -141,13 +96,13 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_RenewalVINDoesMatchNBandNoMatchOn(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
+	public void pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal(@Optional("") String state) {
 		String vinNumber = "7MSRP15H5V1011111";
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
-		renewalVINDoesMatchNBandNoMatchOn(testData);
+		renewalVINDoesMatchNBandNoMatchOnRenewal(testData);
 	}
 
 	/**
@@ -163,8 +118,8 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-730")
-	public void pas730_vinDoesNotMatchDB(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
+	public void pas730_vinDoesNotMatchDB(@Optional("CA") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		String vinNumber = "7MSRP15H5V1011111";
@@ -192,6 +147,8 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 		PremiumAndCoveragesTab.calculatePremium();
 
 		pas730_commonChecks(compSymbol, collSymbol);
+
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	/**
@@ -205,21 +162,19 @@ public class TestMSRPRefresh extends TestMSRPRefreshTemplate implements MsrpQuer
 	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
-	protected void vinTablesCleaner() {
-		// DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE
-		DBService.get().executeUpdate(String.format(DELETE_VEHICLEREFDATAVINCONTROL_BY_VERSION_VEHICLETYPE, vehicleTypeRegular, NEWLY_ADDED_MSRP_VERSION_FOR_REGULAR_VEH_AUTO_CA_SELECT));
-		// DELETE new VEHICLEREFDATAVINCONTROL version
-		DBService.get().executeUpdate(String
-				.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, NEWLY_ADDED_MSRP_VERSION_FOR_REGULAR_VEH_AUTO_CA_SELECT, getState()));
-		DBService.get().executeUpdate(String
-				.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_CA_SELECT, getState()));
+	protected void resetMSRPTables() {
+		pas730_SelectCleanDataBase(CA_SELECT_REGULAR_VEH_MSRP_VERSION,vehicleTypeRegular);
+	}
+
+	@AfterClass(alwaysRun = true)
+	protected void resetVinUploadTables() {
+		String configNames = "('SYMBOL_2000_CA_SELECT')";
+		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
+	}
+
+	@AfterSuite(alwaysRun = true)
+	protected void resetVinControlTable() {
 		// Reset to the default state  MSRP_2000
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE_FORMTYPE, getState(), formTypeSelect));
-		// DELETE new MSRP version pas730_VehicleTypeRegular
-		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_CA_SELECT, EXPECTED_MSRP_KEY, vehicleTypeRegular));
-		// DELETE new MSRP version pas730_VehicleTypeNotPPA
-		DBService.get()
-				.executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_CA_SELECT, EXPECTED_MSRP_KEY, vehicleTypeMotorHome));
-		DatabaseCleanHelper.cleanVinUploadTables("('SYMBOL_2000_CA_SELECT')", getState());
+		resetSelectDefaultMSRPVersionValuesVinControlTable();
 	}
 }
