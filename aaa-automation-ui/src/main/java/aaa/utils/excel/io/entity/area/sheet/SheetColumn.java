@@ -1,15 +1,16 @@
 package aaa.utils.excel.io.entity.area.sheet;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import aaa.utils.excel.io.entity.queue.EditableColumn;
+import aaa.utils.excel.io.entity.area.ExcelColumn;
 
-public class SheetColumn extends EditableColumn<SheetCell> {
+public class SheetColumn extends ExcelColumn<SheetCell> {
 	private Map<Integer, SheetCell> cells;
 	private ExcelSheet sheet;
 
 	public SheetColumn(int columnIndex, ExcelSheet sheet) {
-		super(columnIndex, sheet.getExcelManager());
+		super(columnIndex, sheet);
 		this.sheet = sheet;
 	}
 
@@ -18,12 +19,16 @@ public class SheetColumn extends EditableColumn<SheetCell> {
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetCell> getCellsMap() {
 		if (this.cells == null) {
-			this.cells = new LinkedHashMap<>(getSheet().getRowsMap().size());
-			for (Map.Entry<Integer, SheetRow> rowEntry : getSheet().getRowsMap().entrySet()) {
+			List<SheetRow> sheetRows = getSheet().getRows();
+			this.cells = new LinkedHashMap<>(sheetRows.size());
+			/*for (Map.Entry<Integer, SheetRow> rowEntry : getSheet().getRowsMap().entrySet()) {
 				this.cells.put(rowEntry.getKey(), rowEntry.getValue().getCell(getIndex()));
+			}*/
+			for (SheetRow row : sheetRows) {
+				this.cells.put(row.getIndex(), row.getCell(getIndex()));
 			}
 		}
 		return this.cells;

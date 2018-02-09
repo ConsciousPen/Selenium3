@@ -1,9 +1,10 @@
-package aaa.utils.excel.io.entity.cell;
+package aaa.utils.excel.io.entity.area;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.BooleanCellType;
 import aaa.utils.excel.io.celltype.CellType;
@@ -20,10 +22,9 @@ import aaa.utils.excel.io.celltype.LocalDateTimeCellType;
 import aaa.utils.excel.io.celltype.NumberCellType;
 import aaa.utils.excel.io.celltype.StringCellType;
 import aaa.utils.excel.io.entity.Writable;
-import aaa.utils.excel.io.entity.queue.ExcelRow;
 import toolkit.exceptions.IstfException;
 
-public class ExcelCell implements Writable {
+public abstract class ExcelCell implements Writable {
 	public static final CellType<Boolean> BOOLEAN_TYPE = new BooleanCellType(Boolean.class);
 	public static final CellType<String> STRING_TYPE = new StringCellType(String.class);
 	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType(Integer.class);
@@ -53,16 +54,26 @@ public class ExcelCell implements Writable {
 		return cell;
 	}
 
+	private ExcelCell setPoiCell(Cell cell) {
+		this.cell = cell;
+		return this;
+	}
+
 	public ExcelRow<?> getRow() {
 		return row;
 	}
 
 	public Set<CellType<?>> getCellTypes() {
-		if (cellTypes == null) {
-			cellTypes = filterAndGetValidCellTypes(getRow().getCellTypes());
+		if (this.cellTypes == null) {
+			this.cellTypes = filterAndGetValidCellTypes(getRow().getCellTypes());
 			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
 		}
 		return new HashSet<>(this.cellTypes);
+	}
+
+	ExcelCell setCellTypes(Set<CellType<?>> cellTypes) {
+		this.cellTypes = new HashSet<>(cellTypes);
+		return this;
 	}
 
 	public int getColumnIndex() {
@@ -110,6 +121,10 @@ public class ExcelCell implements Writable {
 		throw new IstfException("Cell does not have supported types to retrieve its value");
 	}
 
+	public <T> ExcelCell setValue(T value) {
+		return setValue(value, getType(value));
+	}
+
 	public String getStringValue() {
 		return getValue(STRING_TYPE);
 	}
@@ -129,6 +144,8 @@ public class ExcelCell implements Writable {
 	public boolean isNumeric() {
 		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
 	}
+
+	//protected abstract <E extends ExcelCell> ExcelArea<E, ?, ?> getArea();
 
 	@Override
 	public ExcelManager getExcelManager() {
@@ -174,6 +191,71 @@ public class ExcelCell implements Writable {
 	public <T> CellType<T> getType(T value) {
 		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
 	}
+
+	public ExcelCell registerCellType(CellType<?>... cellTypes) {
+		Set<CellType<?>> typesCopy = getCellTypes();
+		typesCopy.addAll(Arrays.asList(cellTypes));
+		this.cellTypes = typesCopy;
+		return this;
+	}
+
+	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
+		assertThat(hasType(valueType)).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isTrue();
+		if (getPoiCell() == null) {
+			Row row = getRow().getPoiRow() == null ? getRow().getArea().getPoiSheet().createRow(getRowIndex() - 1) : getRow().getPoiRow();
+			Cell poiCell = row.createCell(getColumnIndex() - 1);
+			setPoiCell(poiCell);
+		}
+		valueType.setValueTo(this, value);
+		this.cellTypes = filterAndGetValidCellTypes(getCellTypes());
+		return this;
+	}
+
+	//public abstract ExcelCell excludeColumn();
+
+	public ExcelCell clear() {
+		if (!isEmpty()) {
+			getRow().getPoiRow().removeCell(getPoiCell());
+			setPoiCell(null);
+			this.cellTypes = Collections.singleton(STRING_TYPE);
+		}
+		return this;
+	}
+
+	public ExcelCell copy(int destinationRowIndex) {
+		return copy(destinationRowIndex, getColumnIndex());
+	}
+
+	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex) {
+		return copy(destinationRowIndex, destinationCellIndex, true, true, true);
+	}
+
+	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		return copy(getRow().getArea().getCell(destinationRowIndex, destinationCellIndex), copyCellStyle, copyComment, copyHyperlink);
+	}
+
+	public ExcelCell copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		destinationCell.setCellTypes(this.getCellTypes());
+
+		Cell cell = this.getPoiCell();
+		if (cell == null) {
+			destinationCell.clear();
+			return this;
+		}
+		destinationCell.setValue(this.getValue());
+		if (copyCellStyle) {
+			destinationCell.getPoiCell().setCellStyle(cell.getCellStyle());
+		}
+		if (copyComment && cell.getCellComment() != null) {
+			destinationCell.getPoiCell().setCellComment(cell.getCellComment());
+		}
+		if (copyHyperlink && cell.getHyperlink() != null) {
+			destinationCell.getPoiCell().setHyperlink(cell.getHyperlink());
+		}
+		return this;
+	}
+
+	public abstract ExcelCell delete();
 
 	protected Set<CellType<?>> filterAndGetValidCellTypes(Set<CellType<?>> cellTypes) {
 		return cellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());

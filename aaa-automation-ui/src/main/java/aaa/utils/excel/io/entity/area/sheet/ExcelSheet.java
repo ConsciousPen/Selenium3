@@ -11,21 +11,15 @@ import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.area.ExcelArea;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
 import toolkit.exceptions.IstfException;
 
-public class ExcelSheet extends EditableCellsArea<SheetCell, SheetRow, SheetColumn> {
-	protected static Logger log = LoggerFactory.getLogger(ExcelSheet.class);
-
+public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	private int sheetIndex;
-	private Map<Integer, SheetRow> rows;
-	private Map<Integer, SheetColumn> columns;
 	private Set<ExcelTable> tables;
 
 	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager) {
@@ -57,7 +51,7 @@ public class ExcelSheet extends EditableCellsArea<SheetCell, SheetRow, SheetColu
 		return getPoiSheet().getSheetName();
 	}
 
-	@Override
+	/*@Override
 	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetRow> getRowsMap() {
 		if (this.rows == null) {
@@ -68,9 +62,9 @@ public class ExcelSheet extends EditableCellsArea<SheetCell, SheetRow, SheetColu
 			}
 		}
 		return this.rows;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, SheetColumn> getColumnsMap() {
 		if (this.columns == null) {
@@ -81,6 +75,26 @@ public class ExcelSheet extends EditableCellsArea<SheetCell, SheetRow, SheetColu
 			}
 		}
 		return this.columns;
+	}*/
+
+	@Override
+	protected Map<Integer, SheetRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes) {
+		Map<Integer, SheetRow> rowsMap = new LinkedHashMap<>(rowsIndexes.size());
+		for (int rowIndex : rowsIndexes) {
+			SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, this);
+			rowsMap.put(rowIndex, row);
+		}
+		return rowsMap;
+	}
+
+	@Override
+	protected Map<Integer, SheetColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> columnsIndexes) {
+		Map<Integer, SheetColumn> columnsMap = new LinkedHashMap<>(columnsIndexes.size());
+		for (Integer columnIndex : columnsIndexes) {
+			Row row = getPoiSheet().getRow(columnIndex - 1);
+			columnsMap.put(columnIndex, new SheetColumn(columnIndex, this));
+		}
+		return columnsMap;
 	}
 
 	@Override
@@ -89,10 +103,11 @@ public class ExcelSheet extends EditableCellsArea<SheetCell, SheetRow, SheetColu
 			for (SheetRow row : this) {
 				row.getCellsMap().remove(cIndex);
 			}
-			this.columnsIndexes.remove(cIndex);
 		}
+		removeColumnsIndexesOnSheet(columnsIndexes);
 		return this;
 	}
+
 
 	/*@Override
 	@Nonnull

@@ -5,14 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
-import aaa.utils.excel.io.entity.queue.CellsQueue;
+import aaa.utils.excel.io.entity.area.CellsQueue;
 
-public class RowIterator<R extends CellsQueue<?>> implements Iterator<R> {
+public class RowIterator<ROW extends CellsQueue<?>> implements Iterator<ROW> {
 	private List<Integer> rowsIndexes;
 	private Integer currentIndex;
-	private Function<Integer, R> getRowFunction;
+	private Function<Integer, ROW> getRowFunction;
 
-	public RowIterator(List<Integer> rowsIndexes, Function<Integer, R> getRowFunction) {
+	public RowIterator(List<Integer> rowsIndexes, Function<Integer, ROW> getRowFunction) {
 		this.rowsIndexes = new ArrayList<>(rowsIndexes);
 		this.currentIndex = rowsIndexes.isEmpty() ? -1 : rowsIndexes.get(0);
 		this.getRowFunction = getRowFunction;
@@ -24,11 +24,11 @@ public class RowIterator<R extends CellsQueue<?>> implements Iterator<R> {
 	}
 
 	@Override
-	public R next() {
+	public ROW next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("There is no next row");
 		}
-		R returnRow = getRowFunction.apply(currentIndex);
+		ROW returnRow = getRowFunction.apply(currentIndex);
 		rowsIndexes.remove(currentIndex);
 		currentIndex = rowsIndexes.isEmpty() ? -1 : rowsIndexes.get(0);
 		return returnRow;

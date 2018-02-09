@@ -1,35 +1,43 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import aaa.utils.excel.io.entity.queue.EditableColumn;
+import aaa.utils.excel.io.entity.area.ExcelColumn;
 
-public class TableColumn extends EditableColumn<TableCell> {
+public class TableColumn extends ExcelColumn<TableCell> {
 	private int tableColumnIndex;
 	private Map<Integer, TableCell> tableCells;
-	private ExcelTable table;
 
 	public TableColumn(int tableColumnIndex, int columnIndex, ExcelTable table) {
-		super(columnIndex, table.getExcelManager());
+		super(columnIndex, table);
 		this.tableColumnIndex = tableColumnIndex;
-		this.table = table;
 	}
 
 	public ExcelTable getTable() {
-		return this.table;
+		return getArea();
 	}
 
 	public String getHeaderName() {
 		return getTable().getHeader().getColumnName(getIndex());
 	}
 
+	public int getIndex() {
+		return tableColumnIndex;
+	}
+
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableCell> getCellsMap() {
 		if (this.tableCells == null) {
-			this.tableCells = new LinkedHashMap<>(getTable().getRowsMap().size());
-			for (Map.Entry<Integer, TableRow> rowEntry : getTable().getRowsMap().entrySet()) {
+			List<TableRow> tableRows = getTable().getRows();
+			this.tableCells = new LinkedHashMap<>(tableRows.size());
+			/*for (Map.Entry<Integer, TableRow> rowEntry : getTable().getRowsMap().entrySet()) {
 				this.tableCells.put(rowEntry.getKey(), rowEntry.getValue().getCell(getIndex()));
+			}*/
+
+			for (TableRow row : tableRows) {
+				this.tableCells.put(row.getIndex(), row.getCell(getIndex()));
 			}
 		}
 		return this.tableCells;
@@ -40,10 +48,6 @@ public class TableColumn extends EditableColumn<TableCell> {
 		return getTable();
 	}
 
-	int getIndexOnSheet() {
-		return this.index;
-	}
-
 /*	@Override
 	@Nonnull
 	@SuppressWarnings("unchecked")
@@ -52,8 +56,8 @@ public class TableColumn extends EditableColumn<TableCell> {
 	}*/
 
 	@Override
-	public int getIndex() {
-		return tableColumnIndex;
+	public int getIndexOnSheet() {
+		return super.getIndexOnSheet();
 	}
 
 	@Override

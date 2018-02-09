@@ -4,9 +4,9 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
-public class SheetCell extends EditableCell {
+public class SheetCell extends ExcelCell {
 	protected static Logger log = LoggerFactory.getLogger(SheetCell.class);
 
 	public SheetCell(Cell cell, SheetRow row, int columnIndex) {
@@ -17,11 +17,10 @@ public class SheetCell extends EditableCell {
 		return getRow().getSheet();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
+	/*@Override
 	protected ExcelSheet getArea() {
 		return getSheet();
-	}
+	}*/
 
 	@Override
 	public SheetRow getRow() {
@@ -68,13 +67,13 @@ public class SheetCell extends EditableCell {
 		return this;
 	}*/
 
-	@Override
+	/*@Override
 	public SheetCell excludeColumn() {
 		getSheet().excludeColumns(getColumnIndex());
 		return this;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public SheetCell copy(int destinationRowIndex) {
 		return copy(destinationRowIndex, getColumnIndex());
 	}
@@ -87,7 +86,7 @@ public class SheetCell extends EditableCell {
 	@Override
 	public SheetCell copy(int destinationRowIndex, int destinationCellIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
 		return (SheetCell) copy(getRow().getSheet().getCell(destinationRowIndex, destinationCellIndex), copyCellStyle, copyComment, copyHyperlink);
-	}
+	}*/
 
 	@Override
 	public SheetCell delete() {

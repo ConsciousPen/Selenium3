@@ -16,21 +16,15 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.area.ExcelArea;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
 
-public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColumn> {
-	protected static Logger log = LoggerFactory.getLogger(ExcelTable.class);
-
+public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	private Row headerRow;
 	private ExcelSheet excelSheet;
 	private TableHeader header;
-	private Map<Integer, TableRow> rows;
-	private Map<Integer, TableColumn> columns;
 
 	public ExcelTable(Row headerRow, ExcelSheet sheet) {
 		this(headerRow, sheet, ExcelCell.getBaseTypes());
@@ -40,32 +34,28 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 		this(headerRow, null, sheet, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Set<Integer> columnsIndexes, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
-		this(headerRow, columnsIndexes, null, sheet, cellTypes);
+	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+		this(headerRow, columnsIndexesOnSheet, null, sheet, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelSheet excelSheet, Set<CellType<?>> cellTypes) {
+	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, Set<CellType<?>> cellTypes) {
 		super(excelSheet.getPoiSheet(),
-				CollectionUtils.isNotEmpty(columnsIndexes) ? columnsIndexes : getHeaderColumnsIndexes(headerRow),
-				CollectionUtils.isNotEmpty(rowsIndexes) ? rowsIndexes : getTableRowsIndexes(headerRow, columnsIndexes),
+				CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
+				CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
 				excelSheet.getExcelManager(), cellTypes);
 		this.headerRow = headerRow;
 		this.excelSheet = excelSheet;
 	}
 
 	public TableHeader getHeader() {
-		if (header == null) {
-			header = new TableHeader(getHeaderRow(), this);
+		if (this.header == null) {
+			this.header = new TableHeader(this.headerRow, this);
 		}
-		return header;
+		return this.header;
 	}
 
 	public ExcelSheet getSheet() {
-		return excelSheet;
-	}
-
-	public List<Integer> getColumnsIndexesOnSheet() {
-		return new ArrayList<>(this.columnsIndexes);
+		return this.excelSheet;
 	}
 
 	public List<Map<String, Object>> getValues() {
@@ -89,6 +79,11 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 	}
 
 	@Override
+	public List<Integer> getColumnsIndexesOnSheet() {
+		return super.getColumnsIndexesOnSheet();
+	}
+
+	/*@Override
 	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableRow> getRowsMap() {
 		if (this.rows == null) {
@@ -101,9 +96,21 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 			}
 		}
 		return this.rows;
-	}
+	}*/
 
 	@Override
+	protected Map<Integer, TableRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes) {
+		Map<Integer, TableRow> rowsMap = new LinkedHashMap<>(rowsIndexes.size());
+		int tableRowIndex = 1;
+		for (Integer sheetRowIndex : rowsIndexes) {
+			Row row = getSheet().getPoiSheet().getRow(sheetRowIndex - 1);
+			rowsMap.put(tableRowIndex, new TableRow(row, tableRowIndex, sheetRowIndex, this));
+			tableRowIndex++;
+		}
+		return rowsMap;
+	}
+
+	/*@Override
 	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableColumn> getColumnsMap() {
 		if (this.columns == null) {
@@ -116,10 +123,18 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 			}
 		}
 		return this.columns;
-	}
+	}*/
 
-	Row getHeaderRow() {
-		return headerRow;
+	@Override
+	protected Map<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> columnsIndexes) {
+		Map<Integer, TableColumn> columnsMap = new LinkedHashMap<>(columnsIndexes.size());
+		int tableColumnIndex = 1;
+		for (Integer sheetColumnIndex : getColumnsIndexesOnSheet()) {
+			Row row = getSheet().getPoiSheet().getRow(sheetColumnIndex - 1);
+			columnsMap.put(tableColumnIndex, new TableColumn(tableColumnIndex, sheetColumnIndex, this));
+			tableColumnIndex++;
+		}
+		return columnsMap;
 	}
 
 	/*@Override
@@ -139,17 +154,17 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 				'}';
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
+	//@SuppressWarnings("unchecked")
+	/*@Override
 	public TableRow getRow(int rowIndex) {
 		return super.getRow(rowIndex);
-	}
+	}*/
 
-	@SuppressWarnings("unchecked")
-	@Override
+	//@SuppressWarnings("unchecked")
+	/*@Override
 	public TableColumn getColumn(int columnIndex) {
 		return super.getColumn(columnIndex);
-	}
+	}*/
 
 	@Override
 	public ExcelTable deleteRows(Integer... rowsIndexes) {
@@ -157,14 +172,14 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
 		for (int index : uniqueSortedRowIndexes) {
 			assertThat(hasRow(index - rowsShifts)).as("There is no row number %s in table", index).isTrue();
-			ListIterator<Integer> rowsIterator = new ArrayList<>(getRowsMap().keySet()).listIterator(index - rowsShifts);
+			ListIterator<Integer> rowsIterator = new ArrayList<>(getRowsIndexes()).listIterator(index - rowsShifts);
 			while (rowsIterator.hasNext()) {
-				TableRow nextRow = getRowsMap().get(rowsIterator.next());
-				TableRow currentRow = getRowsMap().get(rowsIterator.previousIndex());
+				TableRow nextRow = getRow(rowsIterator.next());
+				TableRow currentRow = getRow(rowsIterator.previousIndex());
 				nextRow.copy(currentRow.getIndex());
 			}
 			clearRows(rowsIterator.nextIndex());
-			getRowsMap().remove(rowsIterator.nextIndex());
+			removeRowsIndexesOnSheet(rowsIterator.nextIndex());
 			rowsShifts++;
 		}
 		return this;
@@ -172,15 +187,17 @@ public class ExcelTable extends EditableCellsArea<TableCell, TableRow, TableColu
 
 	@Override
 	public ExcelTable excludeColumns(Integer... columnsIndexes) {
-		List<Integer> sheetIndexes = new ArrayList<>();
+		Set<Integer> columnsIndexesOnSheet = new HashSet<>();
 		for (Integer cIndex : columnsIndexes) {
 			for (TableRow row : this) {
+				columnsIndexesOnSheet.add(row.getCell(cIndex).getColumnIndexOnSheet());
 				row.getCellsMap().remove(cIndex);
 				getHeader().getCellsMap().remove(cIndex);
-				sheetIndexes.add(row.getIndexOnSheet());
 			}
-			this.columnsIndexes.removeAll(sheetIndexes);
 		}
+		removeColumnsIndexesOnSheet(columnsIndexesOnSheet.toArray(new Integer[columnsIndexes.length]));
+		//this.columnsIndexes.removeAll(columnsIndexesOnSheet);
+
 		return this;
 	}
 

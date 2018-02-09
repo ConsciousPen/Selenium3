@@ -1,4 +1,4 @@
-package aaa.utils.excel.io.entity.queue;
+package aaa.utils.excel.io.entity.area;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
@@ -16,30 +16,25 @@ import javax.annotation.Nonnull;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
 
-public abstract class CellsQueue<C extends ExcelCell> implements Writable, Iterable<C> {
-	protected int index;
-	protected ExcelManager excelManager;
-	protected Set<CellType<?>> cellTypes;
-	//protected A cellsArea;
+public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, Iterable<CELL> {
+	private int indexOnSheet;
+	//protected ExcelManager excelManager;
+	private Set<CellType<?>> cellTypes;
+	private ExcelArea<CELL, ?, ?> excelArea;
 
-	protected CellsQueue(int index, ExcelManager excelManager) {
-		this(index, excelManager, excelManager.getCellTypes());
+	protected CellsQueue(int indexOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
+		this(indexOnSheet, excelArea, excelArea.getCellTypes());
 	}
 
-	protected CellsQueue(int index, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
-		this.index = index;
-		this.excelManager = excelManager;
+	protected CellsQueue(int indexOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
+		this.indexOnSheet = indexOnSheet;
+		this.excelArea = excelArea;
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
 
-	public int getIndex() {
-		return index;
-	}
-
-	public List<C> getCells() {
+	public List<CELL> getCells() {
 		return new ArrayList<>(getCellsMap().values());
 	}
 
@@ -56,11 +51,11 @@ public abstract class CellsQueue<C extends ExcelCell> implements Writable, Itera
 		return cellsIndexes.get(cellsIndexes.size() - 1);
 	}
 
-	public C getFirstCell() {
+	public CELL getFirstCell() {
 		return getCell(getFirstCellIndex());
 	}
 
-	public C getLastCell() {
+	public CELL getLastCell() {
 		return getCell(getLastCellIndex());
 	}
 
@@ -96,21 +91,25 @@ public abstract class CellsQueue<C extends ExcelCell> implements Writable, Itera
 		return new HashSet<>(this.cellTypes);
 	}
 
-	/*public A getArea() {
-		return cellsArea;
-	}*/
+	protected int getIndexOnSheet() {
+		return this.indexOnSheet;
+	}
 
-	protected abstract Map<Integer, C> getCellsMap();
+	protected ExcelArea<CELL, ?, ?> getArea() {
+		return this.excelArea;
+	}
+
+	protected abstract Map<Integer, CELL> getCellsMap();
 
 	@Override
 	@Nonnull
-	public Iterator<C> iterator() {
+	public Iterator<CELL> iterator() {
 		return new CellIterator<>(this);
 	}
 
 	@Override
 	public ExcelManager getExcelManager() {
-		return this.excelManager;
+		return getArea().getExcelManager();
 	}
 
 	public int getSum(Integer... cellsIndexes) {
@@ -122,7 +121,7 @@ public abstract class CellsQueue<C extends ExcelCell> implements Writable, Itera
 		return getCell(queueIndex).isEmpty();
 	}
 
-	public C getCell(int queueIndex) {
+	public CELL getCell(int queueIndex) {
 		assertThat(hasCell(queueIndex)).as("There is no cell with %s index", queueIndex, getIndex()).isTrue();
 		return getCellsMap().get(queueIndex);
 	}
@@ -156,10 +155,27 @@ public abstract class CellsQueue<C extends ExcelCell> implements Writable, Itera
 	}
 
 	public boolean hasValue(int queueIndex, Object expectedValue, DateTimeFormatter... formatters) {
-		C cell = getCell(queueIndex);
+		CELL cell = getCell(queueIndex);
 		if (cell.isDate(formatters)) {
 			return Objects.equals(cell.getDateValue(formatters), expectedValue);
 		}
 		return Objects.equals(cell.getValue(), expectedValue);
 	}
+
+	public CellsQueue<CELL> registerCellType(CellType<?>... cellTypes) {
+		this.cellTypes.addAll(Arrays.asList(cellTypes));
+		getCells().forEach(c -> c.registerCellType(cellTypes));
+		return this;
+	}
+
+	public abstract ExcelArea<CELL, ?, ?> exclude();
+
+	public abstract ExcelArea<CELL, ?, ?> delete();
+
+	public CellsQueue<CELL> clear() {
+		getCells().forEach(ExcelCell::clear);
+		return this;
+	}
+
+	public abstract CellsQueue<CELL> copy(int destinationQueueIndex);
 }

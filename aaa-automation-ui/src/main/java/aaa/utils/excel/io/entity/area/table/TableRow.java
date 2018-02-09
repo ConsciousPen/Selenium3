@@ -10,22 +10,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import aaa.utils.excel.io.entity.area.EditableCellsArea;
-import aaa.utils.excel.io.entity.queue.EditableRow;
+import aaa.utils.excel.io.entity.area.ExcelRow;
 
-public class TableRow extends EditableRow<TableCell> {
+public class TableRow extends ExcelRow<TableCell> {
 	protected Map<Integer, TableCell> tableCells;
 	private int tableRowIndex;
-	private ExcelTable table;
 
-	public TableRow(Row row, int tableRowIndex, int rowIndex, ExcelTable table) {
-		super(row, rowIndex, table.getExcelManager());
+	public TableRow(Row row, int tableRowIndex, int rowIndexOnSheet, ExcelTable table) {
+		super(row, rowIndexOnSheet, table);
 		this.tableRowIndex = tableRowIndex;
-		this.table = table;
 	}
 
 	public ExcelTable getTable() {
-		return this.table;
+		return (ExcelTable) getArea();
 	}
 
 	public TableHeader getHeader() {
@@ -49,10 +46,10 @@ public class TableRow extends EditableRow<TableCell> {
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
+	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
 	protected Map<Integer, TableCell> getCellsMap() {
 		if (this.tableCells == null) {
-			this.tableCells = new LinkedHashMap<>(getTable().getColumnsMap().size());
+			this.tableCells = new LinkedHashMap<>(getTable().getColumnsIndexes().size());
 			for (int i = 0; i < getTable().getColumnsIndexes().size(); i++) {
 				int tableCellIndex = getTable().getColumnsIndexes().get(i);
 				int sheetCellIndex = getTable().getColumnsIndexesOnSheet().get(i);
@@ -64,13 +61,20 @@ public class TableRow extends EditableRow<TableCell> {
 		return this.tableCells;
 	}
 
-	@Override
-	protected EditableCellsArea<TableCell, ?, ?> getArea() {
+/*	@Override
+	protected ExcelTable getArea() {
 		return getTable();
+	}*/
+
+	@Override
+	public int getIndexOnSheet() {
+		return super.getIndexOnSheet();
 	}
 
-	int getIndexOnSheet() {
-		return this.index;
+	@Override
+	public ExcelTable exclude() {
+		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
+		return getTable();
 	}
 
 	/*@Override
@@ -100,9 +104,15 @@ public class TableRow extends EditableRow<TableCell> {
 	}*/
 
 	@Override
-	public EditableCellsArea<TableCell, ?, ?> delete() {
+	public ExcelTable delete() {
 		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
-		return null;
+		return getTable();
+	}
+
+	@Override
+	public TableRow copy(int destinationQueueIndex) {
+		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
+		return this;
 	}
 
 	public boolean hasColumn(String headerColumnName) {
@@ -174,4 +184,5 @@ public class TableRow extends EditableRow<TableCell> {
 	public int getSumContains(String headerColumnNamePattern) {
 		return getSum(getCellsContains(headerColumnNamePattern).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
 	}
+
 }

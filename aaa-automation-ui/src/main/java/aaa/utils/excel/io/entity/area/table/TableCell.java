@@ -2,9 +2,9 @@ package aaa.utils.excel.io.entity.area.table;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
-import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
-public class TableCell extends EditableCell {
+public class TableCell extends ExcelCell {
 	private int tableColumnIndex;
 
 	public TableCell(Cell cell, TableRow tableRow, int tableColumnIndex, int columnIndex) {
@@ -24,11 +24,11 @@ public class TableCell extends EditableCell {
 		return this.columnIndex;
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@Override
 	protected ExcelTable getArea() {
 		return getTable();
-	}
+	}*/
 
 	/*@Override
 	public TableRow getRow() {
@@ -57,14 +57,14 @@ public class TableCell extends EditableCell {
 				'}';
 	}
 
-	@Override
+	/*@Override
 	public EditableCell excludeColumn() {
 		getTable().excludeColumns(getColumnIndex());
 		return this;
-	}
+	}*/
 
 	@Override
-	public EditableCell delete() {
+	public ExcelCell delete() {
 		//TODO-dchubkov: implement delete ExcelCell and TableCell
 		throw new NotImplementedException("Cell deletion is not implemented yet");
 	}

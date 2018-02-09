@@ -14,35 +14,36 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
 import aaa.utils.excel.io.entity.iterator.RowIterator;
-import aaa.utils.excel.io.entity.queue.CellsQueue;
-import aaa.utils.excel.io.entity.queue.ExcelRow;
 import toolkit.exceptions.IstfException;
 
-public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C extends CellsQueue<E>> implements Writable, Iterable<R> {
+public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CELL>, COLUMN extends ExcelColumn<CELL>> implements Writable, Iterable<ROW> {
 	protected Sheet sheet;
-	protected Set<Integer> columnsIndexes;
-	protected Set<Integer> rowsIndexes;
 	protected ExcelManager excelManager;
 	protected Set<CellType<?>> cellTypes;
 	protected boolean considerRowsOnComparison;
 	protected boolean considerColumnsOnComparison;
 
-	protected CellsArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager) {
+	private Set<Integer> rowsIndexesOnSheet;
+	private Set<Integer> columnsIndexesOnSheet;
+	private Map<Integer, ROW> areaIndexesAndRowsMap;
+	private Map<Integer, COLUMN> areaIndexesAndColumnsMap;
+
+	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager) {
 		this(sheet, columnsIndexes, rowsIndexes, excelManager, excelManager.getCellTypes());
 	}
 
-	protected CellsArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
+	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.sheet = sheet;
-		this.columnsIndexes = CollectionUtils.isNotEmpty(columnsIndexes) ? columnsIndexes : getColumnsIndexes(sheet);
-		this.rowsIndexes = CollectionUtils.isNotEmpty(rowsIndexes) ? rowsIndexes : getRowsIndexes(sheet);
+		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? new HashSet<>(columnsIndexesOnSheet) : getColumnsIndexes(sheet);
+		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? new HashSet<>(rowsIndexesOnSheet) : getRowsIndexes(sheet);
 		this.excelManager = excelManager;
 		this.cellTypes = new HashSet<>(cellTypes);
 		this.considerRowsOnComparison = true;
@@ -54,11 +55,11 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 	}
 
 	public List<Integer> getColumnsIndexes() {
-		return new ArrayList<>(getColumnsMap().keySet());
+		return new ArrayList<>(getAreaIndexesAndColumnsMap().keySet());
 	}
 
 	public List<Integer> getRowsIndexes() {
-		return new ArrayList<>(getRowsMap().keySet());
+		return new ArrayList<>(getAreaIndexesAndRowsMap().keySet());
 	}
 
 	public Set<CellType<?>> getCellTypes() {
@@ -66,7 +67,7 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 	}
 
 	public int getRowsNumber() {
-		return getRowsMap().size();
+		return getAreaIndexesAndRowsMap().size();
 	}
 
 	public int getColumnsNumber() {
@@ -91,29 +92,33 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 		return columnsIndexes.get(columnsIndexes.size() - 1);
 	}
 
-	public R getFirstRow() {
+	public ROW getFirstRow() {
 		return getRow(getFirstRowIndex());
 	}
 
-	public R getLastRow() {
+	public ROW getLastRow() {
 		return getRow(getLastRowIndex());
 	}
 
-	public List<R> getRows() {
-		return new ArrayList<>(getRowsMap().values());
+	public List<ROW> getRows() {
+		return new ArrayList<>(getAreaIndexesAndRowsMap().values());
 	}
 
-	public List<C> getColumns() {
-		return new ArrayList<>(getColumnsMap().values());
+	public List<COLUMN> getColumns() {
+		return new ArrayList<>(getAreaIndexesAndColumnsMap().values());
 	}
 
-	protected abstract Map<Integer, R> getRowsMap();
+	protected List<Integer> getColumnsIndexesOnSheet() {
+		return new ArrayList<>(this.columnsIndexesOnSheet);
+	}
 
-	protected abstract Map<Integer, C> getColumnsMap();
+	protected List<Integer> getRowsIndexesOnSheet() {
+		return new ArrayList<>(this.rowsIndexesOnSheet);
+	}
 
 	@Override
 	@Nonnull
-	public Iterator<R> iterator() {
+	public Iterator<ROW> iterator() {
 		return new RowIterator<>(getRowsIndexes(), this::getRow);
 	}
 
@@ -127,7 +132,7 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 		}
 
 		List<Boolean> conditions = new ArrayList<>();
-		CellsArea<?, ?, ?> otherArea = (CellsArea<?, ?, ?>) other;
+		ExcelArea<?, ?, ?> otherArea = (ExcelArea<?, ?, ?>) other;
 		conditions.add(Objects.equals(getPoiSheet().getSheetName(), otherArea.getPoiSheet().getSheetName()));
 		conditions.add(Objects.equals(getCellTypes(), otherArea.getCellTypes()));
 		if (considerRowsOnComparison) {
@@ -167,39 +172,45 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 				'}';
 	}
 
-	public CellsArea<E, R, C> setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
+	public ExcelArea<CELL, ROW, COLUMN> registerCellType(CellType<?>... cellTypes) {
+		this.cellTypes.addAll(Arrays.asList(cellTypes));
+		getRows().forEach(r -> r.registerCellType(cellTypes));
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
 		this.considerRowsOnComparison = considerRowsOnComparison;
 		this.considerColumnsOnComparison = considerColumnsOnComparison;
 		return this;
 	}
 
-	public E getFirstColumnCell(int rowIndex) {
+	public CELL getFirstColumnCell(int rowIndex) {
 		return getRow(rowIndex).getFirstCell();
 	}
 
-	public E getLastColumnCell(int rowIndex) {
+	public CELL getLastColumnCell(int rowIndex) {
 		return getRow(rowIndex).getLastCell();
 	}
 
-	public R getRow(int rowIndex) {
+	public ROW getRow(int rowIndex) {
 		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s", rowIndex, getPoiSheet().getSheetName()).isTrue();
-		return getRowsMap().get(rowIndex);
+		return getAreaIndexesAndRowsMap().get(rowIndex);
 	}
 
-	public C getColumn(int columnIndex) {
+	public COLUMN getColumn(int columnIndex) {
 		assertThat(hasColumn(columnIndex)).as("There is no column number %1$s on sheet %2$s", columnIndex, getPoiSheet().getSheetName()).isTrue();
-		return getColumnsMap().get(columnIndex);
+		return getAreaIndexesAndColumnsMap().get(columnIndex);
 	}
 
 	public boolean hasRow(int rowIndex) {
-		return getRowsMap().containsKey(rowIndex);
+		return getAreaIndexesAndRowsMap().containsKey(rowIndex);
 	}
 
 	public boolean hasColumn(int columnIndex) {
-		return getColumnsMap().containsKey(columnIndex);
+		return getAreaIndexesAndColumnsMap().containsKey(columnIndex);
 	}
 
-	public E getCell(int rowIndex, int columnIndex) {
+	public CELL getCell(int rowIndex, int columnIndex) {
 		return getRow(rowIndex).getCell(columnIndex);
 	}
 
@@ -257,15 +268,15 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 		return IntStream.rangeClosed(fromRowIndex, toRowIndex).filter(getColumn(columnIndex)::hasCell).mapToObj(getColumn(columnIndex)::getValue).collect(Collectors.toList());
 	}
 
-	public R getRow(String... valuesInCells) {
+	public ROW getRow(String... valuesInCells) {
 		return getRow(false, false, valuesInCells);
 	}
 
-	public R getRow(boolean isLowest, boolean ignoreCase, String... valuesInCells) {
+	public ROW getRow(boolean isLowest, boolean ignoreCase, String... valuesInCells) {
 		Set<String> initialExpectedValues = new HashSet<>(Arrays.asList(valuesInCells));
-		List<R> foundRows = new ArrayList<>();
-		Map<Integer, Pair<R, String>> foundRowsWithPartialMatch = new LinkedHashMap<>();
-		for (R row : this) {
+		List<ROW> foundRows = new ArrayList<>();
+		Map<Integer, Pair<ROW, String>> foundRowsWithPartialMatch = new LinkedHashMap<>();
+		for (ROW row : this) {
 			List<String> actualValues = row.getStringValues();
 			Set<String> expectedValues = new HashSet<>(initialExpectedValues);
 			if (actualValues.containsAll(expectedValues)) {
@@ -291,6 +302,89 @@ public abstract class CellsArea<E extends ExcelCell, R extends ExcelRow<E>, C ex
 		}
 
 		return foundRows.get(foundRows.size() - 1);
+	}
+
+	public abstract ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes);
+
+	public ExcelArea<CELL, ROW, COLUMN> excludeRows(Integer... rowsIndexes) {
+		assertThat(rowsIndexes).as("Can't exclude rows with indexes %s", Arrays.asList(rowsIndexes)).allMatch(this::hasRow);
+		removeRowsIndexesOnSheet(rowsIndexes);
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> clearColumns(Integer... columnsIndexes) {
+		for (ROW row : this) {
+			for (Integer index : columnsIndexes) {
+				row.getCell(index).clear();
+			}
+		}
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> clearRows(Integer... rowsIndexes) {
+		for (Integer index : rowsIndexes) {
+			getRow(index).clear();
+		}
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> copyColumn(int columnIndex, int destinationColumnIndex) {
+		for (ROW row : this) {
+			row.getCell(columnIndex).copy(row.getIndex(), row.getCell(destinationColumnIndex).getColumnIndex());
+		}
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> copyRow(int rowIndex, int destinationRowIndex) {
+		getRow(rowIndex).copy(destinationRowIndex);
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> deleteColumns(Integer... columnsIndexes) {
+		//TODO-dchubkov: implement delete columns
+		throw new NotImplementedException("Columns deletion is not implemented yet");
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> deleteRows(Integer... rowsIndexes) {
+		int rowsShifts = 0;
+		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
+		Sheet sheet = getPoiSheet();
+		for (int index : uniqueSortedRowIndexes) {
+			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s on sheet %2$s", index, sheet.getSheetName()).isTrue();
+			sheet.shiftRows(index - rowsShifts, sheet.getLastRowNum(), -1);
+			rowsShifts++;
+		}
+		return this;
+	}
+
+	protected void removeRowsIndexesOnSheet(Integer... rowsIndexes) {
+		List<Integer> rowIndexesList = Arrays.asList(rowsIndexes);
+		getAreaIndexesAndRowsMap().entrySet().removeIf(r -> rowIndexesList.contains(r.getKey()));
+		this.rowsIndexesOnSheet.removeAll(rowIndexesList);
+	}
+
+	protected void removeColumnsIndexesOnSheet(Integer... columnsIndexes) {
+		List<Integer> columnsIndexesList = Arrays.asList(columnsIndexes);
+		getAreaIndexesAndColumnsMap().entrySet().removeIf(c -> columnsIndexesList.contains(c.getKey()));
+		this.columnsIndexesOnSheet.removeAll(columnsIndexesList);
+	}
+
+	protected abstract Map<Integer, ROW> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes);
+
+	protected abstract Map<Integer, COLUMN> gatherAreaIndexesAndColumnsMap(Set<Integer> columnsIndexes);
+
+	private Map<Integer, COLUMN> getAreaIndexesAndColumnsMap() {
+		if (this.areaIndexesAndColumnsMap == null) {
+			this.areaIndexesAndColumnsMap = gatherAreaIndexesAndColumnsMap(this.columnsIndexesOnSheet);
+		}
+		return this.areaIndexesAndColumnsMap;
+	}
+
+	private Map<Integer, ROW> getAreaIndexesAndRowsMap() {
+		if (this.areaIndexesAndRowsMap == null) {
+			this.areaIndexesAndRowsMap = gatherAreaIndexesAndRowsMap(this.rowsIndexesOnSheet);
+		}
+		return this.areaIndexesAndRowsMap;
 	}
 
 	private Set<Integer> getColumnsIndexes(Sheet sheet) {

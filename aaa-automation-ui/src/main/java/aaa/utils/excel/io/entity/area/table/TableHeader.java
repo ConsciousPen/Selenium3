@@ -5,24 +5,22 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.poi.ss.usermodel.Row;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
-import aaa.utils.excel.io.entity.queue.ExcelRow;
+import aaa.utils.excel.io.entity.area.ExcelCell;
+import aaa.utils.excel.io.entity.area.ExcelRow;
 
-public class TableHeader extends ExcelRow<HeaderCell> {
+public class TableHeader extends ExcelRow<TableCell> {
 	protected Row headerRow;
-	protected Map<Integer, HeaderCell> headerCells;
-	private ExcelTable table;
+	protected Map<Integer, TableCell> headerCells;
 
 	public TableHeader(Row headerRow, ExcelTable table) {
-		super(headerRow, headerRow.getRowNum() + 1, table.getExcelManager());
+		super(headerRow, headerRow.getRowNum() + 1, table);
 		this.headerRow = headerRow;
-		this.table = table;
 		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
 		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
 	}
 
 	public ExcelTable getTable() {
-		return this.table;
+		return (ExcelTable) getArea();
 	}
 
 	public List<String> getColumnsNames() {
@@ -30,23 +28,24 @@ public class TableHeader extends ExcelRow<HeaderCell> {
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, HeaderCell> getCellsMap() {
+	//@SuppressWarnings({"AssignmentOrReturnOfFieldWithMutableType"})
+	protected Map<Integer, TableCell> getCellsMap() {
 		if (this.headerCells == null) {
 			this.headerCells = new LinkedHashMap<>(getTable().getColumnsIndexes().size());
 			for (int i = 0; i < getTable().getColumnsIndexes().size(); i++) {
 				int sheetColumnIndex = getTable().getColumnsIndexesOnSheet().get(i);
 				int headerColumnIndex = getTable().getColumnsIndexes().get(i);
 				TableRow headerRow = new TableRow(getPoiRow(), headerColumnIndex, sheetColumnIndex, getTable());
-				HeaderCell headerCell = new HeaderCell(getPoiRow().getCell(sheetColumnIndex - 1), headerRow, headerColumnIndex, sheetColumnIndex);
+				TableCell headerCell = new TableCell(getPoiRow().getCell(sheetColumnIndex - 1), headerRow, headerColumnIndex, sheetColumnIndex);
 				this.headerCells.put(headerColumnIndex, headerCell);
 			}
 		}
 		return this.headerCells;
 	}
 
-	int getIndexOnSheet() {
-		return this.index;
+	@Override
+	public int getIndexOnSheet() {
+		return super.getIndexOnSheet();
 	}
 
 	@Override
@@ -54,7 +53,6 @@ public class TableHeader extends ExcelRow<HeaderCell> {
 		return this.headerRow;
 	}
 
-	@Override
 	public int getIndex() {
 		return 0;
 	}
@@ -73,10 +71,10 @@ public class TableHeader extends ExcelRow<HeaderCell> {
 				'}';
 	}
 
-	@Override
-	public HeaderCell getCell(int queueIndex) {
+	/*@Override
+	public TableCell getCell(int queueIndex) {
 		return super.getCell(queueIndex);
-	}
+	}*/
 
 	public boolean hasColumn(String headerColumnName) {
 		return getColumnsNames().contains(headerColumnName);
@@ -86,7 +84,7 @@ public class TableHeader extends ExcelRow<HeaderCell> {
 		return hasCell(columnIndex);
 	}
 
-	public HeaderCell getCell(String headerColumnName) {
+	public TableCell getCell(String headerColumnName) {
 		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()).isTrue();
 		return getCellsMap().entrySet().stream().filter(cm -> cm.getValue().getStringValue().equals(headerColumnName)).findFirst().get().getValue();
 	}
