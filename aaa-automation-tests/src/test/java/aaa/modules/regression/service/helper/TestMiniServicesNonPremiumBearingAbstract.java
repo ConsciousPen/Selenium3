@@ -512,7 +512,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		//BUG PAS - Random sequence for Vehicles on DXP
+		//BUG PAS-9722 Random sequence for Vehicles on DXP
 		String v1_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
 		String v1_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
 		String v1_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
