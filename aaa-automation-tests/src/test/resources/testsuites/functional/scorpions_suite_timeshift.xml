@@ -19,6 +19,17 @@
                     <include name="pas527_UpdatedVinRenewal"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypePPA"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <!--The tests are updating configuration on the fly and sequential execution is needed-->
@@ -32,6 +43,17 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_NewVinAddedRenewal"/>
                     <include name="pas527_UpdatedVinRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeNotRegular"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
+                <methods>
+                    <include name="pas730_RenewalVehicleTypeRegular"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -49,43 +71,15 @@
                     <include name="pas527_UpdatedVinRenewal"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-
-    <test name="Auto SS MSRP liability symbols refresh tests">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefresh">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
                 <methods>
-                    <include name="pas730_RenewalVehicleTypeRegular"/>
-                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                    <include name="pas730_RenewalVehicleTypeNotRegular"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-
-    <test name="Auto CA Select  MSRP liability symbols refresh tests">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefresh">
-                <parameter name="state" value="CA"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
                     <include name="pas730_RenewalVehicleTypeRegular"/>
-                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Auto CA Choice MSRP liability symbols refresh tests">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefresh">
-                <parameter name="state" value="CA"/>
-                <methods>
-                    <include name="pas730_RenewalVehicleTypeRegular"/>
-                    <include name="pas730_RenewalVehicleTypeNotPPA"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOn"/>
+                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
                 </methods>
             </class>
         </classes>
