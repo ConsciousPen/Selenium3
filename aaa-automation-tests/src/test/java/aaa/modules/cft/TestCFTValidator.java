@@ -61,7 +61,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@BeforeClass
 	public void precondition() throws IOException {
 		// refreshReports
-		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
+		// DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
 		downloadDir = new File(DOWNLOAD_DIR);
 		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
@@ -120,23 +120,16 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	public void futureDatedTransactions(@Optional(StringUtils.EMPTY) String state) {
 
 		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE is null order by BILLINGACCOUNTNUMBER";
-		String query2 = "select BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where BILLINGACCOUNTNUMBER = %s and LEDGERACCOUNTNO = 1065 and to_char(txdate, 'yyyymmdd') < %s";
-		List<Map<String, String>> transactionsTable = new ArrayList<>();
+		String query2 = "select BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where BILLINGACCOUNTNUMBER = %s and LEDGERACCOUNTNO =1065 and to_char(txdate, 'yyyymmdd') >= %s order by TXDATE";
+		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();
 		List<Map<String, String>> dbResult = DBService.get().getRows(query1);
 		for (Map<String, String> dbEntry : dbResult) {
 			LocalDateTime txDate = TimeSetterUtil.getInstance().parse(dbEntry.get("TXDATE"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 			String query = String.format(query2, dbEntry.get("ACCNUMBER"), txDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 			List<Map<String, String>> dbTransactions = DBService.get().getRows(query);
-			if (dbTransactions.size() > 0) {
-				transactionsTable.addAll(dbTransactions);
-				// for (Map<String, String> trEntry : dbTransactions) {
-				// log.info(dbEntry.get("ACCNUMBER") + " Transaction date " + trEntry.get("TXDATE"));
-				// }
-			}
+			accNumberTable.add(dbTransactions);
 		}
-		if (transactionsTable.size() > 0) {
-			ReportFutureDatedPolicy.generateReport(transactionsTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
-		}
+		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
 		log.info("Future dated policies were verified");
 	}
 

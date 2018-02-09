@@ -15,17 +15,22 @@ import aaa.modules.cft.ControlledFinancialBaseTest;
 
 public class ReportFutureDatedPolicy extends ControlledFinancialBaseTest {
 
-	public static void generateReport(List<Map<String, String>> transactionsTable, String filePath) {
-
-		for (Map<String, String> trEntry : transactionsTable) {
-			log.info(trEntry.get("ACCNUMBER") + " Transaction date " + trEntry.get("TXDATE"));
-		}
+	public static void generateReport(List<List<Map<String, String>>> accNumberTable, String filePath) {
 
 		try (XSSFWorkbook workbook = new XSSFWorkbook()) {
 			XSSFSheet sheet = workbook.createSheet("Result");
 			// StylesTable stylesTable = workbook.getStylesSource();
-			Row expRow1 = sheet.createRow(1);
-			CellUtil.createCell(expRow1, 2, "Failed Future Dated Policies");
+			Row expRow = sheet.createRow(1);
+			CellUtil.createCell(expRow, 2, "Future Dated Policies");
+			int RowNumber = 3;
+			for (List<Map<String, String>> accEntry : accNumberTable) {
+				for (Map<String, String> trEntry : accEntry) {
+					expRow = sheet.createRow(RowNumber);
+					CellUtil.createCell(expRow, 2, trEntry.get("ACCNUMBER"));
+					CellUtil.createCell(expRow, 4, trEntry.get("TXDATE"));
+					RowNumber++;
+				}
+			}
 
 			// save workbook
 			FileOutputStream outputStream = null;
