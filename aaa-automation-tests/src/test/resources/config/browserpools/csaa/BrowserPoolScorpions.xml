@@ -12,8 +12,8 @@
 	
 	<hub>
 		<url>http://n01apl4364.tent.trt.csaa.pri:9999</url>
-		<min>3</min>
-		<max>3</max>
+		<min>4</min>
+		<max>4</max>
 		<keywords>
 			<keyword>Scorpions</keyword>
 		</keywords>
