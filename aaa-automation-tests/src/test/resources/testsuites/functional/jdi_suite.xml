@@ -297,7 +297,6 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
-
                     <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
@@ -312,12 +311,13 @@
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                 </methods>
             </class>
         </classes>
     </test>
     <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="UT"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
