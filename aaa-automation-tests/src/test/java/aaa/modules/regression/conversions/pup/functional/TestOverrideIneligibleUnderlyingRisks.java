@@ -56,7 +56,8 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 						PersonalUmbrellaMetaData.PrefillTab.NamedInsured.TRUSTEE.getLabel()), "Yes");
 
 		initiateManualConversion(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d>"));
-		policy.getDefaultView().fillUpTo(testdata, BindTab.class);
+		policy.getDefaultView().fillUpTo(testdata, BindTab.class, true);
+		bindTab.submitTab();
 		verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
 
@@ -88,7 +89,8 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 						PersonalUmbrellaMetaData.PrefillTab.NamedInsured.TRUSTEE.getLabel()), "Yes");
 
 		PolicyType.PUP.get().initiate();
-		policy.getDefaultView().fillUpTo(testdata, BindTab.class);
+		policy.getDefaultView().fillUpTo(testdata, BindTab.class, true);
+		bindTab.submitTab();
         verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
 
