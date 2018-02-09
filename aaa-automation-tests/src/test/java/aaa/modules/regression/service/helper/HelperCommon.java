@@ -1,20 +1,6 @@
 package aaa.modules.regression.service.helper;
 
-import aaa.helpers.config.CustomTestProperties;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.waiters.Waiters;
-
+import static aaa.admin.modules.IAdmin.log;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -22,8 +8,20 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import static aaa.admin.modules.IAdmin.log;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.main.modules.swaggerui.SwaggerUiTab;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -80,8 +78,6 @@ public class HelperCommon {
 		return validateVinResponse;
 	}
 
-
-
 	//Jovita
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
@@ -101,7 +97,6 @@ public class HelperCommon {
 		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class);
 		return aaaEndorseResponse;
 	}
-
 
 	private void authentication() {
 		WebDriver driver = BrowserController.get().driver();
@@ -135,7 +130,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(url, request, String.class);
 	}
 
-	private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
+	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -150,6 +145,35 @@ public class HelperCommon {
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != Response.Status.CREATED.getStatusCode()) {
+				//handle error
+				throw new IstfException(response.readEntity(String.class));
+			}
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(url);
+
+			response = target
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.delete();
+			T responseObj = response.readEntity(responseType);
+			log.info(response.toString());
+			if (response.getStatus() != Response.Status.OK.getStatusCode() ) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}

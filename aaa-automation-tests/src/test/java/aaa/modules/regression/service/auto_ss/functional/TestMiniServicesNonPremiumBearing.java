@@ -2,6 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -12,10 +17,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
+import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.modules.regression.service.helper.wiremock.dto.WireMockMappingRequest;
+import aaa.modules.regression.service.helper.wiremock.factory.PaperlessPreferencesWMRequestFactory;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
@@ -26,6 +33,19 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
+	}
+
+	@Test(description = "Precondition")
+	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
+		assertSoftly(softly -> {
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 0, " = 'AZ'");
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 5, " = 'AZ'");
+		});
+	}
+
+	private static void miniServicesEndorsementDeleteDelayConfigCheckAssertion(SoftAssertions softly, int i, String s) {
+		softly.assertThat(DBService.get().getValue(String.format(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_CHECK, i, s)).get()).isNotEmpty();
 	}
 
 	/**
@@ -187,6 +207,69 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
+	 * @name Test cannot delete User Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create User Endorsement through service
+	 * 4. Validate through service, that this endorsement cannot be deleted on creation date and new endorsement cannot be started
+	 * 5. change date to Creation Date + delay
+	 * 6. Validate through service, that this endorsement cannot be deleted and new endorsement cannot be started
+	 * 7. change date to Creation Date + delay + 1
+	 * Validate through service, that this endorsement can be deleted and new endorsement can be created
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateNotAllowedCustomer(@Optional("UT") String state) {
+
+		pas8784_endorsementValidateNotAllowedCustomer(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test cannot delete Agent Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Agent Endorsement
+	 * 4. Validate through service, that this endorsement can be deleted on creation date and new endorsement can be started
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateNoDelayAllowedAgent(@Optional("UT") String state) {
+
+		pas8784_endorsementValidateNoDelayAllowedAgent(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test cannot delete System Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Agent Endorsement and convert it to System
+	 * 4. Validate through service, that this endorsement cannot be deleted
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateNoDelayNotAllowedSystem(@Optional("UT") String state) {
+
+		pas8784_endorsementValidateNoDelayNotAllowedSystem(getPolicyType());
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateStateSpecificConfigVersioning(@Optional("AZ") String state) {
+
+		pas8784_endorsementValidateStateSpecificConfigVersioning(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
 	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
@@ -196,7 +279,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332"})
 	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
 
@@ -214,9 +297,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332"})
-	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
+	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
 
 		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "Agent");
 	}
@@ -243,6 +326,24 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
 
 		pas8273_CheckIfOnlyActiveVehiclesAreAllowed(getPolicyType());
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
+	public void pas111_paperlessMockTest(@Optional("VA") String state) {
+		/* http://nvdxpas1agl007:9999/__admin/swagger-ui/*/
+
+		String policyNumber = "VASS926232058";
+		String url = "http://nvdxpas1agl007:9999/__admin/mappings";
+		String scenarioJsonFile = "paperlessOptInPendingResponse.json";
+		WireMockMappingRequest request = PaperlessPreferencesWMRequestFactory.create(policyNumber, scenarioJsonFile);
+		String id = request.id;
+		log.info("id = {}", id);
+		HelperCommon.runJsonRequestPostDxp(url, request, String.class);
+		//rest
+
+		HelperCommon.runJsonRequestDeleteDxp(url + "/" + id, String.class);
 	}
 
 	@Override

@@ -291,11 +291,13 @@
         </classes>
     </test>
 
-    <test name="GreenButtonService" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
+                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
+
                     <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
@@ -307,6 +309,20 @@
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas8275_vinValidate"/>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
+                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                 </methods>
             </class>
         </classes>

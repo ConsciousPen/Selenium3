@@ -1,5 +1,11 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -15,7 +21,6 @@ import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
 import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
 import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
 import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -24,12 +29,6 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.time.format.DateTimeFormatter;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -250,7 +249,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("OOSE or Future Dated Endorsement Exists");
 			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
 			softly.assertThat(response.ruleSets.get(1).errors.get(0)).contains("UBI Vehicle");
@@ -269,7 +268,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
 		//TODO will fail here due to not in policy term
 		assertSoftly(softly -> {
-			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
 			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
@@ -277,6 +276,135 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
 			softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
 		});
+	}
+
+	protected void pas8784_endorsementValidateNotAllowedCustomer(PolicyType policyType) {
+		//String policyNumber = "UTSS926232055";
+		int numberOfDaysDelayBeforeDelete = 2;
+		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
+		//String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, null);
+		assertSoftly(softly ->
+				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
+		);
+
+		//immediate endorsement delete attempt should not be allowed for UT
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement1 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly -> {
+			softly.assertThat(responseValidateCanCreateEndorsement1.allowedEndorsements).isEmpty();
+			softly.assertThat(responseValidateCanCreateEndorsement1.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(responseValidateCanCreateEndorsement1.ruleSets.get(0).errors.get(0)).contains("Customer Created Endorsement");
+		});
+
+		//endorsement delete attempt should not be allowed on the Delay Day
+		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysDelayBeforeDelete));
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement2 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly -> {
+			softly.assertThat(responseValidateCanCreateEndorsement2.allowedEndorsements).isEmpty();
+			softly.assertThat(responseValidateCanCreateEndorsement2.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(responseValidateCanCreateEndorsement2.ruleSets.get(0).errors.get(0)).contains("Customer Created Endorsement");
+		});
+
+		//endorsement delete attempt should be allowed on the Delay Day + 1 day
+		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysDelayBeforeDelete + 1));
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly ->
+				softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
+		);
+	}
+
+	protected void pas8784_endorsementValidateStateSpecificConfigVersioning(PolicyType policyType) {
+		//String policyNumber = "AZSS926232058";
+		int numberOfDaysDelayBeforeDelete = 5;
+		int numberOfDaysForNewConfigVersion = 10;
+		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//New Config Version testing for AZ = 0 days delay
+		AAAEndorseResponse responseNewConfigEffective = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertSoftly(softly ->
+				softly.assertThat(responseNewConfigEffective.policyNumber).isEqualTo(policyNumber)
+		);
+		//validation returns "can be deleted"
+		ValidateEndorsementResponse responseValidateCanCreateEndorsementNewConfigEffective = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly ->
+				softly.assertThat(responseValidateCanCreateEndorsementNewConfigEffective.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
+		);
+
+		//shift time till different config becomes current for AZ = 5 days delay , delete old endorsement, add new endorsement
+		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysForNewConfigVersion + 1));
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, null);
+		assertSoftly(softly ->
+				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
+		);
+
+		//endorsement delete attempt should not be allowed on the Delay Day
+		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysForNewConfigVersion + numberOfDaysDelayBeforeDelete));
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement2 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly -> {
+			softly.assertThat(responseValidateCanCreateEndorsement2.allowedEndorsements).isEmpty();
+			softly.assertThat(responseValidateCanCreateEndorsement2.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(responseValidateCanCreateEndorsement2.ruleSets.get(0).errors.get(0)).contains("Customer Created Endorsement");
+		});
+
+		//endorsement delete attempt should be allowed on the Delay Day + 1 day
+		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysDelayBeforeDelete + numberOfDaysDelayBeforeDelete + 1));
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly ->
+				softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
+		);
+	}
+
+	protected void pas8784_endorsementValidateNoDelayAllowedAgent(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		manualPendedEndorsementCreate();
+
+		//endorsement delete attempt should be allowed on the Delay Day + 1 day
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly ->
+				softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
+		);
+	}
+
+	protected void pas8784_endorsementValidateNoDelayNotAllowedSystem(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		manualPendedEndorsementCreate();
+		convertAgentEndorsementToSystemEndorsement(policyNumber);
+
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
+		assertSoftly(softly -> {
+			softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements).isEmpty();
+			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).errors.get(0)).contains("System Created Pended Endorsement");
+		});
+	}
+
+	private void manualPendedEndorsementCreate() {
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
+		NavigationPage.toViewSubTab(getPremiumAndCoverageTab());//to get status = Premium Calculated
+		getPremiumAndCoverageTabElement().saveAndExit();
 	}
 
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
@@ -344,28 +472,26 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Pended Endorsement creation
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
-		NavigationPage.toViewSubTab(getPremiumAndCoverageTab());//to get status = Premium Calculated
-		getPremiumAndCoverageTabElement().saveAndExit();
+		manualPendedEndorsementCreate();
 		if ("System".equals(endorsementType)) {
 			convertAgentEndorsementToSystemEndorsement(policyNumber);
 		}
 		createdEndorsementTransactionProperties("Premium Calculated", TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY), "QA QA user");
+
 		//Start endorsement service call
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
 		assertSoftly(softly ->
-			softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
+				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
 		);
 
 		//check that new endorsement was created
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		//TODO Megha's update
-		createdEndorsementTransactionProperties("Premium Calculated", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "QA QA user");
+		createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
 	}
- //***********************************
+
+	//***********************************
 	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(PolicyType policyType) {
 
 	/*	mainApp().open();
@@ -395,7 +521,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String v2_model = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue();
 		String v2_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue();*/
 
-	String policyNumber = "VASS926232070";
+		String policyNumber = "VASS926232070";
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
@@ -449,11 +575,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	}
 
-
-
-
-
-		//***********************************
+	//***********************************
 	private void createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value("Premium Calculated");
