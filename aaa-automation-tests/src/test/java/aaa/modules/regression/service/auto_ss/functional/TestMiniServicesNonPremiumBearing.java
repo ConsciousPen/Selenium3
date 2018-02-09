@@ -260,6 +260,21 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas8784_endorsementValidateNoDelayNotAllowedSystem(getPolicyType());
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test different Config Versions for Delete User Endorsement Day Delay for AZ
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create User Endorsement
+	 * 4. Validate through service, that this endorsement can be deleted, since config is set to DateDelay = 0
+	 * 5. Change date to Current date +10 (next config version start date)
+	 * 6. Delete old User Endorsement and start new one
+	 * 7. Shift time to Current date +5, since config is set to DateDelay = 5
+	 * 8. Validate through service, that this endorsement cannot be deleted, since config is set to DateDelay = 5
+	 * 9. Shift time to Current date +1 (new User Endorsment creation date + 6) since config is set to DateDelay = 5
+	 * 10. Validate through service, that this endorsement can be deleted
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
