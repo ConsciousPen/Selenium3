@@ -86,7 +86,7 @@ public class Scenario12 extends ScenarioBaseTest {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
 		policyNum = createPolicy(policyCreationTD); 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -119,7 +119,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -136,7 +136,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isEqualTo(PolicyStatus.POLICY_CANCELLED);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 	}
 	
 	protected void createRemittanceFile() {
@@ -184,11 +184,11 @@ public class Scenario12 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED); 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isEqualTo(PolicyStatus.POLICY_CANCELLED);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 		
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData_ReinstateWithLapse")); 
 		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(TimeSetterUtil.getInstance().getCurrentTime())

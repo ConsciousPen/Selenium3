@@ -70,7 +70,7 @@ public class Scenario10 extends ScenarioBaseTest {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
 		policyNum = createPolicy(policyCreationTD); 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
