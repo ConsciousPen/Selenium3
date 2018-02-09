@@ -102,7 +102,7 @@ public final class ErrorEnum {
         AAA_PUP_UWApp_Motorcycle("AAA_PUP_UWApp_Motorcycle", "Applicants with 5 or more motorcycles are ineligible. (AAA_PUP_UWApp_Motorcyc..."),
         AAA_PUP_UWApp_RecreationalVeh("AAA_PUP_UWApp_RecreationalVeh", "Applicants with 5 or more recreational vehicles are ineligible. (AAA_PUP_UWAp..."),
         AAA_PUP_UWApp_RecreationalVeh_ATV("AAA_PUP_UWApp_RecreationalVeh_ATV", "Applicants with 5 or more ATVs are ineligible. (AAA_PUP_UWApp_RecreationalVeh..."),
-        AAA_PUP_UWApp_RecreationalVeh_GC("AAA_PUP_UWApp_RecreationalVeh_GC", "Applicants with 5 or more ATVs are ineligible. (AAA_PUP_UWApp_RecreationalVeh..."),
+        AAA_PUP_UWApp_RecreationalVeh_GC("AAA_PUP_UWApp_RecreationalVeh_GC", "Applicants with 3 or more golf carts are ineligible. (AAA_PUP_UWApp_RecreationalVeh..."),
         AAA_PUP_UWApp_RecreationalVeh_Snowmobile("AAA_PUP_UWApp_RecreationalVeh_Snowmobile", "Applicants with 5 or more snowmobiles are ineligible. (AAA_PUP_UWApp_Recreati..."),
         AAA_PUP_UWApp_Watercraft("AAA_PUP_UWApp_Watercraft", "Applicants with 6 or more watercraft are ineligible. (AAA_PUP_UWApp_Watercraf..."),
 		ERROR_AAA_CSA3080819("AAA_CSA3080819", "Home policy is indicated but home policy # doesn't exist"),
