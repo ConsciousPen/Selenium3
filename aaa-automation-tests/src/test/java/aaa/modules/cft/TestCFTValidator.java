@@ -40,7 +40,7 @@ import com.jcraft.jsch.SftpException;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
-	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
+	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location"; // location /home/autotest/Downloads
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
@@ -69,7 +69,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		CFTHelper.checkDirectory(cftResultDir);
 	}
 
-	// @Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
@@ -114,12 +114,14 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	@Test(groups = {Groups.CFT})
+	// @Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void futureDatedTransactions(@Optional(StringUtils.EMPTY) String state) {
+	public void futureDatedPolicy(@Optional(StringUtils.EMPTY) String state) {
 
-		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE is null order by BILLINGACCOUNTNUMBER";
+		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE = 'DepositPayment' order by BILLINGACCOUNTNUMBER"; // TRANSACTIONTYPE
+																																																		// is
+																																																		// null
 		String query2 = "select BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where BILLINGACCOUNTNUMBER = %s and LEDGERACCOUNTNO =1065 and to_char(txdate, 'yyyymmdd') >= %s order by TXDATE";
 		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();
 		List<Map<String, String>> dbResult = DBService.get().getRows(query1);

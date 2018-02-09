@@ -70,8 +70,8 @@ AddSuspenseActionTab: {
 }  
 
 ClearSuspenseActionTab: {
-  Allocation: {},
-  Payment Amount: 50
+  Allocation: {}
+#  Payment Amount: 50
 }
 
 SearchSuspenseActionTab: {
