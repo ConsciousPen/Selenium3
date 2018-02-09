@@ -295,7 +295,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
 	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
 
 		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "System");
@@ -313,7 +313,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
 	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
 
 		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "Agent");

@@ -476,7 +476,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		if ("System".equals(endorsementType)) {
 			convertAgentEndorsementToSystemEndorsement(policyNumber);
 		}
-		createdEndorsementTransactionProperties("Premium Calculated", TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY), "QA QA user");
+		pas8785_createdEndorsementTransactionProperties("Premium Calculated", TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY), "QA QA user");
 
 		//Start endorsement service call
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -488,7 +488,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//check that new endorsement was created
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
+		pas8785_createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
 	}
 
 	//***********************************
@@ -576,7 +576,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	//***********************************
-	private void createdEndorsementTransactionProperties(String status, String date, String user) {
+	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value("Premium Calculated");
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
