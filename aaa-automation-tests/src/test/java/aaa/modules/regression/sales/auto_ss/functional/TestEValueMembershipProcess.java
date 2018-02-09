@@ -33,6 +33,7 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
+import aaa.modules.regression.service.helper.HelperWireMock;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
@@ -431,6 +432,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         CustomAssert.assertAll();
     }
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
+	public void pas111_paperlessMockTest(@Optional("VA") String state) {
+        //String policyNumber = membershipEligibilityPolicyCreation("Active");
+
+        String policyNumber = "VASS926232060";
+        String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, "paperlessOptInPendingResponse.json");
+
+        //Always need to delete the added request ot stub
+        HelperWireMock.deleteProcessedRequestFromStub(requestId);
+	}
+
     private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
         preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
@@ -532,8 +546,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         String membershipDiscountEligibilitySwitch = "FALSE";
         preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-        membershipEligibilityPolicyCreation("Active");
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        String policyNumber = membershipEligibilityPolicyCreation("Active");
 
         CustomAssert.enableSoftMode();
         jobsNBplus15plus30runNoChecks();
@@ -560,12 +573,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
         CustomAssert.assertAll();
     }
 
-    private void membershipEligibilityPolicyCreation(String membershipStatus) {
+    private String membershipEligibilityPolicyCreation(String membershipStatus) {
 
         testEValueDiscount.eValueQuoteCreation();
         policy.dataGather().start();
         setMembershipAndRate(membershipStatus);
-        testEValueDiscount.simplifiedQuoteIssue();
+        String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+        return policyNumber;
     }
 
     private void membershipEligibilityEndorsementCreation(String membershipStatus) {

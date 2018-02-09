@@ -38,6 +38,7 @@ public class PaperlessPreferencesWMRequestFactory {
         request.id = UUID.randomUUID().toString();
         request.request = mappingRequest;
         request.response = response;
+        request.priority = Integer.MAX_VALUE;
         return request;
     }
 }

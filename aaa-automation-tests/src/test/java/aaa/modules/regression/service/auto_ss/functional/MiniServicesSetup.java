@@ -9,6 +9,7 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 	@Test(description = "Precondition")
 	public static void miniServicesEndorsementDeleteDelayConfigInsert() {
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_INSERT);
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSMENT_DAYS_DEFAULD_CONFIG_UPDATE);
 	}
 
 	@Test(description = "Precondition")
