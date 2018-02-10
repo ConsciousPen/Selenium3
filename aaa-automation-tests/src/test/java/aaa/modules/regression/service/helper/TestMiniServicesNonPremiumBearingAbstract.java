@@ -1,5 +1,11 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,7 +24,6 @@ import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
 import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
 import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
 import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -28,13 +33,6 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -332,6 +330,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		int numberOfDaysForNewConfigVersion = 10;
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
