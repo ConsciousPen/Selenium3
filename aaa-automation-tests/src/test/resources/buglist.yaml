@@ -118,11 +118,11 @@ OSI-1115:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
       messages: ["Cannot set value"]
 OSI-1116:
-  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesn't"
+  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesnt"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["rfiName"]
+      messages: ["rfiName", "no message"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD

@@ -44,6 +44,10 @@ public class ProductOfferingTab extends Tab {
 	public Table tableLegacy = new Table(By.id("QuoteVariation2_sections"));
 	public Table tablePrestige = new Table(By.id("QuoteVariation3_sections"));
 
+	public Button buttonSelectHeritage = new Button(By.id("policyDataGatherForm:QuoteVariation_ActivateBtn"));
+	public Button buttonSelectLegacy = new Button(By.id("policyDataGatherForm:QuoteVariation2_ActivateBtn"));
+	public Button buttonSelectPrestige = new Button(By.id("policyDataGatherForm:QuoteVariation3_ActivateBtn"));
+
 
 	@Override
 	public Tab submitTab() {
