@@ -40,8 +40,10 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
 	public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingHODetailsPopup"), Waiters.AJAX);
 	//	public static Table tableOverrideValues = new Table(By.xpath("//div[@id='coverage_information']/table[class='width100']"));
-	public static TextBox textBoxOverrideFlatAmount = new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:deltaPremiumAmt']"), Waiters.AJAX);
-	public static TextBox textBoxOverridePercentageAmount = new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:percentageAmt']"), Waiters.AJAX);
+	public static TextBox textBoxOverrideFlatAmount =
+			new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:deltaPremiumAmt']"), Waiters.AJAX);
+	public static TextBox textBoxOverridePercentageAmount =
+			new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:percentageAmt']"), Waiters.AJAX);
 	public static Dialog dialogOverridePremium = new Dialog(By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride']"));
 	public static Dialog dialogOverrideConfirmation = new Dialog(By.id("overrideModalConfirmationDialog_container"));
 	public static StaticElement lblOverridenPremium = new StaticElement(
@@ -57,7 +59,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Dollar getTaxesSurchargesPremium() {
 		return new Dollar(tableTaxesSurchargesSummary.getRow(1).getCell(tableTaxesSurchargesSummary.getColumnsCount()).getValue());
 	}
-	
+
 	public static Dollar getPolicyTermPremium() {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount()).getValue());
 	}
@@ -73,13 +75,18 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Dollar getPreEndorsementPremium() {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount() - 3).getValue());
 	}
+
 	public static Dollar getOverridenPremiumFlatAmount() {
 		return new Dollar(textBoxOverrideFlatAmount.getValue());
 	}
 
 	public static int getOverridenPremiumPercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		return (new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())))).intValue();
+		return new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue()))).intValue();
+	}
+
+	public static Dollar getFinalTermPremium() {
+		return new Dollar(tablePremiumOverrideadjustment.getRow(3).getCell(2).getValue());
 	}
 
 	public static Dollar calculatedOverrideFlatAmount() {
@@ -88,33 +95,32 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static int calculatedOverridePercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		return (new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
-				(new Double(getPolicyDwellingPremium().toPlaingString())) * 100)))).intValue();
-	}
-
-	public static Dollar getFinalTermPremium() {
-		return new Dollar(tablePremiumOverrideadjustment.getRow(3).getCell(2).getValue());
+		return new Double(df.format(new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
+				new Double(getPolicyDwellingPremium().toPlaingString()) * 100)).intValue();
 	}
 
 	@Override
 	public Tab fillTab(TestData td) {
+		hideHeader();
 		super.fillTab(convertValue(td));
 		if (!td.getTestData(getMetaKey()).containsKey(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel())) {
 			calculatePremium();
 		}
-		return this;
-	}
-
-	public Tab fillTab(TestData td, boolean calculatePremium) {
-		super.fillTab(convertValue(td));
-		if (calculatePremium)
-			calculatePremium();
+		showHeader();
 		return this;
 	}
 
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
+		return this;
+	}
+
+	public Tab fillTab(TestData td, boolean calculatePremium) {
+		super.fillTab(convertValue(td));
+		if (calculatePremium) {
+			calculatePremium();
+		}
 		return this;
 	}
 
@@ -154,8 +160,8 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static class RatingDetailsTable {
 		private final String LOCATOR_TEMPLATE = "//td[.='%s']/following-sibling::td[1]";
-		private String locator;
 		private final String LABEL_LOCATOR_TEMPLATE = "//td[.='%s']";
+		private String locator;
 
 		public RatingDetailsTable(String tableLocator) {
 			this.locator = tableLocator;

@@ -43,19 +43,8 @@ public class PremiumAndCoveragesTab extends Tab {
 		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
 	}
 
-	@Override
-	public Tab fillTab(TestData td) {
-		super.fillTab(td); 
-		if (td.getTestData(getMetaKey()) != null && !td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
-			buttonCalculatePremium.click();
-		}
-		return this;
-	}
-
-	@Override
-	public Tab submitTab() {
-		btnContinue.click();
-		return this;
+	public static Dollar getPolicyTermPremium() {
+		return new Dollar(tablePremiumSummary.getRow(1).getCell(4).getValue());
 	}
 
 	public static void calculatePremium() {
@@ -65,7 +54,20 @@ public class PremiumAndCoveragesTab extends Tab {
 		buttonCalculatePremium.click();
 	}
 
-	public static Dollar getPolicyTermPremium() {
-		return new Dollar(tablePremiumSummary.getRow(1).getCell(4).getValue());
+	@Override
+	public Tab fillTab(TestData td) {
+		super.fillTab(td);
+		if (td.getTestData(getMetaKey()) != null && !td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
+			hideHeader();
+			buttonCalculatePremium.click();
+			showHeader();
+		}
+		return this;
+	}
+
+	@Override
+	public Tab submitTab() {
+		btnContinue.click();
+		return this;
 	}
 }
