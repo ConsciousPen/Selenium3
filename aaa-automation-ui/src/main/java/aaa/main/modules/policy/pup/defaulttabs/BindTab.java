@@ -18,10 +18,10 @@ import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
  */
 public class BindTab extends Tab {
 	// public Button btnPurchase = new Button(By.id("policyDataGatherForm:moveToBilling_footer"), Waiters.AJAX);
-	public Button btnPurchase = new Button(By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' " +
-		"or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"), Waiters.AJAX);
+	public Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling') and contains(@id, 'footer')]"), Waiters.AJAX);
 	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public Dialog confrimEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
+	public Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
 
 	public BindTab() {
 		super(PersonalUmbrellaMetaData.BindTab.class);
@@ -34,6 +34,8 @@ public class BindTab extends Tab {
 			confirmPurchase.confirm();
 		} else if (confrimEndorsementPurchase.isPresent() && confrimEndorsementPurchase.isVisible()) {
 			confrimEndorsementPurchase.confirm();
+		} else if (confirmRenewal.isPresent() && confirmRenewal.isVisible()) {
+			confirmRenewal.confirm();
 		}
 		return this;
 	}
