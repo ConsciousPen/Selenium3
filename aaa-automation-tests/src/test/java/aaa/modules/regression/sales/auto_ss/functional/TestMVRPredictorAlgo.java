@@ -24,14 +24,12 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	* * @author Dominykas Razgunas
 	* @name MVR Predictor Algo for 2 of 4 Drivers
 	* @scenario 1. Create Customer1.
-	* 2. Create Auto SS PA Quote.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* 2. Create Auto SS CT Quote.
+	* 3. Add 4 Drivers 2 of who are eligible for mvr status predicted valid
+	* 4. Add 4 Vehicles
+	* 5. Navigate to Driver Activity Reports Tab.
+	* 6. Order Reports.
+	* 7. Assert Statuses
 	* @details
 	*/
 	@Parameters({"state"})
