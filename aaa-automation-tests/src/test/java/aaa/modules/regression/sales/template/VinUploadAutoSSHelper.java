@@ -86,7 +86,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 
 		assertSoftly(softly -> {
 		    //Verification of tableVehicleList instead of Vehicle page field (to avoid cache issue)
-			softly.assertThat(VehicleTab.tableVehicleList.getColumn("Make").getValue().contains("UT_SS")).isTrue();
+			softly.assertThat(VehicleTab.tableVehicleList.getRow("Make", "UT_SS")).exists();
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");
