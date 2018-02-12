@@ -2,15 +2,19 @@ package aaa.utils.excel.io.entity.area.sheet;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelRow;
 
 public class SheetRow extends ExcelRow<SheetCell> {
-	private Map<Integer, SheetCell> cells;
+	public SheetRow(Row row, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelSheet sheet) {
+		this(row, rowIndexOnSheet, columnsIndexesOnSheet, sheet, sheet.getCellTypes());
+	}
 
-	public SheetRow(Row row, int rowIndex, ExcelSheet sheet) {
-		super(row, rowIndex, sheet);
+	public SheetRow(Row row, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+		super(row, rowIndexOnSheet, rowIndexOnSheet, columnsIndexesOnSheet, sheet, cellTypes);
 	}
 
 	public ExcelSheet getSheet() {
@@ -18,40 +22,13 @@ public class SheetRow extends ExcelRow<SheetCell> {
 	}
 
 	@Override
-	//@SuppressWarnings({"AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, SheetCell> getCellsMap() {
-		if (this.cells == null) {
-			this.cells = new LinkedHashMap<>(getSheet().getColumnsIndexes().size());
-			for (Integer columnIndex : getSheet().getColumnsIndexes()) {
-				Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndex - 1) : null;
-				SheetCell cell = new SheetCell(poiCell, this, columnIndex);
-				this.cells.put(columnIndex, cell);
-			}
+	protected Map<Integer, SheetCell> gatherQueueIndexesAndCellsMap(Set<Integer> columnsIndexes, Set<CellType<?>> cellTypes) {
+		Map<Integer, SheetCell> columnsIndexesAndCellsMap = new LinkedHashMap<>(columnsIndexes.size());
+		for (Integer columnIndex : columnsIndexes) {
+			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndex - 1) : null;
+			SheetCell cell = new SheetCell(poiCell, columnIndex, this, cellTypes);
+			columnsIndexesAndCellsMap.put(columnIndex, cell);
 		}
-		return this.cells;
+		return columnsIndexesAndCellsMap;
 	}
-
-	/*@Override
-	public ExcelSheet exclude() {
-		getSheet().excludeRows(this.getIndex());
-		return getSheet();
-	}*/
-
-	/*@Override
-	protected ExcelSheet getArea() {
-		return getSheet();
-	}*/
-
-	/*@Override
-	public ExcelSheet delete() {
-		getSheet().deleteRows(getIndex());
-		return getSheet();
-	}*/
-
-	/*@Override
-	@Nonnull
-	@SuppressWarnings("unchecked")
-	public Iterator<EditableCell> iterator() {
-		return (Iterator<EditableCell>) new CellIterator(this);
-	}*/
 }

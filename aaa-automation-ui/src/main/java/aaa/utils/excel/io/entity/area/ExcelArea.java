@@ -25,14 +25,13 @@ import aaa.utils.excel.io.entity.iterator.RowIterator;
 import toolkit.exceptions.IstfException;
 
 public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CELL>, COLUMN extends ExcelColumn<CELL>> implements Writable, Iterable<ROW> {
-	protected Sheet sheet;
-	protected ExcelManager excelManager;
-	protected Set<CellType<?>> cellTypes;
-	protected boolean considerRowsOnComparison;
-	protected boolean considerColumnsOnComparison;
-
-	private Set<Integer> rowsIndexesOnSheet;
+	private Sheet sheet;
 	private Set<Integer> columnsIndexesOnSheet;
+	private Set<Integer> rowsIndexesOnSheet;
+	private ExcelManager excelManager;
+	private Set<CellType<?>> cellTypes;
+	private boolean considerRowsOnComparison;
+	private boolean considerColumnsOnComparison;
 	private Map<Integer, ROW> areaIndexesAndRowsMap;
 	private Map<Integer, COLUMN> areaIndexesAndColumnsMap;
 
@@ -42,8 +41,8 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.sheet = sheet;
-		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? new HashSet<>(columnsIndexesOnSheet) : getColumnsIndexes(sheet);
-		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? new HashSet<>(rowsIndexesOnSheet) : getRowsIndexes(sheet);
+		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? new HashSet<>(columnsIndexesOnSheet) : getColumnsIndexes(sheet);
+		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? new HashSet<>(rowsIndexesOnSheet) : getRowsIndexes(sheet);
 		this.excelManager = excelManager;
 		this.cellTypes = new HashSet<>(cellTypes);
 		this.considerRowsOnComparison = true;
@@ -51,7 +50,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public Sheet getPoiSheet() {
-		return sheet;
+		return this.sheet;
 	}
 
 	public List<Integer> getColumnsIndexes() {
@@ -164,7 +163,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	@Override
 	public String toString() {
-		return "CellsArea{" +
+		return "ExcelArea{" +
 				"sheetName=" + getPoiSheet().getSheetName() +
 				", columnsIndexes=" + getColumnsIndexes() +
 				", rowsIndexes=" + getRowsIndexes() +
@@ -304,11 +303,15 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return foundRows.get(foundRows.size() - 1);
 	}
 
-	public abstract ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes);
+	public ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes) {
+		assertThat(columnsIndexes).as("Can't exclude columns with indexes %s", Arrays.asList(columnsIndexes)).allMatch(this::hasColumn);
+		removeColumnsIndexes(columnsIndexes);
+		return this;
+	}
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeRows(Integer... rowsIndexes) {
 		assertThat(rowsIndexes).as("Can't exclude rows with indexes %s", Arrays.asList(rowsIndexes)).allMatch(this::hasRow);
-		removeRowsIndexesOnSheet(rowsIndexes);
+		removeRowsIndexes(rowsIndexes);
 		return this;
 	}
 
@@ -357,32 +360,37 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this;
 	}
 
-	protected void removeRowsIndexesOnSheet(Integer... rowsIndexes) {
-		List<Integer> rowIndexesList = Arrays.asList(rowsIndexes);
-		getAreaIndexesAndRowsMap().entrySet().removeIf(r -> rowIndexesList.contains(r.getKey()));
-		this.rowsIndexesOnSheet.removeAll(rowIndexesList);
+	protected void removeRowsIndexes(Integer... rowsIndexesInArea) {
+		for (Integer rowIndex : rowsIndexesInArea) {
+			this.rowsIndexesOnSheet.remove(getRow(rowIndex).getIndexOnSheet());
+			getAreaIndexesAndRowsMap().remove(rowIndex);
+		}
 	}
 
-	protected void removeColumnsIndexesOnSheet(Integer... columnsIndexes) {
-		List<Integer> columnsIndexesList = Arrays.asList(columnsIndexes);
-		getAreaIndexesAndColumnsMap().entrySet().removeIf(c -> columnsIndexesList.contains(c.getKey()));
-		this.columnsIndexesOnSheet.removeAll(columnsIndexesList);
+	protected void removeColumnsIndexes(Integer... columnsIndexesInArea) {
+		for (Integer columnIndex : columnsIndexesInArea) {
+			for (ExcelRow<CELL> row : this) {
+				row.removeCellsIndexes(columnIndex);
+			}
+			this.columnsIndexesOnSheet.remove(getColumn(columnIndex).getIndexOnSheet());
+			getAreaIndexesAndColumnsMap().remove(columnIndex);
+		}
 	}
 
-	protected abstract Map<Integer, ROW> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes);
+	protected abstract Map<Integer, ROW> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes);
 
-	protected abstract Map<Integer, COLUMN> gatherAreaIndexesAndColumnsMap(Set<Integer> columnsIndexes);
+	protected abstract Map<Integer, COLUMN> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes);
 
 	private Map<Integer, COLUMN> getAreaIndexesAndColumnsMap() {
 		if (this.areaIndexesAndColumnsMap == null) {
-			this.areaIndexesAndColumnsMap = gatherAreaIndexesAndColumnsMap(this.columnsIndexesOnSheet);
+			this.areaIndexesAndColumnsMap = gatherAreaIndexesAndColumnsMap(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes);
 		}
 		return this.areaIndexesAndColumnsMap;
 	}
 
 	private Map<Integer, ROW> getAreaIndexesAndRowsMap() {
 		if (this.areaIndexesAndRowsMap == null) {
-			this.areaIndexesAndRowsMap = gatherAreaIndexesAndRowsMap(this.rowsIndexesOnSheet);
+			this.areaIndexesAndRowsMap = gatherAreaIndexesAndRowsMap(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes);
 		}
 		return this.areaIndexesAndRowsMap;
 	}

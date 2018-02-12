@@ -7,18 +7,20 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelRow;
 
 public class TableRow extends ExcelRow<TableCell> {
-	protected Map<Integer, TableCell> tableCells;
-	private int tableRowIndex;
+	public TableRow(Row row, int rowIndexInTable, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelTable table) {
+		this(row, rowIndexInTable, rowIndexOnSheet, columnsIndexesOnSheet, table, table.getCellTypes());
+	}
 
-	public TableRow(Row row, int tableRowIndex, int rowIndexOnSheet, ExcelTable table) {
-		super(row, rowIndexOnSheet, table);
-		this.tableRowIndex = tableRowIndex;
+	public TableRow(Row row, int rowIndexInTable, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelTable table, Set<CellType<?>> cellTypes) {
+		super(row, rowIndexInTable, rowIndexOnSheet, columnsIndexesOnSheet, table, cellTypes);
 	}
 
 	public ExcelTable getTable() {
@@ -46,47 +48,21 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	@Override
-	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, TableCell> getCellsMap() {
-		if (this.tableCells == null) {
-			this.tableCells = new LinkedHashMap<>(getTable().getColumnsIndexes().size());
-			for (int i = 0; i < getTable().getColumnsIndexes().size(); i++) {
-				int tableCellIndex = getTable().getColumnsIndexes().get(i);
-				int sheetCellIndex = getTable().getColumnsIndexesOnSheet().get(i);
-				Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(sheetCellIndex - 1) : null;
-				TableCell tableCell = new TableCell(poiCell, this, tableCellIndex, sheetCellIndex);
-				this.tableCells.put(tableCellIndex, tableCell);
-			}
+	protected Map<Integer, TableCell> gatherQueueIndexesAndCellsMap(Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
+		Map<Integer, TableCell> columnsIndexesAndCellsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
+		int columnIndexInTable = 1;
+		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
+			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
+			TableCell tableCell = new TableCell(poiCell, columnIndexInTable, columnIndexOnSheet, this, cellTypes);
+			columnsIndexesAndCellsMap.put(columnIndexInTable, tableCell);
+			columnIndexInTable++;
 		}
-		return this.tableCells;
+		return columnsIndexesAndCellsMap;
 	}
-
-/*	@Override
-	protected ExcelTable getArea() {
-		return getTable();
-	}*/
 
 	@Override
 	public int getIndexOnSheet() {
 		return super.getIndexOnSheet();
-	}
-
-	@Override
-	public ExcelTable exclude() {
-		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
-		return getTable();
-	}
-
-	/*@Override
-	@Nonnull
-	@SuppressWarnings("unchecked")
-	public Iterator<TableCell> iterator() {
-		return (Iterator<TableCell>) new CellIterator(this);
-	}*/
-
-	@Override
-	public int getIndex() {
-		return this.tableRowIndex;
 	}
 
 	@Override
@@ -95,24 +71,6 @@ public class TableRow extends ExcelRow<TableCell> {
 				"rowIndex=" + getIndex() +
 				", values=" + getTableValues() +
 				'}';
-	}
-
-	/*@Override
-	public EditableCellsArea<TableCell, ?, ?> exclude() {
-		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
-		return null;
-	}*/
-
-	@Override
-	public ExcelTable delete() {
-		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
-		return getTable();
-	}
-
-	@Override
-	public TableRow copy(int destinationQueueIndex) {
-		//TODO-dchubkov: >>>>>>>>>>>>>>>>>>>>>>>>
-		return this;
 	}
 
 	public boolean hasColumn(String headerColumnName) {
@@ -168,12 +126,20 @@ public class TableRow extends ExcelRow<TableCell> {
 		return getDateValue(getIndex(headerColumnName), formatters);
 	}
 
+	public TableRow setValue(String headerColumnName, Object value) {
+		return (TableRow) setValue(getIndex(headerColumnName), value);
+	}
+
+	public <T> TableRow setValue(String headerColumnName, T value, CellType<T> valueType) {
+		return (TableRow) setValue(getIndex(headerColumnName), value, valueType);
+	}
+
 	public boolean hasValue(String headerColumnName, Object expectedValue, DateTimeFormatter... formatters) {
 		return hasValue(getIndex(headerColumnName), expectedValue, formatters);
 	}
 
-	public boolean isEmpty(String columnName) {
-		return isEmpty(getIndex(columnName));
+	public boolean isEmpty(String headerColumnName) {
+		return isEmpty(getIndex(headerColumnName));
 	}
 
 	public int getSum(String... headerColumnNames) {

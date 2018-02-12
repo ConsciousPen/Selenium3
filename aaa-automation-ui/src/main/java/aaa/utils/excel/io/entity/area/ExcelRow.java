@@ -1,12 +1,18 @@
 package aaa.utils.excel.io.entity.area;
 
+import java.util.Set;
 import org.apache.poi.ss.usermodel.Row;
+import aaa.utils.excel.io.celltype.CellType;
 
 public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> {
-	protected Row row;
+	private Row row;
 
-	protected ExcelRow(Row row, int rowIndexOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
-		super(rowIndexOnSheet, excelArea);
+	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
+		this(row, rowIndexInArea, rowIndexOnSheet, columnsIndexesOnSheet, excelArea, excelArea.getCellTypes());
+	}
+
+	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
+		super(rowIndexInArea, rowIndexOnSheet, columnsIndexesOnSheet, excelArea, cellTypes);
 		this.row = row;
 	}
 
@@ -21,8 +27,7 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 
 	@Override
 	public ExcelArea<CELL, ?, ?> exclude() {
-		getArea().excludeRows(this.getIndex());
-		return getArea();
+		return getArea().excludeRows(getIndex());
 	}
 
 	@Override
@@ -35,8 +40,7 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 
 	@Override
 	public ExcelArea<CELL, ?, ?> delete() {
-		getArea().deleteRows(getIndex());
-		return getArea();
+		return getArea().deleteRows(getIndex());
 	}
 
 	@Override
@@ -45,5 +49,10 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 				"rowIndex=" + getIndex() +
 				", values=" + getValues() +
 				'}';
+	}
+
+	@Override
+	protected Integer getCellIndexOnSheet(Integer cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getColumnIndexOnSheet();
 	}
 }

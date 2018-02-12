@@ -1,15 +1,18 @@
 package aaa.utils.excel.io.entity.area.table;
 
+import java.util.Set;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
+import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public class TableCell extends ExcelCell {
-	private int tableColumnIndex;
+	public TableCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableRow tableRow) {
+		this(cell, columnIndexInTable, columnIndexOnSheet, tableRow, tableRow.getCellTypes());
+	}
 
-	public TableCell(Cell cell, TableRow tableRow, int tableColumnIndex, int columnIndex) {
-		super(cell, tableRow, columnIndex);
-		this.tableColumnIndex = tableColumnIndex;
+	public TableCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableRow tableRow, Set<CellType<?>> cellTypes) {
+		super(cell, columnIndexInTable, columnIndexOnSheet, tableRow, cellTypes);
 	}
 
 	public String getHeaderColumnName() {
@@ -20,29 +23,14 @@ public class TableCell extends ExcelCell {
 		return getRow().getTable();
 	}
 
+	@Override
 	public int getColumnIndexOnSheet() {
-		return this.columnIndex;
+		return super.getColumnIndexOnSheet();
 	}
-
-	/*@SuppressWarnings("unchecked")
-	@Override
-	protected ExcelTable getArea() {
-		return getTable();
-	}*/
-
-	/*@Override
-	public TableRow getRow() {
-		return (TableRow) super.getRow();
-	}*/
 
 	@Override
 	public TableRow getRow() {
 		return (TableRow) super.getRow();
-	}
-
-	@Override
-	public int getColumnIndex() {
-		return this.tableColumnIndex;
 	}
 
 	@Override
@@ -56,12 +44,6 @@ public class TableCell extends ExcelCell {
 				", Cell Types=" + getCellTypes() +
 				'}';
 	}
-
-	/*@Override
-	public EditableCell excludeColumn() {
-		getTable().excludeColumns(getColumnIndex());
-		return this;
-	}*/
 
 	@Override
 	public ExcelCell delete() {

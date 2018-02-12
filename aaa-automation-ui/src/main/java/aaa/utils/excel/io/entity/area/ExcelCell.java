@@ -31,19 +31,25 @@ public abstract class ExcelCell implements Writable {
 	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
-	protected ExcelRow<?> row;
-	protected Cell cell;
-	protected int columnIndex;
-	protected Set<CellType<?>> cellTypes;
+	private ExcelRow<? extends ExcelCell> row;
+	private Cell cell;
+	private int columnIndexInArea;
+	private int columnIndexOnSheet;
+	private Set<CellType<?>> cellTypes;
 
-	protected ExcelCell(Cell cell, ExcelRow<?> row, int columnIndex) {
-		this(cell, row, columnIndex, row.getCellTypes());
+	protected ExcelCell(Cell cell, int columnIndexOnSheet, ExcelRow<? extends ExcelCell> row) {
+		this(cell, columnIndexOnSheet, columnIndexOnSheet, row, row.getCellTypes());
 	}
 
-	protected ExcelCell(Cell cell, ExcelRow<?> row, int columnIndex, Set<CellType<?>> cellTypes) {
-		this.row = row;
+	protected ExcelCell(Cell cell, int columnIndexInArea, int columnIndexOnSheet, ExcelRow<? extends ExcelCell> row) {
+		this(cell, columnIndexInArea, columnIndexOnSheet, row, row.getCellTypes());
+	}
+
+	protected ExcelCell(Cell cell, int columnIndexInArea, int columnIndexOnSheet, ExcelRow<? extends ExcelCell> row, Set<CellType<?>> cellTypes) {
+		this.row = row; // should be initialized first!
 		this.cell = normalizeCell(cell);
-		this.columnIndex = columnIndex;
+		this.columnIndexInArea = columnIndexInArea;
+		this.columnIndexOnSheet = columnIndexOnSheet;
 	}
 
 	public static Set<CellType<?>> getBaseTypes() {
@@ -59,8 +65,16 @@ public abstract class ExcelCell implements Writable {
 		return this;
 	}
 
-	public ExcelRow<?> getRow() {
+	public ExcelRow<? extends ExcelCell> getRow() {
 		return row;
+	}
+
+	public ExcelColumn<? extends ExcelCell> getColumn() {
+		return getRow().getArea().getColumn(getColumnIndex());
+	}
+
+	public int getColumnIndex() {
+		return this.columnIndexInArea;
 	}
 
 	public Set<CellType<?>> getCellTypes() {
@@ -76,12 +90,12 @@ public abstract class ExcelCell implements Writable {
 		return this;
 	}
 
-	public int getColumnIndex() {
-		return columnIndex;
-	}
-
 	public int getRowIndex() {
 		return getRow().getIndex();
+	}
+
+	public int getRowIndexOnSheet() {
+		return getRow().getIndexOnSheet();
 	}
 
 	public boolean isEmpty() {
@@ -121,7 +135,7 @@ public abstract class ExcelCell implements Writable {
 		throw new IstfException("Cell does not have supported types to retrieve its value");
 	}
 
-	public <T> ExcelCell setValue(T value) {
+	public ExcelCell setValue(Object value) {
 		return setValue(value, getType(value));
 	}
 
@@ -143,6 +157,10 @@ public abstract class ExcelCell implements Writable {
 
 	public boolean isNumeric() {
 		return getCellTypes().stream().anyMatch(t -> t instanceof NumberCellType);
+	}
+
+	protected int getColumnIndexOnSheet() {
+		return this.columnIndexOnSheet;
 	}
 
 	//protected abstract <E extends ExcelCell> ExcelArea<E, ?, ?> getArea();
@@ -210,8 +228,6 @@ public abstract class ExcelCell implements Writable {
 		this.cellTypes = filterAndGetValidCellTypes(getCellTypes());
 		return this;
 	}
-
-	//public abstract ExcelCell excludeColumn();
 
 	public ExcelCell clear() {
 		if (!isEmpty()) {

@@ -9,12 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelArea;
-import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import toolkit.exceptions.IstfException;
 
@@ -23,7 +21,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	private Set<ExcelTable> tables;
 
 	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager) {
-		this(sheet, sheetIndex, excelManager, ExcelCell.getBaseTypes());
+		this(sheet, sheetIndex, excelManager, excelManager.getCellTypes());
 	}
 
 	public ExcelSheet(Sheet sheet, int sheetIndex, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
@@ -37,7 +35,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	}
 
 	public int getSheetIndex() {
-		return sheetIndex;
+		return this.sheetIndex;
 	}
 
 	/**
@@ -51,69 +49,25 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		return getPoiSheet().getSheetName();
 	}
 
-	/*@Override
-	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, SheetRow> getRowsMap() {
-		if (this.rows == null) {
-			this.rows = new LinkedHashMap<>(this.rowsIndexes.size());
-			for (int rowIndex : this.rowsIndexes) {
-				SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, this);
-				this.rows.put(rowIndex, row);
-			}
-		}
-		return this.rows;
-	}*/
-
-	/*@Override
-	//@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, SheetColumn> getColumnsMap() {
-		if (this.columns == null) {
-			this.columns = new LinkedHashMap<>(this.columnsIndexes.size());
-			for (Integer columnIndex : this.columnsIndexes) {
-				Row row = getPoiSheet().getRow(columnIndex - 1);
-				this.columns.put(columnIndex, new SheetColumn(columnIndex, this));
-			}
-		}
-		return this.columns;
-	}*/
-
 	@Override
-	protected Map<Integer, SheetRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes) {
-		Map<Integer, SheetRow> rowsMap = new LinkedHashMap<>(rowsIndexes.size());
+	protected Map<Integer, SheetRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexes, Set<Integer> columnsIndexes, Set<CellType<?>> cellTypes) {
+		Map<Integer, SheetRow> indexesAndRowsMap = new LinkedHashMap<>(rowsIndexes.size());
 		for (int rowIndex : rowsIndexes) {
-			SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, this);
-			rowsMap.put(rowIndex, row);
+			SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, columnsIndexes, this, cellTypes);
+			indexesAndRowsMap.put(rowIndex, row);
 		}
-		return rowsMap;
+		return indexesAndRowsMap;
 	}
 
 	@Override
-	protected Map<Integer, SheetColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> columnsIndexes) {
-		Map<Integer, SheetColumn> columnsMap = new LinkedHashMap<>(columnsIndexes.size());
+	protected Map<Integer, SheetColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexes, Set<Integer> columnsIndexes, Set<CellType<?>> cellTypes) {
+		Map<Integer, SheetColumn> indexesAndColumnsMap = new LinkedHashMap<>(columnsIndexes.size());
 		for (Integer columnIndex : columnsIndexes) {
-			Row row = getPoiSheet().getRow(columnIndex - 1);
-			columnsMap.put(columnIndex, new SheetColumn(columnIndex, this));
+			SheetColumn column = new SheetColumn(columnIndex, rowsIndexes, this, cellTypes);
+			indexesAndColumnsMap.put(columnIndex, column);
 		}
-		return columnsMap;
+		return indexesAndColumnsMap;
 	}
-
-	@Override
-	public ExcelSheet excludeColumns(Integer... columnsIndexes) {
-		for (Integer cIndex : columnsIndexes) {
-			for (SheetRow row : this) {
-				row.getCellsMap().remove(cIndex);
-			}
-		}
-		removeColumnsIndexesOnSheet(columnsIndexes);
-		return this;
-	}
-
-
-	/*@Override
-	@Nonnull
-	public Iterator<SheetRow> iterator() {
-		return new RowIterator<>(getRowsIndexes(), this::getRow);
-	}*/
 
 	/**
 	 * Register cell types for next found ExcelTables and ExcelRows and update cell types for found {@link #tables}

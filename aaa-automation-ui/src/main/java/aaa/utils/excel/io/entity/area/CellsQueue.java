@@ -19,27 +19,31 @@ import aaa.utils.excel.io.entity.Writable;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
 
 public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, Iterable<CELL> {
-	private int indexOnSheet;
-	//protected ExcelManager excelManager;
-	private Set<CellType<?>> cellTypes;
+	private int queueIndexInArea;
+	private int queueIndexOnSheet;
+	private Set<Integer> cellsIndexesOnSheet;
 	private ExcelArea<CELL, ?, ?> excelArea;
+	private Set<CellType<?>> cellTypes;
+	private Map<Integer, CELL> queueIndexesAndCellsMap;
 
-	protected CellsQueue(int indexOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
-		this(indexOnSheet, excelArea, excelArea.getCellTypes());
+	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, Set<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
+		this(queueIndexInArea, queueIndexOnSheet, cellsIndexesOnSheet, excelArea, excelArea.getCellTypes());
 	}
 
-	protected CellsQueue(int indexOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
-		this.indexOnSheet = indexOnSheet;
+	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, Set<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
+		this.queueIndexInArea = queueIndexInArea;
+		this.queueIndexOnSheet = queueIndexOnSheet;
+		this.cellsIndexesOnSheet = new HashSet<>(cellsIndexesOnSheet);
 		this.excelArea = excelArea;
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
 
 	public List<CELL> getCells() {
-		return new ArrayList<>(getCellsMap().values());
+		return new ArrayList<>(getQueueIndexesAndCellsMap().values());
 	}
 
 	public List<Integer> getCellsIndexes() {
-		return new ArrayList<>(getCellsMap().keySet());
+		return new ArrayList<>(getQueueIndexesAndCellsMap().keySet());
 	}
 
 	public int getFirstCellIndex() {
@@ -60,7 +64,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public int getSize() {
-		return getCellsMap().size();
+		return getQueueIndexesAndCellsMap().size();
 	}
 
 	public boolean isEmpty() {
@@ -76,7 +80,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public int getSum() {
-		return getSum(getCellsIndexes().toArray(new Integer[getCellsMap().size()]));
+		return getSum(getCellsIndexes().toArray(new Integer[getQueueIndexesAndCellsMap().size()]));
 	}
 
 	public int getMaxValue() {
@@ -91,15 +95,21 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return new HashSet<>(this.cellTypes);
 	}
 
+	public int getIndex() {
+		return this.queueIndexInArea;
+	}
+
 	protected int getIndexOnSheet() {
-		return this.indexOnSheet;
+		return this.queueIndexOnSheet;
+	}
+
+	protected List<Integer> getCellsIndexesOnSheet() {
+		return new ArrayList<>(this.cellsIndexesOnSheet);
 	}
 
 	protected ExcelArea<CELL, ?, ?> getArea() {
 		return this.excelArea;
 	}
-
-	protected abstract Map<Integer, CELL> getCellsMap();
 
 	@Override
 	@Nonnull
@@ -112,50 +122,60 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return getArea().getExcelManager();
 	}
 
-	public int getSum(Integer... cellsIndexes) {
-		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexes);
+	public int getSum(Integer... cellsIndexesInQueue) {
+		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexesInQueue);
 		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
 	}
 
-	public boolean isEmpty(int queueIndex) {
-		return getCell(queueIndex).isEmpty();
+	public boolean isEmpty(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).isEmpty();
 	}
 
-	public CELL getCell(int queueIndex) {
-		assertThat(hasCell(queueIndex)).as("There is no cell with %s index", queueIndex, getIndex()).isTrue();
-		return getCellsMap().get(queueIndex);
+	public CELL getCell(int cellIndexInQueue) {
+		assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %s index", cellIndexInQueue, getIndex()).isTrue();
+		return getQueueIndexesAndCellsMap().get(cellIndexInQueue);
 	}
 
-	public Object getValue(int queueIndex) {
-		return getCell(queueIndex).getValue();
+	public Object getValue(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getValue();
 	}
 
-	public String getStringValue(int queueIndex) {
-		return getCell(queueIndex).getStringValue();
+	public String getStringValue(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getStringValue();
 	}
 
-	public Boolean getBoolValue(int queueIndex) {
-		return getCell(queueIndex).getBoolValue();
+	public Boolean getBoolValue(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getBoolValue();
 	}
 
-	public Integer getIntValue(int queueIndex) {
-		return getCell(queueIndex).getIntValue();
+	public Integer getIntValue(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getIntValue();
 	}
 
-	public Double getDoubleValue(int queueIndex) {
-		return getCell(queueIndex).getDoubleValue();
+	public Double getDoubleValue(int cellIndexInQueue) {
+		return getCell(cellIndexInQueue).getDoubleValue();
 	}
 
-	public LocalDateTime getDateValue(int queueIndex, DateTimeFormatter... formatters) {
-		return getCell(queueIndex).getDateValue(formatters);
+	public LocalDateTime getDateValue(int cellIndexInQueue, DateTimeFormatter... formatters) {
+		return getCell(cellIndexInQueue).getDateValue(formatters);
 	}
 
-	public boolean hasCell(int queueIndex) {
-		return getCellsMap().containsKey(queueIndex);
+	public CellsQueue<CELL> setValue(int cellIndexInQueue, Object value) {
+		getCell(cellIndexInQueue).setValue(value);
+		return this;
 	}
 
-	public boolean hasValue(int queueIndex, Object expectedValue, DateTimeFormatter... formatters) {
-		CELL cell = getCell(queueIndex);
+	public <T> CellsQueue<CELL> setValue(int cellIndexInQueue, T value, CellType<T> valueType) {
+		getCell(cellIndexInQueue).setValue(value, valueType);
+		return this;
+	}
+
+	public boolean hasCell(int cellIndexInQueue) {
+		return getQueueIndexesAndCellsMap().containsKey(cellIndexInQueue);
+	}
+
+	public boolean hasValue(int cellIndexInQueue, Object expectedValue, DateTimeFormatter... formatters) {
+		CELL cell = getCell(cellIndexInQueue);
 		if (cell.isDate(formatters)) {
 			return Objects.equals(cell.getDateValue(formatters), expectedValue);
 		}
@@ -178,4 +198,22 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public abstract CellsQueue<CELL> copy(int destinationQueueIndex);
+
+	protected void removeCellsIndexes(Integer... cellsIndexesInQueue) {
+		for (Integer cellIndex : cellsIndexesInQueue) {
+			this.cellsIndexesOnSheet.remove(getCellIndexOnSheet(cellIndex));
+			getQueueIndexesAndCellsMap().remove(cellIndex);
+		}
+	}
+
+	protected abstract Map<Integer, CELL> gatherQueueIndexesAndCellsMap(Set<Integer> cellsIndexesOnSheet, Set<CellType<?>> cellTypes);
+
+	protected abstract Integer getCellIndexOnSheet(Integer cellIndexInQueue);
+
+	private Map<Integer, CELL> getQueueIndexesAndCellsMap() {
+		if (this.queueIndexesAndCellsMap == null) {
+			this.queueIndexesAndCellsMap = gatherQueueIndexesAndCellsMap(this.cellsIndexesOnSheet, this.cellTypes);
+		}
+		return this.queueIndexesAndCellsMap;
+	}
 }
