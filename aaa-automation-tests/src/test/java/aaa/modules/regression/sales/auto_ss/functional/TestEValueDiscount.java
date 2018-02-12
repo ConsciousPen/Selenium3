@@ -1431,18 +1431,22 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
      * @scenario 1. Create new eValue eligible quote for VA.
      * 2. Add two ACH Accounts registered as payment methods.
      * 3. Select payment plan other than Annual (Quarterly).Bind the policy.
-     * 4. Go to Billing tab, switch ACH Billing Accounts. Save it.
-     * 5. Check if eValue discount was not removed by System.
-     * 6. Go to Billing tab again and remove payment method.
-     * 7. Check if Confirmation popup with warning message is displaying.Click yes.
-     * 8. Check if System automatically removed the eValue discount. (Billing tab).
-     * 9. Check if Transaction History (Policy tab) shows "eValue Removed - ACH Modified"
+     * 4. Create pended endorsement.
+     * 5. Check if pended endorsement button is active.
+     * 6. Go to Billing tab, switch ACH Billing Accounts. Save it.
+     * 7. Check if eValue discount was not removed by System.
+     * 8. Go to Billing tab again and remove payment method.
+     * 9. Check if Confirmation popup with warning message is displaying.Click yes.
+     * 10. Check if System automatically removed the eValue discount. (Billing tab).
+     * 11. Check if Transaction History (Policy tab) shows "eValue Removed - ACH Modified"
+     * 12. Check if Endorsement was created in table of "Payments and Other Transactions"
+     * 13. Check if pended endorsement (which was created before) was removed from the policy.
      * @details
      */
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-333")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-333, PAS-336")
     public void pas333_eValueDiscountRemovedBySystem(@Optional("VA") String state) {
 
         TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
@@ -1457,9 +1461,17 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("Quarterly");
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
         premiumAndCoveragesTab.saveAndExit();
-
         String policyNumber = simplifiedQuoteIssue("ACH");
+
         //PAS-238 Start
+        //Start make Pended Endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).setValue("Yes");
+        premiumAndCoveragesTab.saveAndExit();
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
+
+        //PAS-336 Start
         //Add new card to the billing account
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         BillingSummaryPage.linkUpdateBillingAccount.click();
@@ -1489,6 +1501,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         assertThat("Customer acknowledges that removing recurring payments will cause the eValue to be removed.".equals(Page.dialogConfirmation.labelMessage.getValue())).isTrue();
         Page.dialogConfirmation.buttonYes.click();
         checkIfEvalueWasRemovedBySystem(true);
+
+        //Check if pended endorsement was deleted by system
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+        //PAS-336 END
     }
 
     private void updateBillingAccountAddNewCard(TestData cardData, String cardType) {
