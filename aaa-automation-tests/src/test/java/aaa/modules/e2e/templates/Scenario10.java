@@ -1,7 +1,6 @@
 package aaa.modules.e2e.templates;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -11,7 +10,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.http.HttpStub;
@@ -20,7 +18,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
@@ -40,7 +37,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
+//import toolkit.verification.CustomAssert;
 
 public class Scenario10 extends ScenarioBaseTest {
 	
@@ -71,8 +69,9 @@ public class Scenario10 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
-		policyNum = createPolicy(policyCreationTD); 		
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		policyNum = createPolicy(policyCreationTD); 
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -82,7 +81,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
+		//CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
+		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Quarterly payment plan").isEqualTo(installmentsCount);
 		
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
@@ -130,7 +130,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		//PolicySummaryPage.buttonRenewals.verify.enabled(); 
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
@@ -141,7 +142,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		//PolicySummaryPage.buttonRenewals.verify.enabled();
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 
@@ -186,7 +188,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_EnableAutopay"));
 		billingAccount.update().start();
-		new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(true);
+		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(true); 
+		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(true);
 		Tab.buttonCancel.click();
 	}
 	
@@ -227,8 +230,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_ACTIVE, PolicyStatus.PROPOSED);
 		
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan", 
-				installmentsCountOfRenewal, installmentDueDatesOfRenewal.size());
+		//CustomAssert.assertEquals("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan", installmentsCountOfRenewal, installmentDueDatesOfRenewal.size());
+		CustomAssertions.assertThat(installmentDueDatesOfRenewal.size()).as("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan").isEqualTo(installmentsCountOfRenewal); 
 		
 	}
 	
@@ -250,8 +253,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_ACTIVE, PolicyStatus.PROPOSED);
 		
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Standard Monthly (Renewal) payment plan", 
-				installmentsCountOfRenewal, installmentDueDatesOfRenewal.size()); 
+		//CustomAssert.assertEquals("Billing Installments count for Standard Monthly (Renewal) payment plan", installmentsCountOfRenewal, installmentDueDatesOfRenewal.size()); 
+		CustomAssertions.assertThat(installmentDueDatesOfRenewal.size()).as("Billing Installments count for Standard Monthly (Renewal) payment plan").isEqualTo(installmentsCountOfRenewal); 
 		
 		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).setMinDue(minDue).verifyPresent();
 		
