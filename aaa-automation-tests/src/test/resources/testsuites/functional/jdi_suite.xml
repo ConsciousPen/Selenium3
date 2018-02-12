@@ -312,6 +312,7 @@
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                 </methods>
             </class>
         </classes>
