@@ -25,7 +25,7 @@ TestData: {
 
 GeneralTab_DataGather: {
   PolicyInformation: {
-    Effective Date: '$<today+2d>',
+    Effective Date: '$<today>',
   }
 }
 
@@ -70,8 +70,8 @@ AddSuspenseActionTab: {
 }  
 
 ClearSuspenseActionTab: {
-  Allocation: {}
-#  Payment Amount: 50
+  Allocation: {},
+  Payment Amount: 50
 }
 
 SearchSuspenseActionTab: {
