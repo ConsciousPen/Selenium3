@@ -4,9 +4,9 @@ public class MiniServicesSetupPreconditions {
 
 	public static final String AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_INSERT = "INSERT ALL\n"
 			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-			+ "        values ('BaseProductLookupValue', 'MyPolicy', '0', 'AAA_SS', 'AZ',(select SYSDATE from dual), (select SYSDATE+10 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
+			+ "        values ('BaseProductLookupValue', 'MyPolicy', '0', 'AAA_SS', 'AZ',(select to_date(SYSDATE, 'YYYY-MM-DD') from dual), (select to_date(SYSDATE+10, 'YYYY-MM-DD') from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
 			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-			+ "        values ('BaseProductLookupValue', 'MyPolicy', '5', 'AAA_SS', 'AZ',(select SYSDATE+10 from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
+			+ "        values ('BaseProductLookupValue', 'MyPolicy', '5', 'AAA_SS', 'AZ',(select to_date(SYSDATE+10, 'YYYY-MM-DD') from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
 			+ "Select * from dual";
 
 	public static final String AAA_CUSTOMER_ENDORSMENT_DAYS_DEFAULD_CONFIG_UPDATE = "update lookupvalue\n"
