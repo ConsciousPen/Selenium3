@@ -30,6 +30,10 @@ public class Vehicle implements RestBodyRequest {
         return modelYear;
     }
 
+    public void setModelYear(String modelYear) {
+        this.modelYear = modelYear;
+    }
+
     public String getManufacturer() {
         return manufacturer;
     }

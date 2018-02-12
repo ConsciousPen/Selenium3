@@ -34,6 +34,7 @@ import java.time.format.DateTimeFormatter;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
@@ -594,6 +595,17 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response2[1].getModel()).isEqualTo(model3);
 			softly.assertThat(response2[1].getBodyStyle()).isEqualTo(bodyStyle3);
 		});
+	}
+
+	protected void pas8273_CheckIfNanoPolicyNotReturningVehicle(PolicyType policyType, String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		assertThat(response.length==0).isTrue();
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
