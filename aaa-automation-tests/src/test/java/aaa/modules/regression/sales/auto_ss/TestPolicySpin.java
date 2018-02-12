@@ -5,11 +5,13 @@ package aaa.modules.regression.sales.auto_ss;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.SearchEnum;
+import aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,7 +21,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 /**
  * @author Jelena Dembovska
@@ -50,8 +52,6 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		//Read and store zip code from UI, will need it to fill values for spun quote
 		String zip_code = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
 
-		CustomAssert.enableSoftMode();
-
 		//1. initiate spin action
 		policy.policySpin().perform(getTestSpecificTD("SpinTestData"));
 
@@ -61,8 +61,14 @@ public class TestPolicySpin extends AutoSSBaseTest {
 
 		//2. open activities section, check spin has been executed, store spun quote number 
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been spun to a new quote").getCell("Description").getValue();
-		CustomAssert.assertTrue("Spin action is missing in Activities and User Notes", description.contains("has been spun to a new quote"));
+		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been spun to a new quote").getCell("Description").getValue();		
+		
+		assertSoftly(softly -> {
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
+					"has been spun to a new quote").isPresent());
+		});
+		
+		
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 
 		//A. Steps for checking pended endorsement for current policy
@@ -73,9 +79,12 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
 
 		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+		SoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+			
+		});	
 
 		//B. Steps to checking new quote which has been spun from initial policy
 		//5. Search spun quote
@@ -97,11 +106,13 @@ public class TestPolicySpin extends AutoSSBaseTest {
 				quoteTestData.adjust(TestData.makeKeyPath("GeneralTab", AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), namedInsuredList));
 
 		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+		SoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+			
+		});	
 
-		CustomAssert.assertAll();
 	}
 
 }

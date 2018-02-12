@@ -1,41 +1,20 @@
-########################################
-#                                      #
-#   Conversion State-specific data     #
-#                                      #
-########################################
+# ---------- Conversion Data for UT ---------------
 
-# ---------- Conversion Data for VA ---------------
-
-TestData_ConversionPUP_VA: {
-  PrefillTab: '@PrefillTab_ConversionPUP',
-  GeneralTab: '@GeneralTab_ConversionPUP_VA',
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_UT',
   UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab',
   UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
   ClaimsTab: '@<pup>@DataGather@ClaimsTab',
   EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab_ConversionPUP',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
   UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+  BindTab: '@<pup>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionPUP_VA: {
-  PolicyInfo: '@PolicyInfo_ConversionPUP_VA',
-  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
-}
-
-PolicyInfo_ConversionPUP_VA: {
-  Application type: New,
-  Channel Type: 'AAA Agent',
-  Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
-  Agent: 'House Agent Mid-Atlantic',
-  Commission Type: New Business
-}
-
-PrefillTab_ConversionPUP: {
+PrefillTab: {
   NamedInsured: [{
     Relationship to primary named insured: Primary Insured,
     Marital status: Single,
@@ -56,8 +35,656 @@ PrefillTab_ConversionPUP: {
   }]
 }
 
-PremiumAndCoveragesQuoteTab_ConversionPUP: {
+GeneralTab_UT: {
+  PolicyInfo: '@PolicyInfo_UT',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_UT: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  TollFree Number: 1,
+  Commission Type: New Business
+}
+
+PremiumAndCoveragesQuoteTab: {
   Payment Plan: 'Pay in Full (Renewal)',
   Recurring Payment: false,
   Personal Umbrella: '$1,000,000'
+}
+
+# ---------- Conversion Data for AZ ---------------
+
+TestData_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_AZ',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_AZ',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_AZ: {
+  PolicyInfo: '@PolicyInfo_AZ',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_AZ: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Agency Location: 'Chandler - 500005091 - Chandler',
+  Agent: 'Foster Bottenberg',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for CO ---------------
+
+TestData_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_CO',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CO',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_CO: {
+  PolicyInfo: '@PolicyInfo_CO',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_CO: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Colorado - 500001007',
+  Agency Location: 'Denver - 500005106 - Denver',
+  Agent: 'House Agent Boulder',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for CT ---------------
+
+TestData_CT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_CT',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CT',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_CT: {
+  PolicyInfo: '@PolicyInfo_CT',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_CT: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for DE ---------------
+
+TestData_DE: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_DE',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_DE',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_DE: {
+  PolicyInfo: '@PolicyInfo_DE',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_DE: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for ID ---------------
+
+TestData_ID: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_ID',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_ID',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_ID: {
+  PolicyInfo: '@PolicyInfo_ID',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_ID: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Agency Location: 'Beaverton - 500005277 - Portland',
+  AAgent: 'House Agent Pocatello',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for IN ---------------
+
+TestData_IN: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_IN',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_IN',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_IN: {
+  PolicyInfo: '@PolicyInfo_IN',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_IN: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
+  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
+  Agent: 'House Agent AAA Hoosier Headquarters',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for KS ---------------
+
+TestData_KS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_KS',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_KS',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_KS: {
+  PolicyInfo: '@PolicyInfo_KS',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_KS: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Cromwell - 500005129 - Cromwell',
+  Agent: 'House Agent Allied Club',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for KY ---------------
+
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_KY',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_KY',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_KY: {
+  PolicyInfo: '@PolicyInfo_KY',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_KY: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for MD ---------------
+
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_MD',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_MD',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_MD',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_MD: {
+  PolicyInfo: '@PolicyInfo_MD',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_MD: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+  Agent: 'House Agent Annapolis CCIT',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for MT ---------------
+
+TestData_MT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_MT',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_MT',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_MT: {
+  PolicyInfo: '@PolicyInfo_MT',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_MT: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Agency Location: 'Great Falls - 500005162 - Great Falls',
+  Agent: 'House Agent Great Falls',
+  Commission Type: New Business
+}
+
+
+# ---------- Conversion Data for NJ ---------------
+
+TestData_NJ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NJ',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NJ',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_NJ: {
+  PolicyInfo: '@PolicyInfo_NJ',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_NJ: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Newton - 500017271 - Newton',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for NV ---------------
+
+TestData_NV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NV',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NV',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab_NV',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_NV: {
+  PolicyInfo: '@PolicyInfo_NV',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_NV: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+  Agent: 'House Account Las Vegas',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for NY ---------------
+
+TestData_NY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NY',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NY',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_NY: {
+  PolicyInfo: '@PolicyInfo_NY',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_NY: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NORTHWAY NEW YORK - 500001009',
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agent: 'House Agent QUEENSBURY',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for OH ---------------
+
+TestData_OH: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_OH',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OH',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_OH: {
+  PolicyInfo: '@PolicyInfo_OH',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_OH: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'Ohio Findlay Club - 500001015',
+  Agency Location: 'Findlay Hq - 500005196 - Findlay',
+  Agent: 'HOUSE AGENT Ohio Findlay Club',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for OK ---------------
+
+TestData_OK: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_OK',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OK',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_OK: {
+  PolicyInfo: '@PolicyInfo_OK',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_OK: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
+  Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+  Agent: 'House Agent AAA W Oklahoma',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for OR ---------------
+
+TestData_OR: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_OR',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OR',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_OR',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_OR: {
+  PolicyInfo: '@PolicyInfo_OR',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_OR: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Agency Location: 'Portland - 500005275 - Portland',
+  Agent: 'House Agent Portland',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for PA ---------------
+
+TestData_PA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_PA',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_PA',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_PA: {
+  PolicyInfo: '@PolicyInfo_PA',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_PA: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Southern Penn - 500017173',
+  Agency Location: 'Bedford - 500017241 - Bedford',
+  Agent: 'House Agent AAA Southern Penn',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for SD ---------------
+
+TestData_SD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_SD',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_SD',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_SD: {
+  PolicyInfo: '@PolicyInfo_SD',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_SD: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA SOUTH DAKOTA - 500001022',
+  Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+  Agent: 'House Agent AAA SD',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for VA ---------------
+
+TestData_VA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_VA',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_VA',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_VA: {
+  PolicyInfo: '@PolicyInfo_VA',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_VA: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for WV ---------------
+
+TestData_WV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_WV',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_WV',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab_WV',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_WV: {
+  PolicyInfo: '@PolicyInfo_WV',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_WV: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Charleston - 500005295 - Charleston',
+  Agent: 'House Agent Charleston',
+  Commission Type: New Business
+}
+
+# ---------- Conversion Data for WY ---------------
+
+TestData_WY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_WY',
+  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_WY',
+  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+  BindTab: '@<pup>@DataGather@BindTab'
+}
+
+GeneralTab_WY: {
+  PolicyInfo: '@PolicyInfo_WY',
+  NamedInsuredContactInformation: '@<pup>@DataGather@NamedInsuredContactInformation'
+}
+
+PolicyInfo_WY: {
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Agency Location: 'Bozeman - 500005161 - Bozeman',
+  Agent: 'House Agent AK Diamond Blvd',
+  Commission Type: New Business
 }

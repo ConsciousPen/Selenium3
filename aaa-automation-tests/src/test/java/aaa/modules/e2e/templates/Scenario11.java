@@ -27,7 +27,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
+//import toolkit.verification.CustomAssert;
 
 public class Scenario11 extends ScenarioBaseTest { 
 	
@@ -62,8 +63,8 @@ public class Scenario11 extends ScenarioBaseTest {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
 		policyNum = createPolicy(policyCreationTD); 
-		
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
+		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -73,7 +74,8 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Annual (Pay In Full) payment plan", installmentsCount, installmentDueDates.size()); 
+		//CustomAssert.assertEquals("Billing Installments count for Annual (Pay In Full) payment plan", installmentsCount, installmentDueDates.size());
+		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Annual (Pay In Full) payment plan").isEqualTo(installmentsCount);
 		
 		offCycleBillDueDate1 = policyEffectiveDate.plusMonths(1);
 		offCycleBillDueDate2 = policyEffectiveDate.plusMonths(2);
@@ -234,7 +236,8 @@ public class Scenario11 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		//PolicySummaryPage.buttonRenewals.verify.enabled();
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -247,7 +250,8 @@ public class Scenario11 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		//PolicySummaryPage.buttonRenewals.verify.enabled();
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 
@@ -363,7 +367,8 @@ public class Scenario11 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 		
 		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 	}
 
 	protected void refundGeneration() {		

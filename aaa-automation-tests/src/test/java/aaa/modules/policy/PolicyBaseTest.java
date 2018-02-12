@@ -111,7 +111,14 @@ public abstract class PolicyBaseTest extends BaseTest {
 	 * Retrieves {@link TestData} for a conversion policy
 	 */
 	protected TestData getConversionPolicyTD() {
-		return getPolicyTD("Conversion", "TestData_ConversionHomeSS");
+		return getConversionPolicyTD("TestData");
+	}
+
+	/**
+	 * Retrieves {@link TestData} for a conversion policy by tdName
+	 */
+	protected TestData getConversionPolicyTD(String tdName) {
+		return getPolicyTD("Conversion", tdName);
 	}
 
 	/*
