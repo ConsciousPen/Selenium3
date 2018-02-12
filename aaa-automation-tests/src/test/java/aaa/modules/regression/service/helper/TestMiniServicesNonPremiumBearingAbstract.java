@@ -1,11 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -24,6 +18,7 @@ import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
 import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
 import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
 import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -33,6 +28,13 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -512,33 +514,33 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		//BUG PAS-9722 Random sequence for Vehicles on DXP
-		String v1_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String v1_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String v1_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String v1_model = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String v1_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
+		String modelYear1 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
+		String manufacturer1 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
+		String series1 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
+		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
+		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 
 		VehicleTab.tableVehicleList.selectRow(2);
 
-		String v2_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String v2_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String v2_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String v2_model = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String v2_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
+		String modelYear2 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
+		String manufacturer2 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
+		String series2 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
+		String model2 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
+		String bodyStyle2 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response[0].getModelYear()).isEqualTo(v1_modelYear);
-			softly.assertThat(response[0].getManufacturer()).isEqualTo(v1_manufacturer);
-			softly.assertThat(response[0].getSeries()).isEqualTo(v1_series);
-			softly.assertThat(response[0].getModel()).isEqualTo(v1_model);
-			softly.assertThat(response[0].getBodyStyle()).isEqualTo(v1_bodyStyle);
+			softly.assertThat(response[0].getModelYear()).isEqualTo(modelYear1);
+			softly.assertThat(response[0].getManufacturer()).isEqualTo(manufacturer1);
+			softly.assertThat(response[0].getSeries()).isEqualTo(series1);
+			softly.assertThat(response[0].getModel()).isEqualTo(model1);
+			softly.assertThat(response[0].getBodyStyle()).isEqualTo(bodyStyle1);
 
-			softly.assertThat(response[1].getModelYear()).isEqualTo(v2_modelYear);
-			softly.assertThat(response[1].getManufacturer()).isEqualTo(v2_manufacturer);
-			softly.assertThat(response[1].getSeries()).isEqualTo(v2_series);
-			softly.assertThat(response[1].getModel()).isEqualTo(v2_model);
-			softly.assertThat(response[1].getBodyStyle()).isEqualTo(v2_bodyStyle);
+			softly.assertThat(response[1].getModelYear()).isEqualTo(modelYear2);
+			softly.assertThat(response[1].getManufacturer()).isEqualTo(manufacturer2);
+			softly.assertThat(response[1].getSeries()).isEqualTo(series2);
+			softly.assertThat(response[1].getModel()).isEqualTo(model2);
+			softly.assertThat(response[1].getBodyStyle()).isEqualTo(bodyStyle2);
 		});
 
 		VehicleTab.buttonCancel.click();
@@ -553,17 +555,17 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		Vehicle[] response1 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response1[0].getModelYear()).isEqualTo(v1_modelYear);
-			softly.assertThat(response1[0].getManufacturer()).isEqualTo(v1_manufacturer);
-			softly.assertThat(response1[0].getSeries()).isEqualTo(v1_series);
-			softly.assertThat(response1[0].getModel()).isEqualTo(v1_model);
-			softly.assertThat(response1[0].getBodyStyle()).isEqualTo(v1_bodyStyle);
+			softly.assertThat(response1[0].getModelYear()).isEqualTo(modelYear1);
+			softly.assertThat(response1[0].getManufacturer()).isEqualTo(manufacturer1);
+			softly.assertThat(response1[0].getSeries()).isEqualTo(series1);
+			softly.assertThat(response1[0].getModel()).isEqualTo(model1);
+			softly.assertThat(response1[0].getBodyStyle()).isEqualTo(bodyStyle1);
 
-			softly.assertThat(response1[1].getModelYear()).isEqualTo(v2_modelYear);
-			softly.assertThat(response1[1].getManufacturer()).isEqualTo(v2_manufacturer);
-			softly.assertThat(response1[1].getSeries()).isEqualTo(v2_series);
-			softly.assertThat(response1[1].getModel()).isEqualTo(v2_model);
-			softly.assertThat(response1[1].getBodyStyle()).isEqualTo(v2_bodyStyle);
+			softly.assertThat(response1[1].getModelYear()).isEqualTo(modelYear2);
+			softly.assertThat(response1[1].getManufacturer()).isEqualTo(manufacturer2);
+			softly.assertThat(response1[1].getSeries()).isEqualTo(series2);
+			softly.assertThat(response1[1].getModel()).isEqualTo(model2);
+			softly.assertThat(response1[1].getBodyStyle()).isEqualTo(bodyStyle2);
 		});
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -572,25 +574,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 
-		String v3_modelYear = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String v3_manufacturer = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String v3_series = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String v3_model = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String v3_bodyStyle = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
+		String modelYear3 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
+		String manufacturer3 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
+		String series3 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
+		String model3 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
+		String bodyStyle3 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 
 		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response2[0].getModelYear()).isEqualTo(v1_modelYear);
-			softly.assertThat(response2[0].getManufacturer()).isEqualTo(v1_manufacturer);
-			softly.assertThat(response2[0].getSeries()).isEqualTo(v1_series);
-			softly.assertThat(response2[0].getModel()).isEqualTo(v1_model);
-			softly.assertThat(response2[0].getBodyStyle()).isEqualTo(v1_bodyStyle);
+			softly.assertThat(response2[0].getModelYear()).isEqualTo(modelYear1);
+			softly.assertThat(response2[0].getManufacturer()).isEqualTo(manufacturer1);
+			softly.assertThat(response2[0].getSeries()).isEqualTo(series1);
+			softly.assertThat(response2[0].getModel()).isEqualTo(model1);
+			softly.assertThat(response2[0].getBodyStyle()).isEqualTo(bodyStyle1);
 
-			softly.assertThat(response2[1].getModelYear()).isEqualTo(v3_modelYear);
-			softly.assertThat(response2[1].getManufacturer()).isEqualTo(v3_manufacturer);
-			softly.assertThat(response2[1].getSeries()).isEqualTo(v3_series);
-			softly.assertThat(response2[1].getModel()).isEqualTo(v3_model);
-			softly.assertThat(response2[1].getBodyStyle()).isEqualTo(v3_bodyStyle);
+			softly.assertThat(response2[1].getModelYear()).isEqualTo(modelYear3);
+			softly.assertThat(response2[1].getManufacturer()).isEqualTo(manufacturer3);
+			softly.assertThat(response2[1].getSeries()).isEqualTo(series3);
+			softly.assertThat(response2[1].getModel()).isEqualTo(model3);
+			softly.assertThat(response2[1].getBodyStyle()).isEqualTo(bodyStyle3);
 		});
 	}
 
