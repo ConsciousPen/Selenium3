@@ -166,14 +166,14 @@ TestData_DC: {
 
 GeneralTab_DC: {
   NamedInsuredInformation: ['@NamedInsuredInformation_DC'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAProductOwned: {}, #'@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
 NamedInsuredInformation_DC: {
   Zip Code: 86012,
   Address Line 1: test,
-  Home Phone Number: 1234567890,
   Residence: Own Home,
   Validate Address: click,
   Validate Address Dialog: {Street Name: 265 CHIPMAN AVE}
@@ -190,7 +190,7 @@ DocumentsAndBindTab_DC: {
 
 TestData_DE: {
   PrefillTab: {},
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_DE',
   DriverTab: '@DriverTab',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
@@ -201,7 +201,21 @@ TestData_DE: {
   PurchaseTab: '@PurchaseTab'
 }
 
+GeneralTab_DE: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: {
+    Current AAA Member: 'Yes',
+    Membership Number: 4290020029946000,
+    Last name: Smith
+  },
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
 DocumentsAndBindTab_DE: {
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Delaware Motorists Protection Act: Physically Signed,
@@ -258,7 +272,7 @@ DocumentsAndBindTab_MD: {
 
 TestData_NJ: {
   PrefillTab: {},
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NJ',
   DriverTab: '@DriverTab',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
@@ -269,6 +283,17 @@ TestData_NJ: {
   PurchaseTab: '@PurchaseTab'
 }
 
+GeneralTab_NJ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: {
+    Current AAA Member: 'Yes',
+    Membership Number: 4290020029946000,
+    Last name: Smith
+  },
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
 DocumentsAndBindTab_NJ: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
@@ -276,6 +301,7 @@ DocumentsAndBindTab_NJ: {
     Acknowledgement of Requirement for Insurance Inspection: Physically Signed
   },
   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
     CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
     Separate Vehicle 1: 'Yes'
   }
@@ -299,11 +325,7 @@ TestData_NY: {
 
 DocumentsAndBindTab_NY: {
   RequiredToBind: {
-    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
     New York Auto Insurance Application: Physically Signed
-  },
-  RequiredToIssue: {
-    Separate Vehicle 1: 'Yes'
   }
 }
 
