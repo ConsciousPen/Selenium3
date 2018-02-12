@@ -15,11 +15,13 @@ import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformati
 import static aaa.main.metadata.policy.AutoSSMetaData.PremiumAndCoveragesTab.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -195,7 +197,9 @@ public class TestNYDocGen extends AutoSSBaseTest {
 
 	private String conversionPolicyPreconditions(TestData policyTd) {
 		mainApp().open();
-		initiateManualConversionR35();
+		createCustomerIndividual();
+		LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(35);
+		customer.initiateRenewalEntry().perform(getPolicyTD("InitiateRenewalEntry", "TestData"), effectiveDate);
 
 		policy.getDefaultView().fillUpTo(policyTd, DriverActivityReportsTab.class);
 		driverReportTab.getAssetList().getAsset(VALIDATE_DRIVING_HISTORY.getLabel(), Button.class).click();

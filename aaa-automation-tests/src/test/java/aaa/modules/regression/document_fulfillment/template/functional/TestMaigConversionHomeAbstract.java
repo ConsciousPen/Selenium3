@@ -2,6 +2,7 @@ package aaa.modules.regression.document_fulfillment.template.functional;
 
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.Job;
@@ -50,7 +51,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2305_preRenewalLetterHSPRNXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        preRenewalLetterFormGeneration(getConversionPolicyTD(), HSPRNXX, false);
+        preRenewalLetterFormGeneration(getConversionPolicyDefaultTD(), HSPRNXX, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -88,7 +89,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2305_preRenewalLetterPupConvHSPRNXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        preRenewalLetterFormGenerationPup(getConversionPolicyTD(), HSPRNXX, true);
+        preRenewalLetterFormGenerationPup(getConversionPolicyDefaultTD(), HSPRNXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -125,7 +126,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas9170_preRenewalLetterPupHSPRNXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        preRenewalLetterFormGeneration(adjustWithPupData(getConversionPolicyTD()), HSPRNXX, true);
+        preRenewalLetterFormGeneration(adjustWithPupData(getConversionPolicyDefaultTD()), HSPRNXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -142,7 +143,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas7342_preRenewalLetterHSPRNMXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        preRenewalLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyTD()), HSPRNMXX, false);
+        preRenewalLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSPRNMXX, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -160,7 +161,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas7342_preRenewalLetterPupConvHSPRNMXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        preRenewalLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyTD()), HSPRNMXX, true);
+        preRenewalLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSPRNMXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -177,7 +178,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas9170_preRenewalLetterPupHSPRNMXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        preRenewalLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyTD())), HSPRNMXX, true);
+        preRenewalLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyDefaultTD())), HSPRNMXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -194,7 +195,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2309_renewalCoverLetterHSRNHODPXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        renewalCoverLetterFormGeneration(getConversionPolicyTD("TestData"), HSRNHODPXX, false);
+        renewalCoverLetterFormGeneration(getConversionPolicyDefaultTD(), HSRNHODPXX, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -254,7 +255,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2309_renewalCoverLetterPupConvHSRNHODPXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        renewalCoverLetterFormGenerationPup(getConversionPolicyTD("TestData"), HSRNHODPXX, true);
+        renewalCoverLetterFormGenerationPup(getConversionPolicyDefaultTD(), HSRNHODPXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -271,7 +272,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2309_renewalCoverLetterPupHSRNHODPXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        renewalCoverLetterFormGeneration(adjustWithPupData(getConversionPolicyTD()), HSRNHODPXX, true);
+        renewalCoverLetterFormGeneration(adjustWithPupData(getConversionPolicyDefaultTD()), HSRNHODPXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -288,7 +289,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2570_renewalCoverLetterHSRNMXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        renewalCoverLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyTD()), HSRNMXX, false);
+        renewalCoverLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSRNMXX, false);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -306,7 +307,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2570_renewalCoverLetterPupConvHSRNMXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        renewalCoverLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyTD()), HSRNMXX, true);
+        renewalCoverLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSRNMXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -323,7 +324,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     public void pas2570_renewalCoverLetterPupHSRNMXX(String state) throws NoSuchFieldException {
         CustomAssert.enableSoftMode();
 
-        renewalCoverLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyTD())), HSRNMXX, true);
+        renewalCoverLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyDefaultTD())), HSRNMXX, true);
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -358,10 +359,13 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
      */
     private String createPolicyForTD(TestData testData) {
         mainApp().open();
-        initiateManualConversionForTest("TestData_Home_MAIG");
+        LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
+                TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER).plusDays(5);
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
         policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
         policy.getDefaultView().getTab(BindTab.class).submitTab();
-        return PolicySummaryPage.linkPolicy.getValue();
+        return PolicySummaryPage.getPolicyNumber();
     }
 
     /**
@@ -371,12 +375,10 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     private String createPolicyForTDPup() {
         String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
                 getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
-        String sourceSystem = retrieveConversionImageTestData("TestData_Home_MAIG").getTestData("InitiateRenewalEntryActionTab").getValue("Previous Source System");
-        TestData testDataPup = getCustomerIndividualTD("InitiateRenewalEntry", "TestData_Pup_Default")
-                .adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.RISK_STATE.getLabel()), getState())
-                .adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_SOURCE_SYSTEM.getLabel()), sourceSystem)
+        TestData testDataPup = getManualConversionInitiationTd()
                 .adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_POLICY_NUMBER.getLabel()), legacyPolicyNumber);
-        initiateManualConversion(testDataPup);
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(testDataPup);
         Tab.buttonSaveAndExit.click();
         return legacyPolicyNumber;
     }
@@ -437,10 +439,10 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
     private TestData adjustWithMortgageeData(TestData policyTD) {
         //adjust TestData with Mortgagee tab data
         String mortgageeTabKey = TestData.makeKeyPath(HomeSSMetaData.MortgageesTab.class.getSimpleName());
-        TestData mortgageeTD = getConversionPolicyTD("MortgageesTab");
+        TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
         //adjust TestData with Premium and Coverage tab data
         String premiumAndCoverageTabKey = TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName());
-        TestData premiumAndCoverageTD = getConversionPolicyTD("PremiumsAndCoveragesQuoteTab_Mortgagee");
+        TestData premiumAndCoverageTD = getTestSpecificTD("PremiumsAndCoveragesQuoteTab_Mortgagee");
         return policyTD.adjust(mortgageeTabKey, mortgageeTD).adjust(premiumAndCoverageTabKey, premiumAndCoverageTD);
     }
 
@@ -448,7 +450,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
      * Utility method that enhances Conversion {@link TestData} with PUP in OtherActiveAAAPolicies
      */
     private TestData adjustWithPupData(TestData policyTD) {
-        TestData pupTD = getConversionPolicyTD("OtherActiveAAAPolicies");
+        TestData pupTD = getTestSpecificTD("OtherActiveAAAPolicies").resolveLinks();
         String pupOtherActiveAAAPoliciesTabKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
         return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, pupTD);
     }

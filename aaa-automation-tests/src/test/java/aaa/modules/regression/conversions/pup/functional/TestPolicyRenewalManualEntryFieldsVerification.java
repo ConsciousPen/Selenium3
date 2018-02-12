@@ -47,11 +47,9 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
         mainApp().open();
 
         createCustomerIndividual();
-
+        customer.initiateRenewalEntry().perform(getPolicyTD("InitiateRenewalEntry", "TestData"));
+        
         TestData td = getConversionPolicyDefaultTD();
-
-        initiateManualConversion();
-
         policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesQuoteTab.class, true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
