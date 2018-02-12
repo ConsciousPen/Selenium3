@@ -251,8 +251,11 @@ public class BaseTest {
 	 */
 	protected String getCopiedPolicy() {
 		openDefaultPolicy(getPolicyType(), getState());
-		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		synchronized (key) {
+			getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
+			return PolicySummaryPage.labelPolicyNumber.getValue();
+		}
 	}
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {

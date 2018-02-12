@@ -2,8 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.customer;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import aaa.common.Tab;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.views.*;
 import org.openqa.selenium.By;
 
@@ -22,6 +24,7 @@ import aaa.main.modules.customer.defaulttabs.GeneralTab;
 import aaa.main.modules.customer.defaulttabs.RelationshipTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -1663,6 +1666,11 @@ public final class CustomerActions {
         @Override
         public Workspace getView() {
             return new InitiateRenewalEntryView();
+        }
+
+        public AbstractAction perform(TestData td, LocalDateTime effectiveDate) {
+            return super.perform(td.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
+                    CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
         }
 
         @Override

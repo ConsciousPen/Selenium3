@@ -12,6 +12,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -193,7 +194,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		
 		// 5
 		policy.policyDocGen().start();
-		docgenActionTab.generateDocuments(Documents.AHRCTXXPUP);
+		docgenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, Documents.AHRCTXXPUP);
 		
 		// 6
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHRCTXXPUP);

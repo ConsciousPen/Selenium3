@@ -1,5 +1,8 @@
 package aaa.main.modules.policy.abstract_tabs;
 
+import static org.openqa.selenium.By.id;
+import java.util.HashMap;
+import java.util.Map;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.enums.DocGenConstants;
@@ -12,11 +15,6 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.openqa.selenium.By.id;
-
 public abstract class CommonDocumentActionTab extends ActionTab {
 	public Verify verify = new Verify();
 
@@ -28,13 +26,13 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 		super(mdClass);
 	}
 
+	public abstract FillableDocumentsTable getDocumentsControl();
+
 	@Override
 	public Tab submitTab() {
 		buttonOk.click();
 		return this;
 	}
-
-	public abstract FillableDocumentsTable getDocumentsControl();
 
 	public void selectAllDocuments() {
 		for (int rowNumber = 1; rowNumber <= getDocumentsControl().getTable().getRowsCount(); rowNumber++) {
@@ -105,11 +103,11 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 				getDocumentsControl().getTable().getRow(documentQuery).verify.present(message, expectedValue);
 			}
 		}
-		
+
 		public void documentsEnabled(DocGenEnum.Documents... documents) {
 			documentsEnabled(true, documents);
 		}
-		
+
 		public void documentsEnabled(boolean expectedValue, DocGenEnum.Documents... documents) {
 			Map<String, String> documentQuery = new HashMap<>();
 
