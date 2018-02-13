@@ -3,6 +3,7 @@ package aaa.modules.regression.conversions.pup.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.helpers.TimePoints;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -88,12 +89,12 @@ public class TestBindPupWithoutAuto extends ConvPUPBaseTest {
         // Create Test Data
         TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
                 .adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
-        TestData tdPUP = getPupConversionTdNoPolicyCreation()
+        TestData tdPUP = getPolicyTD("Conversion", "TestData")
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel()), tdOtherActive)
                 .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()));
 
         // Initiate manual renewal entry for PUP
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdPUP, BindTab.class, true);
         bindTab.submitTab();
 

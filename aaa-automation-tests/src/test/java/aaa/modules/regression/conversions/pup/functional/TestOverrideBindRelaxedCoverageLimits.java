@@ -92,7 +92,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
     public void pas6971_TestOverrideBindLimitsConversion(@Optional("NJ") String state) {
 
-        TestData td = getPupConversionTdNoPolicyCreation()
+        TestData td = getPolicyTD("Conversion", "TestData")
             .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()))
             .mask(TestData.makeKeyPath(UnderlyingRisksAutoTab.class.getSimpleName(), PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.DRIVERS.getLabel()));
 
@@ -106,7 +106,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
                     PersonalUmbrellaMetaData.PrefillTab.NamedInsured.OCCUPATION.getLabel()), "index=3");
 
         // Create PUP conversion policy
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdPUP, BindTab.class, true);
         bindTab.submitTab();
 
@@ -168,10 +168,10 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
         mainApp().open();
         createCustomerIndividual();
 
-        TestData tdPUP = getTdForAutoSingleLimit(getPupConversionTdNoPolicyCreation());
+        TestData tdPUP = getTdForAutoSingleLimit(getPolicyTD("Conversion", "TestData"));
 
         // Create PUP conversion policy
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdPUP, BindTab.class, true);
         bindTab.submitTab();
 
