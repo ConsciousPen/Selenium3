@@ -5,8 +5,10 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -49,6 +51,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
+	private static List<String> requestIdList = new LinkedList<>();
 
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
@@ -439,17 +442,40 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//String policyNumber = membershipEligibilityPolicyCreation("Active");
 
 		String policyNumber = "VASS926232060";
-		String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
-
+		//String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 		//Always need to delete the added request ot stub
-		HelperWireMock.deleteProcessedRequestFromStub(requestId);
+		deleteSinglePaperelessPreferenceRequest(requestId);
 
-		String requestId2 = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		PolicySummaryPage.getPolicyNumber();
 		HelperWireMock.deleteProcessedRequestFromStub(requestId2);
-		String requestId3 = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 		HelperWireMock.deleteProcessedRequestFromStub(requestId3);
 	}
 
+	@AfterClass(alwaysRun = true)
+	public void deleteAllPaperlessPreferencesRequests() {
+		deleteMultiplePaperlessPreferencesRequests();
+	}
+
+	private String createPaperlessPreferencesRequestId(String policyNumber, String scenarioJsonFile) {
+		String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, scenarioJsonFile);
+		requestIdList.add(requestId);
+		return requestId;
+	}
+
+	private void deleteMultiplePaperlessPreferencesRequests() {
+		for (Object requestId : requestIdList) {
+			HelperWireMock.deleteProcessedRequestFromStub(requestId.toString());
+		}
+		requestIdList.clear();
+	}
+
+	private void deleteSinglePaperelessPreferenceRequest(String requestId) {
+		HelperWireMock.deleteProcessedRequestFromStub(requestId);
+		requestIdList.remove(requestId);
+	}
 
 	/**
 	 * @author Oleg Stasyuk
@@ -835,7 +861,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private void latestTransactionMembershipAndEvalueDiscountsCheck(boolean membershipDiscountPresent, boolean eValueDiscountPresent, String membershipEligibilitySwitch) {
-		latestTransactionMembershipAndEvalueDiscountsCheck( membershipDiscountPresent,  eValueDiscountPresent,  membershipEligibilitySwitch, true);
+		latestTransactionMembershipAndEvalueDiscountsCheck(membershipDiscountPresent, eValueDiscountPresent, membershipEligibilitySwitch, true);
 	}
 
 	private void latestTransactionMembershipAndEvalueDiscountsCheck(boolean membershipDiscountPresent, boolean eValueDiscountPresent, String membershipEligibilitySwitch, boolean checkMessages) {
@@ -875,7 +901,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-			if(checkMessages) {
+			if (checkMessages) {
 				if ("TRUE".equals(membershipEligibilitySwitch)) {
 					PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
 					PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
