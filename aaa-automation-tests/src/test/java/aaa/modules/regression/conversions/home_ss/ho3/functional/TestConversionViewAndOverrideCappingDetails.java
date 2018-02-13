@@ -13,9 +13,9 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ProductOfferingTab;
-import aaa.modules.regression.conversions.ConvHomeSsHO3BaseTest;
 import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
@@ -36,7 +36,7 @@ import toolkit.webdriver.controls.Button;
  * 9. Check Capping Factor and Capped Term Premium values
  *
  **/
-public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3BaseTest {
+public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -53,9 +53,10 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
 				("InitiateRenewalEntryActionTab").getValue("Renewal Policy Premium");
 
 		mainApp().open();
+		createCustomerIndividual();
 
 		//Initiate Renewal manual entry
-		initiateManualConversion(initiateRenewalEntry);
+		customer.initiateRenewalEntry().perform(initiateRenewalEntry);
 
 		//Fill Quote
 		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
@@ -114,9 +115,10 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO3Ba
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
 
 		mainApp().open();
+		createCustomerIndividual();
 
 		//Initiate Renewal manual entry
-		initiateManualConversion(initiateRenewalEntry);
+		customer.initiateRenewalEntry().perform(initiateRenewalEntry);
 
 		//Fill Quote
 		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
