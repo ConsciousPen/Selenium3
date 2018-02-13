@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.testng.annotations.Optional;
@@ -60,7 +61,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		checkPolicyTable();
 		prefillTab.submitTab();
 		policy.getDefaultView().fill(td.mask(prefillTab.getMetaKey()));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		pupPolicyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Created PUP Policy " + pupPolicyNum);
 		checkPolicySearch();
@@ -81,7 +82,8 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		prefillTab.buttonAddPolicy.click();
 		prefillTab.searchDialog.setRawValue(getTestSpecificTD(WRONG_SEARCH_CRITERIA_KEY));
 		prefillTab.searchDialog.search();
-		prefillTab.searchDialog.tableSearchResults.verify.present(false);
+		//prefillTab.searchDialog.tableSearchResults.verify.present(false);
+		assertThat(!prefillTab.searchDialog.tableSearchResults.isPresent());
 		prefillTab.searchDialog.cancel();
 		prefillTab.buttonRemovePolicy.click();
 	}
@@ -98,6 +100,12 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		String zipKey = TestData.makeKeyPath(Search.class.getSimpleName(), Search.ZIP_CODE.getLabel());
 		TestData tdSearch = getTestSpecificTD(POLICY_SEARCH_KEY).adjust(firstNameKey, firstName).adjust(lastNameKey, lastName).adjust(zipKey, zipCode);
 		SearchPage.search(tdSearch);
-		PolicySummaryPage.labelPolicyNumber.verify.value(pupPolicyNum);
+		
+		if (SearchPage.tableSearchResults.isPresent()) {
+			SearchPage.tableSearchResults.getRow("Product", "Personal Umbrella Policy").getCell(1).controls.links.getFirst().click();
+		}
+		
+		//PolicySummaryPage.labelPolicyNumber.verify.value(pupPolicyNum);
+		assertThat(PolicySummaryPage.labelPolicyNumber.getValue()).isEqualTo(pupPolicyNum);
 	}
 }
