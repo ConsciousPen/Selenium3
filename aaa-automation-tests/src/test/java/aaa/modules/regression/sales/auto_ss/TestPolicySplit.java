@@ -2,12 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.enums.SearchEnum;
+import aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,7 +21,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Jelena Dembovska
@@ -47,8 +51,6 @@ public class TestPolicySplit extends AutoSSBaseTest {
 		//Read and store zip code from UI, will need it to fill values for spun quote
 		String zipCode = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
 
-		CustomAssert.enableSoftMode();
-
 		//1. initiate spin action
 		policy.policySplit().perform(getTestSpecificTD("SplitTestData"));
 
@@ -58,8 +60,11 @@ public class TestPolicySplit extends AutoSSBaseTest {
 
 		//2. open activities section, check spin has been executed, store spun quote number 
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		assertSoftly(softly -> {
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
+					"has been split to a new quote").isPresent());
+		});
 		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been split to a new quote").getCell("Description").getValue();
-		CustomAssert.assertTrue("Split action is missing in Activities and User Notes", description.contains("has been split to a new quote"));
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 
 		//A. Steps for checking pended endorsement for current policy
@@ -70,9 +75,12 @@ public class TestPolicySplit extends AutoSSBaseTest {
 		policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
 
 		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+		SoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+			
+		});	
 
 		//B. Steps to checking new quote which has been spun from initial policy
 		//5. Search spun quote
@@ -94,11 +102,12 @@ public class TestPolicySplit extends AutoSSBaseTest {
 				quoteTestData.adjust(TestData.makeKeyPath("GeneralTab", "NamedInsuredInformation"), namedInsuredList));
 
 		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
-
-		CustomAssert.assertAll();
+		SoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(1);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(1);
+			
+		});	
 	}
 
 }
