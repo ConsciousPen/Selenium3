@@ -17,8 +17,7 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 
 	@Override
 	public ExcelArea<CELL, ?, ?> exclude() {
-		getArea().excludeColumns(getIndex());
-		return getArea();
+		return getArea().excludeColumns(getIndex());
 	}
 
 	@Override
@@ -31,15 +30,17 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 
 	@Override
 	public ExcelArea<CELL, ?, ?> delete() {
-		getArea().deleteColumns(getIndex());
-		return getArea();
+		return getArea().deleteColumns(getIndex());
 	}
 
 	@Override
 	public String toString() {
 		return "ExcelColumn{" +
-				"columnIndex=" + getIndex() +
-				", values=" + getValues() +
+				"sheetName=" + getSheetName() +
+				", columnIndex=" + getIndex() +
+				", rowsNumber=" + getCellsNumber() +
+				", cellTypes=" + getCellTypes() +
+				", values=" + getStringValues() +
 				'}';
 	}
 

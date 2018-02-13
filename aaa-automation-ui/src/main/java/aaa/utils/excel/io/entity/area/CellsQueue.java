@@ -38,6 +38,10 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		this.cellTypes = new HashSet<>(cellTypes);
 	}
 
+	public String getSheetName() {
+		return getArea().getSheetName();
+	}
+
 	public List<CELL> getCells() {
 		return new ArrayList<>(getQueueIndexesAndCellsMap().values());
 	}
@@ -63,7 +67,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return getCell(getLastCellIndex());
 	}
 
-	public int getSize() {
+	public int getCellsNumber() {
 		return getQueueIndexesAndCellsMap().size();
 	}
 
@@ -84,11 +88,11 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public int getMaxValue() {
-		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).max().getAsInt();
+		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).max().orElse(0);
 	}
 
 	public int getMinValue() {
-		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).min().getAsInt();
+		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).min().orElse(0);
 	}
 
 	public Set<CellType<?>> getCellTypes() {
@@ -122,6 +126,17 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return getArea().getExcelManager();
 	}
 
+	@Override
+	public String toString() {
+		return "CellsQueue{" +
+				"sheetName=" + getSheetName() +
+				", queueIndex=" + getIndex() +
+				", cellsNumber=" + getCellsNumber() +
+				", cellTypes=" + getCellTypes() +
+				", values=" + getStringValues() +
+				'}';
+	}
+
 	public int getSum(Integer... cellsIndexesInQueue) {
 		List<Integer> cellsIndexesList = Arrays.asList(cellsIndexesInQueue);
 		return getCells().stream().filter(c -> cellsIndexesList.contains(c.getColumnIndex()) && !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).sum();
@@ -132,7 +147,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public CELL getCell(int cellIndexInQueue) {
-		assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %s index", cellIndexInQueue, getIndex()).isTrue();
+		assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %1$s index in %2$s", cellIndexInQueue, this).isTrue();
 		return getQueueIndexesAndCellsMap().get(cellIndexInQueue);
 	}
 

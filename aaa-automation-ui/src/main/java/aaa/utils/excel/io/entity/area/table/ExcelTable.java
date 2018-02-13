@@ -122,7 +122,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		int rowsShifts = 0;
 		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
 		for (int index : uniqueSortedRowIndexes) {
-			assertThat(hasRow(index - rowsShifts)).as("There is no row number %s in table", index).isTrue();
+			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s in table %2$s", index, this).isTrue();
 			ListIterator<Integer> rowsIterator = new ArrayList<>(getRowsIndexes()).listIterator(index - rowsShifts);
 			while (rowsIterator.hasNext()) {
 				TableRow nextRow = getRow(rowsIterator.next());
@@ -130,7 +130,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 				nextRow.copy(currentRow.getIndex());
 			}
 			clearRows(rowsIterator.nextIndex());
-			removeRowsIndexes(rowsIterator.nextIndex());
+			excludeRows(rowsIterator.nextIndex());
 			rowsShifts++;
 		}
 		return this;
@@ -178,6 +178,11 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 			rIndexes.add(rowIndex + 1);
 		}
 		return rIndexes;
+	}
+
+	public ExcelTable excludeColumns(String... headerColumnNames) {
+		Integer[] columnsIndexes = Arrays.stream(headerColumnNames).map(this::getColumnIndex).toArray(Integer[]::new);
+		return excludeColumns(columnsIndexes);
 	}
 
 	public int getColumnIndex(String headerColumnName) {
@@ -228,10 +233,6 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		return getCell(rowIndex, headerColumnName).getStringValue();
 	}
 
-	public ExcelTable excludeColumns(String... headerColumnNames) {
-		return excludeColumns(Arrays.stream(headerColumnNames).map(this::getColumnIndex).toArray(Integer[]::new));
-	}
-
 	public ExcelTable clearRow(String headerColumnName, Object cellValue) {
 		getRow(headerColumnName, cellValue).clear();
 		return this;
@@ -252,7 +253,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public ExcelTable deleteRows(String headerColumnName, Object cellValue) {
 		List<TableRow> rowsToDelete = getRows(headerColumnName, cellValue);
-		return deleteRows(rowsToDelete.stream().mapToInt(TableRow::getIndex).boxed().toArray(Integer[]::new));
+		return deleteRows(rowsToDelete.stream().map(TableRow::getIndex).toArray(Integer[]::new));
 	}
 
 	private Set<String> getHeaderColumnsNames(Row headerRow) {

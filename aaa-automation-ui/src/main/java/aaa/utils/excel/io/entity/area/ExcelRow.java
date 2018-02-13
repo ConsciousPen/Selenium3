@@ -46,8 +46,11 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 	@Override
 	public String toString() {
 		return "ExcelRow{" +
-				"rowIndex=" + getIndex() +
-				", values=" + getValues() +
+				"sheetName=" + getSheetName() +
+				", rowIndex=" + getIndex() +
+				", columnsNumber=" + getCellsNumber() +
+				", cellTypes=" + getCellTypes() +
+				", values=" + getStringValues() +
 				'}';
 	}
 

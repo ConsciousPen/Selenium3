@@ -57,7 +57,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public Cell getPoiCell() {
-		return cell;
+		return this.cell;
 	}
 
 	private ExcelCell setPoiCell(Cell cell) {
@@ -65,8 +65,12 @@ public abstract class ExcelCell implements Writable {
 		return this;
 	}
 
+	public String getSheetName() {
+		return getRow().getSheetName();
+	}
+
 	public ExcelRow<? extends ExcelCell> getRow() {
-		return row;
+		return this.row;
 	}
 
 	public ExcelColumn<? extends ExcelCell> getColumn() {
@@ -163,8 +167,6 @@ public abstract class ExcelCell implements Writable {
 		return this.columnIndexOnSheet;
 	}
 
-	//protected abstract <E extends ExcelCell> ExcelArea<E, ?, ?> getArea();
-
 	@Override
 	public ExcelManager getExcelManager() {
 		return getRow().getExcelManager();
@@ -172,11 +174,11 @@ public abstract class ExcelCell implements Writable {
 
 	public String toString() {
 		return "ExcelCell{" +
-				"Sheet name=" + getRow().getPoiRow().getSheet() +
-				", Row number=" + getRowIndex() +
-				", Column number=" + getColumnIndex() +
-				", Cell Types=" + getCellTypes() +
-				", Cell value=" + getStringValue() +
+				"sheetName=" + getSheetName() +
+				", rowIndex=" + getRowIndex() +
+				", columnIndex=" + getColumnIndex() +
+				", cellTypes=" + getCellTypes() +
+				", value=" + getStringValue() +
 				'}';
 	}
 
@@ -197,7 +199,7 @@ public abstract class ExcelCell implements Writable {
 		return getCellTypes().contains(cellType);
 	}
 
-	public <T> boolean hasValue(T expectedValue) {
+	public boolean hasValue(Object expectedValue) {
 		return hasValue(expectedValue, getType(expectedValue));
 	}
 
@@ -242,12 +244,12 @@ public abstract class ExcelCell implements Writable {
 		return copy(destinationRowIndex, getColumnIndex());
 	}
 
-	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex) {
-		return copy(destinationRowIndex, destinationCellIndex, true, true, true);
+	public ExcelCell copy(int destinationRowIndex, int destinationColumnIndex) {
+		return copy(destinationRowIndex, destinationColumnIndex, true, true, true);
 	}
 
-	public ExcelCell copy(int destinationRowIndex, int destinationCellIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
-		return copy(getRow().getArea().getCell(destinationRowIndex, destinationCellIndex), copyCellStyle, copyComment, copyHyperlink);
+	public ExcelCell copy(int destinationRowIndex, int destinationColumnIndex, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {
+		return copy(getRow().getArea().getCell(destinationRowIndex, destinationColumnIndex), copyCellStyle, copyComment, copyHyperlink);
 	}
 
 	public ExcelCell copy(ExcelCell destinationCell, boolean copyCellStyle, boolean copyComment, boolean copyHyperlink) {

@@ -53,6 +53,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this.sheet;
 	}
 
+	public String getSheetName() {
+		return getPoiSheet().getSheetName();
+	}
+
 	public List<Integer> getColumnsIndexes() {
 		return new ArrayList<>(getAreaIndexesAndColumnsMap().keySet());
 	}
@@ -118,7 +122,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	@Override
 	@Nonnull
 	public Iterator<ROW> iterator() {
-		return new RowIterator<>(getRowsIndexes(), this::getRow);
+		return new RowIterator<>(this);
 	}
 
 	@Override
@@ -134,10 +138,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		ExcelArea<?, ?, ?> otherArea = (ExcelArea<?, ?, ?>) other;
 		conditions.add(Objects.equals(getPoiSheet().getSheetName(), otherArea.getPoiSheet().getSheetName()));
 		conditions.add(Objects.equals(getCellTypes(), otherArea.getCellTypes()));
-		if (considerRowsOnComparison) {
+		if (this.considerRowsOnComparison) {
 			conditions.add(Objects.equals(getRowsIndexes(), otherArea.getRowsIndexes()));
 		}
-		if (considerColumnsOnComparison) {
+		if (this.considerColumnsOnComparison) {
 			conditions.add(Objects.equals(getColumnsIndexes(), otherArea.getColumnsIndexes()));
 		}
 
@@ -147,10 +151,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	@Override
 	public int hashCode() {
 		int hash = Objects.hash(getPoiSheet().getSheetName(), getCellTypes());
-		if (considerRowsOnComparison) {
+		if (this.considerRowsOnComparison) {
 			hash += Objects.hash(getRowsIndexes());
 		}
-		if (considerColumnsOnComparison) {
+		if (this.considerColumnsOnComparison) {
 			hash += Objects.hash(getColumnsIndexes());
 		}
 		return hash;
@@ -158,15 +162,15 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	@Override
 	public ExcelManager getExcelManager() {
-		return excelManager;
+		return this.excelManager;
 	}
 
 	@Override
 	public String toString() {
 		return "ExcelArea{" +
-				"sheetName=" + getPoiSheet().getSheetName() +
-				", columnsIndexes=" + getColumnsIndexes() +
-				", rowsIndexes=" + getRowsIndexes() +
+				"sheetName=" + getSheetName() +
+				", rowsNumber=" + getRowsNumber() +
+				", columnsNumber=" + getColumnsNumber() +
 				", cellTypes=" + getCellTypes() +
 				'}';
 	}
@@ -192,12 +196,12 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public ROW getRow(int rowIndex) {
-		assertThat(hasRow(rowIndex)).as("There is no row number %1$s on sheet %2$s", rowIndex, getPoiSheet().getSheetName()).isTrue();
+		assertThat(hasRow(rowIndex)).as("There is no row number %1$s int %2$s", rowIndex, this).isTrue();
 		return getAreaIndexesAndRowsMap().get(rowIndex);
 	}
 
 	public COLUMN getColumn(int columnIndex) {
-		assertThat(hasColumn(columnIndex)).as("There is no column number %1$s on sheet %2$s", columnIndex, getPoiSheet().getSheetName()).isTrue();
+		assertThat(hasColumn(columnIndex)).as("There is no column number %1$s in %2$s", columnIndex, this).isTrue();
 		return getAreaIndexesAndColumnsMap().get(columnIndex);
 	}
 
@@ -278,10 +282,25 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		for (ROW row : this) {
 			List<String> actualValues = row.getStringValues();
 			Set<String> expectedValues = new HashSet<>(initialExpectedValues);
+			if (ignoreCase) {
+				actualValues = actualValues.stream().filter(Objects::nonNull).map(String::toLowerCase).collect(Collectors.toList());
+				expectedValues = expectedValues.stream().map(String::toLowerCase).collect(Collectors.toSet());
+			}
+
+			//TODO-dchubkov: simplify it
 			if (actualValues.containsAll(expectedValues)) {
 				foundRows.add(row);
 			} else if (expectedValues.removeAll(actualValues)) {
-				foundRowsWithPartialMatch.put(expectedValues.size(), Pair.of(row, expectedValues.toString()));
+				List<String> missedValues = new ArrayList<>(expectedValues);
+				if (ignoreCase) {
+					missedValues.clear();
+					for (String initExpectedValue : initialExpectedValues) {
+						if (expectedValues.contains(initExpectedValue.toLowerCase())) {
+							missedValues.add(initExpectedValue);
+						}
+					}
+				}
+				foundRowsWithPartialMatch.put(missedValues.size(), Pair.of(row, missedValues.toString()));
 			}
 
 			if (!foundRows.isEmpty() && !isLowest) {
@@ -290,7 +309,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		}
 
 		if (foundRows.isEmpty()) {
-			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", initialExpectedValues, getPoiSheet().getSheetName());
+			String errorMessage = String.format("Unable to find row with all these values: %1$s in %2$s", initialExpectedValues, this);
 			if (!foundRowsWithPartialMatch.isEmpty()) {
 				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
 				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getIndex();
@@ -305,13 +324,25 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes) {
 		assertThat(columnsIndexes).as("Can't exclude columns with indexes %s", Arrays.asList(columnsIndexes)).allMatch(this::hasColumn);
-		removeColumnsIndexes(columnsIndexes);
+		for (Integer columnIndex : columnsIndexes) {
+			for (ExcelRow<CELL> row : this) {
+				row.removeCellsIndexes(columnIndex);
+			}
+			this.columnsIndexesOnSheet.remove(getColumn(columnIndex).getIndexOnSheet());
+			getAreaIndexesAndColumnsMap().remove(columnIndex);
+		}
 		return this;
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeRows(Integer... rowsIndexes) {
 		assertThat(rowsIndexes).as("Can't exclude rows with indexes %s", Arrays.asList(rowsIndexes)).allMatch(this::hasRow);
-		removeRowsIndexes(rowsIndexes);
+		for (Integer rowIndex : rowsIndexes) {
+			for (ExcelColumn<CELL> column : getColumns()) {
+				column.removeCellsIndexes(rowIndex);
+			}
+			this.rowsIndexesOnSheet.remove(getRow(rowIndex).getIndexOnSheet());
+			getAreaIndexesAndRowsMap().remove(rowIndex);
+		}
 		return this;
 	}
 
@@ -353,28 +384,12 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
 		Sheet sheet = getPoiSheet();
 		for (int index : uniqueSortedRowIndexes) {
-			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s on sheet %2$s", index, sheet.getSheetName()).isTrue();
+			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s in %2$s", index, this).isTrue();
 			sheet.shiftRows(index - rowsShifts, sheet.getLastRowNum(), -1);
 			rowsShifts++;
 		}
+		excludeRows(rowsIndexes);
 		return this;
-	}
-
-	protected void removeRowsIndexes(Integer... rowsIndexesInArea) {
-		for (Integer rowIndex : rowsIndexesInArea) {
-			this.rowsIndexesOnSheet.remove(getRow(rowIndex).getIndexOnSheet());
-			getAreaIndexesAndRowsMap().remove(rowIndex);
-		}
-	}
-
-	protected void removeColumnsIndexes(Integer... columnsIndexesInArea) {
-		for (Integer columnIndex : columnsIndexesInArea) {
-			for (ExcelRow<CELL> row : this) {
-				row.removeCellsIndexes(columnIndex);
-			}
-			this.columnsIndexesOnSheet.remove(getColumn(columnIndex).getIndexOnSheet());
-			getAreaIndexesAndColumnsMap().remove(columnIndex);
-		}
 	}
 
 	protected abstract Map<Integer, ROW> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes);

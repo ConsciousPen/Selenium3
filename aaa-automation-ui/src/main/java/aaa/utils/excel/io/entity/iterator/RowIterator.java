@@ -1,26 +1,26 @@
 package aaa.utils.excel.io.entity.iterator;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
-import aaa.utils.excel.io.entity.area.CellsQueue;
+import aaa.utils.excel.io.entity.area.ExcelArea;
+import aaa.utils.excel.io.entity.area.ExcelCell;
+import aaa.utils.excel.io.entity.area.ExcelRow;
 
-public class RowIterator<ROW extends CellsQueue<?>> implements Iterator<ROW> {
+public class RowIterator<ROW extends ExcelRow<? extends ExcelCell>> implements Iterator<ROW> {
+	private ExcelArea<?, ROW, ?> excelArea;
 	private List<Integer> rowsIndexes;
 	private Integer currentIndex;
-	private Function<Integer, ROW> getRowFunction;
 
-	public RowIterator(List<Integer> rowsIndexes, Function<Integer, ROW> getRowFunction) {
-		this.rowsIndexes = new ArrayList<>(rowsIndexes);
-		this.currentIndex = rowsIndexes.isEmpty() ? -1 : rowsIndexes.get(0);
-		this.getRowFunction = getRowFunction;
+	public RowIterator(ExcelArea<?, ROW, ?> excelArea) {
+		this.excelArea = excelArea;
+		this.rowsIndexes = excelArea.getRowsIndexes();
+		this.currentIndex = excelArea.getFirstRowIndex();
 	}
 
 	@Override
 	public boolean hasNext() {
-		return currentIndex > 0;
+		return excelArea.hasRow(currentIndex);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class RowIterator<ROW extends CellsQueue<?>> implements Iterator<ROW> {
 		if (!hasNext()) {
 			throw new NoSuchElementException("There is no next row");
 		}
-		ROW returnRow = getRowFunction.apply(currentIndex);
+		ROW returnRow = excelArea.getRow(currentIndex);
 		rowsIndexes.remove(currentIndex);
 		currentIndex = rowsIndexes.isEmpty() ? -1 : rowsIndexes.get(0);
 		return returnRow;

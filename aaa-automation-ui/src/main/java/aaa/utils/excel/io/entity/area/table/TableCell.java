@@ -35,13 +35,13 @@ public class TableCell extends ExcelCell {
 
 	@Override
 	public String toString() {
-		return "ExcelCell{" +
-				"Sheet name=" + getTable().getSheet().getSheetName() +
-				", Row number=" + getRowIndex() +
-				", Column number=" + getColumnIndex() +
-				", Header column name=" + getHeaderColumnName() +
-				", Cell value=" + getStringValue() +
-				", Cell Types=" + getCellTypes() +
+		return "TableCell{" +
+				"sheetName=" + getSheetName() +
+				", rowIndex=" + getRowIndex() +
+				", columnIndex=" + getColumnIndex() +
+				", headerColumnName=" + getHeaderColumnName() +
+				", cellTypes=" + getCellTypes() +
+				", value=" + getStringValue() +
 				'}';
 	}
 

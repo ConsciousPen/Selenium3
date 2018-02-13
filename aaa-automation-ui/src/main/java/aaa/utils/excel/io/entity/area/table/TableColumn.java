@@ -1,5 +1,6 @@
 package aaa.utils.excel.io.entity.area.table;
 
+import java.util.List;
 import java.util.Set;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelColumn;
@@ -27,11 +28,19 @@ public class TableColumn extends ExcelColumn<TableCell> {
 	}
 
 	@Override
+	public List<Integer> getCellsIndexesOnSheet() {
+		return super.getCellsIndexesOnSheet();
+	}
+
+	@Override
 	public String toString() {
 		return "TableColumn{" +
-				"columnIndex=" + getIndex() +
+				"sheetName=" + getSheetName() +
+				", columnIndex=" + getIndex() +
 				", headerColumnName=" + getHeaderName() +
-				", values=" + getValues() +
+				", rowsNumber=" + getCellsNumber() +
+				", cellTypes=" + getCellTypes() +
+				", values=" + getStringValues() +
 				'}';
 	}
 

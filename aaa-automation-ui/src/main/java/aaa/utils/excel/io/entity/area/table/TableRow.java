@@ -3,7 +3,6 @@ package aaa.utils.excel.io.entity.area.table;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +26,8 @@ public class TableRow extends ExcelRow<TableCell> {
 		return (ExcelTable) getArea();
 	}
 
-	public TableHeader getHeader() {
-		return getTable().getHeader();
-	}
-
 	public Map<String, Object> getTableValues() {
-		Map<String, Object> values = new LinkedHashMap<>(getSize());
+		Map<String, Object> values = new LinkedHashMap<>(getCellsNumber());
 		for (TableCell cell : this) {
 			values.put(cell.getHeaderColumnName(), cell.getValue());
 		}
@@ -40,7 +35,7 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public Map<String, String> getTableStringValues() {
-		Map<String, String> values = new LinkedHashMap<>(getSize());
+		Map<String, String> values = new LinkedHashMap<>(getCellsNumber());
 		for (TableCell cell : this) {
 			values.put(cell.getHeaderColumnName(), cell.getStringValue());
 		}
@@ -66,27 +61,35 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	@Override
+	public List<Integer> getCellsIndexesOnSheet() {
+		return super.getCellsIndexesOnSheet();
+	}
+
+	@Override
 	public String toString() {
 		return "TableRow{" +
-				"rowIndex=" + getIndex() +
-				", values=" + getTableValues() +
+				"sheetName=" + getSheetName() +
+				", rowIndex=" + getIndex() +
+				", columnsNumber=" + getCellsNumber() +
+				", cellTypes=" + getCellTypes() +
+				", values=" + getTableStringValues() +
 				'}';
 	}
 
 	public boolean hasColumn(String headerColumnName) {
-		return getHeader().hasColumn(headerColumnName);
+		return getTable().getHeader().hasColumn(headerColumnName);
 	}
 
 	public int getIndex(String headerColumnName) {
-		return getHeader().getColumnIndex(headerColumnName);
+		return getTable().getHeader().getColumnIndex(headerColumnName);
 	}
 
 	public int getIndexOnSheet(String headerColumnName) {
-		return getHeader().getColumnIndexOnSheet(headerColumnName);
+		return getTable().getHeader().getColumnIndexOnSheet(headerColumnName);
 	}
 
 	public String getColumnName(int columnIndex) {
-		return getHeader().getColumnName(columnIndex);
+		return getTable().getHeader().getColumnName(columnIndex);
 	}
 
 	public List<TableCell> getCellsContains(String headerColumnNamePattern) {
@@ -96,10 +99,6 @@ public class TableRow extends ExcelRow<TableCell> {
 	public TableCell getCell(String headerColumnName) {
 		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
 		return getCells().stream().filter(c -> c.getHeaderColumnName().equals(headerColumnName)).findFirst().get();
-	}
-
-	public List<TableCell> getCells(String... headerColumnNames) {
-		return Arrays.stream(headerColumnNames).map(this::getCell).collect(Collectors.toList());
 	}
 
 	public Object getValue(String headerColumnName) {
@@ -148,7 +147,6 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public int getSumContains(String headerColumnNamePattern) {
-		return getSum(getCellsContains(headerColumnNamePattern).stream().mapToInt(TableCell::getColumnIndex).boxed().toArray(Integer[]::new));
+		return getSum(getCellsContains(headerColumnNamePattern).stream().map(TableCell::getColumnIndex).toArray(Integer[]::new));
 	}
-
 }
