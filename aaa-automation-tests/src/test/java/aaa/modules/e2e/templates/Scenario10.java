@@ -229,10 +229,12 @@ public class Scenario10 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_ACTIVE, PolicyStatus.PROPOSED);
 		
-		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan", installmentsCountOfRenewal, installmentDueDatesOfRenewal.size());
+		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates(); 
 		CustomAssertions.assertThat(installmentDueDatesOfRenewal.size()).as("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan").isEqualTo(installmentsCountOfRenewal); 
 		
+		for (int i = 0; i < installmentsCountOfRenewal; i++) {
+			log.info("Installment Due Date [" + i +"] is: " + installmentDueDatesOfRenewal.get(i));
+		}
 	}
 	
 	//For CA - Auto & Home 
@@ -253,8 +255,11 @@ public class Scenario10 extends ScenarioBaseTest {
 		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_ACTIVE, PolicyStatus.PROPOSED);
 		
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Standard Monthly (Renewal) payment plan", installmentsCountOfRenewal, installmentDueDatesOfRenewal.size()); 
 		CustomAssertions.assertThat(installmentDueDatesOfRenewal.size()).as("Billing Installments count for Standard Monthly (Renewal) payment plan").isEqualTo(installmentsCountOfRenewal); 
+		
+		for (int i = 0; i < installmentsCountOfRenewal; i++) {
+			log.info("Installment Due Date [" + i +"] is: " + installmentDueDatesOfRenewal.get(i));
+		}
 		
 		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).setMinDue(minDue).verifyPresent();
 		

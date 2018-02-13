@@ -38,7 +38,12 @@ public class TestScenario10 extends Scenario10 {
 				generateRenewalBill();
 			}
 			enableAutoPay();
-			changePaymentPlan();
+			if (getState().equals(Constants.States.CA)) {
+				changePaymentPlanForCA();
+			}
+			else {
+				changePaymentPlan();
+			}
 			payRenewalBill();
 			updatePolicyStatus();
 			generateFirstBillOfRenewal();
