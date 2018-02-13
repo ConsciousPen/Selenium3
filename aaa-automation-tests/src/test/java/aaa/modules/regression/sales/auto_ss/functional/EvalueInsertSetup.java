@@ -28,6 +28,11 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
+	@Test(description = "setting Agent/Agency check against Zip to stub")
+	public static void channelIdResolverStubEndpointUpdate() {
+		DBService.get().executeUpdate(String.format(CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+	}
+
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub")
 	public static void retrieveMembershipSummaryStubEndpointUpdate() {
 		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
@@ -69,7 +74,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for enabling eValue Configuration for States with Paperless Preferences stubbed")
 	public static void eValueConfigInsert() {
-		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
+		List<String> configForStates = Arrays.asList("OR"  //for Paperless Preferences = Yes
 				, "MD"  //for Paperless Preferences = Pending
 				, "DC"); //for Paperless Preferences = No
 		//PA should not have eValue or Paperless Preferences Configuration
@@ -147,5 +152,25 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition updating last payment method stub end points")
 	public static void lastPaymentMethodStubPointUpdate() {
 		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+	}
+
+	@Test(description = "Precondition updating pending refund configuration")
+	public static void pendingRefundConfigurationUpdate() {
+		DBService.get().executeUpdate(PENDING_REFUND_CONFIGURATION_UPDATE);
+	}
+
+	@Test(description = "Precondition updating Authentication stub end points")
+	public static void authenticationStubPointUpdate() {
+		DBService.get().executeUpdate(String.format(AUTHENTICATION_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+	}
+
+	@Test(description = "delete unnecessary privilege from all roles")
+	public static void deleteUnnecessaryPrivilegeFromAllRoles() {
+		DBService.get().executeUpdate(DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES);
+	}
+
+	@Test(description = "Precondition updating Payperless Preferences Popup Endpoint to a Stub")
+	public static void paperlessPreferencesPopupStubEndpointUpdate() {
+		DBService.get().executeUpdate(PAPERLESS_PREFERENCES_POPUP_STUB_POINT);
 	}
 }

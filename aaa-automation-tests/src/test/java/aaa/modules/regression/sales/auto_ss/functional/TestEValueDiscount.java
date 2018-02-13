@@ -5,13 +5,11 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
@@ -107,6 +105,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
 
+
     private static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
             MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
 
@@ -130,10 +129,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
     @Test(description = "Precondition")
     public static void paperlessPreferencesConfigCheck() {
-        CustomAssert
-                .assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST))
-                        .get()
-                        .contains(APP_HOST));
+        CustomAssert.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PREFERENCE_STUB_POINT, APP_HOST)).get().contains(APP_HOST));
     }
 
     @Test(description = "Precondition")
@@ -144,7 +140,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
             CustomAssert.assertTrue("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env", DBService.get()
                     .getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
             CustomAssert.assertTrue("Paperless Preferences is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env", DBService.get()
-                    .getValue(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
+                    .getValue(String.format(PAPERLESS_PREFERENCES_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
         }
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
