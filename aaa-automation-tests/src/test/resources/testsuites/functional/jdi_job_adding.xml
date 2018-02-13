@@ -6,15 +6,6 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="eValue Related Jobs">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="TestEValueDiscountJobAdding">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -33,7 +24,7 @@
             </class>
         </classes>
     </test>
-<!--    <test name="TestRefundProcessJobAdding">
+    <test name="TestRefundProcessJobAdding">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
@@ -41,5 +32,5 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
+    </test>
 </suite>
