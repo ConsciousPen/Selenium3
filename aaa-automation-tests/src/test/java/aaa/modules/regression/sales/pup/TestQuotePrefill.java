@@ -1,14 +1,12 @@
 package aaa.modules.regression.sales.pup;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.common.Tab;
-import aaa.common.metadata.SearchMetaData.Search;
+import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -20,6 +18,8 @@ import aaa.main.modules.customer.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
@@ -60,7 +60,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		checkPolicyTable();
 		prefillTab.submitTab();
 		policy.getDefaultView().fill(td.mask(prefillTab.getMetaKey()));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		pupPolicyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Created PUP Policy " + pupPolicyNum);
 		checkPolicySearch();
@@ -81,23 +81,30 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 		prefillTab.buttonAddPolicy.click();
 		prefillTab.searchDialog.setRawValue(getTestSpecificTD(WRONG_SEARCH_CRITERIA_KEY));
 		prefillTab.searchDialog.search();
-		prefillTab.searchDialog.tableSearchResults.verify.present(false);
+		//prefillTab.searchDialog.tableSearchResults.verify.present(false);
+		assertThat(!prefillTab.searchDialog.tableSearchResults.isPresent());
 		prefillTab.searchDialog.cancel();
 		prefillTab.buttonRemovePolicy.click();
 	}
 
 	private void checkPolicyTable() {
-		for (Entry<String, String> entry : primaryPolicies.entrySet()) {
+		for (Map.Entry<String, String> entry : primaryPolicies.entrySet()) {
 			new PupActiveUnderlyingPoliciesVerifier().setPolicyNumber(entry.getValue()).verifyPresent();
 		}
 	}
 
 	private void checkPolicySearch() {
-		String firstNameKey = TestData.makeKeyPath(Search.class.getSimpleName(), Search.FIRST_NAME.getLabel());
-		String lastNameKey = TestData.makeKeyPath(Search.class.getSimpleName(), Search.LAST_NAME.getLabel());
-		String zipKey = TestData.makeKeyPath(Search.class.getSimpleName(), Search.ZIP_CODE.getLabel());
+		String firstNameKey = TestData.makeKeyPath(SearchMetaData.Search.class.getSimpleName(), SearchMetaData.Search.FIRST_NAME.getLabel());
+		String lastNameKey = TestData.makeKeyPath(SearchMetaData.Search.class.getSimpleName(), SearchMetaData.Search.LAST_NAME.getLabel());
+		String zipKey = TestData.makeKeyPath(SearchMetaData.Search.class.getSimpleName(), SearchMetaData.Search.ZIP_CODE.getLabel());
 		TestData tdSearch = getTestSpecificTD(POLICY_SEARCH_KEY).adjust(firstNameKey, firstName).adjust(lastNameKey, lastName).adjust(zipKey, zipCode);
 		SearchPage.search(tdSearch);
-		PolicySummaryPage.labelPolicyNumber.verify.value(pupPolicyNum);
+
+		if (SearchPage.tableSearchResults.isPresent()) {
+			SearchPage.tableSearchResults.getRow("Product", "Personal Umbrella Policy").getCell(1).controls.links.getFirst().click();
+		}
+
+		//PolicySummaryPage.labelPolicyNumber.verify.value(pupPolicyNum);
+		assertThat(PolicySummaryPage.labelPolicyNumber.getValue()).isEqualTo(pupPolicyNum);
 	}
 }

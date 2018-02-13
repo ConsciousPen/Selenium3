@@ -21,13 +21,18 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
-    public PremiumAndCoveragesQuoteTab() {
-        super(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class);
-    }
-    
-    public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
+	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
+
+	public PremiumAndCoveragesQuoteTab() {
+		super(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class);
+	}
+
+	public static Dollar getPolicyTermPremium() {
+		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
+	}
+
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
@@ -41,17 +46,14 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		}
+		hideHeader();
 		btnCalculatePremium.click();
+		showHeader();
 	}
-	
 
-    @Override
-    public Tab submitTab() {
-    	btnContinue.click();
-        return this;
-    }
-
-    public static Dollar getPolicyTermPremium() {
-  		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
-      }
+	@Override
+	public Tab submitTab() {
+		btnContinue.click();
+		return this;
+	}
 }
