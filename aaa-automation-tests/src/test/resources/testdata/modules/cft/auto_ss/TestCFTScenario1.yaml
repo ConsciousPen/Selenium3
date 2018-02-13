@@ -20,12 +20,20 @@ DriverTab: {
 }
 
 PremiumAndCoveragesTab : {
-    Override Premium: {
-    Bodily Injury Liability By Flat Amount: '180',
+  Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+  Property Damage Liability: 'contains=$1,000,000',
+  Calculate Premium: 'click',
+  Override Premium: {
+    Bodily Injury Liability By Flat Amount: '200',
     Reason for Override: 'OTHER',
     Other Reason: 'CFT tests'
     }
 }
+
+VehicleTab_DataGather: {
+  VIN: WAUKJAFM8C6314628
+}
+
 
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: Eleven Pay - Standard,

@@ -198,4 +198,14 @@ PAS-9361:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Email"]
+PAS-9754:
+  summary: "PAS18.2 Regression: Unable to clear Suspense Payment"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.cft.auto_ss.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.auto_ca.choice.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
 

@@ -61,7 +61,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@BeforeClass
 	public void precondition() throws IOException {
 		// refreshReports
-		// DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
+		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
 		downloadDir = new File(DOWNLOAD_DIR);
 		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
@@ -88,7 +88,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			log.info("Monitor info: " + monitorInfo);
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
+			log.info("Monitor Address: " + monitorAddress);
 			SSHController sshControllerRemote = new SSHController(
 				monitorAddress,
 				PropertyProvider.getProperty("test.ssh.user"),
@@ -114,7 +116,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	// @Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void futureDatedPolicy(@Optional(StringUtils.EMPTY) String state) {
