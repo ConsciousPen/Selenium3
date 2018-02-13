@@ -307,12 +307,13 @@
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                     <include name="pas8275_vinValidate"/>
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
-                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
+                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                 </methods>
             </class>
         </classes>
