@@ -35,7 +35,7 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew{
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void TC01_CreatePolicyAddDoNotRenew(@Optional("") String state) {
 
-        super.TC01_CreatePolicyAddDoNotRenew();
+        super.TC01_CreatePolicyAddDoNotRenewTemplate();
     }
     
 	@Parameters({"state"})
@@ -43,6 +43,6 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew{
 			groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void TC02_RenewPolicy(@Optional("") String state) {
-		super.TC02_RenewPolicy();
+		super.TC02_RenewPolicyTemplate();
 	}
 }
