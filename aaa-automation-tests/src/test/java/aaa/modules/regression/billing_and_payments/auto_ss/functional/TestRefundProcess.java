@@ -1,20 +1,12 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
-
 import java.util.Map;
 import java.util.Optional;
-
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.StaticElement;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -30,9 +22,13 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.StaticElement;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
@@ -77,13 +73,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
-			.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
+				.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void pendingRefundPaymentMethodConfigCheck() {
 		CustomAssert.assertEquals("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.", DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK)
-			.get(), "pendingRefund");
+				.get(), "pendingRefund");
 	}
 
 	@Test(description = "Precondition for refund last payment method")
@@ -91,11 +87,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertTrue("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
 		CustomAssert.assertTrue("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
-			.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
-			.contains(APP_HOST));
+				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.contains(APP_HOST));
 		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE", DBService.get()
-			.getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST)).get()
-			.contains(APP_HOST));
+				.getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.contains(APP_HOST));
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1030,7 +1026,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
-			.value("Only check refund is currently available.");
+				.value("Only check refund is currently available.");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1049,7 +1045,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
-			.value("No payment method available for electronic refund.");
+				.value("No payment method available for electronic refund.");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}

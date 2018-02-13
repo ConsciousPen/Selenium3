@@ -251,8 +251,11 @@ public class BaseTest {
 	 */
 	protected String getCopiedPolicy() {
 		openDefaultPolicy(getPolicyType(), getState());
-		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		synchronized (key) {
+			getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
+			return PolicySummaryPage.labelPolicyNumber.getValue();
+		}
 	}
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
@@ -416,47 +419,20 @@ public class BaseTest {
 		return new SimpleDataProvider(td);
 	}
 
-
 	protected boolean isStateCA() {
 		return getPolicyType() != null && getPolicyType().isCaProduct();
 	}
 
-	protected String initiateManualConversion(TestData td){
-		String customerNumber = createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(td);
-		return customerNumber;
-	}
-
-	protected String initiateManualConversion(){
-		return initiateManualConversion(getManualConversionInitiationTd());
-	}
-
 	protected TestData getManualConversionInitiationTd(){
-		return getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
-	}
-
-	protected String initiateManualConversionR35() {
-		TestData td = getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
-		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
-				new DefaultMarkupParser().parse("$<today+35d:MM/dd/yyyy>"));
-		return initiateManualConversion(td);
-	}
-
-	protected void createConversionPolicy() {
-		createConversionPolicy(getConversionPolicyDefaultTD());
-	}
-
-	protected void createConversionPolicy(TestData td) {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		log.info("Conversion Policy Creation Started...");
-		initiateManualConversion();
-		getPolicyType().get().getDefaultView().fill(td);
-		String policyNumber = PolicySummaryPage.linkPolicy.getValue();
-		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
+		return getStateTestData(testDataManager.policy.get(getPolicyType()), CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}
 
 	protected TestData getConversionPolicyDefaultTD(){
-		return getPolicyDefaultTD();
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "Conversion", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
 	}
 
 	private void initTestDataForTest() {

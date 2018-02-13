@@ -13,7 +13,6 @@ import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.HomeSSHO6BaseTest;
-import aaa.modules.regression.conversions.ConvHomeSsHO6BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -27,7 +26,7 @@ import toolkit.utils.TestInfo;
  * 5. TBD (PAS-2310 should be cover)
  */
 
-public class TestPolicyRmeMpdDiscountButton extends ConvHomeSsHO6BaseTest {
+public class TestPolicyRmeMpdDiscountButton extends HomeSSHO6BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})

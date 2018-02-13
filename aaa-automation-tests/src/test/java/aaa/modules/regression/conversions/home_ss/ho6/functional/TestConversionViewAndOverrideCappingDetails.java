@@ -13,7 +13,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
-import aaa.modules.regression.conversions.ConvHomeSsHO6BaseTest;
+import aaa.modules.policy.HomeSSHO6BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -35,7 +35,7 @@ import toolkit.utils.TestInfo;
  *
  **/
 
-public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO6BaseTest {
+public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO6BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -61,9 +61,10 @@ public class TestConversionViewAndOverrideCappingDetails extends ConvHomeSsHO6Ba
                 ("InitiateRenewalEntryActionTab").getValue("Renewal Policy Premium");
 
         mainApp().open();
+        createCustomerIndividual();
 
         //Initiate Renewal manual entry
-        initiateManualConversion(initiateRenewalEntry);
+        customer.initiateRenewalEntry().perform(initiateRenewalEntry);
 
         //Fill Quote
         policy.getDefaultView().fillUpTo(td,PremiumsAndCoveragesQuoteTab.class, true);

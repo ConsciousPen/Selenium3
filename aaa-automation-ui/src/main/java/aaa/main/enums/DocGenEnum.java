@@ -244,6 +244,8 @@ public final class DocGenEnum {
 		HSIQXX6("Condominium Owners Insurance Quote Page"),
 		HSPRNMXX("Pre-Renewal letter (Mortgagee)"),
 		HSPRNXX("Pre-Renewal letter"),
+		HSRNMXX("Renewal Cover Letter (Mortgagee)"),
+		HSRNHODPXX("Renewal Cover Letter"),
 		HSRFIXX("Request for Information"),
 		HSRFIXXPUP("HSRFIXX", "Request For Information"),
 		HSRMXX(""),

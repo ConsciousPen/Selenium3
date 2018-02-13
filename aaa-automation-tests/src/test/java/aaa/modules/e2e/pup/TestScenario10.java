@@ -6,9 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.Constants;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario10;
 import toolkit.datax.TestData;
 

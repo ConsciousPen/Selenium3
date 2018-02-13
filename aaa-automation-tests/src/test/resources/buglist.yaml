@@ -72,16 +72,6 @@ PAS-6667:
       messages: ['WUAUCA']
     - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
       messages: ['WUAUCA']
-PAS-6612:
-  summary: "Regression: Auto CA/ Property HSS CA: Can't change payment plan on Billing tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario10.TC01_createPolicy,
-    aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Quarterly} in table 'Billing Account Policies' is present"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy,
-    aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
 PAS-6539:
   summary: "View eRefunds and the Debit/Credit Card - Auto"
   reason: PROD
@@ -129,14 +119,6 @@ PAS-7702:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiAuto]
       messages: ["No value present"]
-PAS-7972:
-  summary: "Regression: Property HSS: Payment plan of renewal changes after renewal first bill paid"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario10.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
 PAS-8994:
   summary: "Entity of type VASS926232462 and with a number of 1 was not found"
   reason: PROD
@@ -147,14 +129,6 @@ PAS-8994:
       messages: ["Entity input stream has already been closed"]
     - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
       messages: ["Entity input stream has already been closed"]
-PAS-9101:
-  summary: "Regression: Home CA: Payment plan of renewal changes incorrectly after renewal offer generated"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario13.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Semi-Annual (Renewal)] but found [Monthly Standard (Renewal)]"]
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
 PAS-8288:
   summary: "Last Payment Method stub implementation and test refactoring to use it"
   reason: PROD
@@ -179,10 +153,21 @@ PAS-9157:
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
+    - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
+      messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
 PAS-9361:
   summary: "Generate eSignature Document button doesnt open email popup"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Email"]
-
+PAS-9661:
+  summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
+      messages: ["Column Policy Status was not found in the table"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]

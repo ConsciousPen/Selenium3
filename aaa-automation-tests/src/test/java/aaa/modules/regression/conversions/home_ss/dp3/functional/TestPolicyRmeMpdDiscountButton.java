@@ -12,7 +12,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.regression.conversions.ConvHomeSsDP3BaseTest;
+import aaa.modules.policy.HomeSSDP3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -26,7 +26,7 @@ import toolkit.utils.TestInfo;
  * 5. TBD (PAS-2310 should be cover)
  */
 
-public class TestPolicyRmeMpdDiscountButton extends ConvHomeSsDP3BaseTest {
+public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})

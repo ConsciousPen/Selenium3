@@ -6,6 +6,7 @@ package aaa.modules.regression.conversions.pup.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -55,7 +56,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]",
 						PersonalUmbrellaMetaData.PrefillTab.NamedInsured.TRUSTEE.getLabel()), "Yes");
 
-		initiateManualConversion(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d>"));
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), TimeSetterUtil.getInstance().getCurrentTime().plusDays(30));
 		policy.getDefaultView().fillUpTo(testdata, BindTab.class, true);
 		bindTab.submitTab();
 		verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
@@ -93,7 +94,6 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 		bindTab.submitTab();
         verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
-
 }
 
 

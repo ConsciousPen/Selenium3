@@ -1,77 +1,879 @@
-########################################
-#                                      #
-#   Conversion State-specific data     #
-#                                      #
-########################################
-
 # ---------- Conversion Data for UT ---------------
 
-TestData_ConversionAutoSS_UT: {
+TestData: {
   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab_ConversionAutoSS_UT',
-  DriverTab: '@DriverTab_ConversionAutoSS_UT',
+  GeneralTab: '@GeneralTab_UT',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab',
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab_ConversionAutoSS',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ConversionAutoSS',
-  DriverActivityReportsTab: '@DriverActivityReportsTab_ConversionAutoSS',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_ConversionAutoSS',
-  PurchaseTab: {}
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
 }
 
-GeneralTab_ConversionAutoSS_UT: {
+GeneralTab_UT: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
-  PolicyInformation: '@PolicyInformation_ConversionAutoSS'
+  PolicyInformation: '@PolicyInformation_UT'
 }
 
-PolicyInformation_ConversionAutoSS: {
+PolicyInformation_UT: {
   Policy Type: Standard,
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  #Agency Location: 'Draper - 500005417 - Draper',
   Agency Location: 'contains=Draper - 500005417 - Draper',
   Agent: 'House Account Draper',
   Authorized by: QA,
   TollFree Number: 1
+  #Lead Source: Hybrid Conversion
 }
 
-DriverTab_ConversionAutoSS_UT: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License State: 'UT',
-  License Number: 400064773
-}
-
-VehicleTab_ConversionAutoSS: {
-  Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273,
-  Type: 'Private Passenger Auto'
-}
-
-PremiumAndCoveragesTab_ConversionAutoSS: {
-  Payment Plan: 'Eleven Pay - Standard (Renewal)',
+PremiumAndCoveragesTab: {
+  Payment Plan: 'Annual (Renewal)',
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750'
 }
 
-DriverActivityReportsTab_ConversionAutoSS: {
+DriverActivityReportsTab: {
   Validate Driving History: click,
   OrderCLUEReport: [{}],
   OrderMVRReport: [{}],
   OrderInternalClaimsReport: [{}]
 }
 
-DocumentsAndBindTab_ConversionAutoSS: {
+DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
   },
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }
+}
+
+# ---------- Conversion Data for AZ ---------------
+
+TestData_AZ: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_AZ',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_AZ',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_AZ: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_AZ'
+}
+
+PolicyInformation_AZ: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'contains=500005091 - Chandler',
+  Agent: 'House Agent Mesa',
+  Authorized by: QA,
+  TollFree Number: 1,
+}
+
+# ---------- Conversion Data for CO ---------------
+
+TestData_CO: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_CO',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_CO',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_CO: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_CO'
+}
+
+PolicyInformation_CO: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Colorado - 500001007',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Denver - 500005106 - Denver',
+  Agent: 'House Agent Boulder',
+  Authorized by: QA,
+  TollFree Number: 1,
+}
+
+# ---------- Conversion Data for CT ---------------
+
+TestData_CT: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab_CT',
+  GeneralTab: '@GeneralTab_CT',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_CT',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_CT: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_CT'
+}
+
+PolicyInformation_CT: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Authorized by: QA,
+  TollFree Number: 1,
+}
+
+# ---------- Conversion Data for DE ---------------
+
+TestData_DE: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_DE',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_DE',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
+}
+
+GeneralTab_DE: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_DE'
+}
+
+PolicyInformation_DE: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_DE: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for ID ---------------
+
+TestData_ID: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_ID',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_ID',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_ID: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_ID'
+}
+
+PolicyInformation_ID: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Beaverton - 500005277 - Portland',
+  Agent: 'House Agent Pocatello',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for IN ---------------
+
+TestData_IN: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_IN',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_IN',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_IN: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_IN'
+}
+
+PolicyInformation_IN: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
+  Agent: 'House Agent AAA Hoosier Headquarters',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for KS ---------------
+
+TestData_KS: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_KS',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_KS',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
+}
+
+GeneralTab_KS: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_KS'
+}
+
+PolicyInformation_KS: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Cromwell - 500005129 - Cromwell',
+  Agent: 'House Agent Allied Club',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_KS: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for KY ---------------
+
+TestData_KY: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_KY',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_KY',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_KY: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_KY'
+}
+
+PolicyInformation_KY: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for MD ---------------
+
+TestData_MD: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_MD',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+}
+
+GeneralTab_MD: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_MD'
+}
+
+PolicyInformation_MD: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+  Agent: 'House Agent Annapolis CCIT',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_MD: {
+  RequiredToBind: {
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for MT ---------------
+
+TestData_MT: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_MT',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MT',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_MT: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_MT'
+}
+
+PolicyInformation_MT: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Great Falls - 500005162 - Great Falls',
+  Agent: 'House Agent Great Falls',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for NJ ---------------
+
+TestData_NJ: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_NJ',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NJ',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
+}
+
+GeneralTab_NJ: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_NJ'
+}
+
+PolicyInformation_NJ: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Newton - 500017271 - Newton',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_NJ: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
+    Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+  },
+  RequiredToIssue: {
+    CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
+    Separate Vehicle 1: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  },
+}
+
+# ---------- Conversion Data for NV ---------------
+
+TestData_NV: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_NV',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NV',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_NV: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_NV'
+}
+
+PolicyInformation_NV: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+  Agent: 'House Account Las Vegas',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for NY ---------------
+
+TestData_NY: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_NY',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NY',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab_NY',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
+}
+
+GeneralTab_NY: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_NY'
+}
+
+PolicyInformation_NY: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NORTHWAY NEW YORK - 500001009',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agent: 'House Agent QUEENSBURY',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_NY: {
+  RequiredToBind: {
+    New York Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    #document not present for vehicles older that 7 years
+    #Separate Vehicle 1: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for OH ---------------
+
+TestData_OH: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_OH',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OH',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_OH: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_OH'
+}
+
+PolicyInformation_OH: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'Ohio Findlay Club - 500001015',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Findlay Hq - 500005196 - Findlay',
+  Agent: 'HOUSE AGENT Ohio Findlay Club',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for OK ---------------
+
+TestData_OK: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_OK',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OK',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
+}
+
+GeneralTab_OK: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_OK'
+}
+
+PolicyInformation_OK: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+  Agent: 'House Agent AAA W Oklahoma',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_OK: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+  },
+  RequiredToIssue: {
+    Coverage Selection Form: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for OR ---------------
+
+TestData_OR: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_OR',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OR',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_OR: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_OR'
+}
+
+PolicyInformation_OR: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Portland - 500005275 - Portland',
+  Agent: 'House Agent Portland',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for PA ---------------
+
+TestData_PA: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_PA',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_PA',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+}
+
+GeneralTab_PA: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_PA'
+}
+
+PolicyInformation_PA: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Southern Penn - 500017173',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Bedford - 500017241 - Bedford',
+  Agent: 'House Agent AAA Southern Penn',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Pennsylvania Important Notice: Physically Signed,
+    Invoice-Minimum Coverages: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for SD ---------------
+
+TestData_SD: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_SD',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_SD',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_SD: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_SD'
+}
+
+PolicyInformation_SD: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA SOUTH DAKOTA - 500001022',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+  Agent: 'House Agent AAA SD',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for VA ---------------
+
+TestData_VA: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_VA',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_VA',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_VA: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_VA'
+}
+
+PolicyInformation_VA: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+# ---------- Conversion Data for WV ---------------
+
+TestData_WV: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_WV',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_WV',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
+}
+
+GeneralTab_WV: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_WV'
+}
+
+PolicyInformation_WV: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Charleston - 500005295 - Charleston',
+  Agent: 'House Agent Charleston',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_WV: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# ---------- Conversion Data for WY ---------------
+
+TestData_WY: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_WY',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_WY',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_WY: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_WY'
+}
+
+PolicyInformation_WY: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Bozeman - 500005161 - Bozeman',
+  Agent: 'House Agent AK Diamond Blvd',
+  Authorized by: QA,
+  TollFree Number: 1
 }
