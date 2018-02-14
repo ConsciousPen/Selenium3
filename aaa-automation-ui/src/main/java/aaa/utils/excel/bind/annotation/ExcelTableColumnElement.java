@@ -1,4 +1,4 @@
-package aaa.utils.excel.bind;
+package aaa.utils.excel.bind.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,6 +11,8 @@ public @interface ExcelTableColumnElement {
 	boolean isPrimaryKey() default false;
 
 	String name() default "##default";
+
+	boolean ignoreCase() default false;
 
 	String primaryKeysSeparator() default ",";
 

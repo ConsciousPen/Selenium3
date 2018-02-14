@@ -7,9 +7,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
@@ -41,7 +40,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 	}
 
 	/**
-	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, boolean, String...)} and {@link #getTable(int, boolean, String...)} methods
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and {@link #getTable(int, boolean, String...)} methods
 	 */
 	public List<ExcelTable> getTables() {
 		return new ArrayList<>(this.tables);
@@ -94,57 +93,50 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		return this;
 	}
 
-	/**
-	 * Only columns with unique names from array will be searched. Returns <b>last</b> found ExcelTable
-	 */
-	public ExcelTable getTable(String... headerColumnNames) {
-		return getTable(false, false, headerColumnNames);
+	public ExcelTable getTable(String... headerColumnsNames) {
+		return getTable(false, headerColumnsNames);
 	}
 
-	public ExcelTable getTable(boolean isLowest, boolean ignoreCase, String... headerColumnNames) {
-		SheetRow row = getRow(isLowest, ignoreCase, headerColumnNames);
-		return getTable(row.getIndex(), ignoreCase, headerColumnNames);
+	public ExcelTable getTable(boolean ignoreCase, String... headerColumnsNames) {
+		SheetRow row = getRow(ignoreCase, headerColumnsNames);
+		return getTable(row.getIndex(), ignoreCase, headerColumnsNames);
 	}
 
-	public ExcelTable getTable(int headerRowIndex, String... headerColumnNames) {
-		return getTable(headerRowIndex, false, headerColumnNames);
+	public ExcelTable getTable(int headerRowIndex, String... headerColumnsNames) {
+		return getTable(headerRowIndex, false, headerColumnsNames);
 	}
 
 	/**
-	 *  Get ExcelTable object on current sheet with provided {@code headerColumnNames} header columns found in {@code headerRowIndex} row number.
+	 *  Get ExcelTable object on current sheet with provided {@code headerColumnsNames} header columns found in {@code headerRowIndex} row number.
 	 *
 	 * @param headerRowIndex Table's header row number on current sheet. Index starts from 1
-	 * @param headerColumnNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndex} will be used as column names
+	 * @param ignoreCase if true then ignore header column names while searching header columns indexes within {@code headerRowIndex} row
+	 * @param headerColumnsNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndex} will be used as column names
 	 * @return {@link ExcelTable} object representation of found excel table
 	 */
-	public ExcelTable getTable(int headerRowIndex, boolean ignoreCase, String... headerColumnNames) {
+	public ExcelTable getTable(int headerRowIndex, boolean ignoreCase, String... headerColumnsNames) {
 		assertThat(headerRowIndex).as("Header row number should be greater than 0").isPositive();
 		SheetRow headerRow = getRow(headerRowIndex);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
 		Set<Integer> columnsIndexes = null;
 
-		if (ArrayUtils.isNotEmpty(headerColumnNames)) {
-			Set<String> expectedHeaderColumnsNamesSet;
-			if (ignoreCase) {
-				expectedHeaderColumnsNamesSet = Arrays.stream(headerColumnNames).filter(Objects::nonNull).map(String::toLowerCase).collect(Collectors.toSet());
-			} else {
-				expectedHeaderColumnsNamesSet = new HashSet<>(Arrays.asList(headerColumnNames));
-			}
-
-			List<String> missedHeaderColumnsNames = Arrays.stream(headerColumnNames).collect(Collectors.toList());
+		if (ArrayUtils.isNotEmpty(headerColumnsNames)) {
+			Set<String> missedHeaderColumnsNames = new HashSet<>(Arrays.asList(headerColumnsNames));
 			columnsIndexes = new HashSet<>();
 			for (SheetCell cell : headerRow) {
-				String value = cell.getStringValue();
-				if (ignoreCase && value != null) {
-					value = value.toLowerCase();
+				String cellValue = cell.getStringValue();
+				if (cellValue == null) {
+					continue;
 				}
-				if (expectedHeaderColumnsNamesSet.contains(value)) {
+
+				Predicate<String> cellValueEqualsToHeaderName = ignoreCase ? cellValue::equalsIgnoreCase : cellValue::equals;
+				if (missedHeaderColumnsNames.removeIf(cellValueEqualsToHeaderName)) {
 					columnsIndexes.add(cell.getColumnIndex());
-					missedHeaderColumnsNames.remove(cell.getStringValue());
 				}
 			}
+
 			if (!missedHeaderColumnsNames.isEmpty()) {
-				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s", missedHeaderColumnsNames, headerRowIndex));
+				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s on sheet \"%3$s\"", missedHeaderColumnsNames, headerRowIndex, getSheetName()));
 			}
 		}
 

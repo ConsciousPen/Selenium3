@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class PUPOpenLPolicy extends OpenLPolicy {
-	@ExcelTableElement(sheetName = PUP_COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = PUP_COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<PUPOpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = PUP_DWELLING_SHEET_NAME, headerRowNumber = DWELLING_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = PUP_DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<OpenLDwelling> dwelling;
 
-	@ExcelTableElement(sheetName = PUP_RISK_ITEM_SHEET_NAME, headerRowNumber = PUP_RISK_ITEM_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = PUP_RISK_ITEM_SHEET_NAME, headerRowIndex = PUP_RISK_ITEM_HEADER_ROW_NUMBER)
 	private List<OpenLRiskItem> riskItems;
 
 	private String autoTier;

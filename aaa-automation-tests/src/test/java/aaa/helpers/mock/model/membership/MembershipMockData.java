@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.exceptions.IstfException;
 
 public class MembershipMockData {

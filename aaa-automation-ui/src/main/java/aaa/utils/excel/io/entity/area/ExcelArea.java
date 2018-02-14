@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
@@ -272,54 +272,39 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public ROW getRow(String... valuesInCells) {
-		return getRow(false, false, valuesInCells);
+		return getRow(false, valuesInCells);
 	}
 
-	public ROW getRow(boolean isLowest, boolean ignoreCase, String... valuesInCells) {
-		Set<String> initialExpectedValues = new HashSet<>(Arrays.asList(valuesInCells));
-		List<ROW> foundRows = new ArrayList<>();
-		Map<Integer, Pair<ROW, String>> foundRowsWithPartialMatch = new LinkedHashMap<>();
+	public ROW getRow(boolean ignoreCase, String... valuesInCells) {
+		Set<String> expectedCellValues = new HashSet<>(Arrays.asList(valuesInCells));
+		Pair<Integer, List<String>> bestMatchRowNumberWithMissedValues = null;
 		for (ROW row : this) {
-			List<String> actualValues = row.getStringValues();
-			Set<String> expectedValues = new HashSet<>(initialExpectedValues);
-			if (ignoreCase) {
-				actualValues = actualValues.stream().filter(Objects::nonNull).map(String::toLowerCase).collect(Collectors.toList());
-				expectedValues = expectedValues.stream().map(String::toLowerCase).collect(Collectors.toSet());
-			}
+			List<String> cellValues = row.getStringValues();
+			List<String> missedCellValues = new ArrayList<>(expectedCellValues);
 
-			//TODO-dchubkov: simplify it
-			if (actualValues.containsAll(expectedValues)) {
-				foundRows.add(row);
-			} else if (expectedValues.removeAll(actualValues)) {
-				List<String> missedValues = new ArrayList<>(expectedValues);
-				if (ignoreCase) {
-					missedValues.clear();
-					for (String initExpectedValue : initialExpectedValues) {
-						if (expectedValues.contains(initExpectedValue.toLowerCase())) {
-							missedValues.add(initExpectedValue);
-						}
-					}
+			for (String cellValue : cellValues) {
+				if (cellValue == null) {
+					continue;
 				}
-				foundRowsWithPartialMatch.put(missedValues.size(), Pair.of(row, missedValues.toString()));
+				Predicate<String> cellValueEqualsToExpectedValue = ignoreCase ? cellValue::equalsIgnoreCase : cellValue::equals;
+				missedCellValues.removeIf(cellValueEqualsToExpectedValue);
+				if (missedCellValues.isEmpty()) {
+					return row;
+				}
 			}
 
-			if (!foundRows.isEmpty() && !isLowest) {
-				break;
+			if (bestMatchRowNumberWithMissedValues == null || bestMatchRowNumberWithMissedValues.getRight().size() > missedCellValues.size()) {
+				bestMatchRowNumberWithMissedValues = Pair.of(row.getIndex(), missedCellValues);
 			}
 		}
 
-		if (foundRows.isEmpty()) {
-			String errorMessage = String.format("Unable to find row with all these values: %1$s in %2$s", initialExpectedValues, this);
-			if (!foundRowsWithPartialMatch.isEmpty()) {
-				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
-				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getIndex();
-				String missedVales = foundRowsWithPartialMatch.get(bestMatch).getRight();
-				errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed cell values: %3$s", errorMessage, rowNumber, missedVales);
-			}
-			throw new IstfException(errorMessage);
+		String errorMessage = String.format("Unable to find row with all these values: %1$s in %2$s", expectedCellValues, this);
+		if (bestMatchRowNumberWithMissedValues.getRight().size() < expectedCellValues.size()) {
+			errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed cell values: %3$s",
+					errorMessage, bestMatchRowNumberWithMissedValues.getLeft(), bestMatchRowNumberWithMissedValues.getRight());
 		}
 
-		return foundRows.get(foundRows.size() - 1);
+		throw new IstfException(errorMessage);
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes) {

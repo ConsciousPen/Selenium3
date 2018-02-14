@@ -91,7 +91,8 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		}
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
+		//OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
+		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, true, false);
 
 		List<P> openLPoliciesList = CollectionUtils.isEmpty(policyNumbers)
 				? openLFile.getPolicies()

@@ -4,34 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.ExcelTableElement;
-import aaa.utils.excel.bind.ExcelTransient;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 	@ExcelTransient
 	public static final String POLICY_SHEET_NAME = OpenLFile.POLICY_SHEET_NAME + "AZ";
 
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER, ignoreCase = true)
 	protected List<AutoSSOpenLPolicy> policies;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = CAPPINGDETAILS_SHEET_NAME, headerRowNumber = CAPPINGDETAILS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = CAPPINGDETAILS_SHEET_NAME, headerRowIndex = CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLCappingDetails> cappingDetails;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME + "AZ", headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME + "AZ", headerRowIndex = VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLVehicle> vehicles;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME + "AZ", headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME + "AZ", headerRowIndex = DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLDriver> drivers;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME + "AZ", headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME + "AZ", headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLCoverage> coverages;
 
 	public List<AutoSSOpenLCappingDetails> getCappingDetails() {

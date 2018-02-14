@@ -1,8 +1,8 @@
 package aaa.helpers.mock.model.vehicle;
 
 import java.time.LocalDateTime;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
-import aaa.utils.excel.bind.ExcelTransient;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class VehicleUbiDetailsResponse {
 	@ExcelTransient

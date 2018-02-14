@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model;
 
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class OpenLTest {
 	@ExcelTableColumnElement(isPrimaryKey = true)

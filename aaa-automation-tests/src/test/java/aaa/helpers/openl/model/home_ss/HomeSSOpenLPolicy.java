@@ -25,41 +25,41 @@ import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class HomeSSOpenLPolicy extends OpenLPolicy {
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowNumber = FORM_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLForm> forms;
 
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLAddress> policyAddress;
 
-	@ExcelTableElement(sheetName = CONSTRUCTION_INFO_SHEET_NAME, headerRowNumber = CONSTRUCTION_INFO_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = CONSTRUCTION_INFO_SHEET_NAME, headerRowIndex = CONSTRUCTION_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLConstructionInfo> policyConstructionInfo;
 
-	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverageDeductible> policyCoverageDeductible;
 
-	@ExcelTableElement(sheetName = DISCOUNT_INFORMATION_SHEET_NAME, headerRowNumber = DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
 	private List<OpenLDiscountInformation> policyDiscountInformation;
 
-	@ExcelTableElement(sheetName = DWELLING_RATING_INFO_SHEET_NAME, headerRowNumber = DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
 
-	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowNumber = LOSS_INFORMATION_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = LOSS_INFORMATION_HEADER_ROW_NUMBER)
 	private List<OpenLLossInformation> policyLossInformation;
 
-	@ExcelTableElement(sheetName = NAMED_INSURED_SHEET_NAME, headerRowNumber = NAMED_INSURED_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = NAMED_INSURED_SHEET_NAME, headerRowIndex = NAMED_INSURED_HEADER_ROW_NUMBER)
 	private List<OpenLNamedInsured> policyNamedInsured;
 
-	@ExcelTableElement(sheetName = RISK_METER_DATA_SHEET_NAME, headerRowNumber = RISK_METER_DATA_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = RISK_METER_DATA_SHEET_NAME, headerRowIndex = RISK_METER_DATA_HEADER_ROW_NUMBER)
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
