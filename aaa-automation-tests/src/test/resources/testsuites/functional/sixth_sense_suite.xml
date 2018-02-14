@@ -37,6 +37,13 @@
         </classes>
     </test>
 
+    <test name="Test Reinstatement point score lock during mid term transaction">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMidTermReinstatementPointLock"/>
+        </classes>
+    </test>
+
 
     <!--Tests for Property-->
 
