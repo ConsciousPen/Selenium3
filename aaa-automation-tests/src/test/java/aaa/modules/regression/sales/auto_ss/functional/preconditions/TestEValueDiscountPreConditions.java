@@ -60,7 +60,7 @@ public interface TestEValueDiscountPreConditions {
             + "    (SELECT ID \n"
             + "    FROM LOOKUPLIST \n"
             + "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
-            + "and riskstatecd = 'OR'\n"
+            + "and riskstatecd = 'VA'\n"
             + "and productCD = 'AAA_SS'\n"
             + "and code = 'priorBILimits'\n"
             + "and displayvalue = '25000/50000')";
@@ -71,7 +71,7 @@ public interface TestEValueDiscountPreConditions {
             + "    (SELECT ID \n"
             + "    FROM LOOKUPLIST \n"
             + "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
-            + "and riskstatecd = 'OR'\n"
+            + "and riskstatecd = 'VA'\n"
             + "and productCD = 'AAA_SS'\n"
             + "and code = 'membershipEligibility'\n"
             + "and displayvalue = 'FALSE')";
@@ -87,7 +87,7 @@ public interface TestEValueDiscountPreConditions {
             + "    (SELECT ID \n"
             + "    FROM LOOKUPLIST \n"
             + "    WHERE LOOKUPNAME=''''{0}'''')\n"
-            + "and riskstatecd = ''''OR''''\n"
+            + "and riskstatecd = ''''VA''''\n"
             + "and productCD = ''''AAA_SS''''\n"
             + "and code = ''''{1}''''\n"
             + "and displayvalue = ''''{2}'''' \n"
