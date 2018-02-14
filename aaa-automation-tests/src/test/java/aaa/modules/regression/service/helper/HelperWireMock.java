@@ -7,7 +7,7 @@ import aaa.modules.regression.service.helper.wiremock.factory.PaperlessPreferenc
 import toolkit.config.PropertyProvider;
 
 public class HelperWireMock {
-	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)+"/__admin/mappings";
+	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/__admin/mappings";
 
 	/**
 	 * SwaggerUI for the WireMock = http://nvdxpas1agl007:9999/__admin/swagger-ui/
