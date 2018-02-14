@@ -35,7 +35,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(description = "Precondition")
 	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
 		assertSoftly(softly -> {
-//			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
 			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 0, " = 'AZ'");
 			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 5, " = 'AZ'");
 		});

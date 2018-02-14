@@ -284,10 +284,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas8784_endorsementValidateNotAllowedCustomer(PolicyType policyType) {
-		//String policyNumber = "UTSS926232055";
 		int numberOfDaysDelayBeforeDelete = 2;
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
-		//String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -320,13 +318,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//endorsement delete attempt should be allowed on the Delay Day + 1 day
 		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysDelayBeforeDelete + 1));
 		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.executeEndorsementsValidate(policyNumber, null);
-		assertSoftly(softly ->
-				softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
-		);
+		assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 	}
 
 	protected void pas8784_endorsementValidateStateSpecificConfigVersioning(PolicyType policyType) {
-		//String policyNumber = "AZSS926232039";
 		int numberOfDaysDelayBeforeDelete = 5;
 		int numberOfDaysForNewConfigVersion = 10;
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
@@ -414,11 +409,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
 		mainApp().open();
-/*		createCustomerIndividual();
+		createCustomerIndividual();
 		policyType.get().createQuote(getPolicyTD());
-		String policyNumber = PolicySummaryPage.getPolicyNumber();*/
-
-		String policyNumber = "VASS926232058";
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String vin1 = "aaaa"; //VIN too short
