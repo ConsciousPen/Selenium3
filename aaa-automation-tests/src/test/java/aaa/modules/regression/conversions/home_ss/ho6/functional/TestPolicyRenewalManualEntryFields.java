@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho6.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -8,8 +9,9 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
-import aaa.modules.regression.conversions.ConvHomeSsHO6BaseTest;
+import aaa.modules.policy.HomeSSHO6BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,9 +20,7 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
@@ -37,7 +37,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
  * 7. Navigates to GeneralTab page and verify if CONVERSION_DATE field is correct
  */
 
-public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
+public class TestPolicyRenewalManualEntryFields extends HomeSSHO6BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -47,42 +47,50 @@ public class TestPolicyRenewalManualEntryFields extends ConvHomeSsHO6BaseTest {
         GeneralTab generalTab = new GeneralTab();
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
+        String reportTabInfo = new ReportsTab().getMetaKey();
+
         TestData td = getConversionPolicyDefaultTD();
+
+        TestData reportTab = td.getTestData(reportTabInfo);
+        td.adjust(reportTabInfo, reportTab);
+
+        reportTab.adjust(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel(),
+                getPolicyDefaultTD().getTestData("ReportsTab").getTestDataList("InsuranceScoreReport"));
+
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
-        String effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10);
 
         mainApp().open();
 
         createCustomerIndividual();
 
-        initiateManualConversion(getManualConversionInitiationTd()
-                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), effectiveDate)
-                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel()), inceptionDate));
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd()
+                        .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                                CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel()), inceptionDate)
+                , effectiveDate);
 
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE.getLabel()).getValue().toString().isEmpty());
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel()).isEnabled()).isFalse();
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel()).getValue()).isEqualTo("Hybrid Conversion");
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE.getLabel()).isEnabled()).isFalse();
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE.getLabel()).getValue()).isEqualTo("Renewal");
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel()).isEnabled()).isTrue();
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()).getValue()).isEqualTo(inceptionDate);
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).getAllValues().
-                containsAll(Arrays.asList("CSAA Mid-Atlantic Insurance Company of New Jersey", "CSAA Affinity Insurance Company", "AAA Insurance"))).isTrue();
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE)).hasValue("");
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.LEAD_SOURCE)).isEnabled(false);
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.LEAD_SOURCE)).hasValue("Hybrid Conversion");
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE)).isEnabled(false);
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE)).hasValue("Renewal");
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER)).isEnabled();
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG)).hasValue(inceptionDate);
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER))
+                .containsAllOptions("CSAA Mid-Atlantic Insurance Company of New Jersey", "CSAA Affinity Insurance Company", "AAA Insurance");
 
         policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, true);
 
-        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS.getLabel()).isEnabled()).isTrue();
-        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON.getLabel()).isEnabled()).isTrue();
-        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAS_THE_PROPERTY_BEEN_IN_FORECLOSURE_PROCEEDINGS_WITHIN_THE_PAST_18_MONTHS.getLabel()).isEnabled()).isTrue();
-        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.DO_EMPLOYEES_OF_ANY_RESIDENT_RESIDE.getLabel()).isEnabled()).isTrue();
-        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY.getLabel()).isEnabled()).isTrue();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS)).isEnabled();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON)).isEnabled();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAS_THE_PROPERTY_BEEN_IN_FORECLOSURE_PROCEEDINGS_WITHIN_THE_PAST_18_MONTHS)).isEnabled();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.DO_EMPLOYEES_OF_ANY_RESIDENT_RESIDE)).isEnabled();
+        assertThat(underwritingAndApprovalTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY)).isEnabled();
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
 
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE.getLabel()).getValue()).isEqualTo(currentDate);
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE)).hasValue(currentDate);
 
     }
 }

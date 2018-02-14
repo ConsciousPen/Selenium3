@@ -2,19 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
-import java.util.Arrays;
-import java.util.List;
-import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Abstract tab class.
@@ -113,10 +115,13 @@ public abstract class Tab {
 	 *            TestData object which may contain another TestData by key
 	 *            returned by {@link #getMetaKey()} and possibly other keys.
 	 *            Note: normally the same TestData is passed here as in
-	 *            {@link products.Workspace.fill()}.
+	 *            {@link Workspace#fill(TestData)}.
 	 */
+
 	public Tab fillTab(TestData td) {
+		hideHeader();
 		assetList.fill(td);
+		showHeader();
 		return this;
 	}
 
@@ -242,12 +247,26 @@ public abstract class Tab {
 		return this;
 	}
 
+	public Tab save() {
+		buttonSave.click();
+		return this;
+	}
 	public Tab createVersion() {
 		buttonCreateVersion.click();
 		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
 			new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']")).setValue("new version");
 			Page.dialogConfirmation.confirm();
 		}
+		return this;
+	}
+
+	protected Tab hideHeader() {
+		BrowserController.get().executeScript("$(\'#headerForm\').hide();");
+		return this;
+	}
+
+	protected Tab showHeader() {
+		BrowserController.get().executeScript("$(\'#headerForm\').show();");
 		return this;
 	}
 }

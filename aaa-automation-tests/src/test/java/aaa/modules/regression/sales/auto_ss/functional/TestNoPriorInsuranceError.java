@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import org.assertj.core.api.Assertions;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -10,14 +8,12 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.LookupQueries;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -103,12 +99,6 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
-	}
-
-	@AfterClass(alwaysRun = true)
-	public void disableAAAMembershipError() {
-		int result = DBService.get().executeUpdate(String.format(LookupQueries.UPDATE_AAA_MEMBERSHIP_CONFIG_LOOKUP, "false",getState()));
-		Assertions.assertThat(result).isGreaterThan(0);
 	}
 
 	/**

@@ -1,0 +1,94 @@
+TestData: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Eleven Pay Standard,
+    Personal Umbrella: '$1,000,000'
+  },
+  PurchaseTab: '@<pup>@DataGather@PurchaseTab_WithAutopay'
+}
+
+TestData_CA: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Monthly Standard,
+    Personal Umbrella: '$1,000,000'
+  },
+  PurchaseTab: '@<pup>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {}, 
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Semi-Annual
+  },
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Semi-Annual
+  },
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+# ----- Renewal - Create version -----
+TestData_CreateVersion: {
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'DODGE',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      Usage: Pleasure,
+      Excluded: 'No'
+    }]
+  }, 
+  #PremiumAndCoveragesQuoteTab: {
+  #  Personal Umbrella: 'contains=$2,000,000'
+  #}
+}
+
+TestData_CreateVersion_CA: {
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'CHEVROLET',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      State: CA,
+      Coverage Type: Split,
+      "BI Limits": [500000, 500000],
+      PD Limits: 100000,
+      Usage: Pleasure,
+      Excluded:  'No'
+    }]
+  }, 
+  #PremiumAndCoveragesQuoteTab: {
+  #  Personal Umbrella: 'contains=$2,000,000'
+  #}
+}

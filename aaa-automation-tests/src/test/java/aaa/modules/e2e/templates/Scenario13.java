@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
-import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
@@ -13,7 +11,6 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -35,16 +32,18 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.verification.CustomAssertions;
 
 public class Scenario13 extends ScenarioBaseTest {
 	
@@ -75,12 +74,11 @@ public class Scenario13 extends ScenarioBaseTest {
 		mainApp().open();
 		
 		createCustomerIndividual();	
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNum = createPolicy(policyCreationTD); 
-		
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
-		});
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -91,9 +89,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		//CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size()); 	
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
-		});
+		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 		
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
@@ -123,7 +119,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.isEnabled();
 		PolicySummaryPage.buttonPendedEndorsement.click();		
 		policy.deletePendedTransaction().perform(new SimpleDataProvider()); 		
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false); 
+		//PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false); 
+		CustomAssertions.assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
 		BillingSummaryPage.getTotalDue().verify.equals(totalDueBeforeEndorsement);
@@ -167,7 +164,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(false);
+		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(false);
+		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false);
 		Tab.buttonCancel.click();
 	}
 
@@ -199,7 +197,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		Dollar totalDueBeforeEndorsement =  new Dollar(BillingSummaryPage.getTotalDue());
 		Dollar endorseAmount = new Dollar(0);
 		
-		if (getPolicyType().isCaProduct()) {
+		//if (getPolicyType().isCaProduct()) {
+		if (getState().equals(Constants.States.CA)) {
 			billingAccount.changePaymentPlan().perform("Semi-Annual");
 		}
 		else {
@@ -231,13 +230,15 @@ public class Scenario13 extends ScenarioBaseTest {
 		});		
 		
 		if (!getPolicyType().isCaProduct()) {
+			if (!getPolicyType().equals(PolicyType.PUP)) {
 			TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(endorseDueDate)
 				.setPolicy(policyNum)
 				.setType(PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason(reason)
-				.setAmount(endorseAmount).verifyPresent();
+				.setAmount(endorseAmount).verifyPresent();			
+			}
 		}	
 	}
 	
@@ -285,7 +286,8 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -299,7 +301,8 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE); 
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 	}
 	
@@ -320,7 +323,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		//PolicySummaryPage.buttonRenewals.verify.enabled(); 
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
@@ -331,7 +335,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		//PolicySummaryPage.buttonRenewals.verify.enabled();
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		
@@ -418,6 +423,18 @@ public class Scenario13 extends ScenarioBaseTest {
 				NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 				new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().submitTab();
 			} 
+			else if (getPolicyType().equals(PolicyType.PUP)) {
+				new aaa.main.modules.policy.pup.defaulttabs.PrefillTab().createVersion();
+				NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+				NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get()); 
+				new aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab().fillTab(createVersionTD);
+				NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+				NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+				//new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().fillTab(createVersionTD);
+				new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().calculatePremium();
+				NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+				new aaa.main.modules.policy.pup.defaulttabs.BindTab().submitTab();
+			}
 			else {
 				new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab().createVersion();
 				NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());

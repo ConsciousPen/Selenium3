@@ -37,6 +37,12 @@
         </classes>
     </test>
 
+    <test name="MVR Predictor Algo for 2 of 4 Drivers">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
+        </classes>
+    </test>
 
     <!--Tests for Property-->
 
@@ -108,7 +114,7 @@
 
     <!--Tests for PUP-->
 
-<!--Commenting out below tests until PUP conversion dev code is merged
+
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -157,6 +163,38 @@
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits"/>
         </classes>
     </test>
--->
+
+    <test name="Test Expired Drivers Licence Error">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError"/>
+        </classes>
+    </test>
+
+
+    <!--Tests for Defects-->
+
+
+    <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
+        <parameter name="state" value="CO, OH, MD"/>
+        <classes>
+            <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
+                <methods>
+                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForCA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
+                <methods>
+                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>

@@ -522,349 +522,349 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex(), 1);
 			CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex(), 2);
 
-			unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundVoided, isCheck, transactionNumber);
-			refundActions(refundVoided, statusRefund);
-			refundActions(adjustment, statusAdjustment);
-		} else {
-			if ("Check".equals(paymentMethodMessage)) {
-				issuedRefundVerification(billingAccountNumber, paymentMethodMessage, refund, isCheck, transactionNumber);
-			} else {
-				String statusRefundVoided = "Voided";
-				String statusRefundApproved = "Approved";
-				String statusAdjustment = "Applied";
-				String adjustmentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-				Map<String, String> adjustment = getRefundMap(adjustmentDate, "Adjustment", "Refund Payment Voided", new Dollar(refund.get(AMOUNT)).negate(), statusAdjustment);
-				Map<String, String> refundVoided = new HashMap<>(refund);
-				refundVoided.put(STATUS, statusRefundVoided);
-				Map<String, String> refundApproved = new HashMap<>(refund);
-				refundApproved.put(STATUS, statusRefundApproved);
-				refundApproved.put(SUBTYPE_REASON, "Automated Refund");
-				CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundApproved).getIndex(), 1);
-				CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex(), 2);
-				CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex(), 3);
+            unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundVoided, isCheck, transactionNumber);
+            refundActions(refundVoided, statusRefund);
+            refundActions(adjustment, statusAdjustment);
+        } else {
+            if ("Check".equals(paymentMethodMessage)) {
+                issuedRefundVerification(billingAccountNumber, paymentMethodMessage, refund, isCheck, transactionNumber);
+            } else {
+                String statusRefundVoided = "Voided";
+                String statusRefundApproved = "Approved";
+                String statusAdjustment = "Applied";
+                String adjustmentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+                Map<String, String> adjustment = getRefundMap(adjustmentDate, "Adjustment", "Refund Payment Voided", new Dollar(refund.get(AMOUNT)).negate(), statusAdjustment);
+                Map<String, String> refundVoided = new HashMap<>(refund);
+                refundVoided.put(STATUS, statusRefundVoided);
+                Map<String, String> refundApproved = new HashMap<>(refund);
+                refundApproved.put(STATUS, statusRefundApproved);
+                refundApproved.put(SUBTYPE_REASON, "Automated Refund");
+                CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundApproved).getIndex(), 1);
+                CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex(), 2);
+                CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex(), 3);
 
-				unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundVoided, isCheck, transactionNumber);
-				unprocessedSuccessfullyRefundVerification(billingAccountNumber, "Check", refundApproved, true, 0);
-				refundActions(refundVoided, statusRefundVoided);
-				refundActions(adjustment, statusAdjustment);
-				refundActions(refundApproved, statusRefundApproved, "Void");
-				if (withAllocation) {
-					checkRefundAllocationAmount(refundApproved);
-				}
-			}
-		}
-	}
+                unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundVoided, isCheck, transactionNumber);
+                unprocessedSuccessfullyRefundVerification(billingAccountNumber, "Check", refundApproved, true, 0);
+                refundActions(refundVoided, statusRefundVoided);
+                refundActions(adjustment, statusAdjustment);
+                refundActions(refundApproved, statusRefundApproved, "Void");
+                if (withAllocation) {
+                    checkRefundAllocationAmount(refundApproved);
+                }
+            }
+        }
+    }
 
-	/**
-	 * *@author Viktoria Lutsenko
-	 * *@name Check refund allocations in generated automated check refund after void transaction
-	 * *@scenario
-	 * 1. Open AdvancedAllocation and verify that allocation are the same as in voided refund
-	 * *@details
-	 */
-	private void checkRefundAllocationAmount(Map<String, String> refund) {
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
-		BillingSummaryPage.linkAdvancedAllocation.click();
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel(), TextBox.class).verify.value(refund.get(AMOUNT));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel(), TextBox.class).verify.value(refund.get(AMOUNT));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).verify
-				.value(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).verify.value(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).verify
-				.value(getAllocationAmount(refund));
-		advancedAllocationsActionTab.back();
-		acceptPaymentActionTab.back();
-	}
+    /**
+     * *@author Viktoria Lutsenko
+     * *@name Check refund allocations in generated automated check refund after void transaction
+     * *@scenario
+     * 1. Open AdvancedAllocation and verify that allocation are the same as in voided refund
+     * *@details
+     */
+    private void checkRefundAllocationAmount(Map<String, String> refund) {
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
+        BillingSummaryPage.linkAdvancedAllocation.click();
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel(), TextBox.class).verify.value(refund.get(AMOUNT));
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel(), TextBox.class).verify.value(refund.get(AMOUNT));
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).verify
+                .value(getAllocationAmount(refund));
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).verify.value(getAllocationAmount(refund));
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).verify
+                .value(getAllocationAmount(refund));
+        advancedAllocationsActionTab.back();
+        acceptPaymentActionTab.back();
+    }
 
-	/**
-	 * *@author Viktoria Lutsenko
-	 * *@name Issued refund verification
-	 * *@scenario
-	 * 1. Status of refund - 'Issue'
-	 * 2. Check refund details.
-	 * 3. Available actions for issued refund - Void/Clear for check and none for others.
-	 * *@details
-	 */
-	public void issuedRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
-		String status = "Issued";
-		Map<String, String> refundIssued = new HashMap<>(refund);
-		refundIssued.put(STATUS, status);
-		String policyNumber = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(1).getValue();
-		unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundIssued, isCheck, transactionNumber);
-		if (isCheck) {
-			refundActions(refundIssued, status, "Void", "Clear");
-			checkRefundDocumentInDb(getState(), policyNumber);
-		} else {
-			refundActions(refundIssued, status);
-		}
-	}
+    /**
+     * *@author Viktoria Lutsenko
+     * *@name Issued refund verification
+     * *@scenario
+     * 1. Status of refund - 'Issue'
+     * 2. Check refund details.
+     * 3. Available actions for issued refund - Void/Clear for check and none for others.
+     * *@details
+     */
+    public void issuedRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
+        String status = "Issued";
+        Map<String, String> refundIssued = new HashMap<>(refund);
+        refundIssued.put(STATUS, status);
+        String policyNumber = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(1).getValue();
+        unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundIssued, isCheck, transactionNumber);
+        if (isCheck) {
+            refundActions(refundIssued, status, "Void", "Clear");
+            checkRefundDocumentInDb(getState(), policyNumber);
+        } else {
+            refundActions(refundIssued, status);
+        }
+    }
 
-	/**
-	 * *@author Viktoria Lutsenko
-	 * *@name Processed refund verification
-	 * *@scenario
-	 * 1. Status of refund = 'Issued'.
-	 * 2. Verify refund details.
-	 * 3. Available actions for refund - Void/Clear for check and none for others.
-	 * *@details
-	 */
-	public void processedRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
-		String status = "Issued";
-		Map<String, String> refundIssued = new HashMap<>(refund);
-		refundIssued.put(STATUS, status);
-		processedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundIssued, isCheck, transactionNumber);
-		if (isCheck) {
-			refundActions(refundIssued, status, "Void", "Clear");
-		} else {
-			refundActions(refundIssued, status);
-		}
-	}
+    /**
+     * *@author Viktoria Lutsenko
+     * *@name Processed refund verification
+     * *@scenario
+     * 1. Status of refund = 'Issued'.
+     * 2. Verify refund details.
+     * 3. Available actions for refund - Void/Clear for check and none for others.
+     * *@details
+     */
+    public void processedRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
+        String status = "Issued";
+        Map<String, String> refundIssued = new HashMap<>(refund);
+        refundIssued.put(STATUS, status);
+        processedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundIssued, isCheck, transactionNumber);
+        if (isCheck) {
+            refundActions(refundIssued, status, "Void", "Clear");
+        } else {
+            refundActions(refundIssued, status);
+        }
+    }
 
-	private void unprocessedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
-		Dollar amount = new Dollar(refund.get(AMOUNT));
-		Waiters.SLEEP(6000).go();
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
-		if (isCheck) {
-			refundDetailsPresence(true, true, true, true);
-			refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional.of(Boolean.TRUE), Optional.of("Processing"), Optional.ofNullable(refund.get(TRANSACTION_DATE)), Optional
-					.of(Boolean.TRUE), amount, transactionNumber);
-		} else {
-			refundDetailsPresence(true, false, false, false);
-			refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional
-					.of(Boolean.TRUE), NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, amount, transactionNumber);
-		}
-		acceptPaymentActionTab.back();
-	}
+    private void unprocessedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
+        Dollar amount = new Dollar(refund.get(AMOUNT));
+        Waiters.SLEEP(6000).go();
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
+        if (isCheck) {
+            refundDetailsPresence(true, true, true, true);
+            refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional.of(Boolean.TRUE), Optional.of("Processing"), Optional.ofNullable(refund.get(TRANSACTION_DATE)), Optional
+                    .of(Boolean.TRUE), amount, transactionNumber);
+        } else {
+            refundDetailsPresence(true, false, false, false);
+            refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional
+                    .of(Boolean.TRUE), NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, amount, transactionNumber);
+        }
+        acceptPaymentActionTab.back();
+    }
 
-	private void processedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
-		Dollar amount = new Dollar(refund.get(AMOUNT));
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
-		if (isCheck) {
-			refundDetailsPresence(true, true, true, true);
-			refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional.of(Boolean.TRUE), Optional.of("123456789"), Optional.ofNullable(refund.get(TRANSACTION_DATE)), Optional
-					.of(Boolean.TRUE), amount, transactionNumber);
-		} else {
-			refundDetailsPresence(true, false, false, false);
-			refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional
-					.of(Boolean.TRUE), NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, amount, transactionNumber);
-		}
-		acceptPaymentActionTab.back();
-	}
+    private void processedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
+        Dollar amount = new Dollar(refund.get(AMOUNT));
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
+        if (isCheck) {
+            refundDetailsPresence(true, true, true, true);
+            refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional.of(Boolean.TRUE), Optional.of("123456789"), Optional.ofNullable(refund.get(TRANSACTION_DATE)), Optional
+                    .of(Boolean.TRUE), amount, transactionNumber);
+        } else {
+            refundDetailsPresence(true, false, false, false);
+            refundDetailsValues(billingAccountNumber, paymentMethodMessage, Optional
+                    .of(Boolean.TRUE), NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, amount, transactionNumber);
+        }
+        acceptPaymentActionTab.back();
+    }
 
-	private void manualRefundDefaultValues(String billingAccountNumber, String paymentMethodMessage, boolean isCheck, int transactionNumber) {
-		//PAS-1462 start
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
-		if (isCheck) {
-			refundDetailsPresence(false, false, false, true);
-			refundDetailsValues(billingAccountNumber, paymentMethodMessage, NOT_VALIDATE_TRANSACTIONID, NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, Optional
-					.of(Boolean.TRUE), null, transactionNumber);
-			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.enabled(false);
-		} else {
-			refundDetailsPresence(false, false, false, false);
-			refundDetailsValues(billingAccountNumber, paymentMethodMessage, NOT_VALIDATE_TRANSACTIONID, NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, null, transactionNumber);
-		}
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.enabled();
-		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.verify.present(false);
-		//PAS-1462 end
-	}
+    private void manualRefundDefaultValues(String billingAccountNumber, String paymentMethodMessage, boolean isCheck, int transactionNumber) {
+        //PAS-1462 start
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
+        if (isCheck) {
+            refundDetailsPresence(false, false, false, true);
+            refundDetailsValues(billingAccountNumber, paymentMethodMessage, NOT_VALIDATE_TRANSACTIONID, NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, Optional
+                    .of(Boolean.TRUE), null, transactionNumber);
+            acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.enabled(false);
+        } else {
+            refundDetailsPresence(false, false, false, false);
+            refundDetailsValues(billingAccountNumber, paymentMethodMessage, NOT_VALIDATE_TRANSACTIONID, NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, null, transactionNumber);
+        }
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.enabled();
+        AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.verify.present(false);
+        //PAS-1462 end
+    }
 
-	public String policyCreation() {
-		mainApp().open();
-		createCustomerIndividual();
-		getPolicyType().get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		log.info("policyNumber: {}", policyNumber);
-		return policyNumber;
-	}
+    public String policyCreation() {
+        mainApp().open();
+        createCustomerIndividual();
+        getPolicyType().get().createPolicy(getPolicyTD());
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        log.info("policyNumber: {}", policyNumber);
+        return policyNumber;
+    }
 
-	public Map<String, String> getRefundMap(String refundDate, String type, String subtypeReason, Dollar amount, String status) {
-		return ImmutableMap.of(TRANSACTION_DATE, refundDate,
-				TYPE, type,
-				SUBTYPE_REASON, subtypeReason,
-				AMOUNT, amount.toString(),
-				STATUS, status);
-	}
+    public Map<String, String> getRefundMap(String refundDate, String type, String subtypeReason, Dollar amount, String status) {
+        return ImmutableMap.of(TRANSACTION_DATE, refundDate,
+                TYPE, type,
+                SUBTYPE_REASON, subtypeReason,
+                AMOUNT, amount.toString(),
+                STATUS, status);
+    }
 
-	private void refundDetailsPresence(boolean transactionIdPresent, boolean checkNumberPresent, boolean checkDatePresent, boolean payeeNamePresent) {
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).isPresent();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).isPresent();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).verify.present(transactionIdPresent);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.present(checkNumberPresent);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.present(checkDatePresent);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present(payeeNamePresent);
-	}
+    private void refundDetailsPresence(boolean transactionIdPresent, boolean checkNumberPresent, boolean checkDatePresent, boolean payeeNamePresent) {
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).isPresent();
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).isPresent();
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).verify.present(transactionIdPresent);
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.present(checkNumberPresent);
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.present(checkDatePresent);
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present(payeeNamePresent);
+    }
 
-	private void refundDetailsValues(String billingAccountNumber, String paymentMethodValue, Optional<Boolean> transactionIdPresent, Optional<String> checkNumberValue,
-			Optional<String> refundDateValue, Optional<Boolean> payeeNameNotEmpty, Dollar amountValue, int transactionNumber) {
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethodValue);
-		String stringAmount = "";
-		if (amountValue != null) {
-			stringAmount = amountValue.toString();
-		}
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(stringAmount);
-		//PAS-6615 start
-		transactionIdPresent.ifPresent(p -> {
-					if (transactionIdPresent.get()) {
-						CustomAssert.assertEquals("TranzactionID in DB is different from TranzactionID on UI", getRefundTransactionIDFromDB(billingAccountNumber, transactionNumber),
-								acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue());
-					}
-				}
-		);
-		//PAS-6615 end
-		checkNumberValue.ifPresent(p ->
-				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value(p));
-		refundDateValue.ifPresent(p -> acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.value(p));
-		payeeNameNotEmpty.ifPresent(p -> CustomAssert
-				.assertEquals(p.booleanValue(), !acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).getValue()
-						.isEmpty()));
-	}
+    private void refundDetailsValues(String billingAccountNumber, String paymentMethodValue, Optional<Boolean> transactionIdPresent, Optional<String> checkNumberValue,
+            Optional<String> refundDateValue, Optional<Boolean> payeeNameNotEmpty, Dollar amountValue, int transactionNumber) {
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethodValue);
+        String stringAmount = "";
+        if (amountValue != null) {
+            stringAmount = amountValue.toString();
+        }
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(stringAmount);
+        //PAS-6615 start
+        transactionIdPresent.ifPresent(p -> {
+                    if (transactionIdPresent.get()) {
+                        CustomAssert.assertEquals("TranzactionID in DB is different from TranzactionID on UI", getRefundTransactionIDFromDB(billingAccountNumber, transactionNumber),
+                                acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue());
+                    }
+                }
+        );
+        //PAS-6615 end
+        checkNumberValue.ifPresent(p ->
+                acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value(p));
+        refundDateValue.ifPresent(p -> acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.value(p));
+        payeeNameNotEmpty.ifPresent(p -> CustomAssert
+                .assertEquals(p.booleanValue(), !acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).getValue()
+                        .isEmpty()));
+    }
 
-	private void refundActions(Map<String, String> refund, String status, String... expectedActions) {
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value(status);
-		int counter;
-		for (int i = 0; ; i++) {
-			try {
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(i + 1).getValue();
-			} catch (Exception e) {
-				counter = i;
-				break;
-			}
-		}
-		CustomAssert.assertEquals("Not match number of actions", expectedActions.length, counter);
-		for (int i = 0; i < expectedActions.length; i++) {
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(i + 1).verify.value(expectedActions[i]);
-		}
-	}
+    private void refundActions(Map<String, String> refund, String status, String... expectedActions) {
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value(status);
+        int counter;
+        for (int i = 0; ; i++) {
+            try {
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(i + 1).getValue();
+            } catch (Exception e) {
+                counter = i;
+                break;
+            }
+        }
+        CustomAssert.assertEquals("Not match number of actions", expectedActions.length, counter);
+        for (int i = 0; i < expectedActions.length; i++) {
+            BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(i + 1).verify.value(expectedActions[i]);
+        }
+    }
 
-	private String getRefundTransactionIDFromDB(String billingAccountNumber, int i) {
-		return DBService.get().getRows("select TRANSACTIONNUMBER from BILLINGTRANSACTION "
-				+ "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '" + billingAccountNumber + "') "
-				+ "order by CREATIONDATE desc").get(i).get("TRANSACTIONNUMBER");
-	}
+    private String getRefundTransactionIDFromDB(String billingAccountNumber, int i) {
+        return DBService.get().getRows("select TRANSACTIONNUMBER from BILLINGTRANSACTION "
+                + "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '" + billingAccountNumber + "') "
+                + "order by CREATIONDATE desc").get(i).get("TRANSACTIONNUMBER");
+    }
 
-	private Map<String, String> getLedgerEntryFromDB(String transactionID, String billingAccountNumber, String entryType) {
-		return DBService.get().getRows("select le.LEDGERACCOUNTNO, le.TRANSACTIONTYPE,le.BILLINGPAYMENTMETHOD,le.TRANSACTIONID,le.ENTRYAMT , le.ENTRYTYPE\n"
-				+ " from LEDGERENTRY le join LEDGERTRANSACTION lt on lt.ID = le.LEDGERTRANSACTION_ID  \n"
-				+ " where BILLINGACCOUNTNUMBer = '" + billingAccountNumber + "'  and TRANSACTIONID ='" + transactionID + "'  and entrytype = '" + entryType + "'").get(0);
-	}
+    private Map<String, String> getLedgerEntryFromDB(String transactionID, String billingAccountNumber, String entryType) {
+        return DBService.get().getRows("select le.LEDGERACCOUNTNO, le.TRANSACTIONTYPE,le.BILLINGPAYMENTMETHOD,le.TRANSACTIONID,le.ENTRYAMT , le.ENTRYTYPE\n"
+                + " from LEDGERENTRY le join LEDGERTRANSACTION lt on lt.ID = le.LEDGERTRANSACTION_ID  \n"
+                + " where BILLINGACCOUNTNUMBer = '" + billingAccountNumber + "'  and TRANSACTIONID ='" + transactionID + "'  and entrytype = '" + entryType + "'").get(0);
+    }
 
-	public void getSubLedgerInformation(String billingAccountNumber, String amount, String transactionType, String billingPaymentMethod, boolean isVoided, boolean isRegenerated) {
-		if (!isVoided) {
-			String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
-			Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
-			Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
-			subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryCredit);
-			subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryDebit);
-		} else {
-			if (isRegenerated) {
-				String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 1);
-				Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
-				Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
-				subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
-				subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
-			} else {
-				String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
-				Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
-				Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
-				subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
-				subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
-			}
-		}
-	}
+    public void getSubLedgerInformation(String billingAccountNumber, String amount, String transactionType, String billingPaymentMethod, boolean isVoided, boolean isRegenerated) {
+        if (!isVoided) {
+            String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
+            Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+            Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
+            subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryCredit);
+            subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryDebit);
+        } else {
+            if (isRegenerated) {
+                String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 1);
+                Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+                Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
+                subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
+                subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
+            } else {
+                String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
+                Map<String, String> ledgerEntryCredit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "CREDIT");
+                Map<String, String> ledgerEntryDebit = getLedgerEntryFromDB(transactionID, billingAccountNumber, "DEBIT");
+                subLedgerVerification(amount, transactionType, "1044", billingPaymentMethod, ledgerEntryCredit);
+                subLedgerVerification(amount, transactionType, "1060", billingPaymentMethod, ledgerEntryDebit);
+            }
+        }
+    }
 
-	private void subLedgerVerification(String amount, String transactionType, String ledgerAccountNumber, String billingPaymentMethod, Map<String, String> ledgerEntry) {
-		CustomAssert.assertEquals(amount, ledgerEntry.get("ENTRYAMT"));
-		CustomAssert.assertEquals(transactionType, ledgerEntry.get("TRANSACTIONTYPE"));
-		CustomAssert.assertEquals(ledgerAccountNumber, ledgerEntry.get("LEDGERACCOUNTNO"));
-		CustomAssert.assertEquals(billingPaymentMethod, ledgerEntry.get("BILLINGPAYMENTMETHOD"));
-	}
+    private void subLedgerVerification(String amount, String transactionType, String ledgerAccountNumber, String billingPaymentMethod, Map<String, String> ledgerEntry) {
+        CustomAssert.assertEquals(amount, ledgerEntry.get("ENTRYAMT"));
+        CustomAssert.assertEquals(transactionType, ledgerEntry.get("TRANSACTIONTYPE"));
+        CustomAssert.assertEquals(ledgerAccountNumber, ledgerEntry.get("LEDGERACCOUNTNO"));
+        CustomAssert.assertEquals(billingPaymentMethod, ledgerEntry.get("BILLINGPAYMENTMETHOD"));
+    }
 
-	private static void checkRefundDocumentInDb(String state, String policyNumber) {
-		//PAS-443 start
-		if ("VA".equals(state)) {
-			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)) {
-				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-				CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));
-			}
-		} else {
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));
-			String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), 1);
-		}
-		//PAS-443 end
-	}
+    private static void checkRefundDocumentInDb(String state, String policyNumber) {
+        //PAS-443 start
+        if ("VA".equals(state)) {
+            if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)) {
+                String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
+                CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));
+            }
+        } else {
+            String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
+            CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));
+            String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
+            CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), 1);
+        }
+        //PAS-443 end
+    }
 
-	/**
-	 *
-	 * @param paymentMethod - can be "ACH", "Credit Card", "Debit Card".
-	 * @param policyNumber - current policy number
-	 * @param refundMethod - can be "M" - manual or "R" - automation
-	 * @param refundStatus - can be "SUCC" - success response from PC and "ERR" - failed response from PC
-	 * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7036_D"
-	 */
-	private void getResponseFromPC(String paymentMethod, String billingAccountNumber, String policyNumber, String refundMethod, String refundStatus, String folderName) {
-		String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
+    /**
+     *
+     * @param paymentMethod - can be "ACH", "Credit Card", "Debit Card".
+     * @param policyNumber - current policy number
+     * @param refundMethod - can be "M" - manual or "R" - automation
+     * @param refundStatus - can be "SUCC" - success response from PC and "ERR" - failed response from PC
+     * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7036_D"
+     */
+    private void getResponseFromPC(String paymentMethod, String billingAccountNumber, String policyNumber, String refundMethod, String refundStatus, String folderName) {
+        String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
 
-		if (transactionID == null) {
-			CustomAssert.assertTrue("Transaction number isn't found on UI", transactionID != null);
-			return;
-		}
+        if (transactionID == null) {
+            CustomAssert.assertTrue("Transaction number isn't found on UI", transactionID != null);
+            return;
+        }
 
-		DisbursementEngineHelper.DisbursementEngineFileBuilder builder = new DisbursementEngineHelper.DisbursementEngineFileBuilder()
-				.setRefundMethod(refundMethod)
-				.setPolicyNumber(policyNumber)
-				.setProductType("PA")
-				.setRefundStatus(refundStatus);
+        DisbursementEngineHelper.DisbursementEngineFileBuilder builder = new DisbursementEngineHelper.DisbursementEngineFileBuilder()
+                .setRefundMethod(refundMethod)
+                .setPolicyNumber(policyNumber)
+                .setProductType("PA")
+                .setRefundStatus(refundStatus);
 
-		switch (paymentMethod) {
-			case "ACH":
-				builder = builder.setTransactionNumber(transactionID)
-						.setPaymentType("EFT")
-						.setRefundAmount("30.00")
-						.setAccountLast4("1542")
-						.setAccountType("CHKG");
-				break;
-			case "Credit card":
-				builder = builder.setTransactionNumber(transactionID)
-						.setPaymentType("CRDC")
-						.setRefundAmount("10.00")
-						.setAccountLast4("4113")
-						.setAccountType("VISA")
-						.setCardSubType("Credit");
-				break;
-			case "Debit card":
-				builder = builder.setTransactionNumber(transactionID)
-						.setPaymentType("CRDC")
-						.setRefundAmount("21.99")
-						.setAccountLast4("4444")
-						.setAccountType("MASTR")
-						.setCardSubType("Debit");
-				break;
-			case "Check":
-				builder = builder.setTransactionNumber(transactionID)
-						.setPaymentType("CHCK")
-						.setRefundAmount("10.01")
-						.setCheckNumber("123456789");
-				break;
-			default:
-				log.info("never reached");
-		}
+        switch (paymentMethod) {
+            case "ACH":
+                builder = builder.setTransactionNumber(transactionID)
+                        .setPaymentType("EFT")
+                        .setRefundAmount("30.00")
+                        .setAccountLast4("1542")
+                        .setAccountType("CHKG");
+                break;
+            case "Credit card":
+                builder = builder.setTransactionNumber(transactionID)
+                        .setPaymentType("CRDC")
+                        .setRefundAmount("10.00")
+                        .setAccountLast4("4113")
+                        .setAccountType("VISA")
+                        .setCardSubType("Credit");
+                break;
+            case "Debit card":
+                builder = builder.setTransactionNumber(transactionID)
+                        .setPaymentType("CRDC")
+                        .setRefundAmount("21.99")
+                        .setAccountLast4("4444")
+                        .setAccountType("MASTR")
+                        .setCardSubType("Debit");
+                break;
+            case "Check":
+                builder = builder.setTransactionNumber(transactionID)
+                        .setPaymentType("CHCK")
+                        .setRefundAmount("10.01")
+                        .setCheckNumber("123456789");
+                break;
+            default:
+                log.info("never reached");
+        }
 
-		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder, folderName);
-		DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
-		if ("ERR".equals(refundStatus)) {
-			//TODO workaround for Time-setter parallel execution
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-			JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
-		} else if ("SUCC".equals(refundStatus)) {
-			//TODO workaround for Time-setter parallel execution
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-			JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
-		}
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-	}
+        File disbursementEngineFile = DisbursementEngineHelper.createFile(builder, folderName);
+        DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
+        if ("ERR".equals(refundStatus)) {
+            //TODO workaround for Time-setter parallel execution
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+            JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
+        } else if ("SUCC".equals(refundStatus)) {
+            //TODO workaround for Time-setter parallel execution
+            TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+            JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
+        }
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+    }
 
 }

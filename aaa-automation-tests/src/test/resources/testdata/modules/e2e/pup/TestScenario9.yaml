@@ -64,12 +64,44 @@ TestData_Endorsement_CA: {
       Excluded:  'No'
     }]
   },
-  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
   UnderlyingRisksAllResidentsTab: {},
   ClaimsTab: {},
   EndorsementsTab: {},
   PremiumAndCoveragesQuoteTab: {},
   UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
+  DocumentsTab: '@DocumentsTab',
   BindTab: {}
+}
+
+UnderlyingRisksOtherVehiclesTab: {
+  Watercraft: {
+    Add watercraft: 'Yes',
+    Type: 'index=1',
+    Year: '2009',
+    Make: 'DX',
+    Model: 'DQ',
+    Length: 'index=1',
+    Horsepower: 'index=1',
+    State: 'index=1',
+    Combined Single Limit: '500000'
+  },
+  RecreationalVehicle: {
+    Add recreational vehicle (off-road): 'Yes',
+    Type: 'index=1',
+    VIN: '3254785454',
+    Year: '2008',
+    Make: 'SD',
+    Model: 'FE',
+    Current Carrier: 'index=1',
+    State: 'index=1',
+    Coverage Type: 'Single',
+    Combined Single Limit: '500000'
+  }
+}
+
+DocumentsTab: {
+  RequiredToBind: {
+    Proof of underlying insurance for each vehicle/watercraft not insured with AAA/AMIG: 'Yes'
+  }
 }

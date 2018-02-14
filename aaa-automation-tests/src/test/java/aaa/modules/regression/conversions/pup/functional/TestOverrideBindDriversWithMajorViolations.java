@@ -120,7 +120,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
                 .adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_AlcoholViolation"));
 
         // Create PUP conversion policy
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(td, BindTab.class, true);
         bindTab.submitTab();
 
@@ -155,7 +155,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
                 .adjust(ClaimsTab.class.getSimpleName(), getTestSpecificTD("TestData_MajorViolation"));
 
         // Create PUP conversion policy
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(td, BindTab.class, true);
         bindTab.submitTab();
 

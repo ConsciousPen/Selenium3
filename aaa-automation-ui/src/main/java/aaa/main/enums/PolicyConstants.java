@@ -230,4 +230,8 @@ public final class PolicyConstants {
         public static final String LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED =
                 "Multi-Policy Discount should be selected.";
     }
+
+    public static final class MVRReportTable {
+        public static final String LICENSE_STATUS = "License Status";
+    }
 }

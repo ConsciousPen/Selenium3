@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.template;
 
+import static aaa.helpers.db.queries.MsrpQueries.*;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries {
+public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected static VehicleTab vehicleTab = new VehicleTab();
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
@@ -72,7 +75,8 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 		assertSoftly(softly -> {
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2005");
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS");
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
+			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
@@ -81,8 +85,10 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("UT_SS");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		    //Verification of tableVehicleList instead of Vehicle page field (to avoid cache issue)
+			softly.assertThat(VehicleTab.tableVehicleList.getRow("Make", "UT_SS")).exists();
+			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");
 			// PAS-1487  No Match to Match but Year Doesn't Match
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
@@ -98,38 +104,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 
 	protected String getCollSymbolFromVRD() {
 		return PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
-	}
-
-	protected void addMotorHomeVehicleToDB_AutoSS() {
-		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS));
-
-		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "Motor", NEWLY_ADDED_MSRP_VERSION_FOR_MOTORHOME_VEH_AUTO_SS, 4));
-	}
-
-	protected void addPPAVehicleToDBAutoSS() {
-		// Expire MSRP_2000 for AAA_SS product
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
-
-		// Add new VEHICLEREFDATAVINCONTROL version
-		int getUniqId = getAvailableIdFromVehicleDataVinControl();
-
-		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
-				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH_AUTO_SS));
-
-		// Add new MSRP version
-		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", NEWLY_ADDED_MSRP_VERSION_FOR_PPA_VEH_AUTO_SS, 4));
-	}
-
-	protected int getAvailableIdFromVehicleDataVinControl() {
-		return Integer.parseInt(DBService.get().getColumn(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID).get(0)) + 1;
 	}
 
 	protected void createAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
@@ -183,13 +157,15 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 		policy.dataGather().start();
 	}
 
+	/* TestData helpers */
+
 	protected TestData addSecondVehicle(String vinNumber, TestData testData) {
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
 				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), vinNumber)
 				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto");
 
 		List<TestData> listVehicleTab = new ArrayList<>();
-		listVehicleTab.add(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber));
+		listVehicleTab.add(testData.getTestData(vehicleTab.getMetaKey()));
 		listVehicleTab.add(secondVehicle);
 		return testData.adjust(vehicleTab.getMetaKey(), listVehicleTab);
 	}
@@ -229,13 +205,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 		return testData.adjust(ratingDetailReportsTab.getMetaKey(), ratingDetailsReportTab).resolveLinks();
 	}
 
-	public Map<String, String> getPolicyInfoByNumber(String quoteNumber) {
-		return DBService.get().getRow(
-				String.format(
-						"Select ps.policynumber, B.Vehidentificationno, R.Vinmatched, R.Vinmatchedind, b.vehtypecd, i.compsymbol, i.collsymbol, i.stat, i.biSymbol, i.pdsymbol, i.umsymbol, i.mpsymbol, I.*\n"
-								+ "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And\n"
-								+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and policynumber = '%s'", quoteNumber));
-	}
 
 	protected TestData getVehicleMotorHomeTestData() {
 		// Build override Informational Notice dialog
@@ -270,6 +239,81 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest implements MsrpQueries
 		listVehicleTab.add(secondVehicle);
 
 		return testData.adjust(vehicleTab.getMetaKey(), listVehicleTab);
+	}
+
+	/* DB Helpers */
+
+	public Map<String, String> getPolicyInfoByNumber(String quoteNumber) {
+		return DBService.get().getRow(
+				String.format(
+						"Select ps.policynumber, B.Vehidentificationno, R.Vinmatched, R.Vinmatchedind, b.vehtypecd, i.compsymbol, i.collsymbol, i.stat, i.biSymbol, i.pdsymbol, i.umsymbol, i.mpsymbol, I.*\n"
+								+ "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And\n"
+								+ "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and policynumber = '%s'", quoteNumber));
+	}
+
+	protected void addMotorHomeVehicleToDB_AutoSS() {
+		// Expire MSRP_2000 for AAA_SS product
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
+
+		// Add new VEHICLEREFDATAVINCONTROL version
+		BigInteger getUniqId = MsrpQueries.getAvailableIdFromVehicleDataVinControl();
+
+		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
+				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION));
+
+		// Add new MSRP version
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "Motor", AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, 4));
+	}
+
+	protected void addPPAVehicleToDBAutoSS() {
+		// Expire MSRP_2000 for AAA_SS product
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
+
+		// Add new VEHICLEREFDATAVINCONTROL version
+		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
+
+		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
+				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_PPA_VEH_MSRP_VERSION));
+
+		// Add new MSRP version
+		DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 2016, 9999, "PPA", AUTO_SS_PPA_VEH_MSRP_VERSION, 4));
+	}
+
+	/* DB cleaning methods */
+
+	public void resetMsrpHomeVehHelper() {
+		// Reset 'default' msrp version
+		resetMsrpVersionMSRPCompCollControlTable();
+		// DELETE new VEHICLEREFDATAVINCONTROL version
+		deleteVersionFromVehicleControlTable(AUTO_SS_MOTORHOME_VEH_MSRP_VERSION);
+		// DELETE new MSRP version pas730_VehicleTypeNotPPA
+		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_MOTORHOME_VEH_MSRP_VERSION, "Motor");
+	}
+
+	public void resetMsrpPPAVeh() {
+		// Reset 'default' msrp version
+		resetMsrpVersionMSRPCompCollControlTable();
+		// DELETE new VEHICLEREFDATAVINCONTROL version
+		deleteVersionFromVehicleControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION);
+		// DELETE new MSRP version pas730_VehicleTypePPA
+		deleteAddedMsrpVersionFormMsrpControlTable(AUTO_SS_PPA_VEH_MSRP_VERSION, "PPA");
+	}
+
+	private void deleteAddedMsrpVersionFormMsrpControlTable(String autoSsMotorhomeVehMsrpVersion, String motor) {
+		DBService.get().executeUpdate(String.format(DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, autoSsMotorhomeVehMsrpVersion, 4, motor));
+	}
+
+	private void deleteVersionFromVehicleControlTable(String vehicleMsrpVersion) {
+		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD, vehicleMsrpVersion, getState()));
+	}
+
+	private void resetMsrpVersionMSRPCompCollControlTable() {
+		DBService.get().executeUpdate(String.format(UPDATE_MSRP_COMP_COLL_CONTROL_VERSION_VEHICLEYEARMAX, 9999, "MSRP_2000"));
+	}
+
+	// Used in After suite method, cause of cross-test interruptions
+	public void resetDefaultMSRPVersionValuesVinControlTable() {
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, getState()));
 	}
 
 }

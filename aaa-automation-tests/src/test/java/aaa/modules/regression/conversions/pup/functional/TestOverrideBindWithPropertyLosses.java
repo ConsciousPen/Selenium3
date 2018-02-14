@@ -78,7 +78,7 @@ public class TestOverrideBindWithPropertyLosses extends ConvPUPBaseTest {
         TestData td = getConversionPolicyDefaultTD();
 
         // Create PUP conversion policy
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         fillPupPolicyWithAutoViolations(td);
 
         verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS4300780_AE);

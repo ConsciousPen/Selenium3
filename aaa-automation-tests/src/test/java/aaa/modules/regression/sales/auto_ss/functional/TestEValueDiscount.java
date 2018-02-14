@@ -5,13 +5,11 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
@@ -31,16 +29,22 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
@@ -106,6 +110,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
+    private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+    private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
 
     private static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
             MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
@@ -130,10 +136,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
     @Test(description = "Precondition")
     public static void paperlessPreferencesConfigCheck() {
-        CustomAssert
-                .assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST))
-                        .get()
-                        .contains(APP_HOST));
+        CustomAssert.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PREFERENCE_STUB_POINT, APP_HOST)).get().contains(APP_HOST));
     }
 
     @Test(description = "Precondition")
@@ -144,7 +147,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
             CustomAssert.assertTrue("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env", DBService.get()
                     .getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
             CustomAssert.assertTrue("Paperless Preferences is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env", DBService.get()
-                    .getValue(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
+                    .getValue(String.format(PAPERLESS_PREFERENCES_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
         }
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -1322,7 +1325,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         PremiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         DocumentsAndBindTab.btnGenerateDocuments.click();
-        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
+        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE);
         if (document != null) {
             verifyAHEVAXXTag(document, "AAAMemYN", aaaMemYN);
             verifyAHEVAXXTag(document, "CurrentBIYN", currentBIYN);
@@ -1416,6 +1419,105 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
+    }
+
+    /**
+     * @author Jovita Pukenaite
+     * @name Test when System automatically removes the eValue discount.
+     * @scenario 1. Create new eValue eligible quote for VA.
+     * 2. Add two ACH Accounts registered as payment methods.
+     * 3. Select payment plan other than Annual (Quarterly).Bind the policy.
+     * 4. Create pended endorsement.
+     * 5. Check if pended endorsement button is active.
+     * 6. Go to Billing tab, switch ACH Billing Accounts. Save it.
+     * 7. Check if eValue discount was not removed by System.
+     * 8. Go to Billing tab again and remove payment method.
+     * 9. Check if Confirmation popup with warning message is displaying.Click yes.
+     * 10. Check if System automatically removed the eValue discount. (Billing tab).
+     * 11. Check if Transaction History (Policy tab) shows "eValue Removed - ACH Modified"
+     * 12. Check if Endorsement was created in table of "Payments and Other Transactions"
+     * 13. Check if pended endorsement (which was created before) was removed from the policy.
+     * @details
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-333", "PAS-336", "PAS-238"})
+    public void pas333_eValueDiscountRemovedBySystem(@Optional("VA") String state) {
+
+        TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+
+        eValueQuoteCreation();
+
+        //Update Quote
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
+                .APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("Quarterly");
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM).click();
+        premiumAndCoveragesTab.saveAndExit();
+        String policyNumber = simplifiedQuoteIssue("ACH");
+
+        //PAS-238 Start
+        //Start make Pended Endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).setValue("Yes");
+        premiumAndCoveragesTab.saveAndExit();
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
+
+        //PAS-336 Start
+        //Add new card to the billing account
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        BillingSummaryPage.linkUpdateBillingAccount.click();
+        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
+        updateBillingAccountAddNewCard(dcVisa, "Debit");
+        updateBillingAccountActionTab.back();
+
+        //Change payment method from ACH to the Debit card
+        updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION.getLabel(), ComboBox.class).setValue("contains=Visa");
+        updateBillingAccountActionTab.save();
+
+        //Check If eValue wasn't removed
+        checkIfEvalueWasRemovedBySystem(false);
+        //PAS-238 End
+
+        //LogOut is needed because policy is lock
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        //Remove autoPay
+        BillingSummaryPage.linkUpdateBillingAccount.click();
+        updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(false);
+        updateBillingAccountActionTab.save();
+
+        //Check if eValue was removed by system
+        assertThat("Customer acknowledges that removing recurring payments will cause the eValue to be removed.".equals(Page.dialogConfirmation.labelMessage.getValue())).isTrue();
+        Page.dialogConfirmation.buttonYes.click();
+        checkIfEvalueWasRemovedBySystem(true);
+
+        //Check if pended endorsement was deleted by system
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+        //PAS-336 END
+    }
+
+    private void updateBillingAccountAddNewCard(TestData cardData, String cardType) {
+        updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE)
+                .fill(cardData);
+        updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).fill(cardData);
+        AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
+    }
+
+    private void checkIfEvalueWasRemovedBySystem(Boolean removed) {
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+        PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
+        PolicySummaryPage.buttonTransactionHistory.click();
+        assertThat("eValue Removed - ACH...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(removed);
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        assertThat("Endorsement - Other".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(5).getValue())).isEqualTo(removed);
     }
 
     private void testEvalueDiscount(String membershipStatus, String currentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {

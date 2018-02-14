@@ -2,8 +2,6 @@ package aaa.modules.regression.conversions;
 
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.CustomerMetaData;
-import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
@@ -15,42 +13,11 @@ import toolkit.datax.TestData;
  * @author Josh Carpenter
  * This class houses methods specific to PUP conversion policies and their corresponding test data requirements.
  */
-public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest implements ManualConversionHelper {
+public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest {
 
     private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
     private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
     private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
-
-    @Override
-    protected TestData getManualConversionInitiationTd() {
-        TestData td = super.getManualConversionInitiationTd();
-        return modifyInitiationTd(td, tdCustomerIndividual, getState())
-                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel()), getPolicyType().getName())
-                .mask(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()));
-    }
-
-    protected TestData getManualConversionInitiationTd35() {
-        TestData td = super.getManualConversionInitiationTd();
-        return modifyInitiationTd(td, tdCustomerIndividual, getState())
-                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel()), getPolicyType().getName())
-                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d:MM/dd/yyyy>")
-                .mask(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                        CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()));
-    }
-
-    @Override
-    protected TestData getConversionPolicyDefaultTD(){
-        TestData td = super.getConversionPolicyDefaultTD();
-        return modifyConversionPolicyDefaultTD(td, getPolicyType());
-    }
-
-    protected TestData getPupConversionTdNoPolicyCreation() {
-        return modifyConversionPolicyDefaultTD(getPolicyTD(), getPolicyType());
-    }
 
     /**
      * Verifies an rule has fired, overrides it, and binds the policy and confirms it is active.

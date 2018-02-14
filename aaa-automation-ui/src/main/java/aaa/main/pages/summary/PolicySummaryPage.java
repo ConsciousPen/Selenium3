@@ -118,8 +118,11 @@ public class PolicySummaryPage extends SummaryPage {
 	}
 
 	public static String getPolicyNumber() {
-		String policyNumber = labelPolicyNumber.getValue();
-		return policyNumber;
+		if (labelPolicyNumber.isPresent()) {
+			return labelPolicyNumber.getValue();
+		} else {
+			return linkPolicy.getValue();
+		}
 	}
 
 	public static void verifyCancelNoticeFlagPresent() {

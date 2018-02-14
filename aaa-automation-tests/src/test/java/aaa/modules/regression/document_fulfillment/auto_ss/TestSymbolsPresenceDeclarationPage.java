@@ -6,6 +6,7 @@ import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
 import static aaa.main.enums.DocGenEnum.Documents.AA11NY;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,7 +103,7 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AA11NY.getId(),ADHOC_DOC_ON_DEMAND_GENERATE);
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AA11NY.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
 
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(DocGenEnum.Documents.AA11NY.getId()));
 
@@ -138,8 +139,8 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-2713")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2713, PAS-532")
 	// All states except CA / NY document is generated with "N/A" in the current STAT field
-	public void pas2713_ApplicationForm(@Optional("") String state) {
-		String documentId = String.format("AA11%s",state);
+	public void pas2713_ApplicationForm(@Optional("ID") String state) {
+		String documentId = String.format("AA11%s", state);
 		DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(documentId);
 		// "AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"
 		mainApp().open();
@@ -155,14 +156,14 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(),ADHOC_DOC_ON_DEMAND_GENERATE);
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
 
 		List<DocGenEnum.Documents> docsToCheck = getEnumList(Arrays.asList(document.getId()));
 		docsToCheck.forEach(docID -> {
 			// Start PAS-2713 Scenario 1: all states except CA/NY stat code = N/A
 			List<DocumentDataSection> documentDataSection = DocGenHelper.getDocumentDataElemByName("VehStsCd", docID, query);
 			DataElementChoice actualNode = documentDataSection.get(0).getDocumentDataElements().get(0).getDataElementChoice();
-			assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull().isNotNull());
+			assertSoftly(softly -> softly.assertThat(actualNode).isEqualTo(new DataElementChoice().setTextField("N/A")).isNotNull());
 			// End PAS-2713 Scenario 1
 
 			// Start PAS-532 All States except NY
@@ -172,28 +173,14 @@ public class TestSymbolsPresenceDeclarationPage extends AutoSSBaseTest {
 	}
 
 	private void verifyLiabilitySymbolsPresence(String query, DocGenEnum.Documents docID) {
-		List<DocumentDataSection> BdyInjSymbl = DocGenHelper.getDocumentDataElemByName("BdyInjSymbl", docID, query);
-		assertSoftly(softly -> softly.assertThat(BdyInjSymbl).isNotEmpty().isNotNull());
-
-		List<DocumentDataSection> MPSymbl = DocGenHelper.getDocumentDataElemByName("MPSymbl", docID, query);
-		assertSoftly(softly -> softly.assertThat(MPSymbl).isNotEmpty().isNotNull());
-
-		List<DocumentDataSection> PdSymbl = DocGenHelper.getDocumentDataElemByName("PdSymbl", docID, query);
-		assertSoftly(softly -> softly.assertThat(PdSymbl).isNotEmpty().isNotNull());
-
-		List<DocumentDataSection> UmSymbl = DocGenHelper.getDocumentDataElemByName("UmSymbl", docID, query);
-		assertSoftly(softly -> softly.assertThat(UmSymbl).isNotEmpty().isNotNull());
+		Arrays.asList("BdyInjSymbl", "MPSymbl", "PdSymbl", "UmSymbl").forEach(v ->
+				assertThat(DocGenHelper.getDocumentDataElemByName(v, docID, query)).isNotEmpty().isNotNull());
 	}
 
-
-	private void verifyCompCollSymbolsPresence(String getDataSql, DocGenEnum.Documents docID) {
-		List<DocumentDataSection> compDmgSymbl = DocGenHelper.getDocumentDataElemByName("CompDmgSymbl", docID, getDataSql);
-		assertSoftly(softly -> softly.assertThat(compDmgSymbl).isNotEmpty().isNotNull());
-
-		List<DocumentDataSection> collDmgSymbl = DocGenHelper.getDocumentDataElemByName("CollDmgSymbl", docID, getDataSql);
-		assertSoftly(softly -> softly.assertThat(collDmgSymbl).isNotEmpty().isNotNull());
+	private void verifyCompCollSymbolsPresence(String query, DocGenEnum.Documents docID) {
+		Arrays.asList("CompDmgSymbl", "CollDmgSymbl").forEach(v ->
+				assertThat(DocGenHelper.getDocumentDataElemByName(v, docID, query)).isNotEmpty().isNotNull());
 	}
-
 
 	private List<DocGenEnum.Documents> getEnumList(List<String> valuesList) {
 		return valuesList.stream().map(DocGenEnum.Documents::valueOf).collect(Collectors.toList());

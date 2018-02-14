@@ -73,9 +73,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
 		//PAS-343 end
 
-		String emailAddressChanged = "osi.test@email.com";
-		String authorizedBy = "John Smith";
-		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
+        String emailAddressChanged = "osi.test@email.com";
+        String authorizedBy = "John Smith";
+        HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
 		emailUpdateTransactionHistoryCheck(policyNumber);
 		emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);
@@ -106,13 +106,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas6560_endorsementValidateAllowed(PolicyType policyType) {
-		mainApp().open();
-
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+    protected void pas6560_endorsementValidateAllowed(PolicyType policyType) {
+        mainApp().open();
+        createCustomerIndividual();
+        policyType.get().createPolicy(getPolicyTD());
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		secondEndorsementIssueCheck();
 
@@ -182,26 +181,38 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//Endorsement creation
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getDocumentsAndBindTabElement().saveAndExit();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
-		convertAgentEndorsementToSystemEndorsement(policyNumber);
+        //Endorsement creation
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewSubTab(getDocumentsAndBindTab());
+        getDocumentsAndBindTabElement().saveAndExit();
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(true);
+        //Update to make the endorsement SYSTEM
+        String getPolicySummaryId = "select id from (\n"
+                + "select ps.id, ps.SYSGENERATEDTXIND\n"
+                + "from policysummary ps\n"
+                + "where policynumber = '%s'\n"
+                + "order by id desc)\n"
+                + "where rownum = 1 ";
+        String updateSystemGeneratedInd = "update policysummary ps\n"
+                + "set ps.SYSGENERATEDTXIND = 1\n"
+                + "where id = %s";
 
-		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
+        String policySummaryId = DBService.get().getValue(String.format(getPolicySummaryId, policyNumber)).get();
+        DBService.get().executeUpdate(String.format(updateSystemGeneratedInd, policySummaryId));
 
-		assertSoftly(softly -> {
-			softly.assertThat(response.allowedEndorsements).isEmpty();
-			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("System Created Pended Endorsement");
-			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
-			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
-			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
-			softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
-		});
-	}
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
+        //TODO should fail here
+        assertSoftly(softly -> {
+            softly.assertThat(response.allowedEndorsements).isEmpty();
+            softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
+            softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("System Created Pended Endorsement");
+            softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
+            softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
+            softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
+            softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
+        });
+    }
 
 	protected void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
 		mainApp().open();
