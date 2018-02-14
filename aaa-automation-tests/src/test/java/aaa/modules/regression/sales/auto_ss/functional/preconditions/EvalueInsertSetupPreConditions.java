@@ -96,7 +96,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/policy/preferences'\n"
+			+ "set value = 'https://master.apps.prod.pdc.digital.csaa-insurance.aaa.com/policy/preferences'\n"
 			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
 	String AHDRXX_CONFIG_CHECK = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
