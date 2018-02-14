@@ -24,7 +24,39 @@
             </class>
         </classes>
     </test>
+<!--    <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>-->
 
+
+<!--    <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund"/>
+                </methods>
+            </class>
+        </classes>
+    </test>-->
+<!--    <test name="TestRefundProcessDC" parallel="methods" thread-count="1024">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas1952_MessageWhenOnlyMethodIsCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>-->
     <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -53,8 +85,8 @@
         </classes>
     </test>
 
-    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="TestEValueDiscountOR" parallel="methods" thread-count="1024">
+        <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -139,8 +171,8 @@
         </classes>
     </test>
 
-    <test name="TestMessagingVerificationVA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="TestMessagingVerificationOR" parallel="methods" thread-count="1024">
+        <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
                 <methods>
@@ -179,7 +211,26 @@
         </classes>
     </test>
 
-
+<!--    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+            <methods>
+                <include name="pas349_rfiAuto"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRFI-AutoSSNano" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas349_rfiNano"/>
+                </methods>
+            </class>
+        </classes>
+    </test>-->
     <test name="TestEValueDiscountDCandVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC, VA"/>
         <classes>
@@ -191,7 +242,12 @@
             </class>
         </classes>
     </test>
-
+<!--    <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
+        </classes>
+    </test>-->
     <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, PA"/>
         <classes>
@@ -204,6 +260,24 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
+
+<!--    <test name="GreenButtonService" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas6560_endorsementValidateAllowed"/>
+                    <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
+                    <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
+                    <include name="pas6562_endorsementValidateNotAllowedFutureDatedEndorsement"/>
+                    <include name="pas6562_endorsementValidateNotAllowedNano"/>
+                    <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
+                    <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
+                    <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>-->
 
     <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, WV, WY"/>
