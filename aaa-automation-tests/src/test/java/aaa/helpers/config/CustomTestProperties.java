@@ -13,5 +13,6 @@ public class CustomTestProperties extends TestProperties {
 	public static final String APP_STUB_URLTEMPLATE = "app.stub.urltemplate";
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
+	public static final String WIRE_MOCK_STUB_URL_TEMPLATE = "wire.mock.stub.urltemplate";
 	public static final String SCRUM_ENVS_SSH = "scrum.envs.ssh";
 }

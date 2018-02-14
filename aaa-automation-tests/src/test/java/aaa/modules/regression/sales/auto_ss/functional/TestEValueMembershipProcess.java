@@ -439,19 +439,20 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas111_paperlessMockTest(@Optional("VA") String state) {
-		//String policyNumber = membershipEligibilityPolicyCreation("Active");
 
-		String policyNumber = "VASS926232060";
-		//String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String policyNumber = "VASS926232072";
+
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 		//Always need to delete the added request ot stub
 		deleteSinglePaperelessPreferenceRequest(requestId);
 
 		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
-		PolicySummaryPage.getPolicyNumber();
-		HelperWireMock.deleteProcessedRequestFromStub(requestId2);
+
+		//PolicySummaryPage.getPolicyNumber();
+
+		deleteSinglePaperelessPreferenceRequest(requestId2);
 		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
-		HelperWireMock.deleteProcessedRequestFromStub(requestId3);
+		deleteSinglePaperelessPreferenceRequest(requestId3);
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -495,7 +496,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active");
-		String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -516,7 +517,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
-		HelperWireMock.deleteProcessedRequestFromStub(requestId);
+		deleteSinglePaperelessPreferenceRequest(requestId);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -534,12 +535,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas3697_membershipEligConfTrueForActiveMembershipNoPaperless(@Optional("VA") String state) {
+	public void pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active");
-		String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		String policyNumber = membershipEligibilityPolicyCreation("Pending");
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -557,11 +558,196 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
 		transactionHistoryRecordCountCheck(2);
-		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, false);
-		//TODO check with Karen - document has no Paperless text
+		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
+		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
+
+		deleteSinglePaperelessPreferenceRequest(requestId);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @scenario
+	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
+	 * 1. Check Membership discount is not removed on NB+30
+	 * 2. Check eValue discount  not removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Non-Active");
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		membershipLogicActivitiesAndNotesCheck(false, "no record created");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
+		transactionHistoryRecordCountCheck(3);
+		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
+		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
+
+		deleteSinglePaperelessPreferenceRequest(requestId);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = Pending.
+	 * @scenario
+	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
+	 * 1. Check Membership discount is not removed on NB+30
+	 * 2. Check eValue discount  not removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		mainApp().open();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+		String membershipDiscountEligibilitySwitch = "FALSE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		membershipLogicActivitiesAndNotesCheck(false, "no record created");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
-		HelperWireMock.deleteProcessedRequestFromStub(requestId);
+		deleteSinglePaperelessPreferenceRequest(requestId);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @scenario
+	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
+	 * 1. Check Membership discount is not removed on NB+30
+	 * 2. Check eValue discount  not removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless(@Optional("VA") String state) {
+		mainApp().open();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+		String membershipDiscountEligibilitySwitch = "FALSE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Pending");
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		membershipLogicActivitiesAndNotesCheck(false, "no record created");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
+		//TODO check with Karen - document has no Paperless text
+		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
+
+		deleteSinglePaperelessPreferenceRequest(requestId);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @scenario
+	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
+	 * 1. Check Membership discount is not removed on NB+30
+	 * 2. Check eValue discount  not removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		mainApp().open();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+		String membershipDiscountEligibilitySwitch = "FALSE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Non-Active");
+		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		membershipLogicActivitiesAndNotesCheck(false, "no record created");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
+		transactionHistoryRecordCountCheck(3);
+		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
+		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
+
+		deleteSinglePaperelessPreferenceRequest(requestId);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -585,7 +771,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active");
-		String requestId1 = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		String requestId1 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -596,9 +782,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		transactionHistoryRecordCountCheck(1);
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
-		HelperWireMock.deleteProcessedRequestFromStub(requestId1);
+		deleteSinglePaperelessPreferenceRequest(requestId1);
 
-		String requestId2 = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -607,8 +793,55 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		transactionHistoryRecordCountCheck(1);
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+		deleteSinglePaperelessPreferenceRequest(requestId2);
 
-		HelperWireMock.deleteProcessedRequestFromStub(requestId2);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @scenario
+	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
+	 * 0.1. Change Paperless Preferences to Yes, run Jobs on NB+30
+	 * 1. Check Membership discount is not removed on NB+30
+	 * 2. Check eValue discount not removed on NB+30
+	 * 3. Check AHDRXX is NOT produced on NB+30
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15(@Optional("VA") String state) {
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String requestId1 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		deleteSinglePaperelessPreferenceRequest(requestId1);
+
+		CustomAssert.enableSoftMode();
+		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING");
+		membershipLogicActivitiesAndNotesCheck(false, "no record created");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
+		deleteSinglePaperelessPreferenceRequest(requestId2);
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}

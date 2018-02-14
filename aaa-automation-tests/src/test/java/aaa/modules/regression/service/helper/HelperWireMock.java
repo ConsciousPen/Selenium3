@@ -1,11 +1,13 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.modules.BaseTest.printToLog;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.wiremock.dto.WireMockMappingRequest;
 import aaa.modules.regression.service.helper.wiremock.factory.PaperlessPreferencesWMRequestFactory;
+import toolkit.config.PropertyProvider;
 
 public class HelperWireMock {
-	private static final String WIRE_MOCK_URL = "http://nvdxpas1agl007:9999/__admin/mappings";
+	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)+"/__admin/mappings";
 
 	/**
 	 * SwaggerUI for the WireMock = http://nvdxpas1agl007:9999/__admin/swagger-ui/
@@ -17,6 +19,9 @@ public class HelperWireMock {
 	 set value = 'http://nvdxpas1agl007:9999/policy/preferences'
 	 where propertyName = 'policyPreferenceApiService.policyPreferenceApiUri';
 
+	 Scrum team's dxp stub url: https://master.apps.prod.pdc.digital.csaa-insurance.aaa.com/policy/preferences
+	 Scrum team's dxp mock url: https://master.apps.prod.pdc.digital.csaa-insurance.aaa.com/__admin/mappings
+	 Scrum team's swagger-ui url: NOT CLEAR TODO add proper URL
 	 * @param policyNumber - policy number
 	 * @param scenarioJsonFile - paperlessOptInPendingResponse.json or paperlessOptInResponse.json or paperlessOptOutResponse.json
 	 * @return
@@ -26,8 +31,6 @@ public class HelperWireMock {
 		String paperlessPreferencesRequestId = request.id;
 		printToLog("request id = " + paperlessPreferencesRequestId);
 		HelperCommon.runJsonRequestPostDxp(WIRE_MOCK_URL, request, String.class);
-		//HelperCommon.runJsonRequestPostDxp(WIRE_MOCK_URL + "/save", null, String.class);
-		//HelperCommon.runJsonRequestPostDxp(WIRE_MOCK_URL + "/reset", null, String.class);
 		return paperlessPreferencesRequestId;
 	}
 
@@ -40,7 +43,7 @@ public class HelperWireMock {
 		PAPERLESS_OPT_IN("paperlessOptInResponse.json"),
 		PAPERLESS_OPT_OUT("paperlessOptOutResponse.json");
 
-		String paperlessPreferencesJsonFileName;
+		final String paperlessPreferencesJsonFileName;
 
 		PaperlessPreferencesJsonFileEnum(String paperlessPreferencesJsonFileName) {
 			this.paperlessPreferencesJsonFileName = paperlessPreferencesJsonFileName;
