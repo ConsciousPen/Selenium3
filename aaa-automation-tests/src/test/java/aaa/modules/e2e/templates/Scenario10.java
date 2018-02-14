@@ -38,7 +38,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
-//import toolkit.verification.CustomAssert;
 
 public class Scenario10 extends ScenarioBaseTest {
 	
@@ -71,7 +70,6 @@ public class Scenario10 extends ScenarioBaseTest {
 		}
 		policyNum = createPolicy(policyCreationTD); 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -80,8 +78,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
+		installmentDueDates = BillingHelper.getInstallmentDueDates(); 
 		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Quarterly payment plan").isEqualTo(installmentsCount);
 		
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
@@ -129,8 +126,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		
 		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled(); 
+		SearchPage.openPolicy(policyNum); 
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -142,7 +138,6 @@ public class Scenario10 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
@@ -188,7 +183,6 @@ public class Scenario10 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_EnableAutopay"));
 		billingAccount.update().start();
-		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(true); 
 		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(true);
 		Tab.buttonCancel.click();
 	}
@@ -214,7 +208,6 @@ public class Scenario10 extends ScenarioBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 			new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().fillTab(renewalTD, true);
-			//new aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab().calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
 			new aaa.main.modules.policy.pup.defaulttabs.BindTab().submitTab();
 		}
@@ -231,10 +224,6 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates(); 
 		CustomAssertions.assertThat(installmentDueDatesOfRenewal.size()).as("Billing Installments count for Eleven Pay - Standard (Renewal) payment plan").isEqualTo(installmentsCountOfRenewal); 
-		
-		for (int i = 0; i < installmentsCountOfRenewal; i++) {
-			log.info("Installment Due Date [" + i +"] is: " + installmentDueDatesOfRenewal.get(i));
-		}
 	}
 	
 	//For CA - Auto & Home 
@@ -256,10 +245,6 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
 		CustomAssertions.assertThat(installmentDueDatesOfRenewal.size()).as("Billing Installments count for Standard Monthly (Renewal) payment plan").isEqualTo(installmentsCountOfRenewal); 
-		
-		for (int i = 0; i < installmentsCountOfRenewal; i++) {
-			log.info("Installment Due Date [" + i +"] is: " + installmentDueDatesOfRenewal.get(i));
-		}
 		
 		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).setMinDue(minDue).verifyPresent();
 		
