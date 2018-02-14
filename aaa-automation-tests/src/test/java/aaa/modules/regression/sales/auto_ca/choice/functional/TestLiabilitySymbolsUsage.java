@@ -46,7 +46,6 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         pas6582_StatCodeRules();
     }
 
-
     /**
      * @author Lev Kazarnovskiy
      *
@@ -71,6 +70,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         VehicleTab vehicleTab = new VehicleTab();
         ErrorTab errorTab = new ErrorTab();
 
+        //Delete liability and comprehensive symbols for particular VIN to trigger the rule
         deleteLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
 
         TestData testData = getPolicyTD()
@@ -88,15 +88,20 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VALUE).setValue("20000");
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();
+
+        //verify that error doesn't show anymore
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE,
+                ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();
 
         PremiumAndCoveragesTab.calculatePremium();
-        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();
+
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE,
+                ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();
     }
 
     @AfterGroups(groups = {"fixDB"})
     private void restoreValuesInDB(){
-        restoreLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
+        restoreCompCollAndLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
     }
 
     /**
@@ -114,7 +119,6 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * 5. Save quote, verify that values for liab symbols in DB are updated to null value;
      *
      * @details
-     * VIN Used for test: 4S2CK58W8X4307498
      *
      */
     @Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
@@ -123,14 +127,17 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
 
         VehicleTab vehicleTab = new VehicleTab();
 
+        //'VIN Doesn't Match' Data is used
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()
                 .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Motor Home"));
 
         createQuoteAndFillUpTo(testData, VehicleTab.class);
-
+        //Save quote to get values for liability symbols in DB
         vehicleTab.saveAndExit();
-
         String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+        //If some info will be changed in the system - expected value could be changed to the actual one.
+        // The main goal is 'not null' value
         verifyLiabilitySymbolsInDB(quoteNumber, "M");
 
         policy.dataGather().start();
@@ -139,6 +146,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
 
         assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE)).hasValue("");
 
+        //Save quote to update values for it in DB
         VehicleTab.buttonTopSave.click();
         verifyLiabilitySymbolsInDB(quoteNumber, null);
     }

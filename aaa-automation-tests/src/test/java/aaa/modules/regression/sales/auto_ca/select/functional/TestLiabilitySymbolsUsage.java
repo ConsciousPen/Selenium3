@@ -77,7 +77,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         List <String> liabilitySymbols = Arrays.asList("biSymbol", "pdsymbol", "umsymbol", "mpsymbol");
-        liabilitySymbols.forEach( s -> assertThat(getLiabSymbolsValues(quoteNumber, s)).isEqualTo("W")
+        liabilitySymbols.forEach( s -> assertThat(getLiabSymbolsValuesForQuote(quoteNumber, s)).isEqualTo("W")
                 .as("W symbol was not set as default for liability symbols for Cargo Van vehicle, please check used VIN and/or product rules"));
 
         policy.dataGather().start();
