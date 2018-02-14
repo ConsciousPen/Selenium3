@@ -25,7 +25,7 @@
         </classes>
     </test>
 
-    <test name="TestEValueDiscountVA1" parallel="methods" thread-count="1024">
+    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
