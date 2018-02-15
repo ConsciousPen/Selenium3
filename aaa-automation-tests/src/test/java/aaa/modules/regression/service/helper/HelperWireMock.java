@@ -1,6 +1,9 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.modules.BaseTest.printToLog;
+import java.util.LinkedList;
+import java.util.List;
+import org.testng.annotations.Test;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.wiremock.dto.WireMockMappingRequest;
 import aaa.modules.regression.service.helper.wiremock.factory.PaperlessPreferencesWMRequestFactory;
@@ -51,6 +54,19 @@ public class HelperWireMock {
 
 		public String get() {
 			return paperlessPreferencesJsonFileName;
+		}
+	}
+
+	/**
+	 * To remove stalled requests
+	 */
+	@Test
+	public void deleteStalledMultiplePaperlessPreferencesRequests() {
+		List<String> requestIdList = new LinkedList<>();
+		requestIdList.add("7bbfee07-6b31-4afc-a9ce-5ec552dc668b");
+		requestIdList.add("7bbfee07-6b31-4afc-a9ce-5ec552dc668b");
+		for (Object requestId : requestIdList) {
+			deleteProcessedRequestFromStub(requestId.toString());
 		}
 	}
 }
