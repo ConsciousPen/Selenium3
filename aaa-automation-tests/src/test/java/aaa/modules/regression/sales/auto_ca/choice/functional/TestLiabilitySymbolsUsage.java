@@ -13,7 +13,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestLiabilitySymbolsUsageTemplate;
-import org.testng.annotations.AfterGroups;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -99,11 +99,6 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
                 ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();
     }
 
-    @AfterGroups(groups = {"fixDB"})
-    private void restoreValuesInDB(){
-        restoreCompCollAndLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
-    }
-
     /**
      * @author Lev Kazarnovskiy
      *
@@ -149,5 +144,10 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         //Save quote to update values for it in DB
         VehicleTab.buttonTopSave.click();
         verifyLiabilitySymbolsInDB(quoteNumber, null);
+    }
+
+    @AfterClass(alwaysRun = true, groups = {"fixDB"})
+    private void restoreValuesInDB(){
+        restoreCompCollAndLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
     }
 }
