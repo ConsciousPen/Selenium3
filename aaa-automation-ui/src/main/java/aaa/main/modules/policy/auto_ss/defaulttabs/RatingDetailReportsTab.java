@@ -18,6 +18,9 @@ import toolkit.datax.impl.SimpleDataProvider;
  * @category Generated
  */
 public class RatingDetailReportsTab extends Tab {
+
+	private static final Object lock = new Object();
+
 	public RatingDetailReportsTab() {
 		super(AutoSSMetaData.RatingDetailReportsTab.class);
 	}
@@ -34,6 +37,14 @@ public class RatingDetailReportsTab extends Tab {
 					.setValue(createTestData());
 		}
 		buttonNext.click();
+		return this;
+	}
+
+	@Override
+	public Tab fillTab(TestData td) {
+		synchronized (lock) {
+			super.fillTab(td);
+		}
 		return this;
 	}
 
