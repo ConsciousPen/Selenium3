@@ -13,7 +13,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
@@ -47,8 +46,6 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), getTestSpecificTD("VehicleTab_DataGather").getValue(
-			AutoSSMetaData.VehicleTab.VIN.getLabel()));
 		td.adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
 			"PremiumAndCoveragesTab_DataGather").getValue(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
