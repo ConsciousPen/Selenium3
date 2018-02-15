@@ -10,7 +10,9 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
@@ -44,7 +46,8 @@ public class TestConversionNoClueISO360InspectionReports extends HomeSSHO4BaseTe
 
 		mainApp().open();
 		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today+30d:MM/dd/yyyy>"));
 		getPolicyType().get().getDefaultView().fill(testdata);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
