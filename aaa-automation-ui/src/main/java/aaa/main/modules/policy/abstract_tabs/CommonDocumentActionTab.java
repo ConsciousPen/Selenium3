@@ -16,8 +16,8 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 public abstract class CommonDocumentActionTab extends ActionTab {
+	private static final Object lock = new Object();
 	public Verify verify = new Verify();
-
 	public Button buttonOk = new Button(id("policyDataGatherForm:generateDocLink"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
 	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
@@ -35,17 +35,21 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void selectAllDocuments() {
-		for (int rowNumber = 1; rowNumber <= getDocumentsControl().getTable().getRowsCount(); rowNumber++) {
-			getDocumentsControl().fillRow(rowNumber, DataProviderFactory.dataOf("Select", "true"));
+		synchronized (lock) {
+			for (int rowNumber = 1; rowNumber <= getDocumentsControl().getTable().getRowsCount(); rowNumber++) {
+				getDocumentsControl().fillRow(rowNumber, DataProviderFactory.dataOf("Select", "true"));
+			}
 		}
 	}
 
 	public void selectDocuments(DocGenEnum.Documents... documents) {
-		for (DocGenEnum.Documents doc : documents) {
-			getDocumentsControl().fillRow(DataProviderFactory.dataOf(
-					DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId(),
-					DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName(),
-					DocGenConstants.OnDemandDocumentsTable.SELECT, "true"));
+		synchronized (lock) {
+			for (DocGenEnum.Documents doc : documents) {
+				getDocumentsControl().fillRow(DataProviderFactory.dataOf(
+						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId(),
+						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName(),
+						DocGenConstants.OnDemandDocumentsTable.SELECT, "true"));
+			}
 		}
 	}
 
@@ -66,25 +70,27 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		if (documents.length > 0) {
-			selectDocuments(documents);
-		} else {
-			selectAllDocuments();
-		}
+		synchronized (lock) {
+			if (documents.length > 0) {
+				selectDocuments(documents);
+			} else {
+				selectAllDocuments();
+			}
 
-		if (expandedDocumentsData != null) {
-			getDocumentsControl().fillRow(expandedDocumentsData);
-		}
+			if (expandedDocumentsData != null) {
+				getDocumentsControl().fillRow(expandedDocumentsData);
+			}
 
-		if (emailAddress != null) {
-			getAssetList().getAsset("Email Address", TextBox.class).setValue(emailAddress);
-		}
-		if (fax != null) {
-			getAssetList().getAsset("Fax", TextBox.class).setValue(fax);
-		}
+			if (emailAddress != null) {
+				getAssetList().getAsset("Email Address", TextBox.class).setValue(emailAddress);
+			}
+			if (fax != null) {
+				getAssetList().getAsset("Fax", TextBox.class).setValue(fax);
+			}
 
-		getAssetList().getAsset("Delivery Method", RadioGroup.class).setValue(deliveryMethod.get());
-		submitTab();
+			getAssetList().getAsset("Delivery Method", RadioGroup.class).setValue(deliveryMethod.get());
+			submitTab();
+		}
 	}
 
 	public class Verify {
