@@ -39,15 +39,15 @@ public class TestLiabilitySymbolsUsageTemplate extends CommonTemplateMethods {
      */
     public void pas6582_StatCodeRules(){
 
-        TestData testData = getPartialMatchData(getPolicyTD());
+        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_PartialMatch").resolveLinks());
 
         createQuoteAndFillUpTo(testData, VehicleTab.class);
 
         //Validation that Stat code field is hidden after partial matched for VIN getting, validation that fields are populated with Info
         assertSoftly(softly -> {
             softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE)).isPresent(false);
-            softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.AIR_BAGS)).isNotEqualTo("");
-            softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ANTI_THEFT)).isNotEqualTo("");
+            softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.AIR_BAGS)).doesNotHaveValue("");
+            softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ANTI_THEFT)).doesNotHaveValue("");
             softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ALTERNATIVE_FUEL_VEHICLE)).hasValue("Yes");
         });
 
@@ -59,17 +59,6 @@ public class TestLiabilitySymbolsUsageTemplate extends CommonTemplateMethods {
 
         vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE).setValue("Camper");
         assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE)).isPresent().hasValue("Trailer/ Shell");
-    }
-
-    private TestData getPartialMatchData(TestData testData) {
-        testData
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "")
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2011")
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MAKE.getLabel()), "HONDA")
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.MODEL.getLabel()), "CIVIC")
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.SERIES.getLabel()), "CIVIC HYBRID")
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()), "SEDAN 4 DOOR");
-        return testData;
     }
 
     //Method to verify liabilitySymbols values for specific quote/policy in the DB

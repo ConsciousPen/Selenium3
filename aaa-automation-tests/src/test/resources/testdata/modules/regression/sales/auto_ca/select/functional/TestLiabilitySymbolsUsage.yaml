@@ -1,7 +1,3 @@
-TestData: {
-  VehicleTab: '@VINDoesNotMatch@VehicleTab_UnmatchedVIN'
-}
-
 TestData_PartialMatch: {
   VehicleTab: '@VehicleTab_PartialMatch'
 }
