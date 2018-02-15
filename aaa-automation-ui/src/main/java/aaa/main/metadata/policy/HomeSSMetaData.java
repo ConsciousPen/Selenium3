@@ -335,8 +335,8 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EditInsuranceScoreDialog extends MetaData {
-			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:newScore']"));
-			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:billingType_billing']"));
+			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class, Waiters.NONE, By.xpath("//input[@id='editInsuranceScoreFrom:newScore']"));
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.NONE, By.xpath("//select[@id='editInsuranceScoreFrom:billingType_billing']"));
 			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
 		}
 
