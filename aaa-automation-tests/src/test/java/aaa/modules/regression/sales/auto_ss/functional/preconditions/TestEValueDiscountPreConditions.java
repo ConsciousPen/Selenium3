@@ -9,7 +9,7 @@ public interface TestEValueDiscountPreConditions {
                     + " and CODE = 'eMember'\n"
                     + " and RISKSTATECD = '%s'";
 
-    String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK =
+    String PAPERLESS_PREFERENCES_CONFIGURATION_PER_STATE_CHECK =
             "select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n"
                     + " where lookuplist_id = \n"
                     + " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n"
@@ -76,10 +76,10 @@ public interface TestEValueDiscountPreConditions {
             + "and code = 'membershipEligibility'\n"
             + "and displayvalue = 'FALSE')";
 
-    String PAPERLESS_PRFERENCE_STUB_POINT = "select VALUE from "
+    String PAPERLESS_PREFERENCE_STUB_POINT = "select VALUE from "
             + "PROPERTYCONFIGURERENTITY"
             + " WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' "
-            + " and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'";
+            + " and VALUE like '%%http://%s%%'";
 
     String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK = "select Effective from (\n"
             + "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
