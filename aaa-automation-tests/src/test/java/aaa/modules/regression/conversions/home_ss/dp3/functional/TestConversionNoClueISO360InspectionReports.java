@@ -45,7 +45,7 @@ public class TestConversionNoClueISO360InspectionReports extends HomeSSDP3BaseTe
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		getPolicyType().get().getDefaultView().fill(testdata);
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 	}
 }
 
