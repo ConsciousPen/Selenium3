@@ -2,14 +2,24 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.document_fulfillment.home_ss.ho3.functional;
 
+import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.ProductRenewalsVerifier;
+import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
 
@@ -43,8 +53,36 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
         super.pas2305_preRenewalLetterHSPRNXX(state);
     }
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
-    }
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2709"})
+	public void pas2709_Specific(@Optional("NJ") String state) {
+		List<String> expectedHO3ConversionForms = Arrays.asList("HSRNHODPXX", "HSRNMXX","HSTPNJ","HS02","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSCSNA");
+		//todo add  to enum AHMVCNV 07 17 and 	HSMPDCNVXX 01 18
+
+		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+
+		String policyNumber = createManualConversionRenewalEntry(adjustWithMortgageeData(getConversionPolicyDefaultTD()), effDate);
+
+		SearchPage.openPolicy(policyNumber);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+
+		//processRenewal(PRE_RENEWAL, effDate, policyNumber);
+	/*    TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
+	    JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	    mainApp().open();
+	    SearchPage.openPolicy(policyNum);
+	    new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);*/
+
+	}
+
+
+	private List<DocGenEnum.Documents> getEnumList(List<String> valuesList) {
+		return valuesList.stream().map(DocGenEnum.Documents::valueOf).collect(Collectors.toList());
+	}
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 }

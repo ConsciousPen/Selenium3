@@ -1,22 +1,34 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 
@@ -215,17 +227,83 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-2716 Update VIN Refresh R-45
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario 1. Create Auto policy with 2 vehicles
+	 * 2. Renewal term is inforce) R-45
+	 * 3. Add new VIN versions/VIN data for vehicle3 to be added during endorsement (see notes)e
+	 * 4. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
+	 * 5. Add new vehicle3
+	 * 6. Bind endorsement
+	 * 7. Roll on changes for renewal term with changes made in OOS endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
+	public void pas2716_BackDatedEndorsement(@Optional("CA") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		// todo create files for ca
+		String vinTableFile = "backdatedVinTable_CA_SS.xlsx";
+		String controlTableFile = "backdatedControlTable_UT_SS.xlsx";
+
+		TestData testData = getNonExistingVehicleTestData(getPolicyTD(), NEW_VIN).resolveLinks();
+
+		// 1. Create Auto policy with 2 vehicles
+		String policyNumber = createPolicyPreconds(testData);
+
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+
+		adminApp().open();
+		//todo create files for ca
+		//vinMethods.uploadFiles(controlTableFile, vinTableFile);
+
+		// 2. Renewal term is inforce) R-35
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+		// Add vehicle at renewal version
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		// Make sure refresh occurs
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("BACKDATED_SS_MAKE");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		// Add Vehicle to new renewal version
+		TestData renewalVersionVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto")
+				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), "7MSRP15H5V1011111");
+
+		List<TestData> renewalVerrsionVehicleTab = new ArrayList<>();
+		renewalVerrsionVehicleTab.add(getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), NEW_VIN).getTestData("VehicleTab"));
+		renewalVerrsionVehicleTab.add(renewalVersionVehicle);
+
+		TestData testDataRenewalVersion = getPolicyTD().adjust(vehicleTab.getMetaKey(), renewalVerrsionVehicleTab)
+				.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
+
+		vehicleTab.fillTab(testDataRenewalVersion);
+		PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		new DocumentsAndBindTab().submitTab();
+	}
 
 	/**
-	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	 each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	 tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
+	* Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
+	* each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
+	* tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
+	* <p>
+	* 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
+	* files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
+	* this after method should be updated. But such updates are not supposed to be done.
+	* Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
+	*/
 
-	 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
-	 files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	 this after method should be updated. But such updates are not supposed to be done.
-	 Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
-	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CA_SELECT')";
