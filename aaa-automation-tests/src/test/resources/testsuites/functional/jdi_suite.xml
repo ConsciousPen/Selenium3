@@ -6,15 +6,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="eValue Related Jobs" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
     <test name="TestEValueDiscountJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -242,12 +234,12 @@
             </class>
         </classes>
     </test>
-    <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
+<!--    <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>
-    </test>
+    </test>-->
     <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, PA"/>
         <classes>

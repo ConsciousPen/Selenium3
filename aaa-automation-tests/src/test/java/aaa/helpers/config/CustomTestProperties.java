@@ -17,4 +17,6 @@ public class CustomTestProperties extends TestProperties {
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
 	public static final String SCRUM_ENVS_SSH = "scrum.envs.ssh";
+	public static final String CUSTOM_DATE1 = "test.date1";
+	public static final String CUSTOM_DATE2 = "test.date2";
 }

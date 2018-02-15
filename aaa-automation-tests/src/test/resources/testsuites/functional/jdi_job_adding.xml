@@ -33,7 +33,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessJobAdding">
+<!--    <test name="TestRefundProcessJobAdding">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
@@ -41,5 +41,5 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 </suite>
