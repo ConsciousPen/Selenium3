@@ -23,8 +23,10 @@ public class HelperRfi {
     public static void policyServiceRfiValuesCheck(RfiDocumentResponse[] result, String rfiName, String documentType, String status) {
         RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
         CustomAssert.assertTrue(rfiName + " rfiName not existent", allDocuments != null);
-        CustomAssert.assertTrue(rfiName + " has incorrect documentType", documentType.equals(allDocuments.documentType));
-        CustomAssert.assertTrue(rfiName + " has incorrect status", status.equals(allDocuments.status));
+        if(!allDocuments.equals(null)) {
+            CustomAssert.assertTrue(rfiName + " has incorrect documentType", documentType.equals(allDocuments.documentType));
+            CustomAssert.assertTrue(rfiName + " has incorrect status", status.equals(allDocuments.status));
+        }
     }
 
     public static void rfiTagCheck(String query, String tag, String tagValue) {

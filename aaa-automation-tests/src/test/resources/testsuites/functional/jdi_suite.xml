@@ -292,8 +292,8 @@
         </classes>
     </test>
 
-    <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
-        <parameter name="state" value="UT"/>
+    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>

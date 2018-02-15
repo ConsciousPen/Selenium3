@@ -148,7 +148,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-	public void pas6562_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
+	public void pas6562_endorsementValidateNotAllowedNano(@Optional("AZ") String state) {
 
 		pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
 	}
@@ -181,7 +181,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-	public void pas6562_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
+	public void pas6562_endorsementValidateNotAllowedUBI(@Optional("AZ") String state) {
 
 		pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
 	}
@@ -362,7 +362,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
-	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("VA") String state) {
+	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
 
 		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
 	}

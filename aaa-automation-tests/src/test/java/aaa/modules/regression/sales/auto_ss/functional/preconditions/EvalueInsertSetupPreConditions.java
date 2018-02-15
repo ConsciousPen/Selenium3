@@ -8,34 +8,27 @@ public interface EvalueInsertSetupPreConditions {
 	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 
+	//DCS_END_POINT_PAS18_1 = "http://soaqa1.tent.trt.csaa.pri:80";
+	//DCS_END_POINT_PAS18_2 = "http://sit-soaservices.tent.trt.csaa.pri:42000";
+	//DCS_END_POINT_EVALUE = "http://soaqa3.tent.trt.csaa.pri";
+	String DCS_END_POINT = "http://sit-soaservices.tent.trt.csaa.pri:42000";
+
+
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
 	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
 
-/*eValue related endpoints
-    String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
-            + "where propertyname = 'docGenwebClient.endpointUri'";
-
-    String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveAgreementRelatedDocuments'\n"
-            + "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
-
-    String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n"
-            + "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
-*/
 
 	/*PAS18.2 related endpoints*/
 	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
-			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/3.1/StandardDocumentService'\n"
+			+ "set value = '"+ DCS_END_POINT +"/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
 
 	String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveAgreementRelatedDocuments'\n"
+			+ "set value = '"+ DCS_END_POINT +"/1.1/RetrieveAgreementRelatedDocuments'\n"
 			+ "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
 
 	String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveDocument'\n"
+			+ "set value = '"+ DCS_END_POINT +"/1.1/RetrieveDocument'\n"
 			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
 	String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"

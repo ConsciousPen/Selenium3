@@ -265,7 +265,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors.get(0)).contains("OOSE or Future Dated Endorsement Exists");
+			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
 			softly.assertThat(response.ruleSets.get(1).errors.get(0)).contains("UBI Vehicle");
@@ -282,7 +282,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
-		//TODO will fail here due to not in policy term
+		//BUG OSI: new story PAS-9337 Green Button Service - Abracradabra
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -421,7 +421,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createQuote(getPolicyTD());
+		policyType.get().createPolicy(getPolicyTD());
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -532,6 +532,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
+			//BUG PAS-9722 Random sequence for Vehicles on DXP
 			softly.assertThat(response[0].getModelYear()).isEqualTo(modelYear1);
 			softly.assertThat(response[0].getManufacturer()).isEqualTo(manufacturer1);
 			softly.assertThat(response[0].getSeries()).isEqualTo(series1);
@@ -611,9 +612,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value("Premium Calculated");
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer").verify.value("QA QA user");
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(status);
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(date);
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer").verify.value(user);
 	}
 
 	private void convertAgentEndorsementToSystemEndorsement(String policyNumber) {

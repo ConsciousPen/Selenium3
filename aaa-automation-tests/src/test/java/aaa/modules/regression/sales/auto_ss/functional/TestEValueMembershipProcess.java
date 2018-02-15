@@ -370,7 +370,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		transactionHistoryRecordCountCheck(3);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
-
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
