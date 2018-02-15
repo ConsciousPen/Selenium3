@@ -434,6 +434,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.assertAll();
 	}
 
+	/**
+	 * The test is created to check the endpoints and correctness of the methods
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
@@ -479,12 +482,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = Pending.
+	 * @name Test eValue Discount is removed, Membership Discount is not when Membership is required for eValue
+	 * and membership status = Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
 	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount  not removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30
+	 * 2. Check eValue discount removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30:
+	 * Membership discount tag - not present in the document
+	 * Evalue discount tag - present
+	 * Paperless info tag - present
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -523,12 +530,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is required for eValue
+	 * and membership status = Pending, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount  not removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30
+	 * 1. Check Membership discount is removed on NB+30
+	 * 2. Check eValue discount removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30:
+	 * Membership discount tag - present
+	 * Evalue discount tag - present
+	 * Paperless info tag - present
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -567,12 +578,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is required for eValue
+	 * and membership status = Not Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount  not removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30
+	 * 1. Check Membership discount is removed on NB+30
+	 * 2. Check eValue discount removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30:
+	 * Membership discount tag - present
+	 * Evalue discount tag - present
+	 * Paperless info tag - present
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -611,12 +626,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = Pending.
+	 * @name Test eValue Discount is removed but Membership Discount is not removed when Membership is not required for eValue
+	 * and membership status = Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount  not removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30
+	 * 1. Check Membership discount is removed on NB+30
+	 * 2. Check eValue discount removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30:
+	 * Membership discount tag - not present in the document
+	 * Evalue discount tag - present
+	 * Paperless info tag - present
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -658,12 +677,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is not required for eValue
+	 * and membership status = Pending, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount  not removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30
+	 * 1. Check Membership discount is removed on NB+30
+	 * 2. Check eValue discount removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30:
+	 * Membership discount tag - present?
+	 * Evalue discount tag - present
+	 * Paperless info tag - present
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -696,7 +719,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
 		transactionHistoryRecordCountCheck(2);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
-		//TODO check with Karen - document has no Paperless text
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
 		deleteSinglePaperelessPreferenceRequest(requestId);
@@ -706,12 +728,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @name Test eValue Discount is removed Membership Discount is removed when Membership is not required for eValue
+	 * and membership status = Not-Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount  not removed on NB+30
-	 * 3. Check AHDRXX is produced on NB+30
+	 * 1. Check Membership discount is removed on NB+30
+	 * 2. Check eValue discount removed on NB+30
+	 * 3. Check AHDRXX is produced on NB+30:
+	 * Membership discount tag - not present in the document
+	 * Evalue discount tag - present
+	 * Paperless info tag - present
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -753,13 +779,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @name Test eValue Discount when PaperlessPreferences changes.
 	 * @scenario
-	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 0.1. Change Paperless Preferences to Yes, run Jobs on NB+30
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount not removed on NB+30
-	 * 3. Check AHDRXX is NOT produced on NB+30
+	 * 1. Create a policy with eValue discount with Paperless Preferences = Pending
+	 * 2. Run NB+15 jobs, in admin log there is ("eValue Discount Pending Notification Url:") on NB+15
+	 * 3. Before NB + 30 change Paperless Preferences = Yes
+	 * 4. Run NB+30 jobs
+	 * 5. Check eValue discount is not removed
+	 * 6. Check No AHDRXX is produced
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -800,13 +827,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are NOT removed when Membership is required for eValue and membership status = Active, but PaperlessPreferences = No.
+	 * @name Test eValue Discount when PaperlessPreferences changes.
 	 * @scenario
-	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 0.1. Change Paperless Preferences to Yes, run Jobs on NB+30
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 2. Check eValue discount not removed on NB+30
-	 * 3. Check AHDRXX is NOT produced on NB+30
+	 * 1. Create a policy with eValue discount with Paperless Preferences = Pending
+	 * 2. Before NB + 15 change Paperless Preferences = Yes
+	 * 3. Run NB+15 jobs, in admin log there is no("eValue Discount Pending Notification Url:") on NB+15
+	 * 4. Run NB+30 jobs
+	 * 5. Check eValue discount is not removed
+	 * 6. Check No AHDRXX is produced
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -1003,13 +1031,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();
 			//TODO check othe membership number for better randomization
-			//inactiveMembershipNumberList.add("4333333333333457");//Expired                - bad
-			//inactiveMembershipNumberList.add("9920702826992041");//Inactive               - error
+			//inactiveMembershipNumberList.add("4333333333333457");//Expired        - bad
+			//inactiveMembershipNumberList.add("9920702826992041");//Inactive        - error
 			inactiveMembershipNumberList.add("4343433333333335");//FutureDated
-			//inactiveMembershipNumberList.add("4222222222222123");//No Hit                   - error
-			//inactiveMembershipNumberList.add("8800400000000002");//Lapsed                     - Active
-			//inactiveMembershipNumberList.add("4290061311384005");//Pending                  //TODO updated to Active based on some logic
-			//inactiveMembershipNumberList.add("4333333333333338");//Expired                     - error
+			//inactiveMembershipNumberList.add("4222222222222123");//No Hit          - error
+			//inactiveMembershipNumberList.add("8800400000000002");//Lapsed           - Active
+			//inactiveMembershipNumberList.add("4290061311384005");//Pending         //TODO updated to Active based on some logic
+			//inactiveMembershipNumberList.add("4333333333333338");//Expired           - error
 			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
 			log.info("Value used {}", randomInactiveMembershipNumber);
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
@@ -1060,11 +1088,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void eValueDiscountStatusCheck(String policyNumber, String status) {
 		String getEvalueStatusSQL = "select evalueStatus from (\n"
-				+ "    select ps.policynumber, emd.evaluestatus\n"
-				+ "    from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
-				+ "    where ps.ememberdetail_id = emd.id\n"
-				+ "    and ps.policynumber = '%s'\n"
-				+ "    order by emd.id desc)\n"
+				+ "  select ps.policynumber, emd.evaluestatus\n"
+				+ "  from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
+				+ "  where ps.ememberdetail_id = emd.id\n"
+				+ "  and ps.policynumber = '%s'\n"
+				+ "  order by emd.id desc)\n"
 				+ "where rownum = 1";
 		CustomAssert.assertEquals(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).get(), status);
 	}
@@ -1074,8 +1102,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		if (presence) {
 			//TODO check apostrophe in the message
 /*			String membershipLogicNote = "Evalue information / Status was updated as : '" + status + "' for the policy based on Preferences and Membership logic.";
-            NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", membershipLogicNote).getCell("Date/Time").verify
-                    .contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));*/
+      NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", membershipLogicNote).getCell("Date/Time").verify
+          .contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));*/
 			NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", status).getCell("Date/Time").verify
 					.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 		} else {
