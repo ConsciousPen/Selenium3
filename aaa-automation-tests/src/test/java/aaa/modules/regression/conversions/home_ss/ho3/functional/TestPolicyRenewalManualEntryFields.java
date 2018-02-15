@@ -45,7 +45,16 @@ public class TestPolicyRenewalManualEntryFields extends HomeSSHO3BaseTest {
         GeneralTab generalTab = new GeneralTab();
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
+        String reportTabInfo = new ReportsTab().getMetaKey();
+
         TestData td = getConversionPolicyDefaultTD();
+
+        TestData reportTab = td.getTestData(reportTabInfo);
+        td.adjust(reportTabInfo, reportTab);
+
+        reportTab.adjust(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel(),
+                getPolicyDefaultTD().getTestData("ReportsTab").getTestDataList("InsuranceScoreReport"));
+
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
         LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10);

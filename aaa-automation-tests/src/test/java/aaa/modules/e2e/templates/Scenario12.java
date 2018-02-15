@@ -3,35 +3,23 @@ package aaa.modules.e2e.templates;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
-import aaa.helpers.billing.BillingHelper;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
-import aaa.helpers.billing.RemittancePaymentsHelper;
+import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
-import aaa.main.enums.BillingConstants.BillsAndStatementsType;
-import aaa.main.enums.BillingConstants.ExternalPaymentSystem;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -97,7 +85,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size()); 
+		//CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size());
 		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Semi-Annual payment plan").isEqualTo(installmentsCount);
 		
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
@@ -175,7 +163,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonTasks.click();
 		//MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, "Payment received for cancelled policy for possible rewrite.").verify.present();
-		CustomAssertions.assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, 
+		CustomAssertions.assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME,
 				"Payment received for cancelled policy for possible rewrite.")).isPresent();
 		MyWorkSummaryPage.buttonCancel.click();
 	}
@@ -183,7 +171,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void policyReinstatement() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED); 
+		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 		
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData_ReinstateWithLapse")); 
@@ -302,7 +290,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		installmentDueDates_FirstRenewal = BillingHelper.getInstallmentDueDates();
 		//CustomAssert.assertEquals("Billing Installments count for Quarterly (Renewal) payment plan", installmentsCount_FirstRenewal, installmentDueDates_FirstRenewal.size());
-		CustomAssertions.assertThat(installmentDueDates_FirstRenewal.size()).as("Billing Installments count for Quarterly (Renewal) payment plan").isEqualTo(installmentsCount_FirstRenewal); 
+		CustomAssertions.assertThat(installmentDueDates_FirstRenewal.size()).as("Billing Installments count for Quarterly (Renewal) payment plan").isEqualTo(installmentsCount_FirstRenewal);
 		
 	} 
 	
@@ -352,8 +340,8 @@ public class Scenario12 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		
 		installmentDueDates_FirstRenewal = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Quarterly (Renewal) payment plan", installmentsCount_FirstRenewal, installmentDueDates_FirstRenewal.size()); 
-		CustomAssertions.assertThat(installmentDueDates_FirstRenewal.size()).as("Billing Installments count for Quarterly (Renewal) payment plan").isEqualTo(installmentsCount_FirstRenewal); 
+		//CustomAssert.assertEquals("Billing Installments count for Quarterly (Renewal) payment plan", installmentsCount_FirstRenewal, installmentDueDates_FirstRenewal.size());
+		CustomAssertions.assertThat(installmentDueDates_FirstRenewal.size()).as("Billing Installments count for Quarterly (Renewal) payment plan").isEqualTo(installmentsCount_FirstRenewal);
 		
 		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent();
 		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).verifyPresent();
@@ -518,7 +506,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		
 		installmentDueDates_SecondRenewal = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Semi-Annual (Renewal) payment plan",	installmentsCount_SecondRenewal, installmentDueDates_SecondRenewal.size()); 
+		//CustomAssert.assertEquals("Billing Installments count for Semi-Annual (Renewal) payment plan",	installmentsCount_SecondRenewal, installmentDueDates_SecondRenewal.size());
 		CustomAssertions.assertThat(installmentDueDates_SecondRenewal.size()).as("Billing Installments count for Semi-Annual (Renewal) payment plan").isEqualTo(installmentsCount_SecondRenewal);
 
 		//verifyRenewalOfferPaymentAmount(policyExpirationDate, renewOfferDate, billGenDate, installmentsCount_FirstRenewal);

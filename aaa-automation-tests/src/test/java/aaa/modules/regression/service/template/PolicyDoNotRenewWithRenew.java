@@ -33,7 +33,7 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 	protected String policyNumber;
 	protected LocalDateTime policyExpirationDate;
 
-	protected void TC01_CreatePolicyAddDoNotRenew() {
+	protected void TC01_CreatePolicyAddDoNotRenewTemplate() {
 		mainApp().open();
 		getCopiedPolicy();
 		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
@@ -45,7 +45,7 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 		PolicySummaryPage.labelDoNotRenew.verify.present();
 	}
 	
-	protected void TC02_RenewPolicy(){
+	protected void TC02_RenewPolicyTemplate(){
 		log.info("TEST: Renew Policy #" + policyNumber);
 		LocalDateTime renewDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDate);

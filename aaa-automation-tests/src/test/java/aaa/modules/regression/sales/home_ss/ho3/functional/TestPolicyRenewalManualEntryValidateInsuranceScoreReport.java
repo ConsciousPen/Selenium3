@@ -19,7 +19,7 @@ import toolkit.utils.TestInfo;
 
 import java.util.ArrayList;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends HomeSSHO3BaseTest {
     @Parameters({"state"})
@@ -49,7 +49,7 @@ public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends Ho
         customer.initiateRenewalEntry().perform(getTestSpecificTD("TD_Renewal_Actions"));
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.MORTGAGEE_AND_ADDITIONAL_INTERESTS.get());
-        assertThat(mortgageesTab.getAssetList().getAsset(HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel()).isPresent());
+        assertThat(mortgageesTab.getAssetList().getAsset(HomeSSMetaData.MortgageesTab.MORTGAGEE)).isPresent();
     }
 
     @Parameters({"state"})

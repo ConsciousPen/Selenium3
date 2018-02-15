@@ -101,27 +101,14 @@ PAS-7673:
       messages: ["Cannot set value of AssetList {PurchaseTab"]
     - tests: [aaa.modules.e2e]
       messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
-
-OSI-1112:
-  summary: "OSI: the test passes locally, but fails in Jenkins"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences.pas283_eValuePaperlessPreferences]
-      messages: ["unknown error: Element"]
-OSI-1114:
-  summary: "OSI: the test passes locally, but fails in Jenkins"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas436_eValueDiscountVariations]
-      messages: ["LoginPanel is displayed expected"]
 OSI-1115:
   summary: "OSI: question to Karen about UMBI=No Coverage, which is not applicable for IN"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["Cannot set value"]
+      messages: ["Cannot set value*Has the customer expressed interest in purchasing the quote", "The selected limit of Uninsured Motorist Property Damage coverage"]
 OSI-1116:
-  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesn't"
+  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesnt"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]

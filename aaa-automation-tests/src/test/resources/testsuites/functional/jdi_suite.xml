@@ -16,7 +16,7 @@
             </class>
         </classes>
     </test>
-<!--    <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
+    <test name="TestEValueMembershipProcessJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
@@ -24,10 +24,41 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
-
-
-<!--    <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
+    </test>
+    <test name="TestRefundProcess" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessageCredit"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessageDebit"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessMD" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas5743_EnterTooMuchAndGetMessageEft"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessCT" parallel="methods" thread-count="1024">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -37,8 +68,8 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
-<!--    <test name="TestRefundProcessDC" parallel="methods" thread-count="1024">
+    </test>
+    <test name="TestRefundProcessDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -48,8 +79,8 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
-    <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
+    </test>
+       <test name="TestEValueDiscountVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -61,7 +92,6 @@
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
@@ -72,6 +102,7 @@
                     <include name="pas436_eValueDiscountVariations"/>
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
+                    <include name="pas333_eValueDiscountRemovedBySystem"/>
                 </methods>
             </class>
         </classes>
@@ -203,7 +234,7 @@
         </classes>
     </test>
 
-<!--    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
+    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
@@ -222,7 +253,7 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
+    </test>
     <test name="TestEValueDiscountDCandVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC, VA"/>
         <classes>
@@ -234,12 +265,12 @@
             </class>
         </classes>
     </test>
-<!--    <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
+    <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
         </classes>
-    </test>-->
+    </test>
     <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, PA"/>
         <classes>
@@ -253,11 +284,12 @@
         </classes>
     </test>
 
-<!--    <test name="GreenButtonService" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
+                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
                     <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
@@ -266,14 +298,33 @@
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                    <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
+                    <include name="pas8275_vinValidate"/>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                 </methods>
             </class>
         </classes>
-    </test>-->
+    </test>
+    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
+                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, WV, WY"/>
-        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>

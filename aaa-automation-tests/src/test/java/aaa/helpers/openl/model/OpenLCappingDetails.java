@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 import aaa.utils.excel.bind.ExcelTableColumnElement;
 
 public class OpenLCappingDetails {
-	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
-	private Integer number;
-	private LocalDateTime plcyInceptionDate;
-	private String state;
-	private Integer term;
+	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	protected Integer number;
+
+	protected LocalDateTime plcyInceptionDate;
 
 	public Integer getNumber() {
 		return number;
@@ -26,19 +25,11 @@ public class OpenLCappingDetails {
 		this.plcyInceptionDate = plcyInceptionDate;
 	}
 
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public Integer getTerm() {
-		return term;
-	}
-
-	public void setTerm(Integer term) {
-		this.term = term;
+	@Override
+	public String toString() {
+		return "OpenLCappingDetails{" +
+				"number=" + number +
+				", plcyInceptionDate=" + plcyInceptionDate +
+				'}';
 	}
 }

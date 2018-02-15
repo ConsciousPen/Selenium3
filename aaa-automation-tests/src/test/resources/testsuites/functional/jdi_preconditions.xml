@@ -22,4 +22,10 @@
         </classes>
     </test>
 
+    <test name="MiniServicesPreconditions">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.MiniServicesSetup"/>
+        </classes>
+    </test>
+
 </suite>

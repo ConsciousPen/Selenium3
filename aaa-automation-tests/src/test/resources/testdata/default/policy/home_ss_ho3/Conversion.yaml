@@ -3,7 +3,7 @@
 TestData_UT: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_UT',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -47,6 +47,16 @@ AAAMembership: {
   Last name: Smith
 }
 
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 PremiumsAndCoveragesQuoteTab: {
   Payment plan: 'Eleven Pay Standard (Renewal)',
   Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
@@ -58,7 +68,7 @@ PremiumsAndCoveragesQuoteTab: {
 TestData_AZ: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_AZ',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -85,7 +95,7 @@ ApplicantTab_AZ: {
 TestData_CO: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_CO',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_CO',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -112,7 +122,7 @@ ApplicantTab_CO: {
 TestData_CT: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_CT',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_CT',
+  ReportsTab: '@ReportsTab_CT',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -134,12 +144,22 @@ ApplicantTab_CT: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_CT'
 }
 
+ReportsTab_CT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for DC ---------------
 
 TestData_DC: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_DC',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_DC',
+  ReportsTab: '@ReportsTab_DC',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -161,12 +181,21 @@ ApplicantTab_DC: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DC'
 }
 
+ReportsTab_DC: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for DE ---------------
 
 TestData_DE: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_DE',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_DE',
+  ReportsTab: '@ReportsTab_DE',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -188,12 +217,22 @@ ApplicantTab_DE: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DE'
 }
 
+ReportsTab_DE: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for ID ---------------
 
 TestData_ID: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_ID',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -220,7 +259,7 @@ ApplicantTab_ID: {
 TestData_IN: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_IN',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_IN',
+  ReportsTab: '@ReportsTab_IN',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_IN',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -242,12 +281,21 @@ ApplicantTab_IN: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_IN'
 }
 
+ReportsTab_IN: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for KS ---------------
 
 TestData_KS: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_KS',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_KS',
+  ReportsTab: '@ReportsTab_KS',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_KS',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -269,12 +317,21 @@ ApplicantTab_KS: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KS'
 }
 
+ReportsTab_KS: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for KY ---------------
 
 TestData_KY: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_KY',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_KY',
+  ReportsTab: '@ReportsTab_KY',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_KY',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -296,12 +353,21 @@ ApplicantTab_KY: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KY'
 }
 
+ReportsTab_KY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for MD ---------------
 
 TestData_MD: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_MD',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_MD',
+  ReportsTab: '@ReportsTab_MD',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -323,12 +389,21 @@ ApplicantTab_MD: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_MD'
 }
 
+ReportsTab_MD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for MT ---------------
 
 TestData_MT: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_MT',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_MT',
+  ReportsTab: '@ReportsTab_MT',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -350,12 +425,21 @@ ApplicantTab_MT: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_MT'
 }
 
+ReportsTab_MT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for NJ ---------------
 
 TestData_NJ: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_NJ',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_NJ',
+  ReportsTab: '@ReportsTab_NJ',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -377,12 +461,22 @@ ApplicantTab_NJ: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_NJ'
 }
 
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for NV ---------------
 
 TestData_NV: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_NV',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -409,7 +503,7 @@ ApplicantTab_NV: {
 TestData_NY: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_NY',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_NY',
+  ReportsTab: '@ReportsTab_NY',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -431,12 +525,21 @@ ApplicantTab_NY: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_NY'
 }
 
+ReportsTab_NY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for OH ---------------
 
 TestData_OH: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_OH',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_OH',
+  ReportsTab: '@ReportsTab_OH',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_OH',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -458,12 +561,21 @@ ApplicantTab_OH: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OH'
 }
 
+ReportsTab_OH: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for OK ---------------
 
 TestData_OK: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_OK',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_OK',
+  ReportsTab: '@ReportsTab_OK',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_OK',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -485,12 +597,21 @@ ApplicantTab_OK: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OK'
 }
 
+ReportsTab_OK: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for OR ---------------
 
 TestData_OR: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_OR',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -517,7 +638,7 @@ ApplicantTab_OR: {
 TestData_PA: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_PA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_PA',
+  ReportsTab: '@ReportsTab_PA',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -539,12 +660,21 @@ ApplicantTab_PA: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_PA'
 }
 
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for SD ---------------
 
 TestData_SD: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_SD',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_SD',
+  ReportsTab: '@ReportsTab_SD',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_SD',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -566,12 +696,21 @@ ApplicantTab_SD: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_SD'
 }
 
+ReportsTab_SD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for VA ---------------
 
 TestData_VA: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_VA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
+  ReportsTab: '@ReportsTab_VA',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -593,12 +732,22 @@ ApplicantTab_VA: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_VA'
 }
 
+ReportsTab_VA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for WV ---------------
 
 TestData_WV: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_WV',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_WV',
+  ReportsTab: '@ReportsTab_WV',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_WV',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -620,12 +769,21 @@ ApplicantTab_WV: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_WV'
 }
 
+ReportsTab_WV: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
+}
+
 # ---------- Conversion Data for WY ---------------
 
 TestData_WY: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_WY',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_WY',
+  ReportsTab: '@ReportsTab_WY',
   PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
@@ -645,4 +803,13 @@ ApplicantTab_WY: {
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: {},
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_WY'
+}
+
+ReportsTab_WY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  OrderInternalClaims: [{Action: 'Order report'}]
 }

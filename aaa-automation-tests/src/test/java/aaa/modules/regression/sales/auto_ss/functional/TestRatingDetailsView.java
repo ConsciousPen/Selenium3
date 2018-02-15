@@ -45,7 +45,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testDataAdjusted, VehicleTab.class, true);
 
-		NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 

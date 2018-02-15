@@ -4,34 +4,35 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.annotation.Nonnull;
-import aaa.utils.excel.io.entity.ExcelCell;
-import aaa.utils.excel.io.entity.ExcelRow;
+import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.queue.CellsQueue;
 
-public class CellIterator implements Iterator<ExcelCell> {
-	private ExcelRow row;
-	private List<Integer> cellIndexes;
-	private int currentIndex;
+public class CellIterator<C extends ExcelCell> implements Iterator<C> {
+	private CellsQueue cellsQueue;
+	private List<Integer> cellsIndexes;
+	private Integer currentIndex;
 
 	@Nonnull
-	public CellIterator(ExcelRow row) {
-		this.row = row;
-		this.cellIndexes = row.getColumnNumbers();
-		this.currentIndex = row.getFirstColumnNumber();
+	public CellIterator(CellsQueue cellsQueue) {
+		this.cellsQueue = cellsQueue;
+		this.cellsIndexes = cellsQueue.getCellsIndexes();
+		this.currentIndex = cellsQueue.getFirstCellIndex();
 	}
 
 	@Override
 	public boolean hasNext() {
-		return row.hasColumn(currentIndex);
+		return cellsQueue.hasCell(currentIndex);
 	}
 
 	@Override
-	public ExcelCell next() {
+	@SuppressWarnings("unchecked")
+	public C next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("There is no next cell");
 		}
-		ExcelCell returnCell = row.getCell(currentIndex);
-		cellIndexes.remove(currentIndex);
-		currentIndex = cellIndexes.get(0);
+		C returnCell = (C) cellsQueue.getCell(currentIndex);
+		cellsIndexes.remove(currentIndex);
+		currentIndex = cellsIndexes.isEmpty() ? -1 : cellsIndexes.get(0);
 		return returnCell;
 	}
 }

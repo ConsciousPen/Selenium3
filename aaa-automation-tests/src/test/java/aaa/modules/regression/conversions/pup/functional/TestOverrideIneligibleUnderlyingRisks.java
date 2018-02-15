@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.conversions.pup.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -57,8 +57,9 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 						PersonalUmbrellaMetaData.PrefillTab.NamedInsured.TRUSTEE.getLabel()), "Yes");
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), TimeSetterUtil.getInstance().getCurrentTime().plusDays(30));
-		policy.getDefaultView().fillUpTo(testdata, BindTab.class);
-		overrideAndBind();
+		policy.getDefaultView().fillUpTo(testdata, BindTab.class, true);
+		bindTab.submitTab();
+		verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
 
 	/**
@@ -89,22 +90,9 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 						PersonalUmbrellaMetaData.PrefillTab.NamedInsured.TRUSTEE.getLabel()), "Yes");
 
 		PolicyType.PUP.get().initiate();
-		policy.getDefaultView().fillUpTo(testdata, BindTab.class);
-		overrideAndBind();
-	}
-
-	private void overrideAndBind() {
+		policy.getDefaultView().fillUpTo(testdata, BindTab.class, true);
 		bindTab.submitTab();
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
-		errorTab.overrideAllErrors();
-		errorTab.override();
-		bindTab.submitTab();
-
-		if(!PolicySummaryPage.labelPolicyNumber.isPresent()){
-			purchaseTab.fillTab(getPolicyTD());
-			purchaseTab.submitTab();
-		}
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        verifyErrorsAndOverride(ErrorEnum.Errors.ERROR_AAA_PUP_SS7160072);
 	}
 }
 

@@ -101,8 +101,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Initiate manual conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         TestData policy2 = DataProviderFactory.emptyData().adjust(policyData.resolveLinks()).resolveLinks();
-        policy.getDefaultView().fillUpTo(prepareConvTD(policyData)
-                , PremiumAndCoveragesTab.class, true);
+        policy.getDefaultView().fillUpTo(prepareConvTD(policyData), PremiumAndCoveragesTab.class, true);
+        PremiumAndCoveragesTab.calculatePremium();
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
         premiumValue = new Dollar(convParams.get("Premium"));
@@ -168,6 +168,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         new AutoSSPolicyActions.DataGather().start();
         PremiumAndCoveragesTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         mainApp().close();
         return result;
     }

@@ -39,7 +39,7 @@ public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6166")
-	public void pas6166_vehPageStatCodes(@Optional("") String state) {
+	public void pas6166_vehPageStatCodes(@Optional("UT") String state) {
 
 		//Adjust default test data to use a junk vin on the vehicle tab (junk vin will not have vin match) and enter other vehicle info fields
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1FDEU15H7KL055795")

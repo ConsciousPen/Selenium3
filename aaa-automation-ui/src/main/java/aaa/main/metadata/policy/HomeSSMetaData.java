@@ -186,10 +186,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<AssetList> ACTIVE_UNDERLYING_POLICIES_MANUAL = declare("ActiveUnderlyingPoliciesManual", AssetList.class, OtherActiveAAAPoliciesManual.class);
 
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
-				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.AJAX,
-						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyType"));
-				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX,
-						By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:policySearchReqest_AAAHOOtherOrPriorActivePolicySearch_policySearchRequestDto_policyNumber"));
+				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
 			}
 
 			public static final class OtherActiveAAAPoliciesManual extends MetaData {
@@ -231,6 +229,8 @@ public final class HomeSSMetaData {
 				.xpath("//table[@id='policyDataGatherForm:ppcReportTable']"));
 		public static final AssetDescriptor<FillableTable> CLUE_REPORT = declare("CLUEreport", FillableTable.class, CLUEreportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
+		public static final AssetDescriptor<FillableTable> ORDER_INTERNAL_CLAIMS = declare("OrderInternalClaims", FillableTable.class, OrderInternalClaimsRow.class, By
+				.xpath("//table[@id='policyDataGatherForm:orderInternalClaimsReports']"));
 		public static final AssetDescriptor<FillableTable> ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
 		public static final AssetDescriptor<StaticElement> WARNING_MESSAGE_BOX = declare("Warning Message Box", StaticElement.class, By
@@ -317,6 +317,12 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
+		}
+
+		public static final class OrderInternalClaimsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
+			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
 		}
 
 		public static final class ISO360ReportRow extends MetaData {
@@ -1413,7 +1419,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> CAPPING_OVERRIDE_REASON = declare("Capping Override Reason", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> BUTTON_TO_PREMIUM_AND_COVERAGES = declare("Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingReturnTo"));
 			public static final AssetDescriptor<Button> BUTTON_CALCULATE  = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
-			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES  = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingSave"));
+			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES  = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
+					false, By.id("cappingDetailsPopupPanel:cappingSave"));
 		}
 	}
 
@@ -1627,8 +1634,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> OHIO_MINE_SUBSIDENCE_INSURANCE_UNDERWRITING_ASSOSIATION_APPLICATION = declare(
 					"Ohio Mine Subsidence Insurance Underwriting Association Application", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_LEAD_LIABILITY_AFFECTED_PROPERTY_REGISTERED_DOE = declare(
-					"Proof lead liability \"affected property\" is registered with the Department of Environment and meets their requirements", RadioGroup.class,
-					Waiters.AJAX);
+					"Proof lead liability \"affected property\" is registered with the Department of Environment and meets their requirements", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> KENTUCKY_MINE_SUBSIDENCE_INSURANCE_FUND_WAIVER_FORM = declare("Kentucky Mine Subsidence Insurance Fund Waiver Form", RadioGroup.class,
 					Waiters.AJAX);
 		}

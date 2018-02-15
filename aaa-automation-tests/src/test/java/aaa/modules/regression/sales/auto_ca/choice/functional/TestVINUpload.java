@@ -1,11 +1,13 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -48,6 +50,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 *
 	 * PAS-1406 Data Refresh
 	 * PAS-527 Renewal Refresh - Add New VIN & Update Existing
+	 * PAS-938 Throw Rerate Error if User Skips P&C Page after a quote is a day old
 	 * See detailed steps in template file
 	 * {@link TestVINUploadTemplate#newVinAddedRenewal(String, String)}
 	 */
@@ -84,7 +87,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 * PAS-2714 New Liability Symbols
 	 *
 	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#endorsement(String, String)}
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
@@ -208,5 +210,21 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		 * Automated Renewal R-35 Expiration Date
 		 */
 		pas2716_AutomatedRenewal(policyNumber, policyExpirationDate.minusDays(35), NEW_VIN);
+	}
+
+	/**
+	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
+	 each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
+	 tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
+
+	 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
+	 files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
+	 this after method should be updated. But such updates are not supposed to be done.
+	 Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
+	 */
+	@AfterMethod(alwaysRun = true)
+	protected void vinTablesCleaner() {
+		String configNames = "('SYMBOL_2000_CHOICE_T')";
+		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
 	}
 }

@@ -48,9 +48,9 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
 
 	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
-	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
+	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
-	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
+	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));

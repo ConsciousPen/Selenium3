@@ -39,6 +39,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Table tableTotalDwellingSummary = new Table(By.id("policyDataGatherForm:dwellingSummaryTable"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
 	public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingHODetailsPopup"), Waiters.AJAX);
+	public static Link linkViewRatingDetailsPUP = new Link(By.id("policyDataGatherForm:ratingPUPDetailsPopupLink"), Waiters.AJAX);
 	//	public static Table tableOverrideValues = new Table(By.xpath("//div[@id='coverage_information']/table[class='width100']"));
 	public static TextBox textBoxOverrideFlatAmount =
 			new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:deltaPremiumAmt']"), Waiters.AJAX);
@@ -154,6 +155,20 @@ public abstract class PropertyQuoteTab extends Tab {
 
 		public static void close() {
 			btn_Ok.click();
+		}
+
+	}
+
+	public static class RatingDetailsViewPUP {
+		public static RatingDetailsTable policyInformation = new RatingDetailsTable("//table[@id='pupratingDetailsPopupForm:ratingDetailsTable']");
+		public static RatingDetailsTable pupInformation = new RatingDetailsTable("//table[@id='pupratingDetailsPopupForm_1:ratingDetailsTable']");
+
+		public static void open() {
+			linkViewRatingDetailsPUP.click();
+		}
+
+		public static void close() {
+			RatingDetailsView.btn_Ok.click();
 		}
 
 	}

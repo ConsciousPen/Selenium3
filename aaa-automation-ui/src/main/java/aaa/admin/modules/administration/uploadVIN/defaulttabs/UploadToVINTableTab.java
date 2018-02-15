@@ -7,11 +7,15 @@ import java.io.File;
 import org.openqa.selenium.By;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class UploadToVINTableTab extends DefaultTab {
+
+	protected static Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
 
 	public UploadToVINTableTab() {
 		super(AdministrationMetaData.VinTableTab.class);
@@ -42,7 +46,10 @@ public class UploadToVINTableTab extends DefaultTab {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
 				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
-		if (!labelUploadSuccessful.isPresent()) {
+		if (labelUploadSuccessful.isPresent()) {
+			log.info("File {} was uploaded successfully", fileName);
+		}
+		else {
 			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
 		}
 	}
