@@ -3,6 +3,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
+
 import org.openqa.selenium.By;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -35,7 +36,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
 	public static Table autoPaySetupSavingMessage = new Table (By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
-	public static Table tableCappedPolicyPremium = new Table (By.xpath("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table"));
+	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable ("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
