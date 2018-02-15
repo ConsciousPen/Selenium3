@@ -32,7 +32,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test(description = "Precondition")
+	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
 		assertSoftly(softly -> {
 			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
