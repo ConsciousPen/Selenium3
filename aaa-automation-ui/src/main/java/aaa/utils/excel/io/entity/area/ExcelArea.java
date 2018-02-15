@@ -111,6 +111,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return new ArrayList<>(getAreaIndexesAndColumnsMap().values());
 	}
 
+	public boolean isEmpty() {
+		return getRowsNumber() == 0 || getRows().stream().allMatch(ROW::isEmpty);
+	}
+
 	protected List<Integer> getColumnsIndexesOnSheet() {
 		return new ArrayList<>(this.columnsIndexesOnSheet);
 	}

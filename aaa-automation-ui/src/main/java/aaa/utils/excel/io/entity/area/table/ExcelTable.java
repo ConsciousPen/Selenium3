@@ -186,24 +186,44 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	public int getColumnIndex(String headerColumnName) {
-		return getHeader().getColumnIndex(headerColumnName);
+		return getColumnIndex(headerColumnName, false);
+	}
+
+	public int getColumnIndex(String headerColumnName, boolean ignoreCase) {
+		return getHeader().getColumnIndex(headerColumnName, ignoreCase);
 	}
 
 	public boolean hasColumn(String headerColumnName) {
-		return getHeader().hasColumn(headerColumnName);
+		return hasColumn(headerColumnName, false);
+	}
+
+	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
+		return getHeader().hasColumn(headerColumnName, ignoreCase);
 	}
 
 	public TableColumn getColumn(String headerColumnName) {
-		return getColumn(getColumnIndex(headerColumnName));
+		return getColumn(headerColumnName, false);
+	}
+
+	public TableColumn getColumn(String headerColumnName, boolean ignoreCase) {
+		return getColumn(getColumnIndex(headerColumnName, ignoreCase));
 	}
 
 	public TableRow getRow(String headerColumnName, Object cellValue) {
-		return getRows(headerColumnName, cellValue).get(0);
+		return getRow(headerColumnName, false, cellValue);
+	}
+
+	public TableRow getRow(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
+		return getRows(headerColumnName, ignoreHeaderColumnCase, cellValue).get(0);
 	}
 
 	public List<TableRow> getRows(String headerColumnName, Object cellValue) {
+		return getRows(headerColumnName, false, cellValue);
+	}
+
+	public List<TableRow> getRows(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
 		List<TableRow> foundRows = getRows();
-		foundRows = foundRows.stream().filter(r -> r.hasValue(headerColumnName, cellValue)).collect(Collectors.toList());
+		foundRows = foundRows.stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).collect(Collectors.toList());
 		assertThat(foundRows).as("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName).isNotEmpty();
 		return foundRows;
 	}
@@ -222,20 +242,31 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	public TableCell getCell(int rowIndex, String headerColumnName) {
-		return getRow(rowIndex).getCell(headerColumnName);
+		return getCell(rowIndex, headerColumnName, false);
+	}
+
+	public TableCell getCell(int rowIndex, String headerColumnName, boolean ignoreCase) {
+		return getRow(rowIndex).getCell(headerColumnName, ignoreCase);
 	}
 
 	public Object getValue(int rowIndex, String headerColumnName) {
-		return getCell(rowIndex, headerColumnName).getValue();
+		return getValue(rowIndex, headerColumnName, false);
+	}
+
+	public Object getValue(int rowIndex, String headerColumnName, boolean ignoreCase) {
+		return getCell(rowIndex, headerColumnName, ignoreCase).getValue();
 	}
 
 	public String getStringValue(int rowIndex, String headerColumnName) {
-		return getCell(rowIndex, headerColumnName).getStringValue();
+		return getStringValue(rowIndex, headerColumnName, false);
+	}
+
+	public String getStringValue(int rowIndex, String headerColumnName, boolean ignoreCase) {
+		return getCell(rowIndex, headerColumnName, ignoreCase).getStringValue();
 	}
 
 	public ExcelTable clearRow(String headerColumnName, Object cellValue) {
-		getRow(headerColumnName, cellValue).clear();
-		return this;
+		return ((TableRow) getRow(headerColumnName, cellValue).clear()).getTable();
 	}
 
 	public ExcelTable clearColumns(String... headerColumnNames) {

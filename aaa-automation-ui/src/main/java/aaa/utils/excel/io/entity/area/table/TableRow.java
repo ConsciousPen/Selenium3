@@ -77,14 +77,26 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public boolean hasColumn(String headerColumnName) {
-		return getTable().getHeader().hasColumn(headerColumnName);
+		return hasColumn(headerColumnName, false);
+	}
+
+	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
+		return getTable().getHeader().hasColumn(headerColumnName, ignoreCase);
 	}
 
 	public int getIndex(String headerColumnName) {
+		return getIndex(headerColumnName, false);
+	}
+
+	public int getIndex(String headerColumnName, boolean ignoreCase) {
 		return getTable().getHeader().getColumnIndex(headerColumnName);
 	}
 
 	public int getIndexOnSheet(String headerColumnName) {
+		return getIndexOnSheet(headerColumnName, false);
+	}
+
+	public int getIndexOnSheet(String headerColumnName, boolean ignoreCase) {
 		return getTable().getHeader().getColumnIndexOnSheet(headerColumnName);
 	}
 
@@ -97,8 +109,12 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public TableCell getCell(String headerColumnName) {
-		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
-		return getCells().stream().filter(c -> c.getHeaderColumnName().equals(headerColumnName)).findFirst().get();
+		return getCell(headerColumnName, false);
+	}
+
+	public TableCell getCell(String headerColumnName, boolean ignoreCase) {
+		assertThat(hasColumn(headerColumnName, ignoreCase)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
+		return getTable().getColumn(headerColumnName, ignoreCase).getCell(getIndex());
 	}
 
 	public Object getValue(String headerColumnName) {
@@ -134,11 +150,19 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public boolean hasValue(String headerColumnName, Object expectedValue, DateTimeFormatter... formatters) {
-		return hasValue(getIndex(headerColumnName), expectedValue, formatters);
+		return hasValue(headerColumnName, false, expectedValue, formatters);
+	}
+
+	public boolean hasValue(String headerColumnName, boolean ignoreHeaderColumnNameCase, Object expectedValue, DateTimeFormatter... formatters) {
+		return hasValue(getIndex(headerColumnName, ignoreHeaderColumnNameCase), expectedValue, formatters);
 	}
 
 	public boolean isEmpty(String headerColumnName) {
-		return isEmpty(getIndex(headerColumnName));
+		return isEmpty(headerColumnName, false);
+	}
+
+	public boolean isEmpty(String headerColumnName, boolean ignoreCase) {
+		return isEmpty(getIndex(headerColumnName, ignoreCase));
 	}
 
 	public int getSum(String... headerColumnNames) {

@@ -207,6 +207,18 @@ public abstract class ExcelCell implements Writable {
 		return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
 	}
 
+	public boolean hasStringValue(String expectedValue) {
+		return hasStringValue(expectedValue, false);
+	}
+
+	public boolean hasStringValue(String expectedValue, boolean ignoreCase) {
+		String actualValue = getStringValue();
+		if (actualValue == null) {
+			return Objects.equals(actualValue, expectedValue);
+		}
+		return ignoreCase ? actualValue.equalsIgnoreCase(expectedValue) : actualValue.equals(expectedValue);
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
 		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);

@@ -45,6 +45,10 @@ public class TableColumn extends ExcelColumn<TableCell> {
 	}
 
 	public TableColumn copy(String destinationHeaderColumnName) {
-		return (TableColumn) copy(getTable().getColumnIndex(destinationHeaderColumnName));
+		return copy(destinationHeaderColumnName, false);
+	}
+
+	public TableColumn copy(String destinationHeaderColumnName, boolean ignoreCase) {
+		return (TableColumn) copy(getTable().getColumnIndex(destinationHeaderColumnName, ignoreCase));
 	}
 }

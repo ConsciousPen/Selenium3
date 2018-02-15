@@ -1,4 +1,4 @@
-package aaa.utils.excel.bind;
+package aaa.utils.excel.bind.helper;
 
 import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
@@ -8,36 +8,10 @@ import java.util.stream.Collectors;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import toolkit.exceptions.IstfException;
 
-public class TableColumnFieldProperties {
-	private static final String IGNORE_CASE_METHOD_NAME = "ignoreCase";
+public class ColumnFieldHelper {
 	private static final String COLUMN_NAME_METHOD_NAME = "name";
-	private String name;
-	private boolean ignoreCase;
-
-	public TableColumnFieldProperties(Field tableColumnField) {
-		this(getHeaderColumnName(tableColumnField), isCaseIgnored(tableColumnField));
-	}
-
-	public TableColumnFieldProperties(String name, boolean ignoreCase) {
-		this.name = name;
-		this.ignoreCase = ignoreCase;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isIgnoreCase() {
-		return ignoreCase;
-	}
-
-	public void setIgnoreCase(boolean ignoreCase) {
-		this.ignoreCase = ignoreCase;
-	}
+	private static final String IGNORE_CASE_METHOD_NAME = "ignoreCase";
+	private static final String PRIMARY_KEY_SSEPARATOR_METHOD_NAME = "primaryKeysSeparator";
 
 	public static Field getPrimaryKeyField(Class<?> tableRowClass) {
 		for (Field field : BindHelper.getAllAccessibleFieldsFromThisAndSuperClasses(tableRowClass)) {
@@ -52,7 +26,7 @@ public class TableColumnFieldProperties {
 		if (primaryKeyField.isAnnotationPresent(ExcelTableColumnElement.class)) {
 			return primaryKeyField.getAnnotation(ExcelTableColumnElement.class).primaryKeysSeparator();
 		}
-		return (String) BindHelper.getAnnotationDefaultValue(ExcelTableColumnElement.class, "primaryKeysSeparator");
+		return (String) BindHelper.getAnnotationDefaultValue(ExcelTableColumnElement.class, PRIMARY_KEY_SSEPARATOR_METHOD_NAME);
 	}
 
 	public static String getHeaderColumnName(Field tableColumnField) {
@@ -64,7 +38,7 @@ public class TableColumnFieldProperties {
 	}
 
 	public static List<String> getHeaderColumnNames(List<Field> tableColumnsFields) {
-		return tableColumnsFields.stream().map(TableColumnFieldProperties::getHeaderColumnName).collect(Collectors.toList());
+		return tableColumnsFields.stream().map(ColumnFieldHelper::getHeaderColumnName).collect(Collectors.toList());
 	}
 
 	public static boolean isCaseIgnored(Field tableField) {

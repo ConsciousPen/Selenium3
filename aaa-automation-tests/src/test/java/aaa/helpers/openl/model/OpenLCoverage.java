@@ -6,6 +6,9 @@ public class OpenLCoverage {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
+	@ExcelTableColumnElement(ignoreCase = true)
+	protected String coverageCd;
+
 	protected String limit;
 
 	public Integer getNumber() {
@@ -14,6 +17,14 @@ public class OpenLCoverage {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public String getCoverageCd() {
+		return coverageCd;
+	}
+
+	public void setCoverageCd(String coverageCd) {
+		this.coverageCd = coverageCd;
 	}
 
 	public String getLimit() {
@@ -28,6 +39,7 @@ public class OpenLCoverage {
 	public String toString() {
 		return "OpenLCoverage{" +
 				"number=" + number +
+				", coverageCd='" + coverageCd + '\'' +
 				", limit='" + limit + '\'' +
 				'}';
 	}

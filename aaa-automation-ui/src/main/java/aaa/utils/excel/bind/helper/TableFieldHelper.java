@@ -1,15 +1,15 @@
-package aaa.utils.excel.bind;
+package aaa.utils.excel.bind.helper;
 
 import java.lang.reflect.Field;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.io.entity.area.table.TableRow;
 
-public class TableFieldProperties {
+public class TableFieldHelper {
 	private static final String HEADER_ROW_INDEX_METHOD_NAME = "headerRowIndex";
 	private static final String IGNORE_CASE_METHOD_NAME = "ignoreCase";
 
 	public static String getPrimaryKeyValue(Field primaryKeyField, TableRow tableRow) {
-		return tableRow.getStringValue(TableColumnFieldProperties.getHeaderColumnName(primaryKeyField));
+		return tableRow.getStringValue(ColumnFieldHelper.getHeaderColumnName(primaryKeyField));
 	}
 
 	public static int getHeaderRowIndex(Field tableField) {

@@ -5,6 +5,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 public class OpenLPolicy {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
+
 	protected String policyNumber;
 
 	public Integer getNumber() {

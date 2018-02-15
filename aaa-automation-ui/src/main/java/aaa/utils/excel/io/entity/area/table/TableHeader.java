@@ -46,13 +46,23 @@ public class TableHeader extends TableRow {
 
 	@Override
 	public boolean hasColumn(String headerColumnName) {
-		return getColumnsNames().contains(headerColumnName);
+		return hasColumn(headerColumnName, false);
+	}
+
+	@Override
+	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
+		return getColumnsNames().stream().anyMatch(cn -> ignoreCase? cn.equalsIgnoreCase(headerColumnName) : cn.equals(headerColumnName));
 	}
 
 	@Override
 	public TableCell getCell(String headerColumnName) {
-		assertThat(hasColumn(headerColumnName)).as("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()).isTrue();
-		return getCells().stream().filter(c -> c.hasValue(headerColumnName, ExcelCell.STRING_TYPE)).findFirst().get();
+		return getCell(headerColumnName, false);
+	}
+
+	@Override
+	public TableCell getCell(String headerColumnName, boolean ignoreCase) {
+		assertThat(hasColumn(headerColumnName, ignoreCase)).as("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()).isTrue();
+		return getCells().stream().filter(c -> c.hasStringValue(headerColumnName, ignoreCase)).findFirst().get();
 	}
 
 	@Override
@@ -94,11 +104,19 @@ public class TableHeader extends TableRow {
 	}
 
 	public int getColumnIndex(String headerColumnName) {
-		return getCell(headerColumnName).getColumnIndex();
+		return getColumnIndex(headerColumnName, false);
+	}
+
+	public int getColumnIndex(String headerColumnName, boolean ignoreCase) {
+		return getCell(headerColumnName, ignoreCase).getColumnIndex();
 	}
 
 	public int getColumnIndexOnSheet(String headerColumnName) {
-		return getCell(headerColumnName).getColumnIndexOnSheet();
+		return getColumnIndexOnSheet(headerColumnName, false);
+	}
+
+	public int getColumnIndexOnSheet(String headerColumnName, boolean ignoreCase) {
+		return getCell(headerColumnName, ignoreCase).getColumnIndexOnSheet();
 	}
 
 	public int getColumnIndexOnSheet(int columnIndex) {
