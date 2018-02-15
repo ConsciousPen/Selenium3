@@ -1,6 +1,6 @@
 package aaa.helpers.openl.model;
 
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class OpenLAddress {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)

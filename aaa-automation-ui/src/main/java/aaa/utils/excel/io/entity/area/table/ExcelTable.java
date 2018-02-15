@@ -5,71 +5,56 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.area.EditableCellsArea;
+import aaa.utils.excel.io.entity.area.ExcelArea;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
-import aaa.utils.excel.io.entity.iterator.RowIterator;
-import aaa.utils.excel.io.entity.queue.CellsQueue;
 
-public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> {
-	protected static Logger log = LoggerFactory.getLogger(ExcelTable.class);
-
+public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	private Row headerRow;
 	private ExcelSheet excelSheet;
 	private TableHeader header;
-	private Map<Integer, TableRow> rows;
-	private Map<Integer, TableColumn> columns;
 
 	public ExcelTable(Row headerRow, ExcelSheet sheet) {
-		this(headerRow, sheet, ExcelCell.getBaseTypes());
+		this(headerRow, sheet, sheet.getCellTypes());
 	}
 
 	public ExcelTable(Row headerRow, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
 		this(headerRow, null, sheet, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Set<Integer> columnsIndexes, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
-		this(headerRow, columnsIndexes, null, sheet, cellTypes);
+	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+		this(headerRow, columnsIndexesOnSheet, null, sheet, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelSheet excelSheet, Set<CellType<?>> cellTypes) {
+	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, Set<CellType<?>> cellTypes) {
 		super(excelSheet.getPoiSheet(),
-				CollectionUtils.isNotEmpty(columnsIndexes) ? columnsIndexes : getHeaderColumnsIndexes(headerRow),
-				CollectionUtils.isNotEmpty(rowsIndexes) ? rowsIndexes : getTableRowsIndexes(headerRow, columnsIndexes),
+				CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
+				CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
 				excelSheet.getExcelManager(), cellTypes);
 		this.headerRow = headerRow;
 		this.excelSheet = excelSheet;
 	}
 
 	public TableHeader getHeader() {
-		if (header == null) {
-			header = new TableHeader(getHeaderRow(), this);
+		if (this.header == null) {
+			this.header = new TableHeader(this.headerRow, new HashSet<>(getColumnsIndexesOnSheet()), this);
 		}
-		return header;
+		return this.header;
 	}
 
 	public ExcelSheet getSheet() {
-		return excelSheet;
-	}
-
-	public List<Integer> getColumnsIndexesOnSheet() {
-		return new ArrayList<>(this.columnsIndexes);
+		return this.excelSheet;
 	}
 
 	public List<Map<String, Object>> getValues() {
@@ -93,43 +78,32 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, TableRow> getRowsMap() {
-		if (this.rows == null) {
-			this.rows = new LinkedHashMap<>(this.rowsIndexes.size());
-			int tableRowIndex = 1;
-			for (Integer sheetRowIndex : this.rowsIndexes) {
-				Row row = getSheet().getPoiSheet().getRow(sheetRowIndex - 1);
-				this.rows.put(tableRowIndex, new TableRow(row, tableRowIndex, sheetRowIndex, this));
-				tableRowIndex++;
-			}
-		}
-		return this.rows;
+	public List<Integer> getColumnsIndexesOnSheet() {
+		return super.getColumnsIndexesOnSheet();
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, TableColumn> getColumnsMap() {
-		if (this.columns == null) {
-			this.columns = new LinkedHashMap<>(this.columnsIndexes.size());
-			int tableColumnIndex = 1;
-			for (Integer sheetColumnIndex : getColumnsIndexesOnSheet()) {
-				Row row = getSheet().getPoiSheet().getRow(sheetColumnIndex - 1);
-				this.columns.put(tableColumnIndex, new TableColumn(tableColumnIndex, sheetColumnIndex, this));
-				tableColumnIndex++;
-			}
+	protected Map<Integer, TableRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
+		Map<Integer, TableRow> tableIndexesAndRowsMap = new LinkedHashMap<>(rowsIndexesOnSheet.size());
+		int rowIndexInTable = 1;
+		for (Integer sheetRowIndex : rowsIndexesOnSheet) {
+			TableRow row = new TableRow(getSheet().getPoiSheet().getRow(sheetRowIndex - 1), rowIndexInTable, sheetRowIndex, columnsIndexesOnSheet, this, cellTypes);
+			tableIndexesAndRowsMap.put(rowIndexInTable, row);
+			rowIndexInTable++;
 		}
-		return this.columns;
-	}
-
-	Row getHeaderRow() {
-		return headerRow;
+		return tableIndexesAndRowsMap;
 	}
 
 	@Override
-	@Nonnull
-	public Iterator<TableRow> iterator() {
-		return new RowIterator<>(getRowsIndexes(), this::getRow);
+	protected Map<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
+		Map<Integer, TableColumn> tableIndexesAndColumnsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
+		int columnIndexInTable = 1;
+		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
+			Row row = getSheet().getPoiSheet().getRow(columnIndexOnSheet - 1);
+			tableIndexesAndColumnsMap.put(columnIndexInTable, new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes));
+			columnIndexInTable++;
+		}
+		return tableIndexesAndColumnsMap;
 	}
 
 	@Override
@@ -143,32 +117,20 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 				'}';
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public TableRow getRow(int rowIndex) {
-		return super.getRow(rowIndex);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public TableColumn getColumn(int columnIndex) {
-		return super.getColumn(columnIndex);
-	}
-
 	@Override
 	public ExcelTable deleteRows(Integer... rowsIndexes) {
 		int rowsShifts = 0;
 		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
 		for (int index : uniqueSortedRowIndexes) {
-			assertThat(hasRow(index - rowsShifts)).as("There is no row number %s in table", index).isTrue();
-			ListIterator<Integer> rowsIterator = new ArrayList<>(getRowsMap().keySet()).listIterator(index - rowsShifts);
+			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s in table %2$s", index, this).isTrue();
+			ListIterator<Integer> rowsIterator = new ArrayList<>(getRowsIndexes()).listIterator(index - rowsShifts);
 			while (rowsIterator.hasNext()) {
-				TableRow nextRow = getRowsMap().get(rowsIterator.next());
-				TableRow currentRow = getRowsMap().get(rowsIterator.previousIndex());
+				TableRow nextRow = getRow(rowsIterator.next());
+				TableRow currentRow = getRow(rowsIterator.previousIndex());
 				nextRow.copy(currentRow.getIndex());
 			}
 			clearRows(rowsIterator.nextIndex());
-			getRowsMap().remove(rowsIterator.nextIndex());
+			excludeRows(rowsIterator.nextIndex());
 			rowsShifts++;
 		}
 		return this;
@@ -176,15 +138,8 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 
 	@Override
 	public ExcelTable excludeColumns(Integer... columnsIndexes) {
-		List<Integer> sheetIndexes = new ArrayList<>();
-		for (Integer cIndex : columnsIndexes) {
-			for (CellsQueue row : getRows()) {
-				((TableRow) row).getCellsMap().remove(cIndex);
-				getHeader().getCellsMap().remove(cIndex);
-				sheetIndexes.add(((TableRow) row).getIndexOnSheet());
-			}
-			this.columnsIndexes.removeAll(sheetIndexes);
-		}
+		super.excludeColumns(columnsIndexes);
+		getHeader().removeCellsIndexes(columnsIndexes);
 		return this;
 	}
 
@@ -213,9 +168,9 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 		return columnsIndexes;
 	}
 
-	private static Set<Integer> getTableRowsIndexes(Row headerRow, Set<Integer> columnsIndexes) {
+	private static Set<Integer> getTableRowsIndexes(Row headerRow, Set<Integer> columnsIndexesOnSheet) {
 		Set<Integer> rIndexes = new HashSet<>();
-		Set<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexes) ? columnsIndexes : getHeaderColumnsIndexes(headerRow);
+		Set<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow);
 		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= headerRow.getSheet().getLastRowNum(); rowIndex++) {
 			if (isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {
 				break;
@@ -225,27 +180,56 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 		return rIndexes;
 	}
 
-	public int getColumnIndex(String headerColumnName) {
-		return getHeader().getColumnIndex(headerColumnName);
+	public ExcelTable excludeColumns(String... headerColumnNames) {
+		Integer[] columnsIndexes = Arrays.stream(headerColumnNames).map(this::getColumnIndex).toArray(Integer[]::new);
+		return excludeColumns(columnsIndexes);
 	}
 
-	public TableColumn getColumn(String headerColumnName) {
-		return getColumn(getColumnIndex(headerColumnName));
+	public int getColumnIndex(String headerColumnName) {
+		return getColumnIndex(headerColumnName, false);
+	}
+
+	public int getColumnIndex(String headerColumnName, boolean ignoreCase) {
+		return getHeader().getColumnIndex(headerColumnName, ignoreCase);
 	}
 
 	public boolean hasColumn(String headerColumnName) {
-		return getHeader().hasColumn(headerColumnName);
+		return hasColumn(headerColumnName, false);
+	}
+
+	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
+		return getHeader().hasColumn(headerColumnName, ignoreCase);
+	}
+
+	public TableColumn getColumn(String headerColumnName) {
+		return getColumn(headerColumnName, false);
+	}
+
+	public TableColumn getColumn(String headerColumnName, boolean ignoreCase) {
+		return getColumn(getColumnIndex(headerColumnName, ignoreCase));
+	}
+
+	public TableRow getRow(String headerColumnName, Object cellValue) {
+		return getRow(headerColumnName, false, cellValue);
+	}
+
+	public TableRow getRow(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
+		return getRows(headerColumnName, ignoreHeaderColumnCase, cellValue).get(0);
 	}
 
 	public List<TableRow> getRows(String headerColumnName, Object cellValue) {
+		return getRows(headerColumnName, false, cellValue);
+	}
+
+	public List<TableRow> getRows(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
 		List<TableRow> foundRows = getRows();
-		foundRows = foundRows.stream().filter(r -> r.hasValue(headerColumnName, cellValue)).collect(Collectors.toList());
+		foundRows = foundRows.stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).collect(Collectors.toList());
 		assertThat(foundRows).as("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName).isNotEmpty();
 		return foundRows;
 	}
 
-	public TableRow getRow(String headerColumnName, Object cellValue) {
-		return getRows(headerColumnName, cellValue).get(0);
+	public TableRow getRow(Map<String, Object> query) {
+		return getRows(query).get(0);
 	}
 
 	public List<TableRow> getRows(Map<String, Object> query) {
@@ -257,47 +241,50 @@ public class ExcelTable extends EditableCellsArea implements Iterable<TableRow> 
 		return foundRows;
 	}
 
-	public TableRow getRow(Map<String, Object> query) {
-		return getRows(query).get(0);
+	public TableCell getCell(int rowIndex, String headerColumnName) {
+		return getCell(rowIndex, headerColumnName, false);
 	}
 
-	public TableCell getCell(int rowIndex, String columnName) {
-		return getRow(rowIndex).getCell(columnName);
+	public TableCell getCell(int rowIndex, String headerColumnName, boolean ignoreCase) {
+		return getRow(rowIndex).getCell(headerColumnName, ignoreCase);
 	}
 
-	public Object getValue(int rowIndex, String columnName) {
-		return getCell(rowIndex, columnName).getValue();
+	public Object getValue(int rowIndex, String headerColumnName) {
+		return getValue(rowIndex, headerColumnName, false);
 	}
 
-	public String getStringValue(int rowIndex, String columnName) {
-		return getCell(rowIndex, columnName).getStringValue();
+	public Object getValue(int rowIndex, String headerColumnName, boolean ignoreCase) {
+		return getCell(rowIndex, headerColumnName, ignoreCase).getValue();
 	}
 
-	public ExcelTable excludeColumns(String... columnNames) {
-		return excludeColumns(Arrays.stream(columnNames).map(this::getColumnIndex).toArray(Integer[]::new));
+	public String getStringValue(int rowIndex, String headerColumnName) {
+		return getStringValue(rowIndex, headerColumnName, false);
+	}
+
+	public String getStringValue(int rowIndex, String headerColumnName, boolean ignoreCase) {
+		return getCell(rowIndex, headerColumnName, ignoreCase).getStringValue();
 	}
 
 	public ExcelTable clearRow(String headerColumnName, Object cellValue) {
-		getRow(headerColumnName, cellValue).clear();
-		return this;
+		return ((TableRow) getRow(headerColumnName, cellValue).clear()).getTable();
 	}
 
-	public ExcelTable clearColumns(String... columnNames) {
-		return (ExcelTable) clearColumns(Arrays.stream(columnNames).map(this::getColumnIndex).toArray(Integer[]::new));
+	public ExcelTable clearColumns(String... headerColumnNames) {
+		return (ExcelTable) clearColumns(Arrays.stream(headerColumnNames).map(this::getColumnIndex).toArray(Integer[]::new));
 	}
 
-	public ExcelTable copyColumn(String columnName, String destinationColumnName) {
-		return (ExcelTable) copyColumn(getColumnIndex(columnName), getHeader().getColumnIndex(destinationColumnName));
+	public ExcelTable copyColumn(String headerColumnName, String destinationHeaderColumnName) {
+		return (ExcelTable) copyColumn(getColumnIndex(headerColumnName), getHeader().getColumnIndex(destinationHeaderColumnName));
 	}
 
-	public EditableCellsArea deleteColumns(String... columnNames) {
+	public ExcelTable deleteColumns(String... headerColumnNames) {
 		//TODO-dchubkov: implement delete columns by names
 		throw new NotImplementedException("Columns deletion by header column names is not implemented yet");
 	}
 
 	public ExcelTable deleteRows(String headerColumnName, Object cellValue) {
 		List<TableRow> rowsToDelete = getRows(headerColumnName, cellValue);
-		return deleteRows(rowsToDelete.stream().mapToInt(TableRow::getIndex).boxed().toArray(Integer[]::new));
+		return deleteRows(rowsToDelete.stream().map(TableRow::getIndex).toArray(Integer[]::new));
 	}
 
 	private Set<String> getHeaderColumnsNames(Row headerRow) {

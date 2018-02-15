@@ -17,7 +17,7 @@ public class AutoSSOpenLCoverage extends AutoOpenLCoverage {
 	public String toString() {
 		return "AutoSSOpenLCoverage{" +
 				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCD='" + coverageCD + '\'' +
+				", coverageCd='" + coverageCd + '\'' +
 				", deductible='" + deductible + '\'' +
 				", glassDeductible='" + glassDeductible + '\'' +
 				", number=" + number +

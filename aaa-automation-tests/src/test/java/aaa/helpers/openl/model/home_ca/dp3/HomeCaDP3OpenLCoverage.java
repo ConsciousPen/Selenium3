@@ -17,7 +17,9 @@ public class HomeCaDP3OpenLCoverage extends HomeCaOpenLCoverage {
 	public String toString() {
 		return "HomeCaDP3OpenLCoverage{" +
 				"deductibleAmount=" + deductibleAmount +
+				", limitAmount=" + limitAmount +
 				", number=" + number +
+				", coverageCd='" + coverageCd + '\'' +
 				", limit='" + limit + '\'' +
 				'}';
 	}

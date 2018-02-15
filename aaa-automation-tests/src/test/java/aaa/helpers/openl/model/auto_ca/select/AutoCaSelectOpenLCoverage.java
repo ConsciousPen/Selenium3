@@ -17,7 +17,7 @@ public class AutoCaSelectOpenLCoverage extends AutoOpenLCoverage {
 	public String toString() {
 		return "AutoCaSelectOpenLCoverage{" +
 				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCD='" + coverageCD + '\'' +
+				", coverageCd='" + coverageCd + '\'' +
 				", deductible='" + deductible + '\'' +
 				", limitCode=" + limitCode +
 				", number=" + number +
