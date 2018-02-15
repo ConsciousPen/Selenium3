@@ -106,13 +106,13 @@ OSI-1115:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["Cannot set value"]
+      messages: ["Cannot set value*Has the customer expressed interest in purchasing the quote", "The selected limit of Uninsured Motorist Property Damage coverage"]
 OSI-1116:
   summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesnt"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["rfiName", "no message"]
+      messages: ["rfiName"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD

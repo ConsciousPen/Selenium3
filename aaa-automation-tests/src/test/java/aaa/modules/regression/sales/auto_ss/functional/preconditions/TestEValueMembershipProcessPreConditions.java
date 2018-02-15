@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
-
-
 public interface TestEValueMembershipProcessPreConditions {
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK = "select  value\n"

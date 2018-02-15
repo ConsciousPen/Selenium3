@@ -1499,7 +1499,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         checkIfEvalueWasRemovedBySystem(true);
 
         //Check if pended endorsement was deleted by system
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+        SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         //PAS-336 END
     }
