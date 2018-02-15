@@ -447,7 +447,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	/**
 	 * Utility method that enhances Conversion {@link TestData} with Mortgagee info
 	 */
-	private TestData adjustWithMortgageeData(TestData policyTD) {
+	public TestData adjustWithMortgageeData(TestData policyTD) {
 		//adjust TestData with Mortgagee tab data
 		String mortgageeTabKey = TestData.makeKeyPath(HomeSSMetaData.MortgageesTab.class.getSimpleName());
 		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
