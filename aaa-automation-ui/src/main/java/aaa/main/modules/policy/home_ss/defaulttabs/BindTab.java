@@ -24,7 +24,7 @@ public class BindTab extends Tab {
 	}
 
 	public Button btnPurchase = new Button(
-			By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"),
+			By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementBind_footer']"),
 			Waiters.AJAX);
 	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");

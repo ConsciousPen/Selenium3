@@ -45,7 +45,7 @@ public class ReportsTab extends Tab {
 	@Override
 	public Tab fillTab(TestData td) {
 		synchronized (lock) {
-			assetList.fill(td);
+			super.fillTab(td);
 		}
 		return this;
 	}

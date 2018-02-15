@@ -451,4 +451,15 @@ public class BaseTest {
 		adminApp().close();
 		opReportApp().close();
 	}
+
+	public static void printToLog(String message) {
+		log.info("----------------------------------------------------------------");
+		log.info(message);
+	}
+
+	public static void printToLog(String message, Object... inputValues) {
+		log.info("----------------------------------------------------------------");
+		String msg = String.format("Message: %1$s", message);
+		log.info(String.format(msg, inputValues));
+	}
 }

@@ -106,13 +106,13 @@ OSI-1115:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["Cannot set value"]
+      messages: ["Cannot set value*Has the customer expressed interest in purchasing the quote", "The selected limit of Uninsured Motorist Property Damage coverage"]
 OSI-1116:
   summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesnt"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["rfiName", "no message"]
+      messages: ["rfiName"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD
@@ -171,3 +171,14 @@ PAS-9661:
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
     - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
+PAS-9754:
+  summary: "PAS18.2 Regression: Unable to clear Suspense Payment"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.cft.auto_ss.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.auto_ca.choice.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+

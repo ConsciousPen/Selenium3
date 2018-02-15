@@ -53,7 +53,7 @@ public class ReportsTab extends Tab {
 	@Override
 	public Tab fillTab(TestData td) {
 		synchronized (lock) {
-			assetList.fill(td);
+			super.fillTab(td);
 			if (td != null && td.containsKey(getMetaKey()) && getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()
 					&& StringUtils.isBlank(getAssetList().getAsset(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
 					.getCell(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {

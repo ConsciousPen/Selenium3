@@ -90,7 +90,6 @@ public class Scenario15 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(false);
 		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false); 
 		Tab.buttonCancel.click();
 	}
@@ -124,7 +123,6 @@ public class Scenario15 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
@@ -154,7 +152,6 @@ public class Scenario15 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_CANCELLED).verifyPresent();
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 	}
 	
 	protected void renewalImageGeneration() {
@@ -175,7 +172,6 @@ public class Scenario15 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -187,21 +183,17 @@ public class Scenario15 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled(false);
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled(false);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 	}
 
 	protected void renewalOfferNotGenerated() {
-		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).plusHours(1);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled(false);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled(false);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 

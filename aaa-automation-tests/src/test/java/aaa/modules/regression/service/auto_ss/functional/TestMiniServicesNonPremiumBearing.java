@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,7 +17,9 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
@@ -26,6 +30,19 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
+	}
+
+	@Test(description = "Precondition")
+	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
+		assertSoftly(softly -> {
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 0, " = 'AZ'");
+			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 5, " = 'AZ'");
+		});
+	}
+
+	private static void miniServicesEndorsementDeleteDelayConfigCheckAssertion(SoftAssertions softly, int i, String s) {
+		softly.assertThat(DBService.get().getValue(String.format(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_CHECK, i, s)).get()).isNotEmpty();
 	}
 
 	/**
@@ -54,7 +71,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can be performed through service without sending Effective date
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
 	 * 3. Create an endorsement, issue
@@ -71,7 +88,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can be performed through service when there is another completed endorsement
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
 	 * 3. Create an endorsement, issue
@@ -88,7 +105,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can be performed through service when there is another User created Pended endorsement
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
 	 * 3. Start an endorsement created by user, but not finish (Pended Endorsement)
@@ -105,7 +122,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
 	 * 3. Create endorsement in the Future, issue
@@ -122,7 +139,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can NOT be performed through service for NANO policy
 	 * @scenario 1. Create customer
 	 * 2. Create a NANO policy
 	 * 3. Check Green Button endorsement is not allowed. There is a PolicyRules error about NANO
@@ -131,14 +148,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-	public void pas6562_endorsementValidateNotAllowedNano(@Optional("VA") String state) {
+	public void pas6562_endorsementValidateNotAllowedNano(@Optional("AZ") String state) {
 
 		pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
 	}
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can NOT be performed through service when there is Pended System Endorsement
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
 	 * 3. Start an endorsement created by System, but not finish (Pended Endorsement)
@@ -155,7 +172,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Email change through service
+	 * @name Endorsement can be performed through service when the vehicle has UBI
 	 * @scenario 1. Create customer
 	 * 2. Create a policy with a vehicle with UBI
 	 * 3. Check Green Button endorsement is not allowed. There is a VehicleRules error about UBI
@@ -164,9 +181,139 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-	public void pas6562_endorsementValidateNotAllowedUBI(@Optional("VA") String state) {
+	public void pas6562_endorsementValidateNotAllowedUBI(@Optional("AZ") String state) {
 
 		pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test Email change through service
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Check Green Button endorsement is not allowed for the date outside of policy term
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("") String state) {
+
+		pas6562_endorsementValidateNotAllowedOutOfBound(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test cannot delete User Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create User Endorsement through service
+	 * 4. Validate through service, that this endorsement cannot be deleted on creation date and new endorsement cannot be started
+	 * 5. change date to Creation Date + delay
+	 * 6. Validate through service, that this endorsement cannot be deleted and new endorsement cannot be started
+	 * 7. change date to Creation Date + delay + 1
+	 * Validate through service, that this endorsement can be deleted and new endorsement can be created
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateNotAllowedCustomer(@Optional("UT") String state) {
+
+		pas8784_endorsementValidateNotAllowedCustomer(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test cannot delete Agent Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Agent Endorsement
+	 * 4. Validate through service, that this endorsement can be deleted on creation date and new endorsement can be started
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateNoDelayAllowedAgent(@Optional("UT") String state) {
+
+		pas8784_endorsementValidateNoDelayAllowedAgent(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test cannot delete System Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Agent Endorsement and convert it to System
+	 * 4. Validate through service, that this endorsement cannot be deleted
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateNoDelayNotAllowedSystem(@Optional("UT") String state) {
+
+		pas8784_endorsementValidateNoDelayNotAllowedSystem(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test different Config Versions for Delete User Endorsement Day Delay for AZ
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create User Endorsement
+	 * 4. Validate through service, that this endorsement can be deleted, since config is set to DateDelay = 0
+	 * 5. Change date to Current date +10 (next config version start date)
+	 * 6. Delete old User Endorsement and start new one
+	 * 7. Shift time to Current date +5, since config is set to DateDelay = 5
+	 * 8. Validate through service, that this endorsement cannot be deleted, since config is set to DateDelay = 5
+	 * 9. Shift time to Current date +1 (new User Endorsment creation date + 6) since config is set to DateDelay = 5
+	 * 10. Validate through service, that this endorsement can be deleted
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
+	public void pas8784_endorsementValidateStateSpecificConfigVersioning(@Optional("AZ") String state) {
+
+		pas8784_endorsementValidateStateSpecificConfigVersioning(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Pended System endorsement
+	 * 4. run Start Endorsement Service
+	 * 5. Check Endorsement is deleted and User Endorsement is created instead
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
+	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
+
+		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "System");
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Pended Agent endorsement
+	 * 4. run Start Endorsement Service
+	 * 5. Check Endorsement is deleted and User Endorsement is created instead
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
+	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
+
+		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "Agent");
 	}
 
 	/**
@@ -179,10 +326,45 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
-	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
+	public void pas8275_vinValidate(@Optional("") String state) {
 
-		pas6562_endorsementValidateNotAllowedUBI(getPolicyType());
+		pas8275_vinValidateCheck(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check if only active Vehicles are allowed using DXP
+	 * @scenario
+	 * 1. Create policy with two vehicles.
+	 * 2. Check if the same vehicles are displayed in dxp server.
+	 * 3. Initiate endorsement, and change VIN for one of the vehicles. Don't bind.
+	 * 4. Check if the new vehicle, which wad added during endorsement is not displayed in dxp server.
+	 * 5. Bind the endorsement.
+	 * 6. Check if new vehicle is displayed, and the old one is not displayed anymore.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
+
+		pas8273_CheckIfOnlyActiveVehiclesAreAllowed(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check dxp server if Nano policy not returning any information about vehicle.
+	 * @scenario
+	 * 1. Create Nano policy.
+	 * 2. Check dxp server, any info should not be displayed about vehicle.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
+
+		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
 	}
 
 	@Override

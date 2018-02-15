@@ -11,22 +11,34 @@ public interface EvalueInsertSetupPreConditions {
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
 	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
 
-/*eValue related endpoints
-    String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
-            + "where propertyname = 'docGenwebClient.endpointUri'";
+	/*eValue related endpoints
+		String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
+				+ "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
+				+ "where propertyname = 'docGenwebClient.endpointUri'";
 
-    String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveAgreementRelatedDocuments'\n"
-            + "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
+		String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
+				+ "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveAgreementRelatedDocuments'\n"
+				+ "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
 
-    String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
-            + "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n"
-            + "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
-*/
+		String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
+				+ "set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n"
+				+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
+	*/
+	/*PAS18.1 related endpoints*/
+	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
+			+ "set value = 'http://soaqa1.tent.trt.csaa.pri:80/3.1/StandardDocumentService'\n"
+			+ "where propertyname = 'docGenwebClient.endpointUri'";
+
+	String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
+			+ "set value = 'http://soaqa1.tent.trt.csaa.pri:80/1.1/RetrieveAgreementRelatedDocuments'\n"
+			+ "where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
+
+	String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
+			+ "set value = 'http://soaqa1.tent.trt.csaa.pri:80/1.1/RetrieveDocument'\n"
+			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
 	/*PAS18.2 related endpoints*/
-	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
+/*	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
 
@@ -36,7 +48,7 @@ public interface EvalueInsertSetupPreConditions {
 
 	String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveDocument'\n"
-			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
+			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";*/
 
 	String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"
 			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"

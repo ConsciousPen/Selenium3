@@ -1,21 +1,17 @@
 package aaa.utils.excel.io.entity.area.table;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import aaa.utils.excel.io.entity.cell.EditableCell;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
-import aaa.utils.excel.io.entity.iterator.CellIterator;
-import aaa.utils.excel.io.entity.queue.ExcelColumn;
+import java.util.List;
+import java.util.Set;
+import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.ExcelColumn;
 
-public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
-	private int tableColumnIndex;
-	private Map<Integer, TableCell> tableCells;
+public class TableColumn extends ExcelColumn<TableCell> {
+	public TableColumn(int columnIndexInTable, int columnIndexOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelTable table) {
+		this(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, table, table.getCellTypes());
+	}
 
-	public TableColumn(int tableColumnIndex, int columnIndex, ExcelTable table) {
-		super(columnIndex, table);
-		this.tableColumnIndex = tableColumnIndex;
+	public TableColumn(int columnIndexInTable, int columnIndexOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelTable table, Set<CellType<?>> cellTypes) {
+		super(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, table, cellTypes);
 	}
 
 	public ExcelTable getTable() {
@@ -27,46 +23,32 @@ public class TableColumn extends ExcelColumn implements Iterable<TableCell> {
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "AssignmentOrReturnOfFieldWithMutableType"})
-	protected Map<Integer, TableCell> getCellsMap() {
-		if (this.tableCells == null) {
-			this.tableCells = new LinkedHashMap<>(getTable().getRowsMap().size());
-			for (Map.Entry<Integer, TableRow> rowEntry : getTable().getRowsMap().entrySet()) {
-				this.tableCells.put(rowEntry.getKey(), (TableCell) rowEntry.getValue().getCell(getIndex()));
-			}
-		}
-		return this.tableCells;
-	}
-
-	int getIndexOnSheet() {
-		return this.index;
+	public int getIndexOnSheet() {
+		return super.getIndexOnSheet();
 	}
 
 	@Override
-	public int getIndex() {
-		return tableColumnIndex;
-	}
-
-	@Override
-	@Nonnull
-	@SuppressWarnings("unchecked")
-	public Iterator<TableCell> iterator() {
-		return (Iterator<TableCell>) new CellIterator(this);
-	}
-
-	public ExcelColumn copy(String destinationHeaderColumnName) {
-		for (ExcelCell cell : getCells()) {
-			((EditableCell) cell).copy(cell.getRowIndex(), getTable().getColumnIndex(destinationHeaderColumnName));
-		}
-		return this;
+	public List<Integer> getCellsIndexesOnSheet() {
+		return super.getCellsIndexesOnSheet();
 	}
 
 	@Override
 	public String toString() {
 		return "TableColumn{" +
-				"columnIndex=" + getIndex() +
+				"sheetName=" + getSheetName() +
+				", columnIndex=" + getIndex() +
 				", headerColumnName=" + getHeaderName() +
-				", values=" + getValues() +
+				", rowsNumber=" + getCellsNumber() +
+				", cellTypes=" + getCellTypes() +
+				", values=" + getStringValues() +
 				'}';
+	}
+
+	public TableColumn copy(String destinationHeaderColumnName) {
+		return copy(destinationHeaderColumnName, false);
+	}
+
+	public TableColumn copy(String destinationHeaderColumnName, boolean ignoreCase) {
+		return (TableColumn) copy(getTable().getColumnIndex(destinationHeaderColumnName, ignoreCase));
 	}
 }

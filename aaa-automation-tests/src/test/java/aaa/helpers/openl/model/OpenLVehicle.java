@@ -2,8 +2,8 @@ package aaa.helpers.openl.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class OpenLVehicle {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
@@ -16,7 +16,7 @@ public class OpenLVehicle {
 	protected Integer modelYear;
 	protected String statCode;
 
-	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowIndex = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	protected List<OpenLAddress> address;
 
 	public Integer getNumber() {

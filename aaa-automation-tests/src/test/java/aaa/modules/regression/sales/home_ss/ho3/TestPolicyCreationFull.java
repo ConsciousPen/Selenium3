@@ -10,7 +10,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
@@ -18,7 +17,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * @author Olga Reva
@@ -49,8 +47,8 @@ public class TestPolicyCreationFull extends HomeSSHO3BaseTest {
 		createCustomerIndividual();
 
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(td, EndorsementTab.class, true);
-		
+		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, false);
+
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 		ReportsTab reportsTab = new ReportsTab();
 		reportsTab.fillTab(td_orderPPC);

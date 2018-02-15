@@ -2,8 +2,7 @@ package aaa.utils.excel.io.celltype;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import aaa.utils.excel.io.entity.cell.EditableCell;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public class StringCellType extends AbstractCellType<String> {
 	public StringCellType(Class<String> endType) {
@@ -20,8 +19,8 @@ public class StringCellType extends AbstractCellType<String> {
 	}
 
 	@Override
-	public void setValueTo(EditableCell cell, String value) {
-		createPoiCellIfNull(cell).getPoiCell().setCellValue(value);
+	public void setValueTo(ExcelCell cell, String value) {
+		cell.getPoiCell().setCellValue(value);
 	}
 
 	@Override

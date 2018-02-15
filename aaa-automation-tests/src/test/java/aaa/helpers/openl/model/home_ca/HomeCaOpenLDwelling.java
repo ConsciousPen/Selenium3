@@ -5,14 +5,14 @@ import static aaa.helpers.openl.model.OpenLFile.ADDRESS_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class HomeCaOpenLDwelling {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	protected List<HomeCaOpenLAddress> address;
 
 	protected Integer ppcValue;
