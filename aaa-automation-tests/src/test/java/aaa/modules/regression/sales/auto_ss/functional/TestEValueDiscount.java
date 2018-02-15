@@ -4,7 +4,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1499,7 +1499,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
         checkIfEvalueWasRemovedBySystem(true);
 
         //Check if pended endorsement was deleted by system
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+        SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         //PAS-336 END
     }

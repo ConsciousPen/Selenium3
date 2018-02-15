@@ -1,0 +1,22 @@
+TestData_AllVehicles: {
+    VehicleTab: ['@VehicleTab_First', '@VehicleTab_Other'],
+}
+
+VehicleTab_Other: {
+    Usage: Pleasure,
+    VIN: 2GNWGPFG9B2222222,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+    'Other Body Style': 'Sedan',
+    Stat Code: 'Small SUV',
+    'Stated Amount': '10000',
+}
+
+VehicleTab_First: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+

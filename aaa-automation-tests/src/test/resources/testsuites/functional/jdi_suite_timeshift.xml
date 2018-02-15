@@ -137,6 +137,16 @@
                     <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+
+                    <include name="pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless"/>
+                    <include name="pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless"/>
+                    <include name="pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless"/>
+
+                    <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15"/>
+                    <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30"/>
+                    <include name="pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless"/>
+                    <include name="pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless"/>
+                    <include name="pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless"/>
                 </methods>
             </class>
         </classes>
