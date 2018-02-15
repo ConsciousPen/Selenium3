@@ -81,9 +81,11 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==1
+		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
 		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==2
+		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
