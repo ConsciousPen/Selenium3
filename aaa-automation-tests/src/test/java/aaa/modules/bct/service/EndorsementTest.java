@@ -8,6 +8,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -22,10 +23,14 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
+
+	private String date1 = "Date1 isn't specified";
+	private String date2 = "Date2 isn't specified";
 
 	@Parameters({"state"})
 	@Test
@@ -63,10 +68,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_Empty_Endorsement_AAA_SS", "SelectPolicy").get(0);
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		SearchPage.openPolicy(policyNumber);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquiryAutoSS"), GeneralTab.class, DocumentsAndBindTab.class, false);
@@ -85,12 +91,86 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_EmptyEndorsementHomeSS(@Optional("") String state) {
+	public void BCT_ONL_EmptyEndorsementHomeSSDp3(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_Empty_Endorsement_Home_SS", "SelectPolicy").get(0);
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_SS", date1, date2);
+		IPolicy policy = PolicyType.HOME_SS_DP3.get();
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquiryHomeSS"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, BindTab.class, false);
+		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+		new BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeSS");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseHomeSS"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, PremiumsAndCoveragesQuoteTab.class, false);
+		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeSSHo3(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho3_SS", date1, date2);
+		IPolicy policy = PolicyType.HOME_SS_HO3.get();
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquirySSHo3"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, BindTab.class, false);
+		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+		new BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseSSHo3");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseSSHo3"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, PremiumsAndCoveragesQuoteTab.class, false);
+		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeSSHo4(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho4_SS", date1, date2);
 		IPolicy policy = PolicyType.HOME_SS_HO4.get();
 		SearchPage.openPolicy(policyNumber);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquiryHomeSS"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, BindTab.class, false);
+		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+		new BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeSS");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseHomeSS"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, PremiumsAndCoveragesQuoteTab.class, false);
+		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeSSHo6(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho6_SS", date1, date2);
+		IPolicy policy = PolicyType.HOME_SS_HO6.get();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquiryHomeSS"), aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, BindTab.class, false);
@@ -110,10 +190,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_EmptyEndorsementPUP(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_Empty_Endorsement_PUP", "SelectPolicy").get(0);
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_PUP", date1, date2);
 		IPolicy policy = PolicyType.PUP.get();
 		SearchPage.openPolicy(policyNumber);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView()
@@ -126,17 +207,18 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestDataEndorsePUP"), PrefillTab.class, PremiumAndCoveragesQuoteTab.class, false);
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
-		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
+		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyActualPremium());
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_EmptyEndorsementAutoCA(@Optional("") String state) {
+	public void BCT_ONL_EmptyEndorsementAutoCAChoice(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_Empty_Endorsement_Auto_CA", "SelectPolicy").get(0);
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Choice", date1, date2);
 		IPolicy policy = PolicyType.AUTO_CA_CHOICE.get();
 		SearchPage.openPolicy(policyNumber);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView()
@@ -156,12 +238,115 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_EmptyEndorsementHomeCA(@Optional("") String state) {
+	public void BCT_ONL_EmptyEndorsementAutoCASelect(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_Empty_Endorsement_Home_CA", "SelectPolicy").get(0);
-		IPolicy policy = PolicyType.HOME_CA_HO6.get();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Select", date1, date2);
+		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		SearchPage.openPolicy(policyNumber);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryAutoCA"), aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab.class, false);
+		assertThat(new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseAutoCA");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseAutoCA"), aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, false);
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
+		aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.calculatePremium();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeCADp3(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_CA", date1, date2);
+		IPolicy policy = PolicyType.HOME_CA_DP3.get();
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeCAHo3(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho3_CA", date1, date2);
+		IPolicy policy = PolicyType.HOME_CA_HO3.get();
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeCAHo4(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho4_CA", date1, date2);
+		IPolicy policy = PolicyType.HOME_CA_HO4.get();
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
+		deletePendingEndorsement(policy);
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(getTestSpecificTD("TestDataEndorseHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void BCT_ONL_EmptyEndorsementHomeCAHo6(@Optional("") String state) {
+		mainApp().open();
+		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho6_CA", date1, date2);
+		IPolicy policy = PolicyType.HOME_CA_HO6.get();
+
+		SearchPage.openPolicy(policyNumber);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView()
@@ -184,4 +369,13 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 			policy.deletePendedTransaction().perform(new SimpleDataProvider());
 		}
 	}
+
+	private String getPolicy(String testName, String date1, String date2) {
+		if (!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty()) {
+			date1 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1);
+			date2 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2);
+		}
+		return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
+	}
+
 }

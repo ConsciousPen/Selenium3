@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import aaa.helpers.cft.CFTHelper;
 import aaa.modules.cft.report.model.DataSourceKey;
 import aaa.modules.cft.report.model.EntryStatus;
 import aaa.modules.cft.report.model.ReportEntry;
@@ -63,7 +63,7 @@ public class ReportGeneratorService {
 			sheet.addMergedRegion(new CellRangeAddress(7, 7, 11, 12));
 
 			XSSFCellStyle xssfCellStyle = stylesTable.createCellStyle();
-			setBorderToCellStyle(xssfCellStyle);
+			CFTHelper.setBorderToCellStyle(xssfCellStyle);
 			xssfCellStyle.setFillForegroundColor(new XSSFColor(new Color(231, 235, 247)));
 			xssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			xssfCellStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -139,7 +139,7 @@ public class ReportGeneratorService {
 
 			Row totalRow = sheet.createRow(rowNumber);
 			XSSFCellStyle totalCellStyle = stylesTable.createCellStyle();
-			setBorderToCellStyle(totalCellStyle);
+			CFTHelper.setBorderToCellStyle(totalCellStyle);
 			CellUtil.createCell(totalRow, 1, "Total", totalCellStyle);
 			CellUtil.createCell(totalRow, 2, ffdTotal.toString(), totalCellStyle);
 			CellUtil.createCell(totalRow, 4, ffdTotal.subtract(ordTotal).toString(), totalCellStyle);
@@ -224,7 +224,7 @@ public class ReportGeneratorService {
 	}
 
 	private static void prepareCellEntryStyle(EntryStatus status, XSSFCellStyle style) {
-		setBorderToCellStyle(style);
+		CFTHelper.setBorderToCellStyle(style);
 		switch (status) {
 			case MATCHED : {
 				style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
@@ -244,12 +244,4 @@ public class ReportGeneratorService {
 		}
 		style.setAlignment(HorizontalAlignment.CENTER);
 	}
-
-	private static void setBorderToCellStyle(XSSFCellStyle style) {
-		style.setBorderBottom(BorderStyle.MEDIUM);
-		style.setBorderLeft(BorderStyle.MEDIUM);
-		style.setBorderRight(BorderStyle.MEDIUM);
-		style.setBorderTop(BorderStyle.MEDIUM);
-	}
-
 }

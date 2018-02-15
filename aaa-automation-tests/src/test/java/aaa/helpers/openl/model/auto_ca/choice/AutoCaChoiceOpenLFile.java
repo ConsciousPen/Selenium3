@@ -5,27 +5,27 @@ import java.util.List;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.ExcelTableElement;
-import aaa.utils.excel.bind.ExcelTransient;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoCaChoiceOpenLFile extends OpenLFile<AutoCaChoiceOpenLPolicy> {
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	protected List<AutoCaChoiceOpenLPolicy> policies;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME, headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME, headerRowIndex = VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME, headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME, headerRowIndex = DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLDriver> drivers;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<AutoOpenLCoverage> coverages;
 
 	public List<AutoCaChoiceOpenLVehicle> getVehicles() {

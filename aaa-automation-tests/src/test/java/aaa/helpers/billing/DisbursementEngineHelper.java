@@ -148,7 +148,8 @@ public class DisbursementEngineHelper {
 					.append(accountLast4).append("|")
 					.append(accountType).append("|")
 					.append(cardSubType).append("||")
-					.append(refundStatus).append("|||\n").toString();
+					.append("12345|")
+					.append(refundStatus).append("||\n").toString();
 		}
 
 		public String buildTrail() {

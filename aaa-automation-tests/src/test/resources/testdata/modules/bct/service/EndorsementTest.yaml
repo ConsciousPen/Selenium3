@@ -64,6 +64,22 @@ TestDataEndorsePUP: {
   PremiumAndCoveragesQuoteTab: {}
 }
 
+TestDataEndorsePUP_CA: {
+  EndorsementActionTab: {
+      Endorsement Date: $<today>,
+      Endorsement Reason: Property/Exposures
+    },
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {}
+}
+
 TestDataInquiryHomeSS: {
   GeneralTab: {},
   ApplicantTab: {},
@@ -86,6 +102,34 @@ TestDataEndorseHomeSS: {
   ApplicantTab: '@GeneralTab',
   ReportsTab: {},
   PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {}
+}
+
+TestDataInquirySSHo3: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestDataEndorseSSHo3: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Property/Exposures
+  },
+  GeneralTab: {},
+  ApplicantTab: '@GeneralTab',
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {}
 }

@@ -12,6 +12,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 import aaa.modules.BaseTest;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
@@ -89,6 +91,13 @@ public class CFTHelper extends BaseTest {
 				.setScale(2, RoundingMode.HALF_UP)
 				.doubleValue());
 		}
+	}
+
+	public static void setBorderToCellStyle(XSSFCellStyle style) {
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
 	}
 
 }

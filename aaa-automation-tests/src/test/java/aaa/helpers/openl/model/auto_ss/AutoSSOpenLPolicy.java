@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private LocalDateTime effectiveDate;
@@ -55,13 +55,13 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer ycfAfterInception; // NY specific ?
 	private String tort; // PA specific ?
 
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLVehicle> vehicles;
 
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLDriver> drivers;
 
 	public Integer getTerm() {

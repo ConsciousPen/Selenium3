@@ -81,7 +81,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		autopaySavingMessageCheck(true, delta);
 
-		//PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
 		PremiumsAndCoveragesQuoteTab.linkViewApplicableFeeSchedule.click();
 		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
 		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify

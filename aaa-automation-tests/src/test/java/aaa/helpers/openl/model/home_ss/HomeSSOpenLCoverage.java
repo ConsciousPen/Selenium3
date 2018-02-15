@@ -1,10 +1,14 @@
 package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.model.OpenLCoverage;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class HomeSSOpenLCoverage extends OpenLCoverage {
 	private Integer id;
-	private String code;
+
+	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
+	@ExcelTableColumnElement(name = "code")
+	private String coverageCd;
 
 	public Integer getId() {
 		return id;
@@ -14,19 +18,11 @@ public class HomeSSOpenLCoverage extends OpenLCoverage {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	@Override
 	public String toString() {
 		return "HomeSSOpenLCoverage{" +
 				"id=" + id +
-				", code='" + code + '\'' +
+				", code='" + coverageCd + '\'' +
 				", number=" + number +
 				", limit='" + limit + '\'' +
 				'}';

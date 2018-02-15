@@ -1,7 +1,7 @@
 package aaa.helpers.openl.model.home_ca;
 
 import aaa.helpers.openl.model.OpenLForm;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class HomeCaOpenLForm extends OpenLForm {
 	@SuppressWarnings("FieldNameHidesFieldInSuperclass")

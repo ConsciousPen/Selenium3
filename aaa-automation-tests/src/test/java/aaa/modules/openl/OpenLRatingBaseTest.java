@@ -18,10 +18,11 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
+import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
@@ -47,9 +48,9 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 	protected TestData getRatingDataPattern() {
 		TestData td = getPolicyTD().mask(new PurchaseTab().getMetaKey());
-		if (getPolicyType().equals(PolicyType.PUP)) {
+		/*if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
-		}
+		}*/
 		return td;
 	}
 
@@ -80,7 +81,9 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 			// Exclude extra rows from policies table to reduce time required for excel unmarshalling
 			String policySheetName = OpenLFile.POLICY_SHEET_NAME;
 			if (getPolicyType().equals(PolicyType.AUTO_SS)) {
-				policySheetName = policySheetName + "AZ";
+				policySheetName = AutoSSOpenLFile.POLICY_SHEET_NAME;
+			} else if (getPolicyType().equals(PolicyType.PUP)) {
+				policySheetName = PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 			}
 			ExcelTable policiesTable = openLFileManager.getSheet(policySheetName).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
 			List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
@@ -89,7 +92,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
 		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
-
 		List<P> openLPoliciesList = CollectionUtils.isEmpty(policyNumbers)
 				? openLFile.getPolicies()
 				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	protected List<AutoCaSelectOpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLDriver> primaryDriver;
 
 	private Boolean aaaMembership;

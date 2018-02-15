@@ -1,7 +1,7 @@
 package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class OpenLDwellingRatingInfo {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
@@ -18,6 +18,8 @@ public class OpenLDwellingRatingInfo {
 	private Integer roofAge;
 	private String roofType;
 	private Integer yearBuilt;
+	private String hailResistiveCode;
+	private String laundryLocation;
 
 	public Integer getNumber() {
 		return number;
@@ -99,6 +101,22 @@ public class OpenLDwellingRatingInfo {
 		this.yearBuilt = yearBuilt;
 	}
 
+	public String getHailResistiveCode() {
+		return hailResistiveCode;
+	}
+
+	public void setHailResistiveCode(String hailResistiveCode) {
+		this.hailResistiveCode = hailResistiveCode;
+	}
+
+	public String getLaundryLocation() {
+		return laundryLocation;
+	}
+
+	public void setLaundryLocation(String laundryLocation) {
+		this.laundryLocation = laundryLocation;
+	}
+
 	@Override
 	public String toString() {
 		return "OpenLDwellingRatingInfo{" +
@@ -112,6 +130,8 @@ public class OpenLDwellingRatingInfo {
 				", roofAge=" + roofAge +
 				", roofType='" + roofType + '\'' +
 				", yearBuilt=" + yearBuilt +
+				", hailResistiveCode='" + hailResistiveCode + '\'' +
+				", laundryLocation='" + laundryLocation + '\'' +
 				'}';
 	}
 }
