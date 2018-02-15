@@ -233,10 +233,6 @@ public final class HomeSSMetaData {
 				.xpath("//table[@id='policyDataGatherForm:orderInternalClaimsReports']"));
 		public static final AssetDescriptor<FillableTable> ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
-
-		public static final AssetDescriptor<FillableTable> INTERNAL_CLAIMS_REPORT = declare("InternalClaimsReport", FillableTable.class, InternalClaimsReport.class, By
-				.xpath("//table[@id='policyDataGatherForm:orderInternalClaimsReports']"));
-
 		public static final AssetDescriptor<StaticElement> WARNING_MESSAGE_BOX = declare("Warning Message Box", StaticElement.class, By
 				.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul/li"));
 		// public static final AssetDescriptor<StaticElement> ADVERSELY_IMPACTED_APPLIED_MESSAGE = declare("Adversely Impacted was applied to the policy effective", StaticElement.class,
@@ -334,12 +330,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> REPLACEMENT_COST = declare("Replacement Cost", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
-			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
-			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
-		}
-
-		public static final class InternalClaimsReport extends MetaData {
-			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
 		}

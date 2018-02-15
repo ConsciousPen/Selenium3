@@ -64,7 +64,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * VIN Used for test: 4S2CK58W8X4307498, see {@link #VinNumberForLiabilitySymbolsAbsenceTest}
      *
      */
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, "fixDB"})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6582")
     public void pas6582_LiabilitySymbolsAbsence (){
         VehicleTab vehicleTab = new VehicleTab();
@@ -146,7 +146,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         verifyLiabilitySymbolsInDB(quoteNumber, null);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass(alwaysRun = true, groups = {"fixDB"})
     private void restoreValuesInDB(){
         restoreCompCollAndLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
     }
