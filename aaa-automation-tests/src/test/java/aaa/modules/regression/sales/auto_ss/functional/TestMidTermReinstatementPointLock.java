@@ -93,6 +93,5 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		//Check that the saved value is the same during mid term endorsement even after reinstatement was made
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue()).isEqualTo(reinstatementHistory);
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
 	}
 }
