@@ -36,7 +36,6 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	 * 8. Calculate Premium
 	 * 9. View Rating Details
 	 * 10. Assert That the Reinstatement Points are the same
-	 * 11. Change Local Time to CSD
 	* @details
 	*/
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -48,7 +47,6 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	public void pas9687_MidTermReinstatementPointsLocked(@Optional("NJ") String state) {
 
 		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
-		LocalDateTime reset = TimeSetterUtil.getInstance().getCurrentTime().plusHours(1);
 
 		TestData testData = getPolicyTD();
 
@@ -94,9 +92,6 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		//Check that the saved value is the same during mid term endorsement even after reinstatement was made
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue()).isEqualTo(reinstatementHistory);
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
-		//Reset Time
-		TimeSetterUtil.getInstance().nextPhase(reset);
 
 	}
 }
