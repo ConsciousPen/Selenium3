@@ -156,8 +156,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 		autopaySavingMessageCheckForMortgagee(false, delta);
 
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+
 
 	}
 
