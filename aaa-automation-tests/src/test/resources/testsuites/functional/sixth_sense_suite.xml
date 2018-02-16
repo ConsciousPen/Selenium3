@@ -37,6 +37,12 @@
         </classes>
     </test>
 
+    <test name="MVR Predictor Algo for 2 of 4 Drivers">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
+        </classes>
+    </test>
 
     <!--Tests for Property-->
 

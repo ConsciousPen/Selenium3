@@ -24,7 +24,7 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperRfi;
-import aaa.modules.regression.service.helper.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;

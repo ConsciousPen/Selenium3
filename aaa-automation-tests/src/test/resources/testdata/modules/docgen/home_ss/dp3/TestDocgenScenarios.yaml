@@ -71,7 +71,10 @@ ReportsTab_PA: {
 }
 
 PropertyInfoTab: {
-  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  #DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  DwellingAddress: {
+             Number of family units: 'index=2'
+             },
   AdditionalAddress: [{}],
   PublicProtectionClass: {},
   FireReport: {},

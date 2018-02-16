@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy {
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowNumber = DWELLING_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLDwelling> dwelling;
 
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowNumber = FORM_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLForm> forms;
 
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaDP3OpenLCoverage> coverages;
 
 	private Integer ageOfOldestInsured;

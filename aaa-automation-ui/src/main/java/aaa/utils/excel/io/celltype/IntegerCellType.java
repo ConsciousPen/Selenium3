@@ -1,6 +1,6 @@
 package aaa.utils.excel.io.celltype;
 
-import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public class IntegerCellType extends NumberCellType<Integer> {
 	public IntegerCellType(Class<Integer> endType) {

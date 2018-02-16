@@ -22,8 +22,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
 import toolkit.exceptions.IstfException;
 
 public class ExcelManager {
@@ -42,11 +42,11 @@ public class ExcelManager {
 	}
 
 	public boolean isOpened() {
-		return isOpened;
+		return this.isOpened;
 	}
 
 	public File getFile() {
-		return file;
+		return this.file;
 	}
 
 	public Set<CellType<?>> getCellTypes() {
@@ -57,12 +57,16 @@ public class ExcelManager {
 		return new ArrayList<>(getSheetsMap().values());
 	}
 
-	public List<String> getSheetNames() {
+	public List<String> getSheetsNames() {
 		return getSheets().stream().map(ExcelSheet::getSheetName).collect(Collectors.toList());
 	}
 
-	public List<Integer> getSheetNumbers() {
+	public List<Integer> getSheetsIndexes() {
 		return new ArrayList<>(getSheetsMap().keySet());
+	}
+
+	public int getSheetsNumber() {
+		return getSheetsMap().size();
 	}
 
 	public Workbook getWorkbook() {
@@ -83,21 +87,32 @@ public class ExcelManager {
 		return this.workbook;
 	}
 
+	@Override
+	public String toString() {
+		return "ExcelManager{" +
+				"isOpened=" + isOpened() +
+				", file=" + getFile() +
+				", sheetsNumner=" + getSheetsNumber() +
+				", sheetsNames=" + getSheetsNames() +
+				", allowableCellTypes=" + getCellTypes() +
+				'}';
+	}
+
 	public boolean hasSheet(String sheetName) {
-		return getSheetNames().contains(sheetName);
+		return getSheetsNames().contains(sheetName);
 	}
 
-	public boolean hasSheet(int sheetNumber) {
-		return getSheetNumbers().contains(sheetNumber);
+	public boolean hasSheet(int sheetIndex) {
+		return getSheetsIndexes().contains(sheetIndex);
 	}
 
-	public ExcelSheet getSheet(int sheetNumber) {
-		assertThat(hasSheet(sheetNumber)).as("There is no sheet with %s number", sheetNumber).isTrue();
-		return getSheetsMap().get(sheetNumber);
+	public ExcelSheet getSheet(int sheetIndex) {
+		assertThat(hasSheet(sheetIndex)).as("There is no sheet with %1$s number in \"%2$s\" file", sheetIndex, getFile()).isTrue();
+		return getSheetsMap().get(sheetIndex);
 	}
 
 	public ExcelSheet getSheet(String sheetName) {
-		assertThat(hasSheet(sheetName)).as("There is no sheet with \"%s\" name", sheetName).isTrue();
+		assertThat(hasSheet(sheetName)).as("There is no sheet with \"%1$s\" name in \"%2$s\" file", sheetName, getFile()).isTrue();
 		return getSheets().stream().filter(s -> s.getSheetName().equals(sheetName)).findFirst().get();
 	}
 
@@ -127,14 +142,14 @@ public class ExcelManager {
 	@SuppressWarnings("resource")
 	public ExcelManager close() {
 		if (!isOpened()) {
-			log.warn("Excel workbook is already closed");
+			log.warn("Excel workbook on \"{}\" file is already closed", getFile());
 			return this;
 		}
 		try {
 			getWorkbook().close();
 			this.isOpened = false;
 		} catch (IOException e) {
-			throw new IstfException("Closing of excel workbook has been failed", e);
+			throw new IstfException(String.format("Closing of excel workbook in \"%s\" file has been failed", getFile()), e);
 		}
 		return this;
 	}

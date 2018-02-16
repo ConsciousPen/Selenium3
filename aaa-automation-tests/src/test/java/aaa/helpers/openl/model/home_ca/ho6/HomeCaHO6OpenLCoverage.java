@@ -17,7 +17,9 @@ public class HomeCaHO6OpenLCoverage extends HomeCaOpenLCoverage {
 	public String toString() {
 		return "HomeCaHO6OpenLCoverage{" +
 				"deductibleAmount=" + deductibleAmount +
+				", limitAmount=" + limitAmount +
 				", number=" + number +
+				", coverageCd='" + coverageCd + '\'' +
 				", limit='" + limit + '\'' +
 				'}';
 	}

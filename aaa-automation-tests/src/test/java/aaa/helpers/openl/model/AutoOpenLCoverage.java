@@ -2,7 +2,6 @@ package aaa.helpers.openl.model;
 
 public class AutoOpenLCoverage extends OpenLCoverage {
 	protected Integer additionalLimitAmount;
-	protected String coverageCD;
 	protected String deductible;
 
 	public Integer getAdditionalLimitAmount() {
@@ -11,14 +10,6 @@ public class AutoOpenLCoverage extends OpenLCoverage {
 
 	public void setAdditionalLimitAmount(Integer additionalLimitAmount) {
 		this.additionalLimitAmount = additionalLimitAmount;
-	}
-
-	public String getCoverageCD() {
-		return coverageCD;
-	}
-
-	public void setCoverageCD(String coverageCD) {
-		this.coverageCD = coverageCD;
 	}
 
 	public String getDeductible() {
@@ -33,7 +24,7 @@ public class AutoOpenLCoverage extends OpenLCoverage {
 	public String toString() {
 		return "AutoOpenLCoverage{" +
 				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCD='" + coverageCD + '\'' +
+				", coverageCd='" + coverageCd + '\'' +
 				", deductible='" + deductible + '\'' +
 				", number=" + number +
 				", limit='" + limit + '\'' +

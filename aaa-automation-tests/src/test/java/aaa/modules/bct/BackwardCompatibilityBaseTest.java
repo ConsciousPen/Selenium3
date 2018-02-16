@@ -1,15 +1,5 @@
 package aaa.modules.bct;
 
-import aaa.helpers.jobs.Job;
-import aaa.helpers.jobs.JobUtils;
-import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import oracle.net.aso.q;
-import org.apache.xpath.operations.Bool;
-import org.testng.SkipException;
-import toolkit.db.DBService;
-import toolkit.verification.CustomAssert;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import org.testng.SkipException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.jobs.Job;
+import aaa.helpers.jobs.JobUtils;
+import aaa.modules.BaseTest;
+import toolkit.db.DBService;
+import toolkit.verification.CustomAssert;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
 
@@ -55,6 +52,19 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		return getPoliciesFromQuery(getQueryResult(testName, queryName), queryName);
 	}
 
+	protected List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
+		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
+		query = query.replace("/EXECDATE/", executionDate);
+		query = query.replace("/STATE/", getState());
+		query = query.replace("pasadm.", "");
+		query = query.replace("PASADM.", "");
+		query = query.replace("/DATE1/", date1);
+		query = query.replace("/DATE2/", date2);
+
+		return getPoliciesFromQuery(DBService.get().getRows(query), "SelectPolicy");
+	}
+
 	private List<Map<String, String>> getQueryResult(String testName, String queryName) {
 		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue(queryName);
@@ -86,7 +96,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 					throw new SkipException("No policies found by '" + queryName + "' query");
 				}
 		}
-		log.info("Policies found by '" + queryName + "' query: " + policies.toString());
+		log.info("Policies found by '" + queryName + "' query: " + policies);
 
 		return policies;
 	}

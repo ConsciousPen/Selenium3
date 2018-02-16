@@ -27,12 +27,54 @@
         </classes>
     </test>
     
+    <test name="Home SS Scenario10 with HO4" parallel="none">
+        <parameter name="state" value="UT, AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho4.TestScenario10"/>
+        </classes>
+    </test>
+    
+    <test name="Home SS Scenario10 with HO6" parallel="none">
+        <parameter name="state" value="UT, AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho6.TestScenario10"/>
+        </classes>
+    </test>
+    
+    <test name="Home SS Scenario10 with DP3" parallel="none">
+        <parameter name="state" value="UT, AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.dp3.TestScenario10"/>
+        </classes>
+    </test>
+    
     <test name="Home CA Scenario 10 with HO3" parallel="none">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario10"/>
         </classes>
     </test>
+    
+    <test name="Home CA Scenario 10 with HO4" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.ho4.TestScenario10"/>
+        </classes>
+    </test>
+
+	<test name="Home CA Scenario 10 with HO6" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.ho6.TestScenario10"/>
+        </classes>
+    </test>
+ 
+	<test name="Home CA Scenario 10 with DP3" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.dp3.TestScenario10"/>
+        </classes>
+    </test>   
 
     <test name="PUP Scenario 10" parallel="none">
         <parameter name="state" value="UT, CA" />

@@ -1,6 +1,6 @@
 package aaa.helpers.mock.model.membership;
 
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class MembershipRequest {
 	@ExcelTableColumnElement(name = "ID")
