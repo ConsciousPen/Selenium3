@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -409,6 +410,26 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements).isEmpty();
 			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).name).isEqualTo("PolicyRules");
 			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).errors.get(0)).contains("System Created Pended Endorsement");
+		});
+	}
+
+	protected void pas9997_paymentPlansLookup(PolicyType policyType) {
+		//mainApp().open();
+		String lookupName = "AddressUsageType";
+		String productCd = "AAA_SS";
+		String riskStateCd = "AZ";
+		HashMap <String, String> responseValidateLookup = HelperCommon.executeLookupValidate(lookupName, productCd, riskStateCd);
+		assertSoftly(softly -> {
+			softly.assertThat(responseValidateLookup.containsKey("Contact")).isTrue();
+			softly.assertThat(responseValidateLookup.get("Contact").equals("Contact")).isTrue();
+			assertThat(responseValidateLookup.size()).isEqualTo(5);
+			responseValidateLookup.values();
+			responseValidateLookup.keySet();
+			/*softly.assertThat(responseValidateLookup.getContact()).isEqualTo("Contact");
+			softly.assertThat(responseValidateLookup.mailing).isEqualTo("Mailing");
+			softly.assertThat(responseValidateLookup.Legal).isEqualTo("Legal");
+			softly.assertThat(responseValidateLookup.Living).isEqualTo("Living");
+			softly.assertThat(responseValidateLookup.Prior).isEqualTo("Prior");*/
 		});
 	}
 
