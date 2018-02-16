@@ -311,17 +311,6 @@
             </class>
         </classes>
     </test>
-    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
-                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 
     <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
