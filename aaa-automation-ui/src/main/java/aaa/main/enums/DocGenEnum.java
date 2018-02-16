@@ -164,6 +164,7 @@ public final class DocGenEnum {
 		AHRCTXXPUP("AHRCTXX", "Insured Receipt for Funds Received by Agent"),
 		AHTPC("Third Party Designee Cover Page"),
 		AHTPCCA(""),
+		AHMVCNV("Membership Validation Letter"),
 		AU02("Notice of Cancellation"),
 		AU03("Notice of Declination"),
 		AU04("Free Form to Insured"),
@@ -250,6 +251,7 @@ public final class DocGenEnum {
 		HSRFIXXPUP("HSRFIXX", "Request For Information"),
 		HSRMXX(""),
 		HSRNXX("HSRNXX", "Renewal Offer: Important Renewal Information"),
+		HSTPNJ("Third Party Designation by Senior Citizen"),
 		HSU01CA("HSU01CA", "HSU01", "Advisory Letter"),
 		HSU01XX("HSU01XX", "HSU01", "Advisory Letter"),
 		HSU02XX("HSU02XX", "HSU02", "Cancellation Letter"),
@@ -263,6 +265,7 @@ public final class DocGenEnum {
 		HSU08XX("HSU08XX", "HSU08", "Request for Additional Information"),
 		HSU09XX("HSU09XX", "HSU09", "Uprate"),
 		HSVAAD("Policy holder Advisory Notice"),
+		HSMPDCNVXX("Multi-policy Discount Letter"),
 		PS02("Personal Umbrella Policy Declarations"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
@@ -348,8 +351,7 @@ public final class DocGenEnum {
 		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
 		_61_6528_HO6("61 6528", "Condominium Owners Insurance Quote Page"),
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
-		_62_6500("62 6500", "CA Evidence of Property Insurance")
-		;
+		_62_6500("62 6500", "CA Evidence of Property Insurance");
 
 		private String id;
 		private String idInXml;

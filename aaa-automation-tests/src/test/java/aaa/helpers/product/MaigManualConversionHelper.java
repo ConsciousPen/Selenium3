@@ -3,11 +3,18 @@ package aaa.helpers.product;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MaigManualConversionHelper{
 
@@ -59,6 +66,50 @@ public class MaigManualConversionHelper{
 	 */
 	public String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
 		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
+	}
+
+	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
+		//todo check if it works
+		// Refactor
+		List<String> allGeneratedTemplateIds = new ArrayList<>();
+		for (Document doc : documentList) {
+			allGeneratedTemplateIds.add(doc.getTemplateId());
+		}
+		// Check that all documents where generated
+		assertThat(allGeneratedTemplateIds).containsAll(expectedFormsOrder);
+
+		// get intersection between xml and expected forms in order from expected forms list
+		List<String> actualFormsInDBOrder = allGeneratedTemplateIds.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
+
+		// Check sequence
+		assertThat(actualFormsInDBOrder).isEqualTo(expectedFormsOrder);
+	}
+
+
+	public List<String> getHO3NJForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HSRNMXX.getId(),
+				DocGenEnum.Documents.HSTPNJ.getId(),
+				DocGenEnum.Documents.HS02.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId(),
+				DocGenEnum.Documents.HSCSNA.getId()
+		);
+	}
+
+	public List<String> getHO3OtherStatesForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HSRNMXX.getId(),
+				DocGenEnum.Documents.HS02.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+		);
 	}
 
 }
