@@ -4,6 +4,7 @@ package aaa.modules.regression.document_fulfillment.home_ss.ho6.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,6 +12,11 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
+
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO6;
+    }
 
     /**
      * @name Test MAIG Document generation (Pre-renewal package)

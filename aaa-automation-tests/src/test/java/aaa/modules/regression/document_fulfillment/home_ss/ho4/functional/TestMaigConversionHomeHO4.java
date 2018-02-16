@@ -4,6 +4,7 @@ package aaa.modules.regression.document_fulfillment.home_ss.ho4.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,6 +12,11 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
+
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO4;
+    }
 
     /**
      * @name Test MAIG Document generation (Pre-renewal package)
@@ -26,4 +32,12 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
     public void pas2305_preRenewalLetterHSPRNXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas2305_preRenewalLetterHSPRNXX(state);
     }
+
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2305"})
+    public void pas2674_test(@Optional("VA") String state) {
+        super.pas2674_test(state);
+    }
+
 }
