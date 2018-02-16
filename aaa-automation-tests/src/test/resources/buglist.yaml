@@ -181,4 +181,15 @@ PAS-9754:
       messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
     - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
       messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
-
+PAS-9337:
+  summary: "Green Button Service - Abracradabra"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas6562_endorsementValidateNotAllowedOutOfBound]
+      messages: ["Expected empty*UpdateVehicle"]
+PAS-9722:
+  summary: "Random sequence for Vehicles on DXP - closed, new story will be created"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
+      messages: [" "]
