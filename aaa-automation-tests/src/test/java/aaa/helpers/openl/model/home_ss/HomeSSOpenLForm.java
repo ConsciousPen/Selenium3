@@ -8,6 +8,8 @@ public class HomeSSOpenLForm extends OpenLForm {
 	private Boolean masonaryOrFarmPremisesInd;
 	private Integer optionalValue;
 	private String type;
+	private Integer noOfFamilies; // MD specific ?
+	private Integer noOfPersons; // MD specific ?
 
 	public Integer getCovPercentage() {
 		return covPercentage;
@@ -49,6 +51,22 @@ public class HomeSSOpenLForm extends OpenLForm {
 		this.type = type;
 	}
 
+	public Integer getNoOfFamilies() {
+		return noOfFamilies;
+	}
+
+	public void setNoOfFamilies(Integer noOfFamilies) {
+		this.noOfFamilies = noOfFamilies;
+	}
+
+	public Integer getNoOfPersons() {
+		return noOfPersons;
+	}
+
+	public void setNoOfPersons(Integer noOfPersons) {
+		this.noOfPersons = noOfPersons;
+	}
+
 	@Override
 	public String toString() {
 		return "HomeSSOpenLForm{" +
@@ -57,6 +75,8 @@ public class HomeSSOpenLForm extends OpenLForm {
 				", masonaryOrFarmPremisesInd=" + masonaryOrFarmPremisesInd +
 				", optionalValue=" + optionalValue +
 				", type='" + type + '\'' +
+				", noOfFamilies=" + noOfFamilies +
+				", noOfPersons=" + noOfPersons +
 				", number=" + number +
 				", formCode='" + formCode + '\'' +
 				", limit=" + limit +

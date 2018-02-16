@@ -5,26 +5,26 @@ import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
-import aaa.utils.excel.bind.ExcelTableElement;
-import aaa.utils.excel.bind.ExcelTransient;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeCaHO4OpenLFile extends HomeCaOpenLFile<HomeCaHO4OpenLPolicy> {
 	@ExcelTransient
 	static final int FORM_HEADER_ROW_NUMBER = 4;
 
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	protected List<HomeCaHO4OpenLPolicy> policies;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowNumber = FORM_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaHO4OpenLForm> forms;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowNumber = DWELLING_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLDwelling> dwelling;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowNumber = SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowIndex = SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
 	protected List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	public List<HomeCaHO4OpenLForm> getForms() {

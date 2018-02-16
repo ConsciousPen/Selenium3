@@ -60,7 +60,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test(description = "Precondition for TestRefundProcess tests")
+	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -70,19 +70,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
-	@Test(description = "Precondition for TestRefundProcess tests")
+	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
 				.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
 
-	@Test(description = "Precondition for TestRefundProcess tests")
+	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void pendingRefundPaymentMethodConfigCheck() {
 		CustomAssert.assertEquals("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.", DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK)
 				.get(), "pendingRefund");
 	}
 
-	@Test(description = "Precondition for refund last payment method")
+	@Test(description = "Precondition for refund last payment method", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eRefundLastPaymentMethodConfigCheck() {
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertTrue("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());

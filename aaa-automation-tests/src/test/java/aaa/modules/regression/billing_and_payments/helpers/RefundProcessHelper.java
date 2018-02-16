@@ -127,7 +127,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 		CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 		CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-		CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+		if (refundMethod.contains("Check")) {
+			CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+		} else {
+			CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
+		}
 		CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 	}
 
@@ -194,7 +198,11 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 			CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-			CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+			if (refundMethod.contains("Check")) {
+				CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+			} else {
+				CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
+			}
 			CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 		}
 	}

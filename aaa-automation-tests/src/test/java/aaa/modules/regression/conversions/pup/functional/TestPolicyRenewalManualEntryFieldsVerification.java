@@ -15,9 +15,7 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
@@ -54,10 +52,10 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
 
-        assertThat(generalTab.getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.CONVERSION_DATE.getLabel()).getValue()).isEqualTo(currentDate);
-        assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.COMMISSION_TYPE.getLabel()).getValue()).isEqualTo("Renewal");
-        assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.APPLICATION_TYPE.getLabel()).getValue()).isEqualTo("Hybrid Conversion");
-        assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE.getLabel()).getValue()).isEqualTo("Hybrid Conversion");
+        assertThat(generalTab.getAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.CONVERSION_DATE)).hasValue(currentDate);
+        assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.COMMISSION_TYPE)).hasValue("Renewal");
+        assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.APPLICATION_TYPE)).hasValue("Hybrid Conversion");
+        assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE)).hasValue("Hybrid Conversion");
 
         String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE.getLabel()).getValue());
         String pupPolicyNumberSuffix = policyState + "PU109";

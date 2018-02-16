@@ -1,14 +1,18 @@
 package aaa.utils.excel.io.entity.area.table;
 
+import java.util.Set;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
-import aaa.utils.excel.io.entity.cell.EditableCell;
+import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
-public class TableCell extends EditableCell {
-	private int tableColumnIndex;
+public class TableCell extends ExcelCell {
+	public TableCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableRow tableRow) {
+		this(cell, columnIndexInTable, columnIndexOnSheet, tableRow, tableRow.getCellTypes());
+	}
 
-	public TableCell(Cell cell, TableRow tableRow, int tableColumnIndex, int columnIndex) {
-		super(cell, tableRow, columnIndex);
-		this.tableColumnIndex = tableColumnIndex;
+	public TableCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableRow tableRow, Set<CellType<?>> cellTypes) {
+		super(cell, columnIndexInTable, columnIndexOnSheet, tableRow, cellTypes);
 	}
 
 	public String getHeaderColumnName() {
@@ -19,8 +23,9 @@ public class TableCell extends EditableCell {
 		return getRow().getTable();
 	}
 
+	@Override
 	public int getColumnIndexOnSheet() {
-		return this.columnIndex;
+		return super.getColumnIndexOnSheet();
 	}
 
 	@Override
@@ -29,20 +34,21 @@ public class TableCell extends EditableCell {
 	}
 
 	@Override
-	public int getColumnIndex() {
-		return this.tableColumnIndex;
+	public String toString() {
+		return "TableCell{" +
+				"sheetName=" + getSheetName() +
+				", rowIndex=" + getRowIndex() +
+				", columnIndex=" + getColumnIndex() +
+				", headerColumnName=" + getHeaderColumnName() +
+				", cellTypes=" + getCellTypes() +
+				", value=" + getStringValue() +
+				'}';
 	}
 
 	@Override
-	public String toString() {
-		return "ExcelCell{" +
-				"Sheet name=" + getTable().getSheet().getSheetName() +
-				", Row number=" + getRowIndex() +
-				", Column number=" + getColumnIndex() +
-				", Header column name=" + getHeaderColumnName() +
-				", Cell value=" + getStringValue() +
-				", Cell Types=" + getCellTypes() +
-				'}';
+	public ExcelCell delete() {
+		//TODO-dchubkov: implement delete ExcelCell and TableCell
+		throw new NotImplementedException("Cell deletion is not implemented yet");
 	}
 
 	public TableCell copy(int destinationRowIndex, String destinationHeaderColumnName) {

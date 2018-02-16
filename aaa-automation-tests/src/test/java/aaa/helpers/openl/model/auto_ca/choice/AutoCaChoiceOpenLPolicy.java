@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLDriver> drivers;
 
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	private Boolean multiCar;

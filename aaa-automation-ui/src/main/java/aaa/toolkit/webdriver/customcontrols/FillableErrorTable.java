@@ -1,5 +1,7 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
@@ -7,9 +9,6 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Control for filling ErrorTabs table which extends FillableTable.
@@ -48,7 +47,7 @@ public class FillableErrorTable extends FillableTable {
 
 
 	@Override
-	protected List<Class<? extends BaseElement>> getSearchableControlsList() {
+	protected List<Class<? extends BaseElement<?, ?>>> getSearchableControlsList() {
 		return Arrays.asList(StaticElement.class, Link.class);
 	}
 }

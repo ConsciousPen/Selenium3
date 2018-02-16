@@ -4,8 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-import aaa.utils.excel.io.entity.cell.EditableCell;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public abstract class NumberCellType<T extends Number> extends AbstractCellType<T> {
 	public NumberCellType(Class<T> endType) {
@@ -25,8 +24,8 @@ public abstract class NumberCellType<T extends Number> extends AbstractCellType<
 	}
 
 	@Override
-	public void setValueTo(EditableCell cell, Number value) {
-		createPoiCellIfNull(cell).getPoiCell().setCellValue(value.doubleValue());
+	public void setValueTo(ExcelCell cell, Number value) {
+		cell.getPoiCell().setCellValue(value.doubleValue());
 	}
 
 	@Override
