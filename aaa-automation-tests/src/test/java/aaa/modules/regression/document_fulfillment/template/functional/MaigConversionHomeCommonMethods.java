@@ -32,32 +32,14 @@ import java.util.Map;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
-public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
+public abstract class MaigConversionHomeCommonMethods extends PolicyBaseTest {
 
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
 
 	/**
-	 * @name Test Conversion Document generation (Pre-renewal package)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data for Home
-	 * 4. Check that HSPRNXX document is getting generated
-	 * @details
-	 */
-	public void pas2305_preRenewalLetterHSPRNXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(getConversionPolicyDefaultTD(), HSPRNXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
 	 * @name Creation converted policy for checking Pre-renewal letter
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
@@ -65,7 +47,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 3. Check that form is getting generated with correct content
 	 * @details
 	 */
-	private void preRenewalLetterFormGeneration(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
+	protected void preRenewalLetterFormGeneration(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
 		String policyNumber = createManualConversionRenewalEntry(testData);
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
 				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
@@ -78,24 +60,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	/**
-	 * @name Test Conversion Document generation (Pre-renewal package)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data for Home
-	 * 4. Initiate PUP conversion policy
-	 * 5. Check that HSPRNXX document is getting generated
-	 * @details
-	 */
-	public void pas2305_preRenewalLetterPupConvHSPRNXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGenerationPup(getConversionPolicyDefaultTD(), HSPRNXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
 	 * @name Creation converted policy for checking Pre-renewal letter
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
@@ -104,7 +68,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 3. Check that form is getting generated with correct content
 	 * @details
 	 */
-	private void preRenewalLetterFormGenerationPup(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
+	protected void preRenewalLetterFormGenerationPup(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
 		String policyNumber = createManualConversionRenewalEntry(testData);
 		String legacyPolicyNumber = createPolicyForTDPup();
 
@@ -116,92 +80,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	/**
-	 * @name Test Conversion Document generation (Pre-renewal package)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with PUP added to OtherActiveAAAPolicies for Home
-	 * 4. Check that HSPRNXX document is getting generated with PUP section
-	 * @details
-	 */
-	public void pas9170_preRenewalLetterPupHSPRNXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(adjustWithPupData(getConversionPolicyDefaultTD()), HSPRNXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Pre-renewal package)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with Mortgagee payment plan for Home
-	 * 4. Check that HSPRNMXX document is getting generated
-	 * @details
-	 */
-	public void pas7342_preRenewalLetterHSPRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSPRNMXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Pre-renewal package)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with Mortgagee payment plan
-	 * 4. Initiate PUP conversion policy
-	 * 5. Check that HSPRNMXX document is getting generated
-	 * @details
-	 */
-	public void pas7342_preRenewalLetterPupConvHSPRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSPRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Pre-renewal package)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with Mortgagee payment plan and PUP added to OtherActiveAAAPolicies  for Home
-	 * 4. Check that HSPRNMXX document is getting generated
-	 * @details
-	 */
-	public void pas9170_preRenewalLetterPupHSPRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyDefaultTD())), HSPRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Renewal cover letter)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data for Home
-	 * 4. Check that HSRNHODPXX document is getting generated
-	 * @details
-	 */
-	public void pas2309_renewalCoverLetterHSRNHODPXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(getConversionPolicyDefaultTD(), HSRNHODPXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
 	 * @name Creation converted policy for checking Renewal Cover letter
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
@@ -209,7 +87,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 3. Check that form is getting generated with correct content
 	 * @details
 	 */
-	private void renewalCoverLetterFormGeneration(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
+	protected void renewalCoverLetterFormGeneration(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
 		String policyNumber = createManualConversionRenewalEntry(testData);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
@@ -231,7 +109,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 3. Check that form is getting generated with correct content
 	 * @details
 	 */
-	private void renewalCoverLetterFormGenerationPup(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
+	protected void renewalCoverLetterFormGenerationPup(TestData testData, DocGenEnum.Documents form, boolean isPupPresent) throws NoSuchFieldException {
 		String policyNumber = createManualConversionRenewalEntry(testData);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = createPolicyForTDPup();
@@ -243,97 +121,24 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		verifyDocumentTagData(document, testData, isPupPresent);
 	}
 
-	/**
-	 * @name Test Conversion Document generation (Renewal cover letter)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data for home
-	 * 4. Initiate PUP conversion policy
-	 * 5. Check that HSRNHODPXX document is getting generated
-	 * @details
-	 */
-	public void pas2309_renewalCoverLetterPupConvHSRNHODPXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
+    protected void test(TestData testData, DocGenEnum.Documents form, boolean isPupPresent){
+        String policyNumber = createManualConversionRenewalEntry(testData);
+        String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
+                getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+        LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 
-		renewalCoverLetterFormGenerationPup(getConversionPolicyDefaultTD(), HSRNHODPXX, true);
 
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
+        processRenewal(RENEWAL_OFFER, effDate, policyNumber);
 
-	/**
-	 * @name Test Conversion Document generation (Renewal cover letter)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with PUP added to OtherActiveAAAPolicies for Home
-	 * 4. Check that HSRNHODPXX document is getting generated
-	 * @details
-	 */
-	public void pas2309_renewalCoverLetterPupHSRNHODPXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(adjustWithPupData(getConversionPolicyDefaultTD()), HSRNHODPXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Renewal cover letter)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with Mortgagee payment plan for Home
-	 * 4. Check that HSRNMXX document is getting generated
-	 * @details
-	 */
-	public void pas2570_renewalCoverLetterHSRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSRNMXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Renewal cover letter)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with Mortgagee payment plan for Home
-	 * 4. Initiate PUP conversion policy.
-	 * 5. Check that HSRNMXX document is getting generated
-	 * @details
-	 */
-	public void pas2570_renewalCoverLetterPupConvHSRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @name Test Conversion Document generation (Renewal cover letter)
-	 * @scenario 1. Create Customer
-	 * 2. Initiate Renewal Entry
-	 * 3. Fill Conversion Policy data with Mortgagee payment plan and PUP added to OtherActiveAAAPolicies for Home
-	 * 4. Check that HSRNMXX document is getting generated
-	 * @details
-	 */
-	public void pas2570_renewalCoverLetterPupHSRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyDefaultTD())), HSRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
+        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
+//        verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
+//        verifyDocumentTagData(document, testData, isPupPresent);
+    }
 
 	/**
 	 * Run needed renewal job based on event name for the document
 	 */
-	private void processRenewal(AaaDocGenEntityQueries.EventNames eventName, LocalDateTime effectiveDate, String policyNumber) {
+	protected void processRenewal(AaaDocGenEntityQueries.EventNames eventName, LocalDateTime effectiveDate, String policyNumber) {
 		SearchPage.openPolicy(policyNumber);
 		ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -447,7 +252,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	/**
 	 * Utility method that enhances Conversion {@link TestData} with Mortgagee info
 	 */
-	public TestData adjustWithMortgageeData(TestData policyTD) {
+	protected TestData adjustWithMortgageeData(TestData policyTD) {
 		//adjust TestData with Mortgagee tab data
 		String mortgageeTabKey = TestData.makeKeyPath(HomeSSMetaData.MortgageesTab.class.getSimpleName());
 		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
@@ -460,7 +265,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	/**
 	 * Utility method that enhances Conversion {@link TestData} with PUP in OtherActiveAAAPolicies
 	 */
-	private TestData adjustWithPupData(TestData policyTD) {
+	protected TestData adjustWithPupData(TestData policyTD) {
 		TestData pupTD = getTestSpecificTD("OtherActiveAAAPolicies").resolveLinks();
 		String pupOtherActiveAAAPoliciesTabKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
 		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, pupTD);

@@ -10,7 +10,7 @@ import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
+import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
+public class TestMaigConversionHomeHO3  extends TestMaigConversionHomeTemplate {
 
     /**
      * @name Test MAIG Document generation (Pre-renewal package)
