@@ -103,6 +103,7 @@
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
+                    <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
                 </methods>
             </class>
         </classes>
