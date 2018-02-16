@@ -32,19 +32,19 @@ public class ExcelUnmarshaller {
 		return unmarshal(excelFile, excelFileModel, false);
 	}
 
-	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
-		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch);
+	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch, int... rowsIndexes) {
+		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch, rowsIndexes);
 	}
 
-	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel) {
-		return unmarshal(excelManager, excelFileModel, false);
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, int... rowsIndexes) {
+		return unmarshal(excelManager, excelFileModel, false, rowsIndexes);
 	}
 
-	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch) {
-		return unmarshal(excelManager, excelFileModel, strictMatch, true);
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, int... rowsIndexes) {
+		return unmarshal(excelManager, excelFileModel, strictMatch, true, rowsIndexes);
 	}
 
-	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, boolean closeManagerOnFinish) {
+	public <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, boolean closeManagerOnFinish, int... rowsIndexes) {
 		//TODO: check excelFileModel is valid class (not primitive, etc...)
 		log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
 				excelFileModel.getSimpleName(), excelManager.getFile().getAbsolutePath(), strictMatch ? "with" : "without"));
@@ -131,7 +131,7 @@ public class ExcelUnmarshaller {
 			table = sheet.getTable(ignoreCase, headerColumnNames.toArray(new String[headerColumnNames.size()]));
 		} else {
 			if (strictMatch) {
-				table = sheet.getTable(rowNumber, ignoreCase, headerColumnNames.toArray(new String[headerColumnNames.size()]));
+				table = sheet.getTable(rowNumber, null, ignoreCase, headerColumnNames.toArray(new String[headerColumnNames.size()]));
 			} else {
 				table = sheet.getTable(rowNumber);
 			}

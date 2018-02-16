@@ -34,4 +34,7 @@ public @interface ExcelTableColumnElement {
 	 * Date format patterns array for {@link LocalDateTime} field types used for parsing cells with date values
 	 */
 	String[] dateFormatPatterns() default {};
+
+	//to be continued...
+	//String listByContains() default "##*";
 }
