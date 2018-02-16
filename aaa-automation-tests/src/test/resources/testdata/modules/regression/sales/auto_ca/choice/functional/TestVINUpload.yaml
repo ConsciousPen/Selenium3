@@ -1,3 +1,10 @@
 TestData: {
   VehicleTab: '@VINDoesNotMatch@VehicleTab_UnmatchedVIN'
 }
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
+}

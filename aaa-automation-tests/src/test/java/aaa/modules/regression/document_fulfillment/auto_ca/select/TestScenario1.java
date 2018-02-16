@@ -192,9 +192,12 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				);
 		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
 		
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNum);
+		
 		// 5
 		policy.policyDocGen().start();
-		docgenActionTab.generateDocuments(DocGenEnum.DeliveryMethod.LOCAL_PRINT, Documents.AHRCTXXPUP);
+		docgenActionTab.generateDocuments(Documents.AHRCTXXPUP);
 		
 		// 6
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHRCTXXPUP);

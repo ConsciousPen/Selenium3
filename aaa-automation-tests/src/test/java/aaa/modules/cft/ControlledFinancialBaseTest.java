@@ -887,6 +887,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
 		SearchPage.openBilling(policyNumber);
 		new PaymentsMaintenance().clearSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), policyNumber, policyNumber);
+
 		log.info("Suspense cleared successfully");
 	}
 

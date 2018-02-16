@@ -2,8 +2,8 @@ package aaa.helpers.openl.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import aaa.utils.excel.bind.ExcelTableElement;
-import aaa.utils.excel.bind.ExcelTransient;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
@@ -105,7 +105,7 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
 	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";
 
-	@ExcelTableElement(sheetName = TESTS_SHEET_NAME, headerRowNumber = TESTS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = TESTS_SHEET_NAME, headerRowIndex = TESTS_HEADER_ROW_NUMBER)
 	@ExcelTransient
 	protected List<OpenLTest> tests;
 

@@ -3,8 +3,8 @@ package aaa.helpers.openl.model.home_ca;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.ExcelTableElement;
-import aaa.utils.excel.bind.ExcelTransient;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public abstract class HomeCaOpenLFile<P extends HomeCaOpenLPolicy> extends OpenLFile<P> {
 	@ExcelTransient
@@ -14,11 +14,11 @@ public abstract class HomeCaOpenLFile<P extends HomeCaOpenLPolicy> extends OpenL
 	protected static final String SCHEDULED_PROPERTY_ITEM_SHEET_NAME = "Batch- ScheduledPropertyItem";
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	protected List<HomeCaOpenLAddress> address;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	protected List<HomeCaOpenLCoverage> coverages;
 
 	public List<HomeCaOpenLAddress> getAddress() {

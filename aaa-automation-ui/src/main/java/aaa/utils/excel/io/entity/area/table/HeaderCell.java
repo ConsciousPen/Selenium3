@@ -1,47 +1,31 @@
 package aaa.utils.excel.io.entity.area.table;
 
+import java.util.Arrays;
+import javax.ws.rs.NotSupportedException;
 import org.apache.poi.ss.usermodel.Cell;
-import aaa.utils.excel.io.entity.cell.ExcelCell;
+import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.area.ExcelCell;
 
-public class HeaderCell extends ExcelCell {
-	private int tableColumnIndex;
-
-	public HeaderCell(Cell cell, TableRow tableRow, int tableColumnIndex, int columnIndex) {
-		super(cell, tableRow, columnIndex);
-		this.tableColumnIndex = tableColumnIndex;
-	}
-
-	public String getHeaderColumnName() {
-		return getRow().getColumnName(getColumnIndex());
-	}
-
-	public ExcelTable getTable() {
-		return getRow().getTable();
-	}
-
-	public int getColumnIndexOnSheet() {
-		return this.columnIndex;
+public class HeaderCell extends TableCell {
+	public HeaderCell(Cell cell, int columnIndexInTable, int columnIndexOnSheet, TableHeader header) {
+		super(cell, columnIndexInTable, columnIndexOnSheet, header, header.getCellTypes());
 	}
 
 	@Override
-	public TableRow getRow() {
-		return (TableRow) super.getRow();
+	public HeaderCell clear() {
+		throw new NotSupportedException("Clearing of table header's cell is not supported");
 	}
 
 	@Override
-	public int getColumnIndex() {
-		return this.tableColumnIndex;
+	public HeaderCell delete() {
+		throw new NotSupportedException("Deletion of table header's cell is not supported");
 	}
 
 	@Override
-	public String toString() {
-		return "ExcelCell{" +
-				"Sheet name=" + getTable().getSheet().getSheetName() +
-				", Row number=" + getRowIndex() +
-				", Column number=" + getColumnIndex() +
-				", Header column name=" + getHeaderColumnName() +
-				", Cell value=" + getStringValue() +
-				", Cell Types=" + getCellTypes() +
-				'}';
+	public HeaderCell registerCellType(CellType<?>... cellTypes) {
+		if (Arrays.stream(cellTypes).anyMatch(t -> !ExcelCell.STRING_TYPE.equals(t))) {
+			throw new NotSupportedException("Table header's cell does not support non string cell types");
+		}
+		return (HeaderCell) super.registerCellType(cellTypes);
 	}
 }

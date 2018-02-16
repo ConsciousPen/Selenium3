@@ -1,7 +1,7 @@
 package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class OpenLConstructionInfo {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
