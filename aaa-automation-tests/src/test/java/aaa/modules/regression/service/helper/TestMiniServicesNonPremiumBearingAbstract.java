@@ -413,18 +413,32 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas9997_paymentPlansLookup(PolicyType policyType) {
-		//mainApp().open();
-		String lookupName = "AddressUsageType";
-		String productCd = "AAA_SS";
-		String riskStateCd = "AZ";
-		HashMap <String, String> responseValidateLookup = HelperCommon.executeLookupValidate(lookupName, productCd, riskStateCd);
+	protected void pas9997_paymentPlansLookup() {
 		assertSoftly(softly -> {
-			softly.assertThat(responseValidateLookup.containsKey("Contact")).isTrue();
-			softly.assertThat(responseValidateLookup.get("Contact").equals("Contact")).isTrue();
-			assertThat(responseValidateLookup.size()).isEqualTo(5);
+			//mainApp().open();
+			String lookupName = "AAAeValueQualifyingPaymentMethods";
+			String productCd = "AAA_SS";
+			String riskStateCd = "AZ";
+			HashMap<String, String> responseValidateLookup = HelperCommon.executeLookupValidate(lookupName, productCd, riskStateCd);
+			softly.assertThat(responseValidateLookup.containsKey("pciDebitCard")).isTrue();
+			softly.assertThat(responseValidateLookup.get("pciDebitCard").equals("TRUE")).isTrue();
+			softly.assertThat(responseValidateLookup.get("pciCreditCard").equals("FALSE")).isTrue();
+			softly.assertThat(responseValidateLookup.get("eft").equals("TRUE")).isTrue();
+			assertThat(responseValidateLookup.size()).isEqualTo(3);
 			responseValidateLookup.values();
 			responseValidateLookup.keySet();
+
+			String lookupName1 = "AAAeValueQualifyingPaymentPlans";
+			String productCd1 = "AAA_SS";
+			String riskStateCd1 = "AZ";
+			HashMap<String, String> responseValidateLookup1 = HelperCommon.executeLookupValidate(lookupName1, productCd1, riskStateCd1);
+			softly.assertThat(responseValidateLookup1.get("annualSS").equals("TRUE")).isTrue();
+			softly.assertThat(responseValidateLookup1.get("semiAnnual6SS").equals("TRUE")).isTrue();
+			softly.assertThat(responseValidateLookup1.get("annualSS_R").equals("TRUE")).isTrue();
+			softly.assertThat(responseValidateLookup1.get("semiAnnual6SS_R").equals("TRUE")).isTrue();
+			assertThat(responseValidateLookup1.size()).isEqualTo(4);
+			responseValidateLookup1.values();
+			responseValidateLookup1.keySet();
 			/*softly.assertThat(responseValidateLookup.getContact()).isEqualTo("Contact");
 			softly.assertThat(responseValidateLookup.mailing).isEqualTo("Mailing");
 			softly.assertThat(responseValidateLookup.Legal).isEqualTo("Legal");

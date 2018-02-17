@@ -372,7 +372,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
 	public void pas9997_paymentPlansLookup(@Optional("VA") String state) {
 
-		pas9997_paymentPlansLookup(getPolicyType());
+		pas9997_paymentPlansLookup();
 	}
 
 	@Override
