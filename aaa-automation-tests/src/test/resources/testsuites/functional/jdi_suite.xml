@@ -310,7 +310,7 @@
             </class>
         </classes>
     </test>
-    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
+    <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
