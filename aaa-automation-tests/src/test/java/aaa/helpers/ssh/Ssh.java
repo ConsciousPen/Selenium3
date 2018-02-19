@@ -315,7 +315,7 @@ public class Ssh {
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
-				session.setConfig("PreferredAuthentications", "keyboard-interactive,password");
+				session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
 				if (Boolean.parseBoolean(PropertyProvider.getProperty("scrum.envs.ssh", "false"))) {
 					session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
 				}
