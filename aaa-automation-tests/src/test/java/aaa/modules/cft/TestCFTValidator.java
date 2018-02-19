@@ -60,10 +60,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	@BeforeClass
 	public void precondition() throws IOException {
-		LocalDateTime date = TimeSetterUtil.getInstance().getCurrentTime();
-		log.info("Current application date: " + date);
-		TimeSetterUtil.getInstance().nextPhase(date.plusMinutes(1));
-
 		// refreshReports
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
@@ -96,7 +92,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			log.info("Moving data from monitor to download dir");
 			log.info("Remote file location: {}", remoteFileLocation);
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-			log.info("Monitor info: " + monitorInfo);
+			log.info("Monitor info:" + monitorInfo);
+			log.info("index1={}, index2={}", monitorInfo.indexOf("selenium"), monitorInfo.indexOf(":"));
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium") + 16, monitorInfo.indexOf(":"));
 			log.info("Monitor Address: {}, index1={}, index2={}", monitorAddress, monitorInfo.indexOf("selenium"), monitorInfo.indexOf(":"));
 			SSHController sshControllerRemote = new SSHController(
