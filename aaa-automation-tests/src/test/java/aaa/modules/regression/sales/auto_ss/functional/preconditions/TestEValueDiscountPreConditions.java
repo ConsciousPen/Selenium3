@@ -79,7 +79,7 @@ public interface TestEValueDiscountPreConditions {
 	String PAPERLESS_PREFERENCE_STUB_POINT = "select VALUE from "
 			+ "PROPERTYCONFIGURERENTITY"
 			+ " WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' "
-			+ " and VALUE like '%%http://%s%%'";
+			+ " and VALUE like '%%%s%%'";
 
 	String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK = "select Effective from (\n"
 			+ "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"

@@ -101,8 +101,8 @@
                     <include name="pas325_eValueCommissionRelatedFields"/>
                     <include name="pas436_eValueDiscountVariations"/>
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
-                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
+                    <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
                 </methods>
             </class>
         </classes>
@@ -124,6 +124,7 @@
                     <include name="pas3693_eValueConfiguration4"/>
                     <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
+                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
                 </methods>
             </class>
         </classes>
@@ -303,26 +304,24 @@
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                     <include name="pas8275_vinValidate"/>
-                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
-                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
-                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
-                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
-                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
                 </methods>
             </class>
         </classes>
     </test>
-
     <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
