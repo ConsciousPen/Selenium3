@@ -90,18 +90,17 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			log.info("Moving data from monitor to download dir");
-			log.info("Remote file location: {}", remoteFileLocation);
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-			log.info("Monitor info:" + monitorInfo);
-			log.info("index1={}, index2={}", monitorInfo.indexOf(" "), monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
-			log.info("Monitor Address: {}, index1={}, index2={}", monitorAddress, monitorInfo.indexOf(" "), monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			log.info("Monitor Address: {}", monitorAddress);
+			log.info("Remote file location: {}", remoteFileLocation);
+			log.info("Download to directory {}", downloadDir);
 			SSHController sshControllerRemote = new SSHController(
 				monitorAddress,
 				PropertyProvider.getProperty("test.ssh.user"),
 				PropertyProvider.getProperty("test.ssh.password"));
 			sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
-			Waiters.SLEEP(15000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// Remote path from server -
