@@ -2,13 +2,16 @@ package com.exigen.ipb.etcsa.base.app;
 
 import java.util.HashMap;
 import java.util.function.Function;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.mortbay.log.Log;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
 import toolkit.config.PropertyProvider;
 
 public class CSAACapabilityModifier implements Function<DesiredCapabilities, DesiredCapabilities> {
@@ -27,9 +30,10 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 		} else {
 			downloadPath = System.getProperty(USER_DIR_PROP) + FilenameUtils.separatorsToSystem(PropertyProvider.getProperty(LOCAL_DOWNLOAD_FOLDER_PROP));
 		}
+		Log.info("DownloadPath: {}", downloadPath);
 		switch (desiredCapabilities.getBrowserName()) {
 
-			case CHROME: {
+			case CHROME : {
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--no-sandbox");
 				options.setExperimentalOption("useAutomationExtension", false);
@@ -42,7 +46,7 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 				desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 				break;
 			}
-			case FIREFOX: {
+			case FIREFOX : {
 				FirefoxProfile profile = new FirefoxProfile();
 				profile.setPreference("browser.download.dir", downloadPath);
 				profile.setPreference("browser.download.folderList", 2);
