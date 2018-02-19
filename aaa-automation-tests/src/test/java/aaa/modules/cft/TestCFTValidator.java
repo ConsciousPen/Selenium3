@@ -89,6 +89,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// moving data from monitor to download dir
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
+			log.info("Moving data from monitor to download dir");
+			log.info("Remote file location: {}", remoteFileLocation);
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			log.info("Monitor info: " + monitorInfo);
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
