@@ -93,9 +93,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			log.info("Remote file location: {}", remoteFileLocation);
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			log.info("Monitor info:" + monitorInfo);
-			log.info("index1={}, index2={}, index3={}", monitorInfo.indexOf("selenium"), monitorInfo.indexOf(":", 2), monitorInfo.indexOf(":", 3));
-			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium") + 16, monitorInfo.indexOf(":", 2));
-			log.info("Monitor Address: {}, index1={}, index2={}", monitorAddress, monitorInfo.indexOf("selenium"), monitorInfo.indexOf(":"));
+			log.info("index1={}, index2={}", monitorInfo.indexOf(" "), monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			log.info("Monitor Address: {}, index1={}, index2={}", monitorAddress, monitorInfo.indexOf(" "), monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			SSHController sshControllerRemote = new SSHController(
 				monitorAddress,
 				PropertyProvider.getProperty("test.ssh.user"),
