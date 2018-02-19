@@ -20,7 +20,15 @@ public class RemoteHelper {
 	private static String hostName = PropertyProvider.getProperty(TestProperties.APP_HOST);
 	private static String user = PropertyProvider.getProperty(TestProperties.SSH_USER);
 	private static String password = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
-	private static Ssh ssh = new Ssh(hostName, user, password);
+	private static Ssh ssh;
+
+	static {
+		try {
+			ssh = new Ssh(hostName, user, password);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	public static String getServerTimeZone() {
 		String cmd = "timedatectl | grep -oP 'Time zone: \\K.*(?= \\()'";
