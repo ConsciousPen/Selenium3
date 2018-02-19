@@ -27,6 +27,7 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.helpers.cft.CFTHelper;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.http.HttpJob;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Record;
 import aaa.modules.cft.report.ReportFutureDatedPolicy;
@@ -60,6 +61,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	@BeforeClass
 	public void precondition() throws IOException {
+		setTimeToToday();
 		// refreshReports
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
@@ -79,11 +81,11 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// get map from OR reports
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
+		Waiters.SLEEP(30000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==1
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
+		Waiters.SLEEP(30000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==2
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
@@ -209,6 +211,16 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			}
 		}
 		return accountsMapSummaryFromFeedFile;
+	}
+
+	private void setTimeToToday() {
+		try {
+			HttpJob.stopAsyncManager();
+		} catch (IOException e) {
+			log.error("Async manager was not stoped", e);
+		}
+		log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
+		TimeSetterUtil.getInstance().adjustTime();
 	}
 
 }

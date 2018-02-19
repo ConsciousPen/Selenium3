@@ -6,13 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-	<test name="Test Preconditions" preserve-order="true">
-		<classes>
-   			<class name="aaa.modules.preconditions.SetTodayDate"/>
-	 	</classes>
-	</test>
-
-    <test name="CFT Validation" preserve-order="true">
+    <test name="CFT Validation">
 		<classes>
             <class name="aaa.modules.cft.TestCFTValidator" />
         </classes>
