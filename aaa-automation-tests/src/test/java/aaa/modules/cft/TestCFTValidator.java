@@ -93,8 +93,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			log.info("Remote file location: {}", remoteFileLocation);
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			log.info("Monitor info: " + monitorInfo);
-			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
-			log.info("Monitor Address: " + monitorAddress);
+			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium") + 16, monitorInfo.indexOf(":"));
+			log.info("Monitor Address: {}, index1={}, index2={}", monitorAddress, monitorInfo.indexOf("selenium"), monitorInfo.indexOf(":"));
 			SSHController sshControllerRemote = new SSHController(
 				monitorAddress,
 				PropertyProvider.getProperty("test.ssh.user"),
@@ -137,6 +137,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			List<Map<String, String>> dbTransactions = DBService.get().getRows(query);
 			accNumberTable.add(dbTransactions);
 		}
+		log.info("Filepath: {}", CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
 		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
 		log.info("Future dated policies were verified");
 	}
