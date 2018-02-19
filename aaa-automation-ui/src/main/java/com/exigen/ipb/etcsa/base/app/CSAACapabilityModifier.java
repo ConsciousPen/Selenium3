@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mortbay.log.Log;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -30,7 +29,6 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 		} else {
 			downloadPath = System.getProperty(USER_DIR_PROP) + FilenameUtils.separatorsToSystem(PropertyProvider.getProperty(LOCAL_DOWNLOAD_FOLDER_PROP));
 		}
-		Log.info("DownloadPath: {}", downloadPath);
 		switch (desiredCapabilities.getBrowserName()) {
 
 			case CHROME : {
