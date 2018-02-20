@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,8 @@ import aaa.modules.cft.report.ReportGeneratorService;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
@@ -79,12 +82,10 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// get map from OR reports
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Waiters.SLEEP(30000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
-		// condition that download/remote download folder listfiles.size==1
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Waiters.SLEEP(30000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
-		// condition that download/remote download folder listfiles.size==2
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
@@ -209,5 +210,13 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			}
 		}
 		return accountsMapSummaryFromFeedFile;
+	}
+
+	private Callable<Integer> downloadDirectorySize() {
+		return new Callable<Integer>() {
+			public Integer call() throws Exception {
+				return downloadDir.listFiles().length;
+			}
+		};
 	}
 }
