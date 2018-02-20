@@ -2,11 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -19,11 +14,17 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -196,7 +197,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-9337"})
 	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("") String state) {
 
 		pas6562_endorsementValidateNotAllowedOutOfBound(getPolicyType());
@@ -365,6 +366,23 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
 
 		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Start Endorsement info server response for Future policy
+	 * @scenario
+	 * 1. Create Future Policy.
+	 * 2. Hit "start endorsement info" dxp server.
+	 * 3. Check error message.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas9337_StartEndorsementInfoServerResponseForFuturePolicy(@Optional("VA") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(getPolicyType());
 	}
 
 	@Override

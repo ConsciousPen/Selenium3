@@ -90,7 +90,7 @@ public class HelperCommon {
 		AAAEndorseRequest request = new AAAEndorseRequest();
 		request.endorsementDate = endorsementDate;
 		request.endorsementReason = "OTHPB";
-		request.endorsementReason = "Some reason why endorsement was done";
+		request.endorsementReasonOther = "Some reason why endorsement was done";
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_START_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
