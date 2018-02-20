@@ -121,6 +121,8 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 		createCustomerIndividual();
 		createQuote(policyTD);
+
+		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -156,6 +158,8 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 		autopaySavingMessageCheckForMortgagee(false, delta);
 
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 
 
 	}
