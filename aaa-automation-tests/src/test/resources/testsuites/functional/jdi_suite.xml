@@ -307,6 +307,8 @@
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
+                    <include name="pas9997_paymentMethodsLookup"/>
+                    <include name="pas9997_paymentPlansLookup"/>
                 </methods>
             </class>
         </classes>

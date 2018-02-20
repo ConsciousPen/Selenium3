@@ -366,11 +366,18 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
+	public void pas9997_paymentMethodsLookup(@Optional("") String state) {
+
+		pas9997_paymentMethodsLookup();
+	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
-	public void pas9997_paymentPlansLookup(@Optional("VA") String state) {
+	public void pas9997_paymentPlansLookup(@Optional("") String state) {
 
 		pas9997_paymentPlansLookup();
 	}
