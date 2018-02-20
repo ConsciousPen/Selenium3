@@ -65,7 +65,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		}
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(effDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
@@ -389,7 +389,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
     public void createManualConversion(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
         policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
-        Tab.buttonSaveAndExit.click();
         policy.getDefaultView().getTab(BindTab.class).submitTab();
         mainApp().open();
     }
