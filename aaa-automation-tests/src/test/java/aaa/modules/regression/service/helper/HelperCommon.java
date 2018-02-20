@@ -99,8 +99,11 @@ public class HelperCommon {
 		return aaaEndorseResponse;
 	}
 
-	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd) {
+	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
+		if (effectiveDate != null) {
+			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
+		}
 		HashMap <String, String> validateLookupResponse  = runJsonRequestGetDxp(requestUrl, HashMap.class );
 		return validateLookupResponse;
 	}
