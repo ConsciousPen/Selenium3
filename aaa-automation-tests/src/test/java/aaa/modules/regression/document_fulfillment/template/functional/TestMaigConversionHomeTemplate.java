@@ -4,6 +4,7 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.Job;
@@ -12,15 +13,18 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.xml.model.Document;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
@@ -59,6 +63,14 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		else{
 			maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3OtherStatesForms(), actualDocumentsList);
 		}
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(effDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
 
 	}
 
@@ -378,7 +390,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
         policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
         Tab.buttonSaveAndExit.click();
-       // policy.getDefaultView().getTab(BindTab.class).submitTab();
+        policy.getDefaultView().getTab(BindTab.class).submitTab();
+        mainApp().open();
     }
 
     /**

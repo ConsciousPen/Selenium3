@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 
 public class MaigManualConversionHelper{
@@ -68,21 +68,23 @@ public class MaigManualConversionHelper{
 	}
 
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
-		// Check that all documents where generated
-		expectedFormsOrder.forEach(templateId -> assertThat(documentList).isEqualTo(templateId));
-		// Get all docs +  sequence number
-		HashMap<Integer, String> actualDocuments = new HashMap<>();
-		documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
-		// Sort keys
-		List<Integer> sortedKeys = new ArrayList(actualDocuments.keySet());
-		Collections.sort(sortedKeys);
-		// Get documents order by sequence number
-		List<String> actualOrder = new ArrayList<>();
-		sortedKeys.forEach(sequenceId -> actualOrder.add(actualDocuments.get(sequenceId)));
-		// Get Intersection order
-		List<String> intersectionsWithActualList = actualOrder.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
-		// Check sequence
-		assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
+		assertSoftly(softly -> {
+			// Check that all documents where generated
+			expectedFormsOrder.forEach(templateId -> softly.assertThat(documentList).isEqualTo(templateId));
+			// Get all docs +  sequence number
+			HashMap<Integer, String> actualDocuments = new HashMap<>();
+			documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
+			// Sort keys
+			List<Integer> sortedKeys = new ArrayList(actualDocuments.keySet());
+			Collections.sort(sortedKeys);
+			// Get documents order by sequence number
+			List<String> actualOrder = new ArrayList<>();
+			sortedKeys.forEach(sequenceId -> actualOrder.add(actualDocuments.get(sequenceId)));
+			// Get Intersection order
+			List<String> intersectionsWithActualList = actualOrder.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
+			// Check sequence
+			softly.assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
+		});
 	}
 
 
