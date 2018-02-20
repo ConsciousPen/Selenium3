@@ -141,7 +141,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 			}
 		}
 
-		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), rowsIndexes, columnsIndexes, this, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexes, rowsIndexes, this, getCellTypes());
 		return addTable(t).getTable(t);
 	}
 
