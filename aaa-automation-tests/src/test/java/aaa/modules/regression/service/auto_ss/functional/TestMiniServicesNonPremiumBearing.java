@@ -366,6 +366,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Retrieve lookup data service - Payment Methods
+	 * @scenario
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 2. Add State Specific configurations for specific dates, which adds new values to it
+	 * 3. Retrieve lookup values for the mentioned dates, check value
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
@@ -374,6 +382,14 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9997_paymentMethodsLookup();
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Retrieve lookup data service - Payment Plans
+	 * @scenario
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 2. Add State Specific configurations for specific dates, which adds new values to it
+	 * 3. Retrieve lookup values for the mentioned dates, check value
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})

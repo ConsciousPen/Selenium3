@@ -419,7 +419,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_ADD_WY);
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_CHANGE_WY);
 
-			//mainApp().open();
+			mainApp().open();
 			String lookupName2 = "AAAeValueQualifyingPaymentMethods";
 			String productCd = "AAA_SS";
 			String riskStateCd = "WY";
@@ -427,9 +427,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String effectiveDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup12 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate1);
-			softly.assertThat(responseValidateLookup12.get("pciDebitCard").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup12.get("pciCreditCard").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup12.get("eft").equals("TRUE")).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup12.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup12.get("pciCreditCard"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup12.get("eft"))).isTrue();
 			softly.assertThat(responseValidateLookup12.size()).isEqualTo(3);
 			responseValidateLookup12.values();
 			responseValidateLookup12.keySet();
@@ -438,25 +438,20 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String effectiveDate2 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup22 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate2);
-			softly.assertThat(responseValidateLookup22.get("pciDebitCard").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup22.get("pciCreditCard").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup22.get("eft").equals("TRUE")).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup22.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup22.get("pciCreditCard"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup22.get("eft"))).isTrue();
 			softly.assertThat(responseValidateLookup12.size()).isEqualTo(3);
-			responseValidateLookup12.values();
-			responseValidateLookup12.keySet();
 
 
 			String effectiveDate3 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(7).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup32 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate3);
-			softly.assertThat(responseValidateLookup32.get("pciDebitCard").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup32.get("pciCreditCard").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup32.get("eft").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup32.get("XXXX").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup12.size()).isEqualTo(4);
-			responseValidateLookup12.values();
-			responseValidateLookup12.keySet();
-
+			softly.assertThat("TRUE".equals(responseValidateLookup32.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup32.get("pciCreditCard"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup32.get("eft"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup32.get("XXXX"))).isTrue();
+			softly.assertThat(responseValidateLookup32.size()).isEqualTo(4);
 
 			DBService.get().executeUpdate(DELETE_ADDED_PAYMENT_METHOD_CONFIGS_WY);
 		});
@@ -467,7 +462,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_ADD_WY);
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_CHANGE_WY);
 
-			//mainApp().open();
+			mainApp().open();
 			String lookupName1 = "AAAeValueQualifyingPaymentPlans";
 			String productCd = "AAA_SS";
 			String riskStateCd = "WY";
@@ -475,10 +470,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String effectiveDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup11 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate1);
-			softly.assertThat(responseValidateLookup11.get("annualSS").equals("FALSE")).isTrue();
-			softly.assertThat(responseValidateLookup11.get("semiAnnual6SS").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup11.get("annualSS_R").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup11.get("semiAnnual6SS_R").equals("TRUE")).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup11.get("annualSS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup11.get("semiAnnual6SS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup11.get("annualSS_R"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup11.get("semiAnnual6SS_R"))).isTrue();
 			softly.assertThat(responseValidateLookup11.size()).isEqualTo(4);
 			responseValidateLookup11.values();
 			responseValidateLookup11.keySet();
@@ -487,26 +482,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String effectiveDate2 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup21 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate2);
-			softly.assertThat(responseValidateLookup21.get("annualSS").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup21.get("semiAnnual6SS").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup21.get("annualSS_R").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup21.get("semiAnnual6SS_R").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup11.size()).isEqualTo(4);
-			responseValidateLookup11.values();
-			responseValidateLookup11.keySet();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("annualSS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("semiAnnual6SS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("annualSS_R"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("semiAnnual6SS_R"))).isTrue();
+			softly.assertThat(responseValidateLookup21.size()).isEqualTo(4);
 
 
 			String effectiveDate3 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup31 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate3);
-			softly.assertThat(responseValidateLookup31.get("annualSS").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup31.get("semiAnnual6SS").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup31.get("annualSS_R").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup31.get("semiAnnual6SS_R").equals("TRUE")).isTrue();
-			softly.assertThat(responseValidateLookup31.get("XXXX").equals("FALSE")).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("annualSS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("semiAnnual6SS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("annualSS_R"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("semiAnnual6SS_R"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup31.get("XXXX"))).isTrue();
 			softly.assertThat(responseValidateLookup31.size()).isEqualTo(5);
-			responseValidateLookup11.values();
-			responseValidateLookup11.keySet();
 
 		DBService.get().executeUpdate(DELETE_ADDED_PAYMENT_PLANS_CONFIGS_WY);
 		});
