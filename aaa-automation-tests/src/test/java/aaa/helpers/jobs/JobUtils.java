@@ -1,25 +1,23 @@
 package aaa.helpers.jobs;
 
-import aaa.helpers.http.HttpJob;
-import aaa.helpers.jobs.Jobs.JobState;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.exec.core.TimedTestContext;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.core.TimedTestContext;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import aaa.helpers.http.HttpJob;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.modules.BaseTest;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
 
 public class JobUtils {
-	
+
 	private static Logger log = LoggerFactory.getLogger(JobUtils.class);
 
 	private static LocalDateTime currentPhase;
@@ -36,31 +34,32 @@ public class JobUtils {
 		}
 
 		synchronized (job) {
-			if (forceExecution)
-				Jobs.setJobState(job.getJobName(), JobState.FALSE);
+			if (forceExecution) {
+				Jobs.setJobState(job.getJobName(), Jobs.JobState.FALSE);
+			}
 			switch (Jobs.getJobState(job.getJobName())) {
-			case FALSE:
-				try {
-					if (isPef()) {
-						executeJobByPEF(job, forceExecution);
-					} else {
-						executeJobLocally(job);
+				case FALSE:
+					try {
+						if (isPef()) {
+							executeJobByPEF(job, forceExecution);
+						} else {
+							executeJobLocally(job);
+						}
+						log.info(String.format("Job '%s' was executed successfully", job.getJobName()));
+					} catch (Exception e) {
+						Jobs.setJobState(job.getJobName(), Jobs.JobState.FAILED);
+						throw e;
+						//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED ", e);
 					}
-					log.info(String.format("Job '%s' was executed successfully", job.getJobName()));
-				} catch (Exception e) {
-					Jobs.setJobState(job.getJobName(), JobState.FAILED);
-					throw e;
-					//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED ", e);
-				}
-				break;
-			case TRUE:
-				log.info(String.format("Job '%s' has been already executed", job.getJobName()));
-				break;
-			case FAILED:
-				log.error(String.format("Job " + job.getJobName() + " execution is FAILED"));
-				//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED");
-			default:
-				break;
+					break;
+				case TRUE:
+					log.info(String.format("Job '%s' has been already executed", job.getJobName()));
+					break;
+				case FAILED:
+					log.error(String.format("Job " + job.getJobName() + " execution is FAILED"));
+					//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED");
+				default:
+					break;
 			}
 		}
 	}
@@ -77,6 +76,10 @@ public class JobUtils {
 			log.info("Pause before job execution is failed: ", e);
 		}
 		executeJob(job, false);
+	}
+
+	public static Boolean isPefManager() {
+		return StringUtils.isNotBlank(PropertyProvider.getProperty("timeshift.controller.class"));
 	}
 
 	private static void executeJob(String jobName) {
@@ -100,20 +103,21 @@ public class JobUtils {
 
 	private static void executeJobLocally(Job job) {
 		try {
-			Jobs.setJobState(job.getJobName(), JobState.TRUE);
-			if (!job.getJobFolders().isEmpty())
+			Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
+			if (!job.getJobFolders().isEmpty()) {
 				RemoteHelper.clearFolder(job.getJobFolders());
+			}
 			executeJob(job.getJobName());
 		} catch (IstfException e) {
 			throw e;
 		}
 	}
 
-	private static void executeJobByPEF(final Job job, boolean forceExecution) {
-		Jobs.setJobState(job.getJobName(), JobState.TRUE);
-		final String testName = TimeSetterUtil.getInstance().getContext().getName();
-		final long testThreadId = Thread.currentThread().getId();
-		final AtomicReference<Exception> jobException = new AtomicReference<Exception>();
+	private static void executeJobByPEF(Job job, boolean forceExecution) {
+		Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
+		String testName = TimeSetterUtil.getInstance().getContext().getName();
+		long testThreadId = Thread.currentThread().getId();
+		AtomicReference<Exception> jobException = new AtomicReference<Exception>();
 
 		Callable<Boolean> jobCallback = new Callable<Boolean>() {
 			@Override
@@ -121,8 +125,9 @@ public class JobUtils {
 				long curThreadId = Thread.currentThread().getId();
 				try {
 					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getJobName(), testName, testThreadId, curThreadId);
-					if (!job.getJobFolders().isEmpty())
+					if (!job.getJobFolders().isEmpty()) {
 						RemoteHelper.clearFolder(job.getJobFolders());
+					}
 					executeJob(job.getJobName());
 					log.info("Job '{}' callback was executed successfully (testName='{}')", job.getJobName(), testName);
 					return Boolean.TRUE;
@@ -136,19 +141,15 @@ public class JobUtils {
 					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getJobName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
 					return Boolean.FALSE;
+
 				}
 			}
 		};
-
 		boolean isSuccess = getContext().executeJob(job.getJobName(), jobCallback, forceExecution);
 
 		if (!isSuccess) {
 			throw new IstfException(String.format("Job '%s' execution failed: \n", job.getJobName()), jobException.get());
 		}
-	}
-
-	public static Boolean isPefManager() {
-		return StringUtils.isNotBlank(PropertyProvider.getProperty("timeshift.controller.class"));
 	}
 
 	private static TimedTestContext getContext() {
@@ -163,8 +164,9 @@ public class JobUtils {
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 		String fullName = new String();
 		for (StackTraceElement element : stackTraceElements) {
-			if (element.getClassName().startsWith("sun.reflect.") || element.getClassName().contains("java.lang.Class"))
+			if (element.getClassName().startsWith("sun.reflect.") || element.getClassName().contains("java.lang.Class")) {
 				break;
+			}
 			fullName = element.getClassName() + "." + element.getMethodName() + ":" + element.getLineNumber() + " (" + BaseTest.getState() + ")";
 		}
 
