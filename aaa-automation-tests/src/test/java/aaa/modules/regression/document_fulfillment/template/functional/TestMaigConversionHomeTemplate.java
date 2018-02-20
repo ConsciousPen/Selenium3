@@ -14,6 +14,7 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -21,6 +22,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
@@ -420,22 +422,62 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
         return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, pupTD);
     }
 
-
-    public void pas2674_test(String state){
-        test(getConversionPolicyDefaultTD(), HSPRNXX, false);
+    public TestData adjustWithSeniorInsuredData(TestData policyTD){
+        String newDateOfBirth = "12/05/1942";
+        String insuredDOBPath = TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
+        return policyTD.adjust(insuredDOBPath, newDateOfBirth);
     }
 
-    protected void test(TestData testData, DocGenEnum.Documents form, boolean isPupPresent){
+
+    public  void pas2674_formsPresenceAndSequence(TestData testData, List<String> expectedFormsOrder){
+
+        if (getState().equals("NJ")){
+            testData = adjustWithSeniorInsuredData(testData);
+        }
+
+        LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+
         String policyNumber = createManualConversionRenewalEntry(testData);
-        String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-                getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
-        LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
+        processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 
-
-        processRenewal(RENEWAL_OFFER, effDate, policyNumber);
-
-        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
-        //        verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
-        //        verifyDocumentTagData(document, testData, isPupPresent);
+        List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+        manualConvHelper.verifyFormSequence(expectedFormsOrder, actualDocumentsList);
     }
+
+//    protected void verifyFormsPresenceAndSequence (TestData testData, List<String> expectedFormsOrder){
+//
+//        LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+//
+//        String policyNumber = createManualConversionRenewalEntry(testData);
+//        processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
+//
+//        List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+//        manualConvHelper.verifyFormSequence(expectedFormsOrder, actualDocumentsList);
+//    }
+//
+//
+//    public void pas2674_test(String state){
+//        TestData testData;
+//        if (getState().equals("NJ")){
+//            testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+//        }
+//        else{
+//            testData = getConversionPolicyDefaultTD();
+//        }
+//        test(testData, HSPRNXX, false);
+//    }
+//
+//    protected void test(TestData testData, DocGenEnum.Documents form, boolean isPupPresent){
+//        String policyNumber = createManualConversionRenewalEntry(testData);
+//        String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
+//                getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+//        LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
+//
+//
+//        processRenewal(RENEWAL_OFFER, effDate, policyNumber);
+//
+//        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
+//                verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
+//                verifyDocumentTagData(document, testData, isPupPresent);
+//    }
 }

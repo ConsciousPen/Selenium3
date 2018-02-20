@@ -4,12 +4,16 @@ package aaa.modules.regression.document_fulfillment.home_ss.ho4.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.util.List;
 
 public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
 
@@ -36,8 +40,11 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2305"})
-    public void pas2674_test(@Optional("VA") String state) {
-        super.pas2674_test(state);
+    public void pas2674_formsPresenceAndSequence(@Optional("NJ") String state) {
+        TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+        List<String> expectedFormsList = new MaigManualConversionHelper().getHO4NJForms();
+
+        pas2674_formsPresenceAndSequence(testData, expectedFormsList);
     }
 
 }

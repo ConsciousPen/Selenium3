@@ -110,4 +110,27 @@ public class MaigManualConversionHelper{
 		);
 	}
 
+	public List<String> getHO4OtherStatesForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HS02.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(), //probably will be skipped
+				DocGenEnum.Documents.HSMPDCNVXX.getId() //multi policy discount
+		);
+	}
+
+	public List<String> getHO4NJForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HSTPNJ.getId(),
+				DocGenEnum.Documents.HS02.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(), //probably will be skipped
+				DocGenEnum.Documents.HSMPDCNVXX.getId() //multi policy discount
+		);
+	}
+
 }
