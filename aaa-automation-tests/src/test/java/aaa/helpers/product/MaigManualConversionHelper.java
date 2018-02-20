@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
+
 
 public class MaigManualConversionHelper{
 
@@ -72,9 +73,7 @@ public class MaigManualConversionHelper{
 		//todo check if it works
 		// Refactor
 		List<String> allGeneratedTemplateIds = new ArrayList<>();
-		for (Document doc : documentList) {
-			allGeneratedTemplateIds.add(doc.getTemplateId());
-		}
+		documentList.forEach(doc -> allGeneratedTemplateIds.add(doc.getTemplateId()));
 		// Check that all documents where generated
 		assertThat(allGeneratedTemplateIds).containsAll(expectedFormsOrder);
 
@@ -102,7 +101,6 @@ public class MaigManualConversionHelper{
 
 	public List<String> getHO3OtherStatesForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getId(),
 				DocGenEnum.Documents.HSRNMXX.getId(),
 				DocGenEnum.Documents.HS02.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),

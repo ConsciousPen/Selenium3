@@ -19,6 +19,8 @@ import toolkit.utils.TestInfo;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
 
@@ -58,13 +60,13 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	public void pas2709_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
-		List<String> expectedHO3NJFormsOrder = maigManualConversionHelper.getHO3NJForms();
-
-		String policyNumber = createManualConversionRenewalEntry(getConversionPolicyDefaultTD(), effDate);
+		String policyNumber = createManualConversionRenewalEntry(adjustWithMortgageeData(getConversionPolicyDefaultTD()), effDate);
 		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		maigManualConversionHelper.verifyFormSequence(expectedHO3NJFormsOrder, actualDocumentsList);
+		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+
+		maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3NJForms(), actualDocumentsList);
 
 	}
 
@@ -75,13 +77,15 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 		// CW, DE, VA
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
-		List<String> expectedHO3FormsOrder = maigManualConversionHelper.getHO3OtherStatesForms();
+		//String policyNumber = createManualConversionRenewalEntry(adjustWithMortgageeData(getConversionPolicyDefaultTD()), effDate);
+		//processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 
-		String policyNumber = createManualConversionRenewalEntry(getConversionPolicyDefaultTD(), effDate);
-		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
+		String policyNumber = "DEH3109000002";
 
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		maigManualConversionHelper.verifyFormSequence(expectedHO3FormsOrder, actualDocumentsList);
+		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+
+		maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3OtherStatesForms(), actualDocumentsList);
 	}
 
 
