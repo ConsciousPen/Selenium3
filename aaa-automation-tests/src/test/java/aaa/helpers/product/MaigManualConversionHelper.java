@@ -8,9 +8,7 @@ import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
@@ -70,25 +68,27 @@ public class MaigManualConversionHelper{
 	}
 
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
-		//todo check if it works
-		// Refactor
-		List<String> allGeneratedTemplateIds = new ArrayList<>();
-		documentList.forEach(doc -> allGeneratedTemplateIds.add(doc.getTemplateId()));
 		// Check that all documents where generated
-		assertThat(allGeneratedTemplateIds).containsAll(expectedFormsOrder);
-
-		// get intersection between xml and expected forms in order from expected forms list
-		List<String> actualFormsInDBOrder = allGeneratedTemplateIds.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
-
+		expectedFormsOrder.forEach(templateId -> assertThat(documentList).isEqualTo(templateId));
+		// Get all docs +  sequence number
+		HashMap<Integer, String> actualDocuments = new HashMap<>();
+		documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
+		// Sort keys
+		List<Integer> sortedKeys = new ArrayList(actualDocuments.keySet());
+		Collections.sort(sortedKeys);
+		// Get documents order by sequence number
+		List<String> actualOrder = new ArrayList<>();
+		sortedKeys.forEach(sequenceId -> actualOrder.add(actualDocuments.get(sequenceId)));
+		// Get Intersection order
+		List<String> intersectionsWithActualList = actualOrder.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
 		// Check sequence
-		assertThat(actualFormsInDBOrder).isEqualTo(expectedFormsOrder);
+		assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
 	}
 
 
 	public List<String> getHO3NJForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getId(),
-				DocGenEnum.Documents.HSRNMXX.getId(),
 				DocGenEnum.Documents.HSTPNJ.getId(),
 				DocGenEnum.Documents.HS02.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),

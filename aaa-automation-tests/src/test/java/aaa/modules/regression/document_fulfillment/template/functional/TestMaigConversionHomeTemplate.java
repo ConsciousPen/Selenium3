@@ -1,5 +1,7 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
+
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -22,7 +24,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
@@ -33,9 +34,10 @@ import java.util.Map;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static aaa.main.enums.DocGenEnum.Documents.*;
-import static aaa.main.enums.DocGenEnum.Documents.HSRNMXX;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
+	private MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
 
     private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
             ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
@@ -43,7 +45,25 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
     MaigManualConversionHelper manualConvHelper = new MaigManualConversionHelper();
 
-    /**
+	public void verifyHo3FormsSequence(TestData testData,LocalDateTime effDate){
+		String policyNumber = createManualConversionRenewalEntry(testData, effDate);
+
+		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
+
+		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+
+		if(Constants.States.NJ.equals(getState())){
+			maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3NJForms(), actualDocumentsList);
+		}
+		else{
+			maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3OtherStatesForms(), actualDocumentsList);
+		}
+
+	}
+
+
+	/**
      * @name Test Conversion Document generation (Pre-renewal package)
      * @scenario 1. Create Customer
      * 2. Initiate Renewal Entry
@@ -357,7 +377,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
     public void createManualConversion(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
         policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
-        policy.getDefaultView().getTab(BindTab.class).submitTab();
+        Tab.buttonSaveAndExit.click();
+       // policy.getDefaultView().getTab(BindTab.class).submitTab();
     }
 
     /**

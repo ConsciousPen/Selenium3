@@ -3,26 +3,25 @@
 package aaa.modules.regression.document_fulfillment.home_ss.ho3.functional;
 
 import aaa.helpers.TimePoints;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.product.MaigManualConversionHelper;
-import aaa.helpers.xml.model.Document;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
-	MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
 
 	/**
 	 * @name Test MAIG Document generation (Pre-renewal package)
@@ -55,37 +54,29 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2709"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
 	public void pas2709_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+		TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
 
-		String policyNumber = createManualConversionRenewalEntry(adjustWithMortgageeData(getConversionPolicyDefaultTD()), effDate);
-		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
-
-		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
-
-		maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3NJForms(), actualDocumentsList);
-
+		verifyHo3FormsSequence(testData,effDate);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2709"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
 	public void pas2709_SpecificRenewalPacketGeneration(@Optional("DE") String state) {
 		// CW, DE, VA
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 
-		//String policyNumber = createManualConversionRenewalEntry(adjustWithMortgageeData(getConversionPolicyDefaultTD()), effDate);
-		//processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
+		verifyHo3FormsSequence(testData,effDate);
+	}
 
-		String policyNumber = "DEH3109000002";
-
-		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
-
-		maigManualConversionHelper.verifyFormSequence(maigManualConversionHelper.getHO3OtherStatesForms(), actualDocumentsList);
+	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void retrieveMembershipSummaryEndpointCheck() {
+		assertThat(DBService.get().getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get()).contains(PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
 	}
 
 
