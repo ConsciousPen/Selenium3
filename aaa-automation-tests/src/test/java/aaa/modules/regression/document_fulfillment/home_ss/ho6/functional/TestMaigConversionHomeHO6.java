@@ -4,12 +4,16 @@ package aaa.modules.regression.document_fulfillment.home_ss.ho6.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.util.List;
 
 public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
 
@@ -17,6 +21,8 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO6;
     }
+
+    private MaigManualConversionHelper manualConversionHelper = new MaigManualConversionHelper();
 
     /**
      * @name Test MAIG Document generation (Pre-renewal package)
@@ -46,6 +52,26 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2305"})
     public void pas2305_preRenewalLetterHSPRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas2305_preRenewalLetterHSPRNXX(state);
+    }
+
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
+    public void pas2674_formsPresenceAndSequenceNJ(@Optional("NJ") String state) {
+        TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+        List<String> expectedFormsList = manualConversionHelper.getHO6NJForms();
+
+        pas2674_formsPresenceAndSequence(testData, expectedFormsList);
+    }
+
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
+    public void pas2674_formsPresenceAndSequence(@Optional("VA") String state) {
+        TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
+        List<String> expectedFormsList = manualConversionHelper.getHO6OtherStatesForms();
+
+        pas2674_formsPresenceAndSequence(testData, expectedFormsList);
     }
 
 }

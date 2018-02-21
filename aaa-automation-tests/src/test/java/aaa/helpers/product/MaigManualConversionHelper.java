@@ -137,8 +137,7 @@ public class MaigManualConversionHelper{
 
     public List<String> getHO6OtherStatesForms() {
         return Arrays.asList(
-                DocGenEnum.Documents.HSRNHODPXX.getId(),
-                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HSRNMXX.getId(), ////Mortgagee form instead of HO form
                 DocGenEnum.Documents.HS02_6.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),
                 DocGenEnum.Documents.AHPNXX.getId(),
@@ -149,8 +148,7 @@ public class MaigManualConversionHelper{
 
     public List<String> getHO6NJForms() {
         return Arrays.asList(
-                DocGenEnum.Documents.HSRNHODPXX.getId(),
-                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
                 DocGenEnum.Documents.HSTPNJ.getId(),
                 DocGenEnum.Documents.HS02_6.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),

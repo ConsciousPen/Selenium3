@@ -22,7 +22,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
         return PolicyType.HOME_SS_HO4;
     }
 
-    MaigManualConversionHelper manualConversionHelper = new MaigManualConversionHelper();
+    private MaigManualConversionHelper manualConversionHelper = new MaigManualConversionHelper();
 
     /**
      * @name Test MAIG Document generation (Pre-renewal package)
@@ -41,7 +41,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
 
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2305"})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
     public void pas2674_formsPresenceAndSequenceNJ(@Optional("NJ") String state) {
         TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
         List<String> expectedFormsList = manualConversionHelper.getHO4NJForms();
@@ -51,9 +51,9 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
 
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2305"})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
     public void pas2674_formsPresenceAndSequence(@Optional("VA") String state) {
-        TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+        TestData testData = getConversionPolicyDefaultTD();
         List<String> expectedFormsList = manualConversionHelper.getHO4OtherStatesForms();
 
         pas2674_formsPresenceAndSequence(testData, expectedFormsList);
