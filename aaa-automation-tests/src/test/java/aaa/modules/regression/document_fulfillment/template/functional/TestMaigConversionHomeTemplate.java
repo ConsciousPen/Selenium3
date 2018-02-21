@@ -497,6 +497,12 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, pupTD);
 	}
 
+	public TestData adjustWithSeniorInsuredDataHO4(TestData policyTD){
+		String insuredDOBPath =
+				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
+		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY));
+	}
+
 	public TestData adjustWithSeniorInsuredData(TestData policyTD) {
 		String mortgageeTabMetaKey = new MortgageesTab().getMetaKey();
 

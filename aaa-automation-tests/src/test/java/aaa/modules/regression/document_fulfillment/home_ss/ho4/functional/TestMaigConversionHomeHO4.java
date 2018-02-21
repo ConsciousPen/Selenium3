@@ -43,7 +43,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
     public void pas2674_formsPresenceAndSequenceNJ(@Optional("NJ") String state) {
-        TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+        TestData testData = adjustWithSeniorInsuredDataHO4(getConversionPolicyDefaultTD());
         List<String> expectedFormsList = manualConversionHelper.getHO4NJForms();
 
         pas2674_formsPresenceAndSequence(testData, expectedFormsList);
