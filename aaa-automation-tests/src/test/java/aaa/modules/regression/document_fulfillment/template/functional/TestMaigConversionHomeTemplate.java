@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
@@ -28,10 +29,12 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
@@ -52,8 +55,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		List<String> forms = getForms();
 
 		String policyNumber = createManualConversionRenewalEntry(testData, effDate);
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
 		LocalDateTime r0ExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
@@ -62,13 +64,11 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
 		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.minusDays(35));
-		/*Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);*/
+
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().reopen();
@@ -418,21 +418,19 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		createManualConversion(testData, renewalOfferEffectiveDate);
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
+		policy.getDefaultView().getTab(BindTab.class).submitTab();
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	public String createManualConversionRenewalEntry(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
 		mainApp().open();
 		createCustomerIndividual();
-		createManualConversion(testData, renewalOfferEffectiveDate);
-		return PolicySummaryPage.getPolicyNumber();
-	}
-
-	public void createManualConversion(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
-		//policy.getDefaultView().getTab(BindTab.class).submitTab();
+		Tab.buttonSaveAndExit.click();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	/**
