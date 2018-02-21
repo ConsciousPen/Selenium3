@@ -22,12 +22,14 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
@@ -38,6 +40,7 @@ import java.util.Map;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static aaa.main.enums.DocGenEnum.Documents.*;
+import static aaa.main.enums.DocGenEnum.Documents.HSRNMXX;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
@@ -456,9 +459,22 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
     }
 
     public TestData adjustWithSeniorInsuredData(TestData policyTD){
+        String mortgageeTabMetaKey = new MortgageesTab().getMetaKey();
+
         String newDateOfBirth = "12/05/1942";
         String insuredDOBPath = TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
-        return policyTD.adjust(insuredDOBPath, newDateOfBirth);
+
+        TestData additionalInterestData = new DataProviderFactory().emptyData()
+                .adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.NAME.getLabel(), "Test")
+                .adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.ZIP_CODE.getLabel(), "85085")
+                .adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.STREET_ADDRESS_1.getLabel(), "Test");
+
+
+        policyTD = policyTD.adjust(insuredDOBPath, newDateOfBirth)
+                .adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.IS_THERE_ADDITIONA_INTEREST.getLabel() ), "Yes")
+                .adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel()), additionalInterestData);
+
+        return  policyTD;
     }
 
 
@@ -474,43 +490,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
         processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 
         List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+        assertThat(actualDocumentsList).isNotEmpty().isNotNull();
         manualConvHelper.verifyFormSequence(expectedFormsOrder, actualDocumentsList);
     }
-
-//    protected void verifyFormsPresenceAndSequence (TestData testData, List<String> expectedFormsOrder){
-//
-//        LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
-//
-//        String policyNumber = createManualConversionRenewalEntry(testData);
-//        processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
-//
-//        List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-//        manualConvHelper.verifyFormSequence(expectedFormsOrder, actualDocumentsList);
-//    }
-//
-//
-//    public void pas2674_test(String state){
-//        TestData testData;
-//        if (getState().equals("NJ")){
-//            testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
-//        }
-//        else{
-//            testData = getConversionPolicyDefaultTD();
-//        }
-//        test(testData, HSPRNXX, false);
-//    }
-//
-//    protected void test(TestData testData, DocGenEnum.Documents form, boolean isPupPresent){
-//        String policyNumber = createManualConversionRenewalEntry(testData);
-//        String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-//                getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
-//        LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
-//
-//
-//        processRenewal(RENEWAL_OFFER, effDate, policyNumber);
-//
-//        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
-//                verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
-//                verifyDocumentTagData(document, testData, isPupPresent);
-//    }
 }

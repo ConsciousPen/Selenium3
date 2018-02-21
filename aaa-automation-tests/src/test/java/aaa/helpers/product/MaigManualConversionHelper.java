@@ -115,10 +115,10 @@ public class MaigManualConversionHelper{
 	public List<String> getHO4OtherStatesForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getId(),
-				DocGenEnum.Documents.HS02.getId(),
+				DocGenEnum.Documents.HS02_4.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.AHMVCNV.getId(), //probably will be skipped
+				DocGenEnum.Documents.AHMVCNV.getId(), //membership validation
 				DocGenEnum.Documents.HSMPDCNVXX.getId() //multi policy discount
 		);
 	}
@@ -127,12 +127,83 @@ public class MaigManualConversionHelper{
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getId(),
 				DocGenEnum.Documents.HSTPNJ.getId(),
-				DocGenEnum.Documents.HS02.getId(),
+				DocGenEnum.Documents.HS02_4.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.AHMVCNV.getId(), //probably will be skipped
+				DocGenEnum.Documents.AHMVCNV.getId(), //membership validation
 				DocGenEnum.Documents.HSMPDCNVXX.getId() //multi policy discount
 		);
 	}
+
+    public List<String> getHO6OtherStatesForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNHODPXX.getId(),
+                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HS02_6.getId(),
+                DocGenEnum.Documents.AHAUXX.getId(),
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.AHMVCNV.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
+
+    public List<String> getHO6NJForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNHODPXX.getId(),
+                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HSTPNJ.getId(),
+                DocGenEnum.Documents.HS02_6.getId(),
+                DocGenEnum.Documents.AHAUXX.getId(),
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.AHMVCNV.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
+
+    public List<String> getPupOtherStatesForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNPUPXX.getId(),
+                DocGenEnum.Documents.PS02.getId(),
+                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
+
+    public List<String> getPupNJForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNPUPXX.getId(),
+                DocGenEnum.Documents.HSTPNJ.getId(),
+                DocGenEnum.Documents.PS02.getId(),
+                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
+
+    public List<String> getDP3OtherStatesForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNHODPXX.getId(),
+                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.DS02.getId(),
+                DocGenEnum.Documents.AHAUXX.getId(),
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.AHMVCNV.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
+
+    public List<String> getDP3NJForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNHODPXX.getId(),
+                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HSTPNJ.getId(),
+                DocGenEnum.Documents.DS02.getId(),
+                DocGenEnum.Documents.AHAUXX.getId(),
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.AHMVCNV.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
 
 }
