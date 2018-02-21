@@ -36,8 +36,6 @@ import aaa.modules.cft.report.ReportGeneratorService;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import com.jayway.awaitility.Awaitility;
-import com.jayway.awaitility.Duration;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
@@ -67,7 +65,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
 		downloadDir = new File(DOWNLOAD_DIR);
+		log.info("Download Directory {}", DOWNLOAD_DIR);
 		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
+		log.info("Validation Directory {}", CFT_VALIDATION_DIRECTORY);
 		CFTHelper.checkDirectory(downloadDir);
 		CFTHelper.checkDirectory(cftResultDir);
 	}
@@ -82,10 +82,12 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// get map from OR reports
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 1);
+		Waiters.SLEEP(30000).go();
+		// Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 2);
+		Waiters.SLEEP(30000).go();
+		// Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
