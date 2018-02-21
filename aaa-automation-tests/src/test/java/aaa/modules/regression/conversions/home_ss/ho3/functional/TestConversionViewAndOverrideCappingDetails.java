@@ -8,6 +8,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.PolicyHelper;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
@@ -63,30 +64,25 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		//View Capping Details
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		String calculatedTermPremium = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(3).getCell(4).getValue();
-		String cappedTermPremium = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(4).getCell(4).getValue();
+		String calculatedTermPremium = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CALCULATED_TERM_PREMIUM);
+		String cappedTermPremium = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CAPPED_TERM_PREMIUM);
 		//Check Capping Details
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(2).getValue()).isEqualTo(new Dollar(renewalTermPremiumOld).toString());
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(2).getValue())
-				.isEqualTo(PolicyHelper.calculateChangeInPolicyPremium(calculatedTermPremium, renewalTermPremiumOld));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(4).getCell(2).getValue()).isEqualTo(String.format("%s.0%%", tdViewCappingDetails.getValue
-				("Ceiling Cap").toString()));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(5).getCell(2).getValue()).isEqualTo(String.format("%s.0%%", tdViewCappingDetails.getValue
-				("Floor Cap").toString()));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue())
-				.isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
-				.isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(5).getCell(4).getValue()).isEqualTo("LegacyConv");
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.RENEWAL_TERM_PREMIUM_OLD_RATER)).isEqualTo(new Dollar(renewalTermPremiumOld).toString());
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CHANGE_IN_POLICY_PREMIUM)).isEqualTo(PolicyHelper.calculateChangeInPolicyPremium(calculatedTermPremium, renewalTermPremiumOld));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CEILING_CAP)).isEqualTo(String.format("%s.0%%", tdViewCappingDetails.getValue("Ceiling Cap").toString()));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.FLOOR_CAP)).isEqualTo(String.format("%s.0%%", tdViewCappingDetails.getValue("Floor Cap").toString()));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.SYSTEM_CALCULATED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.PROGRAM_CODE)).isEqualTo("LegacyConv");
 		//Override Capping Factor
 		overrideCappingFactor(premiumsAndCoveragesQuoteTab);
 
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue()).isEqualTo(String.format("%s.00%%", getTestSpecificTD("TestData_OverideCappingDetails").getTestData
-				("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue("Manual Capping Factor (%)").toString()));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(4).getCell(4).getValue()).isNotEqualTo(cappedTermPremium);
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR)).isEqualTo(String.format("%s.00%%", getTestSpecificTD("TestData_OverideCappingDetails").getTestData
+				("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR).toString()));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CAPPED_TERM_PREMIUM)).isNotEqualTo(cappedTermPremium);
 	}
 
 /**
@@ -125,7 +121,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		//View Capping Factor
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		String cappingFactor = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue();
+		String cappingFactor = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor");
 
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
 				.VIEW_CAPPING_DETAILS_DIALOG).getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
@@ -138,9 +134,9 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue())
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor"))
 				.isEqualTo(cappingFactor);
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("System Calculated Capping Factor"))
 				.isEqualTo(cappingFactor);
 
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
@@ -154,9 +150,9 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(1).getCell(4).getValue())
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor"))
 				.isEqualTo(cappingFactor);
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("System Calculated Capping Factor"))
 				.isEqualTo(cappingFactor);
 
 		//Override Capping Factor
@@ -166,7 +162,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		String cappingFactorAfterOverride = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue();
+		String cappingFactorAfterOverride = premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor");
 
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
 				.VIEW_CAPPING_DETAILS_DIALOG).getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
@@ -179,7 +175,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor"))
 				.isEqualTo(cappingFactorAfterOverride);
 
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab
@@ -193,7 +189,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getRow(2).getCell(4).getValue())
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor"))
 				.isEqualTo(cappingFactorAfterOverride);
 	}
 
