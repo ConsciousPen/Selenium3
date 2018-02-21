@@ -102,7 +102,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				monitorAddress,
 				PropertyProvider.getProperty("test.ssh.user"),
 				PropertyProvider.getProperty("test.ssh.password"));
-			sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
+			// sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
 			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
