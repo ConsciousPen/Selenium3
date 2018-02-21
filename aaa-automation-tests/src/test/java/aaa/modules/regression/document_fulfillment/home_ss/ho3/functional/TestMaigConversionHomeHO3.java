@@ -2,24 +2,22 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.document_fulfillment.home_ss.ho3.functional;
 
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 
@@ -54,24 +52,26 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2709_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
+	public void pas2674_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 		TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
 
-		verifyHo3FormsSequence(testData,effDate);
+		verifyFormsSequence(testData,effDate);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2709_SpecificRenewalPacketGeneration(@Optional("DE") String state) {
+	public void pas2674_SpecificRenewalPacketGeneration(@Optional("DE") String state) {
 		// CW, DE, VA
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 
-		verifyHo3FormsSequence(testData,effDate);
+		verifyFormsSequence(testData,effDate);
 	}
 
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
