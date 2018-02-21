@@ -90,7 +90,7 @@ public class MaigManualConversionHelper{
 
 	public List<String> getHO3NJForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
 				DocGenEnum.Documents.HSTPNJ.getId(),
 				DocGenEnum.Documents.HS02.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
@@ -103,7 +103,7 @@ public class MaigManualConversionHelper{
 
 	public List<String> getHO3OtherStatesForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNMXX.getId(),
+				DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
 				DocGenEnum.Documents.HS02.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
@@ -137,7 +137,7 @@ public class MaigManualConversionHelper{
 
     public List<String> getHO6OtherStatesForms() {
         return Arrays.asList(
-                DocGenEnum.Documents.HSRNMXX.getId(), ////Mortgagee form instead of HO form
+                DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
                 DocGenEnum.Documents.HS02_6.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),
                 DocGenEnum.Documents.AHPNXX.getId(),
@@ -181,8 +181,7 @@ public class MaigManualConversionHelper{
 
     public List<String> getDP3OtherStatesForms() {
         return Arrays.asList(
-                DocGenEnum.Documents.HSRNHODPXX.getId(),
-                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
                 DocGenEnum.Documents.DS02.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),
                 DocGenEnum.Documents.AHPNXX.getId(),
@@ -193,8 +192,7 @@ public class MaigManualConversionHelper{
 
     public List<String> getDP3NJForms() {
         return Arrays.asList(
-                DocGenEnum.Documents.HSRNHODPXX.getId(),
-                DocGenEnum.Documents.HSRNMXX.getId(),
+                DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
                 DocGenEnum.Documents.HSTPNJ.getId(),
                 DocGenEnum.Documents.DS02.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),
