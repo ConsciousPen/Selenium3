@@ -72,7 +72,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		CFTHelper.checkDirectory(cftResultDir);
 	}
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
@@ -121,7 +121,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void futureDatedPolicy(@Optional(StringUtils.EMPTY) String state) {
