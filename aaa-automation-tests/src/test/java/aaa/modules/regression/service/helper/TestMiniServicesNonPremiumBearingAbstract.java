@@ -15,10 +15,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.dtoDxp.AAAEndorseResponse;
-import aaa.modules.regression.service.helper.dtoDxp.AAAVehicleVinInfoRestResponseWrapper;
-import aaa.modules.regression.service.helper.dtoDxp.ValidateEndorsementResponse;
-import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
+import aaa.modules.regression.service.helper.dtoDxp.*;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -641,6 +638,26 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(response.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_1)).isTrue();
 
 	}
+
+	protected void pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(PolicyType policyType) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		mainApp().close();
+
+		ErrorResponseDto response = HelperCommon.validateEndorsementResponseError(policyNumber, null);
+		assertSoftly(softly -> {
+			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
+			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
+		});
+	}
+
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(status);

@@ -80,6 +80,15 @@ public class HelperCommon {
 		return validateVinResponse;
 	}
 
+	static ErrorResponseDto validateEndorsementResponseError(String policyNumber, String endorsementDate) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		if (endorsementDate != null) {
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+		}
+		ErrorResponseDto validateEndorsementResponseError = runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class);
+		return validateEndorsementResponseError;
+	}
+
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
@@ -203,7 +212,7 @@ public class HelperCommon {
 					.get();
 			T result = response.readEntity(responseType);
 			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+			if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() !=422 ) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}

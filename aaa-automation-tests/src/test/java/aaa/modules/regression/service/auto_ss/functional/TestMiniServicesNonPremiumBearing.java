@@ -385,6 +385,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(getPolicyType());
 	}
 
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Start Endorsement info server response for Cancel Policy
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Cancel policy.
+	 * 3. Verify Policy status is 'Policy Cancelled'.
+	 * 4. Hit "start endorsement info" dxp server.
+	 * 5. Check error message.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas9337_StartEndorsementInfoServerResponseForCancelPolicy(@Optional("VA") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(getPolicyType());
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
