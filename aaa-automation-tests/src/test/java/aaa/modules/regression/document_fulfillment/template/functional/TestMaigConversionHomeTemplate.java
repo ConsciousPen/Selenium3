@@ -4,14 +4,10 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import aaa.helpers.billing.BillingHelper;
-import aaa.main.enums.BillingConstants;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
@@ -20,6 +16,7 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.Job;
@@ -28,6 +25,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.xml.model.Document;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -58,14 +56,22 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		String policyNumber = createManualConversionRenewalEntry(testData, effDate);
 
+		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime r0ExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
-		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		//maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 
+		TimeSetterUtil.getInstance().nextPhase(effectiveDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openBilling(policyNumber);
+		/* Scenario 2 */
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
@@ -73,8 +79,12 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		List<Document> actualDocumentsListAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
 	}
 
 	private List<String> getForms() {
@@ -344,8 +354,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		processRenewal(PRE_RENEWAL, null, policyNumber);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
-        maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
-        maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
+		maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
+		maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
 	}
 
 	/**
@@ -364,8 +374,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		processRenewal(PRE_RENEWAL, null, policyNumber);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
-        maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
-        maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
+		maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
+		maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
 	}
 
 	/**
@@ -385,8 +395,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		processRenewal(RENEWAL_OFFER, effectiveDate, policyNumber);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
-        maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
-        maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
+		maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
+		maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
 	}
 
 	/**
@@ -406,8 +416,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		processRenewal(RENEWAL_OFFER, effectiveDate, policyNumber);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
-        maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
-        maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
+		maigManualConversionHelper.verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
+		maigManualConversionHelper.verifyDocumentTagData(document, testData, isPupPresent);
 	}
 
 	/**
@@ -431,7 +441,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
-		Tab.buttonSaveAndExit.click();
+		policy.getDefaultView().getTab(BindTab.class).submitTab();
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
@@ -497,7 +507,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, pupTD);
 	}
 
-	public TestData adjustWithSeniorInsuredDataHO4(TestData policyTD){
+	public TestData adjustWithSeniorInsuredDataHO4(TestData policyTD) {
 		String insuredDOBPath =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
 		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY));
@@ -521,35 +531,35 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 	public void pas2674_formsPresenceAndSequence(TestData testData, List<String> expectedFormsOrder) {
 
-        //		if (getState().equals("NJ")) {
-        //			testData = adjustWithSeniorInsuredData(testData);
-        //		}
+		//		if (getState().equals("NJ")) {
+		//			testData = adjustWithSeniorInsuredData(testData);
+		//		}
 
-        LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
-        String policyNumber = createManualConversionRenewalEntry(testData, effDate);
-        processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
+		String policyNumber = createManualConversionRenewalEntry(testData, effDate);
+		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 
-        List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
-        assertThat(actualDocumentsList).isNotEmpty().isNotNull();
-        maigManualConversionHelper.verifyFormSequence(expectedFormsOrder, actualDocumentsList);
-    }
+		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+		maigManualConversionHelper.verifyFormSequence(expectedFormsOrder, actualDocumentsList);
+	}
 
-    private void secondPartRenewal(String policyNumber, LocalDateTime renewalOfferEffectiveDate) {
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
-        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-        mainApp().open();
-        SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(renewalOfferEffectiveDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+	private void secondPartRenewal(String policyNumber, LocalDateTime renewalOfferEffectiveDate) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(renewalOfferEffectiveDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 
-        //TODO  For autopay policies – generate banking reminder letter (I think around R-10)
+		//TODO  For autopay policies – generate banking reminder letter (I think around R-10)
 
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-    }
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
 }

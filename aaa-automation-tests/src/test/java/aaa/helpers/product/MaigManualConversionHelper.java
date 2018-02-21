@@ -1,18 +1,17 @@
 package aaa.helpers.product;
 
+import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 
 public class MaigManualConversionHelper{
@@ -70,7 +69,9 @@ public class MaigManualConversionHelper{
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
 		assertSoftly(softly -> {
 			// Check that all documents where generated
-			expectedFormsOrder.forEach(templateId -> softly.assertThat(documentList).isEqualTo(templateId));
+			List<String> allDocs = new ArrayList<>();
+			documentList.forEach(doc -> allDocs.add(doc.getTemplateId()));
+			assertThat(allDocs).containsAll(expectedFormsOrder);
 			// Get all docs +  sequence number
 			HashMap<Integer, String> actualDocuments = new HashMap<>();
 			documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
