@@ -375,6 +375,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 1. Create Future Policy.
 	 * 2. Hit "start endorsement info" dxp server.
 	 * 3. Check error message.
+	 * 4. Start renew action.
+	 * 5. Hit "start endorsement info" dxp server.
+	 * 6. Check error message. Policy should be locked.
 	 */
 
 	@Parameters({"state"})
@@ -394,6 +397,10 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 3. Verify Policy status is 'Policy Cancelled'.
 	 * 4. Hit "start endorsement info" dxp server.
 	 * 5. Check error message.
+	 * 6. Open the same policy again.
+	 * 7. Do reinstatement +6d
+	 * 8. Move time to the lapse period, +3d.
+	 * 9. Hit "start endorsement info" dxp server.
 	 */
 
 	@Parameters({"state"})
