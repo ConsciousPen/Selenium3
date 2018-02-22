@@ -20,12 +20,6 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
         </classes>
     </test>
-    <test name="PAS-3002 View capping details and override capping for property polices Pup Product" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-        </classes>
-    </test>
     <test name="PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, DE, NJ, AZ"/>
         <classes>
@@ -36,7 +30,7 @@
         </classes>
     </test>
     <test name="PAS-2293,PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeMpdDiscountButton"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRmeMpdDiscountButton"/>

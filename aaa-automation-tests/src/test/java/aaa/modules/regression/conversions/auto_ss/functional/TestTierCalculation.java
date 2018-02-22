@@ -44,7 +44,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.conversions.ConvAutoSsBaseTest;
+import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -53,7 +53,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
-public class TestTierCalculation extends ConvAutoSsBaseTest {
+public class TestTierCalculation extends AutoSSBaseTest {
     private final Tab generalTab = new GeneralTab();
     private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
@@ -101,8 +101,8 @@ public class TestTierCalculation extends ConvAutoSsBaseTest {
         //Initiate manual conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         TestData policy2 = DataProviderFactory.emptyData().adjust(policyData.resolveLinks()).resolveLinks();
-        policy.getDefaultView().fillUpTo(prepareConvTD(policyData)
-                , PremiumAndCoveragesTab.class, true);
+        policy.getDefaultView().fillUpTo(prepareConvTD(policyData), PremiumAndCoveragesTab.class, true);
+        PremiumAndCoveragesTab.calculatePremium();
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
         premiumValue = new Dollar(convParams.get("Premium"));

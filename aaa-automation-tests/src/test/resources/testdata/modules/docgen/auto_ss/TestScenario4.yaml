@@ -39,7 +39,7 @@ DriverInformation: {
 VehicleTab: { 
   Add Vehicle: click,
   Type: Golf Cart,
-  Change Vehicle Confirmation: 'OK',
+  #Change Vehicle Confirmation: 'OK',
   Usage: 'Traveling Primary Residence',
   VIN: KNDJT2A2XA7038383,
   Year: 2010,
@@ -162,7 +162,7 @@ AAGCAZ_EDOne: {
   },  
   AgentDetails: {
     GenlAgntNum: {TextField: '500001004'},
-    SubAgntNum: {TextField: '500010032'}
+    SubAgntNum: {TextField: '500016435'}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'GC'},
@@ -200,7 +200,7 @@ AA41XX_EDTWO: {
   },
   AgentDetails: {
     GenlAgntNum: {TextField: 500001004},
-    SubAgntNum: {TextField: 500010032}
+    SubAgntNum: {TextField: 500016435}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}

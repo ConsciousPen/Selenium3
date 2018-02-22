@@ -359,7 +359,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
-			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class);
+
+			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class, By.xpath("//div[@id='memberSinceDatePopup_container']"));
 		}
 
 		public static final class AddMemberSinceDialog extends MetaData {
@@ -725,13 +726,13 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
 		public static final AssetDescriptor<FillableTable> ORDER_CLUE_REPORT =
-			declare("OrderCLUEReport", FillableTable.class, OrderCLUEReportRow.class, By.xpath("//table[@id='policyDataGatherForm:clueReports']"));
+			declare("OrderCLUEReport", FillableTable.class, OrderCLUEReport.class, By.xpath("//table[@id='policyDataGatherForm:clueReports']"));
 		public static final AssetDescriptor<FillableTable> ORDER_MVR =
-			declare("OrderMVRReport", FillableTable.class, OrderMVRReportRow.class, By.xpath("//table[@id='policyDataGatherForm:mvrReportsDataTable']"));
+			declare("OrderMVRReport", FillableTable.class, OrderMVRReport.class, By.xpath("//table[@id='policyDataGatherForm:mvrReportsDataTable']"));
 		public static final AssetDescriptor<FillableTable> ORDER_INTERNAL_CLAIMS_REPORT =
-			declare("OrderInternalClaimsReport", FillableTable.class, OrderInternalClaimsReportRow.class, By.xpath("//table[@id='policyDataGatherForm:claimsReports']"));
+			declare("OrderInternalClaimsReport", FillableTable.class, OrderInternalClaimsReport.class, By.xpath("//table[@id='policyDataGatherForm:claimsReports']"));
 
-		public static final class OrderCLUEReportRow extends MetaData {
+		public static final class OrderCLUEReport extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
 			public static final AssetDescriptor<StaticElement> RESIDENTIAL_ADDRESS = declare("Residential Address", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
@@ -741,7 +742,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> ADDRESS_TYPE = declare("Address Type", StaticElement.class);
 		}
 
-		public static final class OrderMVRReportRow extends MetaData {
+		public static final class OrderMVRReport extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> FORCE_ORDER = declare("Force Order", RadioGroup.class);
 			public static final AssetDescriptor<StaticElement> NAME_ON_LICENSE = declare("Name on License", StaticElement.class);
@@ -755,7 +756,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> RESPONSE = declare("Response", StaticElement.class);
 		}
 
-		public static final class OrderInternalClaimsReportRow extends MetaData {
+		public static final class OrderInternalClaimsReport extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
 			public static final AssetDescriptor<StaticElement> NAME_ON_LICENSE = declare("Name on License", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> DATE_OF_BIRTH = declare("Date of Birth", StaticElement.class);

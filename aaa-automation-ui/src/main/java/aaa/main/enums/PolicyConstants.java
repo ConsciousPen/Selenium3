@@ -230,4 +230,21 @@ public final class PolicyConstants {
         public static final String LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED =
                 "Multi-Policy Discount should be selected.";
     }
+
+    public static final class MVRReportTable {
+        public static final String LICENSE_STATUS = "License Status";
+    }
+
+    public static final class ViewCappingDetailsTable {
+        public static final String CALCULATED_TERM_PREMIUM = "Calculated Term Premium";
+        public static final String CAPPED_TERM_PREMIUM = "Capped Term Premium";
+        public static final String RENEWAL_TERM_PREMIUM_OLD_RATER = "Renewal Term Premium - Old Rater";
+        public static final String CHANGE_IN_POLICY_PREMIUM = "% Change in Policy Premium";
+        public static final String CEILING_CAP = "Ceiling Cap %";
+        public static final String FLOOR_CAP = "Floor Cap %";
+        public static final String SYSTEM_CALCULATED_CAPPING_FACTOR = "System Calculated Capping Factor";
+        public static final String APPLIED_CAPPING_FACTOR = "Applied Capping Factor";
+        public static final String PROGRAM_CODE = "Program Code";
+        public static final String MANUAL_CAPPING_FACTOR = "Manual Capping Factor (%)";
+    }
 }

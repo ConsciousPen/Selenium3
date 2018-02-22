@@ -24,7 +24,7 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperRfi;
-import aaa.modules.regression.service.helper.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;

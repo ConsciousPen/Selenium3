@@ -17,7 +17,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.mock.MockDataHelper;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
@@ -58,8 +57,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Pair<String, Boolean> membershipNumber = Pair.of(null, false);
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
 			//TODO-dchubkov: current algorithm is incomplete, to be fixed
-			membershipNumber = MockDataHelper.getMembershipData()
-					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
+			/*membershipNumber = MockDataHelper.getMembershipData()
+					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());*/
+			membershipNumber = Pair.of("5290051486695810", true); // membership added to stub manually for avgAnnualERSperMember=0 and memberPersistency=20
 			//membershipNumber = Pair.of("3111111111111147", false); // to change since date manually
 			//membershipNumber = Pair.of("1111111111111166", true); // to have avgAnnualERSperMember=0 and memberPersistency=5
 		} else {
@@ -368,12 +368,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeType(vehicle.getUsage());
 			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
-				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCD());
-				if (isPolicyLevelCoverage(coverage.getCoverageCD())) {
+				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
+				if (isPolicyLevelCoverage(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
-					if ("PIP".equals(coverage.getCoverageCD()) && getState().equals(Constants.States.OR)) {
+					if ("PIP".equals(coverage.getCoverageCd()) && getState().equals(Constants.States.OR)) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
-								"contains=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCD()));
+								"contains=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
 					}
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -524,18 +524,18 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private String getPremiumAndCoveragesTabLimitOrDeductible(AutoSSOpenLCoverage coverage) {
-		String coverageCD = coverage.getCoverageCD();
-		if ("SP EQUIP".equals(coverageCD)) {
+		String coverageCd = coverage.getCoverageCd();
+		if ("SP EQUIP".equals(coverageCd)) {
 			return new Dollar(coverage.getLimit()).toString();
 		}
 
-		String limitOrDeductible = "COMP".equals(coverageCD) || "COLL".equals(coverageCD) ? coverage.getDeductible() : coverage.getLimit();
+		String limitOrDeductible = "COMP".equals(coverageCd) || "COLL".equals(coverageCd) ? coverage.getDeductible() : coverage.getLimit();
 		String[] limitRange = limitOrDeductible.split("/");
 		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 
-		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCD());
+		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCd());
 		if (limitRange.length == 2) {
-			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCD());
+			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCd());
 		}
 		return returnLimit;
 	}

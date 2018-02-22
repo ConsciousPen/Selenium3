@@ -1,6 +1,6 @@
 package aaa.modules.regression.conversions.home_ss.ho4.functional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -26,7 +26,7 @@ import toolkit.utils.TestInfo;
  * 5. TBD (PAS-2310 should be cover)
  */
 
-public class TestPolicyRmeMpdDiscountButton extends HomeSSHO4BaseTest{
+public class TestPolicyRmeMpdDiscountButton extends HomeSSHO4BaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
@@ -46,18 +46,17 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO4BaseTest{
 
         //Verify "Legacy policy had MPD discount" radio button is exist on RME screen
         assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
-                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT.getLabel())
-                .isPresent()).isTrue();
+                .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT)).isPresent();
 
         //Verify that "Legacy policy had MPD discount" radio button is mandatory on RME screen
         initiateRenewalEntryActionTab.submitTab();
-        assertThat(InitiateRenewalEntryActionTab.rmeScreenMpdErrorMessage.getValue().equals(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED)).isTrue();
+        assertThat(InitiateRenewalEntryActionTab.rmeScreenMpdErrorMessage).hasValue(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED);
 
         initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
                 .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MPD_DISCOUNT).setValue("Yes");
         initiateRenewalEntryActionTab.submitTab();
 
         new CustomerActions.InitiateRenewalEntry().submit();
-        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE.getLabel()).getValue()).isEqualTo("Renewal");
+        assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.COMMISSION_TYPE)).hasValue("Renewal");
     }
 }

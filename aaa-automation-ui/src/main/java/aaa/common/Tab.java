@@ -8,6 +8,7 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -114,10 +115,13 @@ public abstract class Tab {
 	 *            TestData object which may contain another TestData by key
 	 *            returned by {@link #getMetaKey()} and possibly other keys.
 	 *            Note: normally the same TestData is passed here as in
-	 *            {@link products.Workspace.fill()}.
+	 *            {@link Workspace#fill(TestData)}.
 	 */
+
 	public Tab fillTab(TestData td) {
+		hideHeader();
 		assetList.fill(td);
+		showHeader();
 		return this;
 	}
 
@@ -253,6 +257,16 @@ public abstract class Tab {
 			new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']")).setValue("new version");
 			Page.dialogConfirmation.confirm();
 		}
+		return this;
+	}
+
+	protected Tab hideHeader() {
+		BrowserController.get().executeScript("$(\'#headerForm\').hide();");
+		return this;
+	}
+
+	protected Tab showHeader() {
+		BrowserController.get().executeScript("$(\'#headerForm\').show();");
 		return this;
 	}
 }

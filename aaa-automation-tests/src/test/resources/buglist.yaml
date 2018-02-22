@@ -72,16 +72,6 @@ PAS-6667:
       messages: ['WUAUCA']
     - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
       messages: ['WUAUCA']
-PAS-6612:
-  summary: "Regression: Auto CA/ Property HSS CA: Can't change payment plan on Billing tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario10.TC01_createPolicy,
-    aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Quarterly} in table 'Billing Account Policies' is present"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy,
-    aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
 PAS-6539:
   summary: "View eRefunds and the Debit/Credit Card - Auto"
   reason: PROD
@@ -91,12 +81,6 @@ PAS-6539:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
       messages: ['paymentMethod']
-PAS-7265:
-  summary: "Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending]
-      messages: ['Y']
 PAS-7427:
   summary: "Regression: The Membership Validation rule is displayed wrongly"
   reason: PROD
@@ -116,9 +100,9 @@ OSI-1115:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["Cannot set value"]
+      messages: ["Cannot set value*Has the customer expressed interest in purchasing the quote", "The selected limit of Uninsured Motorist Property Damage coverage"]
 OSI-1116:
-  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesn't"
+  summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesnt"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
@@ -129,14 +113,6 @@ PAS-7702:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiAuto]
       messages: ["No value present"]
-PAS-7972:
-  summary: "Regression: Property HSS: Payment plan of renewal changes after renewal first bill paid"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario10.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Eleven Pay Standard (Renewal)] but found [Quarterly (Renewal)]"]
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
 PAS-8994:
   summary: "Entity of type VASS926232462 and with a number of 1 was not found"
   reason: PROD
@@ -147,14 +123,6 @@ PAS-8994:
       messages: ["Entity input stream has already been closed"]
     - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
       messages: ["Entity input stream has already been closed"]
-PAS-9101:
-  summary: "Regression: Home CA: Payment plan of renewal changes incorrectly after renewal offer generated"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario13.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Semi-Annual (Renewal)] but found [Monthly Standard (Renewal)]"]
-    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy]
-      messages: ["Column 'Payment Plan' expected [Quarterly (Renewal)] but found [Semi-Annual (Renewal)]"]
 PAS-8288:
   summary: "Last Payment Method stub implementation and test refactoring to use it"
   reason: PROD
@@ -179,10 +147,43 @@ PAS-9157:
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
+    - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
+      messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
 PAS-9361:
   summary: "Generate eSignature Document button doesnt open email popup"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Email"]
-
+PAS-9661:
+  summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
+      messages: ["Column Policy Status was not found in the table"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
+PAS-9754:
+  summary: "PAS18.2 Regression: Unable to clear Suspense Payment"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.cft.auto_ss.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.auto_ca.choice.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+PAS-9337:
+  summary: "Green Button Service - Abracradabra"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas6562_endorsementValidateNotAllowedOutOfBound]
+      messages: ["Expected empty*UpdateVehicle"]
+PAS-9722:
+  summary: "Random sequence for Vehicles on DXP - closed, new story will be created"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
+      messages: [" "]

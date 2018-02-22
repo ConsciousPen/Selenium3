@@ -114,7 +114,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
         TestData tdPUP = getConversionPolicyDefaultTD();
 
         // Initiate Conversion policy
-        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd35());
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdPUP, UnderlyingRisksPropertyTab.class);
 
         // Fill Underlying Risks Tabs

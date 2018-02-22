@@ -2,19 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.conversions.home_ss.ho4.functional;
 
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.product.ProductRenewalsVerifier;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
-import aaa.modules.regression.conversions.ConvHomeSsHO4BaseTest;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.HomeSSHO4BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO4BaseTest {
+public class TestConversionNoClueISO360InspectionReports extends HomeSSHO4BaseTest {
 
 	/**
 	 * @author Dominykas Razgunas
@@ -40,9 +42,11 @@ public class TestConversionNoClueISO360InspectionReports extends ConvHomeSsHO4Ba
 				.removeAdjustment(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel());
 
 		mainApp().open();
-
-		createConversionPolicy(testdata);
-
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		getPolicyType().get().getDefaultView().fill(testdata);
+		PolicySummaryPage.linkPolicy.click();
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 }
 

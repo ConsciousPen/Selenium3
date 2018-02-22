@@ -1,28 +1,20 @@
-########################################
-#                                      #
-#   Conversion State-specific data     #
-#                                      #
-########################################
-
 # ---------- Conversion Data for UT ---------------
 
-TestData_ConversionHomeSS_UT: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_UT',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_UT',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_UT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_UT',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_UT: {
-  State: 'UT',
+GeneralTab: {
   Policy type: 'DP3',
   CalVet: null,
   Extraordinary Life Circumstance: null,
@@ -31,84 +23,54 @@ GeneralTab_ConversionHomeSS_UT: {
   Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
 }
 
-ApplicantTab_ConversionHomeSS_UT: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_UT: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
+  OtherActiveAAAPolicies: {},
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo'
 }
 
-NamedInsured_ConversionHomeSS: {
+NamedInsured: {
   Relationship to primary named insured:  Primary Insured,
   Social security number: 1234567890,
   Marital status: 'Married',
   Employer: '1234567890'
 }
 
-AAAMembership_ConversionHomeSS: {
+AAAMembership: {
   Current AAA Member: 'Yes',
   Membership number: '4290023667710001',
   Last name: Smith
 }
 
-PremiumsAndCoveragesQuoteTab_ConversionHomeSS: {
+PremiumsAndCoveragesQuoteTab: {
   Payment plan: 'Pay in Full (Renewal)',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
-}
-
-
-MortgageesTab_ConversionHomeSS: {
-  Mortgagee: 'Yes',
-  MortgageeInformation: {
-    Name: TestName,
-    Zip code:  24541,
-    Street address 1: 265 CHIPMAN AVE,
-    Loan number: 12345678,
-    Validate Address: '',
-    Validate Address Dialog: {}
-  }
-}
-
-PremiumsAndCoveragesQuoteTab_Mortgagee_ConversionHomeSS: {
-  Bill to at renewal: 'Mortgagee',
-  Payment plan: 'Mortgagee Bill (Renewal)',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
 
 # ---------- Conversion Data for AZ ---------------
 
-TestData_ConversionHomeSS_AZ: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_AZ',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_AZ',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_AZ: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_AZ',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_AZ: {
-  State: 'AZ',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_AZ: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_AZ: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_AZ',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -119,34 +81,23 @@ ApplicantTab_ConversionHomeSS_AZ: {
 
 # ---------- Conversion Data for CO ---------------
 
-TestData_ConversionHomeSS_CO: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_CO',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_CO',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_CO',
+TestData_CO: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_CO',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_CO',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_CO: {
-  State: 'CO',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_CO: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_CO: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_CO',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -157,34 +108,23 @@ ApplicantTab_ConversionHomeSS_CO: {
 
 # ---------- Conversion Data for CT ---------------
 
-TestData_ConversionHomeSS_CT: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_CT',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_CT',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_CT',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_CT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_CT',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_CT',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_CT',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab_CT',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_CT: {
-  State: 'CT',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_CT: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_CT: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_CT',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -195,34 +135,23 @@ ApplicantTab_ConversionHomeSS_CT: {
 
 # ---------- Conversion Data for DC ---------------
 
-TestData_ConversionHomeSS_DC: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_DC',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_DC',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_DC',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_DC: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_DC',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_DC',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_DC: {
-  State: 'DC',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_DC: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_DC: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DC',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -233,34 +162,23 @@ ApplicantTab_ConversionHomeSS_DC: {
 
 # ---------- Conversion Data for DE ---------------
 
-TestData_ConversionHomeSS_DE: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_DE',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_DE',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_DE',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_DE: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_DE',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_DE',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_DE: {
-  State: 'DE',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_DE: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_DE: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DE',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -271,34 +189,23 @@ ApplicantTab_ConversionHomeSS_DE: {
 
 # ---------- Conversion Data for ID ---------------
 
-TestData_ConversionHomeSS_ID: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_ID',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_ID',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_ID: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_ID',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_ID: {
-  State: 'ID',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_ID: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_ID: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_ID',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -309,34 +216,23 @@ ApplicantTab_ConversionHomeSS_ID: {
 
 # ---------- Conversion Data for IN ---------------
 
-TestData_ConversionHomeSS_IN: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_IN',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_IN',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_IN',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_IN',
+TestData_IN: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_IN',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_IN',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_IN',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_IN: {
-  State: 'IN',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_IN: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_IN: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_IN',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -347,34 +243,23 @@ ApplicantTab_ConversionHomeSS_IN: {
 
 # ---------- Conversion Data for KS ---------------
 
-TestData_ConversionHomeSS_KS: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_KS',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_KS',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_KS',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_KS',
+TestData_KS: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_KS',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_KS',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_KS',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_KS: {
-  State: 'KS',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_KS: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_KS: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_KS',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -385,34 +270,23 @@ ApplicantTab_ConversionHomeSS_KS: {
 
 # ---------- Conversion Data for KY ---------------
 
-TestData_ConversionHomeSS_KY: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_KY',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_KY',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_KY',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_KY',
+TestData_KY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_KY',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_KY',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_KY',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_KY',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab_KY',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab_KY',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_KY: {
-  State: 'KY',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_KY: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_KY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_KY',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -423,34 +297,23 @@ ApplicantTab_ConversionHomeSS_KY: {
 
 # ---------- Conversion Data for MD ---------------
 
-TestData_ConversionHomeSS_MD: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_MD',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_MD',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_MD',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_MD: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_MD',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_MD',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_MD',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab_MD',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_MD: {
-  State: 'MD',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_MD: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_MD: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_MD',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -461,34 +324,23 @@ ApplicantTab_ConversionHomeSS_MD: {
 
 # ---------- Conversion Data for MT ---------------
 
-TestData_ConversionHomeSS_MT: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_MT',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_MT',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_MT',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_MT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_MT',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_MT',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_MT: {
-  State: 'MT',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_MT: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_MT: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_MT',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -499,34 +351,23 @@ ApplicantTab_ConversionHomeSS_MT: {
 
 # ---------- Conversion Data for NJ ---------------
 
-TestData_ConversionHomeSS_NJ: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_NJ',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_NJ',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_NJ',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_NJ: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_NJ',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_NJ',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_NJ: {
-  State: 'NJ',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_NJ: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_NJ: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NJ',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -537,34 +378,23 @@ ApplicantTab_ConversionHomeSS_NJ: {
 
 # ---------- Conversion Data for NV ---------------
 
-TestData_ConversionHomeSS_NV: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_NV',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_NV',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_NV: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_NV',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_NV',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab_NV',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_NV: {
-  State: 'NV',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_NV: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_NV: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NV',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -575,34 +405,23 @@ ApplicantTab_ConversionHomeSS_NV: {
 
 # ---------- Conversion Data for NY ---------------
 
-TestData_ConversionHomeSS_NY: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_NY',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_NY',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_NY',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_NY',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_NY',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_NY: {
-  State: 'NY',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_NY: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_NY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NY',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -613,34 +432,23 @@ ApplicantTab_ConversionHomeSS_NY: {
 
 # ---------- Conversion Data for OH ---------------
 
-TestData_ConversionHomeSS_OH: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_OH',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_OH',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_OH',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_OH',
+TestData_OH: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_OH',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_OH',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_OH',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_OH: {
-  State: 'OH',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_OH: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_OH: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OH',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -651,34 +459,23 @@ ApplicantTab_ConversionHomeSS_OH: {
 
 # ---------- Conversion Data for OK ---------------
 
-TestData_ConversionHomeSS_OK: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_OK',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_OK',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_OK',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_OK',
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_OK',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_OK',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_OK',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_OK: {
-  State: 'OK',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_OK: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_OK: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OK',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -689,34 +486,23 @@ ApplicantTab_ConversionHomeSS_OK: {
 
 # ---------- Conversion Data for OR ---------------
 
-TestData_ConversionHomeSS_OR: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_OR',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_OR',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_OR: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_OR',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_OR',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab_OR',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_OR: {
-  State: 'OR',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_OR: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_OR: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OR',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -727,34 +513,23 @@ ApplicantTab_ConversionHomeSS_OR: {
 
 # ---------- Conversion Data for PA ---------------
 
-TestData_ConversionHomeSS_PA: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_PA',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_PA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_PA',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_PA: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_PA',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_PA',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_PA: {
-  State: 'PA',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_PA: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_PA: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PA',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -765,34 +540,23 @@ ApplicantTab_ConversionHomeSS_PA: {
 
 # ---------- Conversion Data for SD ---------------
 
-TestData_ConversionHomeSS_SD: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_SD',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_SD',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_SD',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_SD',
+TestData_SD: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_SD',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_SD',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_SD',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_SD: {
-  State: 'SD',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_SD: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_SD: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_SD',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -803,34 +567,23 @@ ApplicantTab_ConversionHomeSS_SD: {
 
 # ---------- Conversion Data for VA ---------------
 
-TestData_ConversionHomeSS_VA: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_VA',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_VA',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_VA: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_VA',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_VA',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_VA: {
-  State: 'VA',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_VA: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_VA: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_VA',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -841,34 +594,23 @@ ApplicantTab_ConversionHomeSS_VA: {
 
 # ---------- Conversion Data for WV ---------------
 
-TestData_ConversionHomeSS_WV: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_WV',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_WV',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_WV',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab_WV',
+TestData_WV: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_WV',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_WV',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab_WV',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_WV: {
-  State: 'WV',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_WV: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_WV: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_WV',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -879,34 +621,23 @@ ApplicantTab_ConversionHomeSS_WV: {
 
 # ---------- Conversion Data for WY ---------------
 
-TestData_ConversionHomeSS_WY: {
-  GeneralTab: '@GeneralTab_ConversionHomeSS_WY',
-  ApplicantTab: '@ApplicantTab_ConversionHomeSS_WY',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_WY',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+TestData_WY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_WY',
+  ReportsTab: '@<home_ss_ho3>@Conversion@ReportsTab_WY',
+  PropertyInfoTab: '@<home_ss_dp3>@DataGather@PropertyInfoTab',
   ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ConversionHomeSS',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: {}
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
-GeneralTab_ConversionHomeSS_WY: {
-  State: 'WY',
-  Policy type: 'DP3',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
-}
-
-ApplicantTab_ConversionHomeSS_WY: {
-  NamedInsured: '@NamedInsured_ConversionHomeSS',
-  AAAMembership: '@AAAMembership_ConversionHomeSS',
+ApplicantTab_WY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_WY',
   PreviousDwellingAddress: {},
   MailingAddress: {},

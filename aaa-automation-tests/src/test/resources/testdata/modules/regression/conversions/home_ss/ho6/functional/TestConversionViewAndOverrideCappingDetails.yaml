@@ -17,7 +17,7 @@ GeneralTab_NJ: {
 }
 
 InitiateRenewalEntryActionTab: {
-  Renewal Policy Premium: 1000
+  Renewal Policy Premium: 1100
 }
 GeneralTab: {
   Immediate prior carrier: 'CSAA Affinity Insurance Company',

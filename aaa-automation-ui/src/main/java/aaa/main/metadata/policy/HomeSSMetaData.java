@@ -229,6 +229,8 @@ public final class HomeSSMetaData {
 				.xpath("//table[@id='policyDataGatherForm:ppcReportTable']"));
 		public static final AssetDescriptor<FillableTable> CLUE_REPORT = declare("CLUEreport", FillableTable.class, CLUEreportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
+		public static final AssetDescriptor<FillableTable> ORDER_INTERNAL_CLAIMS = declare("OrderInternalClaims", FillableTable.class, OrderInternalClaimsRow.class, By
+				.xpath("//table[@id='policyDataGatherForm:orderInternalClaimsReports']"));
 		public static final AssetDescriptor<FillableTable> ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
 		public static final AssetDescriptor<StaticElement> WARNING_MESSAGE_BOX = declare("Warning Message Box", StaticElement.class, By
@@ -317,6 +319,12 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
 		}
 
+		public static final class OrderInternalClaimsRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
+			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
+		}
+
 		public static final class ISO360ReportRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> REPLACEMENT_COST = declare("Replacement Cost", StaticElement.class);
@@ -327,8 +335,8 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EditInsuranceScoreDialog extends MetaData {
-			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:newScore']"));
-			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:billingType_billing']"));
+			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class, Waiters.NONE, By.xpath("//input[@id='editInsuranceScoreFrom:newScore']"));
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.NONE, By.xpath("//select[@id='editInsuranceScoreFrom:billingType_billing']"));
 			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
 		}
 
@@ -1411,7 +1419,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> CAPPING_OVERRIDE_REASON = declare("Capping Override Reason", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> BUTTON_TO_PREMIUM_AND_COVERAGES = declare("Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingReturnTo"));
 			public static final AssetDescriptor<Button> BUTTON_CALCULATE  = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
-			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES  = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingSave"));
+			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES  = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
+					false, By.id("cappingDetailsPopupPanel:cappingSave"));
 		}
 	}
 

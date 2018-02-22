@@ -1,0 +1,84 @@
+############### 4 Drivers
+TestData_DriverTab: {
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
+}
+
+Driver2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Woman1,
+  Last Name: LastName1,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: $<today-84y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: CT,
+  License Number: 156773402,
+  Age First Licensed: 18
+}
+
+Driver3: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Man3,
+  Last Name: LastName3,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: $<today-84y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: CT,
+  License Number: 156773403,
+  Age First Licensed: 18
+}
+
+Driver4: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Woman4,
+  Last Name: LastName3,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: $<today-50y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: CT,
+  License Number: 156773404,
+  Age First Licensed: 18
+}
+
+############### 4 Vehicles
+
+TestData_VehicleTab: {
+VehicleTab: ['@Vehicle2','@Vehicle3','@Vehicle4']
+}
+
+Vehicle2: {
+  Add Vehicle: Click,
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: JTHBD192020038546,
+}
+
+Vehicle3: {
+  Add Vehicle: Click,
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 2B4GH25K9SR379826,
+}
+
+Vehicle4: {
+  Add Vehicle: Click,
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 2T2HA31U44C025848,
+}
+
+
+
+
+

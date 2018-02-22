@@ -10,6 +10,7 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -96,54 +97,5 @@ public abstract class PolicyBaseTest extends BaseTest {
 			default:
 				return returnValue;
 		}
-	}
-
-	/**
-	 * Initiates conversion policy renewal image based on provided test data name
-	 *
-	 * @param tdName {@link String}
-	 */
-	protected void initiateManualConversionForTest(String tdName) {
-		initiateManualConversion(retrieveConversionImageTestData(tdName));
-	}
-
-	/**
-	 * Retrieves {@link TestData} for a conversion policy
-	 */
-	protected TestData getConversionPolicyTD() {
-		return getPolicyTD("Conversion", "TestData_ConversionHomeSS");
-	}
-
-	/*
-	* Currently InitiateRenewalEntry comes from customer test data, which is not the best approach as this data's
-    * product specific.
-    * ToDo: Refactor this once InitiateRenewalEntry's moved to policy test data.
-    */
-	protected TestData retrieveConversionImageTestData(String tdName) {
-		//mapping for policyTypes to their abbreviations
-		final ImmutableMap<String, String> productTypeMap = ImmutableMap.of(
-				"HomeSS", "HO3",
-				"HomeSS_HO4", "HO4",
-				"HomeSS_HO6", "HO6",
-				"HomeSS_DP3", "DP3");
-
-		//abbreviation for policy type
-		String policyType = productTypeMap.get(getPolicyType().getShortName());
-		//effective date for aaaPreRenewalNoticeAsyncJob (5 days before Renewal offer generation)
-		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
-				LocalDateTime.now(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER).plusDays(5);
-		String effDateString = renewalOfferEffectiveDate.format(DateTimeUtils.MM_DD_YYYY);
-
-		TestData testData = getCustomerIndividualTD("InitiateRenewalEntry", tdName);
-		testData.adjust(TestData.makeKeyPath(
-				CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
-				CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TYPE.getLabel()), policyType)
-				.adjust(TestData.makeKeyPath(
-						CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
-						CustomerMetaData.InitiateRenewalEntryActionTab.RISK_STATE.getLabel()), getState())
-				.adjust(TestData.makeKeyPath(
-						CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
-						CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), effDateString);
-		return testData;
 	}
 }
