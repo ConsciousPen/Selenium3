@@ -1,6 +1,5 @@
 package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -10,7 +9,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.regression.conversions.ConvHomeSsDP3BaseTest;
+import aaa.modules.policy.HomeSSDP3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,7 +22,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 
 
-public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends ConvHomeSsDP3BaseTest {
+public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends HomeSSDP3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-6663")
@@ -51,7 +50,7 @@ public class TestPolicyRenewalManualEntryValidateInsuranceScoreReport extends Co
         customer.initiateRenewalEntry().perform(getTestSpecificTD("TD_Renewal_Actions"));
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.MORTGAGEE_AND_ADDITIONAL_INTERESTS.get());
-        assertThat(mortgageesTab.getAssetList().getAsset(HomeSSMetaData.MortgageesTab.MORTGAGEE)).isPresent();
+        assertThat(mortgageesTab.getAssetList().getAsset(HomeSSMetaData.MortgageesTab.IS_THERE_ADDITIONAL_INSURED)).isPresent();
     }
 
     @Parameters({"state"})
