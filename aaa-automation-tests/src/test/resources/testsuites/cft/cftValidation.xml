@@ -1,15 +1,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CFT Validation" parallel="none">
+<suite name="CFT Validation">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <suite-files>
-        <suite-file path="../precondition.xml" />
-        <suite-file path="./Validator.xml" />
-
-    </suite-files>
+    <test name="CFT Validation">
+        <classes>
+            <class name="aaa.modules.cft.TestCFTValidator" />
+        </classes>
+    </test>
 
 </suite>
