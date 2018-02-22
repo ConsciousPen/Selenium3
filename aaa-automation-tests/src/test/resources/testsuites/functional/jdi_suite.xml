@@ -304,8 +304,9 @@
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                     <include name="pas8275_vinValidate"/>
-
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
                 </methods>
             </class>
         </classes>
