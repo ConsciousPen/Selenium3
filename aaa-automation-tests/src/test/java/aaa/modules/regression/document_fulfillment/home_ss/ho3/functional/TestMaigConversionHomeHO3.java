@@ -4,11 +4,9 @@ package aaa.modules.regression.document_fulfillment.home_ss.ho3.functional;
 
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -56,10 +54,9 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
-		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 		TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
 
-		verifyFormsSequence(testData,effDate);
+		verifyFormsSequence(testData);
 	}
 
 	@Parameters({STATE_PARAM})
@@ -68,10 +65,9 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificRenewalPacketGeneration(@Optional("DE") String state) {
 		// CW, DE, VA
-		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 
-		verifyFormsSequence(testData,effDate);
+		verifyFormsSequence(testData);
 	}
 
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

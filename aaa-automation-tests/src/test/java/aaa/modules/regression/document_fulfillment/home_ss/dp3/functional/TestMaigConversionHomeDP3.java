@@ -63,7 +63,7 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {
         LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
         TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
 
-        verifyFormsSequence(testData,effDate);
+        verifyFormsSequence(testData);
     }
 
     @Parameters({STATE_PARAM})
@@ -74,7 +74,7 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {
         LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
         TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 
-        verifyFormsSequence(testData,effDate);
+        verifyFormsSequence(testData);
     }
 
     @Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

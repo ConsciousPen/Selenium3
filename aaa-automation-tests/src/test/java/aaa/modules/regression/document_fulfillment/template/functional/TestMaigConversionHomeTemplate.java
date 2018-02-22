@@ -51,32 +51,46 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
 
-	public void verifyFormsSequence(TestData testData, LocalDateTime effDate) {
+	public void verifyFormsSequence(TestData testData) {
+
 		List<String> forms = getForms();
-
-		String policyNumber = createManualConversionRenewalEntry(testData, effDate);
-
-		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
+		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
+		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
+		 Both, manual propose and automated propose should work running under aaa-admin.**/
+		String policyNumber = createManualConversionRenewalEntry(testData);
+		LocalDateTime r0effectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime r0ExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
+		processRenewal(RENEWAL_OFFER, r0effectiveDate, policyNumber);
+
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
-		//maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.minusDays(35));
 
-		TimeSetterUtil.getInstance().nextPhase(effectiveDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		/* Scenario 2 */
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
-		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.minusDays(35));
+		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.minusDays(20));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
+		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.plusDays(1));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		/* Scenario 2 */
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.plusYears(1).minusDays(35));
+		/**https://csaaig.atlassian.net/browse/PAS-9157
+		but this defect they closed it with work around
+		now its time for u guys to create a defect
+		fix will come up as a story rather than defect*/
+		/**PAS-10256
+		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -84,7 +98,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		List<Document> actualDocumentsListAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
+		List<String> allDocs = new ArrayList<>();
+		actualDocumentsListAfterSecondRenewal.forEach(doc -> allDocs.add(doc.getTemplateId()));
+		assertThat(allDocs).doesNotContainSequence(forms);
 	}
 
 	private List<String> getForms() {
@@ -436,15 +452,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		return PolicySummaryPage.getPolicyNumber();
 	}
 
-	public String createManualConversionRenewalEntry(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
-		policy.getDefaultView().getTab(BindTab.class).submitTab();
-		return PolicySummaryPage.getPolicyNumber();
-	}
-
 	/**
 	 * Create conversion policy based on Test Data with linked PUP converted
 	 * ToDo: Refactor this after moving InitiateRenewalEntry to policy level
@@ -537,7 +544,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
-		String policyNumber = createManualConversionRenewalEntry(testData, effDate);
+		String policyNumber = createManualConversionRenewalEntry(testData);
 		processRenewal(AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, effDate, policyNumber);
 
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
