@@ -57,7 +57,11 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
-		String policyNumber = createManualConversionRenewalEntry(testData);
+
+		//Change Membership number in testData to get AHMVCNV form - Validation letter
+        String membershipFieldMetaKey = TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        String policyNumber = createManualConversionRenewalEntry(testData.adjust(membershipFieldMetaKey, "4290072030989503"));
+
 		LocalDateTime r0effectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime r0ExpirationDate = PolicySummaryPage.getExpirationDate();
 
