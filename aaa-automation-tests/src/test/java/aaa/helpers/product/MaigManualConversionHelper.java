@@ -92,7 +92,7 @@ public class MaigManualConversionHelper{
 	public List<String> getHO3NJForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
-				DocGenEnum.Documents.HSTPNJ.getId(),
+				DocGenEnum.Documents.HSTP.getId(),
 				DocGenEnum.Documents.HS02.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
@@ -127,7 +127,7 @@ public class MaigManualConversionHelper{
 	public List<String> getHO4NJForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getId(),
-				DocGenEnum.Documents.HSTPNJ.getId(),
+				DocGenEnum.Documents.HSTP.getId(),
 				DocGenEnum.Documents.HS02_4.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
@@ -150,7 +150,7 @@ public class MaigManualConversionHelper{
     public List<String> getHO6NJForms() {
         return Arrays.asList(
                 DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
-                DocGenEnum.Documents.HSTPNJ.getId(),
+                DocGenEnum.Documents.HSTP.getId(),
                 DocGenEnum.Documents.HS02_6.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),
                 DocGenEnum.Documents.AHPNXX.getId(),
@@ -163,7 +163,8 @@ public class MaigManualConversionHelper{
         return Arrays.asList(
                 DocGenEnum.Documents.HSRNPUPXX.getId(),
                 DocGenEnum.Documents.PS02.getId(),
-                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
+//Could be skipped as per Chris and Teri
+//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
                 DocGenEnum.Documents.AHPNXX.getId(),
                 DocGenEnum.Documents.HSMPDCNVXX.getId()
         );
@@ -172,9 +173,10 @@ public class MaigManualConversionHelper{
     public List<String> getPupNJForms() {
         return Arrays.asList(
                 DocGenEnum.Documents.HSRNPUPXX.getId(),
-                DocGenEnum.Documents.HSTPNJ.getId(),
+                DocGenEnum.Documents.HSTP.getId(),
                 DocGenEnum.Documents.PS02.getId(),
-                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
+//Could be skipped as per Chris and Teri
+//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
                 DocGenEnum.Documents.AHPNXX.getId(),
                 DocGenEnum.Documents.HSMPDCNVXX.getId()
         );
@@ -194,7 +196,7 @@ public class MaigManualConversionHelper{
     public List<String> getDP3NJForms() {
         return Arrays.asList(
                 DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
-                DocGenEnum.Documents.HSTPNJ.getId(),
+                DocGenEnum.Documents.HSTP.getId(),
                 DocGenEnum.Documents.DS02.getId(),
                 DocGenEnum.Documents.AHAUXX.getId(),
                 DocGenEnum.Documents.AHPNXX.getId(),

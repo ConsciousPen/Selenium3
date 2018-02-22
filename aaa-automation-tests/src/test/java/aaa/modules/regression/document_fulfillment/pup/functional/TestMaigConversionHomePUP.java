@@ -14,7 +14,7 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
+        return PolicyType.PUP;
     }
 
     @Parameters({STATE_PARAM})
@@ -23,7 +23,7 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
     public void pas2674_formsPresenceAndSequenceNJ(@Optional("NJ") String state) {
 
         TestData testData = adjustWithSeniorInsuredData(adjustWithPupData(getConversionPolicyDefaultTD()));
-
+        createPolicyPupConvForTD(testData, PolicyType.HOME_SS_HO3);
         verifyFormsSequence(testData);
     }
 

@@ -252,7 +252,7 @@ public final class DocGenEnum {
 		HSRFIXXPUP("HSRFIXX", "Request For Information"),
 		HSRMXX(""),
 		HSRNXX("HSRNXX", "Renewal Offer: Important Renewal Information"),
-		HSTPNJ("Third Party Designation by Senior Citizen"),
+		HSTP("Third Party Designation by Senior Citizen"),
 		HSU01CA("HSU01CA", "HSU01", "Advisory Letter"),
 		HSU01XX("HSU01XX", "HSU01", "Advisory Letter"),
 		HSU02XX("HSU02XX", "HSU02", "Cancellation Letter"),
