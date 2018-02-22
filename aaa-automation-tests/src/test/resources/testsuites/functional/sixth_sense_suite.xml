@@ -37,6 +37,13 @@
         </classes>
     </test>
 
+    <test name="Test Reinstatement point score lock during mid term transaction">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMidTermReinstatementPointLock"/>
+        </classes>
+    </test>
+
     <test name="MVR Predictor Algo for 2 of 4 Drivers">
         <parameter name="state" value="CT"/>
         <classes>
@@ -67,8 +74,7 @@
     <test name="Removing Spp Lowers Total Premium HO3, HO6">
         <parameter name="state" value="NJ"/>
         <classes>
-            <!-- Commented out until defect PAS-5847 is fixed and merged to master
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium"/> -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium"/>
         </classes>
     </test>
