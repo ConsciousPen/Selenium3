@@ -66,6 +66,11 @@ public class MaigManualConversionHelper{
 		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
 	}
 
+	public void verifyPolicyTransCd(String expectedCode, String policyNumber) throws NoSuchFieldException {
+		String plcyTransCd = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(plcyTransCd).isEqualTo(expectedCode);
+	}
+			
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
 		assertSoftly(softly -> {
 			// Check that all documents where generated
