@@ -6,16 +6,10 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-	<test name="Set Today Date">
-		<classes>
-   			<class name="aaa.modules.preconditions.SetTodayDate"/>
-		</classes>
-	</test>
+    <suite-files>
+        <suite-file path="../precondition.xml" />
+        <suite-file path="./Validator.xml" />
 
-    <test name="CFT Validation">
-		<classes>
-            <class name="aaa.modules.cft.TestCFTValidator" />
-        </classes>
-    </test>
+    </suite-files>
 
 </suite>

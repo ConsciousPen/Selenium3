@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -65,17 +64,15 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
 		downloadDir = new File(DOWNLOAD_DIR);
-		log.info("Download Directory {}", DOWNLOAD_DIR);
 		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-		log.info("Validation Directory {}", CFT_VALIDATION_DIRECTORY);
 		CFTHelper.checkDirectory(downloadDir);
 		CFTHelper.checkDirectory(cftResultDir);
 	}
 
 	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
+	//@Parameters({STATE_PARAM})
+	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
 		runCFTJobs();
@@ -102,7 +99,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				monitorAddress,
 				PropertyProvider.getProperty("test.ssh.user"),
 				PropertyProvider.getProperty("test.ssh.password"));
-			// sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
+			 sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
 			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
@@ -125,12 +122,10 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void futureDatedPolicy(@Optional(StringUtils.EMPTY) String state) {
+//	@Parameters({STATE_PARAM})
+	public void futureDatedPolicy() {
 
-		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE = 'DepositPayment' order by BILLINGACCOUNTNUMBER"; // TRANSACTIONTYPE
-																																																		// is
-																																																		// null
+		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE is null order by BILLINGACCOUNTNUMBER";
 		String query2 = "select BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where BILLINGACCOUNTNUMBER = %s and LEDGERACCOUNTNO =1065 and to_char(txdate, 'yyyymmdd') >= %s order by TXDATE";
 		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();
 		List<Map<String, String>> dbResult = DBService.get().getRows(query1);
@@ -140,7 +135,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			List<Map<String, String>> dbTransactions = DBService.get().getRows(query);
 			accNumberTable.add(dbTransactions);
 		}
-		log.info("Filepath: {}", CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
 		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
 		log.info("Future dated policies were verified");
 	}
@@ -212,13 +206,5 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			}
 		}
 		return accountsMapSummaryFromFeedFile;
-	}
-
-	private Callable<Integer> downloadDirectorySize() {
-		return new Callable<Integer>() {
-			public Integer call() throws Exception {
-				return downloadDir.listFiles().length;
-			}
-		};
 	}
 }
