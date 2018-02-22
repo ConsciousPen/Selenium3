@@ -3,20 +3,14 @@
 package aaa.modules.policy;
 
 import aaa.common.enums.Constants;
-import aaa.helpers.TimePoints;
-import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
 
 public abstract class PolicyBaseTest extends BaseTest {
 
@@ -98,4 +92,21 @@ public abstract class PolicyBaseTest extends BaseTest {
 				return returnValue;
 		}
 	}
+
+	/**
+	 * Initiates conversion policy renewal image based on provided test data name
+	 */
+	protected void initiateManualConversionForTest() {
+		createCustomerIndividual();
+		TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()), "InitiateRenewalEntry", "TestData");
+		customer.initiateRenewalEntry().perform(testData);
+	}
+
+	/**
+	 * Retrieves {@link TestData} for a conversion policy
+	 */
+	protected TestData getConversionPolicyTD() {
+		return getPolicyTD("Conversion", "TestData");
+	}
+
 }

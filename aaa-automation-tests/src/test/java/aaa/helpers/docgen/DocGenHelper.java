@@ -254,6 +254,18 @@ public class DocGenHelper {
 	 * @param eventName   event name of the generated document
 	 */
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
+		return waitForDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
+	}
+
+		/**
+		 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+		 *
+		 * @param docId       documents ids to be used for waiting xml document.
+		 * @param quoteNumber quote/policy number
+		 * @param eventName   event name of the generated document
+		 * @param assertExists   assert if the generated document exists
+		 */
+	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName, boolean assertExists) {
 		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
 
@@ -279,8 +291,10 @@ public class DocGenHelper {
 		while (timeout > System.currentTimeMillis());
 		long searchTime = System.currentTimeMillis() - searchStart;
 
+		if (assertExists) {
 		CustomAssert.assertTrue(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), document != null);
-		log.info(MessageFormat.format("Found document \"{0}\" after {1} milliseconds", docId.getId(), searchTime));
+		}
+		log.info(MessageFormat.format(((document == null)?"Document not found " : "Found document ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return document;
 	}
 
