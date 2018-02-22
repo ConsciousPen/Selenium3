@@ -613,14 +613,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		waiveFeeOnDate(waiveDate);
 	}
 
-	protected void maigConversionOnRenewPreviewGenDate(String state) {
+	protected void maigConversionOnStartDatePlus3(String state) {
+		LocalDateTime conversionDate = TimeSetterUtil.getInstance().getStartTime().plusDays(3);
+		log.info("Conversion started on {}", conversionDate);
+		TimeSetterUtil.getInstance().nextPhase(conversionDate);
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
 		String policyN = ConversionUtils.importPolicy(data);
 
 		// LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime();
 		// LocalDateTime convDate = getTimePoints().getRenewPreviewGenerationDate(effDate.plusYears(1));
-		log.info("Conversion started on {}", effDate);
 		// ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate.plusYears(1));
 		// String policyN = ConversionUtils.importPolicy(data);
 		// TimeSetterUtil.getInstance().nextPhase(convDate);
