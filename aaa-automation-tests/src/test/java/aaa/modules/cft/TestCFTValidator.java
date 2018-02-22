@@ -76,6 +76,21 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
 		runCFTJobs();
+
+		// create remote folder
+		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
+		if (StringUtils.isNotEmpty(remoteFileLocation)) {
+			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			log.info("Monitor Address: {}", monitorAddress);
+			log.info("Remote file location: {}", remoteFileLocation);
+				SSHController sshControllerRemote = new SSHController(
+					monitorAddress,
+					PropertyProvider.getProperty("test.ssh.user"),
+					PropertyProvider.getProperty("test.ssh.password"));
+			sshControllerRemote.createDirectory(new File( remoteFileLocation),true);
+			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+		}
 		// get map from OR reports
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
@@ -87,7 +102,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
-		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			log.info("Moving data from monitor to download dir");
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
