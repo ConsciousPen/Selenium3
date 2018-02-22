@@ -156,7 +156,7 @@ PolicyInfo_AZ: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
-  Agency Location: 'Chandler - 500005091 - Chandler',
+  Agency Location: 'Phoenix Headquarters - 500005099 - Phoenix',
   Agent: 'Foster Bottenberg',
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -380,7 +380,7 @@ PolicyInfo_CT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
   Agent: 'House Agent Allied Club',
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -608,9 +608,9 @@ PolicyInfo_IN: {
   Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
-  Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
-  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
-  Agent: 'House Agent AAA Hoosier Headquarters',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Wayne CCIT - 500017187 - Wayne',
+  Agent: 'House Agent Mid-Atlantic',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -718,7 +718,7 @@ PolicyInfo_KY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
   Agent: 'House Agent Allied Club',
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -961,8 +961,8 @@ PolicyInfo_NV: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
-  Agent: 'House Account Las Vegas',
+  Agency Location: 'AAA Rainbow Plazas - 500037835 - Las Vegas (0178)',
+  Agent: 'House Agent Rainbow Plaza',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -1022,8 +1022,8 @@ PolicyInfo_NY: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
-  Agent: 'House Agent QUEENSBURY',
+  Agency Location: 'AAA Vestal - 500042867 - Vestal',
+  Agent: 'House Agent Vestal',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -1130,7 +1130,7 @@ PolicyInfo_OK: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
-  Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+  Agency Location: 'AAA Oklahoma - Langley - 500005241 - Langley',
   Agent: 'House Agent AAA W Oklahoma',
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -1306,7 +1306,7 @@ PolicyInfo_SD: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
-  Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+  Agency Location: 'Rapid City - 500020872 - Rapid City',
   Agent: 'House Agent AAA SD',
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -1360,7 +1360,7 @@ PolicyInfo_VA: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agency Location: 'Brick CCIT - 500017222 - Brick',
   Agent: 'House Agent Mid-Atlantic',
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -1476,8 +1476,8 @@ PolicyInfo_WY: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
-  Agency Location: 'Bozeman - 500005161 - Bozeman',
-  Agent: 'House Agent AK Diamond Blvd',
+  Agency Location: 'Billings EA - 500034432 - Billings',
+  Agent: 'House Agent Mountain West',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
