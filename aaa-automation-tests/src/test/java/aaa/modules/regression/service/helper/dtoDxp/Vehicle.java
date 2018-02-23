@@ -4,8 +4,6 @@ import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
 
@@ -28,7 +26,7 @@ public class Vehicle implements RestBodyRequest {
 	public String oid;
 
 	@ApiModelProperty(value = "Purchase Date", example = "2012-02-21")
-	public Date purchaseDate;
+	public String purchaseDate;
 
 	@ApiModelProperty(value = "VIN", example = "ZFFCW56A830133118")
 	public String vehIdentificationNo;
@@ -73,11 +71,11 @@ public class Vehicle implements RestBodyRequest {
 		this.bodyStyle = bodyStyle;
 	}
 
-	public Date getPurchaseDate() {
+	public String getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(Date purchaseDate) {
+	public void setPurchaseDate(String purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 

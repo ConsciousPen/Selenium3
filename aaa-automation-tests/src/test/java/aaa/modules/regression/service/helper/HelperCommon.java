@@ -22,7 +22,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
 
 import static aaa.admin.modules.IAdmin.log;
 
@@ -118,12 +117,13 @@ public class HelperCommon {
 		return validateVehicleResponse;
 	}
 
-	static void executeVehicleAddVehicle(String policyNumber, Date purchaseDate, String vin) {
+	static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
-		runJsonRequestPostDxp(requestUrl, request);
+		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
+		return vehicle;
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
