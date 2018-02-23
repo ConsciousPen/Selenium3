@@ -6,7 +6,7 @@ import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static org.apache.commons.lang.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang.StringUtils.substringAfterLast;
-import java.text.MessageFormat;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +30,10 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
@@ -52,12 +50,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2305_preRenewalLetterHSPRNXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(getConversionPolicyTD(), HSPRNXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		preRenewalLetterFormGeneration(getConversionPolicyDefaultTD(), HSPRNXX, false);
 	}
 
 	/**
@@ -73,7 +66,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
 				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
-		log.info("Conversion Home policy number: "+policyNumber+" with legacy number: " + legacyPolicyNumber);
+		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		processRenewal(PRE_RENEWAL, effectiveDate, policyNumber);
 
@@ -92,12 +85,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2305_preRenewalLetterPupConvHSPRNXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGenerationPup(getConversionPolicyTD(), HSPRNXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		preRenewalLetterFormGenerationPup(getConversionPolicyDefaultTD(), HSPRNXX, true);
 	}
 
 	/**
@@ -113,7 +101,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = createPolicyForTDPup();
-		log.info("Conversion Home policy number: "+policyNumber+" with legacy number: " + legacyPolicyNumber);
+		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		processRenewal(PRE_RENEWAL, effectiveDate, policyNumber);
 
@@ -131,12 +119,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas9170_preRenewalLetterPupHSPRNXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(adjustWithPupData(getConversionPolicyTD()), HSPRNXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		preRenewalLetterFormGeneration(adjustWithPupData(getConversionPolicyDefaultTD()), HSPRNXX, true);
 	}
 
 	/**
@@ -148,12 +131,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas7342_preRenewalLetterHSPRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyTD()), HSPRNMXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		preRenewalLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSPRNMXX, false);
 	}
 
 	/**
@@ -166,12 +144,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas7342_preRenewalLetterPupConvHSPRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyTD()), HSPRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		preRenewalLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSPRNMXX, true);
 	}
 
 	/**
@@ -183,12 +156,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas9170_preRenewalLetterPupHSPRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		preRenewalLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyTD())), HSPRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		preRenewalLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyDefaultTD())), HSPRNMXX, true);
 	}
 
 	/**
@@ -200,12 +168,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2309_renewalCoverLetterHSRNHODPXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(getConversionPolicyTD(), HSRNHODPXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		renewalCoverLetterFormGeneration(getConversionPolicyDefaultTD(), HSRNHODPXX, false);
 	}
 
 	/**
@@ -221,12 +184,12 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
 				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
-		log.info("Conversion Home policy number: "+policyNumber+" with legacy number: " + legacyPolicyNumber);
+		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		processRenewal(RENEWAL_OFFER, effectiveDate, policyNumber);
 
 		Document organicDocument = DocGenHelper.waitForDocumentsAppearanceInDB(HSRNXX, policyNumber, RENEWAL_OFFER, false);
-		CustomAssert.assertTrue(organicDocument == null);
+		assertThat(organicDocument).isEqualTo(null);
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		verifyDocumentTagData(document, testData, isPupPresent);
@@ -245,12 +208,12 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = createPolicyForTDPup();
-		log.info("Conversion Home policy number: "+policyNumber+" with legacy number: " + legacyPolicyNumber);
+		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		processRenewal(RENEWAL_OFFER, effectiveDate, policyNumber);
 
 		Document organicDocument = DocGenHelper.waitForDocumentsAppearanceInDB(HSRNXX, policyNumber, RENEWAL_OFFER, false);
-		CustomAssert.assertTrue(organicDocument == null);
+		assertThat(organicDocument).isEqualTo(null);
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		verifyDocumentTagData(document, testData, isPupPresent);
@@ -266,12 +229,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2309_renewalCoverLetterPupConvHSRNHODPXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
+		renewalCoverLetterFormGenerationPup(getConversionPolicyDefaultTD(), HSRNHODPXX, true);
 
-		renewalCoverLetterFormGenerationPup(getConversionPolicyTD(), HSRNHODPXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -283,12 +242,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2309_renewalCoverLetterPupHSRNHODPXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(adjustWithPupData(getConversionPolicyTD()), HSRNHODPXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		renewalCoverLetterFormGeneration(adjustWithPupData(getConversionPolicyDefaultTD()), HSRNHODPXX, true);
 	}
 
 	/**
@@ -300,12 +254,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2570_renewalCoverLetterHSRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyTD()), HSRNMXX, false);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		renewalCoverLetterFormGeneration(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSRNMXX, false);
 	}
 
 	/**
@@ -318,12 +267,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2570_renewalCoverLetterPupConvHSRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyTD()), HSRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		renewalCoverLetterFormGenerationPup(adjustWithMortgageeData(getConversionPolicyDefaultTD()), HSRNMXX, true);
 	}
 
 	/**
@@ -335,12 +279,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2570_renewalCoverLetterPupHSRNMXX(String state) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyTD())), HSRNMXX, true);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		renewalCoverLetterFormGeneration(adjustWithPupData(adjustWithMortgageeData(getConversionPolicyDefaultTD())), HSRNMXX, true);
 	}
 
 	/**
@@ -352,12 +291,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas2571_renewalCoverLetterHSRNPUPXX(String state, PolicyType policyType) throws NoSuchFieldException {
-		CustomAssert.enableSoftMode();
-
-		renewalCoverLetterFormGenerationConvPup(getConversionPolicyTD(), HSRNPUPXX, policyType);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		renewalCoverLetterFormGenerationConvPup(HSRNPUPXX, policyType);
 	}
 
 	/**
@@ -368,31 +302,30 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 4. Check that form is getting generated with correct content
 	 * @details
 	 */
-	private void renewalCoverLetterFormGenerationConvPup(TestData testData, DocGenEnum.Documents form, PolicyType policyType) throws NoSuchFieldException {
-		String policyNumber = createPolicyPupConvForTD(testData, policyType);
+	private void renewalCoverLetterFormGenerationConvPup(DocGenEnum.Documents form, PolicyType policyType) throws NoSuchFieldException {
+		String policyNumber = createPolicyPupConvForTD(policyType);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
-		log.info("Conversion PUP policy number: "+policyNumber);
+		log.info("Conversion PUP policy number: " + policyNumber);
 
 		processRenewal(RENEWAL_OFFER, effectiveDate, policyNumber);
 
 		Document organicDocument = DocGenHelper.waitForDocumentsAppearanceInDB(HSRNXX, policyNumber, RENEWAL_OFFER, false);
-		CustomAssert.assertTrue(organicDocument == null);
-		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
+		assertThat(organicDocument).isEqualTo(null);
+		DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyTagDataPup(policyNumber, policyType, RENEWAL_OFFER);
 	}
 
 	private void verifyTagDataPup(String policyNumber, PolicyType policyType, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tags: [{0}], [{1}]", "PlcyPrfx", "PlcyNum"), policyNumber
-				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)));
+		assertThat(policyNumber.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
 		switch (policyType.getShortName()) {
 			case "HomeSS":
-				CustomAssert.assertTrue("Homeowners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)));
+				assertThat("Homeowners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
 				break;
 			case "HomeSS_HO4":
-				CustomAssert.assertTrue("Renters".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)));
+				assertThat("Renters".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
 				break;
 			case "HomeSS_HO6":
-				CustomAssert.assertTrue("Condominium Owners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)));
+				assertThat("Condominium Owners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
 				break;
 			default:
 				throw new IllegalArgumentException("Undefined policyType " + policyType.getShortName());
@@ -408,7 +341,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		switch (eventName) {
 			case PRE_RENEWAL:
-				LocalDateTime preRenewalGenDate = getTimePoints().getPreRenewalGenerationDate(effectiveDate);
+				LocalDateTime preRenewalGenDate = getTimePoints().getPreRenewalLetterGenerationDate(effectiveDate);
 				TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
 				JOBS_FOR_EVENT.get(eventName).forEach(job -> JobUtils.executeJob(job));
 				break;
@@ -430,48 +363,35 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private String createPolicyForTD(TestData testData) {
 		mainApp().open();
-		initiateManualConversionForTest();
-		policy.getDefaultView().fillUpTo(testData, BindTab.class, false);
-		policy.getDefaultView().getTab(BindTab.class).submitTab();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		policy.getDefaultView().fill(testData);
 		return PolicySummaryPage.linkPolicy.getValue();
 	}
 
-	private String createPolicyPupConvForTD(TestData testData, PolicyType policyType) {
+	private String createPolicyPupConvForTD(PolicyType policyType) {
 		mainApp().open();
 		String homePolicyNumber = createCorrespondingConversionHomePolicy(policyType);
 
 		//adjust the conversion TD with valid home policy number and type
 		String homePolicyType = defaultIfBlank(substringAfterLast(policyType.getShortName(), "_"), "HO3");
-		testData.adjust(TestData.makeKeyPath(
-				PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(),
-				PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.class.getSimpleName() + "[0]",
-				PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.class.getSimpleName(),
-				PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel()),
-				homePolicyNumber)
+		TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()), "Conversion", "TestData")
+				.adjust(TestData.makeKeyPath(
+						PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(),
+						PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.class.getSimpleName() + "[0]",
+						PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.class.getSimpleName(),
+						PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel()),
+						homePolicyNumber)
 				.adjust(TestData.makeKeyPath(
 						PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(),
 						PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.class.getSimpleName() + "[0]",
 						PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.class.getSimpleName(),
 						PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_TYPE.getLabel()),
 						homePolicyType);
-		initiateManualConversionForTest();
-		policy.getDefaultView().fillUpTo(testData, aaa.main.modules.policy.pup.defaulttabs.BindTab.class , false);
-		policy.getDefaultView().getTab(aaa.main.modules.policy.pup.defaulttabs.BindTab.class).submitTab();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		policy.getDefaultView().fill(testData);
 		return PolicySummaryPage.linkPolicy.getValue();
-	}
-
-	/**
-	 * 1. Create a Customer
-	 * 2. Get default HO3 {@link TestData} and create HO3 policy
-	 * @return policyNumber {@link String} of the created policy
-	 */
-	public String createCorrespondingHomePolicy(PolicyType policyType) {
-		createCustomerIndividual();
-		TestData testData = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
-		policyType.get().createPolicy(testData);
-		String homePolicyNumber = PolicySummaryPage.getPolicyNumber();
-		mainApp().reopen();
-		return homePolicyNumber;
 	}
 
 	/**
@@ -484,10 +404,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		TestData testData = getStateTestData(testDataManager.policy.get(policyType), "InitiateRenewalEntry", "TestData");
 		customer.initiateRenewalEntry().perform(testData);
 		testData = getStateTestData(testDataManager.policy.get(policyType), "Conversion", "TestData");
-		policyType.get().getDefaultView().fillUpTo(testData, BindTab.class , false);
-		policyType.get().getDefaultView().getTab(BindTab.class).submitTab();
+		policyType.get().getDefaultView().fill(testData);
 		String homePolicyNumber = PolicySummaryPage.linkPolicy.getValue();
-		mainApp().reopen();
 		return homePolicyNumber;
 	}
 
@@ -503,7 +421,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		customer.initiateRenewalEntry().perform(testData);
 		Tab.buttonSaveAndExit.click();
-		log.info("Conversion PUP policy number: "+PolicySummaryPage.linkPolicy.getValue());
+		log.info("Conversion PUP policy number: " + PolicySummaryPage.linkPolicy.getValue());
 		return legacyPolicyNumber;
 	}
 
@@ -516,10 +434,10 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @param eventName
 	 */
 	private void verifyPackageTagData(String legacyPolicyNumber, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tags: [{0}], [{1}]", "PlcyPrfx", "PlcyNum"), policyNumber
-				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)));
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", "HdesPlcyNum"), legacyPolicyNumber
-				.equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", "")));
+		assertThat(policyNumber
+				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
+		assertThat(legacyPolicyNumber
+				.equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", ""))).isTrue();
 	}
 
 	/**
@@ -531,7 +449,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @param isPupPresent
 	 */
 	private void verifyDocumentTagData(Document document, TestData testData, boolean isPupPresent) throws NoSuchFieldException {
-		CustomAssert.assertTrue("/Policy/Renewal".equals(document.getxPathInfo()));
+		assertThat("/Policy/Renewal".equals(document.getxPathInfo())).isTrue();
 		if (isPupPresent) {
 			verifyTagData(document, "PupCvrgYN", "Y");
 		} else {
@@ -547,8 +465,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * Verify that tag value is present in the Documents section
 	 */
 	private void verifyTagData(Document document, String tag, String textFieldValue) {
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), textFieldValue
-				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
+		assertThat(textFieldValue
+				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField())).isTrue();
 	}
 
 	/**

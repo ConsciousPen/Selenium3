@@ -92,21 +92,4 @@ public abstract class PolicyBaseTest extends BaseTest {
 				return returnValue;
 		}
 	}
-
-	/**
-	 * Initiates conversion policy renewal image based on provided test data name
-	 */
-	protected void initiateManualConversionForTest() {
-		createCustomerIndividual();
-		TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()), "InitiateRenewalEntry", "TestData");
-		customer.initiateRenewalEntry().perform(testData);
-	}
-
-	/**
-	 * Retrieves {@link TestData} for a conversion policy
-	 */
-	protected TestData getConversionPolicyTD() {
-		return getPolicyTD("Conversion", "TestData");
-	}
-
 }

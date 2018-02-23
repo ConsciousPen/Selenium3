@@ -124,7 +124,7 @@ public class TimePoints {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_OFFER, true);
 	}
 
-	public LocalDateTime getPreRenewalGenerationDate(LocalDateTime date) {
+	public LocalDateTime getPreRenewalLetterGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.PRERENEWAL_LETTER, true);
 	}
 
