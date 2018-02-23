@@ -1780,7 +1780,7 @@ DwellingAddress_VA: {
 AgentInfo_VA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'Brick CCIT - 500017222 - Brick',
+  Agency Location: 'Brick - 500017222 - Brick',
   Agent: 'House Agent Mid-Atlantic'
 }
 
