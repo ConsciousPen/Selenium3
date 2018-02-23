@@ -706,6 +706,28 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_3)).isTrue();
 	}
 
+
+
+	protected void pas7082_AddVehicle(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		mainApp().close();
+
+
+
+
+}
+
+
+
+
+
+
+
+
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(status);
