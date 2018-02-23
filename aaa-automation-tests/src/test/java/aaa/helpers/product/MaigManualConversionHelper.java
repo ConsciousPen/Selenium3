@@ -209,20 +209,4 @@ public class MaigManualConversionHelper{
 				DocGenEnum.Documents.HSMPDCNVXX.getId()
 		);
 	}
-
-	public List<String> getHomeRenewalBillForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.AHRBXX.getId(), 
-				DocGenEnum.Documents.AH35XX.getId(),
-				DocGenEnum.Documents.HSRNHBXX.getId()
-		);
-	}
-
-	public List<String> getPupRenewalBillForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.AHRBXX.getId(),
-				DocGenEnum.Documents.AH35XX.getId(),
-				DocGenEnum.Documents.HSRNHBPUPXX.getId()
-		);
-	}
 }

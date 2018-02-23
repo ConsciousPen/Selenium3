@@ -68,7 +68,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	public void verifyFormsSequence(@Optional TestData testData) throws NoSuchFieldException {
 		// Get State/Product specific forms
 		List<String> forms = getConversionGeneratedForms();
-		List<String> billForms = getRenewalBillingForms();
 		//Change Membership number in testData to get AHMVCNV form - Validation letter
 		String membershipFieldMetaKey =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
@@ -102,6 +101,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+
+		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		//needed for home banking form generation
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -116,9 +117,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		assertThat(actualConversionRenewalBillingDocumentsList).isNotEmpty().isNotNull();
-		pas9816_verifyRenewalBillingPackageForms(actualConversionRenewalBillingDocumentsList);
+		pas9816_verifyRenewalBillingPackageForms(policyNumber);
+
+		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		
 		// Issue first renewal
@@ -157,6 +158,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		List<String> allDocs2 = new ArrayList<>();
 		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
 		assertThat(allDocs2).doesNotContainAnyElementsOf(forms);
+
+		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
 		List<String> onlyConversionSpecificForms = new ArrayList<>(forms);
@@ -176,6 +179,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		//TODO resolve comments below
 		//generate 2nd renewal bill
+
+		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		
 		/* Issue 2 renewal will be here */
@@ -184,30 +189,13 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order will be here
 
 		//PolicyBecomesActive
-		//Here should be a verifier for PAS-9707 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
+		//Here should be a verifier for PAS-9607 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
 
 	}
 
 	public void openPolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-	}
-
-	private List<String> getRenewalBillingForms() {
-		List<String> forms = new ArrayList<>();
-
-		switch (getPolicyType().getShortName()) {
-			case "HomeSS":
-			case "HomeSS_HO4":
-			case "HomeSS_HO6":
-			case "HomeSS_DP3":
-				forms = maigManualConversionHelper.getHomeRenewalBillForms();
-				break;
-			case "PUP":
-				forms = maigManualConversionHelper.getPupRenewalBillForms();
-				break;
-		}
-		return forms;
 	}
 
 	private List<String> getConversionGeneratedForms() {
@@ -253,19 +241,25 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		return forms;
 	}
 
-	public void pas9816_verifyRenewalBillingPackageForms(List<Document> documentList) {
+	public void pas9816_verifyRenewalBillingPackageForms(String policyNumber) {
+
+		//Get list of presented forms
+		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		assertThat(actualConversionRenewalBillingDocumentsList).isNotEmpty().isNotNull();
+
 		List<String> expectedFormsAndOrder = Arrays.asList(
 				DocGenEnum.Documents.AHRBXX.getId(),
 				DocGenEnum.Documents.AH35XX.getId()
 		);
 
+		//Adding of 'Delta' form for PUP and Home products in the Forms List
 		if (!getPolicyType().equals(PolicyType.PUP)) {
 			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBXX.getId());
 		} else {
 			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBPUPXX.getId());
 		}
 
-		maigManualConversionHelper.verifyFormSequence(expectedFormsAndOrder, documentList);
+		maigManualConversionHelper.verifyFormSequence(expectedFormsAndOrder, actualConversionRenewalBillingDocumentsList);
 	}
 
 	/**
