@@ -87,17 +87,17 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor Address: {}", monitorAddress);
 			log.info("Remote file location: {}", remoteFileLocation);
-				 sshControllerRemote = new SSHController(
+            Waiters.SLEEP(120000).go();
+            sshControllerRemote = new SSHController(
 					monitorAddress,
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
 			sshControllerRemote.createDirectory(new File( remoteFileLocation),true);
-			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+			Waiters.SLEEP(120000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
 		// get map from OR reports
-//		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Waiters.SLEEP(30000).go();
+		Waiters.SLEEP(120000).go();
 		// Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
@@ -106,18 +106,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-//			log.info("Moving data from monitor to download dir");
-//			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-//			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
-//			log.info("Monitor Address: {}", monitorAddress);
-//			log.info("Remote file location: {}", remoteFileLocation);
-//			log.info("Download to directory {}", downloadDir);
-//			SSHController sshControllerRemote = new SSHController(
-//				monitorAddress,
-//				PropertyProvider.getProperty("test.ssh.user"),
-//				PropertyProvider.getProperty("test.ssh.password"));
             sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
-			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// Remote path from server -
