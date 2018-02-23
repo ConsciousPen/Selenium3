@@ -33,6 +33,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
@@ -45,6 +46,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_2 = "Action is not available";
 	private static final String START_ENDORSEMENT_INFO_ERROR_3 = "OOSE or Future Dated Endorsement Exists";
 	private static final String START_ENDORSEMENT_INFO_ERROR_4 = "Policy is locked";
+	private String purchaseDate;
 
 	protected abstract String getGeneralTab();
 
