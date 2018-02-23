@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import aaa.main.metadata.PaymentsMaintenanceMetaData;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -898,10 +899,13 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Refund Suspense action started on {}", refundDate);
 		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openBilling(policyNumber);
 		BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
 		PaymentsAndBillingMaintenancePage.buttonClearSuspense.click();
-		new SearchSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		new SearchSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(
+				TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.SearchSuspenseActionTab.SUSPENSE_REFERENCE.getLabel()),
+				policyNumber));
 		SearchSuspenseActionTab.buttonSearch.click();
 		SearchSuspenseActionTab.tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.REVERSE).click();
 		Tab.buttonOk.click();
