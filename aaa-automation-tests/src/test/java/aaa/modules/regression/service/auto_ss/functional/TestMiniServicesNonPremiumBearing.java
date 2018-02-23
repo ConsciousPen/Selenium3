@@ -369,6 +369,20 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	/**
+	 * @author Megha Gubbala
+	 * @name Check dxp server if Nano policy not returning any information about vehicle.
+	 * @scenario
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	public void pas7082_AddVehicle(@Optional("VA") String state) {
+
+		pas7082_AddVehicle(getPolicyType());
+	}
+
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Future policy
 	 * @scenario
