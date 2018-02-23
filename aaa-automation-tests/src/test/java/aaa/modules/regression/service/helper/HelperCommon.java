@@ -118,13 +118,12 @@ public class HelperCommon {
 		return validateVehicleResponse;
 	}
 
-	static Vehicle[] executeVehicleAddVehicle(String policyNumber, Date purchaseDate, String vin) {
+	static void executeVehicleAddVehicle(String policyNumber, Date purchaseDate, String vin) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
 		runJsonRequestPostDxp(requestUrl, request);
-
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {

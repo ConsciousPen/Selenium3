@@ -1,9 +1,10 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import java.util.Date;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Date;
 
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
@@ -72,12 +73,11 @@ public class Vehicle implements RestBodyRequest {
 		this.bodyStyle = bodyStyle;
 	}
 
-
 	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setpurchaseDate(Date purchaseDate) {
+	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
