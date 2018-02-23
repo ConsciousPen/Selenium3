@@ -92,7 +92,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
-		//maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
