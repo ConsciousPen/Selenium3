@@ -3,8 +3,6 @@ package aaa.modules.docgen.delta.home_ss.dp3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.verification.CustomAssert;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -13,6 +11,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import toolkit.verification.CustomAssert;
 
 /**
  * 
@@ -26,7 +25,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest{
      * TC Steps:
      * 1. Create an DP3 quote and bind it;
      * (Special conditions for this quote:
-     * For HSTPNJ:
+     * For HSTP:
      * 1.User adds named insured whose age is 62 or Above
      * 2."Is there any Third Party Designee ? = "Yes"
      * 3.Add the Third Party Designee mandatory details
@@ -48,8 +47,8 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest{
      * HSCSND,
      * HSHU2NJ,
      * HSELNJ
-     * 5. Select HSTPNJ form and press "Generate" button
-     * 6. Verify that HSTPNJ is generated in xml batch
+     * 5. Select HSTP form and press "Generate" button
+     * 6. Verify that HSTP is generated in xml batch
      * <p/>
      * Req:
      * 17294:US NJ GD- 12 Generate Important Flood Information for New Jersey Policyholders (HSFLDNJ 11 12)
@@ -66,7 +65,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest{
 		mainApp().open();
 		createCustomerIndividual();
 		policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments"))); 
-		// TODO No such field "Is there any Third Party Designee ?", so cannot generate HSTPNJ
+		// TODO No such field "Is there any Third Party Designee ?", so cannot generate HSTP
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HSFLDNJ, Documents.HSCSND, Documents.HSHU2NJ, Documents.HSELNJ);
 		
     	policy.policyDocGen().start();

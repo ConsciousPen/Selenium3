@@ -4,13 +4,9 @@ package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK;
 import static toolkit.verification.CustomAssertions.assertThat;
-
-import java.time.LocalDateTime;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -61,16 +57,16 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
 
         TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
         verifyFormsSequence(testData);
     }
 
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGeneration(@Optional("DE") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("DE") String state) {
         // CW, DE, VA
         TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
         verifyFormsSequence(testData);

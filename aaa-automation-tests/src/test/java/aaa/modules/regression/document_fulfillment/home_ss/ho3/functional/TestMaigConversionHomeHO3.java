@@ -53,7 +53,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_SpecificRenewalPacketGenerationNJ(@Optional("NJ") String state) {
+	public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
 		TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
 
 		verifyFormsSequence(testData);
@@ -63,7 +63,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_SpecificRenewalPacketGeneration(@Optional("DE") String state) {
+	public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("DE") String state) {
 		// CW, DE, VA
 		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 

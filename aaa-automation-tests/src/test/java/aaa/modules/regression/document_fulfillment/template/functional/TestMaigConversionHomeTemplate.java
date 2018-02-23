@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.testng.annotations.Optional;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
@@ -28,14 +29,15 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -51,60 +53,90 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
 
-	public void verifyFormsSequence(TestData testData) {
+	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
+
+	public void verifyFormsSequence(@Optional TestData testData) {
+		// Get State/Product specific forms
 		List<String> forms = getForms();
+		//Change Membership number in testData to get AHMVCNV form - Validation letter
+		String membershipFieldMetaKey =
+				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+
+		/* Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
+		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
+				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
-		//Change Membership number in testData to get AHMVCNV form - Validation letter
-        String membershipFieldMetaKey = TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
-        String policyNumber = createManualConversionRenewalEntry(testData.adjust(membershipFieldMetaKey, "4290072030989503"));
+		// Create manual entry
+		mainApp().open();
+		createCustomerIndividual();
+		//TestData td = getConversionPolicyDefaultTD();
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
+		}
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		// Needed for Membership AHMVCNV form, membership number have to be != active
+		// For all products except PUP
+		if(!getPolicyType().equals(PolicyType.PUP)){
+			testData.adjust(membershipFieldMetaKey, "4290072030989503");
+		}
+		policy.getDefaultView().fill(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		LocalDateTime r0effectiveDate = PolicySummaryPage.getEffectiveDate();
-		LocalDateTime r0ExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		processRenewal(RENEWAL_OFFER, r0effectiveDate, policyNumber);
+		openPolicy(policyNumber);
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
-		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
-		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.minusDays(35));
+		//maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		// Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
-		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.minusDays(20));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-
-		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.plusDays(1));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		/* Scenario 2 */
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		TimeSetterUtil.getInstance().nextPhase(r0ExpirationDate.plusYears(1).minusDays(35));
-		/**https://csaaig.atlassian.net/browse/PAS-9157
-		but this defect they closed it with work around
-		now its time for u guys to create a defect
-		fix will come up as a story rather than defect*/
-		/**PAS-10256
-		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
+		/* Scenario 2, issue second renewal and verify documents list */
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		List<Document> actualDocumentsListAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		List<String> allDocs = new ArrayList<>();
-		actualDocumentsListAfterSecondRenewal.forEach(doc -> allDocs.add(doc.getTemplateId()));
-		assertThat(allDocs).doesNotContainSequence(forms);
+		/**https://csaaig.atlassian.net/browse/PAS-9157*/
+		/**PAS-10256
+		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
+
+		List<Document> actualDocumentsListAfterSecondRenewal2 = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+
+		List<String> allDocs2 = new ArrayList<>();
+		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
+		assertThat(allDocs2).doesNotContainAnyElementsOf(forms);
+
+		/* Issue 2 renewal will be here */
+	}
+
+	public void openPolicy(String policyNumber) {
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 	}
 
 	private List<String> getForms() {
@@ -487,8 +519,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 				LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(effectiveDate);
 				TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 				JOBS_FOR_EVENT.get(eventName).forEach(job -> JobUtils.executeJob(job));
-				mainApp().open();
-				SearchPage.openPolicy(policyNumber);
+				openPolicy(policyNumber);
 				productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 				break;
 			default:
@@ -513,9 +544,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	 * Utility method that enhances Conversion {@link TestData} with PUP in OtherActiveAAAPolicies
 	 */
 	public TestData adjustWithPupData(TestData policyTD) {
-		TestData pupTD = getTestSpecificTD("OtherActiveAAAPolicies").resolveLinks();
+		TestData testDataOtherActiveAAAPolicies = getTestSpecificTD("OtherActiveAAAPolicies").resolveLinks();
 		String pupOtherActiveAAAPoliciesTabKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, pupTD);
+		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, testDataOtherActiveAAAPolicies);
 	}
 
 	public TestData adjustWithSeniorInsuredDataHO4(TestData policyTD) {
@@ -569,8 +600,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+		openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 }

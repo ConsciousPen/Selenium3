@@ -2,18 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.document_fulfillment.home_ss.ho4.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.util.List;
 
 public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
 
@@ -42,7 +40,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
-    public void pas2674_formsPresenceAndSequenceNJ(@Optional("NJ") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
 
         TestData testData = adjustWithSeniorInsuredDataHO4(getConversionPolicyDefaultTD());
         verifyFormsSequence(testData);
@@ -51,7 +49,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
-    public void pas2674_formsPresenceAndSequence(@Optional("VA") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) {
 
         TestData testData = getConversionPolicyDefaultTD();
         verifyFormsSequence(testData);

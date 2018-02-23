@@ -1,16 +1,17 @@
 package aaa.modules.regression.document_fulfillment.pup.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
+    TestData testDataPolicy = testDataManager.policy.get(getPolicyType());
 
     @Override
     protected PolicyType getPolicyType() {
@@ -20,20 +21,18 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
-    public void pas2674_formsPresenceAndSequenceNJ(@Optional("NJ") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
+        TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
 
-        TestData testData = adjustWithSeniorInsuredData(adjustWithPupData(getConversionPolicyDefaultTD()));
-        createPolicyPupConvForTD(testData, PolicyType.HOME_SS_HO3);
-        verifyFormsSequence(testData);
+        verifyFormsSequence(policyCreationTD.resolveLinks());
     }
 
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
-    public void pas2674_formsPresenceAndSequence(@Optional("VA") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) {
+        TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
 
-        TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
-
-        verifyFormsSequence(testData);
+        verifyFormsSequence(policyCreationTD);
     }
 }

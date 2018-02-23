@@ -70,7 +70,7 @@ public class MaigManualConversionHelper{
 		String plcyTransCd = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(plcyTransCd).isEqualTo(expectedCode);
 	}
-			
+
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
 		assertSoftly(softly -> {
 			// Check that all documents where generated
@@ -92,7 +92,6 @@ public class MaigManualConversionHelper{
 			softly.assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
 		});
 	}
-
 
 	public List<String> getHO3NJForms() {
 		return Arrays.asList(
@@ -118,6 +117,19 @@ public class MaigManualConversionHelper{
 		);
 	}
 
+	public List<String> getHO4NJForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HSTP.getId(),
+				DocGenEnum.Documents.HS02_4.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(), //membership validation
+				DocGenEnum.Documents.HSMPDCNVXX.getId() //multi policy discount
+				//todo add HSCSNB
+		);
+	}
+
 	public List<String> getHO4OtherStatesForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getId(),
@@ -129,85 +141,75 @@ public class MaigManualConversionHelper{
 		);
 	}
 
-	public List<String> getHO4NJForms() {
+	public List<String> getHO6NJForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getId(),
+				DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
 				DocGenEnum.Documents.HSTP.getId(),
-				DocGenEnum.Documents.HS02_4.getId(),
+				DocGenEnum.Documents.HS02_6.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.AHMVCNV.getId(), //membership validation
-				DocGenEnum.Documents.HSMPDCNVXX.getId() //multi policy discount
+				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+				//todo add HSCSNB
 		);
 	}
 
-    public List<String> getHO6OtherStatesForms() {
-        return Arrays.asList(
-                DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
-                DocGenEnum.Documents.HS02_6.getId(),
-                DocGenEnum.Documents.AHAUXX.getId(),
-                DocGenEnum.Documents.AHPNXX.getId(),
-                DocGenEnum.Documents.AHMVCNV.getId(),
-                DocGenEnum.Documents.HSMPDCNVXX.getId()
-        );
-    }
+	public List<String> getHO6OtherStatesForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
+				DocGenEnum.Documents.HS02_6.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+				//todo add HSCSNB
+		);
+	}
 
-    public List<String> getHO6NJForms() {
-        return Arrays.asList(
-                DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
-                DocGenEnum.Documents.HSTP.getId(),
-                DocGenEnum.Documents.HS02_6.getId(),
-                DocGenEnum.Documents.AHAUXX.getId(),
-                DocGenEnum.Documents.AHPNXX.getId(),
-                DocGenEnum.Documents.AHMVCNV.getId(),
-                DocGenEnum.Documents.HSMPDCNVXX.getId()
-        );
-    }
+	public List<String> getPupNJForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNPUPXX.getId(),
+				DocGenEnum.Documents.HSTP.getId(),
+				DocGenEnum.Documents.PS02.getId(),
+				//Could be skipped as per Chris and Teri
+				//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+		);
+	}
 
-    public List<String> getPupOtherStatesForms() {
-        return Arrays.asList(
-                DocGenEnum.Documents.HSRNPUPXX.getId(),
-                DocGenEnum.Documents.PS02.getId(),
-//Could be skipped as per Chris and Teri
-//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
-                DocGenEnum.Documents.AHPNXX.getId(),
-                DocGenEnum.Documents.HSMPDCNVXX.getId()
-        );
-    }
+	public List<String> getPupOtherStatesForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNPUPXX.getId(),
+				DocGenEnum.Documents.PS02.getId(),
+				//Could be skipped as per Chris and Teri
+				//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+		);
+	}
 
-    public List<String> getPupNJForms() {
-        return Arrays.asList(
-                DocGenEnum.Documents.HSRNPUPXX.getId(),
-                DocGenEnum.Documents.HSTP.getId(),
-                DocGenEnum.Documents.PS02.getId(),
-//Could be skipped as per Chris and Teri
-//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
-                DocGenEnum.Documents.AHPNXX.getId(),
-                DocGenEnum.Documents.HSMPDCNVXX.getId()
-        );
-    }
+	public List<String> getDP3NJForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
+				DocGenEnum.Documents.HSTP.getId(),
+				DocGenEnum.Documents.DS02.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+		);
+	}
 
-    public List<String> getDP3OtherStatesForms() {
-        return Arrays.asList(
-                DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
-                DocGenEnum.Documents.DS02.getId(),
-                DocGenEnum.Documents.AHAUXX.getId(),
-                DocGenEnum.Documents.AHPNXX.getId(),
-                DocGenEnum.Documents.AHMVCNV.getId(),
-                DocGenEnum.Documents.HSMPDCNVXX.getId()
-        );
-    }
-
-    public List<String> getDP3NJForms() {
-        return Arrays.asList(
-                DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
-                DocGenEnum.Documents.HSTP.getId(),
-                DocGenEnum.Documents.DS02.getId(),
-                DocGenEnum.Documents.AHAUXX.getId(),
-                DocGenEnum.Documents.AHPNXX.getId(),
-                DocGenEnum.Documents.AHMVCNV.getId(),
-                DocGenEnum.Documents.HSMPDCNVXX.getId()
-        );
-    }
+	public List<String> getDP3OtherStatesForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
+				DocGenEnum.Documents.DS02.getId(),
+				DocGenEnum.Documents.AHAUXX.getId(),
+				DocGenEnum.Documents.AHPNXX.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.HSMPDCNVXX.getId()
+		);
+	}
 
 }
