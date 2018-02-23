@@ -6,6 +6,7 @@ import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -55,10 +56,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
-
 	public void verifyFormsSequence(@Optional TestData testData) {
 		// Get State/Product specific forms
-		List<String> forms = getForms();
+		List<String> forms = getConversionGeneratedForms();
 		//Change Membership number in testData to get AHMVCNV form - Validation letter
 		String membershipFieldMetaKey =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
@@ -80,7 +80,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		// Needed for Membership AHMVCNV form, membership number have to be != active
 		// For all products except PUP
-		if(!getPolicyType().equals(PolicyType.PUP)){
+		if (!getPolicyType().equals(PolicyType.PUP)) {
 			testData.adjust(membershipFieldMetaKey, "4290072030989503");
 		}
 		policy.getDefaultView().fill(testData);
@@ -129,7 +129,20 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		List<String> allDocs2 = new ArrayList<>();
 		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
-		assertThat(allDocs2).doesNotContainAnyElementsOf(forms);
+
+		List<String> onlyConversionSpecificForms = new ArrayList<>(forms);
+		onlyConversionSpecificForms.removeAll(
+				Arrays.asList(
+						DocGenEnum.Documents.HSTP.getId(),
+						DocGenEnum.Documents.AHPNXX.getId(),
+						DocGenEnum.Documents.HS02.getId(),
+						DocGenEnum.Documents.HS02_4.getId(),
+						DocGenEnum.Documents.HS02_6.getId(),
+						DocGenEnum.Documents.HSCSNA.getId(),
+						DocGenEnum.Documents.PS02.getId(),
+						DocGenEnum.Documents.DS02.getId()
+				));
+		assertThat(allDocs2).doesNotContainAnyElementsOf(onlyConversionSpecificForms);
 
 		/* Issue 2 renewal will be here */
 	}
@@ -139,7 +152,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 	}
 
-	private List<String> getForms() {
+	private List<String> getConversionGeneratedForms() {
 		List<String> forms = new ArrayList<>();
 
 		switch (getPolicyType().getShortName()) {

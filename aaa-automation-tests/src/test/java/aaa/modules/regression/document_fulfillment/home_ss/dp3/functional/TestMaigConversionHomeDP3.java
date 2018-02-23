@@ -55,7 +55,7 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {
     }
 
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
     public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
 
