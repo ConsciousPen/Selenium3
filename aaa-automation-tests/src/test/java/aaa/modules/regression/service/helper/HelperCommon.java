@@ -1,20 +1,7 @@
 package aaa.modules.regression.service.helper;
 
-import aaa.helpers.config.CustomTestProperties;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.waiters.Waiters;
-
+import static aaa.admin.modules.IAdmin.log;
+import static org.assertj.core.api.Assertions.assertThat;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -22,8 +9,22 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import static aaa.admin.modules.IAdmin.log;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.main.modules.swaggerui.SwaggerUiTab;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
+import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -35,6 +36,8 @@ public class HelperCommon {
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
+	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
+	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
@@ -254,5 +257,19 @@ public class HelperCommon {
 				client.close();
 			}
 		}
+	}
+
+	static void executeDiscountPercentageRetrieveRequest(String lob, String usState, String coverageCd, String expectedValue) {
+		DiscountRetrieveFullRequest request = new DiscountRetrieveFullRequest();
+		request.runtimeContext = new DiscountPercentageRuntimeContext();
+		request.runtimeContext.currentDate = 1517382000000L;
+		request.runtimeContext.lob = lob;
+		request.runtimeContext.usState = usState;
+		request.discountCd = "MEMDIS";
+		request.coverageCd = coverageCd;
+		request.policyType = lob;
+		String requestUrl = RATING_URL_TEMPLATE + RATING_SERVICE_TYPE;
+		String discountPercentageValue = runJsonRequestPostDxp(requestUrl, request);
+		assertThat(discountPercentageValue).isEqualTo(expectedValue);
 	}
 }
