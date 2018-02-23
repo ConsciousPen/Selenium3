@@ -50,7 +50,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) throws NoSuchFieldException {
+    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
 
         TestData testData = getConversionPolicyDefaultTD();
         verifyFormsSequence(testData);
