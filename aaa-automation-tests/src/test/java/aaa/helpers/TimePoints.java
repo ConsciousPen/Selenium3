@@ -124,6 +124,10 @@ public class TimePoints {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_OFFER, true);
 	}
 
+	public LocalDateTime getPreRenewalLetterGenerationDate(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.PRERENEWAL_LETTER, true);
+	}
+
 	public LocalDateTime getUpdatePolicyStatusDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.UPDATE_POLICY_STATUS, true);
 	}
@@ -276,6 +280,7 @@ public class TimePoints {
 		RENEW_GENERATE_MSG("Renew generate message"), //
 		RENEW_GENERATE_PREVIEW("Renew generate preview"), //
 		RENEW_GENERATE_OFFER("Renew generate offer"), //
+		PRERENEWAL_LETTER("Pre-renewal letter"), //
 		BILL_GENERATION("Bill generation"), //
 		OFFCYCLE_BILL_GENERATION("Offcycle bill generation"), //
 		BILL_PAYMENT("Bill payment"), //
