@@ -715,10 +715,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		//String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
+		String purchaseDate = "2012-02-21";
+		String vin = "ZFFCW56A830133118";
+		String policyNumber = "VASS926232062";
 
-
+		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 
 
 }
