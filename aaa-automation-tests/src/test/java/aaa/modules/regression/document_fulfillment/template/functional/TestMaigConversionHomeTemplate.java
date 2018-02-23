@@ -18,7 +18,6 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
-import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.Job;
@@ -27,7 +26,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.xml.model.Document;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
@@ -56,9 +54,10 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
-	public void verifyFormsSequence(@Optional TestData testData) {
+	public void verifyFormsSequence(@Optional TestData testData) throws NoSuchFieldException {
 		// Get State/Product specific forms
 		List<String> forms = getConversionGeneratedForms();
+		List<String> billForms = getRenewalBillingForms();
 		//Change Membership number in testData to get AHMVCNV form - Validation letter
 		String membershipFieldMetaKey =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
@@ -93,7 +92,10 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
+		//generate first renewal bills 
+		//set auto pay and home banking first
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
@@ -102,6 +104,12 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 		pas9816_verifyRenewalBillingPackageForms(actualConversionRenewalBillingDocumentsList);
 
+		List<Document> firstRenewalBillList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		assertThat(firstRenewalBillList).isNotEmpty().isNotNull();
+
+		maigManualConversionHelper.verifyFormSequence(billForms, firstRenewalBillList);
+		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		
 		// Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -137,6 +145,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		List<String> allDocs2 = new ArrayList<>();
 		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
+		assertThat(allDocs2).doesNotContainAnyElementsOf(forms);
+		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
 		List<String> onlyConversionSpecificForms = new ArrayList<>(forms);
 		onlyConversionSpecificForms.removeAll(
@@ -154,6 +164,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 
 		//TODO resolve comments below
+		//generate 2nd renewal bill
+		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		
 		/* Issue 2 renewal will be here */
 
 		//after aaaRenewalNoticeBillAsyncJob
@@ -169,6 +182,23 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 	}
 
+	private List<String> getRenewalBillingForms() {
+		List<String> forms = new ArrayList<>();
+
+		switch (getPolicyType().getShortName()) {
+			case "HomeSS":
+			case "HomeSS_HO4":
+			case "HomeSS_HO6":
+			case "HomeSS_DP3":
+				forms = maigManualConversionHelper.getHomeRenewalBillForms();
+				break;
+			case "PUP":
+				forms = maigManualConversionHelper.getPupRenewalBillForms();
+				break;
+		}
+		return forms;
+	}
+	
 	private List<String> getConversionGeneratedForms() {
 		List<String> forms = new ArrayList<>();
 

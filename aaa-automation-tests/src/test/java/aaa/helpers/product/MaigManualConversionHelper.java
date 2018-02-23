@@ -66,8 +66,8 @@ public class MaigManualConversionHelper{
 		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
 	}
 
-	public void pas9607_verifyPolicyTransactionCode(String expectedCode, String policyNumber) throws NoSuchFieldException {
-		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+	public void pas9607_verifyPolicyTransactionCode(String expectedCode, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", eventName);
 		assertThat(policyTransactionCode).isEqualTo(expectedCode);
 	}
 
@@ -210,4 +210,19 @@ public class MaigManualConversionHelper{
 		);
 	}
 
+	public List<String> getHomeRenewalBillForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.AHRBXX.getId(), 
+				DocGenEnum.Documents.AH35XX.getId(),
+				DocGenEnum.Documents.HSRNHBXX.getId()
+		);
+	}
+
+	public List<String> getPupRenewalBillForms() {
+		return Arrays.asList(
+				DocGenEnum.Documents.AHRBXX.getId(),
+				DocGenEnum.Documents.AH35XX.getId(),
+				DocGenEnum.Documents.HSRNHBPUPXX.getId()
+		);
+	}
 }

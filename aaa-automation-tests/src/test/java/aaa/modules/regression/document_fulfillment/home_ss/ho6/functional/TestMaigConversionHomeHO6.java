@@ -55,7 +55,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 
         TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
         verifyFormsSequence(testData);
@@ -64,7 +64,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) throws NoSuchFieldException {
 
         TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
         verifyFormsSequence(testData);
