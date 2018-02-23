@@ -18,6 +18,8 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
+import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;

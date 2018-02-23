@@ -1,5 +1,12 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,7 +27,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -30,14 +36,6 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -106,13 +104,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, null);
 		assertSoftly(softly -> {
-		softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
-		softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-		softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
-		softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
-		softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
-		softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
-		softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
+			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
+			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
 		});
 	}
 
@@ -454,14 +452,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
 		});
 
-		String vin3 = "1D30E42K451234567"; //VIN check digit failed
+		String vin3 = "4T1BF1FK0H1234567"; //VIN check digit failed
 		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response3.getVehicles()).isEmpty();
 			softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
 		});
 
-		String vin4 = "1D30E42K45"; //VIN from VIN table but too short
+		String vin4 = "4T1BF1FK0H"; //VIN from VIN table but too short
 		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getVehicles()).isEmpty();
@@ -475,7 +473,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
 		});
 
-		String vin0 = "1D30E42K351234567"; //VIN from VIN table
+		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
 		assertSoftly(softly -> {
 			softly.assertThat(response0.getVehicles().get(0).getVin()).isNotEmpty();
