@@ -66,9 +66,9 @@ public class MaigManualConversionHelper{
 		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
 	}
 
-	public void verifyPolicyTransCd(String expectedCode, String policyNumber) throws NoSuchFieldException {
-		String plcyTransCd = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		assertThat(plcyTransCd).isEqualTo(expectedCode);
+	public void pas9607_verifyPolicyTransactionCode(String expectedCode, String policyNumber) throws NoSuchFieldException {
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(policyTransactionCode).isEqualTo(expectedCode);
 	}
 
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {

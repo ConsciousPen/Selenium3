@@ -42,6 +42,7 @@ public class TestMaigConversionHomeHO4  extends TestMaigConversionHomeTemplate {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
     public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
 
+        //HO4 should be adjusted with different data then other products to get Senior Insured form
         TestData testData = adjustWithSeniorInsuredDataHO4(getConversionPolicyDefaultTD());
         verifyFormsSequence(testData);
     }
