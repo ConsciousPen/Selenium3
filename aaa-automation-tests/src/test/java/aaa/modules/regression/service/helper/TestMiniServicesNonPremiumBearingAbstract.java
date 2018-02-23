@@ -709,17 +709,17 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		//String policyNumber = PolicySummaryPage.getPolicyNumber();
-		mainApp().close();
+//		mainApp().open();
+//		createCustomerIndividual();
+//		policyType.get().createPolicy(getPolicyTD());
+//		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+//		//String policyNumber = PolicySummaryPage.getPolicyNumber();
+//		mainApp().close();
 		String purchaseDate = "2012-02-21";
 		String vin = "ZFFCW56A830133118";
 		String policyNumber = "VASS926232062";
 
-		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle[] response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 
 
 }
