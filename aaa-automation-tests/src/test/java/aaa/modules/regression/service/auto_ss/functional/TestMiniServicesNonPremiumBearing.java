@@ -413,7 +413,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Check Start Endorsement info server response for Cancel Policy
+	 * @name Check Start Endorsement info server response for Expired Policy
 	 * @scenario
 	 * 1. Create active policy.
 	 * 2. Change time to the policy expiration date +2d
