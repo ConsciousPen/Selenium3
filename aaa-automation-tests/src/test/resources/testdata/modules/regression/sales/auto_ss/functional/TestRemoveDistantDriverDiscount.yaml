@@ -1,0 +1,35 @@
+
+########### TestData for Distant Driver Discount
+
+TestData_Driver: {
+  DriverTab: ['@DriverTab2']
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Add Driver: Click,
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Child,
+  First Name: Angel,
+  Last Name: FromEarth,
+  Date of Birth: $<today-23y>,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Student,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678987658,
+  Distant Student: true
+}
+
+
+########   Endorse
+
+TestData_Endorse: {
+EndorsementActionTab: '@EndorsementActionTab',
+}
+
+EndorsementActionTab: {
+    Endorsement Date: $<today+5m>,
+    Endorsement Reason: Maintain General Information
+}
