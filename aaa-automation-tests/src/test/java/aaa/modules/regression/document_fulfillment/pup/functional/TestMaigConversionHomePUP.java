@@ -21,7 +21,7 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
         TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
 
         verifyFormsSequence(policyCreationTD.resolveLinks());
@@ -30,7 +30,7 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) {
+    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("VA") String state) throws NoSuchFieldException {
         TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
 
         verifyFormsSequence(policyCreationTD);
