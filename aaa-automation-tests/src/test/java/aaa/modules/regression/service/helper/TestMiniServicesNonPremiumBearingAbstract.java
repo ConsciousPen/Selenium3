@@ -91,6 +91,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get()), numberOfDocumentsRecordsInDb);
 		//PAS-343 end
 
+		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
+
 		secondEndorsementIssueCheck();
 	}
 
