@@ -4,11 +4,19 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import org.testng.annotations.Optional;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -44,6 +52,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 
 public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	private MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
@@ -53,6 +62,11 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
 
 	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
+	protected BillingAccount billingAccount = new BillingAccount();
+	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
+	protected TestData tdBilling = testDataManager.billingAccount;
+
 
 	public void verifyFormsSequence(@Optional TestData testData) throws NoSuchFieldException {
 		// Get State/Product specific forms
@@ -87,27 +101,30 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
+		//needed for home banking form generation
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		
 		//generate first renewal bills 
-		//set auto pay and home banking first
+		//enable auto pay
+		Tab.buttonBack.click();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
+//		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+//		enableAutoPay(dcVisa);
+
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		assertThat(actualConversionRenewalBillingDocumentsList).isNotEmpty().isNotNull();
 		pas9816_verifyRenewalBillingPackageForms(actualConversionRenewalBillingDocumentsList);
-
-		List<Document> firstRenewalBillList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		assertThat(firstRenewalBillList).isNotEmpty().isNotNull();
-
-		maigManualConversionHelper.verifyFormSequence(billForms, firstRenewalBillList);
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		
 		// Issue first renewal
@@ -177,6 +194,28 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 	}
 
+	protected void enableAutoPay(TestData dcVisa) {
+		//Add new card to the billing account
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingSummaryPage.linkUpdateBillingAccount.click();
+		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
+		updateBillingAccountAddNewCard(dcVisa, "Debit");
+		updateBillingAccountActionTab.back();
+
+		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_EnableAutopay"));
+		billingAccount.update().start();
+		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(true);
+		Tab.buttonCancel.click();
+	}
+
+	private void updateBillingAccountAddNewCard(TestData cardData, String cardType) {
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE)
+				.fill(cardData);
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).fill(cardData);
+		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
+	}
+
 	public void openPolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -198,7 +237,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		}
 		return forms;
 	}
-	
+
 	private List<String> getConversionGeneratedForms() {
 		List<String> forms = new ArrayList<>();
 
@@ -242,13 +281,13 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		return forms;
 	}
 
-	public void pas9816_verifyRenewalBillingPackageForms(List<Document> documentList){
+	public void pas9816_verifyRenewalBillingPackageForms(List<Document> documentList) {
 		List<String> expectedFormsAndOrder = Arrays.asList(
 				DocGenEnum.Documents.AHRBXX.getId(),
 				DocGenEnum.Documents.AH35XX.getId()
 		);
 
-		if (!getPolicyType().equals(PolicyType.PUP)){
+		if (!getPolicyType().equals(PolicyType.PUP)) {
 			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBXX.getId());
 		} else {
 			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBPUPXX.getId());
