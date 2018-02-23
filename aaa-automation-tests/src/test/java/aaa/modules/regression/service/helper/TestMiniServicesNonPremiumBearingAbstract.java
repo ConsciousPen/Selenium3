@@ -729,8 +729,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
 			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
 		});
-
-
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
