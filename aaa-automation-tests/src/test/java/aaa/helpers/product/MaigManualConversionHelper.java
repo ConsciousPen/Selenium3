@@ -112,7 +112,7 @@ public class MaigManualConversionHelper{
 				DocGenEnum.Documents.HS02.getId(),
 				DocGenEnum.Documents.AHAUXX.getId(),
 				DocGenEnum.Documents.AHPNXX.getId(),
-//				DocGenEnum.Documents.AHMVCNV.getId(),
+				DocGenEnum.Documents.AHMVCNV.getId(),
 				DocGenEnum.Documents.HSMPDCNVXX.getId()
 		);
 	}

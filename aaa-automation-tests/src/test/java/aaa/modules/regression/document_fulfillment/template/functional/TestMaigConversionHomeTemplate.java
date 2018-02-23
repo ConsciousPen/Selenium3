@@ -13,10 +13,8 @@ import java.util.Map;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
-import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import org.testng.annotations.Optional;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -52,7 +50,6 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
 
 public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	private MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
@@ -114,9 +111,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		Tab.buttonBack.click();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
-//		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
-//		enableAutoPay(dcVisa);
-
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
@@ -192,28 +186,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//PolicyBecomesActive
 		//Here should be a verifier for PAS-9707 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
 
-	}
-
-	protected void enableAutoPay(TestData dcVisa) {
-		//Add new card to the billing account
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingSummaryPage.linkUpdateBillingAccount.click();
-		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
-		updateBillingAccountAddNewCard(dcVisa, "Debit");
-		updateBillingAccountActionTab.back();
-
-		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_EnableAutopay"));
-		billingAccount.update().start();
-		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(true);
-		Tab.buttonCancel.click();
-	}
-
-	private void updateBillingAccountAddNewCard(TestData cardData, String cardType) {
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE)
-				.fill(cardData);
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).fill(cardData);
-		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
 	}
 
 	public void openPolicy(String policyNumber) {
