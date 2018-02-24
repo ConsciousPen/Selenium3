@@ -1,12 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -27,6 +20,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -36,6 +30,14 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -704,6 +706,31 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ValidateEndorsementResponse responseNd = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
 		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_3)).isTrue();
+	}
+
+	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType){
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		mainApp().close();
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_EXPIRED);
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		mainApp().close();
+
+		ErrorResponseDto response = HelperCommon.validateEndorsementResponseError(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
+			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
+		});
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {

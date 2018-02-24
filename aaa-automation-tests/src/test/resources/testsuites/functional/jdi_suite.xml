@@ -307,6 +307,7 @@
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
+                    <include name="pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy"/>
                 </methods>
             </class>
         </classes>
