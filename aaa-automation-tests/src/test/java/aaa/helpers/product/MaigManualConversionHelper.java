@@ -171,8 +171,9 @@ public class MaigManualConversionHelper{
 				DocGenEnum.Documents.HSRNPUPXX.getId(),
 				DocGenEnum.Documents.HSTP.getId(),
 				DocGenEnum.Documents.PS02.getId(),
-				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.HSMPDCNVXX.getId()
+				DocGenEnum.Documents.AHPNXX.getId()
+				//todo figure out should it be here or not
+				//DocGenEnum.Documents.HSMPDCNVXX.getId()
 		);
 	}
 
@@ -182,8 +183,9 @@ public class MaigManualConversionHelper{
 				DocGenEnum.Documents.PS02.getId(),
 				//Could be skipped as per Chris and Teri
 				//                DocGenEnum.Documents.PS0922.getId(), //add PS 09 23, PS 09 24, PS 98 11, PS 98 13, PS 98 14, PS 98 15, PS 98 16
-				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.HSMPDCNVXX.getId()
+				DocGenEnum.Documents.AHPNXX.getId()
+				//todo figure out should it be here or not
+				//DocGenEnum.Documents.HSMPDCNVXX.getId()
 		);
 	}
 

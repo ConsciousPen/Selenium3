@@ -4,19 +4,11 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
-import org.testng.annotations.Optional;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
@@ -37,13 +29,14 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
@@ -65,14 +58,14 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	protected TestData tdBilling = testDataManager.billingAccount;
 
 
-	public void verifyFormsSequence(@Optional TestData testData) throws NoSuchFieldException {
+	public void verifyFormsSequence(TestData testData) throws NoSuchFieldException {
 		// Get State/Product specific forms
 		List<String> forms = getConversionGeneratedForms();
 		//Change Membership number in testData to get AHMVCNV form - Validation letter
 		String membershipFieldMetaKey =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
-		/* Scenario 1, Generate forms and check sequence*/
+		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
@@ -101,8 +94,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		// End PAS-2764 Scenario 1
 
-		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
+		/*//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		//needed for home banking form generation
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -132,7 +126,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+*/
 		//Here should be a verifier for PAS-9707 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
 
 		/* Scenario 2, issue second renewal and verify documents list */

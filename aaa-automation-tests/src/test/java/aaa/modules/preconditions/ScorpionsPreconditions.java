@@ -1,19 +1,19 @@
 package aaa.modules.preconditions;
 
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.Test;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.modules.BaseTest;
-import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScorpionsPreconditions extends BaseTest {
 	/* Vin refresh enable/disable queries */
@@ -50,8 +50,15 @@ public class ScorpionsPreconditions extends BaseTest {
 		}
 	}
 
-	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.PRECONDITION})
-	public static void updateMembershipSummaryStubEndpoint() {
-		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void paymentCentralStubEndPointUpdate() {
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, PropertyProvider.getProperty(CustomTestProperties.APP_HOST), PropertyProvider.getProperty("app.stub.urltemplate")));
+	}
+
+	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
+
+	@Test(description = "Preconditions")
+	private void paymentCentralConfigCheck() {
+		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get()).contains(PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
 	}
 }
