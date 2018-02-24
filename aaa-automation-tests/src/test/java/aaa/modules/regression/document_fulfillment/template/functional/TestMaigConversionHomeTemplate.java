@@ -117,7 +117,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
-		// Issue first renewal
+		// PAS-2764 Scenario 1 Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
@@ -130,7 +130,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		//Here should be a verifier for PAS-9707 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
 
-		/* Scenario 2, issue second renewal and verify documents list */
+		/* Scenario 2, create and issue second renewal and verify documents list */
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
