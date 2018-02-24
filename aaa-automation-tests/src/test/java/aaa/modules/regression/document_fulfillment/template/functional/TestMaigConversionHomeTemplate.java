@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
@@ -37,6 +38,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
@@ -80,8 +82,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
 		}
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		// Needed for Membership AHMVCNV form, membership number have to be != active
-		// For all products except PUP
+		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
 		if (!getPolicyType().equals(PolicyType.PUP)) {
 			testData.adjust(membershipFieldMetaKey, "4290072030989503");
 		}
@@ -96,26 +97,26 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 		// End PAS-2764 Scenario 1
 
-		/*//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
+		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		//needed for home banking form generation
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		
+		/*
 		//generate first renewal bills 
 		//enable auto pay
 		Tab.buttonBack.click();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
-
+		*/
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
-		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
+		/*//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		pas9816_verifyRenewalBillingPackageForms(policyNumber);
-
+		*/
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		
+
 		// Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -126,7 +127,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-*/
+
 		//Here should be a verifier for PAS-9707 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
 
 		/* Scenario 2, issue second renewal and verify documents list */
