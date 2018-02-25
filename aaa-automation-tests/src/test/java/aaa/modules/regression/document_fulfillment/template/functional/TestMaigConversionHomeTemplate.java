@@ -150,12 +150,11 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		List<Document> actualDocumentsListAfterSecondRenewal2 = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
-		List<String> allDocs2 = new ArrayList<>();
-		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
-		assertThat(allDocs2).doesNotContainAnyElementsOf(forms);
-
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+		List<String> allDocs2 = new ArrayList<>();
+		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
 
 		List<String> onlyConversionSpecificForms = new ArrayList<>(forms);
 		onlyConversionSpecificForms.removeAll(
