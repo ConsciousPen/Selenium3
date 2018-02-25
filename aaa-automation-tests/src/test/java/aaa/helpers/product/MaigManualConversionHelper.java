@@ -10,6 +10,7 @@ import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.modules.policy.PolicyType;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
@@ -91,6 +92,23 @@ public class MaigManualConversionHelper{
 			// Check sequence
 			softly.assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
 		});
+	}
+
+	public void pas9816_verifyRenewalBillingPackageForms(String policyNumber, PolicyType policyType) {
+		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		assertThat(actualConversionRenewalBillingDocumentsList).isNotEmpty().isNotNull();
+
+		List<String> expectedFormsAndOrder = new ArrayList<>(Arrays.asList(DocGenEnum.Documents.AHRBXX.getId(),
+				DocGenEnum.Documents.AH35XX.getId()));
+
+		//Adding of 'Delta' form for PUP and Home products in the Forms List
+		if (!policyType.equals(PolicyType.PUP)) {
+			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBXX.getId());
+		} else {
+			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBPUPXX.getId());
+		}
+
+		verifyFormSequence(expectedFormsAndOrder, actualConversionRenewalBillingDocumentsList);
 	}
 
 	public List<String> getHO3NJForms() {
