@@ -115,7 +115,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		pas9816_verifyRenewalBillingPackageForms(policyNumber);
 		*/
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+//		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
 		// PAS-2764 Scenario 1 Issue first renewal
 		mainApp().open();
@@ -176,7 +176,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//generate 2nd renewal bill
 
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
-		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		//maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		
 		/* Issue 2 renewal will be here */
 
