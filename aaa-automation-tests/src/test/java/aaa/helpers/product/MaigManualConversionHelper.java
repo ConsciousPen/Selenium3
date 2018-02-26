@@ -3,34 +3,43 @@ package aaa.helpers.product;
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 import java.text.MessageFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
 
+public class MaigManualConversionHelper {
 
-public class MaigManualConversionHelper{
+    private final static String SELECT_POLICY_SOURCE_NUMBER = "select p.SOURCEPOLICYNUM from POLICYSUMMARY p Where p.Policynumber = '%s'";
+    private final static String INSERT_HOME_BANKING_FOR_POLICY = "INSERT INTO REMINDERPOLICYNUMBERCHANGE rpc"
+            + "(rpc.ID, rpc.DTYPE, rpc.POLICYNUMBER, rpc.DATEOFLASTPAYMENT, rpc.NUMBEROFPAYMENTS, rpc.SINGLEPAYMENTSCOUNT, rpc.RECURRINGPAYMENTSCOUNT, rpc.REMINDERIND)"
+            + "values (eis_sequence.nextval,'HBReminderPolicyNumberChangeEntity', '%1$s', to_date('%2$s', 'YYYY-MM-dd'), 10,'' ,'', 0)";
 
-	/**
-	 * Method to verify tags are present and contain specific values in Package
-	 * Note: Will be refactored after the refactoring of {@link DocGenHelper}
-	 *
-	 * @param legacyPolicyNumber
-	 * @param policyNumber
-	 * @param eventName
-	 */
-	public void verifyPackageTagData(String legacyPolicyNumber, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tags: [{0}], [{1}]", "PlcyPrfx", "PlcyNum"), policyNumber
-				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)));
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", "HdesPlcyNum"), legacyPolicyNumber
-				.equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", "")));
-	}
+    /**
+     * Method to verify tags are present and contain specific values in Package
+     * Note: Will be refactored after the refactoring of {@link DocGenHelper}
+     *
+     * @param legacyPolicyNumber
+     * @param policyNumber
+     * @param eventName
+     */
+    public void verifyPackageTagData(String legacyPolicyNumber, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
+        CustomAssert.assertTrue(MessageFormat.format("Problem is in tags: [{0}], [{1}]", "PlcyPrfx", "PlcyNum"), policyNumber
+                .equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)));
+        CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", "HdesPlcyNum"), legacyPolicyNumber
+                .equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", "")));
+    }
 
 	/**
 	 * Method to verify tags are present and contain specific values in Document
@@ -111,29 +120,45 @@ public class MaigManualConversionHelper{
 		verifyFormSequence(expectedFormsAndOrder, actualConversionRenewalBillingDocumentsList);
 	}
 
-	public List<String> getHO3NJForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
-				DocGenEnum.Documents.HSTP.getId(),
-				DocGenEnum.Documents.HS02.getId(),
-				DocGenEnum.Documents.AHAUXX.getId(),
-				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.AHMVCNV.getId(),
-				DocGenEnum.Documents.HSMPDCNVXX.getId(),
-				DocGenEnum.Documents.HSCSNA.getId()
-		);
-	}
+    private String getSourcePolicyNumber(String policyNumber) {
 
-	public List<String> getHO3OtherStatesForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
-				DocGenEnum.Documents.HS02.getId(),
-				DocGenEnum.Documents.AHAUXX.getId(),
-				DocGenEnum.Documents.AHPNXX.getId(),
-				DocGenEnum.Documents.AHMVCNV.getId(),
-				DocGenEnum.Documents.HSMPDCNVXX.getId()
-		);
-	}
+        String sourcePolicyNumberValue = DBService.get().getValue(String.format(SELECT_POLICY_SOURCE_NUMBER, policyNumber)).orElse(null);
+        assertThat(sourcePolicyNumberValue).isNotEqualTo(null);
+
+        return sourcePolicyNumberValue;
+    }
+
+    public void setUpHomeBankingForConversionRenewal(String policyNumber) {
+
+        String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+
+        int a = DBService.get().executeUpdate(String.format(INSERT_HOME_BANKING_FOR_POLICY, getSourcePolicyNumber(policyNumber), currentDate));
+        assertThat(a).isGreaterThan(0).as("MaigManualConversionHelper# setUpHomeBankingForConversionRenewal method failed, value was not inserted in DB");
+    }
+
+    public List<String> getHO3NJForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNHODPXX.getId(), //HO form instead of Mortgagee form
+                DocGenEnum.Documents.HSTP.getId(),
+                DocGenEnum.Documents.HS02.getId(),
+                DocGenEnum.Documents.AHAUXX.getId(),
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.AHMVCNV.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId(),
+                DocGenEnum.Documents.HSCSNA.getId()
+        );
+    }
+
+    public List<String> getHO3OtherStatesForms() {
+        return Arrays.asList(
+                DocGenEnum.Documents.HSRNMXX.getId(), //Mortgagee form instead of HO form
+                DocGenEnum.Documents.HS02.getId(),
+                DocGenEnum.Documents.AHAUXX.getId(),
+                DocGenEnum.Documents.AHPNXX.getId(),
+                DocGenEnum.Documents.AHMVCNV.getId(),
+                DocGenEnum.Documents.HSMPDCNVXX.getId()
+        );
+    }
 
 	public List<String> getHO4NJForms() {
 		return Arrays.asList(

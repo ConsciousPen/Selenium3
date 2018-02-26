@@ -108,6 +108,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		//needed for home banking form generation
+		maigManualConversionHelper.setUpHomeBankingForConversionRenewal(policyNumber);
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -175,16 +176,23 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		assertThat(allDocs2).doesNotContainAnyElementsOf(onlyConversionSpecificForms);
 
-		//TODO resolve comments below
-		//generate 2nd renewal bill
+		//Generate Bill for the second renewal to verify Home Banking forms
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		List <Document> actualBillingDocumentsListAfterSecondRenewal2 = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+
+		List<String> allBillingDocs2 = new ArrayList<>();
+		actualBillingDocumentsListAfterSecondRenewal2.forEach(doc -> allBillingDocs2.add(doc.getTemplateId()));
+		assertThat(allBillingDocs2).doesNotContain(DocGenEnum.Documents.HSRNHBXX.getId(), DocGenEnum.Documents.HSRNHBPUPXX.getId());
 
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
+		//TODO resolve comments below
 		/* Issue 2 renewal will be here */
-
-		//after aaaRenewalNoticeBillAsyncJob
-		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order will be here
 
 		//PolicyBecomesActive
 		//Here should be a verifier for PAS-9607 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
