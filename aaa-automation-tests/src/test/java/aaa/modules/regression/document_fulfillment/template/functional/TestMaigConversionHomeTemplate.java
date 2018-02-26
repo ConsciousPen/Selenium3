@@ -102,7 +102,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
 
-		//maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
 		// End PAS-2764 Scenario 1
 
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
@@ -132,8 +132,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		// End PAS-2764 Scenario 1 Issue first renewal
-
-		//Here should be a verifier for PAS-9707 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
 
 		/* Scenario 2, create and issue second renewal and verify documents list */
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
@@ -181,7 +179,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//generate 2nd renewal bill
 
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
-		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
 		/* Issue 2 renewal will be here */
 
