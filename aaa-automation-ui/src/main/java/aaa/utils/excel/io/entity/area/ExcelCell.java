@@ -107,18 +107,12 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public Object getValue() {
+		// Let's try to obtain numeric value first
 		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t).collect(Collectors.toSet());
-
-		// Let's try to obtain float number value first
 		for (NumberCellType<?> type : numericTypes) {
-			if (type.isTypeOf(this) && type.hasFloatValue(this)) {
+			if (type.isTypeOf(this)) {
 				return getValue(type);
 			}
-		}
-
-		// Then if no float numbers has found let's try to find integer value
-		if (hasType(INTEGER_TYPE)) {
-			return getIntValue();
 		}
 
 		// If no numeric value has been obtained then let's try to get non string value

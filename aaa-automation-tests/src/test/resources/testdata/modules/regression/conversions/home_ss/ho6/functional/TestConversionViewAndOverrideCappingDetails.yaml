@@ -17,7 +17,7 @@ GeneralTab_NJ: {
 }
 
 InitiateRenewalEntryActionTab: {
-  Renewal Policy Premium: 1000
+  Renewal Policy Premium: 1100
 }
 GeneralTab: {
   Immediate prior carrier: 'CSAA Affinity Insurance Company',
@@ -46,7 +46,7 @@ TD_ViewCappingDetails_VA: {
 TestData_OverideCappingDetails: {
   PremiumsAndCoveragesQuoteTab: {
     View Capping Details: {
-      Manual Capping Factor (%): '120',
+      Manual Capping Factor (%): '100',
       Capping Override Reason: 'index=1',
       Calculate: 'click',
       Save and Return to Premium & Coverages: 'click'

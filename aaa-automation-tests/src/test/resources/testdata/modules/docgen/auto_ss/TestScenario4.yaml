@@ -39,7 +39,7 @@ DriverInformation: {
 VehicleTab: { 
   Add Vehicle: click,
   Type: Golf Cart,
-  Change Vehicle Confirmation: 'OK',
+  #Change Vehicle Confirmation: 'OK',
   Usage: 'Traveling Primary Residence',
   VIN: KNDJT2A2XA7038383,
   Year: 2010,
