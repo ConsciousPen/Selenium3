@@ -10,15 +10,12 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.DocGenEnum.Documents;
-import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -26,10 +23,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
@@ -60,7 +55,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_PolicyDocuments(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
+
 		mainApp().open();
 
 		// 1
@@ -119,7 +114,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		
 		// 5
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
 		// 6
@@ -132,8 +127,6 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				Documents._55_1006
 				);
 				
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 	
 	/** 
@@ -157,7 +150,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
 	public void TC02_EndorsementDocuments(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		
@@ -192,18 +185,13 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				);
 		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
 		
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNum);
-		
 		// 5
-		policy.policyDocGen().start();
-		docgenActionTab.generateDocuments(Documents.AHRCTXXPUP);
+		//policy.policyDocGen().start();
+		//docgenActionTab.generateDocuments(Documents.AHRCTXXPUP);
 		
 		// 6
-		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHRCTXXPUP);
+		//DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHRCTXXPUP);
 		
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 	
 	/** 
