@@ -95,7 +95,7 @@ public class MaigManualConversionHelper{
 	}
 
 	public void pas9816_verifyRenewalBillingPackageForms(String policyNumber, PolicyType policyType) {
-		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		assertThat(actualConversionRenewalBillingDocumentsList).isNotEmpty().isNotNull();
 
 		List<String> expectedFormsAndOrder = new ArrayList<>(Arrays.asList(DocGenEnum.Documents.AHRBXX.getId(),
