@@ -32,12 +32,14 @@ public class ReportFutureDatedPolicy extends ControlledFinancialBaseTest {
 			// sheet color and style scheme
 			StylesTable stylesTable = workbook.getStylesSource();
 			XSSFCellStyle xssfCellCorrect = stylesTable.createCellStyle();
-			xssfCellCorrect.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
+			xssfCellCorrect.setFillForegroundColor(new XSSFColor(new Color(190, 215, 155)));
 			xssfCellCorrect.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			xssfCellCorrect.setAlignment(HorizontalAlignment.CENTER);
 
 			XSSFCellStyle xssfCellWrong = stylesTable.createCellStyle();
-			xssfCellWrong.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
+			xssfCellWrong.setFillForegroundColor(new XSSFColor(new Color(190, 0, 0)));
 			xssfCellWrong.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			xssfCellWrong.setAlignment(HorizontalAlignment.CENTER);
 
 			Row expRow = sheet.createRow(1);
 			CellUtil.createCell(expRow, 2, "Verification of Future Dated Policy");
@@ -50,7 +52,7 @@ public class ReportFutureDatedPolicy extends ControlledFinancialBaseTest {
 			// Table header
 			XSSFCellStyle xssfCellHeader = stylesTable.createCellStyle();
 			xssfCellHeader.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			xssfCellHeader.setFillForegroundColor(new XSSFColor(new Color(231, 235, 247)));
+			xssfCellHeader.setFillForegroundColor(new XSSFColor(new Color(100, 185, 250)));
 			xssfCellHeader.setAlignment(HorizontalAlignment.CENTER);
 			CFTHelper.setBorderToCellStyle(xssfCellHeader);
 
@@ -58,25 +60,28 @@ public class ReportFutureDatedPolicy extends ControlledFinancialBaseTest {
 			Row headerRow = sheet.createRow(headerRowNumber);
 
 			sheet.addMergedRegion(new CellRangeAddress(headerRowNumber, headerRowNumber, 1, 2));
-			sheet.addMergedRegion(new CellRangeAddress(headerRowNumber, headerRowNumber, 4, 5));
-			sheet.addMergedRegion(new CellRangeAddress(headerRowNumber, headerRowNumber, 7, 8));
-			CellUtil.createCell(headerRow, 1, "Account Number");
-			CellUtil.createCell(headerRow, 4, "Policy Effective Date");
-			CellUtil.createCell(headerRow, 7, "Last Transaction Date");
+			sheet.addMergedRegion(new CellRangeAddress(headerRowNumber, headerRowNumber, 4, 6));
+			sheet.addMergedRegion(new CellRangeAddress(headerRowNumber, headerRowNumber, 8, 10));
+			CellUtil.createCell(headerRow, 1, "Account Number", xssfCellHeader);
+			CellUtil.createCell(headerRow, 4, "Policy Effective Date", xssfCellHeader);
+			CellUtil.createCell(headerRow, 8, "Last Transaction Date", xssfCellHeader);
 
-			int RowNumber = headerRowNumber + 1;
+			int rowNumber = headerRowNumber + 1;
 			for (List<Map<String, String>> accEntry : accNumberTable) {
-				Row accRow = sheet.createRow(RowNumber);
+				Row accRow = sheet.createRow(rowNumber);
+				sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 1, 2));
+				sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 4, 6));
+				sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 8, 10));
 				if (accEntry.size() == 1) {
 					CellUtil.createCell(accRow, 1, accEntry.get(0).get("ACCNUMBER"), xssfCellCorrect);
 					CellUtil.createCell(accRow, 4, accEntry.get(0).get("TXDATE"), xssfCellCorrect);
-					CellUtil.createCell(accRow, 7, accEntry.get(0).get("TXDATE"), xssfCellCorrect);
+					CellUtil.createCell(accRow, 8, accEntry.get(0).get("TXDATE"), xssfCellCorrect);
 				} else {
 					CellUtil.createCell(accRow, 1, accEntry.get(0).get("ACCNUMBER"), xssfCellWrong);
 					CellUtil.createCell(accRow, 4, accEntry.get(0).get("TXDATE"), xssfCellWrong);
-					CellUtil.createCell(accRow, 7, accEntry.get(accEntry.size() - 1).get("TXDATE"), xssfCellWrong);
+					CellUtil.createCell(accRow, 8, accEntry.get(accEntry.size() - 1).get("TXDATE"), xssfCellWrong);
 				}
-				RowNumber++;
+				rowNumber++;
 			}
 
 			// save workbook
