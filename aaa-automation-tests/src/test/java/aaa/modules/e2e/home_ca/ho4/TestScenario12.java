@@ -4,7 +4,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario12;
 import toolkit.datax.TestData;
@@ -31,7 +30,7 @@ public class TestScenario12 extends Scenario12 {
 			payCancellationNoticeByRemittance();
 			policyReinstatement();
 			generateRefund();
-			
+
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
