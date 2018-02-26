@@ -1,0 +1,36 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Semi-Annual
+  },
+  PurchaseTab: '@ho3@TestScenario12@PurchaseTab'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho4>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@<home_ss_ho4>@DataGather@Construction',
+  Interior: '@<home_ss_ho4>@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho4>@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+PropertyValue: {
+  'Personal property value': '$99,000.00'
+}
+
+# ----- First Renewal -----
+TestData_FirstRenewal: '@ho3@TestScenario12@TestData_FirstRenewal'
+
+# ----- Second Renewal -----
+TestData_SecondRenewal: '@ho3@TestScenario12@TestData_SecondRenewal'

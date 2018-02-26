@@ -1,3 +1,16 @@
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_PUP'
+}
+OtherActiveAAAPolicies_PUP: {
+  Policy type: PUP,
+  "Companion PUP/DP3 Pending with Discount?": 'No',
+  Policy number: '345345345',
+  Effective date: '$<today:MM/dd/yyyy>'
+}
+
 MortgageesTab: {
   Mortgagee: 'Yes',
   MortgageeInformation: {
@@ -14,18 +27,4 @@ PremiumsAndCoveragesQuoteTab_Mortgagee: {
   Bill to at renewal: 'Mortgagee',
   Payment plan: 'Mortgagee Bill (Renewal)',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
-}
-
-OtherActiveAAAPolicies: {
-  Other active AAA policies: "Yes",
-  Add: 'click',
-  ActiveUnderlyingPoliciesSearch: {},
-  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_PUP'
-}
-
-OtherActiveAAAPolicies_PUP: {
-  Policy type: PUP,
-  "Companion PUP/DP3 Pending with Discount?": 'No',
-  Policy number: '345345345',
-  Effective date: '$<today:MM/dd/yyyy>'
 }

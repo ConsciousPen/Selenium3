@@ -245,6 +245,7 @@ public final class DocGenEnum {
 		HSPRNMXX("Pre-Renewal letter (Mortgagee)"),
 		HSPRNXX("Pre-Renewal letter"),
 		HSRNMXX("Renewal Cover Letter (Mortgagee)"),
+		HSRNPUPXX("Renewal Cover Letter PUP"),
 		HSRNHODPXX("Renewal Cover Letter"),
 		HSRFIXX("Request for Information"),
 		HSRFIXXPUP("HSRFIXX", "Request For Information"),
