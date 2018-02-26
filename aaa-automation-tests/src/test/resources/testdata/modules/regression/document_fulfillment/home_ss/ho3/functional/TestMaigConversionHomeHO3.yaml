@@ -1,0 +1,32 @@
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_PUP'
+}
+
+OtherActiveAAAPolicies_PUP: {
+  Policy type: PUP,
+  "Companion PUP/DP3 Pending with Discount?": 'No',
+  Policy number: '345345345',
+  Effective date: '$<today:MM/dd/yyyy>'
+}
+
+MortgageesTab: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: {
+    Name: TestName,
+    Zip code:  24541,
+    Street address 1: 265 CHIPMAN AVE,
+    Loan number: 12345678,
+    Validate Address: '',
+    Validate Address Dialog: {}
+  }
+}
+
+PremiumsAndCoveragesQuoteTab_Mortgagee: {
+  Bill to at renewal: 'Mortgagee',
+  Payment plan: 'Mortgagee Bill (Renewal)',
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}

@@ -1,0 +1,11 @@
+MortgageesTab: {
+     Mortgagee: 'Yes',
+     MortgageeInformation: {
+       Name: TestName,
+       Zip code:  24541,
+       Street address 1: 265 CHIPMAN AVE,
+       Loan number: 12345678,
+       Validate Address: '',
+       Validate Address Dialog: {}
+     }
+   }

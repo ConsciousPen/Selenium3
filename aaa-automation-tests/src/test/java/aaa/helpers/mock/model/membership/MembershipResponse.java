@@ -7,6 +7,7 @@ import aaa.utils.excel.bind.annotation.ExcelTransient;
 public class MembershipResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN_1 = "M/d/yyyy";
+
 	@ExcelTransient
 	private static final String DATE_PATTERN_2 = "MM-dd-yy";
 

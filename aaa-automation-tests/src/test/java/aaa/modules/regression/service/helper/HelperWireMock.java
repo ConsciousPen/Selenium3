@@ -57,6 +57,14 @@ public class HelperWireMock {
 		}
 	}
 
+
+
+	@Test
+	public void createPaperlessPreferencesRequestIdTest() {
+		String requestId = setPaperlessPreferencesToValue("PolicyNumber", HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		printToLog("requestId: " + requestId);
+	}
+
 	/**
 	 * To remove stalled requests
 	 */

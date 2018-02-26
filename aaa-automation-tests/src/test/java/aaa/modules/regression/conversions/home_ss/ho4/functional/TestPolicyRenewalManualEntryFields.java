@@ -59,15 +59,14 @@ public class TestPolicyRenewalManualEntryFields extends HomeSSHO4BaseTest {
 
         String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
-        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10);
 
         mainApp().open();
+
         createCustomerIndividual();
 
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd()
-                        .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-                                CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel()), inceptionDate)
-                , effectiveDate);
+                .adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+                        CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel()), inceptionDate));
 
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONVERSION_DATE)).hasValue("");
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.LEAD_SOURCE)).isEnabled(false);
