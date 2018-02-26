@@ -109,7 +109,9 @@ public final class AutoCaPolicyActions {
 	        // if (textBoxRenewalDate.isPresent() && textBoxRenewalDate.isVisible()) {
 	        //     return super.submit();
 	        //  }
-	        Tab.buttonSaveAndExit.click();
+            if(Tab.buttonSaveAndExit.isVisible()) {
+                Tab.buttonSaveAndExit.click();
+            }
 	        return this;
 
         }

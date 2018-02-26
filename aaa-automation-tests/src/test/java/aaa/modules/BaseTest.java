@@ -328,6 +328,7 @@ public class BaseTest {
 	protected String createPolicy(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
 		log.info("Policy Creation Started...");
+		createCustomerIndividual();
 		getPolicyType().get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);

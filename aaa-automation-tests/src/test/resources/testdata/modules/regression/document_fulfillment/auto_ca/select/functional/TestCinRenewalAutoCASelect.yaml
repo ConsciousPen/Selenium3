@@ -1,0 +1,75 @@
+AAAProductOwned: {
+  Current AAA Member: 'No'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    California Car Policy Application: Physically Signed,
+    Subscriber Agreement: Physically Signed
+  },
+  RequiredToIssue: {
+      Policy Application: 'Yes',
+      Auto Billing Plan Explanation: 'Yes'
+  }
+}
+
+TestData_Renewal_Clue: {
+  GeneralTab: {},
+  DriverTab: ['@<auto_ca_select>@DataGather@DriverTab', '@Driver_ClueViolation'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Renewal_Mvr: {
+  GeneralTab: {},
+  DriverTab: ['@<auto_ca_select>@DataGather@DriverTab', '@Driver_MvrViolation'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+Driver_MvrViolation: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: 'CA',
+  "License #": 'B6526589'
+}
+
+Driver_ClueViolation: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: 'CA',
+  "License #": 'B6526589'
+}
+
+DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}

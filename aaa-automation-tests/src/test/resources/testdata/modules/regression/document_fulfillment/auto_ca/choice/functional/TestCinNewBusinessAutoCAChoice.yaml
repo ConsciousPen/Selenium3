@@ -1,0 +1,13 @@
+PrefillTabMVR: {
+  First Name: MvrChargeable,
+  Last Name: Activity
+}
+
+PrefillTabCLUE: {
+  First Name: ClueChargeable,
+  Last Name: Activity
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'No'
+}
