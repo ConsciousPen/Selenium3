@@ -17,7 +17,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.utils.TestInfo;
 
-
 /**
  * @author Ryan Yu
  * @name Test Create PUP Pup Quote Voice Bind
@@ -65,29 +64,29 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
     */
-    
-    @Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void TC02_testQuoteVoiceBind(@Optional("") String state) {
-    	mainApp().open();
-    	precondition();
-        purchaseTab.fillTab(getTestSpecificTD("TestData_Voice_ACH"));
-        purchaseTab.submitTab();
-        //Verify Voice signature dialogue appears.
-        //Verify it contains due amount.
-        //Confirm the dialogue
-	    assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
-	    //CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
-	    Purchase.confirmVoiceSignature.confirm();
-        //Verify that the policy is in active state.
 
-	    assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-    }
-    
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void TC02_testQuoteVoiceBind(@Optional("") String state) {
+		mainApp().open();
+		precondition();
+		purchaseTab.fillTab(getTestSpecificTD("TestData_Voice_ACH"));
+		purchaseTab.submitTab();
+		//Verify Voice signature dialogue appears.
+		//Verify it contains due amount.
+		//Confirm the dialogue
+		assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
+		//CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
+		Purchase.confirmVoiceSignature.confirm();
+		//Verify that the policy is in active state.
+
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void TC03_testQuoteVoiceBind(@Optional("") String state) {
 		mainApp().open();
@@ -105,14 +104,14 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 		// Verify that the policy is in active state.
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
-	
-	private void precondition(){
+
+	private void precondition() {
 		getCopiedQuote();
-        policy.calculatePremium(getPolicyTD());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(getPolicyTD());
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
-        policy.getDefaultView().getTab(BindTab.class).submitTab();
+		policy.calculatePremium(getPolicyTD());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
+		policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(getPolicyTD());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+		policy.getDefaultView().getTab(BindTab.class).submitTab();
 	}
 
 	/*

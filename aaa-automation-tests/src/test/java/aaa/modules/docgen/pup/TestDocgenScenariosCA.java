@@ -1,17 +1,16 @@
 package aaa.modules.docgen.pup;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.verification.CustomAssert;
 
 /**
  * 
@@ -65,7 +64,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest{
 	public void testPUPDocgenScenarios(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		createCustomerIndividual();
 		String quoteNum = createQuote();
@@ -88,7 +87,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest{
 //				WURFICA // TODO Not disabled as expected
 				);
 		goddTab.generateDocuments(_58_4000);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, _58_4000, AHPNCA);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
@@ -105,7 +104,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest{
 //				_61_6528, // TODO Transform Document error for 61 6528
 				_58_1027
 				);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
 				HSU03XX, 
 				HSU04XX, 
@@ -141,7 +140,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest{
 				AHAPXX, 
 				WURFICA_PUP);
 		goddTab.generateDocuments(_58_4000);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, _58_4000, AHPNCA);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
@@ -160,7 +159,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest{
 				HSU07CA,
 				HSU01CA
 				);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
 				HSU04XX,
 				HSU05XX,

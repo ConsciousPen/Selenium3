@@ -1,7 +1,11 @@
 package aaa.modules.docgen.home_ss.ho4;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum.HomeSSTab;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -13,13 +17,8 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 
 public class TestDocgenScenarios extends HomeSSHO4BaseTest{
@@ -76,7 +75,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	public void TC01_Quote_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		createCustomerIndividual();
 		TestData tdPoicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		createQuote(tdPoicy);
@@ -91,24 +90,24 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		goddTab.verify.documentsEnabled(false, HSRFIXX, HSU01XX, HSU02XX, HSU07XX, HSU09XX);
 
 		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX, HSU04XX, HSU06XX, HSU08XX);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HSU03XX, HSU04XX, HSU06XX, HSU08XX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HSIQXX4);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HSIQXX4, AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4", getState())), AHFMXX, HSILXX);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HS11_4, AHFMXX, HSILXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
-		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
 		Tab.buttonSaveAndExit.click();
 
@@ -118,7 +117,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		goddTab.buttonCancel.click();
 
 		policy.dataGather().start();
-		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride920"), ReportsTab.class, MortgageesTab.class, true);
 		Tab.buttonSaveAndExit.click();
 
@@ -188,7 +187,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	public void TC02_Policy_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		SearchPage.openQuote(quoteNumber);
 		policy.purchase(getPolicyTD("DataGather", "TestData"));
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -203,13 +202,13 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 				HSIQXX4, AHPNXX, HSES, _438BFUNS);
 
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4", getState())));
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS11_4, AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
 
 		// when the policy with cancel notice flag, HSU02XX will display as

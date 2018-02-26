@@ -5,7 +5,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
@@ -51,74 +51,74 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		createCustomerIndividual();
 		String quoteNum = createQuote();
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents._61_6528_HO6,
-				Documents._61_4002,
-				Documents.F1122,
-				Documents._61_6530,
-				Documents.HSU06CA,
-				Documents.HSU08XX,
-				Documents._61_3000,
-				Documents._61_3026
+				DocGenEnum.Documents._61_6528_HO6,
+				DocGenEnum.Documents._61_4002,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._61_6530,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents._61_3000,
+				DocGenEnum.Documents._61_3026
 				);
 		documentActionTab.verify.documentsEnabled(false,
-				Documents.HSU01CA,
-				Documents.HSU02XX,
-				Documents.HSU07CA,
-				Documents.HSU09XX,
+				DocGenEnum.Documents.HSU01CA,
+				DocGenEnum.Documents.HSU02XX,
+				DocGenEnum.Documents.HSU07CA,
+				DocGenEnum.Documents.HSU09XX,
 //				Documents._62_6500,
-				Documents.WURFICA,
-				Documents.AHPNCA
+				DocGenEnum.Documents.WURFICA,
+				DocGenEnum.Documents.AHPNCA
 		);
-		
-		documentActionTab.generateDocuments(Documents._61_4002);
-		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_4002, Documents.AHPNCA);
-		
+
+		documentActionTab.generateDocuments(DocGenEnum.Documents._61_4002);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents._61_4002, DocGenEnum.Documents.AHPNCA);
+
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
-		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
-				Documents._61_6528_HO6,
-				Documents.F1122,
+		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"),
+				DocGenEnum.Documents._61_6528_HO6,
+				DocGenEnum.Documents.F1122,
 				//Documents.WUAUCA,
-				Documents._61_6530,
-				Documents._60_5019,
-				Documents.HSU03XX,
-				Documents.HSU04XX,
-				Documents.HSU05XX,
-				Documents.HSU06CA,
-				Documents.HSU08XX,
-				Documents._61_3000,
-				Documents._61_3026
+				DocGenEnum.Documents._61_6530,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents._61_3000,
+				DocGenEnum.Documents._61_3026
 				);
-		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
-				Documents._61_6528_HO6,
-				Documents.F1122,
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(quoteNum,
+				DocGenEnum.Documents._61_6528_HO6,
+				DocGenEnum.Documents.F1122,
 				//Documents.WUAUCA,
-				Documents._61_6530,
-				Documents._60_5019,
-				Documents.HSU03XX,
-				Documents.HSU04XX,
-				Documents.HSU05XX,
-				Documents.HSU06CA,
-				Documents.HSU08XX,
-				Documents._61_3000,
-				Documents._61_3026
+				DocGenEnum.Documents._61_6530,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents._61_3000,
+				DocGenEnum.Documents._61_3026
 				);
-		
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 		log.info("==========================================");
 		log.info(getState() + " HO6 Quote Documents Generation is checked, quote: " + quoteNum);
 		log.info("==========================================");
 	}
-	
+
 	/**
      * Create a ho6 policy
      * Check the following forms are generated at bind:
@@ -158,32 +158,32 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD());
-		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents._61_3000, Documents._61_6530, Documents._61_5120, Documents._61_1500);
-		
+		DocGenHelper.verifyDocumentsGenerated(policyNum, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_6530, DocGenEnum.Documents._61_5120, DocGenEnum.Documents._61_1500);
+
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents._61_4002,
-				Documents._62_6500,
-				Documents.F1122,
-				Documents._60_5019,
-				Documents._61_6530,
-				Documents.HSU01CA,
-				Documents.HSU06CA,
-				Documents.HSU07CA,
-				Documents.HSU08XX,
-				Documents.HSU09XX,
-				Documents._61_3000,
-				Documents._61_3026
+				DocGenEnum.Documents._61_4002,
+				DocGenEnum.Documents._62_6500,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents._61_6530,
+				DocGenEnum.Documents.HSU01CA,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU07CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX,
+				DocGenEnum.Documents._61_3000,
+				DocGenEnum.Documents._61_3026
 				);
 		documentActionTab.verify.documentsEnabled(false,
-				Documents.WURFICA
+				DocGenEnum.Documents.WURFICA
 		);
-		documentActionTab.verify.documentsPresent(false, Documents._61_6528_HO6);
-		documentActionTab.generateDocuments(Documents._61_4002);
-		DocGenHelper.verifyDocumentsGenerated(policyNum, 
-				Documents._61_4002,
-				Documents._60_5019,
-				Documents.AHPNCA);
+		documentActionTab.verify.documentsPresent(false, DocGenEnum.Documents._61_6528_HO6);
+		documentActionTab.generateDocuments(DocGenEnum.Documents._61_4002);
+		DocGenHelper.verifyDocumentsGenerated(policyNum,
+				DocGenEnum.Documents._61_4002,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.AHPNCA);
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
