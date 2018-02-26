@@ -6,10 +6,8 @@ import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
@@ -40,7 +38,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
@@ -49,18 +46,19 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
+
+	protected TestData tdBilling = testDataManager.billingAccount;
+	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
+
+	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
+
+	protected BillingAccount billingAccount = new BillingAccount();
 	private MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
 
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
-
-	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
-	protected BillingAccount billingAccount = new BillingAccount();
-	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
-	protected TestData tdBilling = testDataManager.billingAccount;
-
 
 	public void verifyFormsSequence(TestData testData) throws NoSuchFieldException {
 		// Get State/Product specific forms
@@ -97,18 +95,18 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		// Add Credit Card payment method and Enable AutoPayment
 		Tab.buttonBack.click();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
+		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 
-		List<Document> actualDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
+		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
-		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsList);
+		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
 		// End PAS-2764 Scenario 1
 
 		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		//needed for home banking form generation
 		maigManualConversionHelper.setUpHomeBankingForConversionRenewal(policyNumber);
+
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -117,16 +115,14 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageForms(policyNumber,getPolicyType());
+		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
 		// Start PAS-2764 Scenario 1 Issue first renewal
 		mainApp().open();
-		SearchPage.openBilling(policyNumber);
-		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
+		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -151,52 +147,20 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		/**PAS-10256
 		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
 
-
-		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
+		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
-		List<Document> actualDocumentsListAfterSecondRenewal2 = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
-
-		List<String> allDocs2 = new ArrayList<>();
-		actualDocumentsListAfterSecondRenewal2.forEach(doc -> allDocs2.add(doc.getTemplateId()));
-
-		List<String> onlyConversionSpecificForms = new ArrayList<>(forms);
-		onlyConversionSpecificForms.removeAll(
-			Arrays.asList(
-					DocGenEnum.Documents.HSTP.getId(),
-					DocGenEnum.Documents.AHPNXX.getId(),
-					DocGenEnum.Documents.HS02.getId(),
-					DocGenEnum.Documents.HS02_4.getId(),
-					DocGenEnum.Documents.HS02_6.getId(),
-					DocGenEnum.Documents.HSCSNA.getId(),
-					DocGenEnum.Documents.PS02.getId(),
-					DocGenEnum.Documents.DS02.getId()
-			));
-
-		assertThat(allDocs2).doesNotContainAnyElementsOf(onlyConversionSpecificForms);
+		// Shouldn't be after second renewal
+		maigManualConversionHelper.pas2674_verifyConversionRenewalPackageAbsence(forms, policyNumber, actualDocumentsListAfterFirstRenewal);
 
 		//Generate Bill for the second renewal to verify Home Banking forms
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		// Shouldn't be after second renewal
+		maigManualConversionHelper.pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
 
-		List <Document> actualBillingDocumentsListAfterSecondRenewal2 = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		assertThat(actualDocumentsList).isNotEmpty().isNotNull();
-
-		List<String> allBillingDocs2 = new ArrayList<>();
-		actualBillingDocumentsListAfterSecondRenewal2.forEach(doc -> allBillingDocs2.add(doc.getTemplateId()));
-		assertThat(allBillingDocs2).doesNotContain(DocGenEnum.Documents.HSRNHBXX.getId(), DocGenEnum.Documents.HSRNHBPUPXX.getId());
-
-		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
+		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
-		//TODO resolve comments below
-		/* Issue 2 renewal will be here */
-
-		//PolicyBecomesActive
-		//Here should be a verifier for PAS-9607 (MaigManualConversionHelper#pas9607_verifyPolicyTransactionCode). Expected code should be clarified
-
 	}
 
 	/**
@@ -547,7 +511,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	/**
 	 * Utility method that enhances Conversion {@link TestData} with Mortgagee info
 	 */
-	public TestData adjustWithMortgageeData(TestData policyTD) {
+	protected TestData adjustWithMortgageeData(TestData policyTD) {
 		//adjust TestData with Mortgagee tab data
 		String mortgageeTabKey = TestData.makeKeyPath(HomeSSMetaData.MortgageesTab.class.getSimpleName());
 		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
@@ -560,19 +524,19 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	/**
 	 * Utility method that enhances Conversion {@link TestData} with PUP in OtherActiveAAAPolicies
 	 */
-	public TestData adjustWithPupData(TestData policyTD) {
+	private TestData adjustWithPupData(TestData policyTD) {
 		TestData testDataOtherActiveAAAPolicies = getTestSpecificTD("OtherActiveAAAPolicies").resolveLinks();
 		String pupOtherActiveAAAPoliciesTabKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
 		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, testDataOtherActiveAAAPolicies);
 	}
 
-	public TestData adjustWithSeniorInsuredDataHO4(TestData policyTD) {
+	protected TestData adjustWithSeniorInsuredDataHO4(TestData policyTD) {
 		String insuredDOBPath =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
 		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-	public TestData adjustWithSeniorInsuredData(TestData policyTD) {
+	protected TestData adjustWithSeniorInsuredData(TestData policyTD) {
 		String mortgageeTabMetaKey = new MortgageesTab().getMetaKey();
 
 		String insuredDOBPath =
