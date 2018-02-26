@@ -1,11 +1,17 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
 import aaa.common.pages.SearchPage;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.junit.Assert;
 import toolkit.datax.TestData;
 
 import java.time.LocalDateTime;
@@ -38,6 +44,25 @@ public class TestCinAbstractAutoCA extends TestCinAbstract {
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         new AutoCaPolicyActions.Renew().performAndFill(renewalTD);
+
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+    }
+
+    protected void caNewBusinessMainFlow(TestData testData) {
+
+        String policyNumber = createPolicy(testData);
+
+        //wait for CIN specific form and a package itself to appear in the DB
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+
+        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+
+        //ToDo: verify the order
     }
 
     /*******************************

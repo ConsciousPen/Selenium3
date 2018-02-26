@@ -36,22 +36,10 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA{
     public void testCinRenewalCLUE(@Optional("CA") String state) {
         TestData policyTD = overrideDocumentsAndBind(disableMemebership(getPolicyDefaultTD()));
 
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(policyTD);
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        String policyNumber = createPolicy(policyTD);
 
         TestData renewalTD = getTestSpecificTD("TestData_Renewal_Clue");
         renewPolicy(policyNumber, overrideDriverActivityReports(renewalTD));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
     }
 
     /**
@@ -72,22 +60,10 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA{
     public void testCinRenewalMVR(@Optional("CA") String state) {
         TestData policyTD = overrideDocumentsAndBind(disableMemebership(getPolicyDefaultTD()));
 
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(policyTD);
+        String policyNumber = createPolicy(policyTD);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-        TestData renewalTD = getTestSpecificTD("TestData_Renewal_Mvr");
+        TestData renewalTD = getTestSpecificTD("TestData_Renewal_Clue");
         renewPolicy(policyNumber, overrideDriverActivityReports(renewalTD));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
     }
 
     @Override

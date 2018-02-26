@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
 public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
 
     /**
-     * @name Test CIN Document generation (CA Choice policies should always generate CIN on New Business)
+     * @name Test CIN Document generation (Adding a driver with MVR violations)
      * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Verify that CIN is generated
@@ -31,21 +31,11 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
     public void testCinNewBusinessMVR(@Optional("CA") String state) {
         TestData policyTD = enhanceWithMVR(disableMemebership(getPolicyDefaultTD()));
-
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(policyTD);
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+        caNewBusinessMainFlow(policyTD);
     }
 
     /**
-     * @name Test CIN Document generation (CA Choice policies should always generate CIN on New Business)
+     * @name Test CIN Document generation (Adding a driver with CLUE violations)
      * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Verify that CIN is generated
@@ -56,17 +46,7 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
     public void testCinNewBusinessCLUE(@Optional("CA") String state) {
         TestData policyTD = enhanceWithCLUE(disableMemebership(getPolicyDefaultTD()));
-
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(policyTD);
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+        caNewBusinessMainFlow(policyTD);
     }
 
     @Override

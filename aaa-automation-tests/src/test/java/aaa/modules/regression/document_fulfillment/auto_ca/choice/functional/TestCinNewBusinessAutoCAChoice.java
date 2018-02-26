@@ -31,17 +31,7 @@ public class TestCinNewBusinessAutoCAChoice extends TestCinAbstractAutoCA {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = "PAS-6848")
     public void testCinNewBusiness(@Optional("CA") String state) {
         TestData policyTD = enhanceWithMVR(disableMemebership(getPolicyDefaultTD()));
-
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(policyTD);
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+        caNewBusinessMainFlow(policyTD);
     }
 
     @Override

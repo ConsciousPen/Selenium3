@@ -2,6 +2,7 @@ package aaa.modules.regression.document_fulfillment.template.functional;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -25,5 +26,22 @@ public abstract class TestCinAbstract extends BaseTest {
      */
     protected String getPolicyErrorMessage(String msg, String policyNumber, AaaDocGenEntityQueries.EventNames event) {
         return msg + " for policy: " + policyNumber + ", event: " + event;
+    }
+
+    /**
+     * Create a policy base on custom {@link TestData}
+     *
+     * @param policyTD
+     * @return policyNumber
+     */
+    protected String createPolicy (TestData policyTD) {
+
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(policyTD);
+
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+        return PolicySummaryPage.getPolicyNumber();
     }
 }
