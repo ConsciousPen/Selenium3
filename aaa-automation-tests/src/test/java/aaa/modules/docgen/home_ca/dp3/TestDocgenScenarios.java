@@ -13,47 +13,47 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.verification.CustomAssert;
 
 /**
- * 
+ *
  * @author Ryan Yu
  *
  */
 public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 	private PolicyDocGenActionTab documentActionTab = policy.policyDocGen().getView().getTab(PolicyDocGenActionTab.class);
-	
+
 	/**
-     * Create ca dp3 quote
-     * Verify documents:
-     *   enabled:
-     *      61 6528
-     *      WU11DCA
-     *      61 6530
-     *      HSU06CA
-     *      HSU08XX
-     *      61 3000
-     *      61 3026
-     *   disabled:
-     *      62 6500
-     *      WURFICA
-     *      HSU01CA
-     *      HSU02XX
-     *      HSU07CA
-     *      HSU09XX
-     *      61 2006
-     *      AHPNCA
-     *
-     * Verify 61 2006 is generated with Application document (WU11DCA)
-     * Verify that AHPNCA must be generated with Application documents (WU11DCA)
-     * Verify that all enabled documents can be generated
-     */
+	 * Create ca dp3 quote
+	 * Verify documents:
+	 *   enabled:
+	 *      61 6528
+	 *      WU11DCA
+	 *      61 6530
+	 *      HSU06CA
+	 *      HSU08XX
+	 *      61 3000
+	 *      61 3026
+	 *   disabled:
+	 *      62 6500
+	 *      WURFICA
+	 *      HSU01CA
+	 *      HSU02XX
+	 *      HSU07CA
+	 *      HSU09XX
+	 *      61 2006
+	 *      AHPNCA
+	 *
+	 * Verify 61 2006 is generated with Application document (WU11DCA)
+	 * Verify that AHPNCA must be generated with Application documents (WU11DCA)
+	 * Verify that all enabled documents can be generated
+	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 
 		createCustomerIndividual();
 		String quoteNum = createQuote();
-		
+
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
 				DocGenEnum.Documents._61_6528_DP3,
@@ -63,9 +63,9 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				DocGenEnum.Documents.HSU08XX,
 				DocGenEnum.Documents._61_3000,
 				DocGenEnum.Documents._61_3026
-				);
+		);
 		documentActionTab.verify.documentsEnabled(false,
-//				Documents._62_6500,
+				//				Documents._62_6500,
 				DocGenEnum.Documents.WURFICA,
 				DocGenEnum.Documents.HSU01CA,
 				DocGenEnum.Documents.HSU02XX,
@@ -91,7 +91,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				DocGenEnum.Documents.HSU08XX,
 				DocGenEnum.Documents._61_3000,
 				DocGenEnum.Documents._61_3026
-				);
+		);
 		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,
 				DocGenEnum.Documents._61_6528_DP3,
@@ -104,7 +104,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				DocGenEnum.Documents.HSU08XX,
 				DocGenEnum.Documents._61_3000,
 				DocGenEnum.Documents._61_3026
-				);
+		);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -114,36 +114,36 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 	}
 
 	/**
-     * Create ca dp3 policy
-     * Verify the following documents are generated at bind:
-     *      61_6530
-     *      61_3000
-     *      61_5120
-     *      DF02CA
-     * Go to On-Demand Documents tab and verify documents:
-     *   enabled:
-     *      WU11DCA
-     *      62_6500
-     *      WURFICA
-     *      61_6530
-     *      HSU01CA
-     *      HSU06CA
-     *      HSU07CA
-     *      HSU08XX
-     *      HSU09XX
-     *      AHRCTXX
-     *      61_3000
-     *      61_3026
-     *   disabled:
-     *      61_2006
-     *
-     * Verify 61 2006 is generated with Application document (WU11DCA)
-     * Verify that AHPNCA must be generated with Application documents (WU11DCA)
-     * Verify that all enabled documents can be generated
-     *
-     */
+	 * Create ca dp3 policy
+	 * Verify the following documents are generated at bind:
+	 *      61_6530
+	 *      61_3000
+	 *      61_5120
+	 *      DF02CA
+	 * Go to On-Demand Documents tab and verify documents:
+	 *   enabled:
+	 *      WU11DCA
+	 *      62_6500
+	 *      WURFICA
+	 *      61_6530
+	 *      HSU01CA
+	 *      HSU06CA
+	 *      HSU07CA
+	 *      HSU08XX
+	 *      HSU09XX
+	 *      AHRCTXX
+	 *      61_3000
+	 *      61_3026
+	 *   disabled:
+	 *      61_2006
+	 *
+	 * Verify 61 2006 is generated with Application document (WU11DCA)
+	 * Verify that AHPNCA must be generated with Application documents (WU11DCA)
+	 * Verify that all enabled documents can be generated
+	 *
+	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -165,10 +165,10 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				DocGenEnum.Documents._61_3000,
 				DocGenEnum.Documents._61_3026,
 				DocGenEnum.Documents.AHRCTXXPUP
-				);
-//		documentActionTab.verify.documentsEnabled(false,
-//				Documents._61_2006 // TODO not present
-//		);
+		);
+		//		documentActionTab.verify.documentsEnabled(false,
+		//				Documents._61_2006 // TODO not present
+		//		);
 		documentActionTab.generateDocuments(DocGenEnum.Documents.WU11DCA);
 		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
@@ -191,7 +191,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				DocGenEnum.Documents._61_3000,
 				DocGenEnum.Documents._61_3026,
 				DocGenEnum.Documents.AHRCTXXPUP
-				);
+		);
 		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				//Documents.WUAUCA,
@@ -207,13 +207,13 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				DocGenEnum.Documents._61_3000,
 				DocGenEnum.Documents._61_3026,
 				DocGenEnum.Documents.AHRCTXXPUP
-				);
-		
+		);
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 		log.info("==========================================");
 		log.info(getState() + " DP3 Policy Documents Generation is checked, policy: " + policyNum);
 		log.info("==========================================");
 	}
-	
+
 }

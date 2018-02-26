@@ -25,6 +25,11 @@ public class TestCinNewBusiness extends PolicyCINTemplate {
 			"PublicProtectionClass", TestData.makeKeyPath(HomeCaMetaData.ReportsTab.class.getSimpleName(), HomeCaMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel())
 	);
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
+
 	/**
 	 * @author Rokas Lazdauskas
 	 * @name Test CIN Document generation (PROPERTY activity)
@@ -40,10 +45,5 @@ public class TestCinNewBusiness extends PolicyCINTemplate {
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 		//check the document sequence
 		verifyDocumentOrder(documentsList, DocGenEnum.Documents._61_2006, null);
-	}
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO3;
 	}
 }
