@@ -1,0 +1,7 @@
+TestData: '@ho3@TestScenario12@TestData'
+
+# ----- First Renewal -----
+TestData_FirstRenewal: '@ho3@TestScenario12@TestData_FirstRenewal'
+
+# ----- Second Renewal -----
+TestData_SecondRenewal: '@ho3@TestScenario12@TestData_SecondRenewal'
