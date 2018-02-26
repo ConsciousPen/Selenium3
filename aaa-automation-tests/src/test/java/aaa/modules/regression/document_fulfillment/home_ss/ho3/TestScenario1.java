@@ -1,6 +1,8 @@
 package aaa.modules.regression.document_fulfillment.home_ss.ho3;
 
 import java.time.LocalDateTime;
+
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.pages.SearchPage;
@@ -24,7 +26,7 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_CreatePolicy(String state) throws Exception {
+	public void TC01_CreatePolicy(@Optional("") String state) throws Exception {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData")));
@@ -34,7 +36,7 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_CancelPolicy(String state) throws Exception {
+	public void TC02_CancelPolicy(@Optional("") String state) throws Exception {
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(3));
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -43,7 +45,7 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_ReinstatePolicy(String state) throws Exception {
+	public void TC03_ReinstatePolicy(@Optional("") String state) throws Exception {
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
