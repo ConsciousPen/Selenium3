@@ -51,6 +51,13 @@
         </classes>
     </test>
 
+    <test name="Remove Distant Driver Discount">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
 

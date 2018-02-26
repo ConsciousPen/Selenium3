@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import javax.xml.datatype.DatatypeConfigurationException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -9,15 +8,16 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.soap.GetAutoPolicyDetailsHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
-import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.RadioGroup;
 
 public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
@@ -27,11 +27,11 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
 	/**
 	* @author Dominykas Razgunas
-	* @name Remove Distant Driver Discaount during mid term endorsement
+	* @name Remove Distant Driver Discount during mid term endorsement
 	* @scenario
-	* 1. Create quote
-	* 2. Add Driver with Distant driver discount
-	* 3. Issue Policy
+	 * 1. Create quote
+	 * 2. Add Driver with Distant driver discount
+	 * 3. Issue Policy
 	 * 4. Endorse Policy
 	 * 5. Remove Distant Driver
 	 * 6. Calculate Premium
@@ -60,7 +60,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
 		// Fill quote up to Premium and Coverages Tab Check if discount is applied
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue().contains("Distant Student Discount(Angel FromEarth)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue().contains("Distant Student Discount(Angel FromEarth)")).isTrue();
 		premiumAndCoveragesTab.submitTab();
 
 		// Issue Policy
@@ -71,7 +71,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		DriverTab.viewDriver(2);
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DISTANT_STUDENT.getLabel()).setValue("No");
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DISTANT_STUDENT.getLabel(), RadioGroup.class).setValue("No");
 
 		// Calculate Premium and check that there is no Discount applied
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

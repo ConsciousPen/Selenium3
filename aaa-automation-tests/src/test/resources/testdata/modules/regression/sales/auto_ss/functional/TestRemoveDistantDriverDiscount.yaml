@@ -19,7 +19,7 @@ DriverTab2: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: A12345678987658,
-  Distant Student: true
+  Distant Student: 'Yes'
 }
 
 
@@ -30,6 +30,7 @@ EndorsementActionTab: '@EndorsementActionTab',
 }
 
 EndorsementActionTab: {
-    Endorsement Date: $<today+5m>,
+    Endorsement Date: $<today+5M>,
     Endorsement Reason: Maintain General Information
 }
+
