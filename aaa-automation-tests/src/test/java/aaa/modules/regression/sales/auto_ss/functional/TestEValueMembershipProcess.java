@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -127,7 +128,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation("Active");
+		membershipEligibilityPolicyCreation("Active", true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -170,7 +171,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation("Pending");
+		membershipEligibilityPolicyCreation("Pending", true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -213,7 +214,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation("Non-Active");
+		membershipEligibilityPolicyCreation("Non-Active", true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -259,7 +260,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation("Active");
+		membershipEligibilityPolicyCreation("Active", true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -304,7 +305,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation("Pending");
+		membershipEligibilityPolicyCreation("Pending", true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -350,7 +351,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation("Non-Active");
+		membershipEligibilityPolicyCreation("Non-Active", true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
@@ -402,6 +403,276 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		postconditionMembershipEligibilityCheck();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas13697_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal(@Optional("VA") String state) {
+
+		String membershipEligibilitySwitch = "TRUE";
+		String membershipStatus = "Active";
+		boolean eValueSet = true;
+
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		ahdexxGeneratedCheck(false, policyNumber, 0);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber,true, true);
+		ahdexxGeneratedCheck(false, policyNumber, 0);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas13697_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal(@Optional("VA") String state) {
+
+		String membershipEligibilitySwitch = "TRUE";
+		String membershipStatus = "Active";
+		boolean eValueSet = false;
+
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		ahdexxGeneratedCheck(false, policyNumber, 0);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber,true, true);
+		ahdexxGeneratedCheck(false, policyNumber, 0);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48(@Optional("VA") String state) {
+
+		String membershipEligibilitySwitch = "TRUE";
+		String membershipStatus = "Cancelled";
+		boolean eValueSet = true;
+
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		//LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
+		ahdexxGeneratedCheck(false, policyNumber, 0);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber,false, false);
+		ahdexxGeneratedCheck(true, policyNumber, 1);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48(@Optional("VA") String state) {
+
+		String membershipEligibilitySwitch = "TRUE";
+		String membershipStatus = "Cancelled";
+		boolean eValueSet = false;
+
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		//LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
+		ahdexxGeneratedCheck(false, policyNumber, 0);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber,true, false);
+		ahdexxGeneratedCheck(false, policyNumber, 1);
+	}
+
+	private void cancelReinstateToAvoidRminusJobs(String policyNumber, LocalDateTime policyExpirationDate) {
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(64));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(48));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63(@Optional("VA") String state) {
+
+		String membershipEligibilitySwitch = "TRUE";
+		String membershipStatus = "Cancelled";
+		boolean eValueSet = true;
+
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		renewalTransactionHistoryCheck(policyNumber,false, false);
+		ahdexxGeneratedCheck(false, policyNumber, 1);
+
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber,false, false);
+		ahdexxGeneratedCheck(false, policyNumber, 1);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
+
+		String membershipEligibilitySwitch = "TRUE";
+		String membershipStatus = "Cancelled";
+		boolean eValueSet = false;
+
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		renewalTransactionHistoryCheck(policyNumber,false, false);
+		ahdexxGeneratedCheck(false, policyNumber, 1);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber,false, false);
+		ahdexxGeneratedCheck(false, policyNumber, 1);
+	}
+
+
+
+	private void cancelReinstateToAvoidNbPlus15Plus30Jobs(String policyNumber) {
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+	}
+
+	private void renewalTransactionHistoryCheck(String policyNumber, boolean membershipDiscountPresent, boolean eValueDiscountPresent) {
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (membershipDiscountPresent) {
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+		} else {
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+		}
+		if (eValueDiscountPresent) {
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+		} else {
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+		}
+	}
+
+	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
+		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
+		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+	}
+
+	private void ahdexxGeneratedCheck(boolean isGenerated, String policyNumber, int numberOfDocuments) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
+		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
+		if (isGenerated) {
+			CustomAssert.assertTrue(DBService.get().getValue(query).isPresent());
+			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
+		} else {
+			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
+		}
+	}
+
+	private void ahdexxContentCheck(String membershipEligibilitySwitch, String policyNumber) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
+
+		CustomAssert.assertTrue("Membership discount tag problem", "5.0%".equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
+		CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+		if ("TRUE".equals(membershipEligibilitySwitch)) {
+			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+			CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
+					.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
+			CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+		} else {
+			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_4);
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+		}
 	}
 
 	/**
@@ -501,7 +772,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -549,7 +820,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Pending");
+		String policyNumber = membershipEligibilityPolicyCreation("Pending", true);
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -597,7 +868,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Non-Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -648,7 +919,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -699,7 +970,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Pending");
+		String policyNumber = membershipEligibilityPolicyCreation("Pending", true);
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -750,7 +1021,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Non-Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
 		String requestId = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -796,7 +1067,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		String requestId1 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 
 		CustomAssert.enableSoftMode();
@@ -844,7 +1115,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		String requestId1 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 		deleteSinglePaperelessPreferenceRequest(requestId1);
 
@@ -876,7 +1147,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
 		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
-		membershipEligibilityPolicyCreation(membershipStatus);
+		membershipEligibilityPolicyCreation(membershipStatus, true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -891,15 +1162,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
 
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(48));
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -907,26 +1172,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
-		CustomAssert
-				.assertTrue("Membership discount tag problem", "5.0%"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
-		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
-		CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-		if ("TRUE".equals(membershipEligibilitySwitch)) {
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-			CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
-					.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
-			CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
-			CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
-		} else {
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_4);
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
-			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
-		}
+		ahdexxContentCheck(membershipEligibilitySwitch, policyNumber);
 	}
 
 	private void lastTransactionHistoryExit() {
@@ -974,7 +1220,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active");
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
@@ -1001,22 +1247,23 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.assertAll();
 	}
 
-	private String membershipEligibilityPolicyCreation(String membershipStatus) {
+	private String membershipEligibilityPolicyCreation(String membershipStatus, boolean eValueSet) {
 
 		testEValueDiscount.eValueQuoteCreation();
 		policy.dataGather().start();
-		setMembershipAndRate(membershipStatus);
+		setMembershipAndRate(membershipStatus, true);
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		return policyNumber;
 	}
 
 	private void membershipEligibilityEndorsementCreation(String membershipStatus) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		setMembershipAndRate(membershipStatus);
+		setMembershipAndRate(membershipStatus, true);
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 	}
 
-	private void setMembershipAndRate(String membershipStatus) {
+
+	private void setMembershipAndRate(String membershipStatus, boolean eValueSet) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		if ("Active".equals(membershipStatus)) {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
@@ -1068,7 +1315,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.STATUS.getLabel()).getValue());
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		if (eValueSet == true) {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		} else {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		}
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
