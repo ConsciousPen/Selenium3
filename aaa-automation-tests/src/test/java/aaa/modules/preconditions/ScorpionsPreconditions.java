@@ -57,6 +57,11 @@ public class ScorpionsPreconditions extends BaseTest {
 
 	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
+	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.PRECONDITION})
+	public static void updateMembershipSummaryStubEndpoint() {
+		DBService.get().executeUpdate(String.format(UPDATE_MEMBERSHIP_SUMMARY_STUB_POINT, APP_HOST, APP_STUB_URL));
+	}
+
 	@Test(description = "Preconditions")
 	private void paymentCentralConfigCheck() {
 		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get()).contains(PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
