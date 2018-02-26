@@ -249,7 +249,7 @@ public final class DocGenEnum {
 		HSRNPUPXX("Renewal Offer Cover Letter (PUP)"),
 		HSRNHODPXX("Renewal Cover Letter"),
 		HSRNHBXX("HSRNHBXX","Renewal Reminder (Home Banking)"),
-		HSRNHBPUPXX("HSRNHBPUPXX","Renewal Reminder (Home Banking PUP)"),
+		HSRNHBPUP("HSRNHBPUP","Renewal Reminder (Home Banking PUP)"),
 		HSRFIXX("Request for Information"),
 		HSRFIXXPUP("HSRFIXX", "Request For Information"),
 		HSRMXX(""),
