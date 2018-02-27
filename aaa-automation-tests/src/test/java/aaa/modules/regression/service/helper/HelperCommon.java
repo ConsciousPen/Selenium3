@@ -1,5 +1,19 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import static org.assertj.core.api.Assertions.assertThat;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
@@ -35,7 +49,7 @@ public class HelperCommon {
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
-	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/{policyNumber}/vehicles/add-vehicle";
+	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/vehicles/add-vehicle/";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
@@ -72,27 +86,6 @@ public class HelperCommon {
 		return validateEndorsementResponse;
 	}
 
-/*	static AAAEndorseResponse  executeAddVehicle(String policyNumber)
-	{
-		Vehicle[] request = new Vehicle[]
-		request.purchaseDate = purchaseDate;
-		request.vehIdentificationNo = "vehIdentificationNo";
-
-
-		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
-
-
-		Vehicle ValidateVehicleResponse = runJsonRequestGetDxp(requestUrl,request,ValidateVehicleResponse.class);
-		return AAAEndorseResponse;
-	}*/
-
-
-
-
-
-
-
-
 	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
 		if (endorsementDate != null) {
@@ -117,12 +110,12 @@ public class HelperCommon {
 		return validateVehicleResponse;
 	}
 
-	static Vehicle[] executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
+	static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
-		Vehicle[] vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle[].class);
+		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
 		return vehicle;
 	}
 

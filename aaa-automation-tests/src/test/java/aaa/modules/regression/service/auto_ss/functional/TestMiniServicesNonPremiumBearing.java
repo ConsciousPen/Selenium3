@@ -370,17 +370,22 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Megha Gubbala
-	 * @name Check dxp server if Nano policy not returning any information about vehicle.
+	 * @name Check dxp server To add vehicle.
+	 * Create a Policy
+	 * Create a pended endorsement
+	 *  Hit "add-vehicle" dxp server.
+	 *  Pass Pearches date and VIN to the service
+	 *  Go to pas open pended endorsement and go to vehicle tab
+	 *  Check the new vehicle is added with the vin number.
 	 * @scenario
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
 	public void pas7082_AddVehicle(@Optional("VA") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
 	}
-
 
 	/**
 	 * @author Jovita Pukenaite

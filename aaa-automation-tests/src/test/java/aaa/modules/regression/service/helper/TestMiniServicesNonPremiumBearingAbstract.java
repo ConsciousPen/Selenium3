@@ -6,6 +6,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -31,6 +32,7 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
+import java.security.Policy;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -39,6 +41,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.util.Compatibility;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -94,6 +97,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//PAS-343 start
 		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get()), numberOfDocumentsRecordsInDb);
 		//PAS-343 end
+
+		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
 		secondEndorsementIssueCheck();
 	}
@@ -708,29 +713,38 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_3)).isTrue();
 	}
 
+    protected void pas7082_AddVehicle(PolicyType policyType) {
+		mainApp().open();
+	    createCustomerIndividual();
+	    policyType.get().createPolicy(getPolicyTD());
+	    PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-
-	protected void pas7082_AddVehicle(PolicyType policyType) {
-//		mainApp().open();
-//		createCustomerIndividual();
-//		policyType.get().createPolicy(getPolicyTD());
-//		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-//		//String policyNumber = PolicySummaryPage.getPolicyNumber();
-//		mainApp().close();
 		String purchaseDate = "2012-02-21";
 		String vin = "ZFFCW56A830133118";
-		String policyNumber = "VASS926232062";
 
-		Vehicle[] response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+	    policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
+		NavigationPage.toViewTab(getPremiumAndCoverageTab());
+		//TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		getPremiumAndCoverageTabElement().saveAndExit();
 
-}
+    	CustomAssert.enableSoftMode();
 
+		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertSoftly(softly -> {
+			softly.assertThat(response.oid).isNotEmpty();
+		});
 
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
 
+		VehicleTab vehicleTab = new VehicleTab();
+		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue()).isEqualTo(vin);
 
-
-
+	}
 
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
