@@ -12,7 +12,7 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Dominykas Razgunas
- * @name Test that the Home 'Policy Tier' is changed after implementation date
+ * @name Test that the Home 'Market Tier' is changed after implementation date
  * @scenario
  * 1. Create PA HO6 Policy
  * 2. Fill All required fields and Calculate Premium

@@ -179,14 +179,16 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     public void pas7025_TestPAPropertyTierChange(PolicyType policyType) {
 
+        TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
         verifyAlgoDate();
 
         // Open App create Policy Navigate to P&C page calculate premium
         mainApp().open();
         createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, true);
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
         PropertyQuoteTab.linkViewRatingDetails.click();
 
         // Check if new algo is implemented
@@ -195,14 +197,20 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Issue Policy
         PropertyQuoteTab.RatingDetailsView.close();
         premiumsAndCoveragesQuoteTab.submitTab();
-        policyType.get().getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
+        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
-        //Initiate renewal and Navigate to P&C page and check if algo is implemented
+        //Initiate renewal and Navigate to P&C page calculate premium
         policyType.get().renew().start().submit();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+
+        // Check if the algo is implemented
+        PropertyQuoteTab.RatingDetailsView.open();
         assertThat(range.contains( PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+        PropertyQuoteTab.RatingDetailsView.close();
+        mainApp().close();
 
     }
 
