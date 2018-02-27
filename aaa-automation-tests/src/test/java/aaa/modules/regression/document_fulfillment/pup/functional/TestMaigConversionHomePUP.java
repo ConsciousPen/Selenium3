@@ -41,7 +41,7 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-9816"})
     public void pas9816_SpecificBillingPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
         // CW, DE, VA
-        TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
-        verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
+        TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData").resolveLinks();
+        verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","Payment Plan"),"Monthly (Renewal)"));
     }
 }
