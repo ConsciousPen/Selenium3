@@ -726,7 +726,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	    policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		NavigationPage.toViewTab(getPremiumAndCoverageTab());
-		//TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+
 		getPremiumAndCoverageTabElement().saveAndExit();
 
     	CustomAssert.enableSoftMode();
