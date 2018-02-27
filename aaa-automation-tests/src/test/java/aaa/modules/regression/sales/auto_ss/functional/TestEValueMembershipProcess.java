@@ -407,8 +407,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas13697_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal(@Optional("VA") String state) {
 
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";
@@ -431,14 +431,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		renewalTransactionHistoryCheck(policyNumber,true, true);
+		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
+		renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas13697_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal(@Optional("VA") String state) {
 
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";
@@ -461,14 +462,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		renewalTransactionHistoryCheck(policyNumber,true, true);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 0);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "dataGather");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	public void pas10229_membershipEligibilityConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48(@Optional("VA") String state) {
 
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
@@ -493,14 +495,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		renewalTransactionHistoryCheck(policyNumber,false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
+		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	public void pas10229_membershipEligibilityConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48(@Optional("VA") String state) {
 
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
@@ -525,8 +529,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		renewalTransactionHistoryCheck(policyNumber,true, false);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(false, policyNumber, 1);
+		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
 
 	private void cancelReinstateToAvoidRminusJobs(String policyNumber, LocalDateTime policyExpirationDate) {
@@ -543,13 +549,17 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	public void pas10229_membershipEligibilityConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63(@Optional("VA") String state) {
 
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
-
+		String policyNumber = "VASS952918648";
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		/*
 		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
@@ -565,26 +575,34 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
-		renewalTransactionHistoryCheck(policyNumber,false, false);
-		ahdexxGeneratedCheck(false, policyNumber, 1);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);*/
+/*		renewalTransactionHistoryCheck(policyNumber,true, true);
+		ahdexxGeneratedCheck(true, policyNumber, 1);
+		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 
-
-		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		renewalTransactionHistoryCheck(policyNumber,false, false);
-		ahdexxGeneratedCheck(false, policyNumber, 1);
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));*/
+		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 2);
+		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void pas13697_membershipEligibilityConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	public void pas10229_membershipEligibilityConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
 
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = false;
 
-		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+		String policyNumber = "VASS952918653";
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+
+/*		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
 
@@ -600,15 +618,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
-		renewalTransactionHistoryCheck(policyNumber,false, false);
-		ahdexxGeneratedCheck(false, policyNumber, 1);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 1);
 
+*/
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		renewalTransactionHistoryCheck(policyNumber,false, false);
-		ahdexxGeneratedCheck(false, policyNumber, 1);
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
+		ahdexxGeneratedCheck(true, policyNumber, 2);
+		checkDocumentContentAHDEXX(policyNumber, true,true, false, false, false);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
-
-
 
 	private void cancelReinstateToAvoidNbPlus15Plus30Jobs(String policyNumber) {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
@@ -618,11 +637,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 	}
 
-	private void renewalTransactionHistoryCheck(String policyNumber, boolean membershipDiscountPresent, boolean eValueDiscountPresent) {
+	private void renewalTransactionHistoryCheck(String policyNumber, boolean membershipDiscountPresent, boolean eValueDiscountPresent, String mode) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-		policy.policyInquiry().start();
+		if (mode.equals("inquiry")) {
+			policy.policyInquiry().start();
+		} else {
+			policy.dataGather().start();
+		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
 			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
@@ -645,7 +668,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void ahdexxGeneratedCheck(boolean isGenerated, String policyNumber, int numberOfDocuments) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
-		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
+		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 		if (isGenerated) {
 			CustomAssert.assertTrue(DBService.get().getValue(query).isPresent());
 			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
@@ -1156,6 +1179,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		membershipEligibilityEndorsementCreation(membershipStatus);
 
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
@@ -1251,7 +1276,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		testEValueDiscount.eValueQuoteCreation();
 		policy.dataGather().start();
-		setMembershipAndRate(membershipStatus, true);
+		setMembershipAndRate(membershipStatus, eValueSet);
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		return policyNumber;
 	}
@@ -1261,7 +1286,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		setMembershipAndRate(membershipStatus, true);
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 	}
-
 
 	private void setMembershipAndRate(String membershipStatus, boolean eValueSet) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -1476,6 +1500,59 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			Efolder.isDocumentExist("Endorsement", "Discount Removed");
 		} else {
 			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
+			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
+		}
+	}
+
+	private void checkDocumentContentAHDEXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
+
+		if (isGenerated) {
+			if (isMembershipDataPresent) {
+				CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				//PAS-1549 Start
+				CustomAssert.assertTrue("5.0%"
+						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+				//PAS-1549 End
+				CustomAssert.assertTrue("Y"
+						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			} else {
+				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				CustomAssert.assertTrue("N"
+						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+			}
+
+			if (isEvalueDataPresent) {
+				//BUG no evalue info in AHDEXX
+				CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				//PAS-1549 Start
+				CustomAssert.assertTrue("13.5%".equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				//PAS-1549 End
+			} else {
+				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+			}
+
+/*			if (isPaperlessDiscDataPresent) {
+				CustomAssert.assertTrue("Y"
+						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+			} else {
+				CustomAssert.assertTrue("N"
+						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+			}
+
+			if (isPaperlessDlvryDataPresent) {
+				CustomAssert.assertTrue("Y"
+						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+			} else {
+				CustomAssert.assertTrue("N"
+						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+			}*/
+		} else {
 			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
 		}
 	}
