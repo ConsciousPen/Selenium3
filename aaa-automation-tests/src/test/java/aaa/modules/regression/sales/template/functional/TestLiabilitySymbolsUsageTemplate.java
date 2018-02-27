@@ -22,7 +22,7 @@ public class TestLiabilitySymbolsUsageTemplate extends CommonTemplateMethods {
      * PAS-6582 Update Product Rules to use Liability Symbols instead of STAT
      * @name Test common rules for Select and Choice products
      * @scenario
-     * 1. Create AutoSS quote and on VehicleTab select values to get partial match
+     * 1. Create Auto Select/Choice quote and on VehicleTab select values to get partial match
      * 2. Verify that If VIN match, STAT Code field is removed from page
      * 3. Verify that Stat code value for Motorhom/Trailer/Camper Types will be locked as 'Motorhome' or 'Trailer/Shell'
      * 3. Verify that antitheft, airbags and alternative fuel information is pre-populated if such information can be found in Vin table in DB

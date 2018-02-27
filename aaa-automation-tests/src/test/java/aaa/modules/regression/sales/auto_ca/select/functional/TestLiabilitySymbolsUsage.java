@@ -51,7 +51,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * PAS-6582 Update Product Rules to use Liability Symbols instead of STAT
      * @name Verify specific rules for Cargo and Custom VAN vehicles for Select products
      * @scenario
-     * 1. Create AutoSS quote and on VehicleTab enter Cargo Van vehicle VIN
+     * 1. Create Auto Select quote and on VehicleTab enter Cargo Van vehicle VIN
      * 2. Verify that default values for Liability Symbols are used for it
      * 3. Set 'Special Equipment' to yes.
      * 4. Save quote. Retrieve in DB and verify that the Symbol is set to V, for custom van

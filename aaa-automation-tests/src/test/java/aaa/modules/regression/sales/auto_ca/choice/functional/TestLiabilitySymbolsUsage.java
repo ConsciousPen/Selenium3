@@ -26,7 +26,9 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         return PolicyType.AUTO_CA_CHOICE;
     }
 
-    String VinNumberForLiabilitySymbolsAbsenceTest = "4S2CK58W8X4307498";
+    String vinNumberForLiabilitySymbolsAbsenceTest = "4S2CK58W8X4307498";
+
+    VehicleTab vehicleTab = new VehicleTab();
 
     /**
      * @author Lev Kazarnovskiy
@@ -52,7 +54,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * PAS-6582 Update Product Rules to use Liability Symbols instead of STAT
      * @name Verify that Error will occur if Liab Symbols are null in DB and Stat Code was not selected on UI on VehicleTab
      * @scenario
-     * 1. Create AutoSS quote and:
+     * 1. Create Auto Choice quote and:
      * enter VIN that doesn't have Liability symbols values in DB;
      * 2. Do not select Stat Code value for Vehicle;
      * 3. Proceed to the PremiumAndCoverages Tab;
@@ -61,20 +63,20 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * 6. Try to rate quote one more time -  no errors should occur;
      *
      * @details
-     * VIN Used for test: 4S2CK58W8X4307498, see {@link #VinNumberForLiabilitySymbolsAbsenceTest}
+     * VIN Used for test: 4S2CK58W8X4307498, see {@link #vinNumberForLiabilitySymbolsAbsenceTest}
      *
      */
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6582")
     public void pas6582_LiabilitySymbolsAbsence (){
-        VehicleTab vehicleTab = new VehicleTab();
+
         ErrorTab errorTab = new ErrorTab();
 
         //Delete liability and comprehensive symbols for particular VIN to trigger the rule
-        deleteLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
+        deleteLiabilitySymbolsForVIN(vinNumberForLiabilitySymbolsAbsenceTest);
 
         TestData testData = getPolicyTD()
-                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), VinNumberForLiabilitySymbolsAbsenceTest);
+                .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumberForLiabilitySymbolsAbsenceTest);
 
         createQuoteAndFillUpTo(testData, FormsTab.class);
         new FormsTab().submitTab();
@@ -106,7 +108,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * @name Verify that Stat Code will be cleared on UI if Vehicle Type was selected as Regular and liability symbols in DB were
      * updated to null values
      * @scenario
-     * 1. Create AutoSS quote and:
+     * 1. Create Auto Choice quote and:
      * on VehicleTab select VehicleType OTHER than Regular,
      * 2. Save the quote and verify that liability symbols values are filled for it in DB
      * 3. Open quote and go to the VehicleTab
@@ -119,8 +121,6 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
     @Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6582")
     public void pas6582_statCodeClearing () {
-
-        VehicleTab vehicleTab = new VehicleTab();
 
         //'VIN Doesn't Match' Data is used
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()
@@ -148,6 +148,6 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
 
     @AfterClass(alwaysRun = true)
     private void restoreValuesInDB(){
-        restoreCompCollAndLiabilitySymbolsForVIN(VinNumberForLiabilitySymbolsAbsenceTest);
+        restoreCompCollAndLiabilitySymbolsForVIN(vinNumberForLiabilitySymbolsAbsenceTest);
     }
 }
