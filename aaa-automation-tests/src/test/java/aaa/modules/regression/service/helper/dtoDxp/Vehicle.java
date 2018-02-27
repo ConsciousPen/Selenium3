@@ -67,7 +67,7 @@ public class Vehicle implements RestBodyRequest {
 		return bodyStyle;
 	}
 
-	public void setBodyStyle(String setBodyStyle) {
+	public void setBodyStyle(String bodyStyle) {
 		this.bodyStyle = bodyStyle;
 	}
 

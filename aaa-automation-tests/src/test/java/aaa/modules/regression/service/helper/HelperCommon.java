@@ -36,7 +36,7 @@ public class HelperCommon {
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
-	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/vehicles/add-vehicle/";
+	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 
@@ -66,7 +66,7 @@ public class HelperCommon {
 		}
 	}
 
-	static ValidateEndorsementResponse  executeEndorsementsValidate(String policyNumber, String endorsementDate) {
+	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
@@ -93,7 +93,7 @@ public class HelperCommon {
 		return validateEndorsementResponseError;
 	}
 
-	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
+		static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 		return validateVehicleResponse;

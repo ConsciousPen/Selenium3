@@ -37,6 +37,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -461,14 +462,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
 		});
 
-		String vin3 = "1D30E42K451234567"; //VIN check digit failed
+		String vin3 = "4T1BF1FK0H1234567"; //VIN check digit failed
 		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response3.getVehicles()).isEmpty();
 			softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
 		});
 
-		String vin4 = "1D30E42K45"; //VIN from VIN table but too short
+		String vin4 = "4T1BF1FK0H"; //VIN from VIN table but too short
 		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getVehicles()).isEmpty();
@@ -482,7 +483,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
 		});
 
-		String vin0 = "1D30E42K351234567"; //VIN from VIN table
+		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
 		assertSoftly(softly -> {
 			softly.assertThat(response0.getVehicles().get(0).getVin()).isNotEmpty();
@@ -745,8 +746,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue()).isEqualTo(vin);
 
 	}
-
-
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType){
 
 		mainApp().open();
