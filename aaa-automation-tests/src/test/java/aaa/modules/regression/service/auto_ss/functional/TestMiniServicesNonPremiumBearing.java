@@ -431,6 +431,31 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(getPolicyType());
 	}
 
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Policy lock unlock functionality using services
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Hit lock service. Check service status.
+	 * 3. Go to policy in PAS.
+	 * 4. Start do endorsement.
+	 * 5. Check if policy is locked.
+	 * 6. Hit Unlock service. Check service status.
+	 * 7. Open policy in PAS again.
+	 * 8. Start do endorsement.
+	 * 9. Check if policy is unlocked.
+	 * 10. Try to lock policy using lock service. Check service status.
+	 * 11. Try to unlock policy using unlock service. Check service status.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
+	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
+
+		pas9456_9455_PolicyLockUnlockServices(getPolicyType());
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();

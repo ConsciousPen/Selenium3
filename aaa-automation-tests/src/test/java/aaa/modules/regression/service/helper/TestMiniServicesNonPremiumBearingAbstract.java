@@ -45,6 +45,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_2 = "Action is not available";
 	private static final String START_ENDORSEMENT_INFO_ERROR_3 = "OOSE or Future Dated Endorsement Exists";
 	private static final String START_ENDORSEMENT_INFO_ERROR_4 = "Policy is locked";
+	private static final String START_ENDORSEMENT_INFO_ERROR_5 = "The requested entity is currently locked by other user";
+	private static final String START_ENDORSEMENT_INFO_ERROR_6 = "Could not acquire a new lock: the requested entity is currently locked";
 
 	protected abstract String getGeneralTab();
 
@@ -730,6 +732,54 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertSoftly(softly -> {
 			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
 			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
+		});
+	}
+
+	protected void pas9456_9455_PolicyLockUnlockServices(PolicyType policyType){
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		mainApp().close();
+
+		//Lock policy and check service response
+		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200);
+		assertSoftly(softly -> {
+			softly.assertThat(response.getPolicyNumber()).isEqualTo(policyNumber);
+			softly.assertThat(response.getStatus()).isEqualTo("Locked");
+		});
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.endorse().start();
+
+		//Check if policy was locked in PAS
+		assertThat(PolicySummaryPage.policyLockedException.getValue()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_6);
+		PolicySummaryPage.buttonBackFromErrorPage.click();
+
+		//Unlock policy and check service response
+		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 200);
+		assertSoftly(softly -> {
+			softly.assertThat(response2.getPolicyNumber()).isEqualTo(policyNumber);
+			softly.assertThat(response2.getStatus()).isEqualTo("Unlocked");
+		});
+
+		//Start do endorsement
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		//Check if policy can be locked using lock service
+		PolicyLockUnlockDto response3 = HelperCommon.executePolicyLockService(policyNumber, 500);
+		assertSoftly(softly -> {
+			softly.assertThat(response3.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response3.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+		});
+        //Check if policy can be unlocked using unlock service
+		PolicyLockUnlockDto response4 = HelperCommon.executePolicyUnlockService(policyNumber, 500);
+		assertSoftly(softly -> {
+			softly.assertThat(response4.getPolicyNumber()).isEqualTo("300");
+			softly.assertThat(response4.getStatus()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 	}
 
