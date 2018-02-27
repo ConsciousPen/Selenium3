@@ -44,7 +44,7 @@ PropertyInfoTab: {
   Construction: {
     Year built: 2009,
     Square footage: 1,
-    Roof type: Laminate / Architectural,
+    Roof type: index=1,
     Construction type: index=1,
   },
   AdditionalQuestions: {},
@@ -140,7 +140,7 @@ TestData_Full: {
     Construction: {
       Year built: 2009,
       Square footage: 1,
-      Roof type: Laminate / Architectural,
+      Roof type: index=1,
       Construction type: index=1
     },
     AdditionalQuestions: {},
