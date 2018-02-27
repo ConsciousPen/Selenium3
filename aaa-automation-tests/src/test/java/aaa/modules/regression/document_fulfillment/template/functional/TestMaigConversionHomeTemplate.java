@@ -182,6 +182,8 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		//needed for home banking form generation
+		maigManualConversionHelper.setUpHomeBankingForConversionRenewal(policyNumber);
 		// Add Credit Card payment method and Enable AutoPayment
 		Tab.buttonBack.click();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
