@@ -91,14 +91,12 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-
 		// Add Credit Card payment method and Enable AutoPayment
 		Tab.buttonBack.click();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 
 		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
 		// End PAS-2764 Scenario 1
 
@@ -116,6 +114,10 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
+		List<Document> actualDocumentsListAuto_Pay_Method_Changed = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.AUTO_PAY_METNOD_CHANGED);
+		List<String> allDocsAutoPayMetnodChanged = new ArrayList<>();
+		actualDocumentsListAuto_Pay_Method_Changed.forEach(doc -> allDocsAutoPayMetnodChanged.add(doc.getTemplateId()));
+		assertThat(allDocsAutoPayMetnodChanged).contains(DocGenEnum.Documents.AH35XX.getId());
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);

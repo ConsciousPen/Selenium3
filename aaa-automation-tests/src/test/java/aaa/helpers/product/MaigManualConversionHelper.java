@@ -133,8 +133,7 @@ public class MaigManualConversionHelper {
 
 	public void pas9816_verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType) {
 		List<String> expectedFormsAndOrder = new ArrayList<>(Arrays.asList(
-				DocGenEnum.Documents.AHRBXX.getId(),
-				DocGenEnum.Documents.AH35XX.getId()
+				DocGenEnum.Documents.AHRBXX.getId()
 		));
 
 		//Adding of 'Delta' form for PUP and Home products in the Forms List
@@ -146,6 +145,10 @@ public class MaigManualConversionHelper {
 
 		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		verifyFormSequence(expectedFormsAndOrder, actualConversionRenewalBillingDocumentsList);
+
+		List<String> allDocs = new ArrayList<>();
+		actualConversionRenewalBillingDocumentsList.forEach(doc -> allDocs.add(doc.getTemplateId()));
+		assertThat(allDocs).doesNotContain(DocGenEnum.Documents.AH35XX.getId());
 	}
 
 	/* Data */
