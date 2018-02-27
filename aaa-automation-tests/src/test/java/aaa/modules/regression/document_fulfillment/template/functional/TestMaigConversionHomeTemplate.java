@@ -108,11 +108,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
-		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
-
-
-		//PAS-9607 Verify that packages are generated with correct transaction code
+    	//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
 		// Start PAS-2764 Scenario 1 Issue first renewal
@@ -151,8 +147,6 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-		// Shouldn't be after second renewal
-		maigManualConversionHelper.pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
