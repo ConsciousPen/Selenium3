@@ -12,8 +12,6 @@ public interface ICustomer {
 
     void createViaUI(TestData td);
 
-    void createViaREST(TestData td);
-
     Workspace getDefaultView();
 
     CustomerActions.AddCommunication addCommunication();

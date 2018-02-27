@@ -2,33 +2,23 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.customer;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 
 import aaa.utils.EntityLogger;
 import aaa.utils.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;
-import aaa.main.metadata.CustomerMetaData.GeneralTab;
 import aaa.main.modules.customer.CustomerActions.*;
 import aaa.main.modules.customer.views.DefaultView;
-import aaa.rest.customer.CustomerCoreRESTMethods;
-import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
-import toolkit.rest.ResponseWrapper;
 
 public class Customer implements ICustomer {
 
     protected static Logger log = LoggerFactory.getLogger(Customer.class);
 
     private Workspace defaultView = new DefaultView();
-    private static boolean isRestCustomerEnabled = Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.REST_CUSTOMER_ENABLED, "false"));
 
     @Override
     public Workspace getDefaultView() {
@@ -37,16 +27,7 @@ public class Customer implements ICustomer {
 
     @Override
     public void create(TestData td) {
-        if (isRestCustomerEnabled) {
-            try {
-                createViaREST(td);
-            } catch (IstfException e) {
-                log.info("REST customer creation failed: " + e);
-                createViaUI(td);
-            }
-        } else {
-            createViaUI(td);
-        }
+        createViaUI(td);
     }
 
     @Override
@@ -55,26 +36,6 @@ public class Customer implements ICustomer {
         SearchPage.buttonCreateCustomer.click();
         getDefaultView().fill(td);
         log.info("Created " + EntityLogger.getEntityHeader(EntityType.CUSTOMER));
-    }
-
-    @Override
-    public void createViaREST(TestData td) {
-        ResponseWrapper response;
-        try {
-            CustomerCoreRESTMethods restCustomer = new CustomerCoreRESTMethods();
-
-            if (td.getTestData(GeneralTab.class.getSimpleName()).containsKey(GeneralTab.NON_INDIVIDUAL_TYPE.getLabel())) {
-                response = restCustomer.postCustomersNonIndividual(td.resolveLinks());
-            } else {
-                response = restCustomer.postCustomersIndividual(td.resolveLinks());
-            }
-
-            JSONObject object = (JSONObject) JSONValue.parse(response.getResponse().readEntity(String.class));
-            MainPage.QuickSearch.search(object.get("customerNumber").toString());
-            log.info("Created " + EntityLogger.getEntityHeader(EntityType.CUSTOMER));
-        } catch (Exception e) {
-            throw new IstfException(e);
-        }
     }
 
     @Override

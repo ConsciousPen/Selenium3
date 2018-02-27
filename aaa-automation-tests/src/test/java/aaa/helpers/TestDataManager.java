@@ -118,9 +118,7 @@ public final class TestDataManager {
 		agency.put(AgencyVendorType.BRAND, dataProvider.get("default/platform/admin/agencyvendor/brand"));
 
 		rest.put(RESTServiceType.NOTES, dataProvider.get("default/platform/notes"));
-		rest.put(RESTServiceType.BPM, dataProvider.get("default/mywork"));
 		rest.put(RESTServiceType.PARTY_SEARCH, dataProvider.get("default/party/partysearch"));
-		rest.put(RESTServiceType.CUSTOMERS, dataProvider.get("default/cem/customer"));
 		rest.put(RESTServiceType.BILLING, dataProvider.get("default/billing"));
 
 		bulkAdjustment.put(BulkAdjustmentType.BULK_ADJUSTMENT, dataProvider.get("default/commission/bulkadjustment"));
