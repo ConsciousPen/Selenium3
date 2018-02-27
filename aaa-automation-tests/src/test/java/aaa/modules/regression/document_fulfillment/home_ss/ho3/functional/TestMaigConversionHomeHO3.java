@@ -53,21 +53,21 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
+	public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 		TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
 
-		verifyFormsSequence(testData);
+		verifyConversionFormsSequence(testData);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
+	public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
 		// CW, DE, VA
 		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 
-		verifyFormsSequence(testData);
+		verifyConversionFormsSequence(testData);
 	}
 
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

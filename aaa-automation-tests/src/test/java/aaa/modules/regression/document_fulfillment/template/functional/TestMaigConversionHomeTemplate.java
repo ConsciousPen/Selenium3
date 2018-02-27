@@ -60,7 +60,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
 
-	public void verifyFormsSequence(TestData testData) throws NoSuchFieldException {
+	public void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
 		// Get State/Product specific forms
 		List<String> forms = getConversionGeneratedForms();
 		//Change Membership number in testData to get AHMVCNV form - Validation letter
@@ -91,16 +91,12 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-		// Add Credit Card payment method and Enable AutoPayment
-		Tab.buttonBack.click();
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 
 		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
 		// End PAS-2764 Scenario 1
 
-		//PAS-9607 Verify that packages are generated with correct transaction code (Suresh staff)
+		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		//needed for home banking form generation
 		maigManualConversionHelper.setUpHomeBankingForConversionRenewal(policyNumber);
@@ -114,10 +110,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
-		List<Document> actualDocumentsListAuto_Pay_Method_Changed = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.AUTO_PAY_METNOD_CHANGED);
-		List<String> allDocsAutoPayMetnodChanged = new ArrayList<>();
-		actualDocumentsListAuto_Pay_Method_Changed.forEach(doc -> allDocsAutoPayMetnodChanged.add(doc.getTemplateId()));
-		assertThat(allDocsAutoPayMetnodChanged).contains(DocGenEnum.Documents.AH35XX.getId());
+
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
@@ -163,6 +156,81 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+	}
+
+	public void verifyBillingFormsSequence(TestData testData) throws NoSuchFieldException {
+		//Change Membership number in testData to get AHMVCNV form - Validation letter
+
+		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
+		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
+		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
+		 Both, manual propose and automated propose should work running under aaa-admin.**/
+		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
+				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+
+		// Create manual entry
+		mainApp().open();
+		createCustomerIndividual();
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
+		}
+
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
+		policy.getDefaultView().fill(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		openPolicy(policyNumber);
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		// Add Credit Card payment method and Enable AutoPayment
+		Tab.buttonBack.click();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
+
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
+		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
+
+		// Start PAS-2764 Scenario 1 Issue first renewal
+		mainApp().open();
+		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		// End PAS-2764 Scenario 1 Issue first renewal
+
+		/* Scenario 2, create and issue second renewal and verify documents list */
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+
+		/**https://csaaig.atlassian.net/browse/PAS-9157*/
+		/**PAS-10256
+		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
+
+		//Generate Bill for the second renewal to verify Home Banking forms
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		// Shouldn't be after second renewal
+		maigManualConversionHelper.pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
+
 	}
 
 	/**

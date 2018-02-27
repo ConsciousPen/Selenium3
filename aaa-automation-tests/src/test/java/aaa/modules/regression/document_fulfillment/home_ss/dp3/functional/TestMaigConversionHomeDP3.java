@@ -57,19 +57,27 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
+    public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 
         TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
-        verifyFormsSequence(testData);
+        verifyConversionFormsSequence(testData);
     }
 
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificRenewalPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
+    public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
         // CW, DE, VA
         TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
-        verifyFormsSequence(testData);
+        verifyConversionFormsSequence(testData);
+    }
+
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
+    public void pas9816_SpecificBillingConversionPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
+        // CW, DE, VA
+        verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
     }
 
     @Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
