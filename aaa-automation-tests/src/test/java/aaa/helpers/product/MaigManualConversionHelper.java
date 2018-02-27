@@ -110,7 +110,7 @@ public class MaigManualConversionHelper {
 		List<String> billingFormsAfterSecondRenewal = new ArrayList<>();
 		billingDocumentsListAfterSecondRenewal.forEach(doc -> billingFormsAfterSecondRenewal.add(doc.getTemplateId()));
 
-		assertThat(billingFormsAfterSecondRenewal).doesNotContain(DocGenEnum.Documents.HSRNHBXX.getId(), DocGenEnum.Documents.HSRNHBPUPXX.getId());
+		assertThat(billingFormsAfterSecondRenewal).doesNotContain(DocGenEnum.Documents.HSRNHBXX.getId(), DocGenEnum.Documents.HSRNHBPUP.getId());
 	}
 
 	public void pas2674_verifyConversionRenewalPackageAbsence(List<String> forms, String policyNumber, List<Document> actualDocumentsListAfterFirstRenewal) {
@@ -141,7 +141,7 @@ public class MaigManualConversionHelper {
 		if (!policyType.equals(PolicyType.PUP)) {
 			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBXX.getId());
 		} else {
-			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBPUPXX.getId());
+			expectedFormsAndOrder.add(DocGenEnum.Documents.HSRNHBPUP.getId());
 		}
 
 		List<Document> actualConversionRenewalBillingDocumentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
