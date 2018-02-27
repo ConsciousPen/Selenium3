@@ -33,6 +33,15 @@ public class TestMaigConversionHomePUP extends TestMaigConversionHomeTemplate {
     public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("VA") String state) throws NoSuchFieldException {
         TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
 
-        verifyConversionFormsSequence(policyCreationTD);
+        verifyConversionFormsSequence(policyCreationTD.resolveLinks());
+    }
+
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-9816"})
+    public void pas9816_SpecificBillingPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
+        // CW, DE, VA
+        TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
+        verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
     }
 }
