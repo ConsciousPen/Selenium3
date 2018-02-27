@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -50,6 +51,6 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel()).verify.present(false);
         policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, PurchaseTab.class);
         policy.getDefaultView().fill(getPolicyTD().ksam(PurchaseTab.class.getSimpleName()));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

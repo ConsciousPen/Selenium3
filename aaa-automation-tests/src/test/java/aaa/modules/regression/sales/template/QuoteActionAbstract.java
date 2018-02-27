@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -28,7 +29,7 @@ public abstract class QuoteActionAbstract extends PolicyBaseTest {
 		log.info("TEST: Issue Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		policy.purchase(getPolicyTD("DataGather", "TestData"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	public void testQuotePropose() {
@@ -107,7 +108,7 @@ public abstract class QuoteActionAbstract extends PolicyBaseTest {
 
 		   policy.copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
 
-	       PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+	       assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 
 	   }
 

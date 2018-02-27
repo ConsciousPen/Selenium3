@@ -1,6 +1,6 @@
 package aaa.helpers.mock;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import aaa.helpers.mock.model.membership.MembershipMockData;
 import aaa.helpers.mock.model.vehicle.VehicleUBIDetailsMockData;

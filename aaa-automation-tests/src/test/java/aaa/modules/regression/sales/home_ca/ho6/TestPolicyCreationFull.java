@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho6;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
@@ -45,7 +46,7 @@ public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 		new ErrorTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: CaHO6 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 

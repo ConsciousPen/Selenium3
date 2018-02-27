@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 
 import aaa.common.enums.NavigationEnum;
@@ -147,7 +148,7 @@ public class ORDeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA OR SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);

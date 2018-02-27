@@ -27,7 +27,6 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPol
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 

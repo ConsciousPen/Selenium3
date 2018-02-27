@@ -1,7 +1,7 @@
 package aaa.modules.preconditions;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import org.testng.annotations.Test;

@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -32,6 +33,6 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(getTestSpecificTD("TestData").adjust(getTestSpecificTD("TestData_AddForm_HO75")).resolveLinks());
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

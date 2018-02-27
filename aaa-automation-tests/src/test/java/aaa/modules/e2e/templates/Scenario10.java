@@ -38,6 +38,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario10 extends ScenarioBaseTest {
 	
@@ -84,24 +85,24 @@ public class Scenario10 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 	
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1)); 
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 	
 	protected void payFirstBill() {
 		payCashAndCheckBill(installmentDueDates.get(1));
 	}
 	
-	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 
 	protected  void paySecondBill() {
 		payCashAndCheckBill(installmentDueDates.get(2));
 	}
 	
-	protected void generateThirdBill() {
-		generateAndCheckBill(installmentDueDates.get(3));
+	protected void generateThirdBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(3), softly);
 	}
 
 	protected void payThirdBill() {
@@ -282,8 +283,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		verifyPaymentPlanAndStatus(PolicyStatus.POLICY_EXPIRED, PolicyStatus.POLICY_ACTIVE);
 	}	
 	
-	protected void generateFirstBillOfRenewal(){
-		generateAndCheckBill(installmentDueDatesOfRenewal.get(1)); 
+	protected void generateFirstBillOfRenewal(ETCSCoreSoftAssertions softly){
+		generateAndCheckBill(installmentDueDatesOfRenewal.get(1), softly);
 	}
 	
 	protected void payFirstBillOfRenewal() {

@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
 import static aaa.main.enums.DocGenEnum.Documents.AA11CA;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

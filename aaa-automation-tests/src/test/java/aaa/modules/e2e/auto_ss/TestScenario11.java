@@ -1,6 +1,6 @@
 package aaa.modules.e2e.auto_ss;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -28,7 +28,7 @@ public class TestScenario11 extends Scenario11 {
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			makeFirstEndorsement();
 			generateFirstOffCycleBill();
 			payFirstOffCycleBill();

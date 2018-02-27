@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario8 extends ScenarioBaseTest {
 
@@ -59,8 +61,8 @@ public class Scenario8 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 	}
 
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	protected void renewalImageGeneration() {
@@ -74,7 +76,7 @@ public class Scenario8 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage); // verify Not Generated in excel
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void renewalPreviewGeneration() {

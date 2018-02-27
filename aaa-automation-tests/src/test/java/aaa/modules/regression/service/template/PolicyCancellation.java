@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -23,7 +24,7 @@ public abstract class PolicyCancellation extends PolicyBaseTest {
 		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
 	/**
@@ -43,6 +44,6 @@ public abstract class PolicyCancellation extends PolicyBaseTest {
 		log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 }

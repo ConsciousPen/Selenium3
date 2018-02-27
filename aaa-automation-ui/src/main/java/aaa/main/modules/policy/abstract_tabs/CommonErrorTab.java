@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.slf4j.Logger;
@@ -242,7 +242,7 @@ public abstract class CommonErrorTab extends Tab {
 
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
 			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
-			SoftAssertions.assertSoftly(softly -> {
+			CustomSoftAssertions.assertSoftly(softly -> {
 				for (ErrorEnum.Errors error : errors) {
 					softly.assertThat(
 							actualErrorCodesAndMessagePairsMap.containsKey(error.getCode()) && isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error

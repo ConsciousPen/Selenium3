@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.util.Optional;
 import org.testng.annotations.Parameters;
@@ -281,7 +282,7 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK).verify.present(true);
 			applyAutoPay(paymentPlan);
 		}
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info("policyNumber: {}", policyNumber);
 	}

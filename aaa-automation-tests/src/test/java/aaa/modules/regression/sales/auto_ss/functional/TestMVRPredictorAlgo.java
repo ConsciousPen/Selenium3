@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

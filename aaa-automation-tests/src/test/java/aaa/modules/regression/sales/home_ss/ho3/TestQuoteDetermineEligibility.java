@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -51,7 +51,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		propertyInfoTab.fillTab(td_sc1_1);
 		propertyInfoTab.submitTab();
 
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			
 			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION).getWarning(
 					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel()).getValue().toString()).isEqualTo(ER0906);

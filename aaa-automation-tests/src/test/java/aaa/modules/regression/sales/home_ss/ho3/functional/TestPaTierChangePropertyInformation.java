@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.apache.commons.lang3.Range;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;

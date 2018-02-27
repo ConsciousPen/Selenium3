@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
@@ -119,7 +120,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DriverActivityReportsTab.class, PurchaseTab.class, true);
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
 		// 6

@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -67,6 +68,6 @@ public class TestPolicyCancelWithActivePUP extends HomeCaHO3BaseTest {
         NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation.verify.contains(alert);
 
         Page.dialogConfirmation.buttonOk.click();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }
 }

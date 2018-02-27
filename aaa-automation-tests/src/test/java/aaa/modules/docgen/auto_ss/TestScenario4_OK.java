@@ -1,5 +1,6 @@
 package aaa.modules.docgen.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
@@ -40,7 +41,7 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 		TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
 		policy.createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		String termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
 

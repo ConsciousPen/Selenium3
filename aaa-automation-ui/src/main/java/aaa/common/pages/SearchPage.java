@@ -13,7 +13,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -93,11 +93,11 @@ public class SearchPage extends MainPage {
 
 	public static void verifyWarningsExist(boolean expectedValue, String... warningMessages) {
 		if (expectedValue) {
-			CustomAssert.assertTrue("Warning message(s) is(are) absent on search page: " + CollectionUtils.removeAll(Arrays.asList(warningMessages), getBottomWarningsList()),
-					warningsExist(warningMessages));
+			CustomAssertions.assertThat(warningsExist(warningMessages))
+					.as("Warning message(s) is(are) absent on search page: " + CollectionUtils.removeAll(Arrays.asList(warningMessages), getBottomWarningsList())).isTrue();
 		} else {
 			Collection<String> existedWarnings = CollectionUtils.retainAll(getBottomWarningsList(), Arrays.asList(warningMessages));
-			CustomAssert.assertTrue("Unexpeted warning message(s) is(are) present on search page: " + existedWarnings, existedWarnings.isEmpty());
+			CustomAssertions.assertThat(existedWarnings).as("Unexpeted warning message(s) is(are) present on search page: " + existedWarnings).isEmpty();
 		}
 	}
 }

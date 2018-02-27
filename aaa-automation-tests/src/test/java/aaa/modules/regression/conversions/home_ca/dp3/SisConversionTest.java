@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.home_ca.dp3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
@@ -143,7 +144,7 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	public void sisConversion_renewWithLapse(String file, ITestContext context) {
@@ -187,7 +188,7 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		policy.manualRenewalWithOrWithoutLapse().perform(getPolicyTD("ManualRenewalWithOrWithoutLapse", "TestData"));
 
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ca.ho6;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,8 +13,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
 import toolkit.utils.TestInfo;
-
-
 
 /**
  * @author Viachaslau Markouski
@@ -33,9 +32,8 @@ public class TestPolicyCreation extends HomeCaHO6BaseTest {
         mainApp().open();
 
         createCustomerIndividual();
-        policy.createPolicy(getPolicyTD("DataGather", "TestData"));
+		createPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

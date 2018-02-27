@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -148,7 +149,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
                 .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue("05/17/1990");
 
         verifyMembershipErrorAndBind(tdMembershipOverride);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /*
@@ -242,7 +243,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
             bindTab.submitTab();
 
         log.info("Membership Error Validation with Dummy Number Passed.");
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /*

@@ -1,5 +1,6 @@
 package aaa.modules.docgen.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
@@ -58,7 +59,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		createPolicy(tdpolicy);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policyEffectiveDate = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance()
 				.parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
@@ -185,7 +186,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		BillingSummaryPage.open();
 		cancEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance()
 				.parse(BillingSummaryPage.tableBillsStatements.getRow(BillingConstants.BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice")
@@ -225,7 +226,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 

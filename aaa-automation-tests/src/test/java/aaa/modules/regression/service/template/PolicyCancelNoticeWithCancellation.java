@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 
 import toolkit.utils.datetime.DateTimeUtils;
@@ -70,6 +71,6 @@ public class PolicyCancelNoticeWithCancellation extends PolicyBaseTest {
 		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
 
 		PolicySummaryPage.labelCancelNotice.verify.present(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 }

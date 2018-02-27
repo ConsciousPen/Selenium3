@@ -1,5 +1,6 @@
 package aaa.modules.delta.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 		policy.getDefaultView().getTab(BindTab.class).submitTab();
 		policy.getDefaultView().getTab(PurchaseTab.class).fillTab(getPolicyTD()).submitTab();
 		
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("============================================");

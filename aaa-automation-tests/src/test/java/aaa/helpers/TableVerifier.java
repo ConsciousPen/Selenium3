@@ -3,6 +3,8 @@
 package aaa.helpers;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.util.HashMap;
@@ -12,6 +14,14 @@ import java.util.Map.Entry;
 public abstract class TableVerifier {
 
     protected Map<String, String> values = new HashMap<>();
+    protected ETCSCoreSoftAssertions softly;
+
+    public TableVerifier() {
+    };
+
+    public TableVerifier(ETCSCoreSoftAssertions softly) {
+        this.softly = softly;
+    };
 
     protected abstract Table getTable();
 
@@ -28,12 +38,20 @@ public abstract class TableVerifier {
         } else {
             message = String.format("Row with values %s in table '%s' is absent.", values, getTableName());
         }
-        getTable().getRow(values).verify.present(message, expectedValue);
+        if (softly != null) {
+            softly.assertThat(getTable().getRow(values).isPresent()).as(message).isEqualTo(expectedValue);
+        } else {
+            CustomAssertions.assertThat(getTable().getRow(values).isPresent()).as(message).isEqualTo(expectedValue);
+        }
         return this;
     }
 
     public TableVerifier verifyCount(int count) {
-        getTable().verify.rowsCount(count, values);
+        if (softly != null) {
+            softly.assertThat(getTable()).hasMatchingRows(count, values);
+        } else {
+            CustomAssertions.assertThat(getTable()).hasMatchingRows(count, values);
+        }
         return this;
     }
 

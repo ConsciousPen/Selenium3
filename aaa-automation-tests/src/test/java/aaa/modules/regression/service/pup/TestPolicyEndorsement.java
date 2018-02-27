@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -34,7 +35,7 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 		CustomAssert.enableSoftMode();
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
 

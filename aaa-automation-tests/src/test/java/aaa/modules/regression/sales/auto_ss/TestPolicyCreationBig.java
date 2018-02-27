@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,18 +37,14 @@ public class TestPolicyCreationBig extends AutoSSBaseTest {
         TestData bigPolicy_td = getTestSpecificTD("TestData");
 		getPolicyType().get().createPolicy(bigPolicy_td);        
         
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			
-			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(2);
-			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(2);
-			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 			
 		});	
-        
-
     }
-    
-    
 }

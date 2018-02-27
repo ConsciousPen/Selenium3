@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.choice;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,14 +38,12 @@ public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 		createCustomerIndividual();
 
 		createPolicy();
-		//policy.createPolicy(getPolicyTD("DataGather", "TestData"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		log.info("CA Choice Policy Product Verification Started...");
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.labelProductInquiry.verify.contains("CA Choice");
-		
+		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Choice");
 	}
 }

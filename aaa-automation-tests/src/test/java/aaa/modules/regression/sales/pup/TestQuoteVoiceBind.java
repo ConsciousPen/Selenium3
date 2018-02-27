@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -62,7 +62,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
         assertThat(Purchase.confirmVoiceSignature.isVisible()).isTrue();
         //CustomAssert.assertTrue(purchaseTab.confirmVoiceSignature.isVisible());
         Purchase.confirmVoiceSignature.confirm();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
     */
     

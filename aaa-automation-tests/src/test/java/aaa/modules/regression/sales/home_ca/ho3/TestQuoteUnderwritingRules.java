@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import org.testng.annotations.Optional;
@@ -98,7 +99,7 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
         new PurchaseTab().submitTab();
 
         // 10. Check Policy status is Active
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     private void goToBindAndVerifyError(ErrorEnum.Errors... errors) {

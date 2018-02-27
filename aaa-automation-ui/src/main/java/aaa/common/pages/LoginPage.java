@@ -12,7 +12,7 @@ import aaa.common.components.Dialog;
 import aaa.common.metadata.LoginPageMeta;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -56,7 +56,7 @@ public class LoginPage extends Page implements ILogin {
 	}
 
 	public void verifyDisplayed() {
-		CustomAssert.assertTrue("LoginPanel is displayed", isPageDisplayed());
+		CustomAssertions.assertThat(isPageDisplayed()).as("LoginPanel is displayed").isTrue();
 	}
 
 	public void fillLogin(String user, String pw) {

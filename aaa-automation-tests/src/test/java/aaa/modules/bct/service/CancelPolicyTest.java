@@ -1,5 +1,6 @@
 package aaa.modules.bct.service;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -30,10 +31,10 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getTestSpecificTD("Cancellation_005"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
 	@Parameters({"state"})
@@ -56,12 +57,12 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getTestSpecificTD("Cancellation_009"));
 
 		// Check if Status is updated to Policy Cancelled in the UI
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM)
@@ -99,10 +100,10 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getTestSpecificTD("Cancellation_013"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
 	@Parameters({"state"})
@@ -133,7 +134,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getTestSpecificTD("Cancellation_112"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);

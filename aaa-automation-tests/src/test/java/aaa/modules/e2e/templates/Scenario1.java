@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -30,6 +31,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario1 extends ScenarioBaseTest {
 
@@ -71,14 +73,14 @@ public class Scenario1 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size());
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Quarterly payment plan").isEqualTo(installmentsCount);
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 		firstBillAmount = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
 	}
 
@@ -126,17 +128,17 @@ public class Scenario1 extends ScenarioBaseTest {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 
-	protected void generateSecondBill() {
+	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
 		Dollar getPligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, 0);
-		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee);
+		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee, softly);
 	}
 
 	protected void paySecondBill() {
 		payAndCheckBill(installmentDueDates.get(2));
 	}
 
-	protected void generateThirdBill() {
-		generateAndCheckBill(installmentDueDates.get(3));
+	protected void generateThirdBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(3), softly);
 	}
 
 	protected void payThirdBill() {

@@ -27,21 +27,22 @@ import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class ScenarioBaseTest extends BaseTest {
 	protected static Logger log = LoggerFactory.getLogger(ScenarioBaseTest.class);
 
 	protected String policyNum;
 
-	protected void generateAndCheckBill(LocalDateTime installmentDate) {
-		generateAndCheckBill(installmentDate, null);
+	protected void generateAndCheckBill(LocalDateTime installmentDate, ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDate, null, softly);
 	}
 
-	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate) {
-		generateAndCheckBill(installmentDate, effectiveDate, BillingHelper.DZERO);
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDate, effectiveDate, BillingHelper.DZERO, softly);
 	}
 
-	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, Dollar pligaOrMvleFee) {
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, Dollar pligaOrMvleFee, ETCSCoreSoftAssertions softly) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);

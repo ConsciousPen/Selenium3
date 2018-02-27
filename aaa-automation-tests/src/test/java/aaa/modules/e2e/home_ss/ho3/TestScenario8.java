@@ -1,6 +1,6 @@
 package aaa.modules.e2e.home_ss.ho3;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -29,20 +29,20 @@ public class TestScenario8 extends Scenario8 {
 							.getLabel()), "index=1");
 		}
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
-			generateAndCheckBill(installmentDueDates.get(1));
+		CustomSoftAssertions.assertSoftly(softly -> {
+			generateAndCheckBill(installmentDueDates.get(1), softly);
 			TestData td = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.QUARTERLY, 4);
-			generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
+			generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate), softly);
 			payAndCheckBill(installmentDueDates.get(3));
 			TestData td2 = getTestSpecificTD("TestData_Endorsement2").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td2, BillingConstants.PaymentPlan.ELEVEN_PAY, 9);
-			generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
+			generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate), softly);
 			payAndCheckBill(installmentDueDates.get(4));
-			generateAndCheckBill(installmentDueDates.get(5), policyEffectiveDate);
+			generateAndCheckBill(installmentDueDates.get(5), policyEffectiveDate, softly);
 			TestData td3 = getTestSpecificTD("TestData_Endorsement3").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td3, BillingConstants.PaymentPlan.SEMI_ANNUAL, 5);
-			generateAndCheckBill(installmentDueDates.get(6), policyEffectiveDate);
+			generateAndCheckBill(installmentDueDates.get(6), policyEffectiveDate, softly);
 			payAndCheckBill(installmentDueDates.get(6));
 
 			/**

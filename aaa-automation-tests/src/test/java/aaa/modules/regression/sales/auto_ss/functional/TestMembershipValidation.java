@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -477,7 +478,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 		new PurchaseTab().fillTab(testData).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private void validate_Endorsement(TestData tdSpecificNB, TestData tdSpecificEnd, Boolean ruleShouldFire) {
@@ -486,7 +487,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.endorse().performAndFill(tdSpecificEnd);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -500,7 +501,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.renew().start();
 		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
@@ -516,7 +517,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();

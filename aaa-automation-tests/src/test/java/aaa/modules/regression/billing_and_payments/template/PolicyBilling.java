@@ -2,9 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.billing_and_payments.template;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
@@ -48,7 +46,7 @@ public abstract class PolicyBilling extends PolicyBaseTest {
 
         getCopiedPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
         BillingSummaryPage.open();

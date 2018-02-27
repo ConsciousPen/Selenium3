@@ -9,17 +9,13 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
-import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
-import toolkit.verification.CustomSoftAssertions;
-
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 
@@ -82,7 +78,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		PurchaseTab purchaseTab = new PurchaseTab();
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-		SoftAssertions softly = new SoftAssertions();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		
 		mainApp().open();
 		
@@ -233,8 +229,6 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		documentsAndBindTab.saveAndExit();
 		
 		log.info("Policy manual Renewal created: "+policyNumber+" with Discounts: "+currentDiscounts);
-		
-		softly.assertAll();
 	}
 	
 	/**
@@ -253,7 +247,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		GeneralTab generalTab = new GeneralTab();
 		PurchaseTab purchaseTab = new PurchaseTab();
-		SoftAssertions softly = new SoftAssertions();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		
 		mainApp().open();
 		
@@ -364,12 +358,10 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		log.info("Policy created: "+policyNumber+" with Discounts: "+currentDiscounts);
-		
-		softly.assertAll(); 
 	}
 
 
-	private void checkPolicyLevelDiscountsValueRatingDetails(TestData td_Discounts, SoftAssertions  softAssertions){
+	private void checkPolicyLevelDiscountsValueRatingDetails(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
 		
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
@@ -380,7 +372,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 	
-	private void checkPolicyLevelUnderwritingValueRatingDetails(TestData td_Discounts, SoftAssertions  softAssertions){
+	private void checkPolicyLevelUnderwritingValueRatingDetails(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
 		
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
@@ -391,14 +383,14 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 	
-	private void checkDiscountsDisplayed(TestData td_Discounts, SoftAssertions  softAssertions){
+	private void checkDiscountsDisplayed(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
 		
 		for (String discountName : td_Discounts.getValue("Discounts").split("\\|")) {
 			softAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains(discountName);
 		}
 	}
 	
-	private void checkDiscountsNotDisplayed(TestData td_Discounts, SoftAssertions  softAssertions){
+	private void checkDiscountsNotDisplayed(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
 		
 		for (String discountName : td_Discounts.getValue("Discounts").split("\\|")) {
 			softAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain(discountName);

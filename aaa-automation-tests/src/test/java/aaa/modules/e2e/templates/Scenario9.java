@@ -41,6 +41,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.ETCSCoreSoftAssertions;
 //import toolkit.verification.CustomAssert;
 
 public class Scenario9 extends ScenarioBaseTest {
@@ -91,16 +92,16 @@ public class Scenario9 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 	
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 	
 	protected void payFirstBill() {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 	
-	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 	
 	protected void paySecondBill() {
@@ -148,8 +149,8 @@ public class Scenario9 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.PAYMENT).setTransactionDate(billDueDate).verifyPresent(false);
 	}
 	
-	protected void generateLastBill() {
-		generateAndCheckBill(installmentDueDates.get(10)); 
+	protected void generateLastBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(10), softly);
 	}
 	 
 	protected void payLastBill() {

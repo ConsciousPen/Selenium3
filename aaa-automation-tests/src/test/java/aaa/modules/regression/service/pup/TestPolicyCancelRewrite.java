@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -36,19 +37,19 @@ public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 		mainApp().open();
 
 		getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String initialPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Initial Policy Number: " + initialPolicyNumber);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Policy " + initialPolicyNumber + " is cancelled");
 
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameNumber"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 
 		policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String rewrittenPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Rewritten Policy Number: " + rewrittenPolicyNumber);
 

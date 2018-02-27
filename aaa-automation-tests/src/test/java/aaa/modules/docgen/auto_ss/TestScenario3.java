@@ -1,5 +1,6 @@
 package aaa.modules.docgen.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -32,7 +33,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AutoSS is created: " + policyNumber);
 		TestData tdVerification = getTestSpecificTD("TestData_Verification");
 		switch (getState()) {

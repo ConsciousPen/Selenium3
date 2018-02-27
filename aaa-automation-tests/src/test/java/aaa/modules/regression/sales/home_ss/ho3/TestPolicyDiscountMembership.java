@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,7 +130,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td_MembershipPending, MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber1 = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("TEST: HSS Policy1 created with #" + policyNumber1);
         
@@ -180,7 +181,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         new BindTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         CustomAssert.assertTrue("Policy#1 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
@@ -217,7 +218,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
        
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         new BindTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         CustomAssert.assertTrue("Policy#2 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
@@ -255,7 +256,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         new BindTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         CustomAssert.assertTrue("Policy#3 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
@@ -293,7 +294,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         new BindTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         CustomAssert.assertTrue("Policy#4 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         

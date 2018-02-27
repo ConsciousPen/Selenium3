@@ -1,8 +1,8 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.ENROLL_IN_USAGE_BASED_INSURANCE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

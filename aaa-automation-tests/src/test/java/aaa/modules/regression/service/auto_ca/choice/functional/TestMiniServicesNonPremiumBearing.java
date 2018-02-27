@@ -46,10 +46,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-1441", "PAS-5986", "PAS-343"})
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 
-		CustomAssert.enableSoftMode();
 		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Override

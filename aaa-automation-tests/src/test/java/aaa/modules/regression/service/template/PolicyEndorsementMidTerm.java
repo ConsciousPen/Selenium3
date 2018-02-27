@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.main.enums.ProductConstants;
@@ -36,7 +37,7 @@ public abstract class PolicyEndorsementMidTerm extends PolicyBaseTest {
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 	}
 }

@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -90,7 +91,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 		policy.getDefaultView().fillFromTo(tdPolicy, BindTab.class, PurchaseTab.class, true);
 		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST Underwriting rules: PUP Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
 	}

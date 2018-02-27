@@ -1,5 +1,6 @@
 package aaa.modules.delta.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 
 
@@ -156,7 +157,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		policy.getDefaultView().getTab(BindTab.class).submitTab();
 		policy.getDefaultView().getTab(PurchaseTab.class).fillTab(getPolicyTD()).submitTab();
 		
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("DELTA CT SC1: PUP policy bound with #" + policyNumber);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS02);
@@ -225,7 +226,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		TestData tdCancelNotice=getTestSpecificTD("TestData_Plus49Days");
 		cancelNoticeTab.fillTab(tdCancelNotice);
 		CancelNoticeActionTab.buttonOk.click();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.labelCancelNotice.verify.present();
 		
 		

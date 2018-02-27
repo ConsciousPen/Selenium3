@@ -22,7 +22,7 @@ import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntime
 import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -49,8 +49,7 @@ public class HelperCommon {
 
 	public static <T> RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
 		String requestUrl = urlBuilderAdmin(ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT) + policyNumber + "/" + date;
-		RfiDocumentResponse[] result = runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
-		return result;
+		return runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
 	}
 
 	static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
@@ -70,8 +69,7 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
-		return validateEndorsementResponse;
+		return runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
 	}
 
 	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
@@ -79,8 +77,7 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
-		return validateVinResponse;
+		return runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 	}
 
 	static ErrorResponseDto validateEndorsementResponseError(String policyNumber, String endorsementDate) {
@@ -94,8 +91,7 @@ public class HelperCommon {
 
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
-		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
-		return validateVehicleResponse;
+		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
@@ -107,8 +103,7 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class);
-		return aaaEndorseResponse;
+		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class);
 	}
 
 	private void authentication() {
@@ -135,7 +130,7 @@ public class HelperCommon {
 				+ "  \"authorizedBy\": \"" + authorizedBy + "\"}");
 		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
 		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
-		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
+		CustomAssertions.assertThat(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost)).isEqualTo("200");
 		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
 	}
 

@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;

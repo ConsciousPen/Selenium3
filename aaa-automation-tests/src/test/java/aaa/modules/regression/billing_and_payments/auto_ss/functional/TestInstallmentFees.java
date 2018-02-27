@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.MIN_DUE;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
@@ -87,7 +88,7 @@ public class TestInstallmentFees extends PolicyBilling {
 
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.openqa.selenium.By;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -34,7 +35,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
 
         getCopiedPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
         TestData tdEndorsement = getTestSpecificTD("TestData_E1");
@@ -42,7 +43,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
         //Create Endorsement Policy effective date + 10 days: Add second Vehicle
         getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
         TestData tdEndorsement2 = getTestSpecificTD("TestData_E2");
@@ -57,7 +58,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
         //Execute action 'Roll on Changes' and select values manually
         rollOnPerformManual();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         //check if there is 2nd NI, Driver & Vehicle
         PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.contains("Violeta Minolta");

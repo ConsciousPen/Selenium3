@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -106,7 +107,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         CancelActionTab.buttonOk.click();
         Page.dialogConfirmation.confirm();
         PolicySummaryPage.labelPolicyStatus.getValue();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         //  9.  Click transaction history link and verify that cancellation transaction appears in transaction history
         PolicySummaryPage.buttonTransactionHistory.click();
@@ -156,7 +157,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         reinstatementActionTab.getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE).setValue(policyEffectiveDate);
         ReinstatementActionTab.buttonOk.click();
         Page.dialogConfirmation.confirm();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.labelPolicyEffectiveDate.verify.contains(policyEffectiveDate);
 
         // 16. Click transaction history link and verify that reinstate transaction appears in transaction history

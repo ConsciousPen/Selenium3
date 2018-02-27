@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -126,27 +127,27 @@ public class PolicySummaryPage extends SummaryPage {
 	}
 
 	public static void verifyCancelNoticeFlagPresent() {
-		labelCancelNotice.verify.present("'Cancel Notice' flag is present");
-		labelCancelNotice.verify.value("Cancel Notice");
+		assertThat(labelCancelNotice).as("'Cancel Notice' flag is present").isPresent();
+		assertThat(labelCancelNotice).hasValue("Cancel Notice");
 	}
 
 	public static void verifyCancelNoticeFlagNotPresent() {
-		labelCancelNotice.verify.present("'Cancel Notice' flag is absent", false);
+		assertThat(labelCancelNotice).as("'Cancel Notice' flag is absent").isPresent(false);
 	}
 
 	public static void verifyLapseExistFlagPresent() {
-		PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present");
-		PolicySummaryPage.labelLapseExist.verify.value("Term includes a lapse period");
+		assertThat(labelLapseExist).as("Lapse period flag is present").isPresent();
+		assertThat(labelLapseExist).hasValue("Term includes a lapse period");
 	}
 
 	public static void verifyDoNotRenewFlagPresent() {
-		labelDoNotRenew.verify.present("'Do Not Renew' flag is present");
-		labelDoNotRenew.verify.value("Do Not Renew");
+		assertThat(labelDoNotRenew).as("'Do Not Renew' flag is present").isPresent();
+		assertThat(labelDoNotRenew).hasValue("Do Not Renew");
 	}
 
 	public static void verifyManualRenewFlagPresent() {
-		labelManualRenew.verify.present("'Manual Renew' flag is present");
-		labelManualRenew.verify.value("Manual Renew");
+		assertThat(labelManualRenew).as("'Manual Renew' flag is present").isPresent();
+		assertThat(labelManualRenew).hasValue("Manual Renew");
 	}
 
 	public static class TransactionHistory {

@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -41,13 +42,13 @@ public class TestQuoteCreateAndCopy extends PersonalUmbrellaBaseTest {
         
         policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
         log.info("TEST: Copied Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
         policy.dataGather().start();
         policy.getDefaultView().fill(getTestSpecificTD("TestData"));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
 	}

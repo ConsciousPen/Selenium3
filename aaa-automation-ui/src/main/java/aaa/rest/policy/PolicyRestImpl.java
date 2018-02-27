@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.rest.policy;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.pages.MainPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
@@ -102,7 +103,7 @@ public class PolicyRestImpl {
     public void issue(TestData tdPolicy) {
         log.debug("[UI] Start Issue " + quoteNumber);
         policyType.get().purchase(tdPolicy);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.debug("[UI] End Issue " + quoteNumber);
     }
 

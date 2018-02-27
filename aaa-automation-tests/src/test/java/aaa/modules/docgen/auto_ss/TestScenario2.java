@@ -1,5 +1,6 @@
 package aaa.modules.docgen.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -108,7 +109,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyExpirationDate_CurrentTerm = PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
 
@@ -397,7 +398,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		storeCoveragesData();
 		storeBillingData();
@@ -679,7 +680,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	@Parameters({"state"})
@@ -693,7 +694,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
@@ -715,7 +716,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);

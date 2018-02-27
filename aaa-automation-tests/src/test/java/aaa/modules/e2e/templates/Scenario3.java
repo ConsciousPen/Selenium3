@@ -37,6 +37,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario3 extends ScenarioBaseTest {
 
@@ -81,8 +82,8 @@ public class Scenario3 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
-	public void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	public void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	public void generateCancellationNotice() {

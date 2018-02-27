@@ -19,7 +19,6 @@ import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -37,8 +36,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-//import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario12 extends ScenarioBaseTest {
 	
@@ -91,8 +90,8 @@ public class Scenario12 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 	
 	protected void payFirstBill() {
@@ -171,11 +170,11 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void policyReinstatement() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 		
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData_ReinstateWithLapse")); 
-		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -412,24 +411,24 @@ public class Scenario12 extends ScenarioBaseTest {
 		policyExpirationDate_FirstRenewal = PolicySummaryPage.getExpirationDate();		
 	}
 	
-	protected void generateFirstBillOfFirstRenewal() {
-		generateAndCheckBill(installmentDueDates_FirstRenewal.get(1)); 
+	protected void generateFirstBillOfFirstRenewal(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates_FirstRenewal.get(1), softly);
 	}
 	
 	protected void payFirstBillOfFirstRenewal() {
 		payAndCheckBill(installmentDueDates_FirstRenewal.get(1));
 	}
 	
-	protected void generateSecondBillOfFirstRenewal(){
-		generateAndCheckBill(installmentDueDates_FirstRenewal.get(2)); 
+	protected void generateSecondBillOfFirstRenewal(ETCSCoreSoftAssertions softly){
+		generateAndCheckBill(installmentDueDates_FirstRenewal.get(2), softly);
 	}
 	
 	protected void paySecondBillOfFirstRenewal() {
 		payAndCheckBill(installmentDueDates_FirstRenewal.get(2));
 	}
 	
-	protected void generateThirdBillOfFirstRenewal(){
-		generateAndCheckBill(installmentDueDates_FirstRenewal.get(3)); 
+	protected void generateThirdBillOfFirstRenewal(ETCSCoreSoftAssertions softly){
+		generateAndCheckBill(installmentDueDates_FirstRenewal.get(3), softly);
 	}
 	
 	protected void payThirdBillOfFirstRenewal() {
@@ -559,8 +558,8 @@ public class Scenario12 extends ScenarioBaseTest {
 		//policyExpirationDate_SecondRenewal = PolicySummaryPage.getExpirationDate();
 	}
 	
-	protected void generateFirstBillOfSecondRenewal() {
-		generateAndCheckBill(installmentDueDates_SecondRenewal.get(1)); 
+	protected void generateFirstBillOfSecondRenewal(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates_SecondRenewal.get(1), softly);
 	}
 	
 	protected void payFirstBillOfSecondRenewal() {

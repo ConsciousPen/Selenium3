@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.dp3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -33,7 +34,7 @@ public class TestPolicyCreationFull extends HomeSSDP3BaseTest {
 		createCustomerIndividual();
 		policy.createPolicy(getTestSpecificTD("TestDataFull"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: Hss DP3 Full is passed; Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 }

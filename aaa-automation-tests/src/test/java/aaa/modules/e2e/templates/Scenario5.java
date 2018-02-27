@@ -27,6 +27,7 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario5 extends ScenarioBaseTest {
 
@@ -81,8 +82,8 @@ public class Scenario5 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent(false);
 	}
 
-	public void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	public void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	public void payFirstBillOneDayBefore() {
@@ -101,8 +102,8 @@ public class Scenario5 extends ScenarioBaseTest {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 
-	public void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	public void generateSecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 
 	public void paySecondBill() {

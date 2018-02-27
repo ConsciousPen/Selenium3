@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -37,7 +38,7 @@ public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
 
         policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
         String policyNumberCopied = PolicySummaryPage.labelPolicyNumber.getValue();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
         log.info("Copied Quote policyNumber " + policyNumberCopied);
     }
 }

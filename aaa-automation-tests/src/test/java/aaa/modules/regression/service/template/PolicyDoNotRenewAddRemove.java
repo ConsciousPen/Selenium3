@@ -2,12 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Lina Li
@@ -35,20 +35,17 @@ public abstract class PolicyDoNotRenewAddRemove extends PolicyBaseTest {
         
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        CustomAssert.enableSoftMode();
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         log.info("TEST: Add Do Not Renew for Policy #" + policyNumber);
         policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-        
-        PolicySummaryPage.labelDoNotRenew.verify.present();
-        
-        log.info("TEST: Remove Do Not Rene for Policy #" + policyNumber);
-		policy.removeDoNotRenew().perform(new SimpleDataProvider());
-		PolicySummaryPage.labelDoNotRenew.verify.present(false);
-        
-		CustomAssert.assertAll();
 
-    }   
+	    CustomSoftAssertions.assertSoftly(softly -> {
+	        softly.assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
+
+	        log.info("TEST: Remove Do Not Rene for Policy #" + policyNumber);
+			policy.removeDoNotRenew().perform(new SimpleDataProvider());
+		    softly.assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
+	    });
+    }
 }

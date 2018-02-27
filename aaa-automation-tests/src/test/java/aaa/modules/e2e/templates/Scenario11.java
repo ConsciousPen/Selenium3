@@ -367,7 +367,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 		
 		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
-		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 	}
 

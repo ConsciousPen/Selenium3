@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import aaa.main.enums.ProductConstants;
@@ -26,7 +27,7 @@ public class PolicyRenewDeclineByCustomer extends PolicyBaseTest{
 	        
 	     getCopiedPolicy();
 	                
-	     PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	     assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	        
 	     CustomAssert.enableSoftMode();
 	     log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

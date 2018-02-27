@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
-//import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -47,7 +47,7 @@ public class TestPolicyDiscountMultiPolicy extends HomeSSHO3BaseTest {
         
         createPolicy(getTestSpecificTD("TestData"));    
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         new HomeSSPolicyActions.PolicyInquiry().start();
         
@@ -78,13 +78,12 @@ public class TestPolicyDiscountMultiPolicy extends HomeSSHO3BaseTest {
         multiPolicyDiscount_auto_pup.put("Discount Category", "Multi-Policy");
         multiPolicyDiscount_auto_pup.put("Discounts Applied", "AAA Personal Umbrella, AAA Auto");
         
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(multiPolicyDiscount_auto_pup).verify.present();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(multiPolicyDiscount_auto_pup)).exists();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         new BindTab().submitTab();
   
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }
 

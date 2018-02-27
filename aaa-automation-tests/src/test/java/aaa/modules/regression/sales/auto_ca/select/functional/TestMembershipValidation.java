@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -131,7 +132,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         errorTab.submitTab();
         purchaseTab.payRemainingBalance(BillingConstants.AcceptPaymentMethod.CASH).submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         mainApp().close();
     }
@@ -165,7 +166,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         log.info("Policy Creation Started...");
 
         policy.createPolicy(testData);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         //Endorsing policy and veryfing if rule fails, last name != membership last name
         policy.endorse().performAndFill(tdInvalidMembership);
@@ -175,7 +176,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         errorTab.submitTab();
 
         PolicyHelper.verifyEndorsementIsCreated();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         mainApp().close();
     }
@@ -207,7 +208,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         createCustomerIndividual();
         log.info("Policy Creation Started...");
         policy.createPolicy(testData);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         //Renew policy and verify if rule fails, last name != membership last name
         policy.renew().start();
@@ -217,7 +218,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         errorTab.getAssetList().fill(tdMembershipOverride);
         errorTab.submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         mainApp().close();
     }
 
@@ -244,14 +245,14 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         createCustomerIndividual();
         log.info("Policy Creation Started...");
         policy.createPolicy(testData);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         //Renew policy and verify that error is not thrown
         policy.renew().start();
         validateDummyNumbersOnRenewalIssue(policyNumber);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         mainApp().close();
     }
 
@@ -278,7 +279,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         createCustomerIndividual();
         log.info("Policy Creation Started...");
         policy.createPolicy(testData);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -296,7 +297,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
 
         validateDummyNumbersOnRenewalIssue(policyNumber);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         mainApp().close();
     }
 

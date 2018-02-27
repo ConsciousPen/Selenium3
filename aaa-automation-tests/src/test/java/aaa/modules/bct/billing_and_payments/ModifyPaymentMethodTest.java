@@ -1,5 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -35,7 +36,7 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		if (new ErrorTab().buttonOverride.isPresent()) {
 			policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
 		}
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(BillingConstants.PaymentPlan.MONTHLY_RENEWAL);
 

@@ -1,6 +1,6 @@
 package aaa.modules.e2e.pup;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -26,21 +26,21 @@ public class TestScenario13 extends Scenario13 {
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
-		SoftAssertions.assertSoftly(softly -> {
-			generateFirstBill();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			generateFirstBill(softly);
 			payFirstBill(); 
 			deletePendingEndorsement();
-			generateSecondBill();
+			generateSecondBill(softly);
 			paySecondBill();
-			generateThirdBill();
+			generateThirdBill(softly);
 			payThirdBill();
-			generateFourthBill(); 
+			generateFourthBill(softly);
 			payFourthBill(); 
-			generateFifthBill();
+			generateFifthBill(softly);
 			removeAutoPay();
 			payFifthBill();
 			changePaymentPlan(); 
-			generateSixthBill(); 
+			generateSixthBill(softly);
 			paySixthBill();
 			smallBalanceGeneration();
 			cancelNoticeNotGenerated();  

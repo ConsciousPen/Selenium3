@@ -3,7 +3,6 @@ package aaa.modules.regression.conversions.auto_ss;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.TimePoints;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;

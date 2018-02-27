@@ -3,7 +3,7 @@ package aaa.modules.e2e.templates;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.assertj.core.api.SoftAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
@@ -44,6 +44,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario13 extends ScenarioBaseTest {
 	
@@ -94,8 +95,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 	
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	protected void payFirstBill() {
@@ -131,32 +132,32 @@ public class Scenario13 extends ScenarioBaseTest {
 			.setSubtypeReason(reason).verifyPresent(false);
 	}
 	
-	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 
 	protected void paySecondBill() {
 		payAndCheckBill(installmentDueDates.get(2));
 	}
 
-	protected void generateThirdBill() {
-		generateAndCheckBill(installmentDueDates.get(3));
+	protected void generateThirdBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(3), softly);
 	}
 
 	protected void payThirdBill() {
 		payAndCheckBill(installmentDueDates.get(3));
 	}
 	
-	protected void generateFourthBill() {
-		generateAndCheckBill(installmentDueDates.get(4));
+	protected void generateFourthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(4), softly);
 	}
 
 	protected void payFourthBill() {
 		payAndCheckBill(installmentDueDates.get(4));
 	}
 	
-	protected void generateFifthBill() {
-		generateAndCheckBill(installmentDueDates.get(5));
+	protected void generateFifthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(5), softly);
 	}
 	
 	protected void removeAutoPay() {
@@ -223,7 +224,7 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		installmentDueDatesAfterEndorsement = BillingHelper.getInstallmentDueDates();	
 		List<Dollar> installmentDues = BillingHelper.getInstallmentDues();
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(installmentDueDatesAfterEndorsement.size()).as("Billing Installments count after payment plan changed to Semi-Annual")
 				.isEqualTo(installmentsCountAfterEndorsement);
 			softly.assertThat(installmentDues.get(6)).as("Last installment amount is incorrect").isEqualTo(totalDueAfterEndorsement);
@@ -242,8 +243,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		}	
 	}
 	
-	protected void generateSixthBill() {
-		generateAndCheckBill(installmentDueDates.get(6));
+	protected void generateSixthBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(6), softly);
 	}
 
 	protected void paySixthBill() {
@@ -272,7 +273,7 @@ public class Scenario13 extends ScenarioBaseTest {
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.SMALL_BALANCE_WRITE_OFF)
 			.setStatus(PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 		
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(BillingSummaryPage.getTotalDue()).as("Total Due is not $0.00").isEqualTo(new Dollar(0));
 			softly.assertThat(BillingSummaryPage.getMinimumDue()).as("Min Due is not $0.00").isEqualTo(new Dollar(0));
 		});	
@@ -349,7 +350,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 
 		installmentDueDatesForRenewal = BillingHelper.getInstallmentDueDates();	
-		SoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(installmentDueDatesForRenewal.size()).as("Billing Installments count for renewal is incorrect")
 				.isEqualTo(installmentsCountForRenewal);
 		});

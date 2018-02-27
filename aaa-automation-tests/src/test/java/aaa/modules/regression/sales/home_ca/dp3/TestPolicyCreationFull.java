@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.dp3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -33,7 +34,7 @@ public class TestPolicyCreationFull extends HomeCaDP3BaseTest {
         createCustomerIndividual();
         createPolicy(getTestSpecificTD("TestDataFull"));
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: CA DP3 Full is passed; Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
     }
 }

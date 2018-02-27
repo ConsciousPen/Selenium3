@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -16,7 +17,6 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
