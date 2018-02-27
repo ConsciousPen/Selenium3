@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,10 +12,6 @@ import aaa.modules.regression.sales.template.functional.TestLiabilitySymbolsUsag
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-
-import java.util.Arrays;
-import java.util.List;
 
 public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate {
 
@@ -52,7 +46,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
      * @name Verify specific rules for Cargo and Custom VAN vehicles for Select products
      * @scenario
      * 1. Create Auto Select quote and on VehicleTab enter Cargo Van vehicle VIN
-     * 2. Verify that default values for Liability Symbols are used for it
+     * 2. Verify that default values for Liability Symbols are used for it (Default value for Cargo Van is W)
      * 3. Set 'Special Equipment' to yes.
      * 4. Save quote. Retrieve in DB and verify that the Symbol is set to V, for custom van
      * 5. Set 'Special Equipment' to NO
@@ -76,9 +70,8 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
 
         String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        List <String> liabilitySymbols = Arrays.asList("biSymbol", "pdsymbol", "umsymbol", "mpsymbol");
-        liabilitySymbols.forEach( s -> assertThat(getLiabSymbolsValuesForQuote(quoteNumber, s)).isEqualTo("W")
-                .as("W symbol was not set as default for liability symbols for Cargo Van vehicle, please check used VIN and/or product rules"));
+        //W symbol have to be set as default for liability symbols for Cargo Van vehicle. If next row fails please check used VIN and/or product rules
+        verifyLiabilitySymbolsInDB(quoteNumber, "W");
 
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());

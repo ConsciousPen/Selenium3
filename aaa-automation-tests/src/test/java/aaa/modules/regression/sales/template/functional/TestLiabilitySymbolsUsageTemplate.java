@@ -37,7 +37,7 @@ public class TestLiabilitySymbolsUsageTemplate extends CommonTemplateMethods {
      *
      * VIN Used for test: 2HGFA3F21B
      */
-    public void pas6582_StatCodeRules(){
+    protected void pas6582_StatCodeRules(){
 
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_PartialMatch").resolveLinks());
 
@@ -67,17 +67,17 @@ public class TestLiabilitySymbolsUsageTemplate extends CommonTemplateMethods {
         liabilitySymbols.forEach( s -> assertThat(getLiabSymbolsValuesForQuote(quoteNumber, s)).isEqualTo(expectedResult));
     }
 
-    protected String getLiabSymbolsValuesForQuote(String quoteNumber, String symbolName){
-        return DBService.get().getValue
-                (String.format(VehicleQueries.SELECT_FROM_VEHICLERATINGINFO_BY_QUOTE_NUMBER, symbolName, quoteNumber)).orElse(null);
-    }
-
     protected void deleteLiabilitySymbolsForVIN(String vinNumber) {
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_LIABILITY_SYMBOLS_FOR_VIN, getShortedVin(vinNumber)));
     }
 
     protected void restoreCompCollAndLiabilitySymbolsForVIN(String vinNumber) {
        DBService.get().executeUpdate(String.format(VehicleQueries.RESTORE_LIABILITY_SYMBOLS_FOR_VIN, getShortedVin(vinNumber)));
+    }
+
+    private String getLiabSymbolsValuesForQuote(String quoteNumber, String symbolName){
+        return DBService.get().getValue
+                (String.format(VehicleQueries.SELECT_FROM_VEHICLERATINGINFO_BY_QUOTE_NUMBER, symbolName, quoteNumber)).orElse(null);
     }
 
     /**
