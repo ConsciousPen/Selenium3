@@ -101,7 +101,7 @@ DriverTab4: {
 
 VehicleTab1: {
   Usage: Pleasure,
-  VIN: 1G1YL2D7XG5100001,
+  VIN: 1GGYL2D7XG5100001,
   Year: '$<today:yyyy>',
   Make: OTHER,
   Other Make: KIA,
@@ -114,7 +114,7 @@ VehicleTab1: {
 
 VehicleTab2: {
   Usage: Pleasure,
-  VIN: 1G1YL2D7XG5100002,
+  VIN: 1GGYL2D7XG5100002,
   Year: '$<today:yyyy>',
   Make: OTHER,
   Other Make: FORD,

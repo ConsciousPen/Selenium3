@@ -430,6 +430,26 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(getPolicyType());
 	}
 
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Start Endorsement info server response for Expired Policy
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Change time to the policy expiration date +2d
+	 * 3. Run policyUpdate job
+	 * 4. Check if policy is expired.
+	 * 5. Hit "start endorsement info" dxp server.
+	 * 6. Check if error message is displaying.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas9337_StartEndorsementInfoServerResponseForExpiredPolicy(@Optional("VA") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(getPolicyType());
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();

@@ -113,13 +113,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, null);
 		assertSoftly(softly -> {
-		softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
-		softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-		softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
-		softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
-		softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
-		softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
-		softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
+			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
+			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(0).warnings).isEmpty();
+			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
+			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(1).warnings).isEmpty();
 		});
 	}
 
@@ -746,6 +746,31 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	}
 
+
+	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType){
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		mainApp().close();
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_EXPIRED);
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		mainApp().close();
+
+		ErrorResponseDto response = HelperCommon.validateEndorsementResponseError(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
+			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
+		});
+	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();

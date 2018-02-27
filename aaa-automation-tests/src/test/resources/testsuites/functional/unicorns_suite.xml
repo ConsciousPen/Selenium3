@@ -14,10 +14,10 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryFields"/>
             <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRenewalManualEntryFieldsVerification"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryValidateInsuranceScoreReport"/>
         </classes>
     </test>
     <test name="PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
