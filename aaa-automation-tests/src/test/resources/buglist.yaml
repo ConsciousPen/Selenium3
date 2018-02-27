@@ -187,3 +187,9 @@ PAS-9722:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
       messages: [" "]
+PAS-10350:
+  summary: "Regression: CA Home: Unable to switch to next tab from Property Info,'Roof Type' is not in within range"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules]
+      messages: ['Cannot get value of StaticElement', "Errors: 'Roof Type' is not in within range"]
