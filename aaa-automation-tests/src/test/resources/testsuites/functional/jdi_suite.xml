@@ -308,6 +308,7 @@
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
                     <include name="pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy"/>
+                    <include name="pas9456_9455_PolicyLockUnlockServices"/>
                 </methods>
             </class>
         </classes>
