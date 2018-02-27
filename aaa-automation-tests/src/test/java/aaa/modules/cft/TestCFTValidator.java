@@ -1,6 +1,7 @@
 package aaa.modules.cft;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
@@ -11,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -46,7 +49,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
 	private static final String CFT_VALIDATION_REPORT = "CFT_Validations.xls";
-	private static final String FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
+	private static final String CFT_FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
 
 	private String sqlGetLedgerData = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= %s group by  le.LEDGERACCOUNTNO";
 
@@ -77,7 +80,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
-		runCFTJobs();
+//		runCFTJobs();
 
 		opReportApp().open();
 		// create remote folder
@@ -97,12 +100,12 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		}
 		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Waiters.SLEEP(120000).go();
-		// Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 1);
+//		Waiters.SLEEP(120000).go();
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Waiters.SLEEP(30000).go();
-		// Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadDir.listFiles().length == 2);
+//		Waiters.SLEEP(30000).go();
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
@@ -142,7 +145,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			List<Map<String, String>> dbTransactions = DBService.get().getRows(query);
 			accNumberTable.add(dbTransactions);
 		}
-		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
+		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + CFT_FUTURE_DATED_REPORT);
 		log.info("Future dated policies were verified");
 	}
 
