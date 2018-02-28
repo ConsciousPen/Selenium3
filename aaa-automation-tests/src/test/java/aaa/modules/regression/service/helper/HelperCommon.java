@@ -1,7 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
-import java.util.HashMap;
+import static org.assertj.core.api.Assertions.assertThat;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -41,6 +41,7 @@ import javax.ws.rs.core.Response;
 
 import static aaa.admin.modules.IAdmin.log;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.HashMap;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -52,6 +53,7 @@ public class HelperCommon {
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
+	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
@@ -126,6 +128,15 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 		return validateVehicleResponse;
+	}
+
+	static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
+		Vehicle request = new Vehicle();
+		request.purchaseDate = purchaseDate;
+		request.vehIdentificationNo = vin;
+		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
+		return vehicle;
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {

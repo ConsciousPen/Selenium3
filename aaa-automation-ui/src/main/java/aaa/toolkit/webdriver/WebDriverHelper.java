@@ -60,4 +60,8 @@ public class WebDriverHelper {
 	public static void switchToWindow(String windowHandle) {
 		BrowserController.get().driver().switchTo().window(windowHandle);
 	}
+
+	public static void switchToDefault() {
+		BrowserController.get().driver().switchTo().defaultContent();
+	}
 }
