@@ -22,8 +22,8 @@ public class HelperWireMock {
 	 set value = 'http://nvdxpas1agl003:9085/wiremock/policy/preferences'
 	 where propertyName = 'policyPreferenceApiService.policyPreferenceApiUri';
 
-	 Scrum team's dxp stub url: http://nvdxpas1agl010-wiremock.apps.prod.pdc.digital.csaa-insurance.aaa.com/policy/preferences
-	 Scrum team's dxp mock url: http://nvdxpas1agl010-wiremock.apps.prod.pdc.digital.csaa-insurance.aaa.com/__admin/mappings
+	 Scrum team's dxp stub url: http://wiremock-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/app-host/policy/preferences
+	 Scrum team's dxp mock url: http://wiremock-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/__admin/mappings
 	 Scrum team's swagger-ui url: NOT CLEAR TODO add proper URL
 	 * @param policyNumber - policy number
 	 * @param scenarioJsonFile - paperlessOptInPendingResponse.json or paperlessOptInResponse.json or paperlessOptOutResponse.json
