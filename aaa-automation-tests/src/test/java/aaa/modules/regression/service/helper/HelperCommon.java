@@ -20,11 +20,28 @@ import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
 import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import static aaa.admin.modules.IAdmin.log;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.util.HashMap;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -36,8 +53,11 @@ public class HelperCommon {
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
+	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
+	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
+	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
@@ -92,10 +112,31 @@ public class HelperCommon {
 		return validateEndorsementResponseError;
 	}
 
+	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
+		PolicyLockUnlockDto validatePolicyLockStatus = runJsonRequestPostDxp(requestUrl, null, PolicyLockUnlockDto.class, status);
+		return validatePolicyLockStatus;
+	}
+
+	static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
+		PolicyLockUnlockDto validatePolicyUnlockStatus = runJsonRequestDeleteDxp(requestUrl, PolicyLockUnlockDto.class, status);
+		return validatePolicyUnlockStatus;
+	}
+
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 		return validateVehicleResponse;
+	}
+
+	static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
+		Vehicle request = new Vehicle();
+		request.purchaseDate = purchaseDate;
+		request.vehIdentificationNo = vin;
+		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
+		return vehicle;
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
@@ -107,8 +148,17 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class);
+		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
 		return aaaEndorseResponse;
+	}
+
+	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
+		if (effectiveDate != null) {
+			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
+		}
+		HashMap <String, String> validateLookupResponse  = runJsonRequestGetDxp(requestUrl, HashMap.class );
+		return validateLookupResponse;
 	}
 
 	private void authentication() {
@@ -144,6 +194,10 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
+		return runJsonRequestPostDxp(url, request, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -157,7 +211,7 @@ public class HelperCommon {
 					.post(Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != Response.Status.CREATED.getStatusCode()) {
+			if (response.getStatus() != status) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}
@@ -173,6 +227,10 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
+		return runJsonRequestDeleteDxp(url, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -186,7 +244,7 @@ public class HelperCommon {
 					.delete();
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode() ) {
+			if (response.getStatus() != status) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}
