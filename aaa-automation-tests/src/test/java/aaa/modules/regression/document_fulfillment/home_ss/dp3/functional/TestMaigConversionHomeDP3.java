@@ -59,7 +59,7 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
     public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 
-        TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+        TestData testData = getConversionPolicyDefaultTD();
         verifyConversionFormsSequence(testData);
     }
 

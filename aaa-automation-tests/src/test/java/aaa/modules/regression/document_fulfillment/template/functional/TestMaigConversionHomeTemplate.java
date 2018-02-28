@@ -36,11 +36,9 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -54,43 +52,29 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
 	protected BillingAccount billingAccount = new BillingAccount();
-	private MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
+	protected MaigManualConversionHelper maigManualConversionHelper = new MaigManualConversionHelper();
 
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2));
 
 	public void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
+		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
+				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+
 		// Get State/Product specific forms
 		List<String> forms = getConversionGeneratedForms();
 		//Change Membership number in testData to get AHMVCNV form - Validation letter
-		String membershipFieldMetaKey =
-				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
 		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
-		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
-				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
 		// Create manual entry
-		mainApp().open();
-		createCustomerIndividual();
-		if (getPolicyType().equals(PolicyType.PUP)) {
-			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
-		}
+		String policyNumber = createFormsSpecificManualEntry(testData,renewalOfferEffectiveDate);
 
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
-		if (!getPolicyType().equals(PolicyType.PUP)) {
-			testData.adjust(membershipFieldMetaKey, "4290072030989503");
-		}
-		policy.getDefaultView().fill(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		openPolicy(policyNumber);
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		checkPolicyStatus(policyNumber);
 
 		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		maigManualConversionHelper.verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
@@ -101,31 +85,20 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		//needed for home banking form generation
 		maigManualConversionHelper.setUpHomeBankingForConversionRenewal(policyNumber);
 
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		maigManualConversionHelper.runRenewalOfferPart2();
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		billGeneration(renewalOfferEffectiveDate);
 
 		// Start PAS-2764 Scenario 1 Issue first renewal
 		mainApp().open();
 		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		openPolicy(policyNumber);
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		upldatePolicyStatus(renewalOfferEffectiveDate);
+		checkPolicyStatus(policyNumber);
 		// End PAS-2764 Scenario 1 Issue first renewal
 
 		/* Scenario 2, create and issue second renewal and verify documents list */
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		issueSecondRenewal(renewalOfferEffectiveDate);
 
 		openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
@@ -141,14 +114,10 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		maigManualConversionHelper.pas2674_verifyConversionRenewalPackageAbsence(forms, policyNumber, actualDocumentsListAfterFirstRenewal);
 
 		//Generate Bill for the second renewal to verify Home Banking forms
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		billGeneration(renewalOfferEffectiveDate.plusYears(1));
 	}
 
 	public void verifyBillingFormsSequence(TestData testData) throws NoSuchFieldException {
-		//Change Membership number in testData to get AHMVCNV form - Validation letter
-
 		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
@@ -157,19 +126,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
 		// Create manual entry
-		mainApp().open();
-		createCustomerIndividual();
-		if (getPolicyType().equals(PolicyType.PUP)) {
-			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
-		}
+		String policyNumber = createFormsSpecificManualEntry(testData,renewalOfferEffectiveDate);
 
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
-		policy.getDefaultView().fill(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		openPolicy(policyNumber);
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		checkPolicyStatus(policyNumber);
 		//needed for home banking form generation
 		maigManualConversionHelper.setUpHomeBankingForConversionRenewal(policyNumber);
 		// Add Credit Card payment method and Enable AutoPayment
@@ -177,12 +136,9 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		maigManualConversionHelper.runRenewalOfferPart2();
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		billGeneration(renewalOfferEffectiveDate);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		maigManualConversionHelper.pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
@@ -194,20 +150,12 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		mainApp().open();
 		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		openPolicy(policyNumber);
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		upldatePolicyStatus(renewalOfferEffectiveDate);
+		checkPolicyStatus(policyNumber,ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		// End PAS-2764 Scenario 1 Issue first renewal
 
 		/* Scenario 2, create and issue second renewal and verify documents list */
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		issueSecondRenewal(renewalOfferEffectiveDate);
 
 		openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
@@ -218,9 +166,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
 
 		//Generate Bill for the second renewal to verify Home Banking forms
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		billGeneration(renewalOfferEffectiveDate.plusYears(1));
 		// Shouldn't be after second renewal
 		maigManualConversionHelper.pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
 
@@ -590,35 +536,41 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	/**
 	 * Utility method that enhances Conversion {@link TestData} with PUP in OtherActiveAAAPolicies
 	 */
+	private String createFormsSpecificManualEntry(TestData testData, LocalDateTime renewalOfferEffectiveDate){
+		String membershipFieldMetaKey =
+				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+
+		mainApp().open();
+		if(getState().equals(Constants.States.NJ)){
+			createCustomerIndividual(getCustomerIndividualTD("DataGather", "TestData")
+					.adjust(TestData.makeKeyPath("GeneralTab","Date of Birth"),TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY))); // if NJ adjust Date Of Birth
+		}
+		else{
+			createCustomerIndividual();
+		}
+
+		// adjust with real policies if PUP )
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
+		}
+
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
+		if (!getPolicyType().equals(PolicyType.PUP)) {
+			testData.adjust(membershipFieldMetaKey, "4290072030989503");
+		}
+		policy.getDefaultView().fill(testData);
+
+		return PolicySummaryPage.getPolicyNumber();
+	}
+
 	private TestData adjustWithPupData(TestData policyTD) {
 		TestData testDataOtherActiveAAAPolicies = getTestSpecificTD("OtherActiveAAAPolicies").resolveLinks();
 		String pupOtherActiveAAAPoliciesTabKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
 		return policyTD.adjust(pupOtherActiveAAAPoliciesTabKey, testDataOtherActiveAAAPolicies);
 	}
 
-	protected TestData adjustWithSeniorInsuredDataHO4(TestData policyTD) {
-		String insuredDOBPath =
-				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
-		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY));
-	}
-
-	protected TestData adjustWithSeniorInsuredData(TestData policyTD) {
-		String mortgageeTabMetaKey = new MortgageesTab().getMetaKey();
-
-		String insuredDOBPath =
-				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
-
-		TestData additionalInterestData = new DataProviderFactory().emptyData()
-				.adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.NAME.getLabel(), "Test")
-				.adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.ZIP_CODE.getLabel(), "85085")
-				.adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.STREET_ADDRESS_1.getLabel(), "Test");
-
-		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY))
-				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.IS_THERE_ADDITIONA_INTEREST.getLabel()), "Yes")
-				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel()), additionalInterestData);
-	}
-
-	public void openPolicy(String policyNumber) {
+	private void openPolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 	}
@@ -666,6 +618,35 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		return forms;
 	}
 
+	private void checkPolicyStatus(String policyNumber, String status) {
+		openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(status);
+	}
 
+	private void issueSecondRenewal(LocalDateTime renewalOfferEffectiveDate) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate.plusYears(1)));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	}
+
+	private void checkPolicyStatus(String policyNumber) {
+		openPolicy(policyNumber);
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+	}
+
+	private void upldatePolicyStatus(LocalDateTime renewalOfferEffectiveDate) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+	}
+
+	private void billGeneration(LocalDateTime renewalOfferEffectiveDate) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+	}
 
 }

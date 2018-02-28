@@ -54,7 +54,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
-		TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+		TestData testData = getConversionPolicyDefaultTD();
 
 		verifyConversionFormsSequence(testData);
 	}
@@ -72,7 +72,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeTemplate {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-9816"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
 	public void pas9816_SpecificBillingPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
 		// CW, DE, VA
 		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());

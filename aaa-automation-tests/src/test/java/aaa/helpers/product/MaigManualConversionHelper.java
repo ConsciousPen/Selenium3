@@ -13,13 +13,20 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 public class MaigManualConversionHelper {
@@ -65,6 +72,7 @@ public class MaigManualConversionHelper {
 	}
 
     /* PAS-2674, PAS-9816 */
+
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
 		Assertions.assertThat(documentList).isNotEmpty().isNotNull();
 		assertSoftly(softly -> {
@@ -100,7 +108,7 @@ public class MaigManualConversionHelper {
 	public void acceptPayment(String policyNumber,TestData acceptPaymentTestData) {
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(acceptPaymentTestData, totalDue);
+		new BillingAccount().acceptPayment().perform(acceptPaymentTestData, totalDue.subtract(new Dollar(10)));
 	}
 
 	public void pas9816_verifyBillingRenewalPackageAbsence(String policyNumber) {
@@ -110,7 +118,9 @@ public class MaigManualConversionHelper {
 		List<String> billingFormsAfterSecondRenewal = new ArrayList<>();
 		billingDocumentsListAfterSecondRenewal.forEach(doc -> billingFormsAfterSecondRenewal.add(doc.getTemplateId()));
 
-		assertThat(billingFormsAfterSecondRenewal).doesNotContain(DocGenEnum.Documents.HSRNHBXX.getId(), DocGenEnum.Documents.HSRNHBPUP.getId());
+		assertThat(billingFormsAfterSecondRenewal).doesNotContain(
+				DocGenEnum.Documents.HSRNHBXX.getId(),
+				DocGenEnum.Documents.HSRNHBPUP.getId());
 	}
 
 	public void pas2674_verifyConversionRenewalPackageAbsence(List<String> forms, String policyNumber, List<Document> actualDocumentsListAfterFirstRenewal) {
@@ -284,6 +294,28 @@ public class MaigManualConversionHelper {
 		);
 	}
 
+	public TestData adjustWithSeniorInsuredData(TestData policyTD) {
+		String mortgageeTabMetaKey = new MortgageesTab().getMetaKey();
+
+		String insuredDOBPath =
+				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
+
+		TestData additionalInterestData = new DataProviderFactory().emptyData()
+				.adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.NAME.getLabel(), "Test")
+				.adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.ZIP_CODE.getLabel(), "85085")
+				.adjust(HomeSSMetaData.MortgageesTab.AdditionalInterest.STREET_ADDRESS_1.getLabel(), "Test");
+
+		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY))
+				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.IS_THERE_ADDITIONA_INTEREST.getLabel()), "Yes")
+				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel()), additionalInterestData);
+	}
+
+	public TestData adjustWithSeniorInsuredDataHO4(TestData policyTD) {
+		String insuredDOBPath =
+				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel());
+		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY));
+	}
+
 	/**
 	 * Verify that tag value is present in the Documents section
 	 */
@@ -305,5 +337,10 @@ public class MaigManualConversionHelper {
 		assertThat(sourcePolicyNumberValue).isNotEqualTo(null);
 
 		return sourcePolicyNumberValue;
+	}
+
+	public void runRenewalOfferPart2() {
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 }

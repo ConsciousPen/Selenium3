@@ -259,7 +259,7 @@ TestData_NJ: {
 GeneralTab_NJ: {
   First Name: '$<rx:Robin\d{5}>',
   Last Name: Smith,
-  Date of Birth: '$<today-65y:MM/dd/yyyy>',
+  Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
   Zip Code: '07094',

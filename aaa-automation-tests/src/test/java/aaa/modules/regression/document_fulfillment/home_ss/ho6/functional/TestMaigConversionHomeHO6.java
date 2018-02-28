@@ -7,7 +7,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.product.MaigManualConversionHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import toolkit.datax.TestData;
@@ -19,10 +18,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO6;
     }
-
-    private MaigManualConversionHelper manualConversionHelper = new MaigManualConversionHelper();
-
-    /**
+     /**
      * @name Test MAIG Document generation (Pre-renewal package)
      * @scenario 1. Create Customer
      * 2. Initiate MAIG Renewal Entry
@@ -57,7 +53,7 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
     public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 
-        TestData testData = adjustWithSeniorInsuredData(getConversionPolicyDefaultTD());
+        TestData testData = getConversionPolicyDefaultTD();
         verifyConversionFormsSequence(testData);
     }
 
