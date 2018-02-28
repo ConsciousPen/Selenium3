@@ -1638,7 +1638,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value(defaultCommissionTypeValue);
 	}
 
-	void eValueQuoteCreation() {
+	public void eValueQuoteCreation() {
 		//Default VA test data didn't work, so had to use multiple adjustments
 		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
 		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");

@@ -42,4 +42,12 @@ public class PolicySummary {
     @ApiModelProperty(value = "eValue status. For all available statuses please refer to documentation in Confluence", example = "ACTIVE", required = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String eValueStatus;
+
+
+
+    @ApiModelProperty(value = "Error code", example = "300")
+    public String errorCode;
+
+    @ApiModelProperty(value = "Message ", example = "Renewal quote version or issued pending renewal not found for policy number AZSS952918544.")
+    public String message;
 }

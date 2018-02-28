@@ -108,7 +108,7 @@ public class HelperCommon {
 		return aaaEndorseResponse;
 	}
 
-	static PolicySummary executeViewPolicyRenewalSummary(String policyNumber, String term) {
+	static PolicySummary executeViewPolicyRenewalSummary(String policyNumber, String term, int code) {
 		String endPoint;
 		if (term.equals("policy")) {
 			endPoint = DXP_VIEW_POLICY_ENDPOINT;
@@ -116,7 +116,7 @@ public class HelperCommon {
 			endPoint = DXP_VIEW_RENEWAL_ENDPOINT;
 		}
 		String requestUrl = urlBuilderDxp(String.format(endPoint, policyNumber));
-		PolicySummary policySummaryResponse = runJsonRequestGetDxp(requestUrl, PolicySummary.class);
+		PolicySummary policySummaryResponse = runJsonRequestGetDxp(requestUrl, PolicySummary.class, code);
 		return policySummaryResponse;
 	}
 
@@ -211,6 +211,11 @@ public class HelperCommon {
 	}
 
 	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
+		T result = runJsonRequestGetDxp(url, responseType, 200);
+		return result;
+	}
+
+	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -224,10 +229,11 @@ public class HelperCommon {
 					.get();
 			T result = response.readEntity(responseType);
 			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != 422) {
-				//handle error
-				throw new IstfException(response.readEntity(String.class));
-			}
+				if (response.getStatus() != status) {
+					//handle error
+					throw new IstfException(response.readEntity(String.class));
+				}
+
 			return result;
 		} finally {
 			if (response != null) {
