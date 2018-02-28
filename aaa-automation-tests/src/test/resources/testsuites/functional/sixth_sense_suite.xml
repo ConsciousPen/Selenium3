@@ -93,10 +93,10 @@
     <test name="PA View Rating Details Market Tier value A-J">
         <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetailsMarketTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsMarketTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetailsMarketTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetailsMarketTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaTierChangePropertyInformation"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaTierChangePropertyInformation"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaTierChangePropertyInformation"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaTierChangePropertyInformation"/>
         </classes>
     </test>
 
