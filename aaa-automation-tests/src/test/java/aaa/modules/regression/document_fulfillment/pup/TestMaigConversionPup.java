@@ -6,10 +6,10 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
+import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import toolkit.utils.TestInfo;
 
-public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
+public class TestMaigConversionPup extends TestMaigConversionHomeTemplate {
 
     /**
      * @name Test MAIG Document generation (Renewal offer package)

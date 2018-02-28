@@ -3,7 +3,6 @@ package aaa.helpers.product;
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,11 +22,11 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 
 public class MaigManualConversionHelper {
 
@@ -37,19 +36,19 @@ public class MaigManualConversionHelper {
             + "values (eis_sequence.nextval,'HBReminderPolicyNumberChangeEntity', '%1$s', to_date('%2$s', 'YYYY-MM-dd'), 10,'' ,'', 0)";
 
 	/**
-     * Method to verify tags are present and contain specific values in Package
-     * Note: Will be refactored after the refactoring of {@link DocGenHelper}
-     *
-     * @param legacyPolicyNumber
-     * @param policyNumber
-     * @param eventName
-     */
+	 * Method to verify tags are present and contain specific values in Package
+	 * Note: Will be refactored after the refactoring of {@link DocGenHelper}
+	 *
+	 * @param legacyPolicyNumber
+	 * @param policyNumber
+	 * @param eventName
+	 */
 	public void verifyPackageTagData(String legacyPolicyNumber, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-        CustomAssert.assertTrue(MessageFormat.format("Problem is in tags: [{0}], [{1}]", "PlcyPrfx", "PlcyNum"), policyNumber
-                .equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)));
-        CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", "HdesPlcyNum"), legacyPolicyNumber
-                .equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", "")));
-    }
+		assertThat(policyNumber
+				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
+		assertThat(legacyPolicyNumber
+				.equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", ""))).isTrue();
+	}
 
 	/**
 	 * Method to verify tags are present and contain specific values in Document
@@ -60,6 +59,7 @@ public class MaigManualConversionHelper {
 	 * @param isPupPresent
 	 */
 	public void verifyDocumentTagData(Document document, TestData testData, boolean isPupPresent) throws NoSuchFieldException {
+		assertThat("/Policy/Renewal".equals(document.getxPathInfo())).isTrue();
 		if (isPupPresent) {
 			verifyTagData(document, "PupCvrgYN", "Y");
 		} else {
@@ -68,6 +68,51 @@ public class MaigManualConversionHelper {
 		if ("Yes".equals(testData.getTestData("MortgageesTab").getValue("Mortgagee"))) {
 			verifyTagData(document, "ThrdPrtyHdr", "TestName");
 			verifyTagData(document, "ThrdPrtyLnNum", "12345678");
+		}
+	}
+
+	/**
+	 * Verify that tag value is present in the Documents section
+	 */
+	private void verifyTagData(Document document, String tag, String textFieldValue) {
+		assertThat(textFieldValue
+				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField())).isTrue();
+	}
+
+	/**
+	 * Verify that tag value is present in the Package
+	 */
+	public String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
+		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
+	}
+
+	private String getSourcePolicyNumber(String policyNumber) {
+
+		String sourcePolicyNumberValue = DBService.get().getValue(String.format(SELECT_POLICY_SOURCE_NUMBER, policyNumber)).orElse(null);
+		assertThat(sourcePolicyNumberValue).isNotEqualTo(null);
+
+		return sourcePolicyNumberValue;
+	}
+
+	public void runRenewalOfferPart2() {
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	}
+
+	public void verifyTagDataPup(String policyNumber, PolicyType policyType, AaaDocGenEntityQueries.EventNames eventName, TestMaigConversionHomeTemplate testMaigConversionHomeTemplate) throws NoSuchFieldException {
+		assertThat(policyNumber.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
+		switch (policyType.getShortName()) {
+			case "HomeSS":
+				assertThat("Homeowners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
+				break;
+			case "HomeSS_HO4":
+				assertThat("Renters".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
+				break;
+			case "HomeSS_HO6":
+				assertThat("Condominium Owners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
+				break;
+			default:
+				throw new IllegalArgumentException("Undefined policyType " + policyType.getShortName());
 		}
 	}
 
@@ -316,31 +361,5 @@ public class MaigManualConversionHelper {
 		return policyTD.adjust(insuredDOBPath, TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-	/**
-	 * Verify that tag value is present in the Documents section
-	 */
-	private void verifyTagData(Document document, String tag, String textFieldValue) {
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), textFieldValue
-				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
-	}
 
-	/**
-	 * Verify that tag value is present in the Package
-	 */
-	private String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
-		return getPackageDataElemByName(policyNumber, "PolicyDetails", tag, name);
-	}
-
-	private String getSourcePolicyNumber(String policyNumber) {
-
-		String sourcePolicyNumberValue = DBService.get().getValue(String.format(SELECT_POLICY_SOURCE_NUMBER, policyNumber)).orElse(null);
-		assertThat(sourcePolicyNumberValue).isNotEqualTo(null);
-
-		return sourcePolicyNumberValue;
-	}
-
-	public void runRenewalOfferPart2() {
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-	}
 }

@@ -15,13 +15,6 @@ import aaa.modules.regression.document_fulfillment.template.functional.TestMaigC
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeTemplate {

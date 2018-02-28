@@ -10,13 +10,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
 import toolkit.datax.TestData;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
