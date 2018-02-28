@@ -41,6 +41,7 @@ import javax.ws.rs.core.Response;
 
 import static aaa.admin.modules.IAdmin.log;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.HashMap;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -124,7 +125,6 @@ public class HelperCommon {
 	}
 
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
-		static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 		return validateVehicleResponse;
