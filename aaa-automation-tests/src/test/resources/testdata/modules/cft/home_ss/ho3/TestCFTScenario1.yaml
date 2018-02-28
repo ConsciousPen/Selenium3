@@ -19,11 +19,12 @@ EndorsementActionTab: {
 }
 
 PremiumsAndCoveragesQuoteTab: {
-  Coverage E - Personal Liability Each Occurrence: 'contains=$2,000,000',
+  Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
   Calculate Premium: 'click',
   Override Premium: {
     Remarks: 'CFT tests',
-    Override Premium By Flat Amount: '200',
+#    Override Premium By Flat Amount: '200',
+    Percentage: '100',
     Additional Popup Submit: {
       Submit Popup: 'click'
     }
