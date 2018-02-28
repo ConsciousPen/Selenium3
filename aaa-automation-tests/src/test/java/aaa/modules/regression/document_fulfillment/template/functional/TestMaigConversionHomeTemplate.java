@@ -94,7 +94,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
 
 		upldatePolicyStatus(renewalOfferEffectiveDate);
-		checkPolicyStatus(policyNumber);
+		checkPolicyStatus(policyNumber,ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		// End PAS-2764 Scenario 1 Issue first renewal
 
 		/* Scenario 2, create and issue second renewal and verify documents list */
