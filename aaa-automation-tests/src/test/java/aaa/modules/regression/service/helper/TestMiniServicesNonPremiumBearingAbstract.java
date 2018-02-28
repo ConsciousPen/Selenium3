@@ -810,23 +810,23 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_3)).isTrue();
 	}
 
-	 protected void pas7082_AddVehicle(PolicyType policyType) {
+	protected void pas7082_AddVehicle(PolicyType policyType) {
 		mainApp().open();
-	    createCustomerIndividual();
-	    policyType.get().createPolicy(getPolicyTD());
-	    PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String purchaseDate = "2012-02-21";
 		String vin = "ZFFCW56A830133118";
 
-	    policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		NavigationPage.toViewTab(getPremiumAndCoverageTab());
 
 		getPremiumAndCoverageTabElement().saveAndExit();
 
-    	Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 		assertSoftly(softly -> {
 			softly.assertThat(response.oid).isNotEmpty();
 		});
@@ -838,10 +838,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		VehicleTab vehicleTab = new VehicleTab();
 		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue()).isEqualTo(vin);
-
 	}
 
-	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType){
+	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {
 
 		mainApp().open();
 		createCustomerIndividual();
