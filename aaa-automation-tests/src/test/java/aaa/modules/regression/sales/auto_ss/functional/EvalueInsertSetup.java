@@ -36,7 +36,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(UPDATE_MEMBERSHIP_SUMMARY_STUB_POINT, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Precondition for AHDRXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

@@ -143,7 +143,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set value = 'http://%s%sws/channelIdResolver'\n"
 			+ "where propertyname = 'channelIdRetrievalServiceImpl.channelIdRetrievalUri'";
 
-	String UPDATE_MEMBERSHIP_SUMMARY_STUB_POINT = "update propertyconfigurerentity\n"
+	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = 'http://%s%sws/membershipsummary'\n"
 			+ "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 

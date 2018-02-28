@@ -60,7 +60,7 @@ public class ScorpionsPreconditions extends BaseTest {
 	//http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveMembershipSummary
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.PRECONDITION})
 	public static void updateMembershipSummaryStubEndpoint() {
-		DBService.get().executeUpdate(String.format(UPDATE_MEMBERSHIP_SUMMARY_STUB_POINT, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
 	@Test(description = "Preconditions")
