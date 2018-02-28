@@ -196,7 +196,7 @@ public abstract class Tab {
 	}
 
 	public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, AssetDescriptor<BaseElement<?, ?>> attributeDescriptor, String expectedValue) {
-		String actualValue = assetList.getAsset(attributeDescriptor.getLabel()).getValue().toString();
+		String actualValue = assetList.getAsset(attributeDescriptor).getValue().toString();
 		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", attributeDescriptor.getLabel(), actualValue, expectedValue);
 		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
 		return this;

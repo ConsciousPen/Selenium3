@@ -64,7 +64,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		}
 		policyNum = createPolicy(policyCreationTD); 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();

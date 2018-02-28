@@ -44,7 +44,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_008_CancelPolicy", "SelectPolicy").get(0);
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.CANCELLATION_PENDING);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 	}
 
 	@Parameters({"state"})
@@ -137,6 +137,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getTestSpecificTD("Cancellation_112"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 	}
 }

@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.Groups;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -53,7 +53,7 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         Dollar oldTotalPremiumSummary = PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
-        policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).verify.value(expectedPersonalUmbrellaValue);
+        assertThat(policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA)).hasValue(expectedPersonalUmbrellaValue);
 
         String newPersonalUmbrellaValue = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).getAllValues().get(1);
         policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValue(newPersonalUmbrellaValue);

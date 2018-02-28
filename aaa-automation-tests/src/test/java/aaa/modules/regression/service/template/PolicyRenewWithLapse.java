@@ -33,7 +33,7 @@ public class PolicyRenewWithLapse extends PolicyBaseTest {
 
         //TODO: Need change time before renew action.
         PolicySummaryPage.buttonRenewals.click();
-//        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+//        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 //        PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
     }
 }

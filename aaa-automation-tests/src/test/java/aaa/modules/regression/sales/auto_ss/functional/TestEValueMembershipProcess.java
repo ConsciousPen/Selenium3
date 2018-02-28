@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -917,14 +918,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		if ("TRUE".equals(membershipEligibilitySwitch)) {
 			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
 			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 			CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
 					.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
 			CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		} else {
 			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_4);
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
 			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		}
 	}
@@ -1129,7 +1130,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryOpen();
 		if (!membershipDiscountPresent) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			generalTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).verify.value("No");
+			assertThat(generalTab.getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
@@ -1146,8 +1147,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryExit();
 		if (eValueDiscountPresent) {
 			lastTransactionHistoryOpen();
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
-			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("Yes");
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains(E_VALUE_DISCOUNT);
+			assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
 				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5).verify.value("Yes");
@@ -1157,8 +1158,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		} else {
 			lastTransactionHistoryOpen();
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
-			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("No");
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
+			assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();

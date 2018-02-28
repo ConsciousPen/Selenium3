@@ -531,20 +531,20 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		//BUG PAS-9722 Random sequence for Vehicles on DXP
-		String modelYear1 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String manufacturer1 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String series1 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
-		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		String modelYear1 = vehicleTab.getInquiryAssetList().getAsset(YEAR).getValue();
+		String manufacturer1 = vehicleTab.getInquiryAssetList().getAsset(MAKE).getValue();
+		String series1 = vehicleTab.getInquiryAssetList().getAsset(SERIES).getValue();
+		String model1 = vehicleTab.getInquiryAssetList().getAsset(MODEL).getValue();
+		String bodyStyle1 = vehicleTab.getInquiryAssetList().getAsset(BODY_STYLE).getValue();
+		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
 		VehicleTab.tableVehicleList.selectRow(2);
 
-		String modelYear2 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String manufacturer2 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String series2 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String model2 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String bodyStyle2 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
-		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		String modelYear2 = vehicleTab.getInquiryAssetList().getAsset(YEAR).getValue();
+		String manufacturer2 = vehicleTab.getInquiryAssetList().getAsset(MAKE).getValue();
+		String series2 = vehicleTab.getInquiryAssetList().getAsset(SERIES).getValue();
+		String model2 = vehicleTab.getInquiryAssetList().getAsset(MODEL).getValue();
+		String bodyStyle2 = vehicleTab.getInquiryAssetList().getAsset(BODY_STYLE).getValue();
+		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
@@ -597,12 +597,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 
-		String modelYear3 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
-		String manufacturer3 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
-		String series3 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
-		String model3 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
-		String bodyStyle3 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
-		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		String modelYear3 = vehicleTab.getInquiryAssetList().getAsset(YEAR).getValue();
+		String manufacturer3 = vehicleTab.getInquiryAssetList().getAsset(MAKE).getValue();
+		String series3 = vehicleTab.getInquiryAssetList().getAsset(SERIES).getValue();
+		String model3 = vehicleTab.getInquiryAssetList().getAsset(MODEL).getValue();
+		String bodyStyle3 = vehicleTab.getInquiryAssetList().getAsset(BODY_STYLE).getValue();
+		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getAsset(VIN).getValue();
 
 		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
@@ -645,7 +645,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Future policy
 		policyType.get().createPolicy(td);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
@@ -671,7 +671,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//Policy cancellation
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
@@ -697,7 +697,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), AutoSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, reinstatementDate));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(5));
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -711,7 +711,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
@@ -756,14 +756,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
 		policy.policyInquiry().start();
 
-		getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
+		assertThat(getGeneralTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
 		NavigationPage.toViewTab(getDocumentsAndBindTab());
 
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).isPresent()) {
+			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
 		}
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
+			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)).hasValue(authorizedBy);
 		}
 		Tab.buttonCancel.click();
 	}

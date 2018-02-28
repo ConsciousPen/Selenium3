@@ -48,15 +48,15 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("CA_MAKE_TEXT");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE).getValue()).isEqualTo("CA_MAKE_TEXT");
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL).getValue()).isEqualTo("Gt");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("TEST");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2005");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL).isPresent()).isEqualTo(false);
 		});
 		//  Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -283,13 +283,13 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		//Verify that fields are updated
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isNotEqualTo(oldModelValue);
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE).getValue()).isNotEqualTo(oldModelValue);
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("TEST").as("Row with VALID=Y and oldest Entry Date should be used");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL).getValue()).isEqualTo("TEST").as("Row with VALID=Y and oldest Entry Date should be used");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("TEST");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2005");
 		});
 
 		VehicleTab.buttonSaveAndExit.click();
@@ -326,9 +326,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE).getValue()).isEqualTo("OTHER");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL).getValue()).isEqualTo("Other Model");
 
 		TestData firstVehicle = modifyVehicleTabNonExistingVin(getPolicyTD(), vinNumber).getTestData("VehicleTab");
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
@@ -391,9 +391,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Motor Home");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Motorhome");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE).getValue()).isEqualTo("Motor Home");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("No");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE).getValue()).isEqualTo("Motorhome");
 		});
 
 		VehicleTab.buttonSaveAndExit.click();
@@ -409,11 +409,11 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Motor Home");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Motorhome");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Other Model");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE).getValue()).isEqualTo("Motor Home");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("No");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE).getValue()).isEqualTo("Motorhome");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL).getValue()).isEqualTo("OTHER");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL).getValue()).isEqualTo("Other Model");
 		});
 	}
 
@@ -457,14 +457,14 @@ public class TestVINUploadTemplate extends CommonTemplateMethods{
 
 	private void pas533_CommonChecks() {
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL).isPresent()).isEqualTo(false);
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL).getValue()).isEqualTo("Gt");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("TEST");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2005");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("Yes");
 		});
 	}
 

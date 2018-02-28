@@ -31,7 +31,7 @@ public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
         createCustomerIndividual();
 
         policy.createQuote(getPolicyTD("DataGather", "TestData"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("Initial Quote policyNumber " + policyNumber);

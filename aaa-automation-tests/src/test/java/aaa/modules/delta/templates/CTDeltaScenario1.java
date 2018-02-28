@@ -91,9 +91,9 @@ public class CTDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
 		
-		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()).getValue().toString();
+		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue().toString();
 		log.info("Distance to coast value is "+distanceToCoast);
-		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()).getValue().toString(); 
+		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue().toString();
 		log.info("Elevation value is "+elevation);
 		
 		propertyInfoTab.fillTab(td_WindstormMitigationYes);

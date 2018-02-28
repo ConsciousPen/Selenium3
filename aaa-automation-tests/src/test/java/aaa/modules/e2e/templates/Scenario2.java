@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -66,7 +67,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 
 		policyNum = createPolicy(policyCreationTD);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -286,7 +287,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(false);
+		assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		Tab.buttonCancel.click();
 	}
 

@@ -73,7 +73,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		String policyLimit = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE).getAsset(
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue().toString();
+				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue();
 		policyLimit = policyLimit.substring(0, policyLimit.length()-3);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
@@ -115,35 +115,32 @@ public class MDDeltaScenario1 extends BaseTest {
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES).setValue("9");
 		
-		CustomAssert.assertEquals(
-				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getWarning(HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES.getLabel()).getValue().toString(), 
-				error_9918);
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES))
+				.hasWarningWithText(error_9918);
 		
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.NUMBER_OF_PERSONS_RECEIVING_DAY_CARE_SERVICES).setValue("8");
 		
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.LOCATION_OF_BUSINESS).setValue("In the dwelling building"); 		
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY.getLabel()).verify.present(false);
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE.getLabel()).verify.present(false);
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY)).isPresent(false);
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE)).isPresent(false);
 		
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.LOCATION_OF_BUSINESS).setValue("Other structure of residence premises"); 
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY.getLabel()).verify.present();
-		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE.getLabel()).verify.present();
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY)).isPresent();
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE)).isPresent();
 		
 		endorsementTab.btnSaveForm.click();
-		CustomAssert.assertEquals(
-				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getWarning(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY.getLabel()).getValue().toString(), 
-				"'Section I limit of liability' is required"); 
-		
-		CustomAssert.assertEquals(
-				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getWarning(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE.getLabel()).getValue().toString(), 
-				"'Section I description of structure' is required");
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY))
+				.hasWarningWithText("'Section I limit of liability' is required");
+
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE))
+				.hasWarningWithText("'Section I description of structure' is required");
 		
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_LIMIT_OF_LIABILITY).setValue("100");
@@ -151,16 +148,14 @@ public class MDDeltaScenario1 extends BaseTest {
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_I_DESCRIPTION_OF_STRUCTURE).setValue("Test");
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$100,000");
-		
-		CustomAssert.assertEquals(
-				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getWarning(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED.getLabel()).getValue().toString(), 
-				"Limit of liability for Coverage E and F combined should be $300,000.");
+
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED))
+				.hasWarningWithText("Limit of liability for Coverage E and F combined should be $300,000.");
 
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
-				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$200,000"); 
-		CustomAssert.assertEquals(
-				endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getWarning(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED.getLabel()).getValue().toString(), 
-				"Limit of liability for Coverage E and F combined should be $300,000.");
+				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$200,000");
+		assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED))
+				.hasWarningWithText("Limit of liability for Coverage E and F combined should be $300,000.");
 		
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$300,000"); 
@@ -198,9 +193,9 @@ public class MDDeltaScenario1 extends BaseTest {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
 		
 		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(
-				HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()).getValue().toString();
+				HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue();
 		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(
-				HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()).getValue().toString(); 
+				HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue();
 		
 		propertyInfoTab.fillTab(td_StormShutterYes);
 		

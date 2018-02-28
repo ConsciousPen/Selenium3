@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -54,43 +55,43 @@ public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 		 DriverTab.tableActivityInformationList.verify.rowsCount(5);
 		
 		//check 1 incident
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("5000");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("5000");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		//check 2 incident
 		DriverTab.tableActivityInformationList.selectRow(2);
 		
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("649");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("649");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		//check 3 incident
 		DriverTab.tableActivityInformationList.selectRow(3);
 		
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("419");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("419");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		//check 4 incident
 		DriverTab.tableActivityInformationList.selectRow(4);
 		
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Accident");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("650");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Accident");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("650");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACCIDENT_POINTS)).hasValue("0");
 		
 		DriverTab.tableActivityInformationList.selectRow(5);
 			
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("MVR");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Minor Violation");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Speeding");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).verify.value("09/10/2009");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.SVC_DESCRIPTION).verify.value("SPEEDING, GENERALLY");
-		aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_POINTS).verify.value("1");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("MVR");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.TYPE)).hasValue("Minor Violation");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION)).hasValue("Speeding");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("09/10/2009");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.SVC_DESCRIPTION)).hasValue("SPEEDING, GENERALLY");
+		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_POINTS)).hasValue("1");
 		
 		
 	}

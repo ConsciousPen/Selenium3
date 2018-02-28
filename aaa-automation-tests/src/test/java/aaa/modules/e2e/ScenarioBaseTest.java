@@ -1,5 +1,6 @@
 package aaa.modules.e2e;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
@@ -69,7 +70,7 @@ public class ScenarioBaseTest extends BaseTest {
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 	}
 
 	protected void verifyRenewOfferGenerated(List<LocalDateTime> installmentDates) {

@@ -1,5 +1,5 @@
 {
-   assetLocatorTemplate = "//tr[td[normalize-space(.)=%1$s] and not(contains(@class, 'hidden'))]",
+  assetLocatorTemplate = "//tr[td[normalize-space(.)=%1$s] and not(contains(@class, 'hidden'))]",
   "customControls": {
     "toolkit.webdriver.controls.StaticElement": "/td[2]",
     "com.exigen.ipb.etcsa.controls.AdvancedSelector": "/.",

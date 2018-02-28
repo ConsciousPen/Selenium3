@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -58,7 +59,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 
 		policyNum = createPolicy(policyCreationTD);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -133,7 +134,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -154,7 +155,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -178,7 +179,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 	}
 
@@ -244,7 +245,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		PolicyHelper.verifyAutomatedRenewalNotGenerated(renewDateImage);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 	}
 
 	public void renewalPreviewGeneration() {
@@ -255,7 +256,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		PolicySummaryPage.buttonRenewals.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 	}
 
 	public void renewalOfferGeneration() {
@@ -267,7 +268,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		PolicySummaryPage.buttonRenewals.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 

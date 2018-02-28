@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -80,7 +81,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 
 		policyNum = createPolicy(policyCreationTD);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -195,7 +196,7 @@ public class Scenario4 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyFlag(PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
@@ -212,14 +213,14 @@ public class Scenario4 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar sum = new Dollar(BillingHelper.getBillCellValue(endorsementInstallmentDueDate, BillingBillsAndStatmentsTable.TOTAL_DUE));
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), sum);
 
 		BillingSummaryPage.openPolicy(1);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.labelCancelNotice.verify.present(false);
 	}
 
@@ -356,7 +357,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		}
 
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		if (!getPolicyType().isAutoPolicy()) {
 			PolicySummaryPage.verifyLapseExistFlagPresent();

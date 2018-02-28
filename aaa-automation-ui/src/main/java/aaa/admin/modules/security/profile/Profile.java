@@ -58,7 +58,7 @@ public class Profile implements IProfile {
     @Override
     public void initiate() {
         navigateToFlow();
-        ((ComboBox) ProfilePage.assetListSearchForm.getAsset(SearchByField.CHANNEL.getLabel())).setValue(channelType.getName());
+        ProfilePage.assetListSearchForm.getAsset(SearchByField.CHANNEL).setValue(channelType.getName());
         ProfilePage.buttonAddNewProfile.click();
     }
 

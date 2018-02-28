@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.delta.co.auto;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.Collections;
 import org.openqa.selenium.By;
@@ -83,7 +84,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 				Arrays.asList("Annual", "Semi-annual"));
 
 		//Verify that there is no Motorcycle option in 'AAA Products Owned' section
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE).verify.present(false);
+		assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE)).isPresent(false);
 
 		//Select option "Yes" For all available products owned - Life, Home, Renters, Condo.
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).setValue("Yes");
@@ -92,13 +93,13 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO).setValue("Yes");
 
 		//Verify field TollFree Number visible
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER).verify.present();
+		assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER)).isPresent();
 
 		//Select any option other than "None" for 'Adversely Impacted' field.
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
 
 		//Verify dropdown visible
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).verify.present();
+		assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED)).isPresent();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 
@@ -182,10 +183,9 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Minor Violation");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Improper Passing");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue("01/10/2012");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).verify.present();
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).verify.enabled();
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).verify.value("");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
+		assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).isPresent().isEnabled();
+		assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).hasValue("");
+		assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS)).hasValue("0");
 
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue("01/01/2015");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.valueByRegex("^[^0]+$");
@@ -245,8 +245,8 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE).verify.value("$250  (+$0.00)");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).verify.value("$500  (+$0.00)");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value("$1,500.00");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).verify.value("No Coverage");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE)).hasValue("$1,500.00");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS)).hasValue("No Coverage");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT).verify.value("No Coverage (+$0.00)");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE).verify.value("No Coverage (+$0.00)");
 		Tab.buttonSaveAndExit.click();
@@ -309,19 +309,19 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC07(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).verify.value("No Coverage");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS)).hasValue("No Coverage");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value(new Dollar(1500).toString());
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueByRegex("No Coverage.*");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE).verify.value("$250  (+$0.00)");
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueByRegex("\\$250.*");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE).verify.present(false);
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE)).isPresent(false);
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS).setValueByRegex("No Coverage.*");
 		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("Yes");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MOTORCYCLE).verify.present(false);
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MOTORCYCLE)).isPresent(false);
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("No");
 
 		Tab.buttonSaveAndExit.click();
@@ -339,15 +339,15 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
 		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.present();
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.value("Yes");
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE)).isPresent();
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE)).hasValue("Yes");
 
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.present();
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE)).isPresent();
 
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_LIFE_POLICY_NUMBER).verify.present();
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_HOME_POLICY_NUMBER).verify.present();
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_RENTERS_POLICY_NUMBER).verify.present();
-		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_CONDO_POLICY_NUMBER).verify.present();
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_LIFE_POLICY_NUMBER)).isPresent();
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_HOME_POLICY_NUMBER)).isPresent();
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_RENTERS_POLICY_NUMBER)).isPresent();
+		assertThat(dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_CONDO_POLICY_NUMBER)).isPresent();
 
 		dabTab.submitTab();
 		errorTab.verify.errorsPresent(

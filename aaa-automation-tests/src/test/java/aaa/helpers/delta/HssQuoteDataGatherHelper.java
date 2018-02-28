@@ -1,5 +1,6 @@
 package aaa.helpers.delta;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 
 import aaa.common.enums.NavigationEnum;
@@ -92,7 +93,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).verify.present();
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING)).isPresent();
 		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setValue("No");
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -114,7 +115,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.fillTab(td_hailResistanceRating);
 		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setAnyValueExcept("No");
-		String hailResistanceRating = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()).getValue().toString(); 
+		String hailResistanceRating = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).getValue().toString();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -133,7 +134,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).verify.present(false);
+		assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING)).isPresent(false);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -192,9 +193,9 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		String cancelEffDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
 		
 		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals(daysOfNotice));
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE).getValue().toString().equals(daysOfNotice));
 		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).getValue().toString().equals(cancelEffDate_default));
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).getValue().toString().equals(cancelEffDate_default));
 		
 		//cancelNoticeTab.fillTab(td); 
 		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(

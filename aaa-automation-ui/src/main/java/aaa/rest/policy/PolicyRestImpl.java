@@ -115,7 +115,7 @@ public class PolicyRestImpl {
 
         policySecondary.propose().perform(tdPolicy);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PROPOSED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PROPOSED);
         log.debug("[UI] End Propose " + quoteNumber);
     }
 

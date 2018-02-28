@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,7 +16,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Yonggang Sun
@@ -52,8 +52,8 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
         policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-        CustomAssert.assertFalse(policyPremium.equals(policyPremium2));
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
+        assertThat(policyPremium).isNotEqualTo(policyPremium2);
+        assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
     }
 }

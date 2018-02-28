@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -45,7 +46,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		//Verify that clear button deletes inserted values
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Test name");
 		insuredSearchDialog.clear();
-		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).verify.value("");
+		assertThat(insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME)).hasValue("");
 
 		//Verify that if no search criteria were entered, No search results will be returned, error message will be displayed
 		insuredSearchDialog.search();
@@ -84,9 +85,9 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		insuredSearchDialog.tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
 		//Return to "general" tab, just added customer should be opened for editing, validate address (5210 East Hampton), //PAS13 ER Fix: As per defect 42775
-		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.FIRST_NAME).verify.value("John");
-		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.LAST_NAME).verify.value("Bamboo");
-		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.ADDRESS_LINE_1).verify.value("5210 East Hampton");
+		assertThat(generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.FIRST_NAME)).hasValue("John");
+		assertThat(generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.LAST_NAME)).hasValue("Bamboo");
+		assertThat(generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.ADDRESS_LINE_1)).hasValue("5210 East Hampton");
 
 		//Fill all mandatory fields and go to the Drivers Tab
 		generalTab.fillTab(getTestSpecificTD("GeneralTabData"));
@@ -104,8 +105,8 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
 		//Verify that Driver's info is filled with found driver's details
-		driverTab.getAssetList().getAsset(FIRST_NAME).verify.value("John");
-		driverTab.getAssetList().getAsset(LAST_NAME).verify.value("Bamboo");
+		assertThat(driverTab.getAssetList().getAsset(FIRST_NAME)).hasValue("John");
+		assertThat(driverTab.getAssetList().getAsset(LAST_NAME)).hasValue("Bamboo");
 
 		//Fill all mandatory info and go ahead
 		driverTab.fillTab(getTestSpecificTD("DriverTabData"));

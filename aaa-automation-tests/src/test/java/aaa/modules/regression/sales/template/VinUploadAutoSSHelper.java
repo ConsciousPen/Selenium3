@@ -52,9 +52,9 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	}
 
 	protected void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("Custom Van");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE).getValue()).isEqualTo("Conversion Van");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("No");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE).getValue()).isEqualTo("Custom Van");
 	}
 
 	protected void pas2716_CommonSteps(String vinNumber, String policyNumber, LocalDateTime policyExpirationDate) {
@@ -88,13 +88,13 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		    //Verification of tableVehicleList instead of Vehicle page field (to avoid cache issue)
 			softly.assertThat(VehicleTab.tableVehicleList.getRow("Make", "UT_SS")).exists();
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL).getValue()).isEqualTo("Gt").as("Row with VALID=Y and oldest Entry Date should be used");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE).getValue()).isEqualTo("UT_SS");
 			// PAS-1487  No Match to Match but Year Doesn't Match
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR).getValue()).isEqualTo("2005");
 			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL).isPresent()).isEqualTo(false);
 		});
 	}
 

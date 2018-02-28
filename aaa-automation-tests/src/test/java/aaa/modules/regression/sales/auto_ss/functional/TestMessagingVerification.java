@@ -266,13 +266,13 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).isPresent();
 			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK).isPresent();
 		} else {
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).verify.present(false);
-			purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK).verify.present(false);
+			assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH)).isPresent(false);
+			assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK)).isPresent(false);
 		}
 		TestData purchaseTabData = getPolicyTD("DataGather", "TestData");
 		purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentPlan));
 		purchaseTab.fillTab(purchaseTabData);
-		purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK).verify.present(false);
+		assertThat(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.AUTOPAY_MESSAGE_WARNING_BLOCK)).isPresent(false);
 		if ("Cash".equals(paymentPlan) || "Check".equals(paymentPlan)) {
 			purchaseTab.submitTab();
 		} else if (!payPlanRequired || payPlanRequired && (isAnnual(payTerm, payPlan) || isSemiAnnual(payTerm, payPlan))) {

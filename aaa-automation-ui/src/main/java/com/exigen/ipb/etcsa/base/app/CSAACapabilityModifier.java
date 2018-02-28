@@ -1,7 +1,6 @@
 package com.exigen.ipb.etcsa.base.app;
 
 import java.util.HashMap;
-import java.util.function.Function;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,7 +8,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import toolkit.config.PropertyProvider;
 import toolkit.webdriver.OptionsModifier;
 
@@ -50,7 +48,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		profile.setPreference("browser.download.folderList", 2);
 		profile.setPreference("browser.download.manager.showWhenStarting", false);
 		profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/ms-excel");
-		options.setCapability(FirefoxDriver.PROFILE, profile);;
+		options.setCapability(FirefoxDriver.PROFILE, profile);
 		return allBrowsers(options);
 	}
 }

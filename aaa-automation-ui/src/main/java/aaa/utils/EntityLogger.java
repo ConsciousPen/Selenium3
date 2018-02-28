@@ -151,8 +151,8 @@ public abstract class EntityLogger {
                     break;
 
                 case PAR:
-                    content = "(RoleCode = " + new GeneralPARTab().getAssetList().getAsset(PARMetaData.GeneralPARTab.ROLE_CODE.getLabel()).getValue() + "; " +
-                            "RoleName = " + new GeneralPARTab().getAssetList().getAsset(PARMetaData.GeneralPARTab.ROLE_NAME.getLabel()).getValue() + ")";
+                    content = "(RoleCode = " + new GeneralPARTab().getAssetList().getAsset(PARMetaData.GeneralPARTab.ROLE_CODE).getValue() + "; " +
+                            "RoleName = " + new GeneralPARTab().getAssetList().getAsset(PARMetaData.GeneralPARTab.ROLE_NAME).getValue() + ")";
                     break;
 
                 case TAX_FEE_REGISTRY:

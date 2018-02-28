@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -198,7 +199,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		purchaseTab.btnApplyPayment.verify.enabled(true);
 		purchaseTab.btnApplyPayment.click();
 		purchaseTab.confirmPurchase.confirm();
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 	}
 
 	/**

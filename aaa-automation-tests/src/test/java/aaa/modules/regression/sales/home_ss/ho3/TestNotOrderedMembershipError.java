@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -58,7 +59,7 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillUpTo(tdMembershipQuote, ReportsTab.class);
         reportsTab.getAssetList().fill(getTestSpecificTD("TestData_NotOrderedMembershipValidationHO3"));
         reportsTab.submitTab();
-        reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.WARNING_MESSAGE_BOX).verify.value(notOrderedMembershipFirstMessage);
+        assertThat(reportsTab.getAssetList().getAsset(HomeSSMetaData.ReportsTab.WARNING_MESSAGE_BOX)).hasValue(notOrderedMembershipFirstMessage);
 
         // Validating second error condition [NB quote]
         validateSecondError(notOrderedMembershipSecondMessage);

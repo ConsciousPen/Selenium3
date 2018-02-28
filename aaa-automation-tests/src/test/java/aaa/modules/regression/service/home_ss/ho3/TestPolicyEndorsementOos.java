@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,7 +15,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Ryan Yu
@@ -54,8 +54,8 @@ public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 				.adjust(getTestSpecificTD("TestData2").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-		CustomAssert.assertFalse(policyPremium.equals(policyPremium2));
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
+		assertThat(policyPremium).isNotEqualTo(policyPremium2);
+		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 	}
 }

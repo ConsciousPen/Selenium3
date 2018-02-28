@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -49,7 +50,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
 		policyNumber = PolicySummaryPage.getPolicyNumber();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, 
 				Documents.AAMTNY, 
 				Documents.FS20, 

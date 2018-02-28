@@ -84,7 +84,6 @@ public class TestInstallmentFees extends PolicyBilling {
 		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
 
 		mainApp().open();
-		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "UTSS926232155");
 
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
@@ -182,21 +181,21 @@ public class TestInstallmentFees extends PolicyBilling {
 
 		String expectedValueCard = formattedPaymentMethodValue(cardData, cardType);
 		//BUG PAS-4280 Last 4 digits for Card are displayed incorrectly after Updating Billing Account on the Billing Page
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
 		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE.getLabel()).verify
-				.value(cardData.getValue("Type") + " " + cardType + " Card");
+		assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
+				.hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Edit").click();
 		//PAS-4127 start
-		updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE.getLabel()).verify
-				.value(cardData.getValue("Type") + " " + cardType + " Card");
+		assertThat(updateBillingAccountActionTab.getInquiryAssetList().getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE))
+				.hasValue(cardData.getValue("Type") + " " + cardType + " Card");
 		//PAS-4127 end
 
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method")).valueContains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Delete").click();
 		Page.dialogConfirmation.confirm();
 	}

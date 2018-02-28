@@ -77,7 +77,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
                 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);                
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 	}
 
 	@Parameters({"state"})

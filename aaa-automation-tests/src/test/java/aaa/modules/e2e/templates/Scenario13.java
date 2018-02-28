@@ -165,7 +165,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(false);
+		//new assertThat(UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false);
 		Tab.buttonCancel.click();
 	}
@@ -287,7 +287,7 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 		
@@ -302,7 +302,7 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE); 
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 	}

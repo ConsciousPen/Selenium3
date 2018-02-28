@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -80,7 +81,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 
 		policyNum = createPolicy(policyCreationTD);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -163,7 +164,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyFlag(PolicyFlag.DEFAULT).verifyRowWithEffectiveDate(policyEffectiveDate);
@@ -213,7 +214,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicyHelper.verifyAutomatedRenewalNotGenerated(policyExpirationDateImage);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void renewalPreviewGeneration() {
@@ -223,7 +224,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void renewalOfferGeneration() {
@@ -234,7 +235,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);

@@ -61,7 +61,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), ApplicantTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
     }
 
     /**

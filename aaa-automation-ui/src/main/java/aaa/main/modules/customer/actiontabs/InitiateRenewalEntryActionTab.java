@@ -9,8 +9,6 @@ import toolkit.webdriver.controls.StaticElement;
 
 public class InitiateRenewalEntryActionTab extends ActionTab {
 
-    public static StaticElement rmeScreenMpdErrorMessage = new StaticElement(By.xpath
-            ("//span[@id='genericForm:id_AAAStartConversionPolicyFormBean_mPDiscount_error']"));
     private static Button buttonOk = new Button(By.xpath("//input[@id='genericForm:ok']"));
 
     public InitiateRenewalEntryActionTab() {

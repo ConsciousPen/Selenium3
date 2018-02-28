@@ -53,7 +53,7 @@ public class MajorLargeAccount implements IMajorLargeAccount {
     public String createWithId(TestData td) {
         initiate();
         getDefaultView().fill(td);
-        String accountId = new CreateMajorLargeAccountTab().getAssetList().getAsset(CemMetaData.CreateMajorLargeAccountTab.MAJOR_LARGE_ACCOUNT_ID.getLabel()).getValue().toString();
+        String accountId = new CreateMajorLargeAccountTab().getAssetList().getAsset(CemMetaData.CreateMajorLargeAccountTab.MAJOR_LARGE_ACCOUNT_ID).getValue().toString();
         CreateMajorLargeAccountTab.buttonSave.click();
         return accountId;
     }

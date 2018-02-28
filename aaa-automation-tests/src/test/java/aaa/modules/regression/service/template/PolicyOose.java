@@ -51,7 +51,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
         //Create OOSE Policy effective date + 5 days: Add second NI/Driver
         getPolicyType().get().createEndorsement(tdEndorsement2.adjust(getPolicyTD("Endorsement", "TestData_Plus5Day")));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         
         CustomAssert.enableSoftMode();
         

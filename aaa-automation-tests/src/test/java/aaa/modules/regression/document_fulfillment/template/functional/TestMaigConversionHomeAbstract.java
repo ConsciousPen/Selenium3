@@ -65,7 +65,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue().toString();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		processRenewal(PRE_RENEWAL, effectiveDate, policyNumber);
@@ -183,7 +183,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = createPolicyForTD(testData);
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue().toString();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
 		processRenewal(RENEWAL_OFFER, effectiveDate, policyNumber);
@@ -414,7 +414,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private String createPolicyForTDPup() {
 		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
-				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue().toString();
 		TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.PUP), "InitiateRenewalEntry", "TestData")
 				.adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_POLICY_NUMBER
 						.getLabel()), legacyPolicyNumber);

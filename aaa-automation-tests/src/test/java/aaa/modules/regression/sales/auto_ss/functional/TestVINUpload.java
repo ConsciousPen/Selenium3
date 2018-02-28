@@ -330,8 +330,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		assertSoftly(softly -> {
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("OTHER");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue()).isEqualTo("OTHER");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
 		});
 
 		// add Vehicle
@@ -340,8 +340,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("UT_SS");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue()).isEqualTo("UT_SS");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL).getValue()).isEqualTo("Gt");
 
 		premiumAndCoveragesTab.calculatePremium();
 
@@ -413,8 +413,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		assertSoftly(softly -> {
 			pas2453_CommonChecks(softly);
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel()).getValue()).isEqualTo("Other Make");
-			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL).getValue()).isEqualTo("Model");
 		});
 
 		vehicleTab.saveAndExit();

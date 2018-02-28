@@ -41,6 +41,7 @@ public abstract class Efolder {
 
     public static boolean isFolderEmpty(String path) {
         expandFolder(path);
+        //TODO Why always false here
         return false;
     }
 }

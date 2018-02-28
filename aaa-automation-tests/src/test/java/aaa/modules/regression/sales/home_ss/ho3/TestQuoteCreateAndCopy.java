@@ -39,7 +39,7 @@ public class TestQuoteCreateAndCopy extends HomeSSHO3BaseTest {
         createCustomerIndividual();
         createQuote();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
         log.info("TEST: Created Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
         policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));

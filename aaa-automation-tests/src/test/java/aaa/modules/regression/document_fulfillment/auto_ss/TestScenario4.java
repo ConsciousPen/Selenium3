@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -88,7 +89,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 		/* Purchase */
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()));
 		policyNumber = PolicySummaryPage.getPolicyNumber();
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		
 		/*
 		 * Check Documents in 'Generate on Demand Document' screen for policy
@@ -116,7 +117,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 			break;
 		}
 		docgenActionTab.cancel();
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		
 		/* Check xml */
 		switch(getState()){

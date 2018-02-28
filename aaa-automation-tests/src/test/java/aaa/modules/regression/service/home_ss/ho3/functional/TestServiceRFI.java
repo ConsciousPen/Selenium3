@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -68,12 +69,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData1").adjust(yearBuilt, "1939"), DocumentsTab.class, true);
 
         NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-        documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Not Signed");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT).verify.value("No");
+        assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Not Signed");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT)).hasValue("No");
         documentsTab.saveAndExit();
 
         CustomAssert.enableSoftMode();
@@ -113,9 +114,9 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
         bindTab.submitTab();
 
         endorseRateDocuments();
-        documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Physically Signed");
+        assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Physically Signed");
         documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("Yes");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("Yes");
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -144,12 +145,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData2").adjust(yearBuilt, "1941"), DocumentsTab.class, true);
 
         NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-        documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Not Signed");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION).verify.value("No");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT).verify.value("No");
+        assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Not Signed");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION)).hasValue("No");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT)).hasValue("No");
         documentsTab.saveAndExit();
 
         CustomAssert.enableSoftMode();

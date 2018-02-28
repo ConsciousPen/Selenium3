@@ -74,7 +74,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		}
 		policyNum = createPolicy(policyCreationTD); 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -105,7 +105,7 @@ public class Scenario12 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
@@ -122,7 +122,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
+		//assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_CANCELLED);
 	}
 	
@@ -360,7 +360,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_EnableAutopay"));
 		billingAccount.update().start();
-		//new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).verify.value(true);
+		//new assertThat(UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(true);
 		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(true);
 		Tab.buttonCancel.click();
 		

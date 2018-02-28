@@ -58,7 +58,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		new ErrorTab().submitTab();
 
 		Tab.buttonCancel.click();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
 		policy.updateRulesOverride().start();

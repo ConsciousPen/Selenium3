@@ -60,7 +60,7 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
         assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.APPLICATION_TYPE)).hasValue("Hybrid Conversion");
         assertThat(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.LEAD_SOURCE)).hasValue("Hybrid Conversion");
 
-        String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE.getLabel()).getValue());
+        String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE).getValue());
         String pupPolicyNumberSuffix = policyState + "PU109";
 
         assertThat(generalTab.getPolicyNumberForPup().startsWith(pupPolicyNumberSuffix)).isTrue();
