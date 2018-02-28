@@ -38,8 +38,6 @@ public abstract class NumberCellType<T extends Number> extends AbstractCellType<
 		return super.hasValueInTextFormat(cell) && NumberUtils.isCreatable(getText(cell));
 	}
 
-	public abstract boolean hasFloatValue(ExcelCell cell);
-
 	protected abstract T parseText(String s);
 
 	protected abstract T parseDouble(double d);

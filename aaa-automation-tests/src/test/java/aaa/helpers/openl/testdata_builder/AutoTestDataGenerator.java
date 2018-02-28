@@ -168,9 +168,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		statCodesMap.put("RQ", "Recreational/Cargo Quarter");
 		statCodesMap.put("RT", "Recreational Trailer");
 
-		String uiStatCode = statCodesMap.get(statCode);
-		assertThat(uiStatCode).as("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode).isNotNull();
-		return uiStatCode;
+		assertThat(statCodesMap).as("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode).containsKey(statCode);
+		return statCodesMap.get(statCode);
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {

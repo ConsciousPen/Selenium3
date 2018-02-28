@@ -1,0 +1,33 @@
+
+########### Cancellation
+
+TestData_Cancellation: {
+  CancellationActionTab: '@CancellationActionTab'
+}
+
+CancellationActionTab: {
+  Cancellation Reason: 'Rewrite Accommodation',
+  Authorized By: 'Me'
+}
+
+##############  Reinstatement
+
+TestData_Reinstatement: {
+   ReinstatementActionTab: '@ReinstatementActionTab'
+}
+
+ReinstatementActionTab: {
+  Reinstate Date: $<today>,
+  Authorized By: 'Me'
+}
+
+########   Endorse
+
+TestData_Endorse: {
+EndorsementActionTab: '@EndorsementActionTab',
+}
+
+EndorsementActionTab: {
+    Endorsement Date: $<today+2d>,
+    Endorsement Reason: Maintain Vehicle(s)
+}

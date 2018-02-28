@@ -35,7 +35,7 @@ ReportsTab: {
 # --------- View Capping Details----------
 TD_ViewCappingDetails_NJ: {
   Ceiling Cap: 10,
-  Floor Cap: -5
+  Floor Cap: -4
 }
 
 TD_ViewCappingDetails: {

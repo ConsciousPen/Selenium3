@@ -1,0 +1,67 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SnT Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="HSPRNXX/HSPRNMXX form (AZ, VA) HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas2305_preRenewalLetterHSPRNXX"/>
+                    <include name="pas2305_preRenewalLetterPupConvHSPRNXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNXX"/>
+                    <include name="pas7342_preRenewalLetterHSPRNMXX"/>
+                    <include name="pas7342_preRenewalLetterPupConvHSPRNMXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNMXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="HSPRNXX form (AZ, DE) HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, DE"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas2305_preRenewalLetterHSPRNXX"/>
+                    <include name="pas2305_preRenewalLetterPupConvHSPRNXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="HSPRNXX/HSPRNMXX form (AZ, NJ) HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas2305_preRenewalLetterHSPRNXX"/>
+                    <include name="pas2305_preRenewalLetterPupConvHSPRNXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNXX"/>
+                    <include name="pas7342_preRenewalLetterHSPRNMXX"/>
+                    <include name="pas7342_preRenewalLetterPupConvHSPRNMXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNMXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HSPRNXX/HSPRNMXX form (AZ, DE) DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, DE"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas2305_preRenewalLetterHSPRNXX"/>
+                    <include name="pas2305_preRenewalLetterPupConvHSPRNXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNXX"/>
+                    <include name="pas7342_preRenewalLetterHSPRNMXX"/>
+                    <include name="pas7342_preRenewalLetterPupConvHSPRNMXX"/>
+                    <include name="pas9170_preRenewalLetterPupHSPRNMXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

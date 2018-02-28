@@ -17,7 +17,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.mock.MockDataHelper;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
@@ -58,8 +57,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Pair<String, Boolean> membershipNumber = Pair.of(null, false);
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
 			//TODO-dchubkov: current algorithm is incomplete, to be fixed
-			membershipNumber = MockDataHelper.getMembershipData()
-					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
+			/*membershipNumber = MockDataHelper.getMembershipData()
+					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());*/
+			membershipNumber = Pair.of("5290051486695810", true); // membership added to stub manually for avgAnnualERSperMember=0 and memberPersistency=20
 			//membershipNumber = Pair.of("3111111111111147", false); // to change since date manually
 			//membershipNumber = Pair.of("1111111111111166", true); // to have avgAnnualERSperMember=0 and memberPersistency=5
 		} else {
