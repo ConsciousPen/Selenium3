@@ -14,94 +14,17 @@
                 <methods>
                     <include name="retrieveMembershipSummaryEndpointCheck"/>
                     <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending">
-        <parameter name="state" value="DC"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
                 </methods>
             </class>
         </classes>

@@ -29,6 +29,12 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
+    <test name="PAS-9525 Validate Conversion PUP UW Fields are enabled for maig and CountryWide Policies" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ, AZ, MD, OR"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRenewalManualEntryFieldsVerification_UWQuestions"/>
+        </classes>
+    </test>
     <test name="PAS-2293,PAS-7979 Indicate legacy Multi Policy Discount (MPD) - Home" parallel="methods" thread-count="1024">
         <parameter name="state" value="NJ"/>
         <classes>
