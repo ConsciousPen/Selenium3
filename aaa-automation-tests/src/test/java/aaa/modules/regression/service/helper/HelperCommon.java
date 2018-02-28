@@ -1,5 +1,19 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.util.HashMap;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
@@ -38,6 +52,7 @@ public class HelperCommon {
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
+	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
@@ -124,6 +139,15 @@ public class HelperCommon {
 		}
 		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
 		return aaaEndorseResponse;
+	}
+
+	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
+		if (effectiveDate != null) {
+			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
+		}
+		HashMap <String, String> validateLookupResponse  = runJsonRequestGetDxp(requestUrl, HashMap.class );
+		return validateLookupResponse;
 	}
 
 	private void authentication() {
