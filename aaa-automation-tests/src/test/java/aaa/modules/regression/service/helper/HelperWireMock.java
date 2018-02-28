@@ -13,17 +13,17 @@ public class HelperWireMock {
 	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/__admin/mappings";
 
 	/**
-	 * SwaggerUI for the WireMock = http://nvdxpas1agl007:9999/__admin/swagger-ui/
+	 * SwaggerUI for the WireMock = http://nvdxpas1agl003:9085/wiremock/__admin/swagger-ui/
 	 * Queries to update endpoint to use WireMock stub:
 	 select * from propertyconfigurerentity
 	 where propertyName = 'policyPreferenceApiService.policyPreferenceApiUri';
 
 	 update propertyconfigurerentity
-	 set value = 'http://nvdxpas1agl007:9999/policy/preferences'
+	 set value = 'http://nvdxpas1agl003:9085/wiremock/policy/preferences'
 	 where propertyName = 'policyPreferenceApiService.policyPreferenceApiUri';
 
-	 Scrum team's dxp stub url: https://master.apps.prod.pdc.digital.csaa-insurance.aaa.com/policy/preferences
-	 Scrum team's dxp mock url: https://master.apps.prod.pdc.digital.csaa-insurance.aaa.com/__admin/mappings
+	 Scrum team's dxp stub url: http://nvdxpas1agl003:9085/wiremock/policy/preferences
+	 Scrum team's dxp mock url: http://nvdxpas1agl003:9085/wiremock/__admin/mappings
 	 Scrum team's swagger-ui url: NOT CLEAR TODO add proper URL
 	 * @param policyNumber - policy number
 	 * @param scenarioJsonFile - paperlessOptInPendingResponse.json or paperlessOptInResponse.json or paperlessOptOutResponse.json
@@ -55,6 +55,14 @@ public class HelperWireMock {
 		public String get() {
 			return paperlessPreferencesJsonFileName;
 		}
+	}
+
+
+
+	@Test
+	public void createPaperlessPreferencesRequestIdTest() {
+		String requestId = setPaperlessPreferencesToValue("PolicyNumber", HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		printToLog("requestId: " + requestId);
 	}
 
 	/**

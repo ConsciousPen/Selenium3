@@ -19,11 +19,17 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -358,12 +364,101 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 1. Create Nano policy.
 	 * 2. Check dxp server, any info should not be displayed about vehicle.
 	 */
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
 	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
 
 		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Start Endorsement info server response for Future policy
+	 * @scenario
+	 * 1. Create Future Policy.
+	 * 2. Hit "start endorsement info" dxp server.
+	 * 3. Check error message.
+	 * 4. Start renew action.
+	 * 5. Hit "start endorsement info" dxp server.
+	 * 6. Check error message. Policy should be locked.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas9337_StartEndorsementInfoServerResponseForFuturePolicy(@Optional("VA") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Start Endorsement info server response for Cancel Policy
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Cancel policy.
+	 * 3. Verify Policy status is 'Policy Cancelled'.
+	 * 4. Hit "start endorsement info" dxp server.
+	 * 5. Check error message.
+	 * 6. Open the same policy again.
+	 * 7. Do reinstatement +6d
+	 * 8. Move time to the lapse period, +3d.
+	 * 9. Hit "start endorsement info" dxp server.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas9337_StartEndorsementInfoServerResponseForCancelPolicy(@Optional("VA") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Start Endorsement info server response for Expired Policy
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Change time to the policy expiration date +2d
+	 * 3. Run policyUpdate job
+	 * 4. Check if policy is expired.
+	 * 5. Hit "start endorsement info" dxp server.
+	 * 6. Check if error message is displaying.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
+	public void pas9337_StartEndorsementInfoServerResponseForExpiredPolicy(@Optional("VA") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Policy lock unlock functionality using services
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Hit lock service. Check service status.
+	 * 3. Go to policy in PAS.
+	 * 4. Start do endorsement.
+	 * 5. Check if policy is locked.
+	 * 6. Hit Unlock service. Check service status.
+	 * 7. Open policy in PAS again.
+	 * 8. Start do endorsement.
+	 * 9. Check if policy is unlocked.
+	 * 10. Try to lock policy using lock service. Check service status.
+	 * 11. Try to unlock policy using unlock service. Check service status.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
+	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
+
+		pas9456_9455_PolicyLockUnlockServices(getPolicyType());
 	}
 
 	/**

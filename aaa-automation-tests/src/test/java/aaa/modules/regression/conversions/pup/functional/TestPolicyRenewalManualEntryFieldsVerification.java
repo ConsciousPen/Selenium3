@@ -6,6 +6,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -45,9 +46,11 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
         mainApp().open();
 
         createCustomerIndividual();
+
+        TestData td = getConversionPolicyDefaultTD();
+
         customer.initiateRenewalEntry().perform(getPolicyTD("InitiateRenewalEntry", "TestData"));
         
-        TestData td = getConversionPolicyDefaultTD();
         policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesQuoteTab.class, true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
