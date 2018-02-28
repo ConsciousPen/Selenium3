@@ -1,5 +1,14 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,7 +29,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -30,14 +38,6 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -299,6 +299,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
+		//BUG OSI: new story PAS-9337 Green Button Service - Abracradabra
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -428,6 +429,91 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements).isEmpty();
 			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).name).isEqualTo("PolicyRules");
 			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).errors.get(0)).contains("System Created Pended Endorsement");
+		});
+	}
+
+	protected void pas9997_paymentMethodsLookup() {
+		assertSoftly(softly -> {
+			DBService.get().executeUpdate(ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_ADD_WY);
+			DBService.get().executeUpdate(ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_CHANGE_WY);
+
+			mainApp().open();
+			String lookupName2 = "AAAeValueQualifyingPaymentMethods";
+			String productCd = "AAA_SS";
+			String riskStateCd = "WY";
+
+			String effectiveDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			HashMap<String, String> responseValidateLookup12 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate1);
+			softly.assertThat("FALSE".equals(responseValidateLookup12.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup12.get("pciCreditCard"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup12.get("eft"))).isTrue();
+			softly.assertThat(responseValidateLookup12.size()).isEqualTo(3);
+			responseValidateLookup12.values();
+			responseValidateLookup12.keySet();
+
+			String effectiveDate2 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			HashMap<String, String> responseValidateLookup22 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate2);
+			softly.assertThat("TRUE".equals(responseValidateLookup22.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup22.get("pciCreditCard"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup22.get("eft"))).isTrue();
+			softly.assertThat(responseValidateLookup12.size()).isEqualTo(3);
+
+			String effectiveDate3 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(7).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			HashMap<String, String> responseValidateLookup32 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate3);
+			softly.assertThat("TRUE".equals(responseValidateLookup32.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup32.get("pciCreditCard"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup32.get("eft"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup32.get("XXXX"))).isTrue();
+			softly.assertThat(responseValidateLookup32.size()).isEqualTo(4);
+
+			DBService.get().executeUpdate(DELETE_ADDED_PAYMENT_METHOD_CONFIGS_WY);
+		});
+	}
+
+	protected void pas9997_paymentPlansLookup() {
+		assertSoftly(softly -> {
+			DBService.get().executeUpdate(ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_ADD_WY);
+			DBService.get().executeUpdate(ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_CHANGE_WY);
+
+			mainApp().open();
+			String lookupName1 = "AAAeValueQualifyingPaymentPlans";
+			String productCd = "AAA_SS";
+			String riskStateCd = "WY";
+
+			String effectiveDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			HashMap<String, String> responseValidateLookup11 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate1);
+			softly.assertThat("FALSE".equals(responseValidateLookup11.get("annualSS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup11.get("semiAnnual6SS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup11.get("annualSS_R"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup11.get("semiAnnual6SS_R"))).isTrue();
+			softly.assertThat(responseValidateLookup11.size()).isEqualTo(4);
+			responseValidateLookup11.values();
+			responseValidateLookup11.keySet();
+
+			String effectiveDate2 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			HashMap<String, String> responseValidateLookup21 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate2);
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("annualSS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("semiAnnual6SS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("annualSS_R"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup21.get("semiAnnual6SS_R"))).isTrue();
+			softly.assertThat(responseValidateLookup21.size()).isEqualTo(4);
+
+			String effectiveDate3 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+			HashMap<String, String> responseValidateLookup31 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate3);
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("annualSS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("semiAnnual6SS"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("annualSS_R"))).isTrue();
+			softly.assertThat("TRUE".equals(responseValidateLookup31.get("semiAnnual6SS_R"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup31.get("XXXX"))).isTrue();
+			softly.assertThat(responseValidateLookup31.size()).isEqualTo(5);
+
+			DBService.get().executeUpdate(DELETE_ADDED_PAYMENT_PLANS_CONFIGS_WY);
 		});
 	}
 
@@ -565,7 +651,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response[1].getSeries()).isEqualTo(series2);
 			softly.assertThat(response[1].getModel()).isEqualTo(model2);
 			softly.assertThat(response[1].getBodyStyle()).isEqualTo(bodyStyle2);
-			softly.assertThat(response[1].vehIdentificationNo).isEqualTo(vehIdentificationNo2);
 		});
 
 		VehicleTab.buttonCancel.click();
@@ -710,7 +795,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_3)).isTrue();
 	}
 
-	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType){
+	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -735,7 +820,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas9456_9455_PolicyLockUnlockServices(PolicyType policyType){
+	protected void pas9456_9455_PolicyLockUnlockServices(PolicyType policyType) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -775,7 +860,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response3.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response3.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
-        //Check if policy can be unlocked using unlock service
+		//Check if policy can be unlocked using unlock service
 		PolicyLockUnlockDto response4 = HelperCommon.executePolicyUnlockService(policyNumber, 500);
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getPolicyNumber()).isEqualTo("300");
