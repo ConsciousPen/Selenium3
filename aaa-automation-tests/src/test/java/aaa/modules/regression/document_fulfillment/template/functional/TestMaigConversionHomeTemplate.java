@@ -90,8 +90,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		billGeneration(renewalOfferEffectiveDate);
 
 		// Start PAS-2764 Scenario 1 Issue first renewal
-		mainApp().open();
-		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
+		acceptPayment(policyNumber);
 
 		upldatePolicyStatus(renewalOfferEffectiveDate);
 		checkPolicyStatus(policyNumber,ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -147,8 +146,7 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 		maigManualConversionHelper.pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
 
 		// Start PAS-2764 Scenario 1 Issue first renewal
-		mainApp().open();
-		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
+		acceptPayment(policyNumber);
 
 		upldatePolicyStatus(renewalOfferEffectiveDate);
 		checkPolicyStatus(policyNumber,ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -573,6 +571,11 @@ public abstract class TestMaigConversionHomeTemplate extends PolicyBaseTest {
 	private void openPolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+	}
+
+	private void acceptPayment(String policyNumber) {
+		mainApp().open();
+		maigManualConversionHelper.acceptPayment(policyNumber,testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"));
 	}
 
 	private List<String> getConversionGeneratedForms() {
