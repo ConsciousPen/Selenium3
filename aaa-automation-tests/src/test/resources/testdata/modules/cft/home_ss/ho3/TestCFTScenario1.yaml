@@ -23,7 +23,6 @@ PremiumsAndCoveragesQuoteTab: {
   Calculate Premium: 'click',
   Override Premium: {
     Remarks: 'CFT tests',
-#    Override Premium By Flat Amount: '200',
     Percentage: '100',
     Additional Popup Submit: {
       Submit Popup: 'click'

@@ -76,7 +76,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
-	//@Parameters({STATE_PARAM})
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
@@ -100,11 +99,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		}
 		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-//		Waiters.SLEEP(120000).go();
 		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-//		Waiters.SLEEP(30000).go();
 		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
@@ -132,7 +129,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
-//	@Parameters({STATE_PARAM})
 	public void futureDatedPolicy() {
 
 		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE is null order by BILLINGACCOUNTNUMBER";
