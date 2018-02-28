@@ -2,19 +2,20 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
-import java.time.LocalDateTime;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -30,7 +31,9 @@ public class PolicySummaryPage extends SummaryPage {
 	public static StaticElement labelManualRenew = new StaticElement(By.id("productContextInfoForm:manualRenewFlag"));
 	public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
 	public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
+	public static StaticElement policyLockedException = new StaticElement(By.id("errorsForm:j_id_1x_4l:0:j_id_1x_4s"));
 
+	public static Button buttonBackFromErrorPage = new Button(By.id("errorsForm:backToPreviousConsolidatedView"));
 	public static Button buttonTransactionHistory = new Button(By.id("productContextInfoForm:lnkTransactionHistory"));
 	public static Button buttonPendedEndorsement = new Button(By.id("productContextInfoForm:lnkPendedEndorsements"));
 	public static Button buttonRenewals = new Button(By.id("productContextInfoForm:lnkRenewals"));
@@ -135,8 +138,8 @@ public class PolicySummaryPage extends SummaryPage {
 	}
 
 	public static void verifyLapseExistFlagPresent() {
-		PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present");
-		PolicySummaryPage.labelLapseExist.verify.value("Term includes a lapse period");
+		labelLapseExist.verify.present("Lapse period flag is present");
+		labelLapseExist.verify.value("Term includes a lapse period");
 	}
 
 	public static void verifyDoNotRenewFlagPresent() {

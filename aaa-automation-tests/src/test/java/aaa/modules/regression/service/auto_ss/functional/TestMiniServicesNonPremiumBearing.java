@@ -2,6 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -197,7 +202,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-9337"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
 	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("") String state) {
 
 		pas6562_endorsementValidateNotAllowedOutOfBound(getPolicyType());
@@ -448,6 +453,63 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas9337_StartEndorsementInfoServerResponseForExpiredPolicy(@Optional("VA") String state) {
 
 		pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Policy lock unlock functionality using services
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Hit lock service. Check service status.
+	 * 3. Go to policy in PAS.
+	 * 4. Start do endorsement.
+	 * 5. Check if policy is locked.
+	 * 6. Hit Unlock service. Check service status.
+	 * 7. Open policy in PAS again.
+	 * 8. Start do endorsement.
+	 * 9. Check if policy is unlocked.
+	 * 10. Try to lock policy using lock service. Check service status.
+	 * 11. Try to unlock policy using unlock service. Check service status.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
+	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
+
+		pas9456_9455_PolicyLockUnlockServices(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Retrieve lookup data service - Payment Methods
+	 * @scenario
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 2. Add State Specific configurations for specific dates, which adds new values to it
+	 * 3. Retrieve lookup values for the mentioned dates, check value
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
+	public void pas9997_paymentMethodsLookup(@Optional("") String state) {
+
+		pas9997_paymentMethodsLookup();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Retrieve lookup data service - Payment Plans
+	 * @scenario
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 2. Add State Specific configurations for specific dates, which adds new values to it
+	 * 3. Retrieve lookup values for the mentioned dates, check value
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
+	public void pas9997_paymentPlansLookup(@Optional("") String state) {
+
+		pas9997_paymentPlansLookup();
 	}
 
 	@Override
