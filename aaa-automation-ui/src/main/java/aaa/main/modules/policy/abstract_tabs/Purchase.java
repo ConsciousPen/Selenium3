@@ -19,55 +19,54 @@ import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class Purchase extends Tab {
-    public static Table tablePaymentPlan = new Table(By.id("purchaseForm:PaymentPlanTable"));
-    public static Button btnApplyPayment = new Button(By.id("purchaseForm:finishBtn_footer"), Waiters.AJAX);
-    public static Dialog confirmPurchase = new Dialog("//div[@id='purchaseForm:FinishConfirmationDialog_container']");
-    public static Dialog confirmVoiceSignature= new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
-    public static StaticElement totalRemainingTermPremium = new StaticElement(By.id("purchaseForm:downpaymentComponent_totalRemainingDueValue"));
-    public static StaticElement remainingBalanceDueToday = new StaticElement(By.id("purchaseForm:downpaymentComponent_remainingBalanceValue"));
+	public static Table tablePaymentPlan = new Table(By.id("purchaseForm:PaymentPlanTable"));
+	public static Button btnApplyPayment = new Button(By.id("purchaseForm:finishBtn_footer"), Waiters.AJAX);
+	public static Dialog confirmPurchase = new Dialog("//div[@id='purchaseForm:FinishConfirmationDialog_container']");
+	public static Dialog confirmVoiceSignature = new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
+	public static StaticElement totalRemainingTermPremium = new StaticElement(By.id("purchaseForm:downpaymentComponent_totalRemainingDueValue"));
+	public static StaticElement remainingBalanceDueToday = new StaticElement(By.id("purchaseForm:downpaymentComponent_remainingBalanceValue"));
 
-    public static Table autoPaySetupSavingMessage = new Table (By.id("purchaseForm:installmentFeeAmountSavedPanel"));
+	public static Table autoPaySetupSavingMessage = new Table(By.id("purchaseForm:installmentFeeAmountSavedPanel"));
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("purchaseForm:installmentFeeDetails"), Waiters.AJAX);
 	public static Table tableInstallmentFeeDetails = new Table(By.id("purchaseForm:installmentFeeDetailsTable"));
 
+	protected Purchase(Class<? extends MetaData> mdClass) {
+		super(mdClass);
+	}
 
-    protected Purchase(Class<? extends MetaData> mdClass) {
-        super(mdClass);
-    }
+	public boolean isVisible() {
+		return btnApplyPayment.isPresent() && btnApplyPayment.isVisible();
+	}
 
-    public boolean isVisible() {
-        return btnApplyPayment.isPresent() && btnApplyPayment.isVisible();
-    }
+	@Override
+	public Tab submitTab() {
+		btnApplyPayment.click();
+		confirmPurchase.confirm();
+		return this;
+	}
 
-    public Tab payRemainingBalance() {
-        return payRemainingBalance(BillingConstants.AcceptPaymentMethod.VISA);
-    }
+	@Override
+	public Tab fillTab(TestData td) {
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME.getCode())) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+			DocumentsAndBindTab.btnPurchase.click();
+			DocumentsAndBindTab.confirmPurchase.buttonYes.click();
+		}
+		String value = remainingBalanceDueToday.getValue();
+		td.adjust(TestData.makeKeyPath(getAssetList().getName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.BALANCE_DUE_KEY), value);
+		super.fillTab(td);
+		return this;
+	}
 
-    public Tab payRemainingBalance(String paymentMethod) {
-        TestData payRemainingBalanceTD = DataProviderFactory.dataOf(getMetaKey(), DataProviderFactory.dataOf(PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(),
-                DataProviderFactory.dataOf(paymentMethod, PaymentMethodAllocationControl.REST_KEY)));
-        fillTab(payRemainingBalanceTD);
-        return this;
-    }
+	public Tab payRemainingBalance() {
+		return payRemainingBalance(BillingConstants.AcceptPaymentMethod.VISA);
+	}
 
-    @Override
-    public Tab submitTab() {
-        btnApplyPayment.click();
-        confirmPurchase.confirm();
-        return this;
-    }
-
-    @Override
-    public Tab fillTab(TestData td) {
-        ErrorTab errorTab = new ErrorTab();
-        if(errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME.getCode())){
-            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
-            DocumentsAndBindTab.btnPurchase.click();
-            DocumentsAndBindTab.confirmPurchase.buttonYes.click();
-        }
-        String value = remainingBalanceDueToday.getValue();
-        td.adjust(TestData.makeKeyPath(getAssetList().getName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.BALANCE_DUE_KEY), value);
-        super.fillTab(td);
-        return this;
-    }
+	public Tab payRemainingBalance(String paymentMethod) {
+		TestData payRemainingBalanceTD = DataProviderFactory.dataOf(getMetaKey(), DataProviderFactory.dataOf(PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(),
+				DataProviderFactory.dataOf(paymentMethod, PaymentMethodAllocationControl.REST_KEY)));
+		fillTab(payRemainingBalanceTD);
+		return this;
+	}
 }
