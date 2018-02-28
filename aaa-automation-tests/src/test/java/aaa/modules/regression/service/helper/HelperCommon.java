@@ -1,19 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.admin.modules.IAdmin.log;
-import static org.assertj.core.api.Assertions.assertThat;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
@@ -38,10 +24,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 
 import static aaa.admin.modules.IAdmin.log;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.HashMap;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -52,6 +38,7 @@ public class HelperCommon {
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
 	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
+	private static final String DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
 	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
@@ -137,6 +124,12 @@ public class HelperCommon {
 		request.vehIdentificationNo = vin;
 		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
 		return vehicle;
+	}
+
+	static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT, policyNumber));
+		Vehicle[] validateEndorsementVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+		return validateEndorsementVehicleResponse;
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
