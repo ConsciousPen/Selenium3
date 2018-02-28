@@ -88,7 +88,7 @@
     <test name="HO3 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA,NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
                 </methods>
@@ -99,7 +99,7 @@
     <test name="DP3 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA,NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
                 </methods>
@@ -111,7 +111,7 @@
     <test name="HO4 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA,NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
                 </methods>
@@ -122,7 +122,7 @@
     <test name="HO6 pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA,NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
                 </methods>
@@ -134,7 +134,7 @@
     <test name="PUP pas9816_SpecificBillingPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA,NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionHomePUP" >
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas9816_SpecificBillingPacketGenerationForOtherStates"/>
                 </methods>
@@ -145,7 +145,7 @@
     <test name="HO3 pas2674_SpecificRenewalPacketGenerationForNJ" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForNJ"/>
                 </methods>
@@ -156,7 +156,7 @@
     <test name="HO3 pas2674_SpecificRenewalPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForOtherStates"/>
                 </methods>
@@ -167,7 +167,7 @@
     <test name="DP3 pas2674_SpecificRenewalPacketGenerationForNJ" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForNJ"/>
                 </methods>
@@ -178,7 +178,7 @@
     <test name="DP3 pas2674_SpecificRenewalPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForOtherStates"/>
                 </methods>
@@ -189,7 +189,7 @@
     <test name="HO4 pas2674_SpecificRenewalPacketGenerationForNJ" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForNJ"/>
                 </methods>
@@ -200,7 +200,7 @@
     <test name="HO4 pas2674_SpecificRenewalPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForOtherStates"/>
                 </methods>
@@ -211,7 +211,7 @@
     <test name="HO6 pas2674_SpecificRenewalPacketGenerationForNJ" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForNJ"/>
                 </methods>
@@ -222,7 +222,7 @@
     <test name="HO6 pas2674_SpecificRenewalPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForOtherStates"/>
                 </methods>
@@ -233,7 +233,7 @@
     <test name="PUP pas2674_SpecificRenewalPacketGenerationForNJ" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionHomePUP" >
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForNJ"/>
                 </methods>
@@ -244,7 +244,7 @@
     <test name="PUP pas2674_SpecificRenewalPacketGenerationForOtherStates" parallel="methods" thread-count="200">
         <parameter name="state" value="DE,VA" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionHomePUP" >
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_SpecificRenewalPacketGenerationForOtherStates"/>
                 </methods>

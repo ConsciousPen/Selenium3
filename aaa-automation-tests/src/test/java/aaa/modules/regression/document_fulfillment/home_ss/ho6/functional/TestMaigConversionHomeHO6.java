@@ -8,20 +8,13 @@ import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeTemplate;
-import toolkit.datax.TestData;
+import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import toolkit.utils.TestInfo;
 
-public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
+public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
 
     /**
      * @name Test Conversion Document generation (Pre-renewal package)
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO6;
-    }
-     /**
-     * @name Test MAIG Document generation (Pre-renewal package)
      * @scenario 1. Create Customer
      * 2. Initiate Renewal Entry
      * 3. Fill Conversion Policy data for Home
@@ -208,32 +201,6 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeTemplate {
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO6;
-    }
-
-    @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
-
-        TestData testData = getConversionPolicyDefaultTD();
-        verifyConversionFormsSequence(testData);
-    }
-
-    @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
-    public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("VA") String state) throws NoSuchFieldException {
-
-        TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
-        verifyConversionFormsSequence(testData);
-    }
-
-    @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-9816"})
-    public void pas9816_SpecificBillingPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
-        // CW, DE, VA
-        verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
     }
 
 }
