@@ -730,9 +730,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		getPremiumAndCoverageTabElement().saveAndExit();
 
-    	CustomAssert.enableSoftMode();
-
-		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+    	Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 		assertSoftly(softly -> {
 			softly.assertThat(response.oid).isNotEmpty();
 		});
