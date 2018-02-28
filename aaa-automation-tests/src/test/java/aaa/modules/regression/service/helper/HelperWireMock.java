@@ -22,8 +22,8 @@ public class HelperWireMock {
 	 set value = 'http://nvdxpas1agl003:9085/wiremock/policy/preferences'
 	 where propertyName = 'policyPreferenceApiService.policyPreferenceApiUri';
 
-	 Scrum team's dxp stub url: http://nvdxpas1agl003:9085/wiremock/policy/preferences
-	 Scrum team's dxp mock url: http://nvdxpas1agl003:9085/wiremock/__admin/mappings
+	 Scrum team's dxp stub url: http://nvdxpas1agl010-wiremock.apps.prod.pdc.digital.csaa-insurance.aaa.com/policy/preferences
+	 Scrum team's dxp mock url: http://nvdxpas1agl010-wiremock.apps.prod.pdc.digital.csaa-insurance.aaa.com/__admin/mappings
 	 Scrum team's swagger-ui url: NOT CLEAR TODO add proper URL
 	 * @param policyNumber - policy number
 	 * @param scenarioJsonFile - paperlessOptInPendingResponse.json or paperlessOptInResponse.json or paperlessOptOutResponse.json
@@ -33,7 +33,7 @@ public class HelperWireMock {
 		WireMockMappingRequest request = PaperlessPreferencesWMRequestFactory.create(policyNumber, scenarioJsonFile);
 		String paperlessPreferencesRequestId = request.id;
 		printToLog("request id = " + paperlessPreferencesRequestId);
-		HelperCommon.runJsonRequestPostDxp(WIRE_MOCK_URL, request, String.class);
+		HelperCommon.runJsonRequestPostDxp(WIRE_MOCK_URL, request, String.class, 201);
 		return paperlessPreferencesRequestId;
 	}
 
@@ -61,7 +61,7 @@ public class HelperWireMock {
 
 	@Test
 	public void createPaperlessPreferencesRequestIdTest() {
-		String requestId = setPaperlessPreferencesToValue("PolicyNumber", HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = setPaperlessPreferencesToValue("QVASS926232047", HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 		printToLog("requestId: " + requestId);
 	}
 
@@ -71,8 +71,9 @@ public class HelperWireMock {
 	@Test
 	public void deleteStalledMultiplePaperlessPreferencesRequests() {
 		List<String> requestIdList = new LinkedList<>();
-		requestIdList.add("7bbfee07-6b31-4afc-a9ce-5ec552dc668b");
-		requestIdList.add("7bbfee07-6b31-4afc-a9ce-5ec552dc668b");
+		requestIdList.add("e6cb1877-6b5b-46da-8b33-b7e2cddd8340");
+		requestIdList.add("dd606e54-ff91-4f1d-bf33-ec0e4216a483");
+		requestIdList.add("c96b4fbb-3900-45e5-b9b8-82ac8d0b0914");
 		for (Object requestId : requestIdList) {
 			deleteProcessedRequestFromStub(requestId.toString());
 		}
