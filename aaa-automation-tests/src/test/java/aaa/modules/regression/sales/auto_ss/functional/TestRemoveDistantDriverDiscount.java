@@ -17,7 +17,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.RadioGroup;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
@@ -60,7 +60,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
 		// Fill quote up to Premium and Coverages Tab Check if discount is applied
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue().contains("Distant Student Discount(Angel FromEarth)")).isTrue();
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains("Distant Student Discount(Angel FromEarth)");
 		premiumAndCoveragesTab.submitTab();
 
 		// Issue Policy
@@ -71,12 +71,12 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		DriverTab.viewDriver(2);
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DISTANT_STUDENT.getLabel(), RadioGroup.class).setValue("No");
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DISTANT_STUDENT).setValue("No");
 
 		// Calculate Premium and check that there is no Discount applied
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue().contains("Distant Student Discount(Angel FromEarth)")).isFalse();
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains("Distant Student Discount(Angel FromEarth)");
 
 
 
