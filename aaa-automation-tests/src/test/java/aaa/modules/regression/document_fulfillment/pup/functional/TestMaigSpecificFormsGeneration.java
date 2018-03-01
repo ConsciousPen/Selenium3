@@ -24,7 +24,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 		TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
-		verifyConversionFormsSequence(adjustWithAdditionalInterest(policyCreationTD));
+		verifyConversionFormsSequence(policyCreationTD);
 	}
 
 	@Parameters({STATE_PARAM})
@@ -32,7 +32,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
 		TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
-		verifyConversionFormsSequence(adjustWithMortgageeData(policyCreationTD));
+		verifyConversionFormsSequence(adjustWithAdditionalInterest(policyCreationTD));
 	}
 
 	@Parameters({STATE_PARAM})
