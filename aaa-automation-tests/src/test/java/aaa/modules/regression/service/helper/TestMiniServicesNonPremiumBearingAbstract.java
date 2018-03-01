@@ -4,7 +4,9 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -50,6 +52,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_3 = "OOSE or Future Dated Endorsement Exists";
 	private static final String START_ENDORSEMENT_INFO_ERROR_4 = "Policy is locked";
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	private SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
 
 	protected abstract String getGeneralTab();
 
@@ -758,8 +761,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyPending.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyPending.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyPending.timedPolicyStatus).isEqualTo("inForcePending");
-			softly.assertThat(responsePolicyPending.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyPending.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyPending.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyPending.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyPending.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyPending.renewalCycle).isEqualTo(0);
 			softly.assertThat(responsePolicyPending.eValueStatus).isEqualTo("NOTENROLLED");
@@ -775,8 +778,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyActive.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyActive.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyActive.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyActive.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyActive.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			softly.assertThat(responsePolicyActive.eValueStatus).isEqualTo("NOTENROLLED");
@@ -810,8 +813,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyActive.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyActive.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyActive.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyActive.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyActive.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			softly.assertThat(responsePolicyActive.eValueStatus).isEqualTo("NOTENROLLED");
@@ -820,8 +823,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalPreview.policyStatus).isEqualTo("dataGather");
 			softly.assertThat(responsePolicyRenewalPreview.timedPolicyStatus).isEqualTo("dataGather");
-			softly.assertThat(responsePolicyRenewalPreview.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyRenewalPreview.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyRenewalPreview.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyRenewalPreview.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			softly.assertThat(responsePolicyRenewalPreview.eValueStatus).isEqualTo("NOTENROLLED");
@@ -834,8 +837,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOffer.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyOffer.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyOffer.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOffer.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOffer.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyOffer.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
 			softly.assertThat(responsePolicyOffer.eValueStatus).isEqualTo("NOTENROLLED");
@@ -844,8 +847,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalOffer.policyStatus).isEqualTo("proposed");
 			softly.assertThat(responsePolicyRenewalOffer.timedPolicyStatus).isEqualTo("proposed");
-			softly.assertThat(responsePolicyRenewalOffer.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyRenewalOffer.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyRenewalOffer.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyRenewalOffer.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
 			softly.assertThat(responsePolicyRenewalOffer.eValueStatus).isEqualTo("NOTENROLLED");
@@ -857,8 +860,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferExpired.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOfferExpired.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyOfferExpired.timedPolicyStatus).isEqualTo("expired");
-			softly.assertThat(responsePolicyOfferExpired.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferExpired.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOfferExpired.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferExpired.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyOfferExpired.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOfferExpired.renewalCycle).isEqualTo(0);
 			softly.assertThat(responsePolicyOfferExpired.eValueStatus).isEqualTo("NOTENROLLED");
@@ -867,8 +870,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOfferExpired.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalOfferExpired.policyStatus).isEqualTo("proposed");
 			softly.assertThat(responsePolicyRenewalOfferExpired.timedPolicyStatus).isEqualTo("proposed");
-			softly.assertThat(responsePolicyRenewalOfferExpired.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyRenewalOfferExpired.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyRenewalOfferExpired.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyRenewalOfferExpired.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalOfferExpired.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOfferExpired.renewalCycle).isEqualTo(1);
 			softly.assertThat(responsePolicyRenewalOfferExpired.eValueStatus).isEqualTo("NOTENROLLED");
@@ -881,26 +884,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferLapsed.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOfferLapsed.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyOfferLapsed.timedPolicyStatus).isEqualTo("expired");
-			softly.assertThat(responsePolicyOfferLapsed.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferLapsed.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOfferLapsed.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferLapsed.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyOfferLapsed.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOfferLapsed.renewalCycle).isEqualTo(0);
 			softly.assertThat(responsePolicyOfferLapsed.eValueStatus).isEqualTo("NOTENROLLED");
 
 			//BUG PAS-10482 Lapsed policy is not returned by renewal term service after R+15
-/*			PolicySummary responsePolicyRenewalOfferLapsed = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 200);
+			PolicySummary responsePolicyRenewalOfferLapsed = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 200);
 			softly.assertThat(responsePolicyRenewalOfferLapsed.policyNumber).isEqualTo(policyNumber);
-			softly.assertThat(responsePolicyRenewalOfferLapsed.policyStatus).isEqualTo("proposed");
-			softly.assertThat(responsePolicyRenewalOfferLapsed.timedPolicyStatus).isEqualTo("proposed");
-			softly.assertThat(responsePolicyRenewalOfferLapsed.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyRenewalOfferLapsed.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyRenewalOfferLapsed.policyStatus).isEqualTo("customerDeclined");
+			softly.assertThat(responsePolicyRenewalOfferLapsed.timedPolicyStatus).isEqualTo("customerDeclined");
+			softly.assertThat(responsePolicyRenewalOfferLapsed.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyRenewalOfferLapsed.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(2).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalOfferLapsed.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOfferLapsed.renewalCycle).isEqualTo(1);
-			softly.assertThat(responsePolicyRenewalOfferLapsed.eValueStatus).isEqualTo("NOTENROLLED");*/
-
-			PolicySummary responsePolicyPending = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 404);
-			softly.assertThat(responsePolicyPending.errorCode).isEqualTo("400");
-			softly.assertThat(responsePolicyPending.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNumber + ".");
+			softly.assertThat(responsePolicyRenewalOfferLapsed.eValueStatus).isEqualTo("NOTENROLLED");
 		});
 	}
 
@@ -910,7 +909,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			testEValueDiscount.eValueQuoteCreation();
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			//getPremiumAndCoverageTabElement().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+			getPremiumAndCoverageTabElement().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 			PremiumAndCoveragesTab.calculatePremium();
 			getPremiumAndCoverageTabElement().saveAndExit();
 			testEValueDiscount.simplifiedQuoteIssue();
@@ -927,21 +926,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyActive.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyActive.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyActive.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyActive.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyActive.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
-			softly.assertThat(responsePolicyActive.eValueStatus).isEqualTo("NOTENROLLED");
+			softly.assertThat(responsePolicyActive.eValueStatus).isEqualTo("PENDING");
 
 			PolicySummary responsePolicyRenewalPreview = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 200);
 			softly.assertThat(responsePolicyRenewalPreview.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalPreview.policyStatus).isEqualTo("dataGather");
 			softly.assertThat(responsePolicyRenewalPreview.timedPolicyStatus).isEqualTo("dataGather");
-			softly.assertThat(responsePolicyRenewalPreview.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyRenewalPreview.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyRenewalPreview.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyRenewalPreview.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
-			softly.assertThat(responsePolicyRenewalPreview.eValueStatus).isEqualTo("NOTENROLLED");
+			softly.assertThat(responsePolicyRenewalPreview.eValueStatus).isEqualTo("PENDING");
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -957,21 +956,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOffer.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyOffer.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyOffer.effectiveDate.toString()).contains(policyEffectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOffer.expirationDate.toString()).contains(policyExpirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOffer.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyOffer.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
-			softly.assertThat(responsePolicyOffer.eValueStatus).isEqualTo("NOTENROLLED");
+			softly.assertThat(responsePolicyOffer.eValueStatus).isEqualTo("PENDING");
 
 			PolicySummary responsePolicyRenewalOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 200);
 			softly.assertThat(responsePolicyRenewalOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalOffer.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyRenewalOffer.timedPolicyStatus).isEqualTo("inForcePending");
-			softly.assertThat(responsePolicyRenewalOffer.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyRenewalOffer.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyRenewalOffer.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyRenewalOffer.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
-			softly.assertThat(responsePolicyRenewalOffer.eValueStatus).isEqualTo("NOTENROLLED");
+			softly.assertThat(responsePolicyRenewalOffer.eValueStatus).isEqualTo("ACTIVE");
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -980,11 +979,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferExpired.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOfferExpired.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyOfferExpired.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyOfferExpired.effectiveDate.toString()).contains(policyEffectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferExpired.expirationDate.toString()).contains(policyExpirationDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOfferExpired.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyEffectiveDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferExpired.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.toLocalDate()));
 			softly.assertThat(responsePolicyOfferExpired.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOfferExpired.renewalCycle).isEqualTo(1);
-			softly.assertThat(responsePolicyOfferExpired.eValueStatus).isEqualTo("NOTENROLLED");
+			softly.assertThat(responsePolicyOfferExpired.eValueStatus).isEqualTo("ACTIVE");
 
 			PolicySummary responsePolicyPending = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 404);
 			softly.assertThat(responsePolicyPending.errorCode).isEqualTo("400");
@@ -1013,13 +1012,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferRated.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyOfferRated.policyStatus).isEqualTo("rated");
 			softly.assertThat(responsePolicyOfferRated.timedPolicyStatus).isEqualTo("rated");
-			softly.assertThat(responsePolicyOfferRated.effectiveDate.toString()).contains(effDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferRated.expirationDate.toString()).contains(effDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferRated.sourcePolicyNumber).isNotEmpty();
+			softly.assertThat(responsePolicyOfferRated.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferRated.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));softly.assertThat(responsePolicyOfferRated.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyOfferRated.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyOfferRated.renewalCycle).isEqualTo(1);
 			//BUG PAS-10480 eValue Status is not shown for conversion stub policy
-			//softly.assertThat(responsePolicyOffer.eValueStatus).isEqualTo("NOTENROLLED");
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -1035,13 +1032,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferProposed.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyOfferProposed.policyStatus).isEqualTo("proposed");
 			softly.assertThat(responsePolicyOfferProposed.timedPolicyStatus).isEqualTo("proposed");
-			softly.assertThat(responsePolicyOfferProposed.effectiveDate.toString()).contains(effDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferProposed.expirationDate.toString()).contains(effDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOfferProposed.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferProposed.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyOfferProposed.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyOfferProposed.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyOfferProposed.renewalCycle).isEqualTo(1);
-
-
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
 			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
@@ -1058,8 +1053,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferProposedPaid.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyOfferProposedPaid.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyOfferProposedPaid.timedPolicyStatus).isEqualTo("inForcePending");
-			softly.assertThat(responsePolicyOfferProposedPaid.effectiveDate.toString()).contains(effDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyOfferProposed.expirationDate.toString()).contains(effDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyOfferProposed.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferProposed.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyOfferProposedPaid.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyOfferProposedPaid.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyOfferProposedPaid.renewalCycle).isEqualTo(1);
@@ -1074,8 +1069,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActivated.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyActivated.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyActivated.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyActivated.effectiveDate.toString()).contains(effDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			softly.assertThat(responsePolicyActivated.expirationDate.toString()).contains(effDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			softly.assertThat(responsePolicyActivated.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyActivated.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyActivated.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyActivated.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyActivated.renewalCycle).isEqualTo(1);

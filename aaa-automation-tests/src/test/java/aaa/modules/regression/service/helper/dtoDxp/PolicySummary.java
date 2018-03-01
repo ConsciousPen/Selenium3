@@ -1,5 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,11 +24,11 @@ public class PolicySummary {
     public String timedPolicyStatus;
 
     @ApiModelProperty(value = "Policy effective date in IS8601 format (yyyy-MM-dd).", example = "2018-01-30", required = true)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date effectiveDate;
 
     @ApiModelProperty(value = "Policy expiration date in IS8601 format (yyyy-MM-dd).", example = "2018-01-30", required = true)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date expirationDate;
 
     @ApiModelProperty(value = "Source policy number. Indicates original policy number from which this policy was created, empty if new business.", example = "CONV123456")

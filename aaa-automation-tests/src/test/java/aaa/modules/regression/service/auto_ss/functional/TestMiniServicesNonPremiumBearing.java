@@ -428,14 +428,12 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Check Start Endorsement info server response for Expired Policy
+	 * @name Check Policy Details service for Pending and Active policies
 	 * @scenario
-	 * 1. Create active policy.
-	 * 2. Change time to the policy expiration date +2d
-	 * 3. Run policyUpdate job
-	 * 4. Check if policy is expired.
-	 * 5. Hit "start endorsement info" dxp server.
-	 * 6. Check if error message is displaying.
+	 * 1. Create pending policy
+	 * 2. Check policy details
+	 * 3. Change date, run policyStatusUpdate
+	 * 4. Check policy details
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -445,22 +443,63 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9716_policySummaryForPolicy(getPolicyType());
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Active renewal
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Run Renewal Part1
+	 * 3. Check policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check policy and renewal details
+	 * 6. Make a payment for the renewal amount for the next term
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
-	public void pas9716_policySummaryForActiveRenewal(@Optional("AZ") String state) {
+	public void pas9716_policySummaryForActiveRenewal(@Optional("VA") String state) {
 
-		pas9716_policySummaryForLapsedRenewal();
+		pas9716_policySummaryForActiveRenewal();
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Lapsed renewal
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Run Renewal Part1
+	 * 3. Check policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check policy and renewal details
+	 * 6. DONT Make a payment for the renewal amount for the next term
+	 * 6.5. Check policy and renewal details
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 * 9. change date to R+15, run lapse job
+	 * 10. Check policy and renewal details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForLapsedRenewal(@Optional("AZ") String state) {
 
-		pas9716_policySummaryForActiveRenewal();
+		pas9716_policySummaryForLapsedRenewal();
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Conversion policy details
+	 * @scenario
+	 * 1. Create manual conversion policy
+	 * 2. Check stub policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check stub policy and renewal details
+	 * 6. Make a payment for the renewal amount for the next term
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
