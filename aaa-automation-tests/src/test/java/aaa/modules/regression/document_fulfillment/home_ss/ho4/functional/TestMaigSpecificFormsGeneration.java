@@ -21,7 +21,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithSeniorInsuredDataHO4(getConversionPolicyDefaultTD()));
+		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
 	}
 
 	@Parameters({STATE_PARAM})
