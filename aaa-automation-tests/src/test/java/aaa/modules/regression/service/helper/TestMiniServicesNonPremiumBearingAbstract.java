@@ -15,6 +15,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -29,6 +30,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -39,6 +41,18 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
+import java.security.Policy;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.util.Compatibility;
+
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
 	private static final String START_ENDORSEMENT_INFO_ERROR_1 = "Cannot endorse policy - policy term does not exist for endorsement date";
@@ -47,6 +61,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_4 = "Policy is locked";
 	private static final String START_ENDORSEMENT_INFO_ERROR_5 = "The requested entity is currently locked by other user";
 	private static final String START_ENDORSEMENT_INFO_ERROR_6 = "Could not acquire a new lock: the requested entity is currently locked";
+	private String purchaseDate;
 
 	protected abstract String getGeneralTab();
 
@@ -793,6 +808,36 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ValidateEndorsementResponse responseNd = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
 		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_3)).isTrue();
+	}
+
+	protected void pas7082_AddVehicle(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String purchaseDate = "2012-02-21";
+		String vin = "ZFFCW56A830133118";
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		NavigationPage.toViewTab(getPremiumAndCoverageTab());
+
+		getPremiumAndCoverageTabElement().saveAndExit();
+
+		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertSoftly(softly -> {
+			softly.assertThat(response.oid).isNotEmpty();
+		});
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+
+		VehicleTab vehicleTab = new VehicleTab();
+		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue()).isEqualTo(vin);
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {

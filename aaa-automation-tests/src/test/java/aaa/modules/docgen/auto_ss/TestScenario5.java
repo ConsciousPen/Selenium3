@@ -70,7 +70,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		createCustomerIndividual();
 		TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		policy.initiate();
@@ -81,7 +81,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 
 		policy.getDefaultView().fillFromTo(tdpolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
 		buttongenerate.click();
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		Tab.buttonSaveAndExit.click();
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		plcyEffDt = DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
