@@ -50,21 +50,25 @@ public class ScorpionsPreconditions extends BaseTest {
 		}
 	}
 
+	String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
+
+
 	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void paymentCentralStubEndPointUpdate() {
-		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, PropertyProvider.getProperty(CustomTestProperties.APP_HOST), PropertyProvider.getProperty("app.stub.urltemplate")));
+	public void paymentCentralStubEndPointUpdate() {
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, propertyAppHost, propertyAppStubURLTemplate));
 	}
 
 	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
 	//http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveMembershipSummary
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.PRECONDITION})
-	public static void updateMembershipSummaryStubEndpoint() {
-		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+	public void updateMembershipSummaryStubEndpoint() {
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, propertyAppHost, propertyAppStubURLTemplate));
 	}
 
 	@Test(description = "Preconditions")
 	private void paymentCentralConfigCheck() {
-		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get()).contains(PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
+		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get()).contains(propertyAppHost);
 	}
 }
