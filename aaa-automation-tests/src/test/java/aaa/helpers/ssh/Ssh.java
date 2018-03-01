@@ -2,6 +2,7 @@ package aaa.helpers.ssh;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -154,6 +155,19 @@ public class Ssh {
 		InputStream fis = null;
 		try {
 			openSftpChannel();
+			String[] folders = destination.split("/");
+			folders = Arrays.copyOf(folders, folders.length-1);
+			for (String folder : folders) {
+				if (folder.length() > 0) {
+					try {
+						sftpChannel.cd(folder);
+					}
+					catch (SftpException e) {
+						sftpChannel.mkdir(folder);
+						sftpChannel.cd(folder);
+					}
+				}
+			}
 			fis = new BufferedInputStream(new FileInputStream(new File(source)));
 			sftpChannel.put(fis, destination, ChannelSftp.OVERWRITE);
 			log.info("SSH: File '" + source + "' was put to '" + destination + "'.");
