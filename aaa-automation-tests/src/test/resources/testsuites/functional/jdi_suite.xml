@@ -312,6 +312,7 @@
                     <include name="pas9456_9455_PolicyLockUnlockServices"/>
                     <include name="pas9997_paymentMethodsLookup"/>
                     <include name="pas9997_paymentPlansLookup"/>
+                    <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                 </methods>
             </class>
         </classes>

@@ -31,6 +31,9 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "VIN", example = "ZFFCW56A830133118")
 	public String vehIdentificationNo;
 
+	@ApiModelProperty(value = "Vehicle status", example = "Active")
+	public String vehicleStatus;
+
 	public String getModelYear() {
 		return modelYear;
 	}
@@ -77,6 +80,14 @@ public class Vehicle implements RestBodyRequest {
 
 	public void setPurchaseDate(String purchaseDate) {
 		this.purchaseDate = purchaseDate;
+	}
+
+	public String getVehicleStatus() {
+		return vehicleStatus;
+	}
+
+	public void setVehicleStatus(String vehicleStatus) {
+		this.vehicleStatus = vehicleStatus;
 	}
 
 }
