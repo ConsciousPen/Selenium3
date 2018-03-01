@@ -63,7 +63,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
-	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/policy/preferences";
+	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) +"/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
@@ -136,7 +136,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "priorInsurance", "FALSE");
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void paperlessPreferencesConfigCheck() {
+	public static void paperlessPreferencesStubEndpointConfigCheck() {
 		CustomAssert.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PREFERENCE_STUB_POINT, PAPERLESS_WIRE_MOCK_STUB_URL)).get().contains(PAPERLESS_WIRE_MOCK_STUB_URL));
 	}
 
@@ -376,7 +376,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	//epic PAS-1438 eValue - New Business
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-305")
 	public void pas305_eValueDiscountApplied(@Optional("VA") String state) {
 
