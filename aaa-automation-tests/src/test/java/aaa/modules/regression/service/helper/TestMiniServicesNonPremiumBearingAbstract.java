@@ -1,21 +1,11 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -41,17 +31,15 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-import java.security.Policy;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.HashMap;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import org.assertj.core.util.Compatibility;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -911,6 +899,88 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response4.getPolicyNumber()).isEqualTo("300");
 			softly.assertThat(response4.getStatus()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
+	}
+
+	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus(PolicyType policyType){
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		VehicleTab vehicleTab = new VehicleTab();
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		mainApp().close();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//Add new vehicle
+		String purchaseDate = "2013-02-22";
+		String vin2 = "1HGFA16526L081415";
+		Vehicle response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertThat(response2.oid).isNotEmpty();
+
+		//View vehicles status
+		Vehicle[] response3 = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+
+		if (response3[0].vehIdentificationNo.toString().contains(vin1)) {
+			assertSoftly(softly -> {
+				softly.assertThat(response3[0].vehIdentificationNo).isEqualTo(vin1);
+				softly.assertThat(response3[0].vehicleStatus).isEqualTo("active");
+				softly.assertThat(response3[1].vehIdentificationNo).isEqualTo(vin2);
+				softly.assertThat(response3[1].vehicleStatus).isEqualTo("pending");
+			});
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(response3[0].vehIdentificationNo).isEqualTo(vin2);
+				softly.assertThat(response3[0].vehicleStatus).isEqualTo("pending");
+				softly.assertThat(response3[1].vehIdentificationNo).isEqualTo(vin1);
+				softly.assertThat(response3[1].vehicleStatus).isEqualTo("active");
+			});
+		}
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		//Bind endorsement
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		vehicleTab.getAssetList().getAsset(USAGE.getLabel(),ComboBox.class).setValue("Pleasure");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+		//View vehicles status after endorsement was bind
+		Vehicle[] response4 = HelperCommon.executeVehicleInfoValidate(policyNumber);
+
+		if (response3[0].vehIdentificationNo.toString().contains(vin1)) {
+			assertSoftly(softly -> {
+				softly.assertThat(response4[0].vehIdentificationNo).isEqualTo(vin1);
+				softly.assertThat(response4[0].vehicleStatus).isEqualTo("active");
+				softly.assertThat(response4[1].vehIdentificationNo).isEqualTo(vin2);
+				softly.assertThat(response4[1].vehicleStatus).isEqualTo("active");
+			});
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(response4[0].vehIdentificationNo).isEqualTo(vin2);
+				softly.assertThat(response4[0].vehicleStatus).isEqualTo("active");
+				softly.assertThat(response4[1].vehIdentificationNo).isEqualTo(vin1);
+				softly.assertThat(response4[1].vehicleStatus).isEqualTo("active");
+			});
+		}
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
