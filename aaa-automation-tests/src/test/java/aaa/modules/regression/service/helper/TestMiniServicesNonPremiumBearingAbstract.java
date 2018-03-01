@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -17,6 +18,9 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.conversion.ConversionPolicyData;
+import aaa.helpers.conversion.ConversionUtils;
+import aaa.helpers.conversion.MaigConversionData;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -33,6 +37,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.conversions.auto_ss.MaigConversionTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
@@ -824,9 +829,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		getPremiumAndCoverageTabElement().saveAndExit();
 
 		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
-		assertSoftly(softly -> {
-			softly.assertThat(response.oid).isNotEmpty();
-		});
+		assertSoftly(softly ->
+				softly.assertThat(response.oid).isNotEmpty()
+		);
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -1112,7 +1117,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas9716_policySummaryForConversion() {
+	protected void pas9716_policySummaryForConversionManualBody() {
 		assertSoftly(softly -> {
 
 			LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
@@ -1186,6 +1191,99 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			PolicySummary responsePolicyActivated = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
+			softly.assertThat(responsePolicyActivated.policyNumber).isEqualTo(policyNum);
+			softly.assertThat(responsePolicyActivated.policyStatus).isEqualTo("issued");
+			softly.assertThat(responsePolicyActivated.timedPolicyStatus).isEqualTo("inForce");
+			softly.assertThat(responsePolicyActivated.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyActivated.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyActivated.sourcePolicyNumber).isNotEmpty();
+			softly.assertThat(responsePolicyActivated.sourceOfBusiness).isEqualTo("CONV");
+			softly.assertThat(responsePolicyActivated.renewalCycle).isEqualTo(1);
+
+			PolicySummary responsePolicyStubExpired = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", 404);
+			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyStubExpired.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNum + ".");
+		});
+	}
+
+	protected void pas9716_policySummaryForConversionBody(String file, ITestContext context) {
+		assertSoftly(softly -> {
+
+			LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
+			ConversionPolicyData data = new MaigConversionData(file, effDate);
+			String policyNum = ConversionUtils.importPolicy(data, context);
+
+			mainApp().open();
+			SearchPage.openPolicy(policyNum);
+			MaigConversionTest maigConversionTest = new MaigConversionTest();
+			maigConversionTest.fillPolicy(effDate);
+			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+
+			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
+			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 404);
+			softly.assertThat(responsePolicyStub.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyStub.message).contains("Current term policy not found for policy number " + policyNum + ".");
+
+			PolicySummary responsePolicyOfferRated = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", 200);
+			softly.assertThat(responsePolicyOfferRated.policyNumber).isEqualTo(policyNum);
+			softly.assertThat(responsePolicyOfferRated.policyStatus).isEqualTo("rated");
+			softly.assertThat(responsePolicyOfferRated.timedPolicyStatus).isEqualTo("rated");
+			softly.assertThat(responsePolicyOfferRated.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferRated.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyOfferRated.sourcePolicyNumber).isNotEmpty();
+			softly.assertThat(responsePolicyOfferRated.sourceOfBusiness).isEqualTo("CONV");
+			softly.assertThat(responsePolicyOfferRated.renewalCycle).isEqualTo(1);
+
+
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
+			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			mainApp().open();
+			SearchPage.openPolicy(policyNum);
+			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+
+			PolicySummary responsePolicyStubProposed = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 404);
+			softly.assertThat(responsePolicyStubProposed.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyStubProposed.message).contains("Current term policy not found for policy number " + policyNum + ".");
+
+			PolicySummary responsePolicyOfferProposed = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", 200);
+			softly.assertThat(responsePolicyOfferProposed.policyNumber).isEqualTo(policyNum);
+			softly.assertThat(responsePolicyOfferProposed.policyStatus).isEqualTo("proposed");
+			softly.assertThat(responsePolicyOfferProposed.timedPolicyStatus).isEqualTo("proposed");
+			softly.assertThat(responsePolicyOfferProposed.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferProposed.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyOfferProposed.sourcePolicyNumber).isNotEmpty();
+			softly.assertThat(responsePolicyOfferProposed.sourceOfBusiness).isEqualTo("CONV");
+			softly.assertThat(responsePolicyOfferProposed.renewalCycle).isEqualTo(1);
+
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
+			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+			mainApp().open();
+			SearchPage.openBilling(policyNum);
+			Dollar minDue = new Dollar(BillingHelper.getBillCellValue(effDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+			new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+			PolicySummary responsePolicyStubProposedPaid = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 404);
+			softly.assertThat(responsePolicyStubProposedPaid.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyStubProposedPaid.message).contains("Current term policy not found for policy number " + policyNum + ".");
+
+			PolicySummary responsePolicyOfferProposedPaid = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", 200);
+			softly.assertThat(responsePolicyOfferProposedPaid.policyNumber).isEqualTo(policyNum);
+			softly.assertThat(responsePolicyOfferProposedPaid.policyStatus).isEqualTo("issued");
+			softly.assertThat(responsePolicyOfferProposedPaid.timedPolicyStatus).isEqualTo("inForcePending");
+			softly.assertThat(responsePolicyOfferProposed.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
+			softly.assertThat(responsePolicyOfferProposed.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyOfferProposedPaid.sourcePolicyNumber).isNotEmpty();
+			softly.assertThat(responsePolicyOfferProposedPaid.sourceOfBusiness).isEqualTo("CONV");
+			softly.assertThat(responsePolicyOfferProposedPaid.renewalCycle).isEqualTo(1);
+
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
+			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+			mainApp().open();
+			SearchPage.openPolicy(policyNum);
+			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
 
 			PolicySummary responsePolicyActivated = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
 			softly.assertThat(responsePolicyActivated.policyNumber).isEqualTo(policyNum);

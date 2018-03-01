@@ -4,6 +4,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -522,9 +523,17 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
-	public void pas9716_policySummaryForConversion(@Optional("AZ") String state) {
+	public void pas9716_policySummaryForConversionManual(@Optional("AZ") String state) {
 
-		pas9716_policySummaryForConversion();
+		pas9716_policySummaryForConversionManualBody();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForConversion(@Optional("VA") String state, ITestContext context) {
+
+		pas9716_policySummaryForConversionBody("1.xml", context);
 	}
 
 	/**

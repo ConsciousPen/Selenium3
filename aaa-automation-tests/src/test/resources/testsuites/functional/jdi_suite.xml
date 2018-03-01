@@ -355,7 +355,7 @@
                 <methods>
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
-                    <include name="pas9716_policySummaryForConversion"/>
+                    <include name="pas9716_policySummaryForConversionManual"/>
                 </methods>
             </class>
         </classes>
@@ -366,6 +366,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForConversion"/>
                 </methods>
             </class>
         </classes>
