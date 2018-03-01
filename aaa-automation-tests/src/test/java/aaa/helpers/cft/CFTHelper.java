@@ -102,7 +102,7 @@ public class CFTHelper extends BaseTest {
 	}
 
 	public static int downloadComplete(File dir, String suffix) {
-		log.info("Checking Download folder");
+		log.info("Checking Download folder, folder name {}, {} files in folder", dir.toString(), dir.listFiles().length);
 		int count = dir.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {

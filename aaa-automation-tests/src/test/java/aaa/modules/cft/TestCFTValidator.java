@@ -82,10 +82,12 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		opReportApp().open();
 		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
+		Waiters.SLEEP(30000).go();
+//		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
+		Waiters.SLEEP(30000).go();
+//		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
