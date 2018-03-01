@@ -16,4 +16,9 @@ public class VehicleQueries {
             + "v.physicaldamagecollision, v.physicaldamagecomprehensive, v.stat, v.choice_symbol, v.choice_tier, v.bi_symbol, v.pd_symbol, v.um_symbol,"
             + " v.mp_symbol from vehiclerefdatavin v, vehiclerefdatamodel m where m.id = vehiclerefdatamodelid "
             + "and year = '%1$s' and v.make_text = '%2$s' and v.model_text = '%3$s' and v.series_text = '%4$s' and v.bodytype_text = '%5$s'";
+    public static final  String SELECT_FROM_VEHICLERATINGINFO_BY_QUOTE_NUMBER = "SELECT i.%1$s "
+            + "From Riskitem R, Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd Where R.Ratinginfo_Id = I.Id And B.Id = R.Baseinfo_Id And "
+            + "ps.policydetail_id = pd.id and pd.id = r.policydetail_id and ps.policynumber = '%2$s'";
+    public static final  String DELETE_LIABILITY_SYMBOLS_FOR_VIN = "UPDATE Vehiclerefdatavin V SET V.bi_symbol= null, V.mp_symbol = null, V.pd_symbol = null, V.um_symbol = null, V.PHYSICALDAMAGECOLLISION = null, V.PHYSICALDAMAGECOMPREHENSIVE = null WHERE V.vin LIKE '%s'";
+    public static final  String RESTORE_LIABILITY_SYMBOLS_FOR_VIN = "UPDATE Vehiclerefdatavin V SET V.bi_symbol= 'K', V.mp_symbol = 'K', V.pd_symbol = 'K', V.um_symbol = 'K', V.PHYSICALDAMAGECOLLISION = '15', V.PHYSICALDAMAGECOMPREHENSIVE = '15' WHERE V.vin LIKE '%s'";
 }

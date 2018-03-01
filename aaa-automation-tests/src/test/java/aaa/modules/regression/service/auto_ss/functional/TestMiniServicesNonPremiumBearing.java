@@ -2,11 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -374,6 +369,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	/**
+	 * @author Megha Gubbala
+	 * @name Check dxp server To add vehicle.
+	 * Create a Policy
+	 * Create a pended endorsement
+	 *  Hit "add-vehicle" dxp server.
+	 *  Pass Pearches date and VIN to the service
+	 *  Go to pas open pended endorsement and go to vehicle tab
+	 *  Check the new vehicle is added with the vin number.
+	 * @scenario
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
+	public void pas7082_AddVehicle(@Optional("VA") String state) {
+
+		pas7082_AddVehicle(getPolicyType());
+	}
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Future policy
 	 * @scenario
@@ -492,6 +506,28 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 		pas9997_paymentPlansLookup();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Vehicle status using view vehicle service
+	 * @scenario
+	 * 1. Create active policy with one vehicle.
+	 * 2. Create Endorsement using dxp server.
+	 * 3. Hit the view vehicle service.
+	 * 4. Check the vehicles status.
+	 * 5. Go to in policy view and bind pended endorsement.
+	 * 6. Hit the view vehicle service again.
+	 * 7. Check if Pended vehicle status was changed.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490"})
+	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
+
+		pas9490_ViewVehicleServiceCheckVehiclesStatus(getPolicyType());
+	}
+
 
 	@Override
 	protected String getGeneralTab() {

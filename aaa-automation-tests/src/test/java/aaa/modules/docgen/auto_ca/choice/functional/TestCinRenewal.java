@@ -16,6 +16,11 @@ import toolkit.utils.TestInfo;
 
 public class TestCinRenewal extends PolicyCINTemplate {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
+	}
+
 	/**
 	 * @author Rokas Lazdauskas
 	 * @name Test CIN Document generation (MVR Activity)
@@ -44,10 +49,5 @@ public class TestCinRenewal extends PolicyCINTemplate {
 		renewPolicy(CLUE, policyNumber);
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
-	}
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_CHOICE;
 	}
 }
