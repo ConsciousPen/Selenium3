@@ -511,4 +511,13 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				.adjust(TestData.makeKeyPath(mortgageeTabMetaKey, HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel()), additionalInterestData);
 	}
 
+	public TestData adjustWithMortgageeData(TestData policyTD) {
+		String mortgageeTabKey = TestData.makeKeyPath(HomeSSMetaData.MortgageesTab.class.getSimpleName());
+		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
+		//adjust TestData with Premium and Coverage tab data
+		String premiumAndCoverageTabKey = TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName());
+		TestData premiumAndCoverageTD = getTestSpecificTD("PremiumsAndCoveragesQuoteTab_Mortgagee");
+		return policyTD.adjust(mortgageeTabKey, mortgageeTD).adjust(premiumAndCoverageTabKey, premiumAndCoverageTD);
+	}
+
 }
