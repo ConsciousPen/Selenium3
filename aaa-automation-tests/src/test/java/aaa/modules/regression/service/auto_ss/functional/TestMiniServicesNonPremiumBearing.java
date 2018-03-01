@@ -367,6 +367,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	/**
+	 * @author Megha Gubbala
+	 * @name Check dxp server To add vehicle.
+	 * Create a Policy
+	 * Create a pended endorsement
+	 *  Hit "add-vehicle" dxp server.
+	 *  Pass Pearches date and VIN to the service
+	 *  Go to pas open pended endorsement and go to vehicle tab
+	 *  Check the new vehicle is added with the vin number.
+	 * @scenario
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
+	public void pas7082_AddVehicle(@Optional("VA") String state) {
+
+		pas7082_AddVehicle(getPolicyType());
+	}
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Future policy
 	 * @scenario
@@ -506,6 +525,63 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas9716_policySummaryForConversion(@Optional("AZ") String state) {
 
 		pas9716_policySummaryForConversion();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Policy lock unlock functionality using services
+	 * @scenario
+	 * 1. Create active policy.
+	 * 2. Hit lock service. Check service status.
+	 * 3. Go to policy in PAS.
+	 * 4. Start do endorsement.
+	 * 5. Check if policy is locked.
+	 * 6. Hit Unlock service. Check service status.
+	 * 7. Open policy in PAS again.
+	 * 8. Start do endorsement.
+	 * 9. Check if policy is unlocked.
+	 * 10. Try to lock policy using lock service. Check service status.
+	 * 11. Try to unlock policy using unlock service. Check service status.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
+	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
+
+		pas9456_9455_PolicyLockUnlockServices(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Retrieve lookup data service - Payment Methods
+	 * @scenario
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 2. Add State Specific configurations for specific dates, which adds new values to it
+	 * 3. Retrieve lookup values for the mentioned dates, check value
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
+	public void pas9997_paymentMethodsLookup(@Optional("") String state) {
+
+		pas9997_paymentMethodsLookup();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Retrieve lookup data service - Payment Plans
+	 * @scenario
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 2. Add State Specific configurations for specific dates, which adds new values to it
+	 * 3. Retrieve lookup values for the mentioned dates, check value
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9997"})
+	public void pas9997_paymentPlansLookup(@Optional("") String state) {
+
+		pas9997_paymentPlansLookup();
 	}
 
 	@Override

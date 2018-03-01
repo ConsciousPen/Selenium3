@@ -27,6 +27,11 @@ public class TestCinNewBusiness extends PolicyCINTemplate {
 			"PrefillTabClue", TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName())
 	);
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_SELECT;
+	}
+
 	/**
 	 * @author Rokas Lazdauskas
 	 * @name Test CIN Document generation (MVR activity)
@@ -61,10 +66,5 @@ public class TestCinNewBusiness extends PolicyCINTemplate {
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 		//check the document sequence
 		verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
-	}
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
 	}
 }
