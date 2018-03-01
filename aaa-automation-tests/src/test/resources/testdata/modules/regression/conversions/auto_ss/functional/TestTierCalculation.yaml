@@ -33,8 +33,7 @@ GeneralTab: {
 
 
 AAAProductOwned: {
-     Current AAA Member: 'No',
-     Membership Number: 4290023667710001
+     Current AAA Member: 'No'
 }
 
 CurrentCarrierInformation: {
@@ -54,7 +53,7 @@ PolicyInformation_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agency Location: 'QUEENSBURY - 500005187 - Queensbury',
   Agent: 'House Agent QUEENSBURY',
   Authorized by: QA,
   TollFree Number: 1,
