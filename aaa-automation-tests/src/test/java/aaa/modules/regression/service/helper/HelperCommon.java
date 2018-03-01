@@ -202,7 +202,7 @@ public class HelperCommon {
 		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
 	}
 
-	private static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
+	protected static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
 		return runJsonRequestPostDxp(url, request, String.class);
 	}
 

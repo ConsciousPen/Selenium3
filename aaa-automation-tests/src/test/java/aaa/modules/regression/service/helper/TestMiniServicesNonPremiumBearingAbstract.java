@@ -5,18 +5,11 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -26,7 +19,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.EndorsementForms;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
@@ -54,18 +46,6 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import java.security.Policy;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import org.assertj.core.util.Compatibility;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -858,7 +838,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {
-	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -1155,7 +1134,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferRated.policyStatus).isEqualTo("rated");
 			softly.assertThat(responsePolicyOfferRated.timedPolicyStatus).isEqualTo("rated");
 			softly.assertThat(responsePolicyOfferRated.effectiveDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.toLocalDate()));
-			softly.assertThat(responsePolicyOfferRated.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));softly.assertThat(responsePolicyOfferRated.sourcePolicyNumber).isNotEmpty();
+			softly.assertThat(responsePolicyOfferRated.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(effDate.plusYears(1).toLocalDate()));
+			softly.assertThat(responsePolicyOfferRated.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyOfferRated.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyOfferRated.renewalCycle).isEqualTo(1);
 			//BUG PAS-10480 eValue Status is not shown for conversion stub policy
