@@ -55,7 +55,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSDP3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10453")
-    public void pas10453_PolicyRenewal(@Optional("") String state) {
+    public void pas10453_PolicyRenewal(@Optional("NJ") String state) {
 
         td = getConversionPolicyDefaultTD();
 
