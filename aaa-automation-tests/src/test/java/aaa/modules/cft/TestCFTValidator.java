@@ -63,7 +63,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private File downloadDir;
 	private File cftResultDir;
 
-	@BeforeClass
+//	@BeforeClass
 	public void precondition() throws IOException {
 		// refreshReports
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
@@ -78,7 +78,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
+//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
 //		runCFTJobs();
 
 		opReportApp().open();
@@ -127,7 +127,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	@Test(groups = {Groups.CFT}, priority = 2)
+//	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
 	public void futureDatedPolicy() {
 
