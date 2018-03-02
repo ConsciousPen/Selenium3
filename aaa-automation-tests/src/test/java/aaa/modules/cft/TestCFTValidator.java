@@ -88,6 +88,10 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor Address: {}", monitorAddress);
 			log.info("Remote file location: {}", remoteFileLocation);
+			sshControllerRemote = new SSHController(
+					monitorAddress,
+					PropertyProvider.getProperty("test.ssh.user"),
+					PropertyProvider.getProperty("test.ssh.password"));
 			Waiters.SLEEP(120000).go();
 		}
 		// get map from OR reports
