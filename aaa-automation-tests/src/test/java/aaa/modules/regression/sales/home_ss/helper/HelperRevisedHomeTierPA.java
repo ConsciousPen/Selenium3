@@ -13,6 +13,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -209,6 +210,62 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Check if the algo is implemented
         PropertyQuoteTab.RatingDetailsView.open();
         assertThat(range.contains( PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+        PropertyQuoteTab.RatingDetailsView.close();
+        mainApp().close();
+
+    }
+
+    public void pas7024_TestPADiscountSection(PolicyType policyType) {
+
+
+        // TODO This needs to be removed after 5/28/18 (new algo implementation)
+        verifyAlgoDate();
+
+        mainApp().open();
+        createCustomerIndividual();
+        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
+        TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
+
+        // Policy Navigate to P&C page calculate premium
+
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
+
+        // Adjust TestData for DP3 policies
+        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
+            applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
+            policySearchDialog.cancel();
+            applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
+        }
+
+        applicantTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        PropertyQuoteTab.linkViewRatingDetails.click();
+
+        // Check if new algo is implemented
+        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Persistency Points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Age Points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Reinstatement Points")).isNotEmpty();
+
+
+        // Issue Policy
+        PropertyQuoteTab.RatingDetailsView.close();
+        premiumsAndCoveragesQuoteTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        //Initiate renewal and Navigate to P&C page calculate premium
+        policyType.get().renew().start().submit();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+
+        // Check if the algo is implemented
+        PropertyQuoteTab.RatingDetailsView.open();
+        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Persistency Points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Age Points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Reinstatement Points")).isNotEmpty();
+
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
 
