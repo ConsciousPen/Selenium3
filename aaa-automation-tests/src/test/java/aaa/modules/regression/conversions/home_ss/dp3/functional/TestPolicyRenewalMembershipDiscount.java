@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author S. Jaraminas
@@ -68,8 +69,8 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSDP3BaseTest {
         billingPaymentAcception(); //Accepts the policy payment bill
         secondRenewal(); //Starts creating second renewal and checks if AAA Membership discount is not applied
 
-        assertFalse(PremiumsAndCoveragesQuoteTab.tableDiscounts
-                .getRow(2).getCell(2).getValue().contains("AAA Membership"));
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
+                .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
     }
 
     private void firstRenewal() {
@@ -77,9 +78,9 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSDP3BaseTest {
                 PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Pay in Full (Renewal)"),
                 PremiumsAndCoveragesQuoteTab.class, true);
-        policyNumber = PremiumsAndCoveragesQuoteTab.labelPolicyNumberSecondGen.getValue();
-        assertTrue(PremiumsAndCoveragesQuoteTab.tableDiscounts
-                .getRow(2).getCell(2).getValue().contains("AAA Membership"));
+        policyNumber = PremiumsAndCoveragesQuoteTab.labelForConversionPolicy.getValue();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
+                .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
         PremiumsAndCoveragesQuoteTab.buttonNext.click();
         policy.getDefaultView().fillFromTo(td, MortgageesTab.class, BindTab.class, true);
         bindTab.submitTab();

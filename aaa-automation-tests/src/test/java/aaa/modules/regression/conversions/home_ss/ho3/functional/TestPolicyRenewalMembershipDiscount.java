@@ -15,6 +15,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -69,8 +70,8 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO3BaseTest {
         billingPaymentAcception(); //Accepts the policy payment bill
         secondRenewal(); //Starts creating second renewal and checks if AAA Membership discount is not applied
 
-        assertFalse(PremiumsAndCoveragesQuoteTab.tableDiscounts
-                .getRow(2).getCell(2).getValue().contains("AAA Membership"));
+        Assertions.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
+                .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
     }
 
     private void firstRenewal() {
@@ -78,9 +79,9 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO3BaseTest {
                 PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Pay in Full (Renewal)"),
                 PremiumsAndCoveragesQuoteTab.class, true);
-        policyNumber = PremiumsAndCoveragesQuoteTab.labelPolicyNumberSecondGen.getValue();
-        assertTrue(PremiumsAndCoveragesQuoteTab.tableDiscounts
-                .getRow(2).getCell(2).getValue().contains("AAA Membership"));
+        policyNumber = PremiumsAndCoveragesQuoteTab.labelForConversionPolicy.getValue();
+        Assertions.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
+                .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
         PremiumsAndCoveragesQuoteTab.buttonNext.click();
         policy.getDefaultView().fillFromTo(td, MortgageesTab.class, BindTab.class, true);
         bindTab.submitTab();
@@ -118,7 +119,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO3BaseTest {
                                 HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(),
                                 HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()),
                                 "4290072030989503"),
-                                ReportsTab.class, false);
+                ReportsTab.class, false);
         reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();
     }

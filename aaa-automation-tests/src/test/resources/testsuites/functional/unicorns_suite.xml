@@ -38,13 +38,4 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRmeMpdDiscountButton"/>
         </classes>
     </test>
-    <test name="PAS-10453 Provide courtesy membership discount " parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ, AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRenewalMembershipDiscount"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRenewalMembershipDiscount"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRenewalMembershipDiscount"/>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalMembershipDiscount"/>
-        </classes>
-    </test>
 </suite>
