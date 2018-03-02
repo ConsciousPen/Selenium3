@@ -215,7 +215,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     }
 
-    public void pas7024_TestPADiscountSection(PolicyType policyType) {
+    public void pas7024_TestPARatingValueSection(PolicyType policyType) {
 
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
@@ -243,9 +243,9 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         PropertyQuoteTab.linkViewRatingDetails.click();
 
         // Check if new algo is implemented
-        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Persistency Points")).isNotEmpty();
-        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Age Points")).isNotEmpty();
-        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Reinstatement Points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Persistency points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
 
 
         // Issue Policy
@@ -262,9 +262,9 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         // Check if the algo is implemented
         PropertyQuoteTab.RatingDetailsView.open();
-        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Persistency Points")).isNotEmpty();
-        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Age Points")).isNotEmpty();
-        assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Reinstatement Points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Persistency points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
 
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();

@@ -12,30 +12,30 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Dominykas Razgunas
- * @name Test that the Home Discount Section ha new rating implementation
+ * @name Test that the Home Value Section ha new rating implementation
  * @scenario
  * 1. Create PA HO6 Policy
  * 2. Fill All required fields and Calculate Premium
  * 3. View Rating Details
- * 4. Check that Home tier value is between A and J
+ * 4. Check that Value section contains Persistency, Reinstatements, Age Points
  * 5. Issue Policy
  * 6. Initiate renewal
  * 7. Calculate Premium
- * 8. Check that Home tier value is between A and J
+ * 8. Check that Value section contains Persistency, Reinstatements, Age Points
  * @details
  */
 
 
-public class TestPADiscountSection extends HomeSSHO6BaseTest {
+public class TestPARatingValueSection extends HomeSSHO6BaseTest {
 
     private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "PA Revised Home Tier - UI Change : Discount section")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "PA Revised Home Tier - UI Change : Value section")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-7024")
-    public void pas7024_TestPADiscountSection(@Optional("PA") String state) {
+    public void pas7024_TestPARatingValueSection(@Optional("PA") String state) {
 
-        helper.pas7024_TestPADiscountSection(getPolicyType());
+        helper.pas7024_TestPARatingValueSection(getPolicyType());
 
     }
 }
