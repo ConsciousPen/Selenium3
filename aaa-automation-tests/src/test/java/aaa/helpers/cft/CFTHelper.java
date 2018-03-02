@@ -1,6 +1,7 @@
 package aaa.helpers.cft;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -100,4 +101,16 @@ public class CFTHelper extends BaseTest {
 		style.setBorderTop(BorderStyle.MEDIUM);
 	}
 
+	public static int downloadComplete(File dir, String suffix) {
+		log.info("Checking Download folder, folder name {}, {} files in folder", dir.toString(), dir.listFiles().length);
+		int count = dir.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				log.info("File in Download folder: {}", name);
+				boolean result = name.toLowerCase().endsWith(suffix);
+				return result;
+			}
+		}).length;
+		return count;
+	}
 }

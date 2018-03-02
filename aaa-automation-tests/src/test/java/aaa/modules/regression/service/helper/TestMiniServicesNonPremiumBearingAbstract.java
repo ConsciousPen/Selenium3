@@ -896,8 +896,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Check if policy can be unlocked using unlock service
 		PolicyLockUnlockDto response4 = HelperCommon.executePolicyUnlockService(policyNumber, 500);
 		assertSoftly(softly -> {
-			softly.assertThat(response4.getPolicyNumber()).isEqualTo("300");
-			softly.assertThat(response4.getStatus()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+			softly.assertThat(response4.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 	}
 

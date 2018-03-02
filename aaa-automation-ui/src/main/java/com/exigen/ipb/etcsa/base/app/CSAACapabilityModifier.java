@@ -2,6 +2,7 @@ package com.exigen.ipb.etcsa.base.app;
 
 import java.util.HashMap;
 import java.util.function.Function;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
 import toolkit.config.PropertyProvider;
 
 public class CSAACapabilityModifier implements Function<DesiredCapabilities, DesiredCapabilities> {
@@ -29,12 +31,13 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 		}
 		switch (desiredCapabilities.getBrowserName()) {
 
-			case CHROME: {
+			case CHROME : {
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--no-sandbox");
 				options.setExperimentalOption("useAutomationExtension", false);
 				HashMap<String, Object> chromePrefs = new HashMap<>();
 				chromePrefs.put("profile.default_content_settings.popups", 0);
+				chromePrefs.put("download.prompt_for_download", "false");
 				chromePrefs.put("download.default_directory", downloadPath);
 				options.setExperimentalOption("prefs", chromePrefs);
 
@@ -42,7 +45,7 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 				desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 				break;
 			}
-			case FIREFOX: {
+			case FIREFOX : {
 				FirefoxProfile profile = new FirefoxProfile();
 				profile.setPreference("browser.download.dir", downloadPath);
 				profile.setPreference("browser.download.folderList", 2);
