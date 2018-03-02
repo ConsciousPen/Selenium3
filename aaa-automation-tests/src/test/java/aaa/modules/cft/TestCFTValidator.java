@@ -103,6 +103,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(30000).go();
 //		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
+		Waiters.SLEEP(180000).go();
 		// moving data from monitor to download dir
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
             sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
