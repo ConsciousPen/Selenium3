@@ -1,6 +1,7 @@
 package aaa.modules.cft;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
@@ -11,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -46,7 +49,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
 	private static final String CFT_VALIDATION_REPORT = "CFT_Validations.xls";
-	private static final String FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
+	private static final String CFT_FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
 
 	private String sqlGetLedgerData = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= %s group by  le.LEDGERACCOUNTNO";
 
@@ -69,36 +72,37 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		CFTHelper.checkDirectory(cftResultDir);
 	}
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
+	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
-		runCFTJobs();
-		// get map from OR reports
+//		runCFTJobs();
+
 		opReportApp().open();
+		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
-		// condition that download/remote download folder listfiles.size==1
+		Waiters.SLEEP(30000).go();
+//		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
-		// condition that download/remote download folder listfiles.size==2
+		Waiters.SLEEP(30000).go();
+//		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
 		// moving data from monitor to download dir
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-			log.info("Monitor info: " + monitorInfo);
-			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
-			log.info("Monitor Address: " + monitorAddress);
+			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			log.info("Monitor Address: {}", monitorAddress);
+			log.info("Remote file location: {}", remoteFileLocation);
+			Waiters.SLEEP(120000).go();
 			SSHController sshControllerRemote = new SSHController(
-				monitorAddress,
-				PropertyProvider.getProperty("test.ssh.user"),
-				PropertyProvider.getProperty("test.ssh.password"));
-			sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
-			Waiters.SLEEP(15000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+					monitorAddress,
+					PropertyProvider.getProperty("test.ssh.user"),
+					PropertyProvider.getProperty("test.ssh.password"));
+            sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
+			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// Remote path from server -
@@ -118,14 +122,11 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void futureDatedPolicy(@Optional(StringUtils.EMPTY) String state) {
+	public void futureDatedPolicy() {
 
-		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE = 'DepositPayment' order by BILLINGACCOUNTNUMBER"; // TRANSACTIONTYPE
-																																																		// is
-																																																		// null
+		String query1 = "select distinct BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where LEDGERACCOUNTNO = 1065 and TRANSACTIONTYPE is null order by BILLINGACCOUNTNUMBER";
 		String query2 = "select BILLINGACCOUNTNUMBER as ACCNUMBER, TXDATE from LEDGERENTRY where BILLINGACCOUNTNUMBER = %s and LEDGERACCOUNTNO =1065 and to_char(txdate, 'yyyymmdd') >= %s order by TXDATE";
 		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();
 		List<Map<String, String>> dbResult = DBService.get().getRows(query1);
@@ -135,7 +136,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			List<Map<String, String>> dbTransactions = DBService.get().getRows(query);
 			accNumberTable.add(dbTransactions);
 		}
-		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + FUTURE_DATED_REPORT);
+		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + CFT_FUTURE_DATED_REPORT);
 		log.info("Future dated policies were verified");
 	}
 
@@ -207,5 +208,4 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		}
 		return accountsMapSummaryFromFeedFile;
 	}
-
 }
