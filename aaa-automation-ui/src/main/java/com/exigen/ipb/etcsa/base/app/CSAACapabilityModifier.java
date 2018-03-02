@@ -41,12 +41,6 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 				chromePrefs.put("download.default_directory", downloadPath);
 				options.setExperimentalOption("prefs", chromePrefs);
 
-
-				HashMap<String, Object> chromeOptionsMap = new HashMap<>();
-				options.addArguments("--test-type");
-				desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptionsMap);
-
-
 				desiredCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 				desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 				break;
