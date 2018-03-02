@@ -65,11 +65,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify conversion specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
-	 * 4. set Up Trigger Home Banking Conversion Renewal
-	 * 5. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
-	 * 6. General bill and accept payment and run policyStatusUpdateJob
-	 * 7. Create and issue second renewal
-	 * 8. Check verify Policy Transaction Code and conversion specific forms absense
+	 * 4. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
+	 * 5. General bill and accept payment and run policyStatusUpdateJob
+	 * 6.Create and issue second renewal
+	 * 7. Check verify Policy Transaction Code and conversion specific forms absense
 	 */
 
 	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
@@ -98,8 +97,6 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		pas9607_verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		//needed for home banking form generation
-		setUpTriggerHomeBankingConversionRenewal(policyNumber);
 
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -219,8 +216,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
 	}
 
 	public void pas9816_verifyBillingRenewalPackageAbsence(String policyNumber) {
