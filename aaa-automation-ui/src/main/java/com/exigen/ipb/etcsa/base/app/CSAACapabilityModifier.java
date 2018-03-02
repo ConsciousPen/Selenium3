@@ -37,6 +37,7 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 				options.setExperimentalOption("useAutomationExtension", false);
 				HashMap<String, Object> chromePrefs = new HashMap<>();
 				chromePrefs.put("profile.default_content_settings.popups", 0);
+				chromePrefs.put("download.prompt_for_download", "false");
 				chromePrefs.put("download.default_directory", downloadPath);
 				options.setExperimentalOption("prefs", chromePrefs);
 

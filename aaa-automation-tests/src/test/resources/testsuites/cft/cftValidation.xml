@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CFT Validation">
+<suite name="CFT Validation" >
 
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>

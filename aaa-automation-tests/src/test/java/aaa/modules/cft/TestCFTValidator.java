@@ -58,6 +58,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		PropertyProvider.getProperty(TestProperties.SSH_USER),
 		PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
 
+	private SSHController sshControllerRemote;
+
 	private File downloadDir;
 	private File cftResultDir;
 
@@ -80,6 +82,18 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 //		runCFTJobs();
 
 		opReportApp().open();
+		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
+		if (StringUtils.isNotEmpty(remoteFileLocation)) {
+			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			log.info("Monitor Address: {}", monitorAddress);
+			log.info("Remote file location: {}", remoteFileLocation);
+			sshControllerRemote = new SSHController(
+					monitorAddress,
+					PropertyProvider.getProperty("test.ssh.user"),
+					PropertyProvider.getProperty("test.ssh.password"));
+			Waiters.SLEEP(120000).go();
+		}
 		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 		Waiters.SLEEP(30000).go();
@@ -89,18 +103,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(30000).go();
 //		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
+		Waiters.SLEEP(180000).go();
 		// moving data from monitor to download dir
-		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
-			log.info("Monitor Address: {}", monitorAddress);
-			log.info("Remote file location: {}", remoteFileLocation);
-			Waiters.SLEEP(120000).go();
-			SSHController sshControllerRemote = new SSHController(
-					monitorAddress,
-					PropertyProvider.getProperty("test.ssh.user"),
-					PropertyProvider.getProperty("test.ssh.password"));
             sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
 			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
