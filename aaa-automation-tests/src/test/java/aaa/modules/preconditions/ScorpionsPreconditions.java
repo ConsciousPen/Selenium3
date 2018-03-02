@@ -23,8 +23,12 @@ public class ScorpionsPreconditions extends BaseTest {
 	private String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 
+	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
-	@Test(groups = {Groups.PRECONDITION}, description = "Renewal job adding")
+	private String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
+
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION}, description = "Renewal job adding")
 	@TestInfo()
 	public void renewalJobAdding() {
 		adminApp().open();
@@ -34,13 +38,13 @@ public class ScorpionsPreconditions extends BaseTest {
 		assertThat(GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_2)).isEqualTo(true);
 	}
 
-	@Test(groups = {Groups.PRECONDITION},description = "Enable vin refresh")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Enable vin refresh")
 	public void enableVinRefresh() {
 		int result = DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "true"));
 		assertThat(result).isGreaterThan(0);
 	}
 
-	@Test(groups = {Groups.PRECONDITION},description = "Precondition set doc generation endpoints")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Precondition set doc generation endpoints")
 	public static void docGenStubEndpointInsert() {
 		int result = 0;
 		List<String> queries = Arrays.asList(DOC_GEN_WEB_CLIENT,AAA_RETRIEVE_AGREEMENT_WEB_CLIENT,AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
@@ -50,25 +54,16 @@ public class ScorpionsPreconditions extends BaseTest {
 		}
 	}
 
-	String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
-
 
 	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void paymentCentralStubEndPointUpdate() {
 		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, propertyAppHost, propertyAppStubURLTemplate));
 	}
 
-	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
-
 	//http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveMembershipSummary
-	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.PRECONDITION})
+	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void updateMembershipSummaryStubEndpoint() {
 		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, propertyAppHost, propertyAppStubURLTemplate));
 	}
 
-	@Test(description = "Preconditions")
-	private void paymentCentralConfigCheck() {
-		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get()).contains(propertyAppHost);
-	}
 }
