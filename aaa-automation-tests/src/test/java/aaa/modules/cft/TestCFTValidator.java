@@ -78,7 +78,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
+//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
 //		runCFTJobs();
 
 		opReportApp().open();
