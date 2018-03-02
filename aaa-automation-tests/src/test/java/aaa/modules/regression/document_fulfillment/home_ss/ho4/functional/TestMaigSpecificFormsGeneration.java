@@ -17,23 +17,44 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		return PolicyType.HOME_SS_HO4;
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * PAS-9607
+	 * PAS-2674
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
 		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * PAS-9607
+	 * PAS-2674
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
 	public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
 		// CW, DE, VA
 		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * PAS-9816
+	 * PAS-9607
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9816"})
 	public void pas9816_SpecificBillingPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
 		// CW, DE, VA

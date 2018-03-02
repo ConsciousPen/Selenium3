@@ -55,6 +55,23 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	private ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
+	/**
+	 * @author Viktor Petrenko
+	 *
+	 * PAS-2674 MAIG CONVERSION: test conversion renewal offer package generation and print sequence of end/notices (HO3,HO4,HO6,DP3,PUP)
+	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
+	 *
+	 * @scenario
+	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * 2. Verify conversion specific renewal offer packet was generated in right sequence
+	 * 3. Verify Policy Transaction Code
+	 * 4. set Up Trigger Home Banking Conversion Renewal
+	 * 5. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
+	 * 6. General bill and accept payment and run policyStatusUpdateJob
+	 * 7. Create and issue second renewal
+	 * 8. Check verify Policy Transaction Code and conversion specific forms absense
+	 */
+
 	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
@@ -119,13 +136,27 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		// Shouldn't be after second renewal
 		pas2674_verifyConversionRenewalPackageAbsence(forms, policyNumber, actualDocumentsListAfterFirstRenewal);
-
-		//Generate Bill for the second renewal to verify Home Banking forms
-		billGeneration(renewalOfferEffectiveDate.plusYears(1));
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 *
+	 * PAS-9816 PAS-9816 MAIG CONVERSION: test conversion renewal billing package generation and print sequence (HO3,HO4,HO6,DP3,PUP)
+	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
+	 *
+	 * @scenario
+	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * 2. Verify billing specific renewal offer packet was generated in right sequence
+	 * 3. Verify Policy Transaction Code
+	 * 4. set Up Trigger Home Banking Conversion Renewal
+	 * 5. Add credit card payment method and enable autopay
+	 * 6. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
+	 * 7. General bill and accept payment and run policyStatusUpdateJob
+	 * 8. Create and issue second renewal
+	 * 9. Check verify Policy Transaction Code and billing specific forms absense
+	 */
 	protected void verifyBillingFormsSequence(TestData testData) throws NoSuchFieldException {
-		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
+		/* Start PAS-9816 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
@@ -156,7 +187,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
 
-		// Start PAS-2764 Scenario 1 Issue first renewal
+		// Start PAS-9816 Scenario 1 Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
@@ -168,7 +199,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		// End PAS-2764 Scenario 1 Issue first renewal
+		// End PAS-9816 Scenario 1 Issue first renewal
 
 		/* Scenario 2, create and issue second renewal and verify documents list */
 		issueSecondRenewal(renewalOfferEffectiveDate);
