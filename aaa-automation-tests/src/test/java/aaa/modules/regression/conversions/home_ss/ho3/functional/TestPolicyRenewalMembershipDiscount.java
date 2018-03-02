@@ -70,7 +70,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO3BaseTest {
         billingPaymentAcception(); //Accepts the policy payment bill
         secondRenewal(); //Starts creating second renewal and checks if AAA Membership discount is not applied
 
-        Assertions.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
                 .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
     }
 
@@ -80,7 +80,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO3BaseTest {
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Pay in Full (Renewal)"),
                 PremiumsAndCoveragesQuoteTab.class, true);
         policyNumber = PremiumsAndCoveragesQuoteTab.labelForConversionPolicy.getValue();
-        Assertions.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
                 .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
         PremiumsAndCoveragesQuoteTab.buttonNext.click();
         policy.getDefaultView().fillFromTo(td, MortgageesTab.class, BindTab.class, true);
