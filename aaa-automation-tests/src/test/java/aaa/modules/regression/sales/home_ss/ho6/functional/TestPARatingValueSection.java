@@ -10,25 +10,24 @@ import aaa.modules.policy.HomeSSHO6BaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import toolkit.utils.TestInfo;
 
-/**
- * @author Dominykas Razgunas
- * @name Test that the Home Value Section has new rating implementation
- * @scenario
- * 1. Create PA HO6 Policy
- * 2. Fill All required fields and Calculate Premium
- * 3. View Rating Details
- * 4. Check that Value section contains Persistency, Reinstatements, Age Points
- * 5. Issue Policy
- * 6. Initiate renewal
- * 7. Calculate Premium
- * 8. Check that Value section contains Persistency, Reinstatements, Age Points
- * @details
- */
-
-
 public class TestPARatingValueSection extends HomeSSHO6BaseTest {
 
     private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
+
+    /**
+     * @author Dominykas Razgunas
+     * @name Test that the Home Value Section has new rating implementation
+     * @scenario
+     * 1. Create PA HO6 Policy
+     * 2. Fill All required fields and Calculate Premium
+     * 3. View Rating Details
+     * 4. Check that Value section contains Persistency, Reinstatements, Age Points
+     * 5. Issue Policy
+     * 6. Initiate renewal
+     * 7. Calculate Premium
+     * 8. Check that Value section contains Persistency, Reinstatements, Age Points
+     * @details
+     */
 
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "PA Revised Home Tier - UI Change : Value section")
