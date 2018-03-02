@@ -12,7 +12,7 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Dominykas Razgunas
- * @name Test that the Home Value Section ha new rating implementation
+ * @name Test that the Home Value Section has new rating implementation
  * @scenario
  * 1. Create PA HO4 Policy
  * 2. Fill All required fields and Calculate Premium
