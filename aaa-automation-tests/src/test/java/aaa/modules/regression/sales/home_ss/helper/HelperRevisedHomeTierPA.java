@@ -214,6 +214,62 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     }
 
+    public void pas7024_TestPARatingValueSection(PolicyType policyType) {
+
+
+        // TODO This needs to be removed after 5/28/18 (new algo implementation)
+        verifyAlgoDate();
+
+        mainApp().open();
+        createCustomerIndividual();
+        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
+        TestData tdHome = getTdWithAutoPolicy(tdAuto, policyType);
+
+        // Policy Navigate to P&C page calculate premium
+
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
+
+        // Adjust TestData for DP3 policies
+        if (policyType.equals(PolicyType.HOME_SS_DP3)) {
+            applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
+            policySearchDialog.cancel();
+            applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
+        }
+
+        applicantTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        PropertyQuoteTab.linkViewRatingDetails.click();
+
+        // Check if new algo is implemented
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Persistency points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
+
+
+        // Issue Policy
+        PropertyQuoteTab.RatingDetailsView.close();
+        premiumsAndCoveragesQuoteTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        //Initiate renewal and Navigate to P&C page calculate premium
+        policyType.get().renew().start().submit();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+        PropertyQuoteTab.RatingDetailsView.open();
+
+        // Check if the algo is implemented
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Persistency points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
+
+        PropertyQuoteTab.RatingDetailsView.close();
+        mainApp().close();
+
+    }
+
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
