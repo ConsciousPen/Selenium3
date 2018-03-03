@@ -1,15 +1,15 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_MOTORHOME_VEH_MSRP_VERSION;
-import org.testng.annotations.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
+import org.testng.annotations.*;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import static aaa.helpers.db.queries.MsrpQueries.CA_SELECT_MOTORHOME_VEH_MSRP_VERSION;
 
 public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -75,12 +75,6 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	@AfterMethod(alwaysRun = true)
 	protected void resetMSRPTables() {
 		pas730_SelectCleanDataBase(CA_SELECT_MOTORHOME_VEH_MSRP_VERSION,vehicleTypeMotorHome);
-	}
-
-	@AfterClass(alwaysRun = true)
-	protected void resetVinUploadTables() {
-		String configNames = "('SYMBOL_2000_CA_SELECT')";
-		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
 	}
 
 	@AfterSuite(alwaysRun = true)

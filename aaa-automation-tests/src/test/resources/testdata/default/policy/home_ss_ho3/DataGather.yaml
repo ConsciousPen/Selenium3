@@ -409,7 +409,7 @@ AgentInfo_CT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  Agency Location: index=1,
   Agent: 'House Agent Allied Club'
 }
 
@@ -880,7 +880,7 @@ DwellingAddress_KY: {
 AgentInfo_KY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  Agency Location: index=1,
   Agent: 'House Agent Allied Club',
   TollFree Number: 1
 }
@@ -1204,8 +1204,8 @@ DwellingAddress_NV: {
 AgentInfo_NV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'AAA Rainbow Plazas - 500037835 - Las Vegas (0178)',
-  Agent: 'House Agent Rainbow Plaza'
+  Agency Location: 'Antioch - 500005349 - Antioch',
+  Agent: 'House Agent Antioch',
 }
 
 UnderwritingAndApprovalTab_NV: {
@@ -1267,8 +1267,8 @@ DwellingAddress_NY: {
 AgentInfo_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-  Agency Location: 'AAA Vestal - 500042867 - Vestal',
-  Agent: 'House Agent Vestal'
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agent: 'House Agent QUEENSBURY',
 }
 
 ReportsTab_NY: {
@@ -1458,7 +1458,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
 AgentInfo_OK: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
-  Agency Location: 'AAA Oklahoma - Langley - 500005241 - Langley',
+  Agency Location: index=1,
   Agent: 'House Agent AAA W Oklahoma'
 }
 
@@ -1688,7 +1688,7 @@ DwellingAddress_SD: {
 AgentInfo_SD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
-  Agency Location: 'Rapid City - 500020872 - Rapid City',
+  Agency Location: index=1,
   Agent: 'House Agent AAA SD',
   TollFree Number: 1
 }
@@ -1780,7 +1780,7 @@ DwellingAddress_VA: {
 AgentInfo_VA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'Brick CCIT - 500017222 - Brick',
+  Agency Location: index=1,
   Agent: 'House Agent Mid-Atlantic'
 }
 
@@ -1935,8 +1935,8 @@ DwellingAddress_WY: {
 AgentInfo_WY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
-  Agency Location: 'Billings EA - 500034432 - Billings',
-  Agent: 'House Agent Mountain West'
+  Agency Location: 'Billings - 500005160 - Billings',
+  Agent: 'House Agent Billings',
 }
 
 ReportsTab_WY: {

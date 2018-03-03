@@ -16,13 +16,14 @@
         </classes>
     </test>
 
+    <!--- Commented until QC-26288 is fixed.
     <test name="Test Defensive Driver Discount">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
-
+-->
     <test name="Test Calculate Tier for NY converted policies">
         <parameter name="state" value="NY"/>
         <classes>
@@ -121,6 +122,16 @@
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
+        </classes>
+    </test>
+
+    <test name="Test that the Home Value Section has new rating implementation">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARatingValueSection"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPARatingValueSection"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPARatingValueSection"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPARatingValueSection"/>
         </classes>
     </test>
 -->
