@@ -34,4 +34,12 @@ public class TestMiniServicesNonPremiumBearingAbstractPreconditions {
 			+ "where 1=1\n"
 			+ "and lookuplist_id = (select id from lookuplist where lookupname = 'AAAeValueQualifyingPaymentPlans')\n"
 			+ "and riskstatecd = 'WY'";
+
+
+	public static final String UPDATE_EFFECTIVE_DATE= "update lookupvalue\n"
+			+ "set EFFECTIVE=(select SYSDATE+5 from dual) where id='2204068000'";
+
+
+	public static final String UPDATE_EFFECTIVE_DATE1= "update lookupvalue\n"
+			+ "set EFFECTIVE= null where id='2204068000'";
 }

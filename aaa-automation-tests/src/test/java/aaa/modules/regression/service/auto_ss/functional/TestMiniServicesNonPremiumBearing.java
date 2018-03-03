@@ -413,6 +413,32 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	/**
+	 * @author Megha Gubbala
+	 * @name Check Start Endorsement info server response for allow endorsements
+	 * @scenario
+	 * 1. Create active policy for NJ.
+	 * 2. Hit dxp start-endorsement-info.
+	 * 3. Verify the response State does not allow endorsements.
+	 * 4. Hit "start endorsement info" dxp server.
+	 * 5. Update the configuration from DB with effective date (6 days future).
+	 * 6. change the server date to the 6 days future .
+	 * 7. Hit "start endorsement info" dxp server.
+	 * 8.Verify the response we should not see this message State does not allow endorsements.
+	 */
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9489"})
+	public void pas9489_GreenButtonServiceStateandProductConfigurationEffective(@Optional("NJ") String state) {
+
+		pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(getPolicyType());
+
+	}
+
+
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Cancel Policy
 	 * @scenario
@@ -484,7 +510,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * @author Oleg Stasyuk
 	 * @name Retrieve lookup data service - Payment Methods
 	 * @scenario
-	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's l
 	 * 2. Add State Specific configurations for specific dates, which adds new values to it
 	 * 3. Retrieve lookup values for the mentioned dates, check value
 	 */
