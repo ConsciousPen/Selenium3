@@ -421,7 +421,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 8.Verify the response we should not see this message State does not allow endorsements.
 	 */
 
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9489"})
@@ -430,8 +429,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(getPolicyType());
 
 	}
-
-
 
 	/**
 	 * @author Jovita Pukenaite
@@ -505,7 +502,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * @author Oleg Stasyuk
 	 * @name Retrieve lookup data service - Payment Methods
 	 * @scenario
-	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's l
+	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
 	 * 2. Add State Specific configurations for specific dates, which adds new values to it
 	 * 3. Retrieve lookup values for the mentioned dates, check value
 	 */
