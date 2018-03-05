@@ -106,7 +106,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(180000).go();
 		// moving data from monitor to download dir
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-            sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
+            sshControllerRemote.downloadFolder(new File("/home/autotest/Downloads"), downloadDir);
 			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
