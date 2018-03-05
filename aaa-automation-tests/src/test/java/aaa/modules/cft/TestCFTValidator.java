@@ -53,6 +53,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private static final String CFT_FUTURE_DATED_REPORT = "CFT_FutureDatedPolicies.xls";
 
 	private String sqlGetLedgerData = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= %s group by  le.LEDGERACCOUNTNO";
+	private String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 
 	private SSHController sshController = new SSHController(
 		PropertyProvider.getProperty(TestProperties.APP_HOST),
@@ -60,7 +61,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
 
 	private SSHController sshControllerRemote;
-
 	private File downloadDir;
 	private File cftResultDir;
 
@@ -83,7 +83,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 //		runCFTJobs();
 
 		opReportApp().open();
-		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
@@ -92,12 +91,11 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 					monitorAddress,
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
-//			Waiters.SLEEP(120000).go();
 		}
 		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 		Waiters.SLEEP(30000).go();
-//		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
 		Waiters.SLEEP(30000).go();
@@ -212,5 +210,24 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			}
 		}
 		return accountsMapSummaryFromFeedFile;
+	}
+
+	private int downloadComplete(File dir, String suffix) throws SftpException, JSchException {
+//		log.info("Checking Download folder, folder name {}, {} files in folder", dir.toString(), dir.listFiles().length);
+		int count=0;
+		if (StringUtils.isNotEmpty(remoteFileLocation)) {
+			count = dir.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					log.info("File in Download folder: {}", name);
+					boolean result = name.toLowerCase().endsWith(suffix);
+					return result;
+				}
+			}).length;
+		} else {
+				count = sshControllerRemote.getFilesList(dir).size();
+				log.info("File count = {}", count);
+		}
+		return count;
 	}
 }

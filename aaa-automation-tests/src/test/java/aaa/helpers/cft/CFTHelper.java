@@ -21,6 +21,7 @@ import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
+import toolkit.utils.SSHController;
 
 public class CFTHelper extends BaseTest {
 
@@ -99,18 +100,5 @@ public class CFTHelper extends BaseTest {
 		style.setBorderLeft(BorderStyle.MEDIUM);
 		style.setBorderRight(BorderStyle.MEDIUM);
 		style.setBorderTop(BorderStyle.MEDIUM);
-	}
-
-	public static int downloadComplete(File dir, String suffix) {
-		log.info("Checking Download folder, folder name {}, {} files in folder", dir.toString(), dir.listFiles().length);
-		int count = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				log.info("File in Download folder: {}", name);
-				boolean result = name.toLowerCase().endsWith(suffix);
-				return result;
-			}
-		}).length;
-		return count;
 	}
 }
