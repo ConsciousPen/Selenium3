@@ -63,23 +63,23 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private File downloadDir;
 	private File cftResultDir;
 
-//	@BeforeClass
-//	public void precondition() throws IOException {
-//		// refreshReports
-//		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
-//
-//		downloadDir = new File(DOWNLOAD_DIR);
-//		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-//		CFTHelper.checkDirectory(downloadDir);
-//		CFTHelper.checkDirectory(cftResultDir);
-//	}
+	@BeforeClass
+	public void precondition() throws IOException {
+		// refreshReports
+		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
+
+		downloadDir = new File(DOWNLOAD_DIR);
+		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
+		CFTHelper.checkDirectory(downloadDir);
+		CFTHelper.checkDirectory(cftResultDir);
+	}
 
 	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
-//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
-//		runCFTJobs();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
+		runCFTJobs();
 
 		opReportApp().open();
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
@@ -127,7 +127,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-//	@Test(groups = {Groups.CFT}, priority = 2)
+	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
 	public void futureDatedPolicy() {
 
