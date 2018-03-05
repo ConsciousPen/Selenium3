@@ -43,7 +43,8 @@ import com.jcraft.jsch.SftpException;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
-	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location"; // location /home/autotest/Downloads
+	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location"; // location /root/Downloads
+	private static final String REMOTE_DOWNLOAD_FOLDER = "/home/autotest/Downloads";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
@@ -63,16 +64,16 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private File downloadDir;
 	private File cftResultDir;
 
-//	@BeforeClass
-//	public void precondition() throws IOException {
-//		// refreshReports
-//		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
-//
-//		downloadDir = new File(DOWNLOAD_DIR);
-//		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-//		CFTHelper.checkDirectory(downloadDir);
-//		CFTHelper.checkDirectory(cftResultDir);
-//	}
+	@BeforeClass
+	public void precondition() throws IOException {
+		// refreshReports
+		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
+
+		downloadDir = new File(DOWNLOAD_DIR);
+		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
+		CFTHelper.checkDirectory(downloadDir);
+		CFTHelper.checkDirectory(cftResultDir);
+	}
 
 	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
@@ -87,12 +88,11 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor Address: {}", monitorAddress);
-			log.info("Remote file location: {}", remoteFileLocation);
 			sshControllerRemote = new SSHController(
 					monitorAddress,
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
-			Waiters.SLEEP(120000).go();
+//			Waiters.SLEEP(120000).go();
 		}
 		// get map from OR reports
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
@@ -103,14 +103,14 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(30000).go();
 //		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
-		Waiters.SLEEP(180000).go();
-		// moving data from monitor to download dir
+		Waiters.SLEEP(30000).go();
+		// moving Balances from monitor to download dir
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-            sshControllerRemote.downloadFolder(new File("/home/autotest/Downloads"), downloadDir);
+            sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
 			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
-		// Remote path from server -
+		// moving Feed file from App server to download dir
 		sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
 		Map<String, Double> accountsMapSummaryFromFeedFile = getFeedFilesValues();
 		// get Map from DB
