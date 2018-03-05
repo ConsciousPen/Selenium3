@@ -83,6 +83,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 //		runCFTJobs();
 
 		opReportApp().open();
+		// get map from OR reports
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
@@ -91,21 +92,22 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 					monitorAddress,
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
-		}
-		// get map from OR reports
+			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
+			log.info("Policy Trial Balance created");
+			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER))==2);
+			log.info("Billing Trial Balance created");
+			// moving Balances from monitor to download dir
+				sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
+				Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
+		} else{
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Waiters.SLEEP(30000).go();
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
 		log.info("Policy Trial Balance created");
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Waiters.SLEEP(30000).go();
-//		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
+		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
 		log.info("Billing Trial Balance created");
-		Waiters.SLEEP(30000).go();
-		// moving Balances from monitor to download dir
-		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-            sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
-			Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// moving Feed file from App server to download dir
@@ -210,24 +212,5 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			}
 		}
 		return accountsMapSummaryFromFeedFile;
-	}
-
-	private int downloadComplete(File dir, String suffix) throws SftpException, JSchException {
-		log.info("Checking Download folder, folder name {}", dir.toString());
-		int count=0;
-		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-			count = sshControllerRemote.getFilesList(dir).size();
-			log.info("File count = {}", count);
-		} else {
-			count = dir.listFiles(new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					log.info("File in Download folder: {}", name);
-					boolean result = name.toLowerCase().endsWith(suffix);
-					return result;
-				}
-			}).length;
-		}
-		return count;
 	}
 }
