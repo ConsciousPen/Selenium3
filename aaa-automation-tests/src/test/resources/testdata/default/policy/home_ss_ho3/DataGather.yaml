@@ -1204,8 +1204,8 @@ DwellingAddress_NV: {
 AgentInfo_NV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Antioch - 500005349 - Antioch',
-  Agent: 'House Agent Antioch',
+  Agency Location: 'AAA Rainbow Plazas - 500037835 - Las Vegas (0178)',
+  Agent: 'House Agent Rainbow Plaza'
 }
 
 UnderwritingAndApprovalTab_NV: {
@@ -1267,8 +1267,8 @@ DwellingAddress_NY: {
 AgentInfo_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
-  Agent: 'House Agent QUEENSBURY',
+  Agency Location: 'AAA Vestal - 500042867 - Vestal',
+  Agent: 'House Agent Vestal'
 }
 
 ReportsTab_NY: {

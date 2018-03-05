@@ -961,8 +961,8 @@ PolicyInfo_NV: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Antioch - 500005349 - Antioch',
-  Agent: 'House Agent Antioch',
+  Agency Location: 'AAA Rainbow Plazas - 500037835 - Las Vegas (0178)',
+  Agent: 'House Agent Rainbow Plaza',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -1022,8 +1022,8 @@ PolicyInfo_NY: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
-  Agent: 'House Agent QUEENSBURY',
+  Agency Location: 'AAA Vestal - 500042867 - Vestal',
+  Agent: 'House Agent Vestal',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -1360,7 +1360,7 @@ PolicyInfo_VA: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'Brick CCIT - 500017222 - Brick',
+  Agency Location: index=1,
   Agent: 'House Agent Mid-Atlantic',
   Commission Type: New Business,
   Lead source: Yellow Pages

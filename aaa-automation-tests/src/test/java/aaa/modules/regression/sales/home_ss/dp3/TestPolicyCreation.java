@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.dp3;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,12 +16,12 @@ import aaa.modules.policy.HomeSSDP3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Automation team
  * @name Test Create Home Quote
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Quote
- * 3. Verify quote status is 'Premium Calculated'
+ * 2. Create Home DP3 policy
+ * 3. Verify policy status is 'Active'
  * @details
  */
 public class TestPolicyCreation extends HomeSSDP3BaseTest {
@@ -32,6 +34,6 @@ public class TestPolicyCreation extends HomeSSDP3BaseTest {
         createCustomerIndividual();
         policy.createPolicy(getPolicyTD("DataGather", "TestData"));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

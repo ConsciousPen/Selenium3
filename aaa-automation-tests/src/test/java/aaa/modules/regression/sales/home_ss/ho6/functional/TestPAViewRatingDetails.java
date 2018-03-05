@@ -10,7 +10,7 @@ import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import toolkit.utils.TestInfo;
 
 
-public class TestPAViewRatingDetailsAutoTier extends HomeSSHO6BaseTest {
+public class TestPAViewRatingDetails extends HomeSSHO6BaseTest {
 
 	private HelperRevisedHomeTierPA helper = new HelperRevisedHomeTierPA();
 
@@ -22,18 +22,22 @@ public class TestPAViewRatingDetailsAutoTier extends HomeSSHO6BaseTest {
 	 * 2. Fill All required fields and Calculate Premium
 	 * 3. View Rating Details
 	 * 4. Check that Auto tier value is between 1 and 16
-	 * 5. Issue Policy
-	 * 6. Initiate renewal
-	 * 7. Calculate Premium
-	 * 8. Check that Auto tier value is between 1 and 16
+	 * 5. Check that Market tier value is between A and J
+	 * 6. Check that Persistency, Age, Reinstatements points value are displayed
+	 * 7. Issue Policy
+	 * 8. Initiate renewal
+	 * 9. Calculate Premium
+	 * 10. Check that Auto tier value is between 1 and 16
+	 * 11. Check that Market tier value is between A and J
+	 * 12. Check that Persistency, Age, Reinstatements points value are displayed
 	 * @details
 	 **/
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - UI Change : View Rating Details screen")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6676")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6676, PAS-7025, PAS-7024")
 	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
 
-		helper.pas6676_TestPAViewRatingDetailsAutoTier(getPolicyType());
+		helper.pas6676_TestPAViewRatingDetails(getPolicyType());
 	}
 }

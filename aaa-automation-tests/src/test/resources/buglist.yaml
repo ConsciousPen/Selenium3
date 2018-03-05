@@ -193,3 +193,11 @@ PAS-10350:
   failures:
     - tests: [aaa.modules]
       messages: ['Cannot get value of StaticElement', "Errors: 'Roof Type' is not in within range"]
+PAS-10661:
+  summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCheck,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH]
+      messages: ['*Cannot get value of StaticElement*', "*AAA_HO_SS67cbad46*"]
