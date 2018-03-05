@@ -726,19 +726,20 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(response.length == 0).isTrue();
 	}
 
-	protected void	pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(PolicyType policyType) {
+	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(PolicyType policyType) {
 
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
 
 		assertSoftly(softly -> {
+
 			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			ValidateEndorsementResponse responseNd = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
 			assertThat(responseNd.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_7)).isTrue();
 
-			DBService.get().executeUpdate(UPDATE_EFFECTIVE_DATE);
+			DBService.get().executeUpdate(INSERT_EFFECTIVE_DATE);
 
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(8));
 			String endorsementDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -747,7 +748,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responseNd1.ruleSets.get(0).errors).isEmpty();
 			softly.assertThat(responseNd1.ruleSets.get(0).warnings).isEmpty();
 
-			DBService.get().executeUpdate(UPDATE_EFFECTIVE_DATE1);
+			DBService.get().executeUpdate(DELETE_INSERT_EFFECTIVE_DATE);
 		});
 
 	}
@@ -928,7 +929,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus(PolicyType policyType){
+	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus(PolicyType policyType) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -981,7 +982,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		vehicleTab.getAssetList().getAsset(USAGE.getLabel(),ComboBox.class).setValue("Pleasure");
+		vehicleTab.getAssetList().getAsset(USAGE.getLabel(), ComboBox.class).setValue("Pleasure");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		premiumAndCoveragesTab.calculatePremium();
