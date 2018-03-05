@@ -56,9 +56,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 
 	private SSHController sshController = new SSHController(
-		PropertyProvider.getProperty(TestProperties.APP_HOST),
-		PropertyProvider.getProperty(TestProperties.SSH_USER),
-		PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
+			PropertyProvider.getProperty(TestProperties.APP_HOST),
+			PropertyProvider.getProperty(TestProperties.SSH_USER),
+			PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
 
 	private SSHController sshControllerRemote;
 	private File downloadDir;
@@ -87,27 +87,24 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
-			log.info("Monitor Address: {}", monitorAddress);
 			sshControllerRemote = new SSHController(
 					monitorAddress,
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
+			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 2);
+			// moving Balances from monitor to download dir
+			sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
+		} else {
+			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
 			log.info("Policy Trial Balance created");
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER))==2);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
 			log.info("Billing Trial Balance created");
-			// moving Balances from monitor to download dir
-				sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
-				Waiters.SLEEP(30000).go(); // add agile wait till file occurs in local folder, awaitatility
-		} else{
-		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==1);
-		log.info("Policy Trial Balance created");
-		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir,EXCEL_FILE_EXTENSION)==2);
-		log.info("Billing Trial Balance created");
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// moving Feed file from App server to download dir
@@ -121,13 +118,13 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		CFTHelper.roundValuesToTwo(accountsMapSummaryFromOR);
 
 		ReportGeneratorService
-			.generateReport(ReportGeneratorService
-				.generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR)
-				, CFT_VALIDATION_DIRECTORY + CFT_VALIDATION_REPORT);
+				.generateReport(ReportGeneratorService
+								.generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR)
+						, CFT_VALIDATION_DIRECTORY + CFT_VALIDATION_REPORT);
 
 	}
 
-//	@Test(groups = {Groups.CFT}, priority = 2)
+	//	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
 	public void futureDatedPolicy() {
 
@@ -167,7 +164,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				}
 				if (accountsMapSummaryFromOR.containsKey(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))) {
 					double amount = accountsMapSummaryFromOR.get(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))
-						+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
+							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
 					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), amount);
 				} else {
 					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell))));
