@@ -1,25 +1,18 @@
 package aaa.modules.cft;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.config.PropertyProvider;
@@ -27,19 +20,16 @@ import toolkit.config.TestProperties;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.helpers.cft.CFTHelper;
 import aaa.helpers.constants.Groups;
-import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
-import aaa.modules.cft.csv.model.Record;
 import aaa.modules.cft.report.ReportFutureDatedPolicy;
 import aaa.modules.cft.report.ReportGeneratorService;
 
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+
+import static aaa.helpers.cft.CFTHelper.*;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
@@ -71,8 +61,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 		downloadDir = new File(DOWNLOAD_DIR);
 		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-		CFTHelper.checkDirectory(downloadDir);
-		CFTHelper.checkDirectory(cftResultDir);
+		checkDirectory(downloadDir);
+		checkDirectory(cftResultDir);
 	}
 
 	@Test(groups = {Groups.CFT}, priority = 1)
@@ -80,7 +70,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
-//		runCFTJobs();
+		runCFTJobs();
 
 		opReportApp().open();
 		// get map from OR reports
@@ -93,31 +83,31 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
 			sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 0);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 0);
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 2);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 2);
 			// moving Balances from monitor to download dir
 			sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
 			sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
 		} else {
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
 		}
-		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
+		Map<String, Double> accountsMapSummaryFromOR = getExcelValues(DOWNLOAD_DIR, EXCEL_FILE_EXTENSION);
 		// moving Feed file from App server to download dir
 		sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
-		Map<String, Double> accountsMapSummaryFromFeedFile = getFeedFilesValues();
+		Map<String, Double> accountsMapSummaryFromFeedFile = getFeedFilesValues(DOWNLOAD_DIR, FEED_FILE_EXTENSION);
 		// get Map from DB
-		Map<String, Double> accountsMapSummaryFromDB = getDataBaseValues();
+		Map<String, Double> accountsMapSummaryFromDB = getDataBaseValues(sqlGetLedgerData);
 		// Round all values to 2
-		CFTHelper.roundValuesToTwo(accountsMapSummaryFromFeedFile);
-		CFTHelper.roundValuesToTwo(accountsMapSummaryFromDB);
-		CFTHelper.roundValuesToTwo(accountsMapSummaryFromOR);
+		roundValuesToTwo(accountsMapSummaryFromFeedFile);
+		roundValuesToTwo(accountsMapSummaryFromDB);
+		roundValuesToTwo(accountsMapSummaryFromOR);
 
 		ReportGeneratorService
 				.generateReport(ReportGeneratorService
@@ -126,7 +116,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	//	@Test(groups = {Groups.CFT}, priority = 2)
+	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
 	public void futureDatedPolicy() {
 
@@ -142,74 +132,5 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		}
 		ReportFutureDatedPolicy.generateReport(accNumberTable, CFT_VALIDATION_DIRECTORY + CFT_FUTURE_DATED_REPORT);
 		log.info("Future dated policies were verified");
-	}
-
-	// TODO move additional methods defined in TestClass to CFTHelper.class
-	// rename cft->csv package to helper package
-	// move CFTHelper to helper package
-
-	private Map<String, Double> getExcelValues() {
-		Map<String, Double> accountsMapSummaryFromOR = new HashMap<>();
-		for (File reportFile : new File(DOWNLOAD_DIR).listFiles()) {
-			if (!reportFile.getName().contains(EXCEL_FILE_EXTENSION)) {
-				continue;
-			}
-			int totalBalanceCell = reportFile.getName().contains("Policy") ? 14 : 15;
-			Sheet sheet = ExcelUtils.getSheet(reportFile.getAbsolutePath());
-			for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
-				if (null == sheet.getRow(i)) {
-					continue;
-				}
-				String cellValue = ExcelUtils.getCellValue(sheet.getRow(i).getCell(3));
-				if (StringUtils.isEmpty(cellValue) || !cellValue.matches("\\d+")) {
-					continue;
-				}
-				if (accountsMapSummaryFromOR.containsKey(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))) {
-					double amount = accountsMapSummaryFromOR.get(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))
-							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
-					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), amount);
-				} else {
-					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell))));
-				}
-			}
-		}
-		return accountsMapSummaryFromOR;
-	}
-
-	private Map<String, Double> getDataBaseValues() {
-		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		String transactionDate = TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String query = String.format(sqlGetLedgerData, transactionDate);
-		List<Map<String, String>> dbResult = DBService.get().getRows(query);
-		for (Map<String, String> dbEntry : dbResult) {
-			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
-		}
-		return accountsMapSummaryFromDB;
-	}
-
-	private Map<String, Double> getFeedFilesValues() {
-		Map<String, Double> accountsMapSummaryFromFeedFile = new HashMap<>();
-
-		List<FinancialPSFTGLObject> allEntries = new ArrayList<>();
-		for (File file : new File(DOWNLOAD_DIR).listFiles()) {
-			if (file.getName().contains(FEED_FILE_EXTENSION)) {
-				try {
-					allEntries.addAll(CFTHelper.transformToObject(FileUtils.readFileToString(file, Charset.defaultCharset())));
-				} catch (IOException e) {
-					log.error("Unable to get objects from file \"{}\"", file.getAbsolutePath());
-				}
-			}
-		}
-		for (FinancialPSFTGLObject entry : allEntries) {
-			for (Record record : entry.getRecords()) {
-				if (accountsMapSummaryFromFeedFile.containsKey(record.getBillingAccountNumber())) {
-					double amount = accountsMapSummaryFromFeedFile.get(record.getBillingAccountNumber()) + record.getAmountDoubleValue();
-					accountsMapSummaryFromFeedFile.put(record.getBillingAccountNumber(), amount);
-				} else {
-					accountsMapSummaryFromFeedFile.put(record.getBillingAccountNumber(), record.getAmountDoubleValue());
-				}
-			}
-		}
-		return accountsMapSummaryFromFeedFile;
 	}
 }
