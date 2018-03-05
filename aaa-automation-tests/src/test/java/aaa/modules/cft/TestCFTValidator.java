@@ -63,16 +63,16 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private File downloadDir;
 	private File cftResultDir;
 
-	@BeforeClass
-	public void precondition() throws IOException {
-		// refreshReports
-		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
-
-		downloadDir = new File(DOWNLOAD_DIR);
-		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
-		CFTHelper.checkDirectory(downloadDir);
-		CFTHelper.checkDirectory(cftResultDir);
-	}
+//	@BeforeClass
+//	public void precondition() throws IOException {
+//		// refreshReports
+//		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
+//
+//		downloadDir = new File(DOWNLOAD_DIR);
+//		cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
+//		CFTHelper.checkDirectory(downloadDir);
+//		CFTHelper.checkDirectory(cftResultDir);
+//	}
 
 	@Test(groups = {Groups.CFT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
@@ -127,7 +127,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	}
 
-	@Test(groups = {Groups.CFT}, priority = 2)
+//	@Test(groups = {Groups.CFT}, priority = 2)
 	@TestInfo(component = Groups.CFT)
 	public void futureDatedPolicy() {
 
