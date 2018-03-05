@@ -105,10 +105,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		} else {
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
-			log.info("Policy Trial Balance created");
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
 			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
-			log.info("Billing Trial Balance created");
 		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// moving Feed file from App server to download dir

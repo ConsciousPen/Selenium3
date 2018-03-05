@@ -106,11 +106,9 @@ public class CFTHelper extends BaseTest {
 	}
 
 	public static int downloadComplete(File dir, String suffix) {
-		log.info("Checking Download folder, folder name {}", dir.toString());
 			int count = dir.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File dir, String name) {
-					log.info("File in Download folder: {}", name);
 					boolean result = name.toLowerCase().endsWith(suffix);
 					return result;
 				}
@@ -119,10 +117,6 @@ public class CFTHelper extends BaseTest {
 	}
 
 	public static int remoteDownloadComplete(SSHController sshControllerRemote, File dir) throws SftpException, JSchException {
-		log.info("Checking Download folder, folder name {}", dir.toString());
-			int count = sshControllerRemote.getFilesList(dir).size();
-			log.info("File count = {}", count);
-		return count;
+		return sshControllerRemote.getFilesList(dir).size();
 	}
-
 }
