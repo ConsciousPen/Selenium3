@@ -79,7 +79,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(27));
-		runCFTJobs();
+//		runCFTJobs();
 
 		opReportApp().open();
 		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
