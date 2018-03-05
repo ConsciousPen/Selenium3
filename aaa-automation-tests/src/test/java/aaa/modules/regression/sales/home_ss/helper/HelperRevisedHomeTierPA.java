@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import org.apache.commons.lang.math.IntRange;
 import org.apache.commons.lang3.Range;
-import org.assertj.core.api.Assertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -151,6 +150,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
             applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
         }
 
+        // Calculate Premium and open View Rating details
         applicantTab.submitTab();
         policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
         PropertyQuoteTab.RatingDetailsView.open();
@@ -166,14 +166,18 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
         assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
 
-        // Issue Policy and initiate renewal
+        // Issue Policy
         PropertyQuoteTab.RatingDetailsView.close();
         premiumsAndCoveragesQuoteTab.submitTab();
         policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
+
+        // Initiate renewal navigate to P&C
         policyType.get().renew().start().submit();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+
+        // Calculate Premium and open View Rating details
         premiumsAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
 
@@ -192,7 +196,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         mainApp().close();
     }
 
-
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
         TestData tdOtherActive = testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_OtherActiveAAAPolicies")
@@ -200,7 +203,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         return getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
-
 
     public void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
