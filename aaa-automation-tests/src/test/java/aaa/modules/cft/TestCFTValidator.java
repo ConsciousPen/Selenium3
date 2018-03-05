@@ -87,10 +87,13 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+			log.info("Monitor address: {}", monitorAddress);
 			sshControllerRemote = new SSHController(
 					monitorAddress,
 					PropertyProvider.getProperty("test.ssh.user"),
 					PropertyProvider.getProperty("test.ssh.password"));
+			sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 0);
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
@@ -98,6 +101,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			// moving Balances from monitor to download dir
 			sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
 			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 2);
+			sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
 		} else {
 			operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> CFTHelper.downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
