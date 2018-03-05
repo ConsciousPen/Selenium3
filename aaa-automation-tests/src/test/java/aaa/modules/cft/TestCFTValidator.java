@@ -213,9 +213,12 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	}
 
 	private int downloadComplete(File dir, String suffix) throws SftpException, JSchException {
-//		log.info("Checking Download folder, folder name {}, {} files in folder", dir.toString(), dir.listFiles().length);
+		log.info("Checking Download folder, folder name {}", dir.toString());
 		int count=0;
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
+			count = sshControllerRemote.getFilesList(dir).size();
+			log.info("File count = {}", count);
+		} else {
 			count = dir.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File dir, String name) {
@@ -224,9 +227,6 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 					return result;
 				}
 			}).length;
-		} else {
-				count = sshControllerRemote.getFilesList(dir).size();
-				log.info("File count = {}", count);
 		}
 		return count;
 	}
