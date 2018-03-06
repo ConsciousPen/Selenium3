@@ -233,9 +233,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         mainApp().close();
 
         // Log in with User with no privilege to edit policy tier
-        TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
-        loginTD.adjust("User", "qa_roles");
-        mainApp().open(loginTD);
+        loginA30();
 
         // Search for the Quote and navigate to applicant tab
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNr);
@@ -306,9 +304,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         mainApp().close();
 
         // Log in with User with no privilege to edit policy tier
-        TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
-        loginTD.adjust("User", "qa_roles");
-        mainApp().open(loginTD);
+        loginA30();
 
         // Search for the Quote and navigate to applicant tab
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNr);
@@ -359,5 +355,11 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
             TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
         }
+    }
+
+    public void loginA30(){
+        TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
+        loginTD.adjust("User", "qa_roles");
+        mainApp().open(loginTD);
     }
 }
