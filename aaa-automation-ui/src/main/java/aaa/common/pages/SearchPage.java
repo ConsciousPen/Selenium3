@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import aaa.common.metadata.SearchMetaData;
 import aaa.main.enums.ProductConstants;
@@ -21,6 +22,8 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class SearchPage extends MainPage {
+	public static final String LABEL_SEARCH_LOCATOR = "//table[@id='searchForm:entityTypeSelect']//label[contains(.,'%s')]";
+	public static final String LABEL_SEARCH = "Search For";
 	public static AbstractContainer<TestData, TestData> assetListSearch = new AssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), SearchMetaData.Search.class).applyConfiguration("Search");
 
 	public static Button buttonClear = new Button(By.id("searchForm:clearBtn"));
@@ -40,7 +43,7 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void search(SearchEnum.SearchFor searchFor, SearchEnum.SearchBy searchBy, String searchString) {
-		TestData searchTd = DataProviderFactory.dataOf(SearchMetaData.Search.SEARCH_FOR.getLabel(), searchFor.get()).adjust(searchBy.get(), searchString);
+		TestData searchTd = DataProviderFactory.dataOf(LABEL_SEARCH, searchFor.get()).adjust(searchBy.get(), searchString);
 		search(DataProviderFactory.dataOf(assetListSearch.getName(), searchTd));
 	}
 
@@ -49,6 +52,12 @@ public class SearchPage extends MainPage {
 		//TODO-dchubkov: call search dialog instead?
 		if (!buttonSearch.isPresent()) {
 			MainPage.QuickSearch.buttonSearchPlus.click();
+		}
+		String searchFor = tdSearch.getTestData(SearchMetaData.Search.class.getSimpleName()).getValue(LABEL_SEARCH);
+		if (StringUtils.isNotBlank(searchFor)) {
+			Button buttonTab = new Button(By.xpath(String.format(LABEL_SEARCH_LOCATOR, searchFor)));
+			buttonTab.setName(LABEL_SEARCH);
+			assetListSearch.addAsset(buttonTab);
 		}
 		assetListSearch.fill(tdSearch);
 		buttonSearch.click();
