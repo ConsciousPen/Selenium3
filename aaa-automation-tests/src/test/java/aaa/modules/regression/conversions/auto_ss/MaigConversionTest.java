@@ -197,7 +197,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
 	}
 
-	private void fillPolicy(LocalDateTime effDate) {
+	public void fillPolicy(LocalDateTime effDate) {
 		policy.dataGather().start();
 		TestData td = getPolicyTD().adjust(TestData.makeKeyPath(AutoSSMetaData.PrefillTab.class.getSimpleName(), AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "NamedInsuredInformation[0]", "Base Date"), effDate.format(DateTimeUtils.MM_DD_YYYY))

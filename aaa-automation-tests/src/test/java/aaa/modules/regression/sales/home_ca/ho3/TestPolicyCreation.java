@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -27,14 +26,14 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)  
-    public void testPolicyCreation(@Optional("CA") String state) {
-        mainApp().open();
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
+	public void testPolicyCreation(@Optional("CA") String state) {
+		mainApp().open();
 
-        createCustomerIndividual();
-        policy.createPolicy(getPolicyTD("DataGather", "TestData"));
+		createCustomerIndividual();
+		policy.createPolicy(getPolicyTD("DataGather", "TestData"));
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-    }
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
 }

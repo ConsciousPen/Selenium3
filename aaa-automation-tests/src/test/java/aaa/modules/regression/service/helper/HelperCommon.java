@@ -1,5 +1,19 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import static org.assertj.core.api.Assertions.assertThat;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
@@ -28,6 +42,7 @@ import java.util.HashMap;
 
 import static aaa.admin.modules.IAdmin.log;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.HashMap;
 
 public class HelperCommon {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
@@ -40,6 +55,8 @@ public class HelperCommon {
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
+	private static final String DXP_VIEW_RENEWAL_ENDPOINT = "/api/v1/policies/%s/renewal";
+	private static final String DXP_VIEW_POLICY_ENDPOINT = "/api/v1/policies/%s";
 	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
@@ -145,6 +162,18 @@ public class HelperCommon {
 		return aaaEndorseResponse;
 	}
 
+	static PolicySummary executeViewPolicyRenewalSummary(String policyNumber, String term, int code) {
+		String endPoint;
+		if (term.equals("policy")) {
+			endPoint = DXP_VIEW_POLICY_ENDPOINT;
+		} else {
+			endPoint = DXP_VIEW_RENEWAL_ENDPOINT;
+		}
+		String requestUrl = urlBuilderDxp(String.format(endPoint, policyNumber));
+		PolicySummary policySummaryResponse = runJsonRequestGetDxp(requestUrl, PolicySummary.class, code);
+		return policySummaryResponse;
+	}
+
 	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
 		if (effectiveDate != null) {
@@ -182,7 +211,7 @@ public class HelperCommon {
 		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
 	}
 
-	private static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
+	protected static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
 		return runJsonRequestPostDxp(url, request, String.class);
 	}
 
@@ -253,6 +282,11 @@ public class HelperCommon {
 	}
 
 	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
+		T result = runJsonRequestGetDxp(url, responseType, 200);
+		return result;
+	}
+
+	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -266,10 +300,11 @@ public class HelperCommon {
 					.get();
 			T result = response.readEntity(responseType);
 			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() !=422 ) {
-				//handle error
-				throw new IstfException(response.readEntity(String.class));
-			}
+				if (response.getStatus() != status) {
+					//handle error
+					throw new IstfException(response.readEntity(String.class));
+				}
+
 			return result;
 		} finally {
 			if (response != null) {
@@ -310,17 +345,4 @@ public class HelperCommon {
 		}
 	}
 
-	static void executeDiscountPercentageRetrieveRequest(String lob, String usState, String coverageCd, String expectedValue) {
-		DiscountRetrieveFullRequest request = new DiscountRetrieveFullRequest();
-		request.runtimeContext = new DiscountPercentageRuntimeContext();
-		request.runtimeContext.currentDate = 1517382000000L;
-		request.runtimeContext.lob = lob;
-		request.runtimeContext.usState = usState;
-		request.discountCd = "MEMDIS";
-		request.coverageCd = coverageCd;
-		request.policyType = lob;
-		String requestUrl = RATING_URL_TEMPLATE + RATING_SERVICE_TYPE;
-		String discountPercentageValue = runJsonRequestPostDxp(requestUrl, request);
-		assertThat(discountPercentageValue).isEqualTo(expectedValue);
-	}
 }
