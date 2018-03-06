@@ -2,6 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,17 +20,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -197,7 +197,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-9337"})
 	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("") String state) {
 
 		pas6562_endorsementValidateNotAllowedOutOfBound(getPolicyType());
@@ -359,7 +359,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 1. Create Nano policy.
 	 * 2. Check dxp server, any info should not be displayed about vehicle.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
@@ -398,7 +397,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 5. Hit "start endorsement info" dxp server.
 	 * 6. Check error message. Policy should be locked.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
@@ -444,7 +442,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 8. Move time to the lapse period, +3d.
 	 * 9. Hit "start endorsement info" dxp server.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
@@ -464,13 +461,102 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 5. Hit "start endorsement info" dxp server.
 	 * 6. Check if error message is displaying.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9337"})
 	public void pas9337_StartEndorsementInfoServerResponseForExpiredPolicy(@Optional("VA") String state) {
 
 		pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Pending and Active policies
+	 * @scenario
+	 * 1. Create pending policy
+	 * 2. Check policy details
+	 * 3. Change date, run policyStatusUpdate
+	 * 4. Check policy details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForPolicy(@Optional("AZ") String state) {
+
+		pas9716_policySummaryForPolicy(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Active renewal
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Run Renewal Part1
+	 * 3. Check policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check policy and renewal details
+	 * 6. Make a payment for the renewal amount for the next term
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForActiveRenewal(@Optional("VA") String state) {
+
+		pas9716_policySummaryForActiveRenewal(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Policy Details service for Lapsed renewal
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Run Renewal Part1
+	 * 3. Check policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check policy and renewal details
+	 * 6. DONT Make a payment for the renewal amount for the next term
+	 * 6.5. Check policy and renewal details
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 * 9. change date to R+15, run lapse job
+	 * 10. Check policy and renewal details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForLapsedRenewal(@Optional("AZ") String state) {
+
+		pas9716_policySummaryForLapsedRenewal(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Check Conversion policy details
+	 * @scenario
+	 * 1. Create manual conversion policy
+	 * 2. Check stub policy and renewal details
+	 * 4. Run Renewal Part2
+	 * 5. Check stub policy and renewal details
+	 * 6. Make a payment for the renewal amount for the next term
+	 * 7. change date to R, run policy status update job
+	 * 8. Check policy and renewal details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForConversionManual(@Optional("AZ") String state) {
+
+		pas9716_policySummaryForConversionManualBody();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
+	public void pas9716_policySummaryForConversion(@Optional("VA") String state, ITestContext context) {
+
+		pas9716_policySummaryForConversionBody("1.xml", context);
 	}
 
 	/**
@@ -489,7 +575,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 10. Try to lock policy using lock service. Check service status.
 	 * 11. Try to unlock policy using unlock service. Check service status.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
@@ -542,7 +627,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 6. Hit the view vehicle service again.
 	 * 7. Check if Pended vehicle status was changed.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490"})
