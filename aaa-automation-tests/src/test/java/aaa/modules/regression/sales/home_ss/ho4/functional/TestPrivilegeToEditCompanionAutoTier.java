@@ -31,7 +31,7 @@ public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO4BaseTest {
 	 * 11. Check if policy tier is disabled
 	 * 12. Close App and log in with privileged user
 	 * 13. Renew Policy and check if policy tier is enabled
-	 *
+	 * 14. Repeat steps with manually added auto policy
 	 * @details
 	 **/
 
@@ -41,5 +41,7 @@ public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO4BaseTest {
 	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
 
 		helper.pas6829_TestPrivelegeToEditCompanionAutoTier(getPolicyType());
+
+		helper.pas6829_TestPrivelegeToEditManualCompanionAutoTier(getPolicyType());
 	}
 }
