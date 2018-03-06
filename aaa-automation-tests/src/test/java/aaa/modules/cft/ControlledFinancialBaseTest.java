@@ -791,7 +791,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			File remitanceFile = RemittancePaymentsHelper.createRemittanceFile(getState(), policyNum, minDue, ExternalPaymentSystem.REGONLN);
 			RemittancePaymentsHelper.copyRemittanceFileToServer(remitanceFile);
 			log.info("Collection feed file moved successfully");
-			JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
+			JobUtils.executeJob(Jobs.aaaRemittanceFeedAsyncBatchReceiveJob);
 			mainApp().open();
 			SearchPage.openBilling(policyNum);
 			new BillingPaymentsAndTransactionsVerifier()
