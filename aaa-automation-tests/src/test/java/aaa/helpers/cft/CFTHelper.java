@@ -132,6 +132,13 @@ public class CFTHelper extends BaseTest {
 		return sshControllerRemote.getFilesList(dir).size();
 	}
 
+	public static void setBorderToCellStyle(XSSFCellStyle style) {
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+	}
+	
 	private static List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
 		// if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app
 		List<FinancialPSFTGLObject> objectsFromCSV;
@@ -183,12 +190,5 @@ public class CFTHelper extends BaseTest {
 			}
 		}
 		return objectsFromCSV;
-	}
-
-	private static void setBorderToCellStyle(XSSFCellStyle style) {
-		style.setBorderBottom(BorderStyle.MEDIUM);
-		style.setBorderLeft(BorderStyle.MEDIUM);
-		style.setBorderRight(BorderStyle.MEDIUM);
-		style.setBorderTop(BorderStyle.MEDIUM);
 	}
 }
