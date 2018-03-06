@@ -78,7 +78,7 @@ PolicyInformation: {
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Draper - 500005417 - Draper',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
   Agent: 'House Account Draper',
   Authorized by: QA,
   TollFree Number: 1,
@@ -151,7 +151,7 @@ GeneralTab_Discounts: {
 
 AAAProductOwned1: {
   Current AAA Member: 'Membership Pending',
-  Membership Number: 4290023667710001,
+  #Membership Number: 4290023667710001,
   Life: 'Yes',
   'Life Policy #': L87654567,
   Home: 'Yes',
@@ -647,7 +647,7 @@ GeneralTab_Discounts_AZ: {
 
 AAAProductOwned1_AZ: {
   Current AAA Member: 'Membership Pending',
-  Membership Number: 4290023667710001,
+  #Membership Number: 4290023667710001,
   Motorcycle: 'Yes',
   'Motorcycle Policy #': M09098765,
   Life: 'Yes',
