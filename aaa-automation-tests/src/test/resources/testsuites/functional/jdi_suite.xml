@@ -372,4 +372,16 @@
             </class>
         </classes>
     </test>
+    <test name="PolicyDetailsService CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForPolicy"/>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

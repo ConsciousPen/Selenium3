@@ -66,7 +66,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForPolicy(@Optional("CA") String state) {
 
-		pas9716_policySummaryForPolicy(getPolicyType());
+		pas9716_policySummaryForPolicy(getPolicyType(), state);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForActiveRenewal(@Optional("CA") String state) {
 
-		pas9716_policySummaryForActiveRenewal();
+		pas9716_policySummaryForActiveRenewal(getPolicyType(), state);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForLapsedRenewal(@Optional("CA") String state) {
 
-		pas9716_policySummaryForLapsedRenewal();
+		pas9716_policySummaryForLapsedRenewal(getPolicyType(), state);
 	}
 
 	@Override

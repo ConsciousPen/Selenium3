@@ -4,6 +4,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -19,10 +20,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -463,7 +460,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForPolicy(@Optional("AZ") String state) {
 
-		pas9716_policySummaryForPolicy(getPolicyType());
+		pas9716_policySummaryForPolicy(getPolicyType(), state);
 	}
 
 	/**
@@ -484,7 +481,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForActiveRenewal(@Optional("VA") String state) {
 
-		pas9716_policySummaryForActiveRenewal();
+		pas9716_policySummaryForActiveRenewal(getPolicyType(), state);
 	}
 
 	/**
@@ -508,7 +505,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForLapsedRenewal(@Optional("AZ") String state) {
 
-		pas9716_policySummaryForLapsedRenewal();
+		pas9716_policySummaryForLapsedRenewal(getPolicyType(), state);
 	}
 
 	/**
