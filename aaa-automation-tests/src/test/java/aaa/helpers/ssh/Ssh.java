@@ -157,6 +157,7 @@ public class Ssh {
 			openSftpChannel();
 			String[] folders = destination.split("/");
 			folders = Arrays.copyOf(folders, folders.length-1);
+			sftpChannel.cd("/");
 			for (String folder : folders) {
 				if (folder.length() > 0) {
 					try {
