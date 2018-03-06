@@ -215,11 +215,11 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Initiate Home Policy and add Auto policy as a companion
         policyType.get().initiate();
 
-        // Check if policy tier is enabled
-        assertThat(policyTier).isEnabled();
-
         // Fill Property till Applicant Tab
         policyType.get().getDefaultView().fillUpTo(tdHome, ApplicantTab.class, true);
+
+        // Check if policy tier is enabled
+        assertThat(policyTier).isEnabled();
 
         if (policyType.equals(PolicyType.HOME_SS_DP3)) {
             applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES).getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN).click();
