@@ -3,6 +3,9 @@ package aaa.modules.regression.sales.home_ca.ho6;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -31,7 +34,7 @@ public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6)
-	public void testPolicyCreation(@Optional("CA") String state) {
+	public void testPolicyCreationFull(@Optional("CA") String state) {
 
 		TestData td =getTestSpecificTD("TestDataFull");
 
@@ -45,7 +48,7 @@ public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 		new ErrorTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: CaHO6 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 
