@@ -24,7 +24,9 @@ public class UploadToVINTableTab extends DefaultTab {
 
 	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
 	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
-	public static Button buttonUpload = new Button(By.id("uploadToVINTableForm:uploadBtn"));
+
+	public static Button buttonUpload = new Button(By.className("start"));
+	public static Button buttonChoose = new Button(By.className("fileinput-button"));
 
 	protected static final String DEFAULT_PATH = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
@@ -36,17 +38,17 @@ public class UploadToVINTableTab extends DefaultTab {
 	public void uploadVinTable(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
-	}
+		}
+
+
 
 	private void uploadFile(String fileName) {
-		buttonUpload.click();
-		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
-		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
+		buttonUpload.click();
 
 		if (labelUploadSuccessful.isPresent()) {
+			// check successfull
 			log.info("File {} was uploaded successfully", fileName);
 		}
 		else {
