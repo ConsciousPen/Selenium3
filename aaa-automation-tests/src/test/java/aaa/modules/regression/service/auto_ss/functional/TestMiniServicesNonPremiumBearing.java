@@ -422,7 +422,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9489"})
-	public void pas9489_GreenButtonServiceStateandProductConfigurationEffective(@Optional("PA") String state) {
+	public void pas9489_GreenButtonServiceStateAndProductConfigurationEffective(@Optional("PA") String state) {
 
 		pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate(getPolicyType());
 
