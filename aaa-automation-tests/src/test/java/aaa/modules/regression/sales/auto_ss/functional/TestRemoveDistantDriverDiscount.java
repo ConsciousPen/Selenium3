@@ -60,10 +60,11 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
 		// Fill quote up to Premium and Coverages Tab Check if discount is applied
 		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
+
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains("Distant Student Discount(Angel FromEarth)");
-		premiumAndCoveragesTab.submitTab();
 
 		// Issue Policy
+		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class,true);
 		purchaseTab.submitTab();
 
@@ -76,9 +77,8 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 		// Calculate Premium and check that there is no Discount applied
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains("Distant Student Discount(Angel FromEarth)");
 
-
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).doesNotHaveValue("Distant Student Discount(Angel FromEarth)");
 
 	}
 }

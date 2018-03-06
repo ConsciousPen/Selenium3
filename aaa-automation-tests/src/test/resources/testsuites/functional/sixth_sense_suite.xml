@@ -16,13 +16,14 @@
         </classes>
     </test>
 
+    <!--- Commented until QC-26288 is fixed.
     <test name="Test Defensive Driver Discount">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
-
+-->
     <test name="Test Calculate Tier for NY converted policies">
         <parameter name="state" value="NY"/>
         <classes>
@@ -87,25 +88,6 @@
     </test>
 
 <!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
-    <test name="PA View Rating Details Auto Tier value 1-16">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetailsAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetailsAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetailsAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetailsAutoTier"/>
-        </classes>
-    </test>
-
-    <test name="PA View Rating Details Market Tier value A-J">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaTierChangePropertyInformation"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaTierChangePropertyInformation"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaTierChangePropertyInformation"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaTierChangePropertyInformation"/>
-        </classes>
-    </test>
 
     <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="200">
         <parameter name="state" value="PA"/>
@@ -121,6 +103,16 @@
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
+        </classes>
+    </test>
+
+    <test name="Test that the Home Value Section has new rating implementation">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetails"/>
         </classes>
     </test>
 -->

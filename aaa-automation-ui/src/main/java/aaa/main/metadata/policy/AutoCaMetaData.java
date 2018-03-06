@@ -404,6 +404,9 @@ public final class AutoCaMetaData {
 			AdditionalInterestInformation.class,
 			By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAdditionalInterest']"));
 		public static final AssetDescriptor<ComboBox> VEHICLE_USE = declare("Vehicle Use", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> SPECIAL_EQUIPMENT = declare("Special Equipment", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_VALUE = declare("Special Equipment Value", TextBox.class);
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class);
 
 		public static final class ListOfVehicleRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);

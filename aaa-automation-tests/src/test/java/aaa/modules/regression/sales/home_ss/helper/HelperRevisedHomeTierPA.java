@@ -30,7 +30,8 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     private ApplicantTab applicantTab = new ApplicantTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
-    private Range<String> range = Range.between("A", "J");
+    private Range<String> rangeMarketTier = Range.between("A", "J");
+    private IntRange rangeAutoTier = new IntRange(1, 16);
 
     private ComboBox policyTier = applicantTab.getAssetList()
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
@@ -128,9 +129,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-    public void pas6676_TestPAViewRatingDetailsAutoTier(PolicyType policyType) {
-
-        IntRange range = new IntRange(1, 16);
+    public void pas6676_TestPAViewRatingDetails(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
         verifyAlgoDate();
@@ -151,48 +150,21 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
             applicantTab.fillTab(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_ManualPolicy"));
         }
 
+        // Calculate Premium and open View Rating details
         applicantTab.submitTab();
         policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-
-        // Assert that the Auto Tier Rating present and is between 1-16
         PropertyQuoteTab.RatingDetailsView.open();
-        assertThat(range.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
-        PropertyQuoteTab.RatingDetailsView.close();
 
-        // Issue Policy and initiate renewal
-        premiumsAndCoveragesQuoteTab.submitTab();
-        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
-        policyType.get().renew().start().submit();
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        premiumsAndCoveragesQuoteTab.calculatePremium();
+        // Auto Tier Value is in range of 1-16. PAS-6676
+        assertThat(rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
 
-        // Assert that the Auto Tier Rating present and is between 1-16
-        PropertyQuoteTab.RatingDetailsView.open();
-        assertThat(range.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
-        PropertyQuoteTab.RatingDetailsView.close();
+        // Market Tier is in range of A-J. PAS-7025
+        assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
 
-        mainApp().close();
-
-    }
-
-    public void pas7025_TestPAPropertyTierChange(PolicyType policyType) {
-
-        TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
-
-        // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
-
-        // Open App create Policy Navigate to P&C page calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policyType.get().initiate();
-        policyType.get().getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
-        PropertyQuoteTab.linkViewRatingDetails.click();
-
-        // Check if new algo is implemented
-        assertThat(range.contains( PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+        // Persistency, Age and Reinstatements points values are displayed. PAS-7024
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Persistency points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
 
         // Issue Policy
         PropertyQuoteTab.RatingDetailsView.close();
@@ -200,20 +172,29 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
-        //Initiate renewal and Navigate to P&C page calculate premium
+        // Initiate renewal navigate to P&C
         policyType.get().renew().start().submit();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        premiumsAndCoveragesQuoteTab.calculatePremium();
 
-        // Check if the algo is implemented
+        // Calculate Premium and open View Rating details
+        premiumsAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
-        assertThat(range.contains( PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+
+        // Auto Tier Value is in range of 1-16. PAS-6676
+        assertThat(rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
+
+        // Market Tier is in range of A-J. PAS-7025
+        assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+
+        // Persistency, Age and Reinstatements points values are displayed. PAS-7024
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Persistency points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Age points")).isNotEmpty();
+        assertThat(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Reinstatements points")).isNotEmpty();
+
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
-
     }
-
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {
         PolicyType.AUTO_SS.get().createPolicy(tdAuto);
@@ -222,7 +203,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         return getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData")
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
-
 
     public void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
