@@ -447,7 +447,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected void payRenewalBillByRemittance() {
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
+		JobUtils.executeJob(Jobs.aaaRemittanceFeedAsyncBatchReceiveJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

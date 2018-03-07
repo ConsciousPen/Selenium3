@@ -4,6 +4,9 @@ package aaa.modules.regression.sales.home_ca.dp3;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,12 +17,12 @@ import aaa.modules.policy.HomeCaDP3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Automation team
  * @name Test Create Home Quote
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Quote
- * 3. Verify quote status is 'Premium Calculated'
+ * 2. Create Home CA DP3 policy
+ * 3. Verify policy status is 'Policy Active'
  * @details
  */
 public class TestPolicyCreation extends HomeCaDP3BaseTest {
@@ -33,6 +36,6 @@ public class TestPolicyCreation extends HomeCaDP3BaseTest {
         createCustomerIndividual();
         createPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

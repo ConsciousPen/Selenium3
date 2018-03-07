@@ -1272,7 +1272,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			MaigConversionTest maigConversionTest = new MaigConversionTest();
-			maigConversionTest.fillPolicy(effDate);
+			maigConversionTest.fillPolicy();
 			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active

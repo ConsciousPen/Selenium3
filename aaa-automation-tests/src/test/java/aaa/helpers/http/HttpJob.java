@@ -109,7 +109,7 @@ public class HttpJob {
 		log.info(String.format("HTTP: Starting job '%s' execution", jobName));
 		runSingleJob(httpRequestor, jobName);
 		log.info(String.format("HTTP: Job '%s' execution finished", jobName));
-		if (jobName.equals("aaaRecurringPaymentsProcessingJob") || jobName.equals("remittanceFeedBatchReceiveJob") || jobName.equals("policyStatusUpdateJob")
+		if (jobName.equals("aaaRecurringPaymentsProcessingJob") || jobName.equals("aaaRemittanceFeedAsyncBatchReceiveJob") || jobName.equals("policyStatusUpdateJob")
 				|| jobName.equals("aaaBillingInvoiceAsyncTaskJob") || jobName.equals("Renewal_Offer_Generation_Part2")) {
 			log.info("HTTP: Starting check Assync Tasks");
 			checkAsyncTask();

@@ -23,12 +23,13 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import aaa.helpers.cft.CFTHelper;
 import aaa.modules.cft.report.model.DataSourceKey;
 import aaa.modules.cft.report.model.EntryStatus;
 import aaa.modules.cft.report.model.ReportEntry;
 
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
+
+import static aaa.helpers.cft.CFTHelper.*;
 
 public class ReportGeneratorService {
 
@@ -63,7 +64,7 @@ public class ReportGeneratorService {
 			sheet.addMergedRegion(new CellRangeAddress(7, 7, 11, 12));
 
 			XSSFCellStyle xssfCellStyle = stylesTable.createCellStyle();
-			CFTHelper.setBorderToCellStyle(xssfCellStyle);
+			setBorderToCellStyle(xssfCellStyle);
 			xssfCellStyle.setFillForegroundColor(new XSSFColor(new Color(231, 235, 247)));
 			xssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			xssfCellStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -139,7 +140,7 @@ public class ReportGeneratorService {
 
 			Row totalRow = sheet.createRow(rowNumber);
 			XSSFCellStyle totalCellStyle = stylesTable.createCellStyle();
-			CFTHelper.setBorderToCellStyle(totalCellStyle);
+			setBorderToCellStyle(totalCellStyle);
 			CellUtil.createCell(totalRow, 1, "Total", totalCellStyle);
 			CellUtil.createCell(totalRow, 2, ffdTotal.toString(), totalCellStyle);
 			CellUtil.createCell(totalRow, 4, ffdTotal.subtract(ordTotal).toString(), totalCellStyle);
@@ -224,7 +225,7 @@ public class ReportGeneratorService {
 	}
 
 	private static void prepareCellEntryStyle(EntryStatus status, XSSFCellStyle style) {
-		CFTHelper.setBorderToCellStyle(style);
+		setBorderToCellStyle(style);
 		switch (status) {
 			case MATCHED : {
 				style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
