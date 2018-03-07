@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,7 +15,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Jelena Dembovska
@@ -42,17 +42,18 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
         TestData endorsementTd = getTestSpecificTD("TestData");
         policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
        
-        CustomAssert.enableSoftMode();
-        
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
-        PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(2);
-        PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
+		SoftAssertions.assertSoftly(softly -> {
+			
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(2);
+			
+			softly.assertThat(PolicySummaryPage.TransactionHistory.getEndingPremium()).isNotEqualTo(policyPremium);
+			
+		});	
     }
     
     

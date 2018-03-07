@@ -8,8 +8,12 @@ import org.testng.annotations.Test;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.constants.Groups;
 import aaa.modules.BaseTest;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
+import toolkit.utils.TestInfo;
 
 public class ScorpionsPreconditions extends BaseTest {
 	/* Vin refresh enable/disable queries */
@@ -19,8 +23,13 @@ public class ScorpionsPreconditions extends BaseTest {
 	private String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 
+	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
-	@Test(description = "Renewal job adding")
+	private String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
+
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION}, description = "Renewal job adding")
+	@TestInfo()
 	public void renewalJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -29,13 +38,13 @@ public class ScorpionsPreconditions extends BaseTest {
 		assertThat(GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_2)).isEqualTo(true);
 	}
 
-	@Test(description = "Enable vin refresh")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Enable vin refresh")
 	public void enableVinRefresh() {
 		int result = DBService.get().executeUpdate(String.format(UPDATE_DISPLAYVALUE_BY_CODE, "true"));
 		assertThat(result).isGreaterThan(0);
 	}
 
-	@Test(description = "Precondition set doc generation endpoints")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Precondition set doc generation endpoints")
 	public static void docGenStubEndpointInsert() {
 		int result = 0;
 		List<String> queries = Arrays.asList(DOC_GEN_WEB_CLIENT,AAA_RETRIEVE_AGREEMENT_WEB_CLIENT,AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
@@ -43,6 +52,18 @@ public class ScorpionsPreconditions extends BaseTest {
 			result = DBService.get().executeUpdate(query);
 			assertThat(result).isGreaterThan(0);
 		}
+	}
+
+
+	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public void paymentCentralStubEndPointUpdate() {
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, propertyAppHost, propertyAppStubURLTemplate));
+	}
+
+	//http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveMembershipSummary
+	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public void updateMembershipSummaryStubEndpoint() {
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, propertyAppHost, propertyAppStubURLTemplate));
 	}
 
 }

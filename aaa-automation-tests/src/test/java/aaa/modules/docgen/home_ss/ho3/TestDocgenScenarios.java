@@ -29,7 +29,7 @@ import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
 /**
- * 
+ *
  * @author Ryan Yu
  *
  */
@@ -42,6 +42,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
 	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
+
 	/**
 	 * <pre>
 	 * TC Steps:
@@ -98,7 +99,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Go to Edit Mode and override insurance score, set it to 920
 	 * Rate and save quote.
 	 * </pre>
-	 * 
+	 *
 	 * Req: AHAUXX - 15377: US CL GD-94 Consumer Information Notice 17274:US VA
 	 * GD-94 DO NOT Generate Consumer Information Notice AHFMXX - 15379: US CL
 	 * GD-96 Generate Fax Memorandum Document HS11 - 15209: US CL GD-77 Generate
@@ -114,11 +115,11 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		createCustomerIndividual();
 		String quoteNum = createQuote();
 		policy.quoteDocGen().start();
@@ -152,11 +153,11 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.AHPNXX,
 				DocGenEnum.Documents.HS02,
 				DocGenEnum.Documents.AHNBXX,
-//				Documents.HSEIXX, // TODO Present on the page, need to confirm the request
+				//				Documents.HSEIXX, // TODO Present on the page, need to confirm the request
 				DocGenEnum.Documents.HSES);
 
 		documentActionTab.generateDocuments(DocGenEnum.Documents.HSIQXX);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.HSIQXX, DocGenEnum.Documents.AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
@@ -169,13 +170,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.AHFMXX,
 				DocGenEnum.Documents.HSILXX
 		);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,
 				DocGenEnum.Documents.HS11.setState(getState()),
 				DocGenEnum.Documents.AHFMXX,
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.AHPNXX
-				);
+		);
 		if (getState().equals(Constants.States.VA)) {
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.HSAUDVA);
 		}
@@ -188,15 +189,15 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.HSU05XX,
 				DocGenEnum.Documents.HSU06XX,
 				DocGenEnum.Documents.HSU08XX
-				);
-		WebDriverHelper.switchToWindow(currentHandle);
+		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,
 				DocGenEnum.Documents.HSU03XX,
 				DocGenEnum.Documents.HSU04XX,
 				DocGenEnum.Documents.HSU05XX,
 				DocGenEnum.Documents.HSU06XX,
 				DocGenEnum.Documents.HSU08XX
-				);
+		);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
@@ -287,11 +288,11 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate Returning Payment Form
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+
 		String policyNum = getCopiedPolicy();
 
 		DocGenHelper.verifyDocumentsGenerated(policyNum, DocGenEnum.Documents.HS02, DocGenEnum.Documents.AHNBXX, DocGenEnum.Documents.HS0420);
@@ -304,27 +305,27 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.HSEIXX,
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.HSU01XX,
-//				Documents.HSU02XX  //TODO Actually HSU02XX is disabled, need to confirm the request
+				//				Documents.HSU02XX  //TODO Actually HSU02XX is disabled, need to confirm the request
 				DocGenEnum.Documents.HSU04XX,
 				DocGenEnum.Documents.HSU06XX,
 				DocGenEnum.Documents.HSU07XX,
 				DocGenEnum.Documents.HSU08XX,
 				DocGenEnum.Documents.HSU09XX
-				);
+		);
 		documentActionTab.verify.documentsEnabled(false,
 				DocGenEnum.Documents.AHFMXX,
 				DocGenEnum.Documents.HSRFIXX,
 				DocGenEnum.Documents.HSU03XX
-				);
+		);
 		documentActionTab.verify.documentsPresent(false,
 				DocGenEnum.Documents.HSIQXX,
 				DocGenEnum.Documents.AHPNXX,
 				DocGenEnum.Documents._438BFUNS,
 				DocGenEnum.Documents.HSES
-				);
+		);
 
 		documentActionTab.generateDocuments(DocGenEnum.Documents.HS11);
-		WebDriverHelper.switchToWindow(currentHandle);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, DocGenEnum.Documents.HS11, DocGenEnum.Documents.AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
@@ -335,14 +336,14 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
-				);
+		);
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.AHRCTXX,
 				DocGenEnum.Documents.HSEIXX,
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
-				);
+		);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -361,7 +362,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
@@ -444,7 +445,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate HS 04 77 Endorsement For Bundles new stories :
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -462,21 +463,21 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.HSU05XX,
 				DocGenEnum.Documents.HSU06XX,
 				DocGenEnum.Documents.HSU08XX
-				);
+		);
 		documentActionTab.verify.documentsEnabled(false,
 				DocGenEnum.Documents.HSRFIXX,
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU02XX,
 				DocGenEnum.Documents.HSU07XX,
 				DocGenEnum.Documents.HSU09XX
-				);
+		);
 		documentActionTab.verify.documentsPresent(false,
 				DocGenEnum.Documents._438BFUNS,
 				DocGenEnum.Documents.AHRCTXX,
 				DocGenEnum.Documents.AHPNXX,
 				DocGenEnum.Documents.HS02,
 				DocGenEnum.Documents.AHNBXX,
-//				Documents.HSEIXX, // TODO Not absent as expected, need to check the requirement
+				//				Documents.HSEIXX, // TODO Not absent as expected, need to check the requirement
 				DocGenEnum.Documents.HSES);
 		documentActionTab.buttonCancel.click();
 
@@ -489,39 +490,39 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents._438BFUNS,
 				DocGenEnum.Documents.HS0420
 				// TODO the following documents cannot be found in the xml file, need to confirm the request
-//				Documents.HS0435,
-//				Documents.HS0455,
-//				Documents.HS0465,
-//				Documents.HS0495,
-//				Documents.HS0906,
-//				Documents.HS0926,
-//				Documents.HS0931,
-//				Documents.HS0934,
-//				Documents.HS0965,
-//				Documents.HS0477
-				);
+				//				Documents.HS0435,
+				//				Documents.HS0455,
+				//				Documents.HS0465,
+				//				Documents.HS0495,
+				//				Documents.HS0906,
+				//				Documents.HS0926,
+				//				Documents.HS0931,
+				//				Documents.HS0934,
+				//				Documents.HS0965,
+				//				Documents.HS0477
+		);
 
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-//				Documents.AHFMXX, // TODO actually it is disabled on the page, need to confirm the request
+				//				Documents.AHFMXX, // TODO actually it is disabled on the page, need to confirm the request
 				DocGenEnum.Documents.HS11.setState(getState()),
 				DocGenEnum.Documents.HSEIXX,
 				DocGenEnum.Documents.HSES.setState(getState()),
 				DocGenEnum.Documents.HSILXX,
-//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
 				DocGenEnum.Documents.HSU01XX,
-//				Documents.HSU02XX, // TODO actually it is disabled on the page, need to confirm the request
+				//				Documents.HSU02XX, // TODO actually it is disabled on the page, need to confirm the request
 				DocGenEnum.Documents.HSU04XX,
 				DocGenEnum.Documents.HSU05XX,
 				DocGenEnum.Documents.HSU06XX,
 				DocGenEnum.Documents.HSU07XX,
 				DocGenEnum.Documents.HSU08XX,
 				DocGenEnum.Documents.HSU09XX
-				);
+		);
 		documentActionTab.verify.documentsEnabled(false,
-//				Documents.AHRCTXX, // TODO actually it is enabled on the page, need to confirm the request
+				//				Documents.AHRCTXX, // TODO actually it is enabled on the page, need to confirm the request
 				DocGenEnum.Documents.HSU03XX
-				);
+		);
 		documentActionTab.verify.documentsPresent(false,
 				DocGenEnum.Documents.AHNBXX,
 				DocGenEnum.Documents.HSIQXX,
@@ -529,11 +530,11 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents._438BFUNS,
 				DocGenEnum.Documents.HS02);
 		documentActionTab.generateDocuments(
-//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
 				DocGenEnum.Documents.HSES.setState(getState())
-				);
+		);
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
-//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
 				DocGenEnum.Documents.HSES);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -579,7 +580,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testReturnPaymentDocuments(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -610,7 +611,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5002);
 
-
 		log.info("==========================================");
 		log.info(getState() + " HO3 Return Payment Documents is checked, policy: " + policyNum);
 		log.info("==========================================");
@@ -630,7 +630,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testCancellationNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -668,7 +668,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testRefundCheckDocument(@Optional("") String state) throws Exception {
 		Dollar amount = new Dollar(1234);
 
@@ -698,12 +698,12 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 	private void makePayments() {
 		BillingSummaryPage.open();
-        billing.acceptPayment().perform(check_payment, new Dollar(16));
-        billing.acceptPayment().perform(check_payment, new Dollar(17));
-        billing.acceptPayment().perform(cc_payment, new Dollar(18));
-        billing.acceptPayment().perform(eft_payment, new Dollar(19));
-        billing.acceptPayment().perform(check_payment, new Dollar(20));
-        billing.acceptPayment().perform(cash_payment, new Dollar(21));
+		billing.acceptPayment().perform(check_payment, new Dollar(16));
+		billing.acceptPayment().perform(check_payment, new Dollar(17));
+		billing.acceptPayment().perform(cc_payment, new Dollar(18));
+		billing.acceptPayment().perform(eft_payment, new Dollar(19));
+		billing.acceptPayment().perform(check_payment, new Dollar(20));
+		billing.acceptPayment().perform(cash_payment, new Dollar(21));
 	}
 
 	private void verifyPaymentDeclinedTransactionPresent(String amount) {
@@ -717,7 +717,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 			new BillingPaymentsAndTransactionsVerifier().setType("Fee").setSubtypeReason(reason).setAmount(new Dollar(15)).setStatus("Applied").verifyPresent();
 		}
 	}
-	
+
 	private void verifyPaymentTransactionBecameDeclined(String amount) {
 		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(new Dollar(amount)).setStatus("Declined").verifyPresent();
 	}

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import aaa.main.metadata.PaymentsMaintenanceMetaData;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -613,14 +614,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		waiveFeeOnDate(waiveDate);
 	}
 
-	protected void maigConversionOnRenewPreviewGenDate(String state) {
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime().plusYears(1);
+	protected void maigConversionOnStartDatePlus3(String state) {
+		LocalDateTime conversionDate = TimeSetterUtil.getInstance().getStartTime().plusDays(3);
+		log.info("Conversion started on {}", conversionDate);
+		TimeSetterUtil.getInstance().nextPhase(conversionDate);
+		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
 		String policyN = ConversionUtils.importPolicy(data);
 
 		// LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime();
 		// LocalDateTime convDate = getTimePoints().getRenewPreviewGenerationDate(effDate.plusYears(1));
-		log.info("Conversion started on {}", effDate);
 		// ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate.plusYears(1));
 		// String policyN = ConversionUtils.importPolicy(data);
 		// TimeSetterUtil.getInstance().nextPhase(convDate);
@@ -788,7 +791,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			File remitanceFile = RemittancePaymentsHelper.createRemittanceFile(getState(), policyNum, minDue, ExternalPaymentSystem.REGONLN);
 			RemittancePaymentsHelper.copyRemittanceFileToServer(remitanceFile);
 			log.info("Collection feed file moved successfully");
-			JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
+			JobUtils.executeJob(Jobs.aaaRemittanceFeedAsyncBatchReceiveJob);
 			mainApp().open();
 			SearchPage.openBilling(policyNum);
 			new BillingPaymentsAndTransactionsVerifier()
@@ -896,10 +899,13 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Refund Suspense action started on {}", refundDate);
 		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openBilling(policyNumber);
 		BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
 		PaymentsAndBillingMaintenancePage.buttonClearSuspense.click();
-		new SearchSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		new SearchSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(
+				TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.SearchSuspenseActionTab.SUSPENSE_REFERENCE.getLabel()),
+				policyNumber));
 		SearchSuspenseActionTab.buttonSearch.click();
 		SearchSuspenseActionTab.tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.REVERSE).click();
 		Tab.buttonOk.click();

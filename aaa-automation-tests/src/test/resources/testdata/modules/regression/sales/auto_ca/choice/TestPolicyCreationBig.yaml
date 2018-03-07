@@ -41,8 +41,8 @@ PolicyInformation: {
   Effective Date: '$<today:MM/dd/yyyy>',
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Los Gatos - 500005341 - Los Gatos',
-  Agent: 'House Agent Los Gatos',
+  Agency Location: 'AAA Alameda - 500005399 - Alameda (0129)',
+  Agent: 'House Agent AAA Alameda',
   Authorized by: QA,
   TollFree Number: 1
 }

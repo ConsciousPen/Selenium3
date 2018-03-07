@@ -46,14 +46,14 @@ public class TestPolicyRemoveForm extends HomeSSHO3BaseTest {
 		TestData tdEndorsement = getTestSpecificTD("TestData");
 		TestData tdEndorsementDelete = getTestSpecificTD("TestData_Delete");
 
-		String expectedEndorsementName = String.format("HS 09 88 01 12 Additional Insured - Special Event; Effective %1$s - %2$s",
-				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Effective date"),
-				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Expiration date"));
-
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td.adjust(tdEndorsement), PremiumsAndCoveragesQuoteTab.class);
+
+		String expectedEndorsementName = String.format("HS 09 88 01 12 Additional Insured - Special Event; Effective %1$s - %2$s",
+				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Effective date"),
+				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Expiration date"));
 
 		PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", expectedEndorsementName).verify.present();
 

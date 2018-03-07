@@ -10,7 +10,7 @@ public class VinUploadHelper {
 
 	private String policyType;
 	private String state;
-	UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
 	public VinUploadHelper(PolicyType policyType,String state) {
 		this.policyType = policyType.getShortName();
@@ -35,6 +35,11 @@ public class VinUploadHelper {
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
 		uploadToVINTableTab.uploadVinTable(vinTableFile);
 		uploadToVINTableTab.uploadControlTable(controlTableFile);
+	}
+
+	public void uploadVinTable(String vinTableFile) {
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
 	}
 
 	public void verifyActivitiesAndUserNotes(String vinNumber) {
