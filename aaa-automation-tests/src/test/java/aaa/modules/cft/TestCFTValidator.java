@@ -2,18 +2,12 @@ package aaa.modules.cft;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import toolkit.config.PropertyProvider;
@@ -22,7 +16,6 @@ import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
-import aaa.modules.cft.report.ReportFutureDatedPolicy;
 import aaa.modules.cft.report.ReportGeneratorService;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
