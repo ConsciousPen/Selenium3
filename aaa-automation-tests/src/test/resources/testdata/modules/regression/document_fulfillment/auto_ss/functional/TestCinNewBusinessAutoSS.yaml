@@ -1,0 +1,70 @@
+TestData_AZ: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_AZ']
+}
+
+TestData_PA: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_PA']
+}
+
+TestData_UT: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_UT']
+}
+
+Driver_ClueViolation_UT: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'UT',
+  "License #": 400064773
+}
+
+Driver_ClueViolation_PA: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'PA',
+  License Number: 83127880
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'No'
+}
+
+InsuranceScoreOverride_649: {
+  Action: Override Score,
+  EditInsuranceScoreDialog: {
+    New Score: '649',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+}
+
+CurrentCarrierInformation_1000_1000: {
+  Agent Entered BI Limits: '$1,000,000/$1,000,000',
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}

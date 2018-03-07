@@ -38,7 +38,7 @@ public abstract class TestCinAbstract extends BaseTest {
 
         mainApp().open();
         createCustomerIndividual();
-        createPolicy(policyTD);
+        super.createPolicy(policyTD);
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
