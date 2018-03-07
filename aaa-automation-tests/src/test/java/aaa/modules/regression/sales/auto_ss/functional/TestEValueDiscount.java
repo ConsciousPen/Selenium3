@@ -864,9 +864,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		if (errorTab.getErrorsControl().getTable().isPresent()) {
 			errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577").verify.present(false);
 			errorTab.cancel();
-		} else {
-			policy.dataGather().start();
-			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		} else if(Page.dialogConfirmation.isPresent()){
+			Page.dialogConfirmation.reject();
 		}
 		//PAS-264 end
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

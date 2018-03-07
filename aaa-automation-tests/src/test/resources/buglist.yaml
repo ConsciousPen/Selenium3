@@ -149,12 +149,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-9661:
   summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
   reason: PROD

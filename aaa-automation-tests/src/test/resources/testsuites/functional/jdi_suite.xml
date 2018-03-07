@@ -228,10 +228,18 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsCA" parallel="methods" thread-count="1024">
+    <test name="ContactInfoUpdateServiceCA" parallel="methods" thread-count="1024">
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas1441_emailChangeOutOfPas"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas1441_emailChangeOutOfPas"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -308,7 +316,7 @@
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
-                    <include name="pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
                     <include name="pas9456_9455_PolicyLockUnlockServices"/>
                     <include name="pas9997_paymentMethodsLookup"/>
                     <include name="pas9997_paymentPlansLookup"/>
@@ -339,7 +347,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
+    <test name="ContactInfoUpdateServiceSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -359,7 +367,7 @@
         </classes>
     </test>
 
-    <test name="PolicyDetailsService AZ" parallel="methods" thread-count="1024">
+    <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -371,7 +379,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicyDetailsService VA" parallel="methods" thread-count="1024">
+    <test name="PolicySummaryService VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
@@ -382,7 +390,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicyDetailsService CA" parallel="methods" thread-count="1024">
+    <test name="PolicySummaryService CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
