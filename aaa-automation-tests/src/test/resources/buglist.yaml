@@ -192,7 +192,7 @@ PAS-10346:
   reason: PROD
   failures:
     - tests: [aaa.modules.cft.*]
-      messages: [Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm Member details.]
+      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm Member details."]
 PAS-10350:
   summary: "Regression: CA Home: Unable to switch to next tab from Property Info,'Roof Type' is not in within range"
   reason: PROD
