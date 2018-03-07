@@ -17,7 +17,6 @@ public class TestCFTCleanFeedFiles extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.PRECONDITION})
 	@TestInfo(component = Groups.CFT)
 	public void cleanFeedFiles() {
-		new SoapJobActions().createJob(new JobGroup("remittanceFeedBatchReceiveJob", new Job("aaaRemittanceFeedAsyncBatchReceiveJob")));
 		new SoapJobActions().createJob(new JobGroup("policyTransactionLedgerJob_NonMonthly", new Job("policyTransactionLedgerJob")));
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob_NonMonthly);
 		RemoteHelper.clearFolder(SOURCE_DIR);
