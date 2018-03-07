@@ -1,4 +1,4 @@
-# ----------------- Test Data for PAS-6859 ------------------
+# ----------------- Test Data for PA Rating Helper ------------------
 
 TestData_PrefillTab_OH: '@PrefillTab_OH'
 
@@ -7,6 +7,12 @@ TestData_OtherActiveAAAPolicies: '@OtherActiveAAAPolicies'
 TestData_ManualPolicy: {
   ApplicantTab: '@ApplicantTab_PA'
 }
+
+TestData_Endorse: {
+EndorsementActionTab: '@EndorsementActionTab',
+}
+
+TestData_OtherActive: '@OtherActiveAAAPolicies1'
 
 # ------------------ Other Active Policies ------------------
 
@@ -50,4 +56,29 @@ PrefillTab_OH: {
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
+}
+
+#-----------------  TD for Endorsements --------------
+
+EndorsementActionTab: {
+    Endorsement Reason: index=1
+}
+
+#-----------------  TD for manually added auto policy --------------
+OtherActiveAAAPolicies1: {
+    Other active AAA policies: "Yes",
+    Add: 'click',
+    ActiveUnderlyingPoliciesSearch: {},
+    ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual',
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: PA,
+  Policy number: '345345345',
+  Effective date: '$<today:MM/dd/yyyy>',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
 }

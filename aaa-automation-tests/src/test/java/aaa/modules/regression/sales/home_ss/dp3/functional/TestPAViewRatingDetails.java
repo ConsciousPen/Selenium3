@@ -36,7 +36,7 @@ public class TestPAViewRatingDetails extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - UI Change : View Rating Details screen")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6676, PAS-7025, PAS-7024")
-	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
+	public void pas6676_testPAViewRatingDetails(@Optional("PA") String state) {
 
 		helper.pas6676_TestPAViewRatingDetails(getPolicyType());
 
