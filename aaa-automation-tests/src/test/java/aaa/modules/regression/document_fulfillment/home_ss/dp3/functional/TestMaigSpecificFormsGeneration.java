@@ -1,11 +1,22 @@
 package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -97,4 +108,63 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks());
 	}
 
+	/**
+	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
+	 * @author Viktor Petrenko
+	 * PAS-6731
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
+	public void pas6731_PreRenewalLetterGeneration(@Optional("PA") String state) throws NoSuchFieldException {
+		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
+
+		// Create manual entry
+		mainApp().open();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		policy.getDefaultView().fill(getConversionPolicyDefaultTD());
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(65);
+		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
+
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+
+		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
+		assertThat(docs.stream().anyMatch(m-> m.getTemplateId().contains(DocGenEnum.Documents.HSRNMXX.getIdInXml()))).isEqualTo(true);
+	}
+
+	/**
+	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
+	 * @author Viktor Petrenko
+	 * PAS-6731
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
+	public void pas6731_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state) throws NoSuchFieldException {
+		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
+
+		// Create manual entry
+		mainApp().open();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		policy.getDefaultView().fill(getConversionPolicyDefaultTD());
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(55);
+		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
+
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+
+		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
+		assertThat(docs.stream().anyMatch(m-> m.getTemplateId().contains(DocGenEnum.Documents.HSRNMXX.getIdInXml()))).isEqualTo(false);
+	}
 }
