@@ -104,6 +104,7 @@
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
                     <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
+                    <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
                 </methods>
             </class>
         </classes>
