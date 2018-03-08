@@ -1,9 +1,13 @@
-package aaa.modules.regression.conversions.auto_ss;
+package aaa.modules.regression.conversions.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.TimePoints;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -15,25 +19,18 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.policy.PolicyBaseTest;
 import toolkit.utils.TestInfo;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
-public class MaigManualConversionTest extends AutoSSBaseTest{
+public class ManualConversionTemplate extends PolicyBaseTest{
 
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigManualRenewalEntry(@Optional("VA") String state) {
+	protected void manualRenewalEntryToActivePolicy() {
 //		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW);
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 		mainApp().open();
 		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getPolicyTD("InitiateRenewalEntry", "TestData"), effDate);
-		policy.getDefaultView().fill(getPolicyTD("Conversion", "TestData"));
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
+		getPolicyType().get().getDefaultView().fill(getConversionPolicyDefaultTD());
 		String policyNum = PolicySummaryPage.linkPolicy.getValue();
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
