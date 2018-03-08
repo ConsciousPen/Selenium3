@@ -19,7 +19,7 @@ TestData: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    Authorized By: QA
+#    Authorized By: QA
   }
 }  
 
@@ -65,7 +65,8 @@ VehicleTab: {
 }
 
 AddSuspenseActionTab: {
-  Suspense Amount: 50
+  Suspense Amount: 50,
+  Payment Designation: 'Personal & Commercial Lines Accounts'
 }  
 
 ClearSuspenseActionTab: {
@@ -74,6 +75,7 @@ ClearSuspenseActionTab: {
 }
 
 SearchSuspenseActionTab: {
+  Payment Designation: 'Personal & Commercial Lines Accounts',
   'Missing [status]': Outstanding
 }
 
