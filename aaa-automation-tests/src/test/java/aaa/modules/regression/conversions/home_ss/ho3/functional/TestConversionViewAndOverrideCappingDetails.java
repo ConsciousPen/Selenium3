@@ -14,6 +14,8 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ProductOfferingTab;
+
+import static org.assertj.core.api.Assertions.fail;
 import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.modules.policy.HomeSSHO3BaseTest;
@@ -215,8 +217,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 *
 	 **/
 
-	//public class TestConversionCheckCappingLockIndicator extends HomeSSHO3BaseTest {
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")
@@ -231,7 +231,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 		mainApp().open();
 
-		//Create Individual Customer / Account
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(initiateRenewalEntry);
 
@@ -239,20 +238,20 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 
 		productOfferingTab.btnCalculatePremium.click();
-		CustomAssertions.assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK))
+		assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK))
 				.isEnabled(false);
 		assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK)
-				.getAttribute("disabled"));
+				.getWebElement().isSelected()).isFalse();
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 
-		CustomAssertions.assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK))
+		assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK))
 				.isEnabled(false);
 		assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK)
-				.getAttribute("checked"));
+				.getWebElement().isSelected()).isTrue();
 	}
 
 	private TestData initInitiateRenewalEntry() {
