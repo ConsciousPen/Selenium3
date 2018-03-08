@@ -118,7 +118,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
-	public void pas6731_PreRenewalLetterGeneration(@Optional("PA") String state) throws NoSuchFieldException {
+	public void pas6731_PreRenewalLetterGeneration(@Optional("PA") String state){
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
 
 		// Create manual entry
@@ -148,7 +148,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
-	public void pas6731_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state) throws NoSuchFieldException {
+	public void pas6731_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state){
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
 
 		// Create manual entry
