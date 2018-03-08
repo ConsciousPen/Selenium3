@@ -208,13 +208,11 @@ PAS-10700:
               aaa.modules.regression.sales.pup.TestPolicyCreation,
               aaa.modules.regression.service.pup.TestPolicyEndorsement]
       messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-    - tests: [aaa.modules.cft.*]
-      messages: ["Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered."]
 PAS-10702:
   summary: "Regression: Property: Insurance report rule is fired for additional insured who is not listed on Reports tab"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
       messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
-    - tests: [aaa.modules.cft.*]
-      messages: ["Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered."]
+    - tests: [aaa.modules.cft]
+      messages: ["Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]

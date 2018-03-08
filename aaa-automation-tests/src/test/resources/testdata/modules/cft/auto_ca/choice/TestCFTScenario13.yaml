@@ -19,7 +19,7 @@ TestData: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-#    Authorized By: QA
+    Authorized By: QA
   }
 }  
 

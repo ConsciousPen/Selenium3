@@ -1313,8 +1313,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void writeOffOnDate(LocalDateTime writeOffDate) {
-		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
-		log.info("EP Write off generation action started on {}", writeOffDate);
+		TimeSetterUtil.getInstance().nextPhase(writeOffDate.minusDays(2));
+		log.info("EP Write off generation action started on {}", writeOffDate.minusDays(2));
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
