@@ -355,7 +355,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "FALSE", "AAARolloutEligibilityLookup"))
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup"))
 				.isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup"))
 				.isPresent());
