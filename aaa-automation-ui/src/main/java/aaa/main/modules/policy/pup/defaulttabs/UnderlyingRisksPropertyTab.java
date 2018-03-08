@@ -3,7 +3,6 @@
 package aaa.main.modules.policy.pup.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
@@ -17,10 +16,10 @@ import toolkit.webdriver.controls.composite.table.Table;
  */
 public class UnderlyingRisksPropertyTab extends Tab {
 	public static Table tableAdditionalResidences = new Table(By.xpath("//table[tbody[@id='policyDataGatherForm:dataGatherView_ListPupAdditionalDwelling_data']]"));
-	
-    public UnderlyingRisksPropertyTab() {
-        super(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.class);
-    }
+
+	public UnderlyingRisksPropertyTab() {
+		super(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.class);
+	}
 
   /*  @Override
     public Tab fillTab(TestData td) {
@@ -31,22 +30,25 @@ public class UnderlyingRisksPropertyTab extends Tab {
         return this;
     }*/
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
-    
-    public MultiInstanceAfterAssetList getAdditionalResidenciesAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.ADDITIONAL_RESIDENCIES.getLabel(), MultiInstanceAfterAssetList.class);
+	public MultiInstanceAfterAssetList getAdditionalResidenciesAssetList() {
+		return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.ADDITIONAL_RESIDENCIES.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public MultiInstanceAfterAssetList getBusinessOrFarmingCoverageAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BUSINESS_OR_FARMING_COVERAGE.getLabel(), MultiInstanceAfterAssetList.class);
+
+	public MultiInstanceAfterAssetList getBusinessOrFarmingCoverageAssetList() {
+		return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BUSINESS_OR_FARMING_COVERAGE.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public MultiInstanceAfterAssetList getPetsOrAnimalsInfoAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.PETS_OR_ANIMAL_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
+
+	public MultiInstanceAfterAssetList getPetsOrAnimalsInfoAssetList() {
+		return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.PETS_OR_ANIMAL_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public MultiInstanceAfterAssetList getRecreationalEquipmentInfoAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.RECREATIONAL_EQUIPMENT_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
+
+	public MultiInstanceAfterAssetList getRecreationalEquipmentInfoAssetList() {
+		return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.RECREATIONAL_EQUIPMENT_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
+	}
+
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
 	}
 }

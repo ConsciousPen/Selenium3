@@ -149,12 +149,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-9661:
   summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
   reason: PROD
@@ -201,3 +195,18 @@ PAS-10661:
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
     aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH]
       messages: ['*Cannot get value of StaticElement*', "*AAA_HO_SS67cbad46*"]
+PAS-10700:
+  summary: "Regression: MD Property: Insurance report section is absent on reports tab, but rule is fired requesting to order report"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation,
+              aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement,
+              aaa.modules.regression.sales.pup.TestPolicyCreation,
+              aaa.modules.regression.service.pup.TestPolicyEndorsement]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10702:
+  summary: "Regression: Property: Insurance report rule is fired for additional insured who is not listed on Reports tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]

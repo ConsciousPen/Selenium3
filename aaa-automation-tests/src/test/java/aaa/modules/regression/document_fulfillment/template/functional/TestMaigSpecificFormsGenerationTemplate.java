@@ -31,6 +31,7 @@ import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -74,11 +75,20 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+		boolean mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
+		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
+
 
 		// Get State/Product specific forms
 		List<String> forms = getConversionSpecificGeneratedForms();
-		//Change Membership number in testData to get AHMVCNV form - Validation letter
-
+		//"HO3","HO6","DP3" if test data has Mortgagee payment plan, swap first form in sequence to HSRNHODPXX
+		if(specificProductCondition && mortgageePaymentPlanPresence){
+			forms.set(0,DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		}
+		//"HO3","HO6","DP3" swap first form in sequence to HSRNMXX
+		else if(specificProductCondition && !mortgageePaymentPlanPresence){
+			forms.set(0,DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
+		}
 		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
@@ -132,7 +142,15 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		// Shouldn't be after second renewal
-		pas2674_verifyConversionRenewalPackageAbsence(forms, policyNumber, actualDocumentsListAfterFirstRenewal);
+		List<Document> actualDocumentsAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		pas2674_verifyConversionRenewalPackageAbsence(forms,actualDocumentsAfterSecondRenewal);
+
+		// PAS-8777, PAS-8766
+		if(specificProductCondition){
+			assertThat(actualDocumentsAfterSecondRenewal.stream().anyMatch(m-> m.getTemplateId().contains(DocGenEnum.Documents.HSRNMXX.getIdInXml()))).isEqualTo(true);
+		}
+
+
 	}
 
 	/**
@@ -232,15 +250,14 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				DocGenEnum.Documents.HSRNHBPUP.getIdInXml());
 	}
 
-	public void pas2674_verifyConversionRenewalPackageAbsence(List<String> forms, String policyNumber, List<Document> actualDocumentsListAfterFirstRenewal) {
-		List<Document> actualDocumentsAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+	public void pas2674_verifyConversionRenewalPackageAbsence(List<String> forms, List<Document> actualDocumentsListAfterFirstRenewal) {
 		assertThat(actualDocumentsListAfterFirstRenewal).isNotEmpty().isNotNull();
 
 		List<String> listOfFormsAfterSecondRenewal = new ArrayList<>();
-		actualDocumentsAfterSecondRenewal.forEach(doc -> listOfFormsAfterSecondRenewal.add(doc.getTemplateId()));
+		actualDocumentsListAfterFirstRenewal.forEach(doc -> listOfFormsAfterSecondRenewal.add(doc.getTemplateId()));
 
 		// Remove renewal specific forms
-		List<String> getOnlyConversionSpecificForms = getConversionSpecificFormsRenewalOffer(forms);
+		List<String> getOnlyConversionSpecificForms = getOnlyRenewalSpecificForms(forms);
 
 		assertThat(listOfFormsAfterSecondRenewal).doesNotContainAnyElementsOf(getOnlyConversionSpecificForms);
 	}
@@ -362,42 +379,42 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				if (Constants.States.NJ.equals(getState())) {
 					forms = getHO3NJConversionSpecificForms();
 				} else {
-					forms = getHO3NotNJConversionSpecificForms();
+					forms = getHO3OtherStatesConversionSpecificForms();
 				}
 				break;
 			case "HomeSS_HO4":
 				if (Constants.States.NJ.equals(getState())) {
 					forms = getHO4NJConversionSpecificForms();
 				} else {
-					forms = getHO4NotNJConversionSpecificForms();
+					forms = getHO4OtherStatesConversionSpecificForms();
 				}
 				break;
 			case "HomeSS_HO6":
 				if (Constants.States.NJ.equals(getState())) {
 					forms = getHO6NJConversionSpecificForms();
 				} else {
-					forms = getHO6NotNJConversionSpecificForms();
+					forms = getHO6OtherStatesConversionSpecificForms();
 				}
 				break;
 			case "HomeSS_DP3":
 				if (Constants.States.NJ.equals(getState())) {
 					forms = getDP3NJConversionSpecificForms();
 				} else {
-					forms = getDP3NotNJConversionSpecificForms();
+					forms = getDP3OtherStatesConversionSpecificForms();
 				}
 				break;
 			case "PUP":
 				if (Constants.States.NJ.equals(getState())) {
 					forms = getPupNJConversionSpecificForms();
 				} else {
-					forms = getPupNotNJConversionSpecificForms();
+					forms = getPupOtherStatesConversionSpecificForms();
 				}
 				break;
 		}
 		return forms;
 	}
 
-	private List<String> getConversionSpecificFormsRenewalOffer(List<String> forms) {
+	private List<String> getOnlyRenewalSpecificForms(List<String> forms) {
 		List<String> getOnlyConversionSpecificForms = new ArrayList<>(forms);
 		getOnlyConversionSpecificForms.removeAll(
 				Arrays.asList(
@@ -415,7 +432,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	private List<String> getHO3NJConversionSpecificForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getIdInXml(), //HO form instead of Mortgagee form
+				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
 				DocGenEnum.Documents.HSTP.getIdInXml(),
 				DocGenEnum.Documents.HS02.getIdInXml(),
 				DocGenEnum.Documents.AHAUXX.getIdInXml(),
@@ -426,9 +443,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		);
 	}
 
-	private List<String> getHO3NotNJConversionSpecificForms() {
+	private List<String> getHO3OtherStatesConversionSpecificForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNMXX.getIdInXml(), //Mortgagee form instead of HO form
+				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
 				DocGenEnum.Documents.HS02.getIdInXml(),
 				DocGenEnum.Documents.AHAUXX.getIdInXml(),
 				DocGenEnum.Documents.AHPNXX.getIdInXml(),
@@ -450,7 +467,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		);
 	}
 
-	private List<String> getHO4NotNJConversionSpecificForms() {
+	private List<String> getHO4OtherStatesConversionSpecificForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNHODPXX.getIdInXml(),
 				DocGenEnum.Documents.HS02_4.getIdInXml(),
@@ -463,20 +480,19 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	private List<String> getHO6NJConversionSpecificForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getIdInXml(), //HO form instead of Mortgagee form
+				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
 				DocGenEnum.Documents.HSTP.getIdInXml(),
 				DocGenEnum.Documents.HS02_6.getIdInXml(),
 				DocGenEnum.Documents.AHAUXX.getIdInXml(),
 				DocGenEnum.Documents.AHPNXX.getIdInXml(),
 				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
 				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml()
-				//todo add HSCSNB
 		);
 	}
 
-	private List<String> getHO6NotNJConversionSpecificForms() {
+	private List<String> getHO6OtherStatesConversionSpecificForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNMXX.getIdInXml(), //Mortgagee form instead of HO form
+				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
 				DocGenEnum.Documents.HS02_6.getIdInXml(),
 				DocGenEnum.Documents.AHAUXX.getIdInXml(),
 				DocGenEnum.Documents.AHPNXX.getIdInXml(),
@@ -495,7 +511,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		);
 	}
 
-	private List<String> getPupNotNJConversionSpecificForms() {
+	private List<String> getPupOtherStatesConversionSpecificForms() {
 		return Arrays.asList(
 				DocGenEnum.Documents.HSRNPUPXX.getIdInXml(),
 				DocGenEnum.Documents.PS02.getIdInXml(),
@@ -505,7 +521,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	private List<String> getDP3NJConversionSpecificForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getIdInXml(), //HO form instead of Mortgagee form
+				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
 				DocGenEnum.Documents.HSTP.getIdInXml(),
 				DocGenEnum.Documents.DS02.getIdInXml(),
 				DocGenEnum.Documents.AHAUXX.getIdInXml(),
@@ -515,9 +531,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		);
 	}
 
-	private List<String> getDP3NotNJConversionSpecificForms() {
+	private List<String> getDP3OtherStatesConversionSpecificForms() {
 		return Arrays.asList(
-				DocGenEnum.Documents.HSRNMXX.getIdInXml(), //Mortgagee form instead of HO form
+				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
 				DocGenEnum.Documents.DS02.getIdInXml(),
 				DocGenEnum.Documents.AHAUXX.getIdInXml(),
 				DocGenEnum.Documents.AHPNXX.getIdInXml(),
@@ -526,7 +542,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		);
 	}
 
-	public TestData adjustWithAdditionalInterest(TestData policyTD) {
+	public TestData getTestDataWithAdditionalInterest(TestData policyTD) {
+		// HSTP form
 		String mortgageeTabMetaKey = new MortgageesTab().getMetaKey();
 
 		TestData additionalInterestData = new DataProviderFactory().emptyData()
@@ -540,12 +557,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	}
 
 	public TestData adjustWithMortgageeData(TestData policyTD) {
-		String mortgageeTabKey = TestData.makeKeyPath(HomeSSMetaData.MortgageesTab.class.getSimpleName());
-		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");
+		TestData testDataMortgagee = getTestSpecificTD("MortgageesTab");
 		//adjust TestData with Premium and Coverage tab data
-		String premiumAndCoverageTabKey = TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName());
-		TestData premiumAndCoverageTD = getTestSpecificTD("PremiumsAndCoveragesQuoteTab_Mortgagee");
-		return policyTD.adjust(mortgageeTabKey, mortgageeTD).adjust(premiumAndCoverageTabKey, premiumAndCoverageTD);
+		TestData testDataPremiumTabWithMortgageePaymentPlan = getTestSpecificTD("PremiumsAndCoveragesQuoteTab_Mortgagee");
+		return policyTD.adjust(new MortgageesTab().getMetaKey(), testDataMortgagee).adjust(new PremiumsAndCoveragesQuoteTab().getMetaKey(), testDataPremiumTabWithMortgageePaymentPlan);
 	}
 
 }

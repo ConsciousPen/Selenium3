@@ -5,6 +5,9 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,12 +21,12 @@ public class TestPolicyCreationFull extends HomeSSHO4BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4)
-	public void testFullPolicyCreation(@Optional("") String state) {
+	public void testPolicyCreationFull(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.createPolicy(getTestSpecificTD("TestDataFull"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: Hss HO4 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 }

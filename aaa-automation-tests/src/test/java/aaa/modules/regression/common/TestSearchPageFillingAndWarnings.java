@@ -8,11 +8,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.main.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.SearchEnum;
 import aaa.modules.BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -47,13 +47,13 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testFillAndClearAllSearchCriteria(@Optional("") String state) {
-		final SearchEnum.SearchFor defaultSearchForCriteria = SearchEnum.SearchFor.POLICY;
+		SearchEnum.SearchFor defaultSearchForCriteria = SearchEnum.SearchFor.POLICY;
 
 		TestData searchRandomData = DataProviderFactory.dataOf(
-				SearchMetaData.Search.SEARCH_FOR.getLabel(), getRandomSearchForCriteria(defaultSearchForCriteria).get(),
+				SearchPage.LABEL_SEARCH, getRandomSearchForCriteria(defaultSearchForCriteria).get(),
 				SearchMetaData.Search.PRODUCT_ID.getLabel(), "Auto");
 
 		for (String searchByField : SearchPage.assetListSearch.getAssetNames()) {
@@ -73,7 +73,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		SearchPage.clear();
 		for (String searchByField : SearchPage.assetListSearch.getAssetNames()) {
 			BaseElement<?, ?> searchByControl = SearchPage.assetListSearch.getAsset(searchByField);
-			if (searchByField.equals(SearchMetaData.Search.SEARCH_FOR.getLabel())) {
+			if (searchByField.equals(SearchPage.LABEL_SEARCH)) {
 				((RadioGroup) searchByControl).verify.value(defaultSearchForCriteria.get());
 			} else {
 				((AbstractStringElement<?>) searchByControl).verify.value("");
@@ -104,20 +104,20 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchWarnings(@Optional("") String state) {
-		final String accNumberLengthWarning = String.format("Account number invalid - Should enter %d or more numeric digits or leave as blank", MIN_ACC_NUMBER_LENGTH);
-		final String cityLengthWarning = String.format("City searches require less or equal %d characters", CITY_LENGTH);
-		final String stateLengthAndFormatWarning = String.format("State abbreviation. State search requires %d characters", STATE_LENGTH);
-		final String zipFormatWarning = String.format("Zip code searches require less or equal %d characters", ZIP_CODE_LENGTH);
-		final String phoneFormatWarning = String.format("Wrong Phone# format, allowed formats are: %d digit number or number in format (999) 999-9999", PHONE_NUMBER_LENGTH);
-		final String ssnLengthWarning = String.format("Social Security Number searches require %d digits", SSN_LENGTH);
-		final String ssnFormatWarning = "Social Security Number must be numeric";
-		final String maxLengthWarningTemplate = "Maximum criteria length for '%s' is " + COMMON_MAX_LENGTH;
-		final String emptySearchCriteriaWarning = "Search criteria must be entered";
-		final String notFoundWarningTemplate = "%s not found";
-		final String resultSetTooLargeWarning = "Result set too large, refine search criteria";
+		String accNumberLengthWarning = String.format("Account number invalid - Should enter %d or more numeric digits or leave as blank", MIN_ACC_NUMBER_LENGTH);
+		String cityLengthWarning = String.format("City searches require less or equal %d characters", CITY_LENGTH);
+		String stateLengthAndFormatWarning = String.format("State abbreviation. State search requires %d characters", STATE_LENGTH);
+		String zipFormatWarning = String.format("Zip code searches require less or equal %d characters", ZIP_CODE_LENGTH);
+		String phoneFormatWarning = String.format("Wrong Phone# format, allowed formats are: %d digit number or number in format (999) 999-9999", PHONE_NUMBER_LENGTH);
+		String ssnLengthWarning = String.format("Social Security Number searches require %d digits", SSN_LENGTH);
+		String ssnFormatWarning = "Social Security Number must be numeric";
+		String maxLengthWarningTemplate = "Maximum criteria length for '%s' is " + COMMON_MAX_LENGTH;
+		String emptySearchCriteriaWarning = "Search criteria must be entered";
+		String notFoundWarningTemplate = "%s not found";
+		String resultSetTooLargeWarning = "Result set too large, refine search criteria";
 
 		String searchAl = SearchPage.assetListSearch.getName();
 
@@ -129,7 +129,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		SearchPage.verifyWarningsExist(resultSetTooLargeWarning);
 
 		TestData wrongSearchData = DataProviderFactory.emptyData()
-				.adjust(SearchMetaData.Search.SEARCH_FOR.getLabel(), getRandomSearchForCriteria().get())
+				.adjust(SearchPage.LABEL_SEARCH, getRandomSearchForCriteria().get())
 				.adjust(SearchMetaData.Search.POLICY_QUOTE.getLabel(), RandomStringUtils.randomAlphabetic(4) + RandomStringUtils.randomNumeric(10))
 
 				// Check less than minimum allowable values length warning messages
@@ -140,7 +140,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		TestData td = DataProviderFactory.emptyData().adjust(searchAl, wrongSearchData);
 		SearchPage.search(td);
 		SearchPage.verifyWarningsExist(accNumberLengthWarning, phoneFormatWarning, ssnLengthWarning);
-		SearchPage.verifyWarningsExist(false, String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchMetaData.Search.SEARCH_FOR.getLabel())));
+		SearchPage.verifyWarningsExist(false, String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchPage.LABEL_SEARCH)));
 
 		// Check with minimum allowable values length
 		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.ACCOUNT.getLabel()), RandomStringUtils.randomNumeric(MIN_ACC_NUMBER_LENGTH));
@@ -148,7 +148,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.SSN.getLabel()), RandomStringUtils.randomNumeric(SSN_LENGTH));
 		SearchPage.search(td);
 		SearchPage.verifyWarningsExist(false, accNumberLengthWarning, phoneFormatWarning, ssnLengthWarning);
-		SearchPage.verifyWarningsExist(String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchMetaData.Search.SEARCH_FOR.getLabel())));
+		SearchPage.verifyWarningsExist(String.format(notFoundWarningTemplate, wrongSearchData.getValue(SearchPage.LABEL_SEARCH)));
 
 		// Check more than maximum allowable values length warning messages, 1st part (not all warning messages fits on page)
 		td.adjust(TestData.makeKeyPath(searchAl, SearchMetaData.Search.POLICY_QUOTE.getLabel()), RandomStringUtils.randomNumeric(COMMON_MAX_LENGTH + 1));
@@ -212,7 +212,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 				String.format(maxLengthWarningTemplate, SearchMetaData.Search.CUSTOMER.getLabel()),
 				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY_NAME.getLabel()),
 				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()));
-				//String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
+		//String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
 
 		// Check wrong value format warning messages
 		SearchPage.clear();

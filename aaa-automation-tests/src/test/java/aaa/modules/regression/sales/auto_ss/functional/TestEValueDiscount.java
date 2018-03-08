@@ -64,7 +64,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
-	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) +"/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
+	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
@@ -357,7 +357,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert
 				.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "FALSE", "AAARolloutEligibilityLookup"))
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup"))
 				.isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup"))
 				.isPresent());
@@ -866,9 +866,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		if (errorTab.getErrorsControl().getTable().isPresent()) {
 			errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577").verify.present(false);
 			errorTab.cancel();
-		} else {
-			policy.dataGather().start();
-			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		} else if(Page.dialogConfirmation.isPresent()){
+			Page.dialogConfirmation.reject();
 		}
 		//PAS-264 end
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1730,7 +1729,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value(defaultCommissionTypeValue);
 	}
 
-	void eValueQuoteCreation() {
+	public void eValueQuoteCreation() {
 		//Default VA test data didn't work, so had to use multiple adjustments
 		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
 		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
@@ -1767,7 +1766,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		} else {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+			if (documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).isPresent() && documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).isEnabled()){
+				documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+			}
 		}
 
 		for (int i = 0; i < 3; i++) {

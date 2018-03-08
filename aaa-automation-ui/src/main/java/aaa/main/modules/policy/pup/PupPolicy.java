@@ -5,7 +5,6 @@ package aaa.main.modules.policy.pup;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.utils.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,11 +17,12 @@ import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.modules.policy.pup.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
+import aaa.utils.EntityLogger;
 import toolkit.datax.TestData;
 
 /**
  * Concrete implementation for a specific entity type.
- * 
+ *
  * @category Generated
  */
 public class PupPolicy implements IPolicy {
@@ -46,7 +46,7 @@ public class PupPolicy implements IPolicy {
 	@Override
 	public void createQuote(TestData td) {
 		initiate();
-		getDefaultView().fillUpTo(td, BindTab.class, false);
+		getDefaultView().fillUpTo(td, BindTab.class, true);
 		BindTab.buttonSaveAndExit.click();
 
 		log.info("Created Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
@@ -61,12 +61,12 @@ public class PupPolicy implements IPolicy {
 
 	@Override
 	public void createRenewal(TestData td) {
-	    renew().performAndFill(td);
+		renew().performAndFill(td);
 	}
 
 	@Override
 	public void createEndorsement(TestData td) {
-	    endorse().performAndFill(td);
+		endorse().performAndFill(td);
 	}
 
 	@Override
@@ -82,15 +82,15 @@ public class PupPolicy implements IPolicy {
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
 	}
 
-    @Override
-    public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium(td);
-	    NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
-	    new UnderwritingAndApprovalTab().fillTab(td);
-	    NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
-	    new BindTab().submitTab();
-	    new PurchaseTab().fillTab(td).submitTab();
-    }
+	@Override
+	public void calculatePremiumAndPurchase(TestData td) {
+		calculatePremium(td);
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
+		new UnderwritingAndApprovalTab().fillTab(td);
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+		new BindTab().submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
+	}
 
 	@Override
 	public void copyPolicy(TestData td) {
@@ -101,7 +101,7 @@ public class PupPolicy implements IPolicy {
 
 	@Override
 	public void purchase(TestData td) {
-	    dataGather().start();
+		dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
 		new BindTab().submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
@@ -182,7 +182,7 @@ public class PupPolicy implements IPolicy {
 	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new PupPolicyActions.DeletePendingTransaction();
 	}
-	
+
 	@Override
 	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
 		return new PupPolicyActions.DeletePendingRenwals();

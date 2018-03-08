@@ -122,7 +122,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		fillPolicy(effDate);
+		fillPolicy();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		//TODO Verify coverages
@@ -159,7 +159,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		fillPolicy(effDate);
+		fillPolicy();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
@@ -197,27 +197,17 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
 	}
 
-	private void fillPolicy(LocalDateTime effDate) {
+	public void fillPolicy() {
 		policy.dataGather().start();
-		TestData td = getPolicyTD().adjust(TestData.makeKeyPath(AutoSSMetaData.PrefillTab.class.getSimpleName(), AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "NamedInsuredInformation[0]", "Base Date"), effDate.format(DateTimeUtils.MM_DD_YYYY))
-				.mask(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel()))
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AAA_PRODUCT_OWNED.getLabel(), CURRENT_AAA_MEMBER.getLabel()), "No")
-				.mask(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AAA_PRODUCT_OWNED.getLabel(), LAST_NAME.getLabel()))
+
+		TestData td = getConversionPolicyDefaultTD()
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.PrefillTab.class.getSimpleName(), AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "index=1")
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "index=1")
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.TYPE.getLabel()), "Private Passenger Auto")
-				.adjust(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), new SimpleDataProvider())
-				.mask(TestData
-						.makeKeyPath(AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE
-								.getLabel()))
-				.mask(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.AGREEMENT.getLabel()))
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.AUTHORIZED_BY.getLabel()), "qa")
-				.mask(new PurchaseTab().getMetaKey());
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "index=1");
 
 		if (getState().equals(Constants.States.PA)) {
-			td.mask(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class
-					.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.FIRST_PARTY_BENEFITS_COVERAGE_AND_LIMITS_SELECTION_FORM.getLabel()));
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class
+					.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PENNSYLVANIA_NOTICE_TO_NAMED_INSURED_REGARDING_TORT_OPTIONS.getLabel()), "Physically Signed");
 		}
 
 		policy.getDefaultView().fill(td);

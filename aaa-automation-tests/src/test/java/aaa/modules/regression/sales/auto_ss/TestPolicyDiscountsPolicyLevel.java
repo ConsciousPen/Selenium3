@@ -16,9 +16,6 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
-import toolkit.verification.CustomSoftAssertions;
 
 
 public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {

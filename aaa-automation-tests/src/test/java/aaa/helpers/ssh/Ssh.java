@@ -157,6 +157,7 @@ public class Ssh {
 			openSftpChannel();
 			String[] folders = destination.split("/");
 			folders = Arrays.copyOf(folders, folders.length-1);
+			sftpChannel.cd("/");
 			for (String folder : folders) {
 				if (folder.length() > 0) {
 					try {
@@ -171,7 +172,6 @@ public class Ssh {
 			fis = new BufferedInputStream(new FileInputStream(new File(source)));
 			sftpChannel.put(fis, destination, ChannelSftp.OVERWRITE);
 			log.info("SSH: File '" + source + "' was put to '" + destination + "'.");
-			closeSession();
 		} catch (Exception e) {
 			throw new RuntimeException("SSH: Unable to put file: ", e);
 		} finally {
