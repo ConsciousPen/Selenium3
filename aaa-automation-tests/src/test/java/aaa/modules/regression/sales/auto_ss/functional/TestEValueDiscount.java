@@ -1227,12 +1227,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
-				.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED))
 				.isFalse();
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
-				.APPLY_EVALUE_DISCOUNT).setValue("No");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 
 		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		PremiumAndCoveragesTab.calculatePremium();
@@ -1247,19 +1245,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
-				.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED))
 				.isTrue();
 		deleteSinglePaperlessPreferenceRequest(requestId2);
 
 		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
-		NavigationPage.toViewSubTab((NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get()));
-		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
-		NavigationPage.toViewSubTab((NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()));
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab
-				.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFRENCES_NOT_ENROLLED))
 				.isFalse();
 		deleteSinglePaperlessPreferenceRequest(requestId3);
