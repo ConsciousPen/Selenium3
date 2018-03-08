@@ -259,7 +259,7 @@
     </test>
 
     <test name="DP3 pas6731 PreRenewal Letter Generation new timeline -65" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+        <parameter name="state" value="PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
