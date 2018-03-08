@@ -20,6 +20,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class ManualConversionTemplate extends PolicyBaseTest{
@@ -29,8 +30,9 @@ public class ManualConversionTemplate extends PolicyBaseTest{
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 		mainApp().open();
 		createCustomerIndividual();
+		TestData policyTd = getConversionPolicyDefaultTD();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
-		getPolicyType().get().getDefaultView().fill(getConversionPolicyDefaultTD());
+		getPolicyType().get().getDefaultView().fill(policyTd);
 		String policyNum = PolicySummaryPage.linkPolicy.getValue();
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
