@@ -5,6 +5,9 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -30,14 +33,14 @@ public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
         createCustomerIndividual();
 
         policy.createQuote(getPolicyTD("DataGather", "TestData"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("Initial Quote policyNumber " + policyNumber);
 
         policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
         String policyNumberCopied = PolicySummaryPage.labelPolicyNumber.getValue();
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.DATA_GATHERING);
         log.info("Copied Quote policyNumber " + policyNumberCopied);
     }
 }

@@ -3,10 +3,10 @@
 package aaa.main.modules.billing.account.actiontabs;
 
 import org.openqa.selenium.By;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.ActionTab;
 import aaa.main.metadata.BillingAccountMetaData;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 
 public class AddHoldActionTab extends ActionTab {
 
@@ -14,6 +14,7 @@ public class AddHoldActionTab extends ActionTab {
     public static Table tableHoldsAndMoratoriums = new Table(By.id("holdPoliciesForm:holdsTable"));
 
     public static Button buttonAddUpdate = new Button(By.xpath("//input[(@value = 'Add/Update') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
+    public static Button buttonCancel = new Button(By.xpath("//input[(@value = 'Cancel') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 
     public AddHoldActionTab() {
         super(BillingAccountMetaData.AddHoldActionTab.class);

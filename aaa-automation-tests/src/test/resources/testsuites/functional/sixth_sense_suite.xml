@@ -115,6 +115,16 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetails"/>
         </classes>
     </test>
+
+    <test name="Test PA Privilege to Edit Auto Companion Tier">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPrivilegeToEditCompanionAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPrivilegeToEditCompanionAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPrivilegeToEditCompanionAutoTier"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPrivilegeToEditCompanionAutoTier"/>
+        </classes>
+    </test>
 -->
 
     <!--Tests for PUP-->

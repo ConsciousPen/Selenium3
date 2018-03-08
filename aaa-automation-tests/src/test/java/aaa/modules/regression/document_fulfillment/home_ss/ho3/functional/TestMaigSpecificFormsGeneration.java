@@ -18,6 +18,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	}
 
 	/**
+	 * Specific Conversion Packet Generation NJ with default payment plan
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
@@ -26,13 +27,13 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_SpecificConversionPacketGenerationForNJ(@Optional("NJ") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithAdditionalInterest(getConversionPolicyDefaultTD()));
+	public void pas2674_ConversionPacketNJ(@Optional("NJ") String state) throws NoSuchFieldException {
+		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD()));
 	}
 
 	/**
+	 * Specific Conversion Packet Generation NJ with mortgagee payment plan
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
@@ -41,14 +42,47 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	//@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_SpecificConversionPacketGenerationForOtherStates(@Optional("PA") String state) throws NoSuchFieldException {
-		// CW, DE, VA
+	public void pas2674_ConversionPacketNJMortgagee(@Optional("NJ") String state) throws NoSuchFieldException {
+		verifyConversionFormsSequence(adjustWithMortgageeData(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD())));
+	}
+
+	/**
+	 * Specific Conversion Packet Generation for DE, VA , PA , CW with default payment plan
+	 * @author Viktor Petrenko
+	 * PAS-9607
+	 * PAS-2674
+	 * PAS-8777
+	 * PAS-8766
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
+	public void pas2674_ConversionPacketOtherStates(@Optional("PA") String state) throws NoSuchFieldException {
+		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
+	}
+
+	/**
+	 * Specific Conversion Packet Generation for DE, VA , PA , CW with mortgagee payment plan
+	 * @author Viktor Petrenko
+	 * PAS-9607
+	 * PAS-2674
+	 * PAS-8777
+	 * PAS-8766
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
+	public void pas2674_ConversionPacketOtherStatesMortgagee(@Optional("DE") String state) throws NoSuchFieldException {
 		verifyConversionFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()));
 	}
 
 	/**
+	 * Specific Billing Packet Generation For CW, DE, VA
 	 * @author Viktor Petrenko
 	 * PAS-9816
 	 * PAS-9607
@@ -58,8 +92,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas9816_SpecificBillingPacketGenerationForOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
-		// CW, DE, VA
+	public void pas9816_BillingPacketGeneration(@Optional("DE") String state) throws NoSuchFieldException {
 		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
 	}
 
