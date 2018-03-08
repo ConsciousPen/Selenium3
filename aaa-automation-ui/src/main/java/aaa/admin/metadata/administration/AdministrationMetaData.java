@@ -1,7 +1,6 @@
 package aaa.admin.metadata.administration;
 
 import org.openqa.selenium.By;
-import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.FileUpload;

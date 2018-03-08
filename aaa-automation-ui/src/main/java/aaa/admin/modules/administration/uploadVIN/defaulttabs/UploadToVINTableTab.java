@@ -23,7 +23,7 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
-	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
+	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:messagesBlock"));
 
 	public static Button buttonUpload = new Button(By.className("start"));
 	public static Button buttonChoose = new Button(By.className("fileinput-button"));
@@ -38,7 +38,7 @@ public class UploadToVINTableTab extends DefaultTab {
 	public void uploadVinTable(String fileName) {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION).setValue(true);
 		uploadFile(fileName);
-		}
+	}
 
 
 
@@ -47,7 +47,14 @@ public class UploadToVINTableTab extends DefaultTab {
 
 		buttonUpload.click();
 
-		if (labelUploadSuccessful.isPresent()) {
+		//added a 'wait' here because the loading animation on the page was causing the upload verification to fail. This wait allows the animation to complete.
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			System.out.println("wait issue");
+		}
+
+		if (labelUploadSuccessful.getValue().contains("Rows added")) {
 			// check successfull
 			log.info("File {} was uploaded successfully", fileName);
 		}
