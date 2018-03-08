@@ -476,12 +476,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
 
-		String policyNumber = "VASS952918657";
+/*		String policyNumber = "VASS952918657";
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();*/
 
-	/*	preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
 
@@ -491,7 +491,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
-		//LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
@@ -499,7 +498,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
-		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));*/
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
@@ -562,11 +561,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
-		String policyNumber = "VASS952918648";
+/*		String policyNumber = "VASS952918648";
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		/*
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();*/
+
 		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
@@ -582,14 +581,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);*/
-/*		renewalTransactionHistoryCheck(policyNumber,true, true);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		renewalTransactionHistoryCheck(policyNumber,true, true, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 
-		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));*/
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
-		ahdexxGeneratedCheck(true, policyNumber, 2);
+		//BUG PAS-10735 AHDEXX is generated on R-48, though it was generated on R-63
+		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
@@ -603,13 +603,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = false;
 
-		String policyNumber = "VASS952918653";
+/*		String policyNumber = "VASS952918653";
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();*/
 
 
-/*		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
+		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
 
@@ -628,7 +628,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 
-*/
+
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 2);
