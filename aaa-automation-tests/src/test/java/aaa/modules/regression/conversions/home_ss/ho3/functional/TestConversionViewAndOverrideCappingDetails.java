@@ -19,6 +19,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 
 /**
@@ -191,6 +192,67 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey("Applied Capping Factor"))
 				.isEqualTo(cappingFactorAfterOverride);
+	}
+
+
+
+	/**
+	 * @author PJ
+	 * @name Test Check Capping Lock Indicator
+	 * @scenario
+	 * Preconditions: policy qualifies for capping and user have the capping privilege
+	 * 1. Create Individual Customer / Account
+	 * 2. Create converted SS home policy
+	 * 3. navigate to the “Premiums & Coverages” – “Product offering” tab
+	 * 4. Click the “Calculate Premiums’ button.
+	 * 5. Assert that Capping Lock is disabled.
+	 * 6. Assert that Capping Lock does not get selected.
+	 * 7. navigate to the “Premiums & Coverages” – “Quote” tab
+	 * 8. Click the “Calculate Premiums’ button.
+	 * 9. navigate to the “Premiums & Coverages” – “Product offering” tab
+	 * 10. Assert that Capping Lock is disabled.
+	 * 11. Assert that Capping Lock get selected.
+	 *
+	 **/
+
+	//public class TestConversionCheckCappingLockIndicator extends HomeSSHO3BaseTest {
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")
+
+	public void testCappingLockNotSelected(@Optional("NJ") String state) {
+
+		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
+		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+
+		TestData td = initTestData();
+		TestData initiateRenewalEntry = initInitiateRenewalEntry();
+
+		mainApp().open();
+
+		//Create Individual Customer / Account
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(initiateRenewalEntry);
+
+		policy.getDefaultView().fillUpTo(td, ProductOfferingTab.class, true);
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
+
+		productOfferingTab.btnCalculatePremium.click();
+		CustomAssertions.assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK))
+				.isEnabled(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK)
+				.getAttribute("disabled"));
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
+
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
+
+		CustomAssertions.assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK))
+				.isEnabled(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(HomeSSMetaData.ProductOfferingTab.CAPPING_LOCK)
+				.getAttribute("checked"));
 	}
 
 	private TestData initInitiateRenewalEntry() {
