@@ -11,7 +11,6 @@ import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
