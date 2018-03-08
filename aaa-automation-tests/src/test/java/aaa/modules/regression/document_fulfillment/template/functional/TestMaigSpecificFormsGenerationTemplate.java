@@ -75,7 +75,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
-		boolean mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
+		boolean mortgageePaymentPlanPresence = testData.getTestData("PremiumAndCoveragesQuoteTab").getValue("Payment Plan").contains("Mortgagee Bill");
 		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
 
 
