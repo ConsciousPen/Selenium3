@@ -257,4 +257,16 @@
             </class>
         </classes>
     </test>
+
+    <test name="DP3 pas6731 PreRenewal Letter Generation new timeline -65" thread-count="200">
+        <parameter name="state" value="DE,VA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas6731_PreRenewalLetterGeneration"/>
+                    <include name="pas6731_PreRenewalLetterGenerationNegativeScenario"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
