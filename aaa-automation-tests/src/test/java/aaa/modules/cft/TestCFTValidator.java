@@ -65,7 +65,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		checkDirectory(cftResultDir);
 	}
 
-	@Test(groups = {Groups.CFT}, priority = 1)
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT}, priority = 1)
 	@TestInfo(component = Groups.CFT)
 	public void validate() throws SftpException, JSchException, IOException, SQLException {
 

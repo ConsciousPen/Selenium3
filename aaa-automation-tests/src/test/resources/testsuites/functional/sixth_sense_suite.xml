@@ -62,10 +62,11 @@
     <!--Tests for Property-->
 
 
-    <test name="Test Renovation Discount for KS DP3">
+    <test name="Test Renovation Discount for KS DP3, HO3">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRenovationDiscounts"/>
         </classes>
     </test>
 
