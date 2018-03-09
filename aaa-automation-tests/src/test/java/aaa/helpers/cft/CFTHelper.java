@@ -138,7 +138,7 @@ public class CFTHelper extends BaseTest {
 		style.setBorderRight(BorderStyle.MEDIUM);
 		style.setBorderTop(BorderStyle.MEDIUM);
 	}
-	
+
 	private static List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
 		// if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app
 		List<FinancialPSFTGLObject> objectsFromCSV;
