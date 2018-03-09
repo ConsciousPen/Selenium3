@@ -1,9 +1,10 @@
 package aaa.modules.regression.service.template;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Jelena Dembovska
@@ -27,17 +28,13 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 
         String originalPolicyNumber = getCopiedPolicy();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        
-        CustomAssert.enableSoftMode();
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
-		
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.DATA_GATHERING);
 		
 		String rewritePolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
@@ -46,14 +43,9 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
 				
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		CustomAssert.assertFalse(String.format("Rewriting Policy %s number is the same as initial policy number %s", originalPolicyNumber, rewritePolicyNumber),
-			originalPolicyNumber.equals(rewritePolicyNumber));
-		
-		
-		CustomAssert.assertAll();
-		
+		assertThat(originalPolicyNumber).isNotEqualTo(rewritePolicyNumber);
 		
 	}
 }

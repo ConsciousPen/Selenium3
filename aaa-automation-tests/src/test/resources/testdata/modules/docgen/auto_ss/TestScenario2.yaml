@@ -2006,7 +2006,7 @@ AA10PA: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'PASS'},
-    TermExprDt: {DateTimeField: ''},
+    #TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyTransCd: {TextField: '0040'},
