@@ -26,6 +26,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
+import aaa.common.Tab;
 import toolkit.verification.CustomAssert;
 
 public class Scenario8 extends ScenarioBaseTest {
@@ -142,6 +143,11 @@ public class Scenario8 extends ScenarioBaseTest {
 			if (purchaseTab.isVisible()) {
 				purchaseTab.payRemainingBalance().submitTab();
 			}
+			//in case of Difference screen appears according to PAS-10738
+			if (Tab.buttonCancel.isPresent()&&Tab.buttonCancel.isVisible()) {
+				Tab.buttonCancel.click();
+			}
+			
 			PolicyHelper.verifyEndorsementIsCreated();
 		}
 
