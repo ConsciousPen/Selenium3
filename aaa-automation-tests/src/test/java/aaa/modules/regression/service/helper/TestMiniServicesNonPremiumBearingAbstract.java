@@ -17,6 +17,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
@@ -117,6 +118,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
+		//Popup to avoid conflicting transactions
+		policy.endorse().start();
+		CustomAssert.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it.".equals(Page.dialogConfirmation.labelMessage.getValue()));
+		Page.dialogConfirmation.reject();
+
+		SearchPage.openPolicy(policyNumber);
 		secondEndorsementIssueCheck();
 	}
 
