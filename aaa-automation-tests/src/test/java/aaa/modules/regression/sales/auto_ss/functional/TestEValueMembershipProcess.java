@@ -1530,7 +1530,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 			}
 
-/*			if (isPaperlessDiscDataPresent) {
+			if (isPaperlessDiscDataPresent) {
 				CustomAssert.assertTrue("Y"
 						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
@@ -1548,7 +1548,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				CustomAssert.assertTrue("N"
 						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
-			}*/
+			}
 		} else {
 			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
 		}
