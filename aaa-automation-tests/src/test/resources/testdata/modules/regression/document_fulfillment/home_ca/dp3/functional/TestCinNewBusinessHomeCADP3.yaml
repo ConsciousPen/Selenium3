@@ -1,0 +1,19 @@
+NamedInsuredProperty: {
+  First Name: PropChargeable,
+  Last Name: Activity,
+  Relationship to primary named insured: Primary Insured
+}
+
+PublicProtectionClass: {
+   Fire department type: 'T - Tax based',
+   Public protection class: '5',
+   Distance to fire hydrant: '<=1000ft',
+   Fire protection area: '100'
+}
+
+AAAMembership_CIN: {
+  Current AAA Member: 'No'
+}
+
+MembershipReport_CIN: {
+}

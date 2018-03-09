@@ -15,7 +15,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
-    public void testCinNewBusinessMVR(@Optional("PA") String state) {
+    public void testCinNewBusinessMVR(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))

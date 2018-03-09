@@ -10,6 +10,23 @@ TestData_UT: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_UT']
 }
 
+Driver_ClueViolation_AZ: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'AZ',
+  License Number: A12345678
+}
+
 Driver_ClueViolation_UT: {
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
