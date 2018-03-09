@@ -73,22 +73,18 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 */
 
 	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
+		// Specific conditions which will reflected in forms which will be verified later
+		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
+		boolean mortgageePaymentPlanPresence = false;
+		if(!getPolicyType().getShortName().equals("PUP")){
+			mortgageePaymentPlanPresence = testData.getTestData("PremiumAndCoveragesQuoteTab").getValue("Payment Plan").contains("Mortgagee Bill");
+		}
+		// Get State/Product specific forms
+		List<String> forms = getConversionSpecificGeneratedForms(mortgageePaymentPlanPresence,specificProductCondition);
+
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
-		boolean mortgageePaymentPlanPresence = testData.getTestData("PremiumAndCoveragesQuoteTab").getValue("Payment Plan").contains("Mortgagee Bill");
-		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
 
-
-		// Get State/Product specific forms
-		List<String> forms = getConversionSpecificGeneratedForms();
-		//"HO3","HO6","DP3" if test data has Mortgagee payment plan, swap first form in sequence to HSRNHODPXX
-		if(specificProductCondition && mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNMXX.getIdInXml());
-		}
-		//"HO3","HO6","DP3" swap first form in sequence to HSRNMXX
-		else if(specificProductCondition && !mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
-		}
 		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
@@ -371,7 +367,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	}
 
 	/* Data */
-	private List<String> getConversionSpecificGeneratedForms() {
+	private List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence,boolean specificProductCondition) {
+
 		List<String> forms = new ArrayList<>();
 
 		switch (getPolicyType().getShortName()) {
@@ -411,6 +408,16 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				}
 				break;
 		}
+
+		//"HO3","HO6","DP3" if test data has Mortgagee payment plan, swap first form in sequence to HSRNHODPXX
+		if(specificProductCondition && mortgageePaymentPlanPresence){
+			forms.set(0,DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		}
+		//"HO3","HO6","DP3" swap first form in sequence to HSRNMXX
+		else if(specificProductCondition && !mortgageePaymentPlanPresence){
+			forms.set(0,DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
+		}
+
 		return forms;
 	}
 
