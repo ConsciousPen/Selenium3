@@ -21,30 +21,34 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 
-/**
- * @author R. Kazlauskiene
- * @name Test View And Override Capping Details
- * @scenario
- * Preconditions: policy qualifies for capping and user have the capping privilege
- * 1. Create Individual Customer / Account
- * 2. Create converted SS home policy
- * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
- * 4. Select the "View capping details" link
- * 5. Check Capping details
- * 6. Override Capping Factor
- * 7. Click Calculate and Save and Return to Premium & Coverages buttons
- * 8. Click Calculate Premium and then "View capping details" link
- * 9. Check Capping Factor and Capped Term Premium values
- *
- **/
+
 public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTest {
+
+	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	ProductOfferingTab productOfferingTab = new ProductOfferingTab();
+
+
+	/**
+	 * @author R. Kazlauskiene
+	 * @name Test View And Override Capping Details
+	 * @scenario
+	 * Preconditions: policy qualifies for capping and user have the capping privilege
+	 * 1. Create Individual Customer / Account
+	 * 2. Create converted SS home policy
+	 * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
+	 * 4. Select the "View capping details" link
+	 * 5. Check Capping details
+	 * 6. Override Capping Factor
+	 * 7. Click Calculate and Save and Return to Premium & Coverages buttons
+	 * 8. Click Calculate Premium and then "View capping details" link
+	 * 9. Check Capping Factor and Capped Term Premium values
+	 *
+	 **/
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-3002")
 	public void testPolicyViewCappingDetails(@Optional("VA") String state) {
-
-		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
@@ -103,9 +107,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-9350")
 	public void testPolicyCheckCappingFactor(@Optional("VA") String state) {
-
-		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
@@ -196,7 +197,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 
 	/**
-	 * @author PJ
+	 * @author Parth Varmora
 	 * @name Test Check Capping Lock Indicator
 	 * @scenario
 	 * Preconditions: policy qualifies for capping and user have the capping privilege
@@ -219,9 +220,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")
 
 	public void testCappingLockNotSelected(@Optional("NJ") String state) {
-
-		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
-		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
