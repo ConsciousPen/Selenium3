@@ -77,7 +77,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
 		boolean mortgageePaymentPlanPresence = false;
 		if(!getPolicyType().getShortName().equals("PUP")){
-			mortgageePaymentPlanPresence = testData.getTestData("PremiumAndCoveragesQuoteTab").getValue("Payment Plan").contains("Mortgagee Bill");
+			mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
 		}
 		// Get State/Product specific forms
 		List<String> forms = getConversionSpecificGeneratedForms(mortgageePaymentPlanPresence,specificProductCondition);
