@@ -863,7 +863,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCheck(@org.testng.annotations.Optional("VA") String state) {
 
 		String paymentMethod = "Check";
