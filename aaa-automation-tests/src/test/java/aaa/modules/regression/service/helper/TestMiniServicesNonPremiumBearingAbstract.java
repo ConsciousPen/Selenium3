@@ -1271,6 +1271,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas9716_policySummaryForConversionBody(String file, ITestContext context) {
 		assertSoftly(softly -> {
+			//timeshifting to let the tests pass
+			mainApp().open();
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
 			LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 			ConversionPolicyData data = new MaigConversionData(file, effDate);
