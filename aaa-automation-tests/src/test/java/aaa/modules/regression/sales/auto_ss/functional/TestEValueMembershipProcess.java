@@ -31,7 +31,11 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -44,6 +48,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestEValueMembershipProcessPreConditions {
 
@@ -476,11 +481,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
 
-/*		String policyNumber = "VASS952918657";
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();*/
-
 		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
@@ -524,7 +524,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
-		//LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
@@ -534,7 +533,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
-		ahdexxGeneratedCheck(false, policyNumber, 1);
+		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
@@ -561,10 +560,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
-/*		String policyNumber = "VASS952918648";
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();*/
 
 		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
@@ -603,12 +598,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = false;
 
-/*		String policyNumber = "VASS952918653";
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();*/
-
-
 		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
 
 		membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
@@ -631,7 +620,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
-		ahdexxGeneratedCheck(true, policyNumber, 2);
+		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true,true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
@@ -669,7 +658,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		Waiters.SLEEP(3000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		Waiters.SLEEP(3000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
 
@@ -1280,7 +1271,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private String membershipEligibilityPolicyCreation(String membershipStatus, boolean eValueSet) {
-
 		testEValueDiscount.eValueQuoteCreation();
 		policy.dataGather().start();
 		setMembershipAndRate(membershipStatus, eValueSet);
