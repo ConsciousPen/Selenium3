@@ -204,6 +204,11 @@ public class RefundProcessHelper extends PolicyBilling {
 				CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
 			}
 			CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
+		} else {
+			//to make sure Automated refund is generated also on SCRUM team envs
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(SUBTYPE_REASON, "Automated Refund").getCell(TYPE).controls.links.get("Refund").click();
 		}
 	}
 

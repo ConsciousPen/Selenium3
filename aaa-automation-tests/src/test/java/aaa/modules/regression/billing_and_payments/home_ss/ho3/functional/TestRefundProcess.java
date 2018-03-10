@@ -145,7 +145,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         CustomAssert.enableSoftMode();
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-        //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
+       
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
         refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
 
@@ -155,7 +155,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
         TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
 
-        //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
+        
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
         refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
