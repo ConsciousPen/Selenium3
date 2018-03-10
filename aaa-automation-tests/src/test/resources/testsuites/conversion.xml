@@ -108,7 +108,7 @@
 	</test>
 
 	<test name="Home SS HO4 Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, CO, CT, DC, MT, SD" />
+		<parameter name="state" value="UT, CO, CT, MT, SD" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.home_ss.ho4.ManualConversionTest" />
 		</classes>
