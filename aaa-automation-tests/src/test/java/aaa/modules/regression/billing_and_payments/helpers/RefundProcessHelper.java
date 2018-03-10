@@ -66,6 +66,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		return PolicyType.AUTO_SS;
 	}
 
+
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
 			String email, String refundEligible)
 			throws IOException {
@@ -164,9 +165,9 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getRequestRefereceId(), transactionID);
 			CustomAssert.assertEquals(neededLine.getRefundType(), refundType);
 			// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
-			if (refundMethod.contains("CHCK")) {
+			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
 				CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
-			} else if (refundMethod.contains("ACH")) {
+			} else if (refundMethod.contains("ACH") || refundMethod.contains("EFT")) {
 				CustomAssert.assertEquals(neededLine.getRefundMethod(), "EFT");
 			} else if (refundMethod.contains("Card")) {
 				CustomAssert.assertEquals(neededLine.getRefundMethod(), "CRDC");
@@ -187,7 +188,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			} else {
 				CustomAssert.assertEquals(neededLine.getPolicyState(), policyState);
 			}
-			CustomAssert.assertEquals(neededLine.getRefundAmount(), refundAmount + ".00");
+			CustomAssert.assertEquals(neededLine.getRefundAmount(), new Dollar(refundAmount).toPlaingString());
 			CustomAssert.assertEquals(neededLine.getPayeeName(), neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
 			CustomAssert.assertFalse(neededLine.getPayeeStreetAddress1().isEmpty());
 			CustomAssert.assertFalse(neededLine.getPayeeCity().isEmpty());
@@ -198,7 +199,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 			CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-			if (refundMethod.contains("CHCK")) {
+			if (refundMethod.contains("CHCK")||refundMethod.contains("Check")) {
 				CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
 			} else {
 				CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
@@ -208,7 +209,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			//to make sure Automated refund is generated also on SCRUM team envs
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(SUBTYPE_REASON, "Automated Refund").getCell(TYPE).controls.links.get("Refund").click();
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Refund").click();
 		}
 	}
 
