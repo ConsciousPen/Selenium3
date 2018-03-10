@@ -213,4 +213,4 @@ PAS-10699:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.*]
-        messages: ["PENDING"]
+      messages: ["PENDING"]
