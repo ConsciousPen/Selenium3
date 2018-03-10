@@ -76,11 +76,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		// Specific conditions which will reflected in forms which will be verified later
 		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
 		boolean mortgageePaymentPlanPresence = false;
-		if(!getPolicyType().getShortName().equals("PUP")){
-			mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
+		if (!getPolicyType().getShortName().equals("PUP")) {
+			mortgageePaymentPlanPresence =
+					testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
 		}
 		// Get State/Product specific forms
-		List<String> forms = getConversionSpecificGeneratedForms(mortgageePaymentPlanPresence,specificProductCondition);
+		List<String> forms = getConversionSpecificGeneratedForms(mortgageePaymentPlanPresence, specificProductCondition);
 
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
@@ -91,7 +92,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
 
 		// Create manual entry
-		String policyNumber = createFormsSpecificManualEntry(testData,renewalOfferEffectiveDate);
+		String policyNumber = createFormsSpecificManualEntry(testData, renewalOfferEffectiveDate);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -139,13 +140,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas9607_verifyPolicyTransactionCode("0210", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		// Shouldn't be after second renewal
 		List<Document> actualDocumentsAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		pas2674_verifyConversionRenewalPackageAbsence(forms,actualDocumentsAfterSecondRenewal);
+		pas2674_verifyConversionRenewalPackageAbsence(forms, actualDocumentsAfterSecondRenewal);
 
 		// PAS-8777, PAS-8766
-		if(specificProductCondition){
-			assertThat(actualDocumentsAfterSecondRenewal.stream().anyMatch(m-> m.getTemplateId().contains(DocGenEnum.Documents.HSRNMXX.getIdInXml()))).isEqualTo(true);
+		if (specificProductCondition) {
+			Assertions.assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
 		}
-
 
 	}
 
@@ -175,7 +175,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
 		// Create manual entry
-		String policyNumber = createFormsSpecificManualEntry(testData,renewalOfferEffectiveDate);
+		String policyNumber = createFormsSpecificManualEntry(testData, renewalOfferEffectiveDate);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -196,7 +196,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber,getPolicyType());
+		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
 
 		// Start PAS-9816 Scenario 1 Issue first renewal
 		mainApp().open();
@@ -280,16 +280,16 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		verifyFormSequence(expectedFormsAndOrder, actualConversionRenewalBillingDocumentsList);
 	}
 
-	private String createFormsSpecificManualEntry(TestData testData, LocalDateTime renewalOfferEffectiveDate){
+	private String createFormsSpecificManualEntry(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
 		String membershipFieldMetaKey =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
 		mainApp().open();
-		if(getState().equals(Constants.States.NJ)){
+		if (getState().equals(Constants.States.NJ)) {
 			createCustomerIndividual(getCustomerIndividualTD("DataGather", "TestData")
-					.adjust(TestData.makeKeyPath("GeneralTab","Date of Birth"),TimeSetterUtil.getInstance().getCurrentTime().minusYears(65).format(DateTimeUtils.MM_DD_YYYY))); // if NJ adjust Date Of Birth
-		}
-		else{
+					.adjust(TestData.makeKeyPath("GeneralTab", "Date of Birth"), TimeSetterUtil.getInstance().getCurrentTime().minusYears(65)
+							.format(DateTimeUtils.MM_DD_YYYY))); // if NJ adjust Date Of Birth
+		} else {
 			createCustomerIndividual();
 		}
 
@@ -323,6 +323,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
+
 	/**
 	 * Verify that PolicyDetails value is present in the Package
 	 */
@@ -367,7 +368,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	}
 
 	/* Data */
-	private List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence,boolean specificProductCondition) {
+	private List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence, boolean specificProductCondition) {
 
 		List<String> forms = new ArrayList<>();
 
@@ -410,12 +411,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		}
 
 		//"HO3","HO6","DP3" if test data has Mortgagee payment plan, swap first form in sequence to HSRNHODPXX
-		if(specificProductCondition && mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		if (specificProductCondition && mortgageePaymentPlanPresence) {
+			forms.set(0, DocGenEnum.Documents.HSRNMXX.getIdInXml());
 		}
 		//"HO3","HO6","DP3" swap first form in sequence to HSRNMXX
-		else if(specificProductCondition && !mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
+		else if (specificProductCondition && !mortgageePaymentPlanPresence) {
+			forms.set(0, DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
 		return forms;
