@@ -654,9 +654,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-		Waiters.SLEEP(3000).go();
+		Waiters.SLEEP(15000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-		Waiters.SLEEP(3000).go();
+		Waiters.SLEEP(15000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
 
