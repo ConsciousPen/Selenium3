@@ -1,11 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI debug Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
 <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
