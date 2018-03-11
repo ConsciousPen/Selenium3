@@ -573,7 +573,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
-		renewalTransactionHistoryCheck(policyNumber,true, true, "inquiry");
+		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
 
@@ -613,11 +613,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 
-
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
-		checkDocumentContentAHDEXX(policyNumber, true,true, false, false, false);
+		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");
 	}
 
@@ -1527,9 +1526,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
 			} else {
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				if (!DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
+					CustomAssert.assertTrue("N".equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				}
 			}
 
 			if (isPaperlessDlvryDataPresent) {
@@ -1537,9 +1536,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
 			} else {
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				if (!DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
+					CustomAssert.assertTrue("N".equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				}
 			}
 		} else {
 			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
