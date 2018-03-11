@@ -1168,9 +1168,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2));
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		membershipEligibilityEndorsementCreation(membershipStatus);
 
 		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);

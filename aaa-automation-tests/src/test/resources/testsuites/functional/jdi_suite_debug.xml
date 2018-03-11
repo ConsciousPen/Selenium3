@@ -7,24 +7,20 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership">
+<test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="retrieveMembershipSummaryEndpointCheck"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63"/>
+                    <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
+                    <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
                 </methods>
             </class>
         </classes>
