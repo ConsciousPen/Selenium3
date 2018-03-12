@@ -96,6 +96,9 @@ public class HttpLogin {
 		int counter = 0;
 		while (sessionWindowId.isEmpty() && counter<3) {
 			counter++;
+			if (location.startsWith("flow")) {
+				location = "/aaa-admin/" + location;
+			}
 			httpRequestor.sendGetRequest(location);
 			try {
 				sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);

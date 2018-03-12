@@ -384,6 +384,9 @@ public class BaseTest {
 	}
 
 	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td==null) {
+			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+		}
 		if (td.containsKey(getStateTestDataName(tdName))) {
 			td = td.getTestData(getStateTestDataName(tdName));
 			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
