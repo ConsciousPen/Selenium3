@@ -15,7 +15,6 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.home_ss.actiontabs.RenewActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -357,7 +356,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         }
     }
 
-    public void loginA30(){
+    private void loginA30(){
         TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
         loginTD.adjust("User", "qa_roles");
         mainApp().open(loginTD);

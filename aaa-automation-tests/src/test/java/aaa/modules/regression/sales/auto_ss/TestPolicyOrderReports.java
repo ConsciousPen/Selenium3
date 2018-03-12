@@ -63,6 +63,8 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		}
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		//workaround for PAS-10786
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		if (!getState().equals(Constants.States.OK)) {
 			DriverTab.tableActivityInformationList.verify.rowsCount(5);

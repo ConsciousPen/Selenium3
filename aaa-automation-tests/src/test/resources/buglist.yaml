@@ -210,3 +210,9 @@ PAS-10702:
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
       messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10779:
+  summary: "HSRFIXX is not generated on Issue anymore"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI.*]
+      messages: ['No value present']

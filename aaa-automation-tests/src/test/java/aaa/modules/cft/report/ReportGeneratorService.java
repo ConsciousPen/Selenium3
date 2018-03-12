@@ -100,7 +100,7 @@ public class ReportGeneratorService {
 				Row entryRow = sheet.createRow(rowNumber);
 				XSSFCellStyle entryCellStyle = stylesTable.createCellStyle();
 				prepareCellEntryStyle(reportObjects.get(reportEntry).getEntryStatus(),
-					entryCellStyle);
+						entryCellStyle);
 				if (Objects.isNull(feedFilesEntryAmount)) {
 					sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 1, 2));
 				}
@@ -227,17 +227,17 @@ public class ReportGeneratorService {
 	private static void prepareCellEntryStyle(EntryStatus status, XSSFCellStyle style) {
 		setBorderToCellStyle(style);
 		switch (status) {
-			case MATCHED : {
+			case MATCHED: {
 				style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
 				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 				break;
 			}
-			case MISSED : {
+			case MISSED: {
 				style.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
 				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 				break;
 			}
-			case COLLISION : {
+			case COLLISION: {
 				style.setFillForegroundColor(new XSSFColor(new Color(246, 142, 56)));
 				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 				break;

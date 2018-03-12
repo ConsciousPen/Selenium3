@@ -1075,6 +1075,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test
 	private void jobsNBplus15plus30runNoChecks() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
@@ -1083,7 +1084,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
 		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
 		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 	}
 
 	private void eValueDiscountStatusCheck(String policyNumber, String status) {
