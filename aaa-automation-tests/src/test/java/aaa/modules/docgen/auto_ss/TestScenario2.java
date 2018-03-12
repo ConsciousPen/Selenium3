@@ -351,7 +351,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 										.adjust(TestData.makeKeyPath("AALTPA", "form", "TermEffDt", "DateTimeField"), termEffDt)
 										.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
 										.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt", "DateTimeField"), termEffDt)
-										//.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt", "DateTimeField"), termExprDtPA)
+										.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt", "DateTimeField"), termExprDtPA)
 										.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
 										.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
@@ -995,7 +995,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		String _plcyEffDt = policyEffectiveDate.toString();
 		String _plcyExprDt = policyExpirationDate.toString();
 		String _termExprDt = policyExpirationDate.toString();
-		String _termExprDtPA = policyExpirationDate.toString();
+		//PASBB-414 MDd and PA both require that a single set of ID cards for each vehicle are issued every six months regardless if the policy is on an annual term.
+		String _termExprDtPA = policyExpirationDate.minusMonths(6).toString(); 
 		termEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
