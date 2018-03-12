@@ -11,7 +11,7 @@
         <classes>
             <class name="aaa.modules.cft.TestCFTValidator" />
             <class name="aaa.modules.cft.TestCFTFutureDatedPolicy" />
-            <class name="aaa.modules.cft.TestCFTLedgerAccount" />
+            <!--<class name="aaa.modules.cft.TestCFTLedgerAccount" />-->
         </classes>
     </test>
 
