@@ -215,7 +215,7 @@ PAS-10702:
     - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
       messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
     - tests: [aaa.modules.cft]
-      messages: ["Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+      messages: ["Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered.; Term Life; Term; Life; Justified through supporting documentation AAA Error System Issue Temporary Issue Other Conversion Conversion - High Premium Variance ;"]
 PAS-10699:
   summary: "eValue is not changed from Pending to Active or Inactive on NB+30"
   reason: PROD
