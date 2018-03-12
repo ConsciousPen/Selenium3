@@ -216,3 +216,21 @@ PAS-10702:
       messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
     - tests: [aaa.modules.cft]
       messages: ["Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10699:
+  summary: "eValue is not changed from Pending to Active or Inactive on NB+30"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.*]
+      messages: ["PENDING"]
+PAS-10970:
+  summary: "AARFIXX has empty value instead of NO for tag VehTyp for NV NANO policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["VehTyp"]
+INC0655981:
+  summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
+      messages: ["Miscellaneous"]

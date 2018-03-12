@@ -79,10 +79,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String manualRefundAmount = "100";
         String automatedRefundAmount = "101";
         mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3926232250");
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3952521998");
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-        refundProcessHelper.refundDebug(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "N");
+        refundProcessHelper.refundDebug(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
 
         CustomAssert.disableSoftMode();
@@ -113,20 +113,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         CustomAssert.enableSoftMode();
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-        //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
+
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         Dollar totalDue = BillingSummaryPage.getTotalDue();
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
-        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(8));
+        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
 
-        //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "Y", "VA", automatedRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -146,20 +145,20 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
         CustomAssert.enableSoftMode();
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-        //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
+       
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "N", "VA", manualRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         Dollar totalDue = BillingSummaryPage.getTotalDue();
         billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
-        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(8));
+        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
 
-        //RemoteHelper.clearFolder(REMOTE_FOLDER_PATH);
+        
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "N", "VA", automatedRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
