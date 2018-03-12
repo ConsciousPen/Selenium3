@@ -19,3 +19,15 @@ AAAProductOwned_Pend: {
 AAAProductOwned_No: {
   Current AAA Member: 'No',
 }
+
+CurrentCarrierInformation_BR: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+  PremiumAndCoveragesTab_Eleven: {
+  Payment Plan: Eleven Pay - Standard
+}
