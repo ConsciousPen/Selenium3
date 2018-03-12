@@ -34,8 +34,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			.getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), StaticElement.class);
 
 	//Timepoint 1 and Timepoint 2 when Membership validation happens at renewal
-	long timePoint1AZ = 63;
-	long timePoint2AZ = 48;
+	private static final long TIME_POINT_1_AZ = 63;
+	private static final long TIME_POINT_2_AZ = 48;
 
 	/**
 	 * @author Maris Strazds
@@ -536,8 +536,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		LocalDateTime timePoint1 = policyExpirationDate.minusDays(timePoint1AZ);
-		LocalDateTime timePoint2 = policyExpirationDate.minusDays(timePoint2AZ);
+		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_AZ);
+		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_AZ);
 		LocalDateTime ratingTimepoint = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
@@ -600,8 +600,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		LocalDateTime timePoint1 = policyExpirationDate.minusDays(timePoint1AZ);
-		LocalDateTime timePoint2 = policyExpirationDate.minusDays(timePoint2AZ);
+		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_AZ);
+		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_AZ);
 		LocalDateTime ratingTimepoint = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
@@ -688,8 +688,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		LocalDateTime timePoint1 = policyExpirationDate.minusDays(timePoint1AZ);
-		LocalDateTime timePoint2 = policyExpirationDate.minusDays(timePoint2AZ);
+		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_AZ);
+		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_AZ);
 		LocalDateTime ratingTimepoint = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
