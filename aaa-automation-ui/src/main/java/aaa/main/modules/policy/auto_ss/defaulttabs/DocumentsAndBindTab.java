@@ -4,14 +4,15 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -36,6 +37,8 @@ public class DocumentsAndBindTab extends Tab {
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public static Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
 	public static StaticElement helpIconPaperlessPreferences = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:paperlessPreferences_enrolledInPaperless_helpText']"));
+	public static Table tblError = new Table(By.id("errorsForm:msgList"));
+
 
 	public AssetList getDocumentsForPrintingAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
