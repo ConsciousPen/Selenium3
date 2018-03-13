@@ -109,7 +109,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
 	 * @author Viktor Petrenko
 	 * PAS-6731
-	 * @throws NoSuchFieldException
+	 *
 	 *
 	 * Set Home Insurance payments are SETUP to be billed directly to me
 	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX presence
@@ -131,7 +131,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
 	 * @author Viktor Petrenko
 	 * PAS-6731
-	 * @throws NoSuchFieldException
+	 *
 	 *
 	 * Set Home Insurance payments are SETUP to be billed directly to me
 	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX absence
@@ -154,7 +154,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
 	 * @author Viktor Petrenko
 	 * PAS-10666
-	 * @throws NoSuchFieldException
+	 *
 	 *
 	 * Set Home Insurance payments are SETUP to be billed directly to me
 	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX presence
