@@ -212,7 +212,7 @@ public abstract class CommonErrorTab extends Tab {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
 			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>(actualTableAndHintErrorMessagePairs.size());
 			actualTableAndHintErrorMessagePairs.forEach(actualMessagePair -> actualTruncatedTableAndHintErrorMessagePairs.add(
-					Pair.of(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
+					Pair.of(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim().replaceAll("\\s+", " "), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim().replaceAll("\\s+", " "))));
 
 			return actualTruncatedTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair ->
 					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue()
@@ -244,9 +244,13 @@ public abstract class CommonErrorTab extends Tab {
 			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
 			SoftAssertions.assertSoftly(softly -> {
 				for (ErrorEnum.Errors error : errors) {
-					softly.assertThat(
-							actualErrorCodesAndMessagePairsMap.containsKey(error.getCode()) && isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
-									.getMessage())).isEqualTo(expectedValue);
+					if (expectedValue) {
+						softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).contains(error.getCode());
+					} else {
+						softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).doesNotContain(error.getCode());
+					}
+					softly.assertThat(isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
+							.getMessage())).as("Error with message <%s> is present in table", error.getMessage()).isEqualTo(expectedValue);
 				}
 			});
 		}

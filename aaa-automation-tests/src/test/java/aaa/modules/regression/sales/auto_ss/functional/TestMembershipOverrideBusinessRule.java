@@ -72,83 +72,81 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
     }
 
 
-/**
- * @author Robert Boles
- * @name Test Membership Override Pay Plan - PAS-10845 - Scenario 2 - Membership Pending
- * @scenario
- * Precondition: Agent is expected to have the Membership override privilege.
- * 1. Create Customer.
- * 2. Create Auto SS Policy with Membership "Membership Pending"
- * 3. Select Override Prefilled Current Carrier and populate information.
- * 4. Navigate to Premium & Coverages tab and select Eleven pay - Standard
- * 8. Bind Quote ---> quote will bind
- * @details
- */
-@Parameters({"state"})
-@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
-@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10845")
+    /**
+     * @author Robert Boles
+     * @name Test Membership Override Pay Plan - PAS-10845 - Scenario 2 - Membership Pending
+     * @scenario
+     * Precondition: Agent is expected to have the Membership override privilege.
+     * 1. Create Customer.
+     * 2. Create Auto SS Policy with Membership "Membership Pending"
+     * 3. Select Override Prefilled Current Carrier and populate information.
+     * 4. Navigate to Premium & Coverages tab and select Eleven pay - Standard
+     * 8. Bind Quote ---> quote will bind
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10845")
 
-public void pas10845_Validate_Membership_Override_BusinessRule_MSPending() {
+    public void pas10845_Validate_Membership_Override_BusinessRule_MSPending() {
 
-    TestData testData = getPolicyTD();
-    TestData tdSpecificProductOwned = getTestSpecificTD("AAAProductOwned_Pend").resolveLinks();
-    TestData tdCurrentCarrierSection = getTestSpecificTD("CurrentCarrierInformation_BR").resolveLinks();
-    TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
+        TestData testData = getPolicyTD();
+        TestData tdSpecificProductOwned = getTestSpecificTD("AAAProductOwned_Pend").resolveLinks();
+        TestData tdCurrentCarrierSection = getTestSpecificTD("CurrentCarrierInformation_BR").resolveLinks();
+        TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
 
-    testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-            AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
-            .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-            AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
-                    tdCurrentCarrierSection)
-            .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
-            AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Eleven Pay - Standard");
+        testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
+                        tdCurrentCarrierSection)
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Eleven Pay - Standard");
 
-    testData.adjust(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
+        //getPolicyDefaultTD().adjust(TestData.makeKeyPath(new PremiumsAndCoveragesQuoteTab().getMetaKey(), HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
 
-    //getPolicyDefaultTD().adjust(TestData.makeKeyPath(new PremiumsAndCoveragesQuoteTab().getMetaKey(), HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
+        mainApp().open();
+        createCustomerIndividual();
+        log.info("Policy Creation Started...");
+        policy.initiate();
 
-    mainApp().open();
-    createCustomerIndividual();
-    log.info("Policy Creation Started...");
-    policy.initiate();
+        /*policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
+        new PremiumAndCoveragesTab().submitTab();*/
 
-    /*policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-    new PremiumAndCoveragesTab().submitTab();*/
+        policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
+        new DocumentsAndBindTab().submitTab(true);
 
-    policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
-    new DocumentsAndBindTab().submitTab(true);
+        ErrorTab errorTab = new ErrorTab();
 
-    ErrorTab errorTab = new ErrorTab();
+        //errorTab.verify.errorsPresent("The selected pay plan is not allowed when Membership is \"\"No\"\". Please choos...");
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
+        //new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
 
-    //errorTab.verify.errorsPresent("The selected pay plan is not allowed when Membership is \"\"No\"\". Please choos...");
-    errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
-    //new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
-
+        }
     }
-}
 
-/**
- * @author Robert Boles
- * @name Test Membership Override Pay Plan - PAS-10845 - Scenario 3 - Membership = Yes
- * @scenario
- * Precondition: Agent is expected to have the Membership override privilege.
- * 1. Create Customer.
- * 2. Create Auto SS Policy with Membership "Yes" - add membership information for active membership
- * 3. Select Override Prefilled Current Carrier and populate information.
- * 4. Navigate to Premium & Coverages tab and select Eleven pay - Standard
- * 8. Bind Quote ---> quote will bind
- * @details
- */
+    /**
+     * @author Robert Boles
+     * @name Test Membership Override Pay Plan - PAS-10845 - Scenario 3 - Membership = Yes
+     * @scenario
+     * Precondition: Agent is expected to have the Membership override privilege.
+     * 1. Create Customer.
+     * 2. Create Auto SS Policy with Membership "Yes" - add membership information for active membership
+     * 3. Select Override Prefilled Current Carrier and populate information.
+     * 4. Navigate to Premium & Coverages tab and select Eleven pay - Standard
+     * 8. Bind Quote ---> quote will bind
+     * @details
+     */
 
-/**
- * @author Robert Boles
- * @name Test Membership Override Pay Plan - PAS-10845  -Scenario 4 - Membership = No
- * @scenario
- * Precondition: Agent is expected to have the Membership override privilege.
- * 1. Create Customer.
- * 2. Create Auto SS Policy with Membership "No"
- * 3. Select Override Prefilled Current Carrier and populate information.
- * 4. Navigate to Premium & Coverages tab and select Eleven pay - Standard
- * 8. Bind Quote ---> Rule should fire -
- * @details
- */
+    /**
+     * @author Robert Boles
+     * @name Test Membership Override Pay Plan - PAS-10845  -Scenario 4 - Membership = No
+     * @scenario
+     * Precondition: Agent is expected to have the Membership override privilege.
+     * 1. Create Customer.
+     * 2. Create Auto SS Policy with Membership "No"
+     * 3. Select Override Prefilled Current Carrier and populate information.
+     * 4. Navigate to Premium & Coverages tab and select Eleven pay - Standard
+     * 8. Bind Quote ---> Rule should fire -
+     * @details
+     */
