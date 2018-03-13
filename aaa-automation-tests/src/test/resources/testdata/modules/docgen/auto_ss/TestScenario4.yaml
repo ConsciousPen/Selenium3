@@ -296,7 +296,7 @@ AH64XX: {
 #    PlcyEffDt: {DateTimeField: ''},
 #    PlcyExprDt: {DateTimeField: ''},
     PlcyRnwlExprDt: {DateTimeField: ''},
-    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
+#    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   },
   PaymentDetails: {
     RnwlDnPayAmt: {TextField: ''},
