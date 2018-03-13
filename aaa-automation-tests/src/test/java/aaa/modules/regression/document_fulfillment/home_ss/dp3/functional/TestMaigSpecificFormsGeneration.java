@@ -11,12 +11,9 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -113,7 +110,9 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * @author Viktor Petrenko
 	 * PAS-6731
 	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
+	 *
+	 * Set Home Insurance payments are SETUP to be billed directly to me
+	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX presence
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
@@ -121,48 +120,76 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	public void pas6731_PreRenewalLetterGeneration(@Optional("PA") String state){
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
 
-		// Create manual entry
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		policy.getDefaultView().fill(getConversionPolicyDefaultTD());
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(65);
-		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
-
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, getTimePoints().getPreRenewalLetterGenerationDate(renewalOfferEffectiveDate));
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
 	}
+
 
 	/**
 	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
 	 * @author Viktor Petrenko
 	 * PAS-6731
 	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
+	 *
+	 * Set Home Insurance payments are SETUP to be billed directly to me
+	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX absence
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
 	public void pas6731_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state){
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
+		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(55);
 
 		// Create manual entry
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
-		policy.getDefaultView().fill(getConversionPolicyDefaultTD());
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, preRenewalGenDate);
 
+		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+	}
+
+	/**
+	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
+	 * @author Viktor Petrenko
+	 * PAS-10666
+	 * @throws NoSuchFieldException
+	 *
+	 * Set Home Insurance payments are SETUP to be billed directly to me
+	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX presence
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
+	public void pas10666_PreRenewalLetterGeneration(@Optional("PA") String state){
+		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
+
+		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, getTimePoints().getPreRenewalLetterGenerationDate(renewalOfferEffectiveDate));
+
+		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+	}
+
+
+	/**
+	 * CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
+	 * @author Viktor Petrenko
+	 * PAS-10666
+	 * @throws NoSuchFieldException
+	 *
+	 * Set Home Insurance payments are SETUP to be billed directly to me
+	 * Generate Pre Renewal offer on R-65 timeline and check HSRNMXX absence
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-10666"})
+	public void pas10666_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state){
+		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
 		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(55);
-		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
 
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		// Create manual entry
+		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, preRenewalGenDate);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNMXX.getIdInXml());

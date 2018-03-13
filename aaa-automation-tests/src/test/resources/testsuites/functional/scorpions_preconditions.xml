@@ -20,7 +20,7 @@
         <classes>
             <class name="aaa.modules.preconditions.ScorpionsPreconditions">
                 <methods>
-                    <include name="renewalJobAdding"/>
+                    <include name="enableVinRefresh"/>
                 </methods>
             </class>
         </classes>
