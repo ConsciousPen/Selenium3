@@ -116,7 +116,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
 
-	@Test(description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	@Test(enabled= false, description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);
 	}
