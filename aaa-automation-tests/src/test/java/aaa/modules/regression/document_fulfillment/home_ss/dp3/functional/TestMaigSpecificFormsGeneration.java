@@ -135,7 +135,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
-		assertThat(docs.stream().anyMatch(m-> m.getTemplateId().contains(DocGenEnum.Documents.HSRNMXX.getIdInXml()))).isEqualTo(true);
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
 	}
 
 	/**
@@ -165,6 +165,6 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
-		assertThat(docs.stream().anyMatch(m-> m.getTemplateId().contains(DocGenEnum.Documents.HSRNMXX.getIdInXml()))).isEqualTo(false);
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNMXX.getIdInXml());
 	}
 }
