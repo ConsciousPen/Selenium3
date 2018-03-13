@@ -28,6 +28,6 @@ CurrentCarrierInformation_BR: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
-  PremiumAndCoveragesTab_Eleven: {
-  Payment Plan: Eleven Pay - Standard
-}
+PremiumAndCoveragesTab_Eleven: {
+  Payment Plan: Eleven Pay - Standard,
+ }

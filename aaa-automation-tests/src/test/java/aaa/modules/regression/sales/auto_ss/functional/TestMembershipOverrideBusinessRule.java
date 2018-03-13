@@ -37,11 +37,15 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
 
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
                 AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
-                tdSpecific)
-                .adjust("CurrentCarrierInformation", currentCarrierSection)
-                .adjust("PremiumAndCoveragesTab_Eleven", pNcTab);
+                tdSpecific);
 
+        testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
+                currentCarrierSection);
 
+        testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()),
+                pNcTab);
 
         mainApp().open();
         createCustomerIndividual();
