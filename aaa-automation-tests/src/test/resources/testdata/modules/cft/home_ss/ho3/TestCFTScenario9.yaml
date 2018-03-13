@@ -34,8 +34,8 @@ NamedInsured1: {
 
 NamedInsured2: {
   CustomerSearchDialog: {},
-  First name: '$<rx:CFTTestFN\d{5}>',
-  Last name: '$<rx:CFTTestFN\d{5}>',
+  First name: 'John$<rx:\d{8}>',
+  Last name: 'Smith$<rx:\d{8}>',
   Relationship to primary named insured:  Other,
   Marital status: Single,
   Social security number: 1234567899,

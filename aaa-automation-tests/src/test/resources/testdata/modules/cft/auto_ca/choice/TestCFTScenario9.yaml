@@ -119,8 +119,8 @@ NamedInsuredInformation1: {
 
 NamedInsuredInformation2: {
   InsuredSearchDialog: {},
-  First Name: Diego,
-  Last Name: Maradona,
+  First Name: 'John$<rx:\d{8}>',
+  Last Name: 'Smith$<rx:\d{8}>',
   Base Date: '$<today>',
   Home Phone Number: 5554567890 
 }
