@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -200,7 +201,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "PD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel();
 			case "UMBI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
+				if (getState().equals(Constants.States.OR)) {
+					return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
+				}
+				return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel();
 			case "SP EQUIP":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel();
 			case "COMP":
@@ -210,8 +214,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "UMPD":
 				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
 			case "UIMBI":
-				//TODO-dchubkov: replace with correct coverage name key
-				return "UNKNOWN COVERAGE (AZ)";
+				return AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
 			case "UIMPD":
 				//TODO-dchubkov: replace with correct coverage name key
 				return "UNKNOWN COVERAGE (DC)";
@@ -228,7 +231,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPolicyLevelCoverage(String coverageCD) {
-		return Arrays.asList("BI", "PD", "UMBI", "MP", "PIP").contains(coverageCD);
+		return Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP").contains(coverageCD);
 	}
 
 	TestData getVehicleTabVehicleDetailsData(String safetyScore) {

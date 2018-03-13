@@ -13,10 +13,10 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.mock.MockDataHelper;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
@@ -54,14 +54,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		assertThat(openLPolicy.getCappingDetails()).as("Policies cappingDetails list should have only one element").hasSize(1);
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().get(0).getState());
 
-		Pair<String, Boolean> membershipNumber = Pair.of(null, false);
+		String membershipNumber = null;
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
 			//TODO-dchubkov: current algorithm is incomplete, to be fixed
-			/*membershipNumber = MockDataHelper.getMembershipData()
-					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());*/
-			membershipNumber = Pair.of("5290051486695810", true); // membership added to stub manually for avgAnnualERSperMember=0 and memberPersistency=20
-			//membershipNumber = Pair.of("3111111111111147", false); // to change since date manually
-			//membershipNumber = Pair.of("1111111111111166", true); // to have avgAnnualERSperMember=0 and memberPersistency=5
+			membershipNumber = MockDataHelper.getMembershipData()
+					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
 		} else {
 			getRatingDataPattern().mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())
 					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
@@ -69,9 +66,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
-				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy, membershipNumber.getLeft()),
+				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy, membershipNumber),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
-				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy, membershipNumber.getRight()),
+				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
@@ -237,8 +234,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet) {
-				assertThat(openLPolicy.getYearsAtFaultAccidentFree()).as("Invalid \"yearsAtFaultAccidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" "
-						+ "more than 5 years from policy effective date for \"At-Fault Accident\" and \"Principally At-Fault Accident\" activity types").isLessThanOrEqualTo(5);
+				assertThat(openLPolicy.getYearsAtFaultAccidentFree())
+						.as("Invalid \"yearsAtFaultAccidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" more than 5 years from policy effective date")
+						.isLessThanOrEqualTo(5);
 				LocalDateTime occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsAtFaultAccidentFree());
 
 				TestData activityInformationData = DataProviderFactory.dataOf(
@@ -251,12 +249,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet) {
-				LocalDateTime occurrenceDate;
-				if (openLPolicy.getYearsIncidentFree() == 5) {
-					occurrenceDate = openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(6, 10));
-				} else {
-					occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsIncidentFree());
-				}
+				assertThat(openLPolicy.getYearsIncidentFree())
+						.as("Invalid \"yearsIncidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" more than 5 years from policy effective date")
+						.isLessThanOrEqualTo(5);
+				LocalDateTime occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsIncidentFree());
 
 				TestData activityInformationData = DataProviderFactory.dataOf(
 						AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), getRandom("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation"),
@@ -276,31 +272,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return driversTestData;
 	}
 
-	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy, boolean isMemberSinceDateSet) {
+	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy) {
 		TestData editInsuranceScoreDialogData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.NEW_SCORE.getLabel(), openLPolicy.getCreditScore(),
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
 				AutoSSMetaData.RatingDetailReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click");
-
 		TestData insuranceScoreOverrideData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), editInsuranceScoreDialogData);
-
-		TestData ratingDetailReportsTab = DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
-
-		if (Boolean.TRUE.equals(openLPolicy.isAAAMember()) && !isMemberSinceDateSet) {
-			TestData addMemberSinceDialogData = DataProviderFactory.dataOf(
-					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getMemberPersistency())
-							.format(DateTimeUtils.MM_DD_YYYY),
-					AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
-
-			TestData aaaMembershipReportData = DataProviderFactory.dataOf(
-					AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel(), "Add Member Since",
-					AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialogData);
-
-			ratingDetailReportsTab.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportData);
-		}
-		return ratingDetailReportsTab;
+		return DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
 	}
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -373,7 +353,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
 					if ("PIP".equals(coverage.getCoverageCd()) && getState().equals(Constants.States.OR)) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
-								"contains=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
+								"starts=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
 					}
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -534,7 +514,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		String[] limitRange = limitOrDeductible.split("/");
 		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 
-		String returnLimit = "contains=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCd());
+		String returnLimit = "starts=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCd());
 		if (limitRange.length == 2) {
 			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCd());
 		}
