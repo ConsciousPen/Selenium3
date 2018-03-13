@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
-import aaa.common.components.Efolder;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -1485,7 +1484,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 								.getTextField()));
 			}
 			lastTransactionHistoryExit();
-			Efolder.isDocumentExist("Endorsement", "Discount Removed");
+			//TODO OSI return the check when EM team confirms why the docs are generated with such a long delay - INC0655981
+			//Efolder.isDocumentExist("Endorsement", "Discount Removed");
 		} else {
 			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
