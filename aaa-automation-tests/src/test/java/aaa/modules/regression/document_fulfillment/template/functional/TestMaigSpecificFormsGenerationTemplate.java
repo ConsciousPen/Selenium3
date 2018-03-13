@@ -143,7 +143,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		// PAS-8777, PAS-8766
 		if(specificProductCondition){
-			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
 		}
 
 	}
