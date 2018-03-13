@@ -28,6 +28,15 @@ CurrentCarrierInformation_BR: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
-PremiumAndCoveragesTab_Eleven: {
+PremiumAndCoveragesTab: {
   Payment Plan: Eleven Pay - Standard,
- }
+}
+#PremiumAndCoveragesTab_Eleven: {
+#  Payment Plan: Eleven Pay - Standard,
+#  #Policy Term: Annual,
+#  Bodily Injury Liability: 'contains=$100,000/$300,000',
+#  Comprehensive Deductible: 'contains=$750',
+#  #Collision Deductible: 'contains=$500',
+#  #Special Equipment Coverage: 1100
+#}
+
