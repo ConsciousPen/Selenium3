@@ -1073,7 +1073,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyRenewalOfferExpired, state, "NOTENROLLED");
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
-			JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 			JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 			PolicySummary responsePolicyOfferLapsed = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", 200);
