@@ -23,8 +23,10 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	public static StaticElement labelUploadSuccessful = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
-	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
-	public static Button buttonUpload = new Button(By.id("uploadToVINTableForm:uploadBtn"));
+	public static StaticElement labelUploadFailed = new StaticElement(By.id("uploadToVINTableForm:messagesBlock"));
+
+	public static Button buttonUpload = new Button(By.className("start"));
+	public static Button buttonChoose = new Button(By.className("fileinput-button"));
 
 	protected static final String DEFAULT_PATH = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
@@ -38,15 +40,25 @@ public class UploadToVINTableTab extends DefaultTab {
 		uploadFile(fileName);
 	}
 
+
+
 	private void uploadFile(String fileName) {
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
+
 		buttonUpload.click();
-		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
-		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
+		//added a 'wait' here because the loading animation on the page was causing the upload verification to fail. This wait allows the animation to complete.
+		long timeout = System.currentTimeMillis() + (60 * 1000);
+		while (timeout > System.currentTimeMillis() && !labelUploadSuccessful.getValue().contains("Rows added")){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				System.out.println("wait issue");
+			}
+		}
 
-		if (labelUploadSuccessful.isPresent()) {
+		if (labelUploadSuccessful.getValue().contains("Rows added")) {
+			// check successfull
 			log.info("File {} was uploaded successfully", fileName);
 		}
 		else {
