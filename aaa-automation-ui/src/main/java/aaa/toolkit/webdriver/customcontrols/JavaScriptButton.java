@@ -31,10 +31,10 @@ public class JavaScriptButton extends Button {
 	public void click() {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		//Waiters.SLEEP(1000).go();
+		Waiters.SLEEP(500).go();
 		ElementHighlighter.highlight(this);
-		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
-		//getWebElement().click();
+//		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
+		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waitForPageUpdate();
 	}
@@ -43,10 +43,10 @@ public class JavaScriptButton extends Button {
 	public void click(Waiter waiter) {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		//Waiters.SLEEP(1000).go();
+		Waiters.SLEEP(500).go();
 		ElementHighlighter.highlight(this);
-		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
-		//getWebElement().click();
+//		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
+		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waiter.go();
 	}
