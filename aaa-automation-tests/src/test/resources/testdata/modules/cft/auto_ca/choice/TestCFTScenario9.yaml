@@ -64,7 +64,7 @@ DriverTab1: {
 
 DriverTab2: {
   DriverSearchDialog: {},
-#  Named Insured: 'Diego Maradona',
+  Named Insured: 'index=0',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
   Date of Birth: '$<today-37y>',
