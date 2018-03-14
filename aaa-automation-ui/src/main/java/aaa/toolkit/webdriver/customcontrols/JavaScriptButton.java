@@ -34,8 +34,17 @@ public class JavaScriptButton extends Button {
 		/*Waiters.SLEEP(1000).go();*/
 		ElementHighlighter.highlight(this);
 		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
-		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waitForPageUpdate();
+	}
+
+	@Override
+	public void click(Waiter waiter) {
+		log.debug("Clicking control " + this);
+		ensureVisible();
+		ElementHighlighter.highlight(this);
+		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
+		WaitMeters.capture(WaitMeters.PAGE_LOAD);
+		waiter.go();
 	}
 }
