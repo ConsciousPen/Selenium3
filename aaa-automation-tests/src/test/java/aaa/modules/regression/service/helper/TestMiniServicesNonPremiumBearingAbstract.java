@@ -1569,12 +1569,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Get OID from View vehicle
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
-
 		String oid = viewVehicleResponse[0].oid;
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-
 		updateVehicleRequest.ownership = "OWN";
 		updateVehicleRequest.usage = "Pleasure";
 		updateVehicleRequest.salvaged = false;
@@ -1583,16 +1581,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateVehicleRequest.registeredOwner = false;
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
-
 		assertSoftly(softly -> {
-
 			softly.assertThat(updateVehicleResponse.ownership).isEqualTo("OWN");
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Pleasure");
 			softly.assertThat(updateVehicleResponse.salvaged).isEqualTo(false);
 			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
 			softly.assertThat(updateVehicleResponse.antiTheft).isEqualTo("STD");
 			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
-
 		});
 
 		//verify updated information with pendedEndorsementValidateVehicleInfo
