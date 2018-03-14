@@ -194,7 +194,7 @@
         </classes>
     </test>
 
-    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) DP3" parallel="methods" thread-count="1024">
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, NJ"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
