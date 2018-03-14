@@ -4,6 +4,7 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -27,6 +29,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.datax.TestData;
@@ -77,20 +80,17 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	}
 
 	protected <O extends OpenLFile<P>> Map<P, Dollar> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
-		String totalPremiumColumnName = "Total Premium";
 		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
 
 		if (CollectionUtils.isNotEmpty(policyNumbers)) {
-			// Exclude extra rows from policies table to reduce time required for excel unmarshalling
 			String policySheetName = OpenLFile.POLICY_SHEET_NAME;
 			if (getPolicyType().equals(PolicyType.AUTO_SS)) {
 				policySheetName = AutoSSOpenLFile.POLICY_SHEET_NAME;
 			} else if (getPolicyType().equals(PolicyType.PUP)) {
 				policySheetName = PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 			}
-			ExcelTable policiesTable = openLFileManager.getSheet(policySheetName).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
-			List<Integer> rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).collect(Collectors.toList());
-			policiesTable.excludeRows(rowsToExclude.toArray(new Integer[policyNumbers.size()])).setComparisonRules(false, true);
+			// Find policies table with only needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
+			((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
 		}
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
@@ -100,11 +100,12 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = new LinkedHashMap<>(openLPoliciesList.size());
+		ExcelTable testsTable = openLFileManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
 		Dollar expectedPremium;
 		for (P openLPolicy : openLPoliciesList) {
-			TableRow row = openLFileManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", openLPolicy.getNumber());
-			if (row.hasColumn(totalPremiumColumnName) && !row.isEmpty(totalPremiumColumnName)) {
-				expectedPremium = new Dollar(row.getValue(totalPremiumColumnName));
+			TableRow row = testsTable.getRow("policy", openLPolicy.getNumber());
+			if (row.hasColumn(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME) && !row.isEmpty(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME)) {
+				expectedPremium = new Dollar(row.getValue(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME));
 			} else {
 				expectedPremium = new Dollar(row.getSumContains("_res_.$Value"));
 			}

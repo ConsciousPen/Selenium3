@@ -195,39 +195,33 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
-		switch (coverageCD) {
-			case "BI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel();
-			case "PD":
-				return AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel();
-			case "UMBI":
-				if (getState().equals(Constants.States.OR)) {
-					return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
-				}
-				return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel();
-			case "SP EQUIP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel();
-			case "COMP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel();
-			case "COLL":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel();
-			case "UMPD":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
-			case "UIMBI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
-			case "UIMPD":
-				//TODO-dchubkov: replace with correct coverage name key
-				return "UNKNOWN COVERAGE (DC)";
-			case "UM/SUM":
-				//TODO-dchubkov: replace with correct coverage name key
-				return "UNKNOWN COVERAGE (NY)";
-			case "MP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel();
-			case "PIP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel();
-			default:
-				throw new IstfException("Unknown mapping for coverageCD: " + coverageCD);
+		Map<String, String> coveragesMap = new HashMap<>();
+
+		coveragesMap.put("BI", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel());
+		coveragesMap.put("PD", AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel());
+		if (getState().equals(Constants.States.OR)) {
+			coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		} else {
+			coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 		}
+		coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
+		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel());
+		coveragesMap.put("PIP",AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel());
+
+		//TODO-dchubkov: replace with correct coverage name key
+		coveragesMap.put("UIMPD", "UNKNOWN COVERAGE (DC)");
+		coveragesMap.put("UM/SUM", "UNKNOWN COVERAGE (NY)");
+		coveragesMap.put("ADBC", "UNKNOWN COVERAGE (PA)");
+		coveragesMap.put("IL", "UNKNOWN COVERAGE (PA)");
+		coveragesMap.put("FUNERAL", "UNKNOWN COVERAGE (PA)");
+		coveragesMap.put("EMB", "UNKNOWN COVERAGE (PA)");
+
+		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
+		return coveragesMap.get(coverageCD);
 	}
 
 	boolean isPolicyLevelCoverage(String coverageCD) {
@@ -323,7 +317,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
-		Dollar cLimit = new Dollar(coverageLimit);
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
 		if (isPolicyLevelCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}
