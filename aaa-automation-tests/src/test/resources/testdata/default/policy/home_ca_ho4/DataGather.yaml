@@ -44,7 +44,7 @@ PropertyInfoTab: {
   Construction: {
     Year built: 2009,
     Square footage: 1,
-    Roof type: Laminate / Architectural,
+    Roof type: index=1,
     Construction type: index=1,
   },
   AdditionalQuestions: {},
@@ -119,12 +119,7 @@ TestData_Full: {
       Mobile Phone Number: '1234567892',
       Email: 'test@esigroup.com'
     },
-    AgentInfo: {
-      Channel Type: AAA Agent,
-      Agency: 'AAA NCNU - 500001005',
-      Agency Location: 'Los Gatos - 500005341 - Los Gatos',
-      TollFree Number: 500001002
-    },
+    AgentInfo: '@home_ca_ho3@DataGather@AgentInfo',
     OtherActiveAAAPolicies: {},
   },
   ReportsTab: '@ReportsTab',
@@ -140,7 +135,7 @@ TestData_Full: {
     Construction: {
       Year built: 2009,
       Square footage: 1,
-      Roof type: Laminate / Architectural,
+      Roof type: index=1,
       Construction type: index=1
     },
     AdditionalQuestions: {},

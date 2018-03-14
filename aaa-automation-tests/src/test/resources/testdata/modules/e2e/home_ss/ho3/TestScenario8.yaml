@@ -14,7 +14,7 @@ TestData: {
       Purchase date of home: '$<today:MM/dd/yyyy>'
     },
     Construction: {
-      Year built: 2009,
+      Year built: '$<today-8y:yyyy>',
       Square footage: 1,
       Roof type: Laminate / Architectural,
       Roof shape: index=1,

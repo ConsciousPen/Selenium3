@@ -33,6 +33,7 @@ NamedInsured1: {
 }
 
 NamedInsured2: {
+  CustomerSearchDialog: {},
   First name: '$<rx:CFTTestFN\d{5}>',
   Last name: '$<rx:CFTTestFN\d{5}>',
   Relationship to primary named insured:  Other,

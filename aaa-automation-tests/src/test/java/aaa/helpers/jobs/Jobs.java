@@ -8,7 +8,7 @@ import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
 
 public class Jobs {
-	private static String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER,"/home/mp2/pas/sit/");
+	private static String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
@@ -62,7 +62,7 @@ public class Jobs {
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
 
-	public static Job remittanceFeedBatchReceiveJob = new Job("remittanceFeedBatchReceiveJob");
+	public static Job aaaRemittanceFeedAsyncBatchReceiveJob = new Job("aaaRemittanceFeedAsyncBatchReceiveJob");
 
 	public static Job aaaRefundGenerationAsyncJob = new Job("aaaRefundGenerationAsyncJob");
 
@@ -131,6 +131,8 @@ public class Jobs {
 	public static Job aaaMembershipRenewalBatchReceiveAsyncJob = new Job("aaaMembershipRenewalBatchReceiveAsyncJob");
 
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
+
+	public static Job aaaRefundCancellationAsyncJob = new Job("aaaRefundCancellationAsyncJob");
 
 	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
 

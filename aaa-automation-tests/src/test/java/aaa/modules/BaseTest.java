@@ -385,6 +385,9 @@ public class BaseTest {
 	}
 
 	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td==null) {
+			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+		}
 		if (td.containsKey(getStateTestDataName(tdName))) {
 			td = td.getTestData(getStateTestDataName(tdName));
 			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
@@ -451,5 +454,16 @@ public class BaseTest {
 		mainApp().close();
 		adminApp().close();
 		opReportApp().close();
+	}
+
+	public static void printToLog(String message) {
+		log.info("----------------------------------------------------------------");
+		log.info(message);
+	}
+
+	public static void printToLog(String message, Object... inputValues) {
+		log.info("----------------------------------------------------------------");
+		String msg = String.format("Message: %1$s", message);
+		log.info(String.format(msg, inputValues));
 	}
 }

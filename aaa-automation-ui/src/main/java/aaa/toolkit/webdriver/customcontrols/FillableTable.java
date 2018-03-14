@@ -1,13 +1,25 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.ListBox;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.collection.Controls;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -83,6 +95,13 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		}
 	}
 
+	/**
+	 * @return list of control types to be used as Rows search query in Table
+	 */
+	protected List<Class<? extends BaseElement<?, ?>>> getSearchableControlsList() {
+		return Collections.singletonList(StaticElement.class);
+	}
+
 	@Override
 	public void fill(TestData td) {
 		if (td.containsKey(name) && !td.getTestDataList(name).isEmpty()) {
@@ -95,6 +114,10 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		return TestData.Type.TESTDATA;
 	}
 
+	/*public void fillRow(String columnName, String cellValueInColumn, String value) {
+		fillRow(getTable().getRow(columnName, cellValueInColumn), getFillableData(rowData));
+	}*/
+
 	@Override
 	protected List<TestData> normalize(Object rawValue) {
 		if (rawValue instanceof TestData) {
@@ -103,16 +126,12 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		throw new IllegalArgumentException("Value " + rawValue + " has incorrect type " + rawValue.getClass());
 	}
 
-	/*public void fillRow(String columnName, String cellValueInColumn, String value) {
-		fillRow(getTable().getRow(columnName, cellValueInColumn), getFillableData(rowData));
-	}*/
-
 	public void fillRow(String columnName, String cellValueInColumn, TestData rowData) {
 		fillRow(getTable().getRow(columnName, cellValueInColumn), getFillableData(rowData));
 	}
 
 	public void fillRow(TestData rowData) {
-		fillRow(-1 , rowData);
+		fillRow(-1, rowData);
 	}
 
 	public void fillRow(int index, TestData rowData) {
@@ -151,7 +170,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 
 		Row fillableRow;
 		if (searchRowQuery.isEmpty()) {
-			CustomAssert.assertFalse("Unable to get row neither by search controls data nor by index.", indexIfDataHasNoSearchControls < 0);
+			assertThat(indexIfDataHasNoSearchControls).as("Unable to get row neither by search controls data nor by index.").isPositive();
 			fillableRow = getTable().getRow(indexIfDataHasNoSearchControls);
 		} else if (searchRowQuery.size() == 1 && searchRowQuery.entrySet().iterator().next().getKey().startsWith("column=")) {
 			int columnNum = Integer.valueOf(searchRowQuery.entrySet().iterator().next().getKey().replace("column=", ""));
@@ -206,13 +225,6 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		}
 	}
 
-	/**
-	 * @return list of control types to be used as Rows search query in Table
-	 */
-	protected List<Class<? extends BaseElement>> getSearchableControlsList() {
-		return Collections.singletonList(StaticElement.class);
-	}
-
 	private TestData getFillableData(TestData fullRowData) {
 		Map<String, Object> tdMap = new LinkedHashMap<>();
 		for (String columnName : fullRowData.getKeys()) {
@@ -220,7 +232,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 			if (control != null && !isSearchableControl(control)) {
 				try {
 					tdMap.put(columnName, fullRowData.getValue(columnName));
-				} catch (TestDataException e) {
+				} catch (TestDataException ignored) {
 					tdMap.put(columnName, fullRowData.getTestData(columnName));
 				}
 			}
@@ -229,11 +241,6 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 	}
 
 	private boolean isSearchableControl(BaseElement<?, ?> control) {
-		for (Class<? extends BaseElement> searchableControlType : getSearchableControlsList()) {
-			if (searchableControlType.isAssignableFrom(control.getClass())) {
-				return true;
-			}
-		}
-		return false;
+		return getSearchableControlsList().stream().anyMatch(searchableControlType -> searchableControlType.isAssignableFrom(control.getClass()));
 	}
 }

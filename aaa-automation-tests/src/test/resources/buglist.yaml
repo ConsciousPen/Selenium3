@@ -81,12 +81,6 @@ PAS-6539:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
       messages: ['paymentMethod']
-PAS-7265:
-  summary: "Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending]
-      messages: ['Y']
 PAS-7427:
   summary: "Regression: The Membership Validation rule is displayed wrongly"
   reason: PROD
@@ -106,13 +100,13 @@ OSI-1115:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["Cannot set value"]
+      messages: ["Cannot set value*Has the customer expressed interest in purchasing the quote", "The selected limit of Uninsured Motorist Property Damage coverage"]
 OSI-1116:
   summary: "OSI: question to Karen about form name containg word Form for NV, whereas for other states it doesnt"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
-      messages: ["rfiName", "no message"]
+      messages: ["rfiName"]
 PAS-7702:
   summary: "When issuing some policies, documents are not generated"
   reason: PROD
@@ -155,12 +149,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-9661:
   summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
   reason: PROD
@@ -171,3 +159,60 @@ PAS-9661:
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
     - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
+PAS-9754:
+  summary: "PAS18.2 Regression: Unable to clear Suspense Payment"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.cft.auto_ss.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.auto_ca.choice.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+    - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
+      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
+PAS-9337:
+  summary: "Green Button Service - Abracradabra"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas6562_endorsementValidateNotAllowedOutOfBound]
+      messages: ["Expected empty*UpdateVehicle"]
+PAS-9722:
+  summary: "Random sequence for Vehicles on DXP - closed, new story will be created"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
+      messages: [" "]
+PAS-10350:
+  summary: "Regression: CA Home: Unable to switch to next tab from Property Info,'Roof Type' is not in within range"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules]
+      messages: ['Cannot get value of StaticElement', "Errors: 'Roof Type' is not in within range"]
+PAS-10661:
+  summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCheck,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
+    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH]
+      messages: ['*Cannot get value of StaticElement*', "*AAA_HO_SS67cbad46*"]
+PAS-10700:
+  summary: "Regression: MD Property: Insurance report section is absent on reports tab, but rule is fired requesting to order report"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation,
+              aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement,
+              aaa.modules.regression.sales.pup.TestPolicyCreation,
+              aaa.modules.regression.service.pup.TestPolicyEndorsement]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10702:
+  summary: "Regression: Property: Insurance report rule is fired for additional insured who is not listed on Reports tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10779:
+  summary: "HSRFIXX is not generated on Issue anymore"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI.*]
+      messages: ['No value present']

@@ -1,6 +1,6 @@
 package aaa.helpers.mock.model.vehicle;
 
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public class VehicleUbiDetailsRequest {
 	@ExcelTableColumnElement(name = "ID")

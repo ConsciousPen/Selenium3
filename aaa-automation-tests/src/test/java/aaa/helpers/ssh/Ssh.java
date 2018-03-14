@@ -2,9 +2,9 @@ package aaa.helpers.ssh;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.*;
@@ -14,13 +14,13 @@ import toolkit.config.PropertyProvider;
 public class Ssh {
 
 	private static Logger log = LoggerFactory.getLogger(Ssh.class);
+	private static ArrayList<Session> sessionPool = new ArrayList<>();
+	private static ArrayList<ChannelSftp> sftpChannelPool = new ArrayList<>();
 	// private static Ssh instance;
 	private Session session;
 	private JSch jsch = new JSch();
 	private ChannelSftp sftpChannel;
 	private ChannelExec execChannel;
-	private static ArrayList<Session> sessionPool = new ArrayList<>();
-	private static ArrayList<ChannelSftp> sftpChannelPool = new ArrayList<>();
 	private String host;
 	private String user;
 	private String password;
@@ -29,7 +29,7 @@ public class Ssh {
 		this.host = hostName;
 		this.user = user;
 		this.password = password;
-		
+
 		try {
 			createSession();
 			openSftpChannel();
@@ -45,6 +45,32 @@ public class Ssh {
 	 * password) { if (instance == null) { instance = new Ssh(hostName, user,
 	 * password); } return instance; }
 	 */
+
+	public synchronized ChannelSftp getSftpChannel() {
+		openSftpChannel();
+		return sftpChannel;
+	}
+
+	public static synchronized void closeAllSessions() {
+		try {
+			log.debug("SFTP Channel pool has" + sftpChannelPool.size() + "channels");
+			log.debug("SSH session pool has" + sessionPool.size() + "sessions");
+			for (ChannelSftp sftpChannel : sftpChannelPool) {
+				if (sftpChannel != null) {
+					sftpChannel.disconnect();
+				}
+			}
+			for (Session session : sessionPool) {
+				log.debug(session.getHost() + " session is closed");
+				if (session != null) {
+					session.disconnect();
+					session = null;
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("SSH: Unable to close a session : ", e);
+		}
+	}
 
 	public synchronized ArrayList<String> getListOfFiles(String folderName) {
 		ArrayList<String> listOfFiles = new ArrayList<>();
@@ -89,8 +115,9 @@ public class Ssh {
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 
 			for (ChannelSftp.LsEntry file : list) {
-				if (!file.getAttrs().isDir())
+				if (!file.getAttrs().isDir()) {
 					sftpChannel.rm(file.getFilename());
+				}
 			}
 			log.info("SSH: Files were removed from the folder '" + source + "'.");
 		} catch (Exception e) {
@@ -128,17 +155,32 @@ public class Ssh {
 		InputStream fis = null;
 		try {
 			openSftpChannel();
+			String[] folders = destination.split("/");
+			folders = Arrays.copyOf(folders, folders.length-1);
+			sftpChannel.cd("/");
+			for (String folder : folders) {
+				if (folder.length() > 0) {
+					try {
+						sftpChannel.cd(folder);
+					}
+					catch (SftpException e) {
+						sftpChannel.mkdir(folder);
+						sftpChannel.cd(folder);
+					}
+				}
+			}
 			fis = new BufferedInputStream(new FileInputStream(new File(source)));
 			sftpChannel.put(fis, destination, ChannelSftp.OVERWRITE);
 			log.info("SSH: File '" + source + "' was put to '" + destination + "'.");
 		} catch (Exception e) {
 			throw new RuntimeException("SSH: Unable to put file: ", e);
 		} finally {
-			if (fis != null)
+			if (fis != null) {
 				try {
 					fis.close();
 				} catch (IOException e) {
 				}
+			}
 		}
 	}
 
@@ -176,7 +218,7 @@ public class Ssh {
 			}
 
 			byte[] tmp = new byte[1024];
-			while (true && (totalNumberOfIterations > 0)) {
+			while (true && totalNumberOfIterations > 0) {
 				while (in.available() > 0) {
 					int i = in.read(tmp, 0, 1024);
 					if (i < 0) {
@@ -245,33 +287,14 @@ public class Ssh {
 	public synchronized void closeSession() {
 
 		try {
-			if (sftpChannel != null)
+			if (sftpChannel != null) {
 				sftpChannel.disconnect();
+			}
 			if (session != null) {
 				session.disconnect();
 				session = null;
 			}
 			log.debug("SSH: Session is closed");
-		} catch (Exception e) {
-			throw new RuntimeException("SSH: Unable to close a session : ", e);
-		}
-	}
-
-	public synchronized static void closeAllSessions() {
-		try {
-			log.debug("SFTP Channel pool has" + sftpChannelPool.size() + "channels");
-			log.debug("SSH session pool has" + sessionPool.size() + "sessions");
-			for (ChannelSftp sftpChannel : sftpChannelPool) {
-				if (sftpChannel != null)
-					sftpChannel.disconnect();
-			}
-			for (Session session : sessionPool) {
-				log.debug(session.getHost() + " session is closed");
-				if (session != null) {
-					session.disconnect();
-					session = null;
-				}
-			}
 		} catch (Exception e) {
 			throw new RuntimeException("SSH: Unable to close a session : ", e);
 		}
@@ -285,11 +308,6 @@ public class Ssh {
 		} catch (IOException | SftpException e) {
 			throw new RuntimeException("SSH: Unable to get content from file: " + filePath, e);
 		}
-	}
-
-	public synchronized ChannelSftp getSftpChannel() {
-		openSftpChannel();
-		return sftpChannel;
 	}
 
 	private synchronized void openSftpChannel() {
@@ -312,10 +330,9 @@ public class Ssh {
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
-				session.setConfig("PreferredAuthentications", "password");
-				if(!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && "true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))){
-					session.setConfig("PreferredAuthentications",
-							"publickey,keyboard-interactive,password");
+				session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
+				if (Boolean.parseBoolean(PropertyProvider.getProperty("scrum.envs.ssh", "false"))) {
+					session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
 				}
 				session.connect();
 				log.info("SSH: Started SSH Session for " + session.getHost() + " host");

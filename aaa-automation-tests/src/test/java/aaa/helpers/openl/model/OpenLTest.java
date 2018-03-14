@@ -1,24 +1,40 @@
 package aaa.helpers.openl.model;
 
-import aaa.utils.excel.bind.ExcelTableColumnElement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class OpenLTest {
 	@ExcelTableColumnElement(isPrimaryKey = true)
 	private Integer policy;
 
+	//@ExcelTableColumnElement(listByContains = "_res_.$Value") //TODO-dchubkov: to be done...
+	@ExcelTransient
+	private List<Integer> premiums;
+
 	@ExcelTableColumnElement(name = "Total Premium")
 	private Integer totalPremium;
 
 	public Integer getPolicy() {
-		return policy;
+		return this.policy;
 	}
 
 	public void setPolicy(int policy) {
 		this.policy = policy;
 	}
 
+	public List<Integer> getPremiums() {
+		return new ArrayList<>(this.premiums);
+	}
+
+	public void setPremiums(List<Integer> premiums) {
+		this.premiums = new ArrayList<>(premiums);
+	}
+
 	public Integer getTotalPremium() {
-		return totalPremium;
+		return this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).mapToInt(Integer::intValue).sum();
 	}
 
 	public void setTotalPremium(int totalPremium) {
@@ -28,8 +44,9 @@ public class OpenLTest {
 	@Override
 	public String toString() {
 		return "OpenLTest{" +
-				"policy=" + policy +
-				", totalPremium=" + totalPremium +
+				"policy=" + this.policy +
+				", premiums=" + this.premiums +
+				", totalPremium=" + this.totalPremium +
 				'}';
 	}
 }

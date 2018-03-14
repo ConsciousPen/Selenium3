@@ -48,13 +48,14 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForAccount(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.ACCOUNT);
 		//BUG: Search by valid "Agency Name" or "Agency #" fails with error "base00003 -  Operation has failed due to illegal arguments".
 		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName()).mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
+		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
+				.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
 		String expectedAccountNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.ACCOUNT.getLabel());
 
 		mainApp().open();
@@ -96,8 +97,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForCustomer(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.CUSTOMER);
 		//BUG: Search by valid "Phone #" fails with error "base00003 -  Operation has failed due to illegal arguments".
@@ -136,13 +137,14 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForBillingAccount(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.BILLING);
 		//BUG: Search result for Billing by valid "Agency Name" or "Agency #" is empty
 		//TODO-dchubkov: create a defect for this
-		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName()).mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
+		td = DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), td.getTestData(SearchPage.assetListSearch.getName())
+				.mask(SearchMetaData.Search.AGENCY_NAME.getLabel(), SearchMetaData.Search.AGENCY.getLabel()));
 		String expectedBaNumber = td.getTestData(SearchPage.assetListSearch.getName()).getValue(SearchMetaData.Search.BILLING_ACCOUNT.getLabel());
 
 		mainApp().open();
@@ -176,8 +178,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForPolicy(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.POLICY);
 		//BUG: Search result for Policy by valid "Phone #" or "Agency Name" or "Agency #" is empty
@@ -217,8 +219,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Common.SEARCH )
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH)
 	public void testSearchForQuote(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.QUOTE);
 		//BUG: Search result for Quote by valid "Phone #" or "Agency Name" or "Agency #" is empty
@@ -245,7 +247,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	}
 
 	private synchronized TestData getFullSearchData(SearchEnum.SearchFor searchFor) {
-		final String keyPattern = searchFor.equals(SearchEnum.SearchFor.QUOTE) ? "_QuoteFullDataSearchTest" : "_OtherFullDataSearchTest";
+		String keyPattern = searchFor.equals(SearchEnum.SearchFor.QUOTE) ? "_QuoteFullDataSearchTest" : "_OtherFullDataSearchTest";
 		String customerKey = EntitiesHolder.makeCustomerKey(CustomerType.INDIVIDUAL, getState()) + keyPattern;
 		String policyKey = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState()) + keyPattern;
 
@@ -289,7 +291,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 			fullSearchData.put(policyKey, DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), searchData));
 		}
 
-		TestData adjustedData = fullSearchData.get(policyKey).getTestData(SearchPage.assetListSearch.getName()).adjust(SearchMetaData.Search.SEARCH_FOR.getLabel(), searchFor.get());
+		TestData adjustedData = fullSearchData.get(policyKey).getTestData(SearchPage.assetListSearch.getName()).adjust(SearchPage.LABEL_SEARCH, searchFor.get());
 		return DataProviderFactory.dataOf(SearchPage.assetListSearch.getName(), adjustedData);
 	}
 }

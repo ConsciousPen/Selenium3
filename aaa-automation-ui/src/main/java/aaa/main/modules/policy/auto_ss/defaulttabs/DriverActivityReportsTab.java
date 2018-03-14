@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.datax.TestData;
@@ -35,7 +34,7 @@ public class DriverActivityReportsTab extends Tab {
 	@Override
 	public Tab fillTab(TestData td) {
 		synchronized (lock) {
-			assetList.fill(td);
+			super.fillTab(td);
 		}
 		return this;
 	}

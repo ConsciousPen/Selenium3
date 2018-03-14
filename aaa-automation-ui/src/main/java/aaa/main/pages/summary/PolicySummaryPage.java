@@ -31,6 +31,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
 	public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
 
+	public static Button buttonBackFromErrorPage = new Button(By.id("errorsForm:backToPreviousConsolidatedView"));
 	public static Button buttonTransactionHistory = new Button(By.id("productContextInfoForm:lnkTransactionHistory"));
 	public static Button buttonPendedEndorsement = new Button(By.id("productContextInfoForm:lnkPendedEndorsements"));
 	public static Button buttonRenewals = new Button(By.id("productContextInfoForm:lnkRenewals"));
@@ -120,9 +121,8 @@ public class PolicySummaryPage extends SummaryPage {
 	public static String getPolicyNumber() {
 		if (labelPolicyNumber.isPresent()) {
 			return labelPolicyNumber.getValue();
-		} else {
-			return linkPolicy.getValue();
 		}
+		return linkPolicy.getValue();
 	}
 
 	public static void verifyCancelNoticeFlagPresent() {
@@ -135,8 +135,8 @@ public class PolicySummaryPage extends SummaryPage {
 	}
 
 	public static void verifyLapseExistFlagPresent() {
-		PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present");
-		PolicySummaryPage.labelLapseExist.verify.value("Term includes a lapse period");
+		labelLapseExist.verify.present("Lapse period flag is present");
+		labelLapseExist.verify.value("Term includes a lapse period");
 	}
 
 	public static void verifyDoNotRenewFlagPresent() {

@@ -6,15 +6,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="eValue Related Jobs" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
     <test name="TestEValueDiscountJobAdding" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -111,6 +103,8 @@
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
+                    <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
+                    <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
                 </methods>
             </class>
         </classes>
@@ -235,10 +229,18 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
-    <test name="TestNonPremiumBearingEndorsementsCA" parallel="methods" thread-count="1024">
+    <test name="ContactInfoUpdateServiceCA" parallel="methods" thread-count="1024">
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas1441_emailChangeOutOfPas"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas1441_emailChangeOutOfPas"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -292,11 +294,12 @@
         </classes>
     </test>
 
-    <test name="GreenButtonService" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
+                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
                     <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
@@ -305,17 +308,98 @@
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                    <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
+                    <include name="pas7082_AddVehicle"/>
+                    <include name="pas8275_vinValidate"/>
+                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
+                    <include name="pas9456_9455_PolicyLockUnlockServices"/>
+                    <include name="pas9997_paymentMethodsLookup"/>
+                    <include name="pas9997_paymentPlansLookup"/>
+                    <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
+                    <include name="pas9610_UpdateVehicleService"/>
                 </methods>
             </class>
         </classes>
     </test>
-
-    <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
+    <test name="GreenButtonServiceUT" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="GreenButtonServicePA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="ContactInfoUpdateServiceSS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas1441_emailChangeOutOfPas"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="DiscountPercentageRetrievalCA_HO" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.home_ca.ho3.functional.TestRatingServices"/>
+            <class name="aaa.modules.regression.service.home_ca.ho4.functional.TestRatingServices"/>
+            <class name="aaa.modules.regression.service.home_ca.ho6.functional.TestRatingServices"/>
+            <class name="aaa.modules.regression.service.home_ca.dp3.functional.TestRatingServices"/>
+        </classes>
+    </test>
+
+    <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForPolicy"/>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
+                    <include name="pas9716_policySummaryForConversionManual"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForPolicy"/>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
                 </methods>
             </class>
         </classes>

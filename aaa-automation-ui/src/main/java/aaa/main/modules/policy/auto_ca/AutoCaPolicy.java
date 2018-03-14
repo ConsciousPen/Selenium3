@@ -2,7 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy.auto_ca;
 
-import aaa.utils.EntityLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -12,13 +13,12 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import aaa.utils.EntityLogger;
 import toolkit.datax.TestData;
 
 /**
  * Concrete implementation for a specific entity type.
- * 
+ *
  * @category Generated
  */
 public class AutoCaPolicy implements IPolicy {
@@ -42,7 +42,7 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void createQuote(TestData td) {
 		initiate();
-		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
+		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
@@ -80,18 +80,20 @@ public class AutoCaPolicy implements IPolicy {
 	}
 
 	@Override
-    public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium(td);
+	public void calculatePremiumAndPurchase(TestData td) {
+		calculatePremium(td);
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 		new DriverActivityReportsTab().fillTab(td);
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+	    //TODO workaround for PAS-10786
+		//NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DriverActivityReportsTab().submitTab();
 		new DocumentsAndBindTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
-    }
+	}
 
 	@Override
-    public void purchase(TestData td) {
-        dataGather().start();
+	public void purchase(TestData td) {
+		dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
@@ -179,7 +181,7 @@ public class AutoCaPolicy implements IPolicy {
 	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new AutoCaPolicyActions.DeletePendedTransaction();
 	}
-	
+
 	@Override
 	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
 		return new AutoCaPolicyActions.DeletePendingRenwals();

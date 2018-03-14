@@ -127,7 +127,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 		CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 		CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-		CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+		if (refundMethod.contains("Check")) {
+			CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+		} else {
+			CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
+		}
 		CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 	}
 
@@ -194,7 +198,11 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 			CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-			CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+			if (refundMethod.contains("Check")) {
+				CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+			} else {
+				CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
+			}
 			CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 		}
 	}
@@ -344,9 +352,9 @@ public class RefundProcessHelper extends PolicyBilling {
 	 */
 	public void voidedAutomatedRefundGeneration(boolean isManual, String paymentMethod, String billingAccountNumber, String policyNumber) {
 		if (isManual) {
-			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
+			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7037_D");
 		} else {
-			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "R", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
+			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "R", "ERR", "DSB_E_DSBCTRL_PASSYS_7037_D");
 		}
 	}
 

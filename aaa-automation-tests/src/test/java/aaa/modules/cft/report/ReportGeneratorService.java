@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
@@ -29,6 +28,8 @@ import aaa.modules.cft.report.model.EntryStatus;
 import aaa.modules.cft.report.model.ReportEntry;
 
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
+
+import static aaa.helpers.cft.CFTHelper.*;
 
 public class ReportGeneratorService {
 
@@ -99,7 +100,7 @@ public class ReportGeneratorService {
 				Row entryRow = sheet.createRow(rowNumber);
 				XSSFCellStyle entryCellStyle = stylesTable.createCellStyle();
 				prepareCellEntryStyle(reportObjects.get(reportEntry).getEntryStatus(),
-					entryCellStyle);
+						entryCellStyle);
 				if (Objects.isNull(feedFilesEntryAmount)) {
 					sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 1, 2));
 				}
@@ -226,17 +227,17 @@ public class ReportGeneratorService {
 	private static void prepareCellEntryStyle(EntryStatus status, XSSFCellStyle style) {
 		setBorderToCellStyle(style);
 		switch (status) {
-			case MATCHED : {
+			case MATCHED: {
 				style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
 				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 				break;
 			}
-			case MISSED : {
+			case MISSED: {
 				style.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
 				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 				break;
 			}
-			case COLLISION : {
+			case COLLISION: {
 				style.setFillForegroundColor(new XSSFColor(new Color(246, 142, 56)));
 				style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 				break;
@@ -244,12 +245,4 @@ public class ReportGeneratorService {
 		}
 		style.setAlignment(HorizontalAlignment.CENTER);
 	}
-
-	private static void setBorderToCellStyle(XSSFCellStyle style) {
-		style.setBorderBottom(BorderStyle.MEDIUM);
-		style.setBorderLeft(BorderStyle.MEDIUM);
-		style.setBorderRight(BorderStyle.MEDIUM);
-		style.setBorderTop(BorderStyle.MEDIUM);
-	}
-
 }
