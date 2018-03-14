@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.math.IntRange;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -13,12 +14,15 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.*;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
@@ -26,7 +30,9 @@ import toolkit.utils.TestInfo;
 
 public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTest {
 
-    PremiumAndCoveragesQuoteTab premiumAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
+    private PremiumAndCoveragesQuoteTab premiumAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
+    private PurchaseTab purchaseTab = new PurchaseTab();
+    private IntRange rangeAutoTier = new IntRange(1, 16);
 
     /**
      * @author Dominykas Razgunas
@@ -36,6 +42,11 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
      * 2. Create Auto policy
      * 3. Create HO3 policy with underlying Auto from above
      * 4. Initiate PUP Policy
+     * 5. Calculate Premium and check Auto tier value
+     * 6. Renew the policy
+     * 7. Navigate to P&C page
+     * 8. Calculate Premium
+     * 9. Check Auto tier value
      * @details
      */
     @Parameters({"state"})
@@ -67,9 +78,28 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         // Initiate PUP and verify  in rating details dialog
         initiateFillPup(getPupTD(policies));
 
-        // Open rating details and verify
+        // Open rating details
         PropertyQuoteTab.RatingDetailsViewPUP.open();
-        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")).isNotEmpty();
+
+        // Verify That Auto tier is N/A or between 1-16
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("N/A")||rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")))).isTrue();
+
+        // Issue Policy
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+        premiumAndCoveragesQuoteTab.submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        // Initiate renewal and navigate to P&C Quote tab calculate premium
+        policy.renew().start().submit();
+        NavigationPage.toViewTab(PremiumAndCoveragesQuoteTab.class.getSimpleName());
+        premiumAndCoveragesQuoteTab.calculatePremium();
+        // Open rating details
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
+
+        // Verify That Auto tier is N/A or between 1-16
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("N/A")||rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")))).isTrue();
+
         PropertyQuoteTab.RatingDetailsViewPUP.close();
         mainApp().close();
     }
@@ -81,6 +111,12 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
      * 1. Create customer
      * 2. Create HO3 policy without underlying Auto
      * 3. Initiate PUP Policy
+     * 4. Calculate Premium and check Auto tier value
+     * 5. Issue the policy
+     * 6. Renew the policy
+     * 7. Navigate to P&C page
+     * 8. Calculate Premium
+     * 9. Check Auto tier value
      * @details
      */
     @Parameters({"state"})
@@ -105,12 +141,104 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         // Initiate PUP and verify  in rating details dialog
         initiateFillPup(getPupTDNoAuto(policies));
 
-        // Open rating details and verify
+        // Open rating details
         PropertyQuoteTab.RatingDetailsViewPUP.open();
-        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")).isNotEmpty();
+
+        // Verify That Auto tier is empty
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").isEmpty()).isTrue();
+
+        // Issue Policy
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+        premiumAndCoveragesQuoteTab.submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        // Initiate renewal and navigate to P&C Quote tab calculate premium
+        policy.renew().start().submit();
+        NavigationPage.toViewTab(PremiumAndCoveragesQuoteTab.class.getSimpleName());
+        premiumAndCoveragesQuoteTab.calculatePremium();
+        // Open rating details
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
+
+        // Verify That Auto tier is empty
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").isEmpty()).isTrue();
+
         PropertyQuoteTab.RatingDetailsViewPUP.close();
         mainApp().close();
     }
+
+    /**
+     * @author Dominykas Razgunas
+     * @name Test PUP policies that have an underlying DP3 policy with multiple units is rated properly for SS states.
+     * @scenario
+     * 1. Create customer
+     * 2. Create Non PA state Auto policy
+     * 3. Create HO3 policy with underlying Auto from above
+     * 4. Initiate PUP Policy
+     * 5. Calculate Premium and check Auto tier value
+     * 6. Renew the policy
+     * 7. Navigate to P&C page
+     * 8. Calculate Premium
+     * 9. Check Auto tier value
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397")
+    public void pas10397_testPupInfoSectionViewRatingDetailsNonPAAuto(@Optional("PA") String state) {
+
+        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData_AZ");
+        TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
+
+        String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
+        Map<String, String> policies = new HashMap<>();
+
+        verifyAlgoDate();
+
+        // Create Customer
+        mainApp().open();
+        createCustomerIndividual();
+
+        // Create Auto Policy
+        PolicyType.AUTO_SS.get().createPolicy(tdAuto);
+        policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
+        TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("autoPolicy"));
+
+        // Create HO3 Policy with underlying Auto policy
+        PolicyType.HOME_SS_HO3.get().createPolicy(tdHO3.adjust(otherActiveKeyPath, tdOtherActiveAuto));
+        policies.put("ho3Policy", PolicySummaryPage.getPolicyNumber());
+
+        // Initiate PUP and verify  in rating details dialog
+        initiateFillPup(getPupTD(policies));
+
+        // Open rating details
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
+
+        // Verify That Auto tier is N/A or between 1-16
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("N/A")||rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")))).isTrue();
+
+        // Issue Policy
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+        premiumAndCoveragesQuoteTab.submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        // Initiate renewal and navigate to P&C Quote tab calculate premium
+        policy.renew().start().submit();
+        NavigationPage.toViewTab(PremiumAndCoveragesQuoteTab.class.getSimpleName());
+        premiumAndCoveragesQuoteTab.calculatePremium();
+        // Open rating details
+        PropertyQuoteTab.RatingDetailsViewPUP.open();
+
+        // Verify That Auto tier is N/A or between 1-16
+        assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("N/A")||rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")))).isTrue();
+
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+        mainApp().close();
+    }
+
+
+
 
     private TestData getPupTD(Map<String, String> policies) {
         TestData prefillTab = getTestSpecificTD("TestData_PrefillTab")
