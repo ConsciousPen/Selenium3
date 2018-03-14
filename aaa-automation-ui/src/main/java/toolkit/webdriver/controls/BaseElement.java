@@ -18,7 +18,6 @@ import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.waiters.Waiter;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Abstract implementation of basic UI element
@@ -340,7 +339,7 @@ public abstract class BaseElement<I, O> implements Named {
 	 */
 	protected void ensureVisible() {
 		if (IS_ENSURE_VISIBLE) {
-			log.info("Element location: " + getWebElement().getLocation());
+			//log.info("Element location: " + getWebElement().getLocation());
 			BrowserController.get().executeScript("arguments[0].scrollIntoView();", getWebElement());
 		}
 	}
@@ -349,10 +348,16 @@ public abstract class BaseElement<I, O> implements Named {
 	 * Click the element
 	 */
 	protected void click() {
-		log.debug("Clicking control " + this);
+/*		log.debug("Clicking control " + this);
 		ensureVisible();
 		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
+		getWebElement().click();
+		WaitMeters.capture(WaitMeters.PAGE_LOAD);
+		waitForPageUpdate();*/
+		log.debug("Clicking control " + this);
+		ElementHighlighter.highlight(this);
+		ensureVisible();
 		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waitForPageUpdate();

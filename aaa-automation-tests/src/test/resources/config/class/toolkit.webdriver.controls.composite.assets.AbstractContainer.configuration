@@ -25,6 +25,7 @@
     "toolkit.webdriver.controls.DoubleTextBox": "/.",
     "aaa.toolkit.webdriver.customcontrols.AdvancedComboBox": "//select",
     "aaa.toolkit.webdriver.customcontrols.ConfirmationComboBox": "//select",
-    "aaa.toolkit.webdriver.customcontrols.CalendarBox": "/."
+    "aaa.toolkit.webdriver.customcontrols.CalendarBox": "/.",
+    "aaa.toolkit.webdriver.customcontrols.JavaScriptButton": "//input",
   }
 }
