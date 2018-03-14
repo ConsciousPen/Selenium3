@@ -120,7 +120,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Popup to avoid conflicting transactions
 		policy.endorse().start();
-		CustomAssert.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it.".equals(Page.dialogConfirmation.labelMessage.getValue()));
+		CustomAssert
+				.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it."
+						.equals(Page.dialogConfirmation.labelMessage.getValue()));
 		Page.dialogConfirmation.reject();
 
 		SearchPage.openPolicy(policyNumber);
@@ -1365,7 +1367,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			SearchPage.openPolicy(policyNum);
 			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-
 			PolicySummary responsePolicyActivated = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
 			softly.assertThat(responsePolicyActivated.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyActivated.policyStatus).isEqualTo("issued");
@@ -1518,6 +1519,71 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 				softly.assertThat(response4[1].vehicleStatus).isEqualTo("active");
 			});
 		}
+	}
+
+	protected void pas9610_UpdateVehicleService(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		//Create pended endorsement
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+		VehicleTab vehicleTab = new VehicleTab();
+
+		//Get OID from View vehicle
+		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
+
+		String oid = viewVehicleResponse[0].oid;
+
+		//send request to update vehicle service
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+
+		updateVehicleRequest.ownership = "OWN";
+		updateVehicleRequest.usage = "Pleasure";
+		updateVehicleRequest.salvaged = false;
+		updateVehicleRequest.garagingDifferent = false;
+		updateVehicleRequest.antiTheft = "STD";
+		updateVehicleRequest.registeredOwner = false;
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+
+		assertSoftly(softly -> {
+
+			softly.assertThat(updateVehicleResponse.ownership).isEqualTo("OWN");
+			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Pleasure");
+			softly.assertThat(updateVehicleResponse.salvaged).isEqualTo(false);
+			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
+			softly.assertThat(updateVehicleResponse.antiTheft).isEqualTo("STD");
+			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
+
+		});
+
+		//verify updated information with pendedEndorsementValidateVehicleInfo
+		Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].modelYear).isEqualTo(updateVehicleResponse.modelYear);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].manufacturer).isEqualTo(updateVehicleResponse.manufacturer);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].series).isEqualTo(updateVehicleResponse.series);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].model).isEqualTo(updateVehicleResponse.model);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].bodyStyle).isEqualTo(updateVehicleResponse.bodyStyle);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehIdentificationNo).isEqualTo(updateVehicleResponse.vehIdentificationNo);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].ownership).isEqualTo("OWN");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].usage).isEqualTo("Pleasure");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].salvaged).isEqualTo(false);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingDifferent).isEqualTo(false);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
+		});
+
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
