@@ -351,7 +351,7 @@ public abstract class BaseElement<I, O> implements Named {
 	protected void click() {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		Waiters.SLEEP(500).go();
+		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
 		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
