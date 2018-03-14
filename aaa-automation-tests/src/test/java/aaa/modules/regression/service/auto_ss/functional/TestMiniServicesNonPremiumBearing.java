@@ -635,6 +635,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9490_ViewVehicleServiceCheckVehiclesStatus(getPolicyType());
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Verify update vehicle service
+	 * @scenario
+	 * 1. Create active policy with one vehicle.
+	 * 2. hit view vehicle service.
+	 * 3. get OID from view vehicle service.
+	 * 4. hit update vehicle service.
+	 * 5. verify on Pas ui that vehicle updated with the provided information
+	 * 6. hit view vehicle service again to verify vehicle information is updated.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9610"})
+	public void pas9610_UpdateVehicleService(@Optional("VA") String state) {
+
+		pas9610_UpdateVehicleService(getPolicyType());
+	}
+
 
 	@Override
 	protected String getGeneralTab() {

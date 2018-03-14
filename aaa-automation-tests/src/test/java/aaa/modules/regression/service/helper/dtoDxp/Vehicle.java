@@ -1,5 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,6 +35,26 @@ public class Vehicle implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Vehicle status", example = "Active")
 	public String vehicleStatus;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String ownership;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String usage;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public Boolean salvaged;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public Boolean garagingDifferent;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String antiTheft;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public Boolean registeredOwner;
+
+
 
 	public String getModelYear() {
 		return modelYear;
