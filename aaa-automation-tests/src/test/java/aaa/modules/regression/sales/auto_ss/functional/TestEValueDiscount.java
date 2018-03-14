@@ -1259,7 +1259,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.isTrue();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
-		assertThat(DocumentsAndBindTab.tblError.getRow(1).getCell("Message").getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_2))
+		assertThat(ErrorTab.tblError.getRow(1).getCell("Message").getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_2))
 				.isTrue();
 		errorTab.cancel();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1281,7 +1281,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.isFalse();
 		PremiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EVALUE_ACKNOWLEDGEMENT).setValue("Yes");
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.EVALUE_ACKNOWLEDGEMENT).setValue("Physically Signed");
 		documentsAndBindTab.submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		deleteSinglePaperlessPreferenceRequest(requestId3);
