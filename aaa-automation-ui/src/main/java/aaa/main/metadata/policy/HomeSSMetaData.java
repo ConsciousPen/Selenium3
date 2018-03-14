@@ -606,6 +606,7 @@ public final class HomeSSMetaData {
 				.xpath("//span[text()='Legacy']//ancestor::div[contains(@id, 'policyDataGatherForm:QuoteVariation')]"));
 		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class, VariationControls.class, By
 				.xpath("//span[text()='Prestige']//ancestor::div[contains(@id, 'policyDataGatherForm:QuoteVariation')]"));
+		public static final AssetDescriptor<CheckBox> CAPPING_LOCK = declare("Capping Lock",CheckBox.class,Waiters.AJAX,By.id("policyDataGatherForm:cappingIndicatorLocked"));
 
 		public static final class VariationControls extends MetaData {
 			public static final AssetDescriptor<TextBox> COVERAGE_A = declare("Coverage A", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, 'AAACoverageA_limitAmount_limitAmount')]"));

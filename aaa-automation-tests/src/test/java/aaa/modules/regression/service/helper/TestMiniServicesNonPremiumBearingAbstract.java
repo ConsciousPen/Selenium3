@@ -856,29 +856,61 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		VehicleTab vehicleTab = new VehicleTab();
+
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		mainApp().close();
 
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//Add new vehicle
 		String purchaseDate = "2012-02-21";
-		String vin = "ZFFCW56A830133118";
+		String vin2 = "ZFFCW56A830133118";
 
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		NavigationPage.toViewTab(getPremiumAndCoverageTab());
-
-		getPremiumAndCoverageTabElement().saveAndExit();
-
-		Vehicle response = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle response1 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
 		assertSoftly(softly ->
-				softly.assertThat(response.oid).isNotEmpty()
+				softly.assertThat(response1.oid).isNotEmpty()
 		);
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
+		vehicleTab.getAssetList().getAsset(USAGE.getLabel(), ComboBox.class).setValue("Pleasure");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
 
-		VehicleTab vehicleTab = new VehicleTab();
-		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue()).isEqualTo(vin);
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+		//View added vehicle in view vehicle service
+		Vehicle[] response3 = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		if (response3[0].vehIdentificationNo.contains(vin1)) {
+			assertSoftly(softly -> {
+				softly.assertThat(response3[0].vehIdentificationNo).isEqualTo(vin1);
+
+				softly.assertThat(response3[1].vehIdentificationNo).isEqualTo(vin2);
+
+			});
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(response3[0].vehIdentificationNo).isEqualTo(vin2);
+
+				softly.assertThat(response3[1].vehIdentificationNo).isEqualTo(vin1);
+
+			});
+		}
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy(PolicyType policyType) {
@@ -1015,7 +1047,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(policyExpirationDate.plusYears(1).toLocalDate()));
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
-			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, null);
+			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, "NOTENROLLED");
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -1041,7 +1073,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyRenewalOfferExpired, state, "NOTENROLLED");
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
-			JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 			JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 			PolicySummary responsePolicyOfferLapsed = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", 200);
