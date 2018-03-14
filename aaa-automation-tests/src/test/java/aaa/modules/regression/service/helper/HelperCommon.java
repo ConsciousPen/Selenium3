@@ -40,6 +40,7 @@ public class HelperCommon {
 	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
+	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
@@ -75,6 +76,13 @@ public class HelperCommon {
 		ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
 		return validateEndorsementResponse;
 	}
+
+	static Vehicle updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
+
+		String requestUrl = urlBuilderDxp(String.format(DXP_UPDATE_VEHICLE_ENDPOINT, policyNumber, oid));
+		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
+	}
+
 
 	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
@@ -160,6 +168,15 @@ public class HelperCommon {
 		HashMap <String, String> validateLookupResponse  = runJsonRequestGetDxp(requestUrl, HashMap.class );
 		return validateLookupResponse;
 	}
+
+	/*static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
+		if (endorsementDate != null) {
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+		}
+		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
+		return validateVinResponse;
+	}*/
 
 	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
 		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
