@@ -2,7 +2,6 @@ package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
 import toolkit.utils.meters.WaitMeters;
-import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
@@ -31,9 +30,10 @@ public class JavaScriptButton extends Button {
 	public void click() {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		/*Waiters.SLEEP(1000).go();*/
+		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
-		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
+		/*BrowserController.get().executeScript("arguments[0].click();", getWebElement());*/
+		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waitForPageUpdate();
 	}
@@ -42,8 +42,10 @@ public class JavaScriptButton extends Button {
 	public void click(Waiter waiter) {
 		log.debug("Clicking control " + this);
 		ensureVisible();
+		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
-		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
+		/*BrowserController.get().executeScript("arguments[0].click();", getWebElement());*/
+		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waiter.go();
 	}
