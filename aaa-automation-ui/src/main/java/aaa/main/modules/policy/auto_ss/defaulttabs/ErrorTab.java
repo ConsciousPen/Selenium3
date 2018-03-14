@@ -21,7 +21,6 @@ public class ErrorTab extends CommonErrorTab {
 
 	public Table tableErrors = new Table(By.xpath(".//form[@id='errorsForm']//table"));
 	public Table tableBaseErrors = new Table(By.xpath(".//form[@id='errorsForm']//table[2]"));
-	public static Table tblError = new Table(By.id("errorsForm:msgList"));
 
 	public ErrorTab() {
 		super(AutoSSMetaData.ErrorTab.class);
