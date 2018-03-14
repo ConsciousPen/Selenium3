@@ -27,6 +27,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -428,7 +429,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -459,7 +460,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -572,7 +573,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
@@ -609,7 +610,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 
@@ -651,10 +652,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, false);
+	}
+
+	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
+		if (clearExgPasArchiveFolder) {
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "/PAS_B_EXGPAS_PASHUB_4004_D/archive");
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "/PAS_B_PASHUB_EXGPAS_4004_D/archive");
+		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
 		Waiters.SLEEP(15000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "/PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		Waiters.SLEEP(15000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
