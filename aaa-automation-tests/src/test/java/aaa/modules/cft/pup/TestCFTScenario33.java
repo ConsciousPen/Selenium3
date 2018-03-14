@@ -23,6 +23,21 @@ import toolkit.utils.TestInfo;
  */
 public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void cftTestScenario33(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		generateInstallmentBill(1);
+		acceptTotalDuePayment();
+		generateRenewalImage();
+		generateRenewalOffer();
+		generateRenewalOfferBill();
+		verifyRenewCustomerDecline();
+		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
+		automatedRefundOnRefundDate();
+		verifyEscheatmentOnExpDatePlus25Plus13Months();
+	}
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.PUP;
@@ -35,21 +50,4 @@ public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 				"PremiumAndCoveragesQuoteTab_DataGather").getValue(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel())).resolveLinks();
 		return new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
 	}
-
-	@Test(groups = {Groups.CFT})
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cftTestScenario33(@Optional(StringUtils.EMPTY) String state) {
-		createPolicyForTest();
-		generateInstallmentBill(1);
-		acceptTotalDuePayment();
-		generateRenewalImage();
-		generateRenewalOffer();
-		generateRenewalOfferBill();
-		verifyRenewCustomerDecline();
-		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
-		issuedRefundOnRefundDate();
-		verifyEscheatmentOnExpDatePlus25Plus13Months();
-	}
-
 }

@@ -478,17 +478,17 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		pendingRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void issuedRefundOnStartDatePlus16(Dollar refundAmount) {
+	protected void automatedRefundOnStartDatePlus16(Dollar refundAmount) {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		issuedRefundOnDate(refundAmount, refundDate);
+		automatedRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void issuedRefundOnStartDatePlus25(Dollar refundAmount) {
+	protected void automatedRefundOnStartDatePlus25(Dollar refundAmount) {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
-		issuedRefundOnDate(refundAmount, refundDate);
+		automatedRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void issuedRefundOnRefundDate() {
+	protected void automatedRefundOnRefundDate() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(
 			getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()));
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
@@ -499,9 +499,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		new BillingPaymentsAndTransactionsVerifier()
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
+			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED)
 			.verifyPresent();
-		log.info("Refund presents in Payments & Other Transactions Table");
+		log.info("Automated refund approved successfully");
 
 	}
 
@@ -1153,7 +1153,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Installment bill generation completed successfully");
 	}
 
-	private void issuedRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
+	private void automatedRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Verify refund on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -1162,10 +1162,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		new BillingPaymentsAndTransactionsVerifier()
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
+			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED)
 			.setAmount(refundAmount)
 			.verifyPresent();
-		log.info("Refund presents in Payments & Other Transactions Table");
+		log.info("Automated refund approved successfully");
 	}
 
 	private void manualCancellationOnDate(LocalDateTime cancellationDate) {
