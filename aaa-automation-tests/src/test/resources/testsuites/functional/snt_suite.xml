@@ -155,7 +155,7 @@
         </classes>
     </test>
 
-    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, VA) H04" parallel="methods" thread-count="1024">
+    <test name="AHRBXX form (AZ, VA) H04" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, VA"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
