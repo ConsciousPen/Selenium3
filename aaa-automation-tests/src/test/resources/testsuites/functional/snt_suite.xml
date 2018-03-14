@@ -64,4 +64,148 @@
             </class>
         </classes>
     </test>
+
+    <test name="HSRNHODPXX/HSRNMXX form (AZ, NJ) HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupConvHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupHSRNHODPXX"/>
+                    <include name="pas2570_renewalCoverLetterHSRNMXX"/>
+                    <include name="pas2570_renewalCoverLetterPupConvHSRNMXX"/>
+                    <include name="pas2570_renewalCoverLetterPupHSRNMXX"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
+                <methods>
+                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HSRNHODPXX form (AZ, VA) HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupConvHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupHSRNHODPXX"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
+                <methods>
+                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HSRNHODPXX/HSRNMXX form (AZ, DE) HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, DE"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupConvHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupHSRNHODPXX"/>
+                    <include name="pas2570_renewalCoverLetterHSRNMXX"/>
+                    <include name="pas2570_renewalCoverLetterPupConvHSRNMXX"/>
+                    <include name="pas2570_renewalCoverLetterPupHSRNMXX"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
+                <methods>
+                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HSRNHODPXX/HSRNMXX form (AZ, VA) DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupConvHSRNHODPXX"/>
+                    <include name="pas2309_renewalCoverLetterPupHSRNHODPXX"/>
+                    <include name="pas2570_renewalCoverLetterHSRNMXX"/>
+                    <include name="pas2570_renewalCoverLetterPupConvHSRNMXX"/>
+                    <include name="pas2570_renewalCoverLetterPupHSRNMXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, DE) H03" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, DE"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
+                    <include name="pas10241_insuranceRenewalBillHomeMortAHRBXX"/>
+                    <include name="pas8763_mortgageeBillFinalExpirationHSRR2XX"/>
+                    <include name="pas8762_mortgageeBillFirstRenewalReminderHSRRXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, VA) H04" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) H06" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
+                    <include name="pas10241_insuranceRenewalBillHomeMortAHRBXX"/>
+                    <include name="pas8763_mortgageeBillFinalExpirationHSRR2XX"/>
+                    <include name="pas8762_mortgageeBillFirstRenewalReminderHSRRXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
+                    <include name="pas10241_insuranceRenewalBillHomeMortAHRBXX"/>
+                    <include name="pas8763_mortgageeBillFinalExpirationHSRR2XX"/>
+                    <include name="pas8762_mortgageeBillFirstRenewalReminderHSRRXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
+                <methods>
+                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
+                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO4"/>
+                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO6"/>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

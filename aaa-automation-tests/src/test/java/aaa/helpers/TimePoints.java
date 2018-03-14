@@ -128,6 +128,14 @@ public class TimePoints {
 		return getTimepoint(date, TimepointsList.PRERENEWAL_LETTER, true);
 	}
 
+	public LocalDateTime getMortgageeBillFirstRenewalReminder(LocalDateTime date)  {
+		return getTimepoint(date, TimepointsList.MORTGAGEE_BILL_FIRST_RENEW_REMINDER_NOTICE, true);
+	}
+
+	public LocalDateTime getMortgageeBillFinalExpirationNotice(LocalDateTime date)  {
+		return getTimepoint(date, TimepointsList.MORTGAGEE_BILL_FINAL_EXP_NOTICE, true);
+	}
+
 	public LocalDateTime getUpdatePolicyStatusDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.UPDATE_POLICY_STATUS, true);
 	}
@@ -281,6 +289,8 @@ public class TimePoints {
 		RENEW_GENERATE_PREVIEW("Renew generate preview"), //
 		RENEW_GENERATE_OFFER("Renew generate offer"), //
 		PRERENEWAL_LETTER("Pre-renewal letter"), //
+		MORTGAGEE_BILL_FIRST_RENEW_REMINDER_NOTICE("Mortgagee Bill First Renewal"), //
+		MORTGAGEE_BILL_FINAL_EXP_NOTICE("Mortgagee Bill Final Exp"), //
 		BILL_GENERATION("Bill generation"), //
 		OFFCYCLE_BILL_GENERATION("Offcycle bill generation"), //
 		BILL_PAYMENT("Bill payment"), //

@@ -197,6 +197,66 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
         super.pas2570_renewalCoverLetterPupHSRNMXX(state);
     }
 
+    /**
+     * @name Test Conversion Document generation (Insurance Renewal Bill)
+     * @scenario 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that AHRBXX document is getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8789"})
+    public void pas8789_insuranceRenewalBillHomeAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
+        super.pas8789_insuranceRenewalBillHomeAHRBXX(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation (Insurance Renewal Bill)
+     * @scenario 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data with Mortgagee payment plan for Home
+     * 4. Check that AHRBXX document is getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-10241"})
+    public void pas10241_insuranceRenewalBillHomeMortAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
+        super.pas10241_insuranceRenewalBillHomeMortAHRBXX(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation (Mortgagee Bill Final Expiration Notice)
+     * @scenario 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data with Mortgagee payment plan for Home
+     * 4. Check that HSRR2XX document is getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8763"})
+    public void pas8763_mortgageeBillFinalExpirationHSRR2XX(@Optional("VA") String state) throws NoSuchFieldException {
+        super.pas8763_mortgageeBillFinalExpirationHSRR2XX(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation (Mortgagee Bill First Renewal Reminder)
+     * @scenario 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data with Mortgagee payment plan for Home
+     * 4. Check that HSRRXX document is getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8762"})
+    public void pas8762_mortgageeBillFirstRenewalReminderHSRRXX(@Optional("VA") String state) throws NoSuchFieldException {
+        super.pas8762_mortgageeBillFirstRenewalReminderHSRRXX(state);
+    }
+
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO3;

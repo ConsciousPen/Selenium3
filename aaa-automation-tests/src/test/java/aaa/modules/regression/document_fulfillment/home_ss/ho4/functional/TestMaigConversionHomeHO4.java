@@ -197,6 +197,21 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
         super.pas2570_renewalCoverLetterPupHSRNMXX(state);
     }
 
+    /**
+     * @name Test Conversion Document generation (Insurance Renewal Bill)
+     * @scenario 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that AHRBXX document is getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-8789"})
+    public void pas8789_insuranceRenewalBillHomeAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
+        super.pas8789_insuranceRenewalBillHomeAHRBXX(state);
+    }
+
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO4;
