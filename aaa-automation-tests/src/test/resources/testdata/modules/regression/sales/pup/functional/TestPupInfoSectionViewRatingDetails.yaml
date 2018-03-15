@@ -73,3 +73,20 @@ OtherActiveAAAPolicies: {
   },
   ActiveUnderlyingPoliciesManual: {}
 }
+
+
+# Test data for Non PA Auto
+
+PrefillTab_AZ: {
+  Zip Code: '85118',
+  Address Line 1: 4101 S LAST CHANCE TRL,
+  State / Province: 'AZ',
+  Policy State: 'AZ',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+DocumentsAndBindTab_AZ: {
+Agreement: 'I agree'
+}

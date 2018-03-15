@@ -17,12 +17,9 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.pup.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
@@ -32,6 +29,12 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
     private PremiumAndCoveragesQuoteTab premiumAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
+    private ErrorTab errorTab = new ErrorTab();
+    private BindTab bindTab = new BindTab();
+
+    private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    private PurchaseTab purchaseTabAuto = new PurchaseTab();
+
     private IntRange rangeAutoTier = new IntRange(1, 16);
 
     /**
@@ -85,14 +88,12 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("N/A")||rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")))).isTrue();
 
         // Issue Policy
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
-        premiumAndCoveragesQuoteTab.submitTab();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        issuePupFromPremiumTab();
 
         // Initiate renewal and navigate to P&C Quote tab calculate premium
         policy.renew().start().submit();
-        NavigationPage.toViewTab(PremiumAndCoveragesQuoteTab.class.getSimpleName());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         premiumAndCoveragesQuoteTab.calculatePremium();
         // Open rating details
         PropertyQuoteTab.RatingDetailsViewPUP.open();
@@ -148,14 +149,12 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").isEmpty()).isTrue();
 
         // Issue Policy
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
-        premiumAndCoveragesQuoteTab.submitTab();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        issuePupFromPremiumTab();
 
         // Initiate renewal and navigate to P&C Quote tab calculate premium
         policy.renew().start().submit();
-        NavigationPage.toViewTab(PremiumAndCoveragesQuoteTab.class.getSimpleName());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         premiumAndCoveragesQuoteTab.calculatePremium();
         // Open rating details
         PropertyQuoteTab.RatingDetailsViewPUP.open();
@@ -187,7 +186,9 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397")
     public void pas10397_testPupInfoSectionViewRatingDetailsNonPAAuto(@Optional("PA") String state) {
 
-        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData_AZ");
+        TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_AZ")
+                .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("PrefillTab_AZ"))
+                .adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab_AZ"));
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
 
         String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
@@ -200,7 +201,16 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         createCustomerIndividual();
 
         // Create Auto Policy
-        PolicyType.AUTO_SS.get().createPolicy(tdAuto);
+        PolicyType.AUTO_SS.get().initiate();
+        PolicyType.AUTO_SS.get().getDefaultView().fillUpTo(tdAuto, DocumentsAndBindTab.class);
+        documentsAndBindTab.submitTab();
+        errorTab.overrideAllErrors();
+        errorTab.override();
+        documentsAndBindTab.submitTab();
+        purchaseTabAuto.fillTab(tdAuto);
+        purchaseTabAuto.submitTab();
+
+
         policies.put("autoPolicy", PolicySummaryPage.getPolicyNumber());
         TestData tdOtherActiveAuto = getTestSpecificTD("OtherActiveAAAPolicies").adjust("ActiveUnderlyingPoliciesSearch|Policy number", policies.get("autoPolicy"));
 
@@ -218,14 +228,12 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("N/A")||rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier")))).isTrue();
 
         // Issue Policy
-        PropertyQuoteTab.RatingDetailsViewPUP.close();
-        premiumAndCoveragesQuoteTab.submitTab();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        issuePupFromPremiumTab();
 
         // Initiate renewal and navigate to P&C Quote tab calculate premium
         policy.renew().start().submit();
-        NavigationPage.toViewTab(PremiumAndCoveragesQuoteTab.class.getSimpleName());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         premiumAndCoveragesQuoteTab.calculatePremium();
         // Open rating details
         PropertyQuoteTab.RatingDetailsViewPUP.open();
@@ -262,6 +270,19 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         new PremiumAndCoveragesQuoteTab().calculatePremium();
     }
 
+    private void issuePupFromPremiumTab(){
+        PropertyQuoteTab.RatingDetailsViewPUP.close();
+        premiumAndCoveragesQuoteTab.submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, BindTab.class, true);
+        bindTab.submitTab();
+        errorTab.overrideAllErrors();
+        errorTab.override();
+        bindTab.submitTab();
+        purchaseTab.fillTab(getPolicyTD());
+        purchaseTab.submitTab();
+    }
+
+    //TODO remove verify algo date after 2018-06-01
     private void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
         if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
