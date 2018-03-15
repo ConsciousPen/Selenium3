@@ -11,7 +11,7 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 	@ExcelTransient
 	public static final String POLICY_SHEET_NAME = OpenLFile.POLICY_SHEET_NAME + "AZ";
 
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER, ignoreCase = true)
+	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	protected List<AutoSSOpenLPolicy> policies;
 
 	@ExcelTransient
