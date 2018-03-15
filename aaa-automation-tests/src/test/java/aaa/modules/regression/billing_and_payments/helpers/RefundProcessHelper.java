@@ -66,7 +66,6 @@ public class RefundProcessHelper extends PolicyBilling {
 		return PolicyType.AUTO_SS;
 	}
 
-
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
 			String email, String refundEligible)
 			throws IOException {
@@ -199,7 +198,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 			CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-			if (refundMethod.contains("CHCK")||refundMethod.contains("Check")) {
+			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
 				CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
 			} else {
 				CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
@@ -808,7 +807,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @param policyNumber - current policy number
 	 * @param refundMethod - can be "M" - manual or "R" - automation
 	 * @param refundStatus - can be "SUCC" - success response from PC and "ERR" - failed response from PC
-	 * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7036_D"
+	 * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7037_D"
 	 */
 	private void getResponseFromPC(String paymentMethod, String billingAccountNumber, String policyNumber, String refundMethod, String refundStatus, String folderName) {
 		String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);

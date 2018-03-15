@@ -27,6 +27,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -165,7 +166,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
@@ -187,6 +188,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-11150 eValue doesnt become INACTIVE on NB+30 when Membership status is Pending
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
 		transactionHistoryRecordCountCheck(2);
@@ -427,7 +429,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -458,7 +460,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ahdexxGeneratedCheck(false, policyNumber, 0);
 
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -571,7 +573,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 		checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false);
@@ -608,7 +610,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 		ahdexxGeneratedCheck(true, policyNumber, 1);
 
@@ -650,10 +652,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, false);
+	}
+
+	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
+		if (clearExgPasArchiveFolder) {
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "/PAS_B_EXGPAS_PASHUB_4004_D/archive");
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "/PAS_B_PASHUB_EXGPAS_4004_D/archive");
+		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
 		Waiters.SLEEP(15000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "/PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		Waiters.SLEEP(15000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
@@ -1140,8 +1151,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		eValueDiscountStatusCheck(policyNumber, "PENDING");
-		membershipLogicActivitiesAndNotesCheck(false, "no record created");
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		transactionHistoryRecordCountCheck(1);
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
@@ -1149,7 +1160,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
-		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(false, "no record created");
 		transactionHistoryRecordCountCheck(1);
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
@@ -1281,6 +1292,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
+			if(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()){
+				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+			}
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
 		} else if ("Cancelled".equals(membershipStatus)) {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");

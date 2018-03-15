@@ -73,7 +73,7 @@ public class AdvancedComboBox extends ComboBox {
 			}
 			WaitMeters.capture(WaitMeters.PAGE_LOAD);
 			waitForPageUpdate();
-		} else if (value.startsWith(RANDOM_MARK)) {
+		} else if (value.equals(RANDOM_MARK)) {
 			setAnyValue();
 			WaitMeters.capture(WaitMeters.PAGE_LOAD);
 			waitForPageUpdate();

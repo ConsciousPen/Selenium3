@@ -18,6 +18,7 @@ import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -27,7 +28,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import aaa.common.Tab;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
 
 public class Scenario8 extends ScenarioBaseTest {
 
@@ -39,6 +40,7 @@ public class Scenario8 extends ScenarioBaseTest {
 	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
+	protected int installmentsCount = 11;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -52,10 +54,11 @@ public class Scenario8 extends ScenarioBaseTest {
 		policyNum = createPolicy(policyCreationTD);
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", 11, installmentDueDates.size());
+		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 	}
@@ -74,8 +77,8 @@ public class Scenario8 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage); // verify Not Generated in excel
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage); // verify Not Generated in excel 
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void renewalPreviewGeneration() {
@@ -174,7 +177,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 	private void verifyRenewalsStatus(String status) {
 		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(status).verify(1);
 	}
