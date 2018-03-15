@@ -36,7 +36,7 @@ public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 		verifyRenewCustomerDecline();
 		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
 		automatedRefundOnRefundDate();
-		verifyEscheatmentOnExpDatePlus25Plus13Months();
+//		verifyEscheatmentOnExpDatePlus25Plus13Months();
 	}
 	@Override
 	protected PolicyType getPolicyType() {
