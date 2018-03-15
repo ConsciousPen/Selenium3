@@ -39,7 +39,9 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
 			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob),
-					RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob));
+					RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob),
+					BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob),
+					MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob));
 
 	ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
@@ -422,7 +424,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
-		billFinalxpNoticeJobExecution(effectiveDate, policyNumber);
+		billFinalxpNoticeJobExecution(effectiveDate);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, MORTGAGEE_BILL_FINAL_EXP_NOTICE);
 		verifyTagDataBill(document, policyNumber,MORTGAGEE_BILL_FINAL_EXP_NOTICE);
@@ -455,7 +457,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
-		billFirstReminderNoticeJobExecution(effectiveDate, policyNumber);
+		billFirstReminderNoticeJobExecution(effectiveDate);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, BILL_FIRST_RENEW_REMINDER_NOTICE);
 		verifyTagDataBill(document, policyNumber, BILL_FIRST_RENEW_REMINDER_NOTICE);
@@ -509,13 +511,15 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		JOBS_FOR_EVENT.get(RENEWAL_BILL).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void billFirstReminderNoticeJobExecution(LocalDateTime effectiveDate, String policyNumber){
+	private void billFirstReminderNoticeJobExecution(LocalDateTime effectiveDate){
+		renewalBillJobExecution(effectiveDate);
 		LocalDateTime mortgageeBillFirstRenewalReminder = getTimePoints().getMortgageeBillFirstRenewalReminder(effectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(mortgageeBillFirstRenewalReminder);
 		JOBS_FOR_EVENT.get(BILL_FIRST_RENEW_REMINDER_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void billFinalxpNoticeJobExecution(LocalDateTime effectiveDate, String policyNumber){
+	private void billFinalxpNoticeJobExecution(LocalDateTime effectiveDate){
+		billFirstReminderNoticeJobExecution(effectiveDate);
 		LocalDateTime mortgageeBillFinalExpNotice = getTimePoints().getMortgageeBillFinalExpirationNotice(effectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(mortgageeBillFinalExpNotice);
 		JOBS_FOR_EVENT.get(MORTGAGEE_BILL_FINAL_EXP_NOTICE).forEach(job -> JobUtils.executeJob(job));
@@ -612,17 +616,19 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private void verifyRenewalDocumentTagData(Document document, TestData testData, boolean isPupPresent, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
 		assertThat("/Policy/Renewal".equals(document.getxPathInfo())).isTrue();
-		if (isPupPresent) {
-			verifyTagData(document, "PupCvrgYN", "Y");
-		} else {
-			verifyTagData(document, "PupCvrgYN", "N");
+		if(RENEWAL_BILL.equals(eventName)){
+			verifyTagData(document, "ConvFlgYN", "Y");
+		}
+		else{
+			if (isPupPresent) {
+				verifyTagData(document, "PupCvrgYN", "Y");
+			} else {
+				verifyTagData(document, "PupCvrgYN", "N");
+			}
 		}
 		if ("Yes".equals(testData.getTestData("MortgageesTab").getValue("Mortgagee"))) {
 			verifyTagData(document, "ThrdPrtyHdr", "TestName");
 			verifyTagData(document, "ThrdPrtyLnNum", "12345678");
-		}
-		if(RENEWAL_BILL.equals(eventName)){
-			verifyTagData(document, "ConvFlgYN", "Y");
 		}
 	}
 
