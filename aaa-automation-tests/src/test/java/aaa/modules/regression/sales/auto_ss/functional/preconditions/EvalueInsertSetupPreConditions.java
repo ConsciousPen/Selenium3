@@ -111,6 +111,10 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set value = '%s'\n"
 			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
+	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s%sws/policy/preferences'\n"
+			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
+
 	String AHDRXX_CONFIG_CHECK = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
 			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
 			+ " (SELECT ID \n"
