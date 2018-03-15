@@ -39,8 +39,10 @@ public class PupPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.PUP.getName());
 		QuoteSummaryPage.buttonAddNewQuote.click();
+		QuoteSummaryPage.SelectProduct.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		QuoteSummaryPage.SelectProduct.product.setValue(PolicyType.PUP.getName());
+		QuoteSummaryPage.SelectProduct.nextBtn.click();
 	}
 
 	@Override

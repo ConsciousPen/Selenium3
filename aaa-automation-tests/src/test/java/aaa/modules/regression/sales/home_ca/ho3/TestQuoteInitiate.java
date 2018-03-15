@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -28,7 +27,7 @@ import toolkit.utils.TestInfo;
 public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteInitiate(@Optional("CA") String state) {
 		mainApp().open();
@@ -36,9 +35,12 @@ public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 		createCustomerIndividual();
 
 		CustomerSummaryPage.buttonAddQuote.click();
-		QuoteSummaryPage.comboBoxProduct.setValue(getPolicyType().getName());
 		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
 		QuoteSummaryPage.buttonAddNewQuote.click();
+		QuoteSummaryPage.SelectProduct.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		QuoteSummaryPage.SelectProduct.product.setValue(getPolicyType().getName());
+		QuoteSummaryPage.SelectProduct.nextBtn.click();
+
 		policy.getDefaultView().getTab(GeneralTab.class).getAssetList().verify.enabled();
 		GeneralTab.buttonSaveAndExit.click();
 		PolicySummaryPage.labelPolicyNumber.verify.present();

@@ -34,8 +34,10 @@ public class AutoSSPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_SS.getName());
 		QuoteSummaryPage.buttonAddNewQuote.click();
+		QuoteSummaryPage.SelectProduct.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		QuoteSummaryPage.SelectProduct.product.setValue(PolicyType.AUTO_SS.getName());
+		QuoteSummaryPage.SelectProduct.nextBtn.click();
 	}
 
 	@Override
@@ -93,17 +95,17 @@ public class AutoSSPolicy implements IPolicy {
 
 	}
 
-    @Override
-    public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium(td);
-	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-	    new DriverActivityReportsTab().fillTab(td);
-	    //TODO workaround for PAS-10786
-	    //NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-	    new DriverActivityReportsTab().submitTab();
-	    new DocumentsAndBindTab().fillTab(td).submitTab();
-	    new PurchaseTab().fillTab(td).submitTab();
-    }
+	@Override
+	public void calculatePremiumAndPurchase(TestData td) {
+		calculatePremium(td);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		new DriverActivityReportsTab().fillTab(td);
+		//TODO workaround for PAS-10786
+		//NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DriverActivityReportsTab().submitTab();
+		new DocumentsAndBindTab().fillTab(td).submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
+	}
 
 	@Override
 	public void copyPolicy(TestData td) {

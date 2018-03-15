@@ -2,20 +2,28 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.pages.summary;
 
+import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.MainPage;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class QuoteSummaryPage extends MainPage {
-    public static final String DIALOG_META = "ProductInitiateDialog";
+	public static final String DIALOG_META = "ProductInitiateDialog";
+	public static final String PERSONAL_LINES = "Personal Lines";
 
-    public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:actionButton_newQuote' or @id='quoteForm:newQuoteButton']"));
-    public static ComboBox comboBoxProduct = new ComboBox(By.id("quoteForm:selectedProduct"));
-    public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
-    public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
-    public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
+	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:actionButton_newQuote' or @id='quoteForm:newQuoteButton']"));
+	public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
+	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
+	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
+
+	public static class SelectProduct {
+		public static ComboBox broadLineOfBusiness = new ComboBox(By.id("quoteForm:quoteCreationPopupMultiEdit_blob"));
+		public static ComboBox product = new ComboBox(By.id("quoteForm:quoteCreationPopupMultiEdit_productCd"));
+		public static Button nextBtn = new Button(By.xpath("//input[@id='quoteForm:createQuoteButton']"));
+		public static Button cancelBtn = new Button(By.xpath("//input[@id='quoteForm:cancelButton']"));
+
+	}
 
 }

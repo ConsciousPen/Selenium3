@@ -5,12 +5,10 @@ package aaa.modules.regression.sales.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.Tab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.QuoteSummaryPage;
@@ -30,21 +28,23 @@ public class TestQuoteInitiate extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testQuoteInitiate(@Optional("") String state) {
-        mainApp().open();
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testQuoteInitiate(@Optional("") String state) {
+		mainApp().open();
 
-        createCustomerIndividual();
+		createCustomerIndividual();
 
-        CustomerSummaryPage.buttonAddQuote.click();
-        QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_SS.getName());
-        QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
-        QuoteSummaryPage.buttonAddNewQuote.click();
-        Tab.buttonSaveAndExit.click();
-        PolicySummaryPage.labelPolicyNumber.verify.present();
+		CustomerSummaryPage.buttonAddQuote.click();
+		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
+		QuoteSummaryPage.buttonAddNewQuote.click();
+		QuoteSummaryPage.SelectProduct.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		QuoteSummaryPage.SelectProduct.product.setValue(getPolicyType().getName());
+		QuoteSummaryPage.SelectProduct.nextBtn.click();
+		Tab.buttonSaveAndExit.click();
+		PolicySummaryPage.labelPolicyNumber.verify.present();
 
-        log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
-    }
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+	}
 }
