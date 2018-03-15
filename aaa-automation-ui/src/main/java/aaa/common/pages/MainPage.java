@@ -3,18 +3,17 @@
 package aaa.common.pages;
 
 import org.openqa.selenium.By;
-
 import toolkit.exceptions.IstfException;
 import toolkit.webdriver.controls.Button;
 
 public class MainPage extends Page {
 
-	 public static class QuickSearch {
-	        public static Button buttonSearchPlus = new Button(By.id("aaaSearchForm:searchLink"));
+	public static class QuickSearch {
+		public static Button buttonSearchPlus = new Button(By.id("aaaSearchForm:searchLink"));
 
-	        public static void search(String searchValue) {
-	        	//TODO remove
-	        	throw new IstfException("Unsupported method!!");
-	        }
-	    }
+		public static void search(String searchValue) {
+			//TODO remove
+			throw new IstfException("Unsupported method!!");
+		}
+	}
 }

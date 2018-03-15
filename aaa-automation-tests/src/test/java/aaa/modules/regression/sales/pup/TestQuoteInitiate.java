@@ -35,9 +35,9 @@ public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
 		QuoteSummaryPage.buttonAddNewQuote.click();
-		QuoteSummaryPage.SelectProduct.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
-		QuoteSummaryPage.SelectProduct.product.setValue(getPolicyType().getName());
-		QuoteSummaryPage.SelectProduct.nextBtn.click();
+		QuoteSummaryPage.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		QuoteSummaryPage.product.setValue(getPolicyType().getName());
+		QuoteSummaryPage.nextBtn.click();
 		PrefillTab.buttonSaveAndExit.click();
 		PolicySummaryPage.labelPolicyNumber.verify.present();
 

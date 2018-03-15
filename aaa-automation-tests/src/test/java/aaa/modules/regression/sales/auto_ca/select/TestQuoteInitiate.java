@@ -37,9 +37,9 @@ public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
 		QuoteSummaryPage.buttonAddNewQuote.click();
-		QuoteSummaryPage.SelectProduct.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
-		QuoteSummaryPage.SelectProduct.product.setValue(getPolicyType().getName());
-		QuoteSummaryPage.SelectProduct.nextBtn.click();
+		QuoteSummaryPage.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		QuoteSummaryPage.product.setValue(getPolicyType().getName());
+		QuoteSummaryPage.nextBtn.click();
 
 		//new GeneralPolicyTab().getAssetList().verify.enabled();
 		Tab.buttonSaveAndExit.click();
