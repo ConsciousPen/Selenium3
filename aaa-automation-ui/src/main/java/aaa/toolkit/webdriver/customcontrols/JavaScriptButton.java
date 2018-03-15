@@ -2,7 +2,6 @@ package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
 import toolkit.utils.meters.WaitMeters;
-import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;

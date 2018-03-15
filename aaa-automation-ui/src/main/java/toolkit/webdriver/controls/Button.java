@@ -2,7 +2,6 @@ package toolkit.webdriver.controls;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import toolkit.utils.meters.WaitMeters;
 import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.waiters.Waiter;
@@ -32,7 +31,7 @@ public class Button extends AbstractClickableStringElement implements Highlighta
 	protected String getRawValue() {
 		WebElement el = getWebElement();
 		String v = el.getText();
-		if(v.isEmpty()) {
+		if (v.isEmpty()) {
 			v = el.getAttribute("value");
 		}
 		return v;
@@ -42,7 +41,7 @@ public class Button extends AbstractClickableStringElement implements Highlighta
 	public boolean isEnabled() {
 		boolean enabled = super.isEnabled();
 		if (enabled && !getWebElement().getTagName().equals("input")) {
-			enabled = (getWebElement().getAttribute("onclick") != null);
+			enabled = getWebElement().getAttribute("onclick") != null;
 		}
 		return enabled;
 	}
@@ -56,5 +55,16 @@ public class Button extends AbstractClickableStringElement implements Highlighta
 		getWebElement().click();
 		WaitMeters.capture(WaitMeters.PAGE_LOAD);
 		waitForPageUpdate();
+	}
+
+	@Override
+	public void click(Waiter waiter) {
+		log.debug("Clicking control " + this);
+		ElementHighlighter.highlight(this);
+		ensureVisible();
+		Waiters.SLEEP(500).go();
+		getWebElement().click();
+		WaitMeters.capture(WaitMeters.PAGE_LOAD);
+		waiter.go();
 	}
 }
