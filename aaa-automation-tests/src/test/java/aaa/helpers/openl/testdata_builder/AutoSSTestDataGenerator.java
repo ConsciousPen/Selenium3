@@ -108,6 +108,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.adjust(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
+		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().get(0).getCarrierCode())) {
+			currentCarrierInformationData.adjust(
+					AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), openLPolicy.getCappingDetails().get(0).getCarrierCode());
+		}
+
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
 				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getCappingDetails().get(0).getTerm()),
@@ -344,6 +349,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Map<String, Object> policyCoveragesData = new HashMap<>();
 		Map<String, Object> detailedCoveragesData = new HashMap<>();
 		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
+			if (vehicle.getCoverages().stream().anyMatch(c -> isFirstPartyBenefitsComboCoverage(c.getCoverageCd()))) {
+				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "Added");
+			}
 
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeType(vehicle.getUsage());
 			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
@@ -377,6 +385,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			detailedCoveragesData.clear();
 		}
 
+		if (getState().equals(Constants.States.PA)) {
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel(), "starts=" + openLPolicy.getTort());
+		}
+
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType(), openLPolicy.getCappingDetails().get(0).getTerm()),
 				AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk(),
@@ -398,7 +410,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
-			//vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>");
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), vehicle.getCollSymbol() * 1000);
 			if (isTrailerOrMotorHomeType(vehicle.getUsage())) {
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
@@ -513,10 +524,20 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		String[] limitRange = limitOrDeductible.split("/");
 		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 
-		String returnLimit = "starts=" + getFormattedCoverageLimit(limitRange[0], coverage.getCoverageCd());
-		if (limitRange.length == 2) {
-			returnLimit += "/" + getFormattedCoverageLimit(limitRange[1], coverage.getCoverageCd());
+		if ("EMB".equals(coverageCd)) {
+			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
 		}
-		return returnLimit;
+
+		StringBuilder returnLimit = new StringBuilder("starts=");
+		returnLimit.append(getFormattedCoverageLimit(limitRange[0], coverageCd));
+		if (limitRange.length == 2) {
+			returnLimit.append("/");
+			if ("IL".equals(coverageCd)) {
+				returnLimit.append("month (").append(getFormattedCoverageLimit(limitRange[1], coverageCd)).append(" max)");
+			} else {
+				returnLimit.append(getFormattedCoverageLimit(limitRange[1], coverageCd));
+			}
+		}
+		return returnLimit.toString();
 	}
 }
