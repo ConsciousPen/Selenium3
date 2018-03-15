@@ -464,16 +464,16 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	private void verifyTagDataPup(Document document, String policyNumber, PolicyType policyType, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		assertThat(policyNumber.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
+		assertThat(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)).isEqualTo(policyNumber);
 		switch (policyType.getShortName()) {
 			case "HomeSS":
-				assertThat("Homeowners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
+				assertThat(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)).isEqualTo("Homeowners");
 				break;
 			case "HomeSS_HO4":
-				assertThat("Renters".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
+				assertThat(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)).isEqualTo("Renters");
 				break;
 			case "HomeSS_HO6":
-				assertThat("Condominium Owners".equals(getPackageTag(policyNumber, "PrmPlcyGrp", eventName))).isTrue();
+				assertThat(getPackageTag(policyNumber, "PrmPlcyGrp", eventName)).isEqualTo("Condominium Owners");
 				break;
 			default:
 				throw new IllegalArgumentException("Undefined policyType " + policyType.getShortName());
@@ -600,10 +600,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @param eventName
 	 */
 	private void verifyPackageTagData(String legacyPolicyNumber, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		assertThat(policyNumber
-				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
-		assertThat(legacyPolicyNumber
-				.equals(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", ""))).isTrue();
+		assertThat(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)).isEqualTo(policyNumber);
+		assertThat(getPackageTag(policyNumber, "HdesPlcyNum", eventName).replaceAll("-", "")).isEqualTo(legacyPolicyNumber);
 	}
 
 	/**
@@ -615,7 +613,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @param isPupPresent
 	 */
 	private void verifyRenewalDocumentTagData(Document document, TestData testData, boolean isPupPresent, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		assertThat("/Policy/Renewal".equals(document.getxPathInfo())).isTrue();
+		assertThat(document.getxPathInfo()).isEqualTo("/Policy/Renewal");
 		if(RENEWAL_BILL.equals(eventName)){
 			verifyTagData(document, "ConvFlgYN", "Y");
 		}
@@ -633,9 +631,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	private void verifyTagDataBill(Document document, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
-		assertThat("/Billing/Invoice Bills Statements".equals(document.getxPathInfo())).isTrue();
-		assertThat(policyNumber
-				.equals(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName))).isTrue();
+		assertThat(document.getxPathInfo()).isEqualTo("/Billing/Invoice Bills Statements");
+		assertThat(getPackageTag(policyNumber, "PlcyPrfx", eventName) + getPackageTag(policyNumber, "PlcyNum", eventName)).isEqualTo(policyNumber);
 		verifyTagData(document, "ConvFlgYN", "Y");
 	}
 
@@ -643,8 +640,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * Verify that tag value is present in the Documents section
 	 */
 	private void verifyTagData(Document document, String tag, String textFieldValue) {
-		assertThat(textFieldValue
-				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField())).isTrue();
+		assertThat(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()).isEqualTo(textFieldValue);
 	}
 
 	/**
