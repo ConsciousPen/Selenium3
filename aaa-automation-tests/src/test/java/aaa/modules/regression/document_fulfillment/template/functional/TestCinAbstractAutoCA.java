@@ -23,11 +23,11 @@ public class TestCinAbstractAutoCA extends TestCinAbstract {
             AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
 
     public static final String PREFILL_TAB_FIRSTNAME = TestData.makeKeyPath(
-            AutoCaMetaData.PrefillTab.class.getSimpleName(),
+            AutoCaMetaData.PrefillTab.class.getSimpleName()+"[0]",
             AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel());
 
     public static final String PREFILL_TAB_LASTNAME = TestData.makeKeyPath(
-            AutoCaMetaData.PrefillTab.class.getSimpleName(),
+            AutoCaMetaData.PrefillTab.class.getSimpleName()+"[0]",
             AutoCaMetaData.PrefillTab.LAST_NAME.getLabel());
 
     public static final String DOCUMENTS_AND_BIND_PATH = TestData.makeKeyPath(

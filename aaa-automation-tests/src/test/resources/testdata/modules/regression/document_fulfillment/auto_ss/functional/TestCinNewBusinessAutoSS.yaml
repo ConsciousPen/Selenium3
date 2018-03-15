@@ -1,14 +1,20 @@
-TestData_AZ: {
+TestData_MVR_AZ: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_AZ']
 }
 
-TestData_PA: {
+TestData_CLUE_AZ: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_AZ']
+}
+
+TestData_CLUE_PA: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_PA']
 }
 
-TestData_UT: {
+TestData_CLUE_UT: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@Driver_ClueViolation_UT']
 }
+
+# ---------- CLUE Data ---------------
 
 Driver_ClueViolation_AZ: {
   DriverSearchDialog:{},
@@ -61,6 +67,40 @@ Driver_ClueViolation_PA: {
   License Number: 83127880
 }
 
+# ---------- MVR Data ---------------
+
+Driver_MvrViolation_AZ: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'AZ',
+  License Number: A12345678
+}
+
+NameInsured_BestBand : {
+  First Name: 'Martinez',
+  Last Name: 'Clark',
+}
+
+NameInsured_NoHit : {
+  First Name: 'Thomas',
+  Last Name: 'Jackson',
+}
+
+NameInsured_NoScore : {
+  First Name: 'Thomas',
+  Last Name: 'Wu',
+}
+
 AAAProductOwned: {
   Current AAA Member: 'No'
 }
@@ -74,8 +114,23 @@ InsuranceScoreOverride_649: {
   }
 }
 
+InsuranceScoreOverride_651: {
+  Action: Override Score,
+  EditInsuranceScoreDialog: {
+    New Score: '651',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+}
+
+# ---------- Prior BI Data ---------------
+
 CurrentCarrierInformation_1000_1000: {
   Agent Entered BI Limits: '$1,000,000/$1,000,000',
+}
+
+CurrentCarrierInformation_25_50: {
+  Agent Entered BI Limits: '$25,000/$50,000',
 }
 
 DriverActivityReportsTab: {
@@ -84,4 +139,91 @@ DriverActivityReportsTab: {
   OrderCLUEReport: [{}],
   OrderMVRReport: [{}],
   OrderInternalClaimsReport: [{}]
+}
+
+Dont_Override_CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'No',
+}
+
+RequiredToIssue_No_PriorBI: {
+}
+
+NameInsured_Prior_BI_None: {
+  First Name: Shannon,
+  Last Name: BILimitNone,
+}
+
+NameInsured_Prior_BI_100_300: {
+  First Name: Shannon,
+  Last Name: Adams
+}
+
+NameInsured_Prior_BI_500: {
+  First Name: Shannon,
+  Last Name: BILimit500k,
+}
+
+NameInsured_Prior_BI_1000: {
+  First Name: Shannon,
+  Last Name: BILimit1000k,
+}
+
+CurrentCarrierInformation_25_50: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: '$25,000/$50,000',
+}
+
+CurrentCarrierInformation_500_500: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: '$500,000/$500,000'
+}
+
+CurrentCarrierInformation_None: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: 'None'
+}
+
+# ---------- Deltas Data ---------------
+
+GeneralTab_ELC: {
+  Extraordinary Life Circumstance: 'Military deployment overseas'
+}
+
+ErrorTab_ELC: {
+  ErrorsOverride: [{
+    Message: "contains=Extraordinary Life Circumstance requires Underwriting Review",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+  }]
+}
+
+ErrorTab_VA_MVR: {
+  ErrorsOverride: [{
+    Message: "contains=Current MVR for",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+  }]
+}
+
+NamedInsured_ChangeableNAF: {
+  First Name: ClueChargeable,
+  Last Name: NAF,
+}
+
+NameInsured_ClueChargeable : {
+  First Name: ClueChargeable,
+  Last Name: Activity,
 }

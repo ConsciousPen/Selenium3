@@ -34,12 +34,14 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA{
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     public void testCinRenewalCLUE(@Optional("CA") String state) {
-        TestData policyTD = overrideDocumentsAndBind(disableMemebership(getPolicyDefaultTD()));
+        TestData policyTD = getPolicyDefaultTD().adjust(DOCUMENTS_AND_BIND_PATH, getTestSpecificTD("DocumentsAndBindTab"))
+                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
 
         String policyNumber = createPolicy(policyTD);
 
-        TestData renewalTD = getTestSpecificTD("TestData_Renewal_Clue");
-        renewPolicy(policyNumber, overrideDriverActivityReports(renewalTD));
+        TestData renewalTD = getTestSpecificTD("TestData_Renewal_Clue").resolveLinks()
+                .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"));
+        renewPolicy(policyNumber, renewalTD);
     }
 
     /**
@@ -58,12 +60,14 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA{
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     public void testCinRenewalMVR(@Optional("CA") String state) {
-        TestData policyTD = overrideDocumentsAndBind(disableMemebership(getPolicyDefaultTD()));
+        TestData policyTD = getPolicyDefaultTD().adjust(DOCUMENTS_AND_BIND_PATH, getTestSpecificTD("DocumentsAndBindTab"))
+                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
 
         String policyNumber = createPolicy(policyTD);
 
-        TestData renewalTD = getTestSpecificTD("TestData_Renewal_Clue");
-        renewPolicy(policyNumber, overrideDriverActivityReports(renewalTD));
+        TestData renewalTD = getTestSpecificTD("TestData_Renewal_Mvr").resolveLinks()
+                .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"));
+        renewPolicy(policyNumber, renewalTD);
     }
 
     @Override

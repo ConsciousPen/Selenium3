@@ -29,8 +29,9 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
-    public void testCinNewBusinessMVR(@Optional("CA") String state) {
-        TestData policyTD = enhanceWithMVR(disableMemebership(getPolicyDefaultTD()));
+    public void testCinNewBusinessMVR() {
+        TestData policyTD = enhanceWithMVR(getPolicyDefaultTD())
+                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
         caNewBusinessMainFlow(policyTD);
     }
 
@@ -44,8 +45,9 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
-    public void testCinNewBusinessCLUE(@Optional("CA") String state) {
-        TestData policyTD = enhanceWithCLUE(disableMemebership(getPolicyDefaultTD()));
+    public void testCinNewBusinessCLUE() {
+        TestData policyTD = enhanceWithCLUE(getPolicyDefaultTD())
+                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
         caNewBusinessMainFlow(policyTD);
     }
 

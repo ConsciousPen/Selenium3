@@ -30,7 +30,8 @@ public class TestCinNewBusinessAutoCAChoice extends TestCinAbstractAutoCA {
     @Test(groups = {Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = "PAS-6848")
     public void testCinNewBusiness(@Optional("CA") String state) {
-        TestData policyTD = enhanceWithMVR(disableMemebership(getPolicyDefaultTD()));
+        TestData policyTD = enhanceWithMVR(getPolicyDefaultTD())
+                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
         caNewBusinessMainFlow(policyTD);
     }
 

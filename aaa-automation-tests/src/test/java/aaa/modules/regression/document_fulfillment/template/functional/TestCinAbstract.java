@@ -2,6 +2,9 @@ package aaa.modules.regression.document_fulfillment.template.functional;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.xml.model.Document;
+import aaa.helpers.xml.model.DocumentDataElement;
+import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -26,6 +29,20 @@ public abstract class TestCinAbstract extends BaseTest {
      */
     protected String getPolicyErrorMessage(String msg, String policyNumber, AaaDocGenEntityQueries.EventNames event) {
         return msg + " for policy: " + policyNumber + ", event: " + event;
+    }
+
+    protected String retrieveElementValue(Document cinDocument, String sectionName, String fieldName) {
+        String elementValue = null;
+        for (DocumentDataSection documentDataSection : cinDocument.getDocumentDataSections()) {
+            if (sectionName.equals(documentDataSection.getSectionName())) {
+                for (DocumentDataElement documentDataElement : documentDataSection.getDocumentDataElements()) {
+                    if (fieldName.equals(documentDataElement.getName())) {
+                        elementValue = documentDataElement.getDataElementChoice().getTextField();
+                    }
+                }
+            }
+        }
+        return elementValue;
     }
 
     /**
