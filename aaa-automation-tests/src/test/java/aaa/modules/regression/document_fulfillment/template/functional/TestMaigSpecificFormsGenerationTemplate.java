@@ -59,6 +59,32 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	/**
 	 * @author Viktor Petrenko
 	 *
+	 * PAS-10668 CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
+	 * PAS-6731 CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
+	 *
+	 * @scenario
+	 * 1. Initiate manual entry
+	 * 2. Shift time
+	 * 3. Run jobs to generate aaaPreRenewalNoticeAsyncJob
+	 *
+	 */
+	public String generatePreRenewalEvent(TestData testData, LocalDateTime renewalOfferEffectiveDate, LocalDateTime preRenewalGenDate) {
+		mainApp().open();
+		createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		policy.getDefaultView().fill(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
+
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		return policyNumber;
+	}
+
+	/**
+	 * @author Viktor Petrenko
+	 *
 	 * PAS-2674 MAIG CONVERSION: test conversion renewal offer package generation and print sequence of end/notices (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
 	 *

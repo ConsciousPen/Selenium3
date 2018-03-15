@@ -398,7 +398,7 @@ TestData_PA: {
   Renew generate image: [-73, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
-  Pre-renewal letter: [-40, PREVIOUS],
+  Pre-renewal letter: [-65, PREVIOUS],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
