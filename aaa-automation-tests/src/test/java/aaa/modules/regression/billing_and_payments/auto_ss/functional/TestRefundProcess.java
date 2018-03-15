@@ -329,7 +329,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
 
-
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
 		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
