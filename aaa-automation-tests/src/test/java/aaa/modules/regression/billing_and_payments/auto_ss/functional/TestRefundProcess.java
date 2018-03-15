@@ -24,6 +24,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import aaa.modules.regression.service.helper.wiremock.WireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -878,7 +880,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsCheck(@org.testng.annotations.Optional("VA") String state) {
+	public void pas7298_pendingManualRefundsCheck(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
 
 		String paymentMethod = "Check";
 
@@ -932,14 +934,22 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsACH(@org.testng.annotations.Optional("MD") String state) {
+	public void pas7298_pendingManualRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
 
 		String paymentMethod = "contains=ACH";
 
-		refundProcessHelper.policyCreation();
+		String policyNumber = refundProcessHelper.policyCreation();
 
+
+		LastPaymentTemplateData data = LastPaymentTemplateData.create(policyNumber, APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, null, null);
+		WireMockStub stub = WireMockStub.create("last-payment-200", data);
+		stub.mock();
 		CustomAssert.enableSoftMode();
+
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+
+		stub.cleanUp();
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
