@@ -152,6 +152,11 @@
                     <include name="pas8762_mortgageeBillFirstRenewalReminderHSRRXX"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
+                <methods>
+                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -180,8 +185,8 @@
         </classes>
     </test>
 
-    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) DP3" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, NJ"/>
+    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, DE) DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, DE"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
                 <methods>
@@ -189,20 +194,6 @@
                     <include name="pas10241_insuranceRenewalBillHomeMortAHRBXX"/>
                     <include name="pas8763_mortgageeBillFinalExpirationHSRR2XX"/>
                     <include name="pas8762_mortgageeBillFirstRenewalReminderHSRRXX"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="AHRBXX/HSRRXX/HSRR2XX form (AZ, NJ) PUP" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
-                <methods>
-                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
-                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO4"/>
-                    <include name="pas2571_renewalCoverLetterHSRNPUPXXHO6"/>
-                    <include name="pas8789_insuranceRenewalBillHomeAHRBXX"/>
                 </methods>
             </class>
         </classes>
