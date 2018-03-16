@@ -575,6 +575,9 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class PremiumAndCoveragesTab extends MetaData {
+		//TODO-dchubkov: Workaround - Moved to the beginning of the section MD due to BLS issue.
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By
+				.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
 		public static final AssetDescriptor<RadioGroup> APPLY_EVALUE_DISCOUNT = declare("Apply eValue Discount", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
@@ -638,8 +641,8 @@ public final class AutoSSMetaData {
 			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class, By
 			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By
-			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
+		/*public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By
+			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));*/
 		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_MD = declare("Special Equipment", TextBox.class, By
 			.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment']/ancestor::tr[1]//input"));
 		public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBox.class, By
@@ -700,6 +703,9 @@ public final class AutoSSMetaData {
 		}
 
 		public static final class DetailedVehicleCoverages extends MetaData {
+			//TODO-dchubkov: Workaround - Moved to the beginning of the section MD due to BLS issue.
+			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE =
+					declare("Special Equipment Coverage", TextBox.class, By.xpath(".//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
 			public static final AssetDescriptor<ComboBox> COMPREGENSIVE_DEDUCTIBLE =
 				declare("Comprehensive Deductible", ComboBox.class, By.xpath(".//span[normalize-space(.)='Comprehensive Deductible']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS =
@@ -710,8 +716,8 @@ public final class AutoSSMetaData {
 				declare("Excess Electronic Equipment", TextBox.class, By.xpath(".//span[normalize-space(.)='Excess Electronic Equipment']/ancestor::tr[1]//input"));
 			public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE =
 				declare("Collision Deductible", ComboBox.class, By.xpath(".//span[normalize-space(.)='Collision Deductible']/ancestor::tr[1]//select"));
-			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE =
-				declare("Special Equipment Coverage", TextBox.class, By.xpath(".//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
+			/*public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE =
+				declare("Special Equipment Coverage", TextBox.class, By.xpath(".//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));*/
 			public static final AssetDescriptor<ComboBox> TRANSPORTATION_EXPENSE =
 				declare("Transportation Expense", ComboBox.class, By.xpath(".//span[normalize-space(.)='Transportation Expense']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE =
