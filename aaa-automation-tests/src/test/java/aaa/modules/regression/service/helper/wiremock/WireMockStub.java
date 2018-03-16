@@ -42,7 +42,7 @@ public class WireMockStub {
 		return new WireMockStub(templateName, templateData);
 	}
 
-	public void mock() throws IllegalAccessException {
+	public WireMockStub mock() throws IllegalAccessException {
 		String template = getTemplate();
 		for (Field field : templateData.getClass().getFields()) {
 			final String value = (String) field.get(templateData);
@@ -54,6 +54,7 @@ public class WireMockStub {
 		}
 		template = template.replace(ID_PROPERTY, id);
 		executePost(template);
+		return this;
 	}
 
 	public void cleanUp() {

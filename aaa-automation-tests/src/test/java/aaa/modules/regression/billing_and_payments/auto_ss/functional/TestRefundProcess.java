@@ -3,8 +3,11 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -58,6 +61,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
+	private final List<WireMockStub> REQUEST_ID_LIST = new LinkedList<>();
+
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -1076,14 +1081,25 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 
 	@Test()
-	public void wiremockExample() throws IllegalAccessException {
+	public void wiremockExample2() throws IllegalAccessException {
 
 		LastPaymentTemplateData data = LastPaymentTemplateData.create("MDSS952918541", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
 		WireMockStub stub = WireMockStub.create("last-payment-200", data);
+		REQUEST_ID_LIST.add(stub);
 		stub.mock();
-
+		//don't forget to delete
 		stub.cleanUp();
 
+		WireMockStub stub1 = WireMockStub.create("last-payment-200", data).mock();
+		//don't forget to delete
+		stub1.cleanUp();
+	}
 
+	@AfterClass(alwaysRun = true)
+	private void deleteMultiplePaperlessPreferencesRequests() {
+		for (WireMockStub wireMockStubObjectCreatedByNauris : REQUEST_ID_LIST) {
+			wireMockStubObjectCreatedByNauris.cleanUp();
+		}
+		REQUEST_ID_LIST.clear();
 	}
 }
