@@ -91,12 +91,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	public static void eRefundLastPaymentMethodConfigCheck() {
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertTrue("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
-		CustomAssert.assertTrue("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
-				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get()
-				.contains(APP_HOST));
-		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE", DBService.get()
-				.getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get()
-				.contains(APP_HOST));
+
+		CustomAssert.assertTrue("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE",
+				DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get().contains(APP_HOST));
+
+		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE",
+				DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get().toLowerCase().contains(APP_HOST));
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1036,7 +1036,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	 /* 4.see the message for CT (No payment method available for electronic refund)
 	 /* @details
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
@@ -1073,5 +1072,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 				.value("No payment method available for electronic refund.");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+
+	@Test()
+	public void wiremockExample(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
+
+		LastPaymentTemplateData data = LastPaymentTemplateData.create("VASS123456789", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
+		WireMockStub stub = WireMockStub.create("last-payment-200", data);
+		stub.mock();
+
+
+		stub.cleanUp();
+
+
 	}
 }
