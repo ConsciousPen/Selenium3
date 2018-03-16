@@ -1076,12 +1076,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 
 	@Test()
-	public void wiremockExample(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
+	public void wiremockExample() throws IllegalAccessException {
 
-		LastPaymentTemplateData data = LastPaymentTemplateData.create("VASS123456789", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
+		LastPaymentTemplateData data = LastPaymentTemplateData.create("MDSS952918541", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
 		WireMockStub stub = WireMockStub.create("last-payment-200", data);
 		stub.mock();
-
 
 		stub.cleanUp();
 

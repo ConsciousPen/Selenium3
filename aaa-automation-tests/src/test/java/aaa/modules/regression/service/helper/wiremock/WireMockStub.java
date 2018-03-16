@@ -49,7 +49,7 @@ public class WireMockStub {
 			if (StringUtils.isNotEmpty(value)) {
 				template = template.replace(String.format(REPLACEABLE_PROPERTY_FORMAT, field.getName()), (String) field.get(templateData));
 			} else {
-				template = template.replace(String.format(REPLACEABLE_NULL_PROPERTY_FORMAT, field.getName()), value);
+				template = template.replace(String.format(REPLACEABLE_NULL_PROPERTY_FORMAT, field.getName()), "null");
 			}
 		}
 		template = template.replace(ID_PROPERTY, id);

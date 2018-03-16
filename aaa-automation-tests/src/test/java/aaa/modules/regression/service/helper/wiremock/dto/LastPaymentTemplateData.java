@@ -11,21 +11,21 @@ import toolkit.config.PropertyProvider;
  */
 public class LastPaymentTemplateData implements WireMockTemplateData {
 
-	private static final String URL_PATH_PATTERN = "/%s/billing/last-payment";
+	private static final String URL_PATH_PATTERN = "/%s/billing/lastPayment";
 	private static final String MATCHES_JSON_PATH = "$[?(@.agreementNumber == '%s')]";
 
-	public String urlPath;
-	public String matchesJsonPath;
-	public String eligibilityStatus;
-	public String eligibilityStatusDescription;
-	public String transactionDateTime;
-	public String transactionId;
-	public String lineItemAmt;
-	public String paymentMethod;
-	public String paymentMethodSubType;
-	public String paymentAccountLast4;
-	public String cardSubType;
-	public String cardExpirationDate;
+	private String urlPath;
+	private String matchesJsonPath;
+	private String eligibilityStatus;
+	private String eligibilityStatusDescription;
+	private String transactionDateTime;
+	private String transactionId;
+	private String lineItemAmt;
+	private String paymentMethod;
+	private String paymentMethodSubType;
+	private String paymentAccountLast4;
+	private String cardSubType;
+	private String cardExpirationDate;
 
 	/**
 	 *
