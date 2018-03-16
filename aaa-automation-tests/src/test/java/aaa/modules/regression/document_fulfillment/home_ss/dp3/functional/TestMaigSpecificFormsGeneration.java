@@ -1,13 +1,5 @@
 package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -15,8 +7,18 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenerationTemplate {
 
@@ -25,35 +27,6 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		return PolicyType.HOME_SS_DP3;
 	}
 
-	/**
-	 * Specific Conversion Packet Generation NJ with default payment plan
-	 * @author Viktor Petrenko
-	 * PAS-9607
-	 * PAS-2674
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
-	 */
-	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketNJ(@Optional("NJ") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD()));
-	}
-
-	/**
-	 * Specific Conversion Packet Generation NJ with mortgagee payment plan
-	 * @author Viktor Petrenko
-	 * PAS-9607
-	 * PAS-2674
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
-	 */
-	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketNJMortgagee(@Optional("NJ") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithMortgageeData(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD())));
-	}
 
 	/**
 	 * Specific Conversion Packet Generation for DE, VA , PA , CW with default payment plan
@@ -68,8 +41,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketOtherStates(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
+	public void pas2674_ConversionPacket(@Optional("PA") String state) throws NoSuchFieldException {
+		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD()));
 	}
 
 	/**
@@ -85,7 +58,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketOtherStatesMortgagee(@Optional("DE") String state) throws NoSuchFieldException {
+	public void pas2674_ConversionPacketMortgagee(@Optional("DE") String state) throws NoSuchFieldException {
 		// CW, DE, VA
 		verifyConversionFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()));
 	}

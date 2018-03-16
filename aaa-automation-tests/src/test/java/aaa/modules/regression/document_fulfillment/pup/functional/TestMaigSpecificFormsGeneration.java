@@ -1,12 +1,12 @@
 package aaa.modules.regression.document_fulfillment.pup.functional;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -19,6 +19,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 
 	private TestData testDataPolicy = testDataManager.policy.get(getPolicyType());
 
+	
 	/**
 	 * @author Viktor Petrenko
 	 * PAS-9607
@@ -29,22 +30,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketNJ(@Optional("NJ") String state) throws NoSuchFieldException {
-		TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
-		verifyConversionFormsSequence(policyCreationTD);
-	}
-
-	/**
-	 * @author Viktor Petrenko
-	 * PAS-9607
-	 * PAS-2674
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
-	 */
-	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketOtherStates(@Optional("DE") String state) throws NoSuchFieldException {
+	public void pas2674_ConversionPacket(@Optional("DE") String state) throws NoSuchFieldException {
 		TestData policyCreationTD = getStateTestData(testDataPolicy, "Conversion", "TestData");
 		verifyConversionFormsSequence(policyCreationTD);
 	}
