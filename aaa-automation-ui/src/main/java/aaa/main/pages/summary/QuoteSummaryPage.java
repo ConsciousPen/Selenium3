@@ -3,6 +3,7 @@
 package aaa.main.pages.summary;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.MainPage;
@@ -20,17 +21,20 @@ public class QuoteSummaryPage extends MainPage {
 	public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
 	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
 	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
-	public static ComboBox broadLineOfBusiness = new ComboBox(By.xpath("//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"));
-	public static ComboBox product = new ComboBox(By.xpath("//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"));
-	public static Button nextBtn = new Button(By.xpath("//input[@id='quoteForm:createQuoteButton']"));
-	public static Button cancelBtn = new Button(By.xpath("//input[@id='quoteForm:cancelButton']"));
+	public static ComboBox broadLineOfBusiness = new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"));
+	public static ComboBox product = new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"));
+	public static Button nextBtn = new Button(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//input[@id='quoteForm:createQuoteButton']"));
+	public static Button cancelBtn = new Button(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//input[@id='quoteForm:cancelButton']"));
 
 	public static void initiateQuote(PolicyType policyType) {
 		buttonAddNewQuote.click();
+		Waiters.SLEEP(5000).go();
 		broadLineOfBusiness.setValue(PERSONAL_LINES);
-		Waiters.SLEEP(2000).go();
+		assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue()));
+		Waiters.SLEEP(5000).go();
 		product.setValue(policyType.getName());
-		Waiters.SLEEP(2000).go();
+		assertThat(StringUtils.isNotBlank(product.getValue()));
+		Waiters.SLEEP(5000).go();
 		nextBtn.click();
 		assertThat(buttonAddNewQuote.isPresent());
 	}
