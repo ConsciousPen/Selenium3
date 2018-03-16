@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -8,7 +9,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -77,7 +77,7 @@ public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {
 //		CustomAssert.assertTrue(PremiumAndCoveragesQuoteTab.getPolicyTermPremium().notEquals(PremiumAndCoveragesQuoteTab.getFinalTermPremium()));
 //      override premium by 100$
 		premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Amount"), false);
-		CustomAssert.assertTrue(PremiumAndCoveragesQuoteTab.getPolicyTermPremium().notEquals(PremiumAndCoveragesQuoteTab.getFinalTermPremium()));
+		assertThat(PremiumAndCoveragesQuoteTab.getPolicyTermPremium()).isNotEqualTo(PremiumAndCoveragesQuoteTab.getFinalTermPremium());
 
 //		10. Override premium by Percentage (-20%), check calculated values. Confirm Override.
 		premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Percentage").adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","OverridePremium","Percentage"),"-20"),false);

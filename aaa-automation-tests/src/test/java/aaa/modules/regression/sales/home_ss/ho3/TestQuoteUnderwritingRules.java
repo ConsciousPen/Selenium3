@@ -150,28 +150,28 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         switch (getState()) {
 			case "CT":
 				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow)).exists();
 				break;
 			case "KY":
 				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
-				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow)).exists();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow)).exists();
 				break;
 			case "MD":
 				//TODO check delta US
-				errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow).verify.present();
-				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow)).exists();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow)).exists();
 				break;
 			case "PA":
 				//TODO check delta US
-				errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow).verify.present();
-				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow)).exists();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow)).exists();
 				break;		
 			default:
 				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
-				errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow).verify.present();
-				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow)).exists();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow)).exists();
+				assertThat(errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow)).exists();
 		}
         errorTab.cancel();
         

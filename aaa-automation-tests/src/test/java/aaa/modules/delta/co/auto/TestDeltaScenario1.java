@@ -238,17 +238,17 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	public void testSC1_TC05(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).verify.value("$100,000/$300,000 (+$0.00)");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).verify.value("$50,000  (+$0.00)");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).verify.value("$100,000/$300,000 (+$0.00)");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS).verify.value("$5,000  (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY)).hasValue("$100,000/$300,000 (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY)).hasValue("$50,000  (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)).hasValue("$100,000/$300,000 (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS)).hasValue("$5,000  (+$0.00)");
 
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE).verify.value("$250  (+$0.00)");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).verify.value("$500  (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE)).hasValue("$250  (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE)).hasValue("$500  (+$0.00)");
 		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE)).hasValue("$1,500.00");
 		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS)).hasValue("No Coverage");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT).verify.value("No Coverage (+$0.00)");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE).verify.value("No Coverage (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT)).hasValue("No Coverage (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE)).hasValue("No Coverage (+$0.00)");
 		Tab.buttonSaveAndExit.click();
 	}
 
@@ -310,10 +310,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	public void testSC1_TC07(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS)).hasValue("No Coverage");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value(new Dollar(1500).toString());
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE)).hasValue(new Dollar(1500).toString());
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueByRegex("No Coverage.*");
-		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE).verify.value("$250  (+$0.00)");
+		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE)).hasValue("$250  (+$0.00)");
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueByRegex("\\$250.*");
 		assertThat(pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE)).isPresent(false);

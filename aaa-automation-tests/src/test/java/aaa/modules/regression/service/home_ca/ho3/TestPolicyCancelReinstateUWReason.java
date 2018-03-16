@@ -119,7 +119,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(PolicyTransactionHistoryTable.TRAN_PREMIUM, premium.negate().toString());
         query.put(PolicyTransactionHistoryTable.ENDING_PREMIUM, new Dollar(0).toString());
         query.put(PolicyTransactionHistoryTable.PERFORMER, performer);
-        PolicySummaryPage.tableTransactionHistory.getRowContains(query).verify.present();
+        assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(query)).exists();
 
         // 10. Navigate to Billing tab and verify that Transaction is created in Payments & Other Transactions section
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
@@ -130,7 +130,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, cancellationReason);
         query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, premium.negate().toString());
         query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).verify.present();
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)).exists();
 
         // 11. Navigate to Policy Summary page and check that policy consolidated screen contains an alert with cancellation reason
         BillingSummaryPage.openPolicy(1);
@@ -169,7 +169,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(PolicyTransactionHistoryTable.TRAN_PREMIUM, premium.toString());
         query.put(PolicyTransactionHistoryTable.ENDING_PREMIUM, premium.toString());
         query.put(PolicyTransactionHistoryTable.PERFORMER, performer);
-        PolicySummaryPage.tableTransactionHistory.getRowContains(query).verify.present();
+        assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(query)).exists();
 
         // 17. Navigate to Billing page and verify that no reinstatement fee is applied
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
@@ -180,7 +180,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
         query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, premium.toString());
         query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).verify.present();
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)).exists();
     }
 
     private void verifyFieldsPresentAndEnabled(AbstractContainer<?, ?> assetList, boolean isEnabled, String... fields) {

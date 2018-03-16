@@ -165,7 +165,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 		//Saving of modified premium for bundle with modified values
 		modifiedTotalPremium = ProductOfferingTab.getTotalPremium(HERITAGE);
-		CustomAssert.assertFalse(modifiedTotalPremium.equals(defaultTotalPremium));
+		assertThat(modifiedTotalPremium).isNotEqualTo(defaultTotalPremium);
 		//Saving the list of Included in bundle endorsements (except State-specific endorsements)
 		includedEndorsements = ProductOfferingTab.getIncludedEndorsementList(HERITAGE);
 
@@ -175,15 +175,15 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		CustomAssert.assertTrue(endorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements));
 		endorsementTab.submitTab();
 		//34.Verify that modified Total Premium of selected bundle  = Total premium on Quote tab.
-		CustomAssert.assertTrue(modifiedTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
+		assertThat(modifiedTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		//35.Verify restore defaults on Legacy Bundle
 		productOfferingTab.getAssetList().getAsset(HERITAGE).restoreDefaults();
 		productOfferingTab.calculatePremium();
 		//Verify calculated premium is equal to initial premium.
-		CustomAssert.assertTrue(defaultTotalPremium.equals(ProductOfferingTab.getTotalPremium(HERITAGE)));
+		assertThat(defaultTotalPremium).isEqualTo(ProductOfferingTab.getTotalPremium(HERITAGE));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		CustomAssert.assertTrue(defaultTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
+		assertThat(defaultTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 		//Step 9. Verification of the List of all endorsements which are included to Heritage bundle on PremiumsAndCoveragesQuoteTab.
 		verifyIncludedEndorsementsAddedOnPremiumAndCoveragesQuoteTab(includedEndorsements);
 		log.info("Heritage bundle is verified successfully");
@@ -227,7 +227,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 		//Saving of modified premium for bundle with modified values
 		modifiedTotalPremium = ProductOfferingTab.getTotalPremium(LEGACY);
-		CustomAssert.assertFalse(modifiedTotalPremium.equals(defaultTotalPremium));
+		assertThat(modifiedTotalPremium).isNotEqualTo(defaultTotalPremium);
 		//Saving the list of Included in bundle endorsements (except State-specific endorsements)
 		includedEndorsements = ProductOfferingTab.getIncludedEndorsementList(LEGACY);
 
@@ -237,15 +237,15 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		CustomAssert.assertTrue(endorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements));
 		endorsementTab.submitTab();
 		//30. Verify that Total Premium of selected bundle  = Total premium on Quote tab.
-		CustomAssert.assertTrue(modifiedTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
+		assertThat(modifiedTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		//31.Verify restore defaults on Legacy Bundle
 		productOfferingTab.getAssetList().getAsset(LEGACY).restoreDefaults();
 		productOfferingTab.calculatePremium();
 		//Verify calculated premium is equal to initial premium.
-		CustomAssert.assertTrue(defaultTotalPremium.equals(ProductOfferingTab.getTotalPremium(LEGACY)));
+		assertThat(defaultTotalPremium).isEqualTo(ProductOfferingTab.getTotalPremium(LEGACY));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		CustomAssert.assertTrue(defaultTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
+		assertThat(defaultTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 		//Step 18. Verification of the List of all endorsements which are included to Legacy bundle on PremiumsAndCoveragesQuoteTab.
 		verifyIncludedEndorsementsAddedOnPremiumAndCoveragesQuoteTab(includedEndorsements);
 		log.info("Legacy bundle is verified successfully");
@@ -287,7 +287,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 		//Saving of modified premium for bundle with modified values
 		modifiedTotalPremium = ProductOfferingTab.getTotalPremium(PRESTIGE);
-		CustomAssert.assertFalse(modifiedTotalPremium.equals(defaultTotalPremium));
+		assertThat(modifiedTotalPremium).isNotEqualTo(defaultTotalPremium);
 		//Saving the list of Included in bundle endorsements (except State-specific endorsements)
 		includedEndorsements = ProductOfferingTab.getIncludedEndorsementList(PRESTIGE);
 
@@ -297,15 +297,15 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		CustomAssert.assertTrue(new EndorsementTab().tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements));
 		endorsementTab.submitTab();
 		//38.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
-		CustomAssert.assertTrue(modifiedTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
+		assertThat(modifiedTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		//39.Verify restore defaults on Prestige Bundle
 		productOfferingTab.getAssetList().getAsset(PRESTIGE).restoreDefaults();
 		productOfferingTab.calculatePremium();
 		//Verify calculated premium is equal to initial premium.
-		CustomAssert.assertTrue(defaultTotalPremium.equals(ProductOfferingTab.getTotalPremium(PRESTIGE)));
+		assertThat(defaultTotalPremium).isEqualTo(ProductOfferingTab.getTotalPremium(PRESTIGE));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		CustomAssert.assertTrue(defaultTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
+		assertThat(defaultTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 		//Step 27. Verification of the List of all endorsements which are included to Prestige bundle on PremiumsAndCoveragesQuoteTab.
 		verifyIncludedEndorsementsAddedOnPremiumAndCoveragesQuoteTab(includedEndorsements);
 		log.info("Prestige bundle is verified successfully");

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
 import org.testng.annotations.Optional;
@@ -143,7 +144,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.submitTab();
 
-		CustomAssert.assertFalse(Purchase.autoPaySetupSavingMessage.getValue().equals(""));
+		assertThat(Purchase.autoPaySetupSavingMessage.getValue()).isNotEqualTo("");
 
 		Purchase.linkViewApplicableFeeSchedule.click();
 		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());

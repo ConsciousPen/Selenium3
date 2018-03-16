@@ -112,7 +112,7 @@ public class TestInstallmentFees extends PolicyBilling {
 				String.format("This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.", nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString()
 						.replace(".00", ""));
 		//PAS-241 End
-		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
+		assertThat(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue()).isEqualTo(installmentSavingInfo);
 
 		//PAS-3846 start - will change in future
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
@@ -213,16 +213,16 @@ public class TestInstallmentFees extends PolicyBilling {
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON).verify.value(transactionSubtype);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Fee").click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_TYPE.getLabel(), ComboBox.class).verify.value("Fee");
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_SUBTYPE.getLabel(), ComboBox.class).verify.value(transactionSubtype);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_TYPE)).hasValue("Fee");
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_SUBTYPE)).hasValue(transactionSubtype);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT)).hasValue(amount.toString());
 		acceptPaymentActionTab.back();
 	}
 
 	private void autopaySelection(String autopaySelectionValue) {
 		UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
 		BillingSummaryPage.linkUpdateBillingAccount.click();
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION.getLabel(), ComboBox.class).setValue(autopaySelectionValue);
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION).setValue(autopaySelectionValue);
 		UpdateBillingAccountActionTab.buttonSave.click();
 	}
 }

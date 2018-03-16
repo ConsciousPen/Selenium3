@@ -39,7 +39,7 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
 		//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
 
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}

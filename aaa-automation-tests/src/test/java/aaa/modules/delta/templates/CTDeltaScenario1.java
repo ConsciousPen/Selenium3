@@ -80,7 +80,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		premiumsTab.calculatePremium(); 
 		
 		CustomAssert.enableSoftMode();		
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(false);
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row)).isPresent(false);
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
 		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount")).as("Windstorm Mitigation Discount: wrong value in Rating Details").isEqualTo("");
@@ -101,7 +101,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsTab.calculatePremium(); 
 				
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(); 
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row)).exists();
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
 		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount")).as("Windstorm Mitigation Discount: wrong value in Rating Details").isNotEqualTo("0.00");

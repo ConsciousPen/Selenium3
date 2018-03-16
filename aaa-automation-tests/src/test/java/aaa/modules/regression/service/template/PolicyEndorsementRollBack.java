@@ -39,10 +39,10 @@ public abstract class PolicyEndorsementRollBack extends PolicyBaseTest {
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+        assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 
         log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
         policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
-        CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+        assertThat(policyPremium).isEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
     }
 }

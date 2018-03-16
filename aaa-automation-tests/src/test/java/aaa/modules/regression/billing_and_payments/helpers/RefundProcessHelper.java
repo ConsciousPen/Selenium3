@@ -233,11 +233,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), new Dollar(pendingRefundAmount));
 
 		billingAccount.refund().manualRefundPerform(paymentMethod, approvedRefundAmount);
-		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
+		assertThat("Refund").isEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
 		approvedRefundVoid();
 
 		billingAccount.refund().manualRefundPerform(paymentMethod, pendingRefundAmount);
-		CustomAssert.assertFalse("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
+		assertThat("Refund").isNotEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
 		pendingRefundLinksCheck();
 		pendingRefundVoid();
 	}
@@ -269,7 +269,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
+		assertThat("Refund").isEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
 		approvedRefundVoid();
 
 		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
@@ -279,7 +279,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		CustomAssert.assertFalse("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
+		assertThat("Refund").isNotEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
 		pendingRefundLinksCheck();
 		//TODO failing because of LastPaymentMethodStub configuration and tolerance limit. Will work when we will be updating stub data on the fly.
 		pendingRefundPaymentMethodCheck(paymentMethod);
@@ -298,7 +298,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	}
 
 	private void pendingRefundLinksCheck() {
-		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE).getValue()));
+		assertThat("Refund").isEqualTo(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE).getValue());
 		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(1).verify.value("Approve");
 		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(2).verify.value("Reject");
 		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(ACTION).controls.links.get(3).verify.value("Void");
@@ -379,10 +379,10 @@ public class RefundProcessHelper extends PolicyBilling {
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(new Dollar(amount).add(0.01).toString());
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE.getLabel(), StaticElement.class).verify.value("The amount you entered exceeds the maximum amount for this payment method.");
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE)).hasValue("The amount you entered exceeds the maximum amount for this payment method.");
 
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE.getLabel(), StaticElement.class).verify.value("");
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_AMOUNT_ERROR_MESSAGE)).hasValue("");
 		acceptPaymentActionTab.submitTab();
 	}
 
@@ -703,12 +703,12 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	private void refundDetailsValues(String billingAccountNumber, String paymentMethodValue, Optional<Boolean> transactionIdPresent, Optional<String> checkNumberValue,
 			Optional<String> refundDateValue, Optional<Boolean> payeeNameNotEmpty, Dollar amountValue, int transactionNumber) {
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethodValue);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).hasValue(paymentMethodValue);
 		String stringAmount = "";
 		if (amountValue != null) {
 			stringAmount = amountValue.toString();
 		}
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(stringAmount);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT)).hasValue(stringAmount);
 		//PAS-6615 start
 		transactionIdPresent.ifPresent(p -> {
 					if (transactionIdPresent.get()) {

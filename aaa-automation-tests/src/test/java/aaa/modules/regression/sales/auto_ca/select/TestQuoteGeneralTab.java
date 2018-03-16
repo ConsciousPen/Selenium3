@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -112,12 +113,12 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 
 		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.COMISSION_TYPE).verify.enabled();
 		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.AUTHORIZED_BY).verify.enabled();
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.TOLLFREE_NUMBER).verify.value("");
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.LANGUAGE_PREFERENCE).verify.value("English");
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.SUPPRESS_PRINT).verify.value("Print Declaration");
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.TOLLFREE_NUMBER)).hasValue("");
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.LANGUAGE_PREFERENCE)).hasValue("English");
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.SUPPRESS_PRINT)).hasValue("Print Declaration");
 
 		generalTab.fillTab(td);
-		CustomAssert.assertFalse(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.AGENT_NUMBER).getValue().equals("")); //verification that field is not blank
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.AGENT_NUMBER).getValue()).isNotEqualTo(""); //verification that field is not blank
 		generalTab.getAssetList().getAsset(AAA_PRODUCT_OWNED).getAsset(AAAProductOwned.MOTORCYCLE).setValue("Yes");
 		generalTab.submitTab();
 
@@ -155,6 +156,6 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 	private void verifyFieldProperties(AssetDescriptor fieldDescriptor, boolean isEnabled, String expectedFieldValue) {
 		GeneralTab generalTab = new GeneralTab();
 		this.verifyFieldProperties(fieldDescriptor, isEnabled);
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).verify.value(expectedFieldValue);
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).getValue()).isEqualTo(expectedFieldValue);
 	}
 }

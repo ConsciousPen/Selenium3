@@ -75,7 +75,7 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
 
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 
 		CustomAssert.assertAll();
 	}

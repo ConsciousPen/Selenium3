@@ -87,8 +87,8 @@ public class CODeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();
 		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
 			
 			endorsementTab.fillTab(td_add_Forms);
 			
@@ -97,8 +97,8 @@ public class CODeltaScenario1 extends BaseTest {
 			CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);		
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
 			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
 		}
 		

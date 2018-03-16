@@ -5,6 +5,7 @@
 
 package com.exigen.ipb.etcsa.controls;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -130,7 +131,7 @@ public class ActivitiesAndUserNotes extends Table {
             Map<String, String> values = new HashMap<>();
             values.put(ActivitiesAndUserNotesTable.DATE_TIME, date.format(DateTimeUtils.MM_DD_YYYY));
             values.put(ActivitiesAndUserNotesTable.DESCRIPTION, expectedDescription);
-            ActivitiesAndUserNotes.this.getRowContains(values).verify.present();
+            assertThat(ActivitiesAndUserNotes.this.getRowContains(values)).exists();
         }
 
         public void descriptionByRegex(int rowIndex, String expectedDescription) {

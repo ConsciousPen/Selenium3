@@ -109,7 +109,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		EndorsementTab endorsementTab = new EndorsementTab(); 
 		
 		CustomAssert.enableSoftMode();
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2338).verify.present();	
+		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2338)).exists();
 		endorsementTab.getAddEndorsementLink("HS 23 38").click();
 		
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
@@ -161,7 +161,7 @@ public class MDDeltaScenario1 extends BaseTest {
 				HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$300,000"); 
 		endorsementTab.btnSaveForm.click();
 		
-		endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338).verify.present();			
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338)).exists();
 		CustomAssert.assertAll();
 	}
 	
@@ -182,7 +182,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		premiumsTab.calculatePremium(); 
 		
 		CustomAssert.enableSoftMode();		
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row).verify.present(false);
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).isPresent(false);
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
 		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("0.0");
@@ -202,7 +202,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsTab.calculatePremium(); 
 				
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row).verify.present(); 
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).exists();
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
 		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("3.0%");
@@ -321,7 +321,7 @@ public class MDDeltaScenario1 extends BaseTest {
 	
 	private void addHS0495AndVerifyCoverageLimitLOVs(Map<String, String> hs0495, String policyLimit) {
 		EndorsementTab endorsementTab = new EndorsementTab(); 
-		endorsementTab.tblOptionalEndorsements.getRowContains(hs0495).verify.present();	
+		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(hs0495)).exists();
 		endorsementTab.getAddEndorsementLink("HS 04 95").click();
 	
 		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
@@ -331,12 +331,12 @@ public class MDDeltaScenario1 extends BaseTest {
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).setValue("$20,000"); 
 		endorsementTab.btnSaveForm.click();
 		
-		endorsementTab.tblIncludedEndorsements.getRowContains(hs0495).verify.present();	
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 	}
 
 	private void editHS0495AndVerifyCoverageLimitLOVs_Legasy(Map<String, String> hs0495, String policyLimit) {
 		EndorsementTab endorsementTab = new EndorsementTab(); 
-		endorsementTab.tblIncludedEndorsements.getRowContains(hs0495).verify.present();	
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 		
 		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click(); 
 		
@@ -348,7 +348,7 @@ public class MDDeltaScenario1 extends BaseTest {
 	
 	private void editHS0495AndVerifyCoverageLimitLOVs_Prestige(Map<String, String> hs0495, String policyLimit) {
 		EndorsementTab endorsementTab = new EndorsementTab(); 
-		endorsementTab.tblIncludedEndorsements.getRowContains(hs0495).verify.present();	
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 		
 		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click(); 
 		

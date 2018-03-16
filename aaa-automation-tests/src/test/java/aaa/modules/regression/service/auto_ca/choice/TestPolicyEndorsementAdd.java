@@ -50,7 +50,7 @@ public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(2);
 		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
 
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

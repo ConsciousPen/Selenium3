@@ -62,12 +62,12 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 				.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(0).format(DateTimeUtils.MM_DD_YYYY));
 
 		getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementReason().getLabel(), true, true, true);
-		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).verify.value("");
+		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason()).verify.value("");
 		getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), false, false, false);
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Other");
 		getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), true, true, true);
-		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(), TextBox.class).verify.value("");
+		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).verify.value("");
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(), TextBox.class).setValue("other value");
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Maintain");
@@ -75,7 +75,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Other");
 		//BUG PAS-6205 'Other' field value is not reset to Blank after Endorsment Reason is set to Other for the second time
-		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(),TextBox.class).verify.value("");
+		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).verify.value("");
 
 		//BUG PAS-6204 When entering endorsement reason into 'Other' field in Endorsement Action tab longer than 255 characters, error 500 is thrown
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(),TextBox.class).setValue(RandomStringUtils.randomAlphanumeric(256));

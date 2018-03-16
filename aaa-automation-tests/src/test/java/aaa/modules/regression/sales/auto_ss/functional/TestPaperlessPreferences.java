@@ -89,7 +89,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
         //PAS-287 start
         String helpMessageHT10001 = "Indicates the customer's paperless notifications enrollment status. If \"Pending\", advise the customer to accept the terms and conditions. During mid-term, you may not be able to complete the endorsement until the status has changed to \"Yes\".";
-        CustomAssert.assertTrue(DocumentsAndBindTab.helpIconPaperlessPreferences.getAttribute("title").equals(helpMessageHT10001));
+        assertThat(DocumentsAndBindTab.helpIconPaperlessPreferences.getAttribute("title")).isEqualTo(helpMessageHT10001);
         //PAS-287 end
 
         //PAS-277 start

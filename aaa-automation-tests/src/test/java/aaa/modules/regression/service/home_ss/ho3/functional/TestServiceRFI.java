@@ -103,9 +103,9 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         endorseRateDocuments();
-        documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
+        assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Pending Review (Uploaded " + today + ")");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("Pending Review (Uploaded " + today + ")");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM)).hasValue("Pending Review (Uploaded " + today + ")");
 
         //check Upload Pending is present after value is changed
         documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION).setValue("Physically Signed");
@@ -115,7 +115,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
         endorseRateDocuments();
         assertThat(documentsTab.getRequiredToIssueAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION)).hasValue("Physically Signed");
-        documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("Pending Review (Uploaded " + today + ")");
+        assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM)).hasValue("Pending Review (Uploaded " + today + ")");
         assertThat(documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM)).hasValue("Yes");
 
         CustomAssert.disableSoftMode();

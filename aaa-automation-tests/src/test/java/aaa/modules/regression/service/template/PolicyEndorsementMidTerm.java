@@ -38,6 +38,6 @@ public abstract class PolicyEndorsementMidTerm extends PolicyBaseTest {
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 	}
 }
