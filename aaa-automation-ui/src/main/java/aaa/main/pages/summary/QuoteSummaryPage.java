@@ -22,9 +22,11 @@ public class QuoteSummaryPage extends MainPage {
 	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
 	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
 	public static ComboBox broadLineOfBusiness =
-			new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"), Waiters.AJAX.then(Waiters.AJAX));
+			new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"), Waiters.AJAX.then(Waiters.AJAX)
+					.then(Waiters.SLEEP(5000)));
 	public static ComboBox product =
-			new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"), Waiters.AJAX.then(Waiters.AJAX));
+			new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"), Waiters.AJAX.then(Waiters.AJAX)
+					.then(Waiters.SLEEP(5000)));
 	public static Button nextBtn = new Button(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//input[@id='quoteForm:createQuoteButton']"));
 	public static Button cancelBtn = new Button(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//input[@id='quoteForm:cancelButton']"));
 
