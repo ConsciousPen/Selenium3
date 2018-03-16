@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import toolkit.verification.CustomAssertions;
-//import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -42,7 +41,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
-//import toolkit.verification.CustomAssert;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;
@@ -77,16 +75,14 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		policyTerm = getPolicyTerm(policyCreationTD);
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
-		
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.POLICY_ACTIVE);
-		//MassertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
+
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		//CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size()); 
 		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 		
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
@@ -163,27 +159,20 @@ public class Scenario9 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		//new assertThat(UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
-		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false);
+		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		Tab.buttonCancel.click();
 	}
 
 	protected boolean isBillGenDateAfterRenewImageGenDate() {
 		LocalDateTime lastBillGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10)); 
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); 
-		if (lastBillGenDate.isAfter(renewImageGenDate)) 
-			return true;
-		else 
-			return false;
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		return lastBillGenDate.isAfter(renewImageGenDate);
 	}
 	
 	protected boolean isLastPaymentDateAfterRenewPreviewGenDate() {
 		LocalDateTime lastPaymentDate = getTimePoints().getBillDueDate(installmentDueDates.get(10)); 
-		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate); 
-		if (lastPaymentDate.isAfter(renewPreviewGenDate)) 
-			return true;
-		else 
-			return false;
+		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+		return lastPaymentDate.isAfter(renewPreviewGenDate);
 	} 
 	
 	protected void renewalImageGeneration() {
@@ -205,7 +194,6 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -218,7 +206,6 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
@@ -339,7 +326,6 @@ public class Scenario9 extends ScenarioBaseTest {
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF); 
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, "(" + currentTermDueAmount.toString() + ")");
 		
-		//BillingSummaryPage.tablePaymentsOtherTransactions.getRow(writeOffTransaction).verify.present();
 		CustomAssertions.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(writeOffTransaction)).isPresent();
 	}
 	

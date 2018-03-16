@@ -107,7 +107,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDateOffer).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
-		/** TODO Why 9??? */
+		/* TODO Why 9??? */
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(9);
 		if (verifyPligaOrMvleFee(policyExpirationDateOffer)) {
 			pligaOrMvleFeeLastTransactionDate = policyExpirationDateOffer;

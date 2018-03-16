@@ -27,7 +27,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
-//import toolkit.verification.CustomAssert;
 
 public class Scenario11 extends ScenarioBaseTest { 
 	
@@ -407,7 +406,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		query_cancel.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
 		
 		String cancelAmount = 
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query_cancel).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
+				BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query_cancel).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue();
 		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1)); 
 		refundAmount = refundAmount.add(100); 
 		
@@ -417,7 +416,7 @@ public class Scenario11 extends ScenarioBaseTest {
 			query_renew.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.RENEWAL);
 			
 			String premiumRenewal = 
-					BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query_renew).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
+					BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query_renew).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue();
 			Dollar premiumAmount = new Dollar(premiumRenewal.substring(1, premiumRenewal.length()-1)); 
 			refundAmount = refundAmount.add(premiumAmount); 
 			refundAmount = refundAmount.subtract(new Dollar(20));

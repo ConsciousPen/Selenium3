@@ -324,7 +324,6 @@ public class Scenario13 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled(); 
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -336,7 +335,6 @@ public class Scenario13 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
@@ -350,10 +348,10 @@ public class Scenario13 extends ScenarioBaseTest {
 		BillingSummaryPage.buttonHidePriorTerms.click();
 
 		installmentDueDatesForRenewal = BillingHelper.getInstallmentDueDates();	
-		CustomSoftAssertions.assertSoftly(softly -> {
+		CustomSoftAssertions.assertSoftly(softly ->
 			softly.assertThat(installmentDueDatesForRenewal.size()).as("Billing Installments count for renewal is incorrect")
-				.isEqualTo(installmentsCountForRenewal);
-		});
+				.isEqualTo(installmentsCountForRenewal)
+		);
 		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
