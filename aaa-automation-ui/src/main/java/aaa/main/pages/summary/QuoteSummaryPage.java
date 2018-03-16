@@ -2,12 +2,15 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.pages.summary;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.MainPage;
+import aaa.main.modules.policy.PolicyType;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class QuoteSummaryPage extends MainPage {
 	public static final String DIALOG_META = "ProductInitiateDialog";
@@ -21,4 +24,14 @@ public class QuoteSummaryPage extends MainPage {
 	public static ComboBox product = new ComboBox(By.xpath("//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"));
 	public static Button nextBtn = new Button(By.xpath("//input[@id='quoteForm:createQuoteButton']"));
 	public static Button cancelBtn = new Button(By.xpath("//input[@id='quoteForm:cancelButton']"));
+
+	public static void initiateQuote(PolicyType policyType) {
+		buttonAddNewQuote.click();
+		broadLineOfBusiness.setValue(PERSONAL_LINES);
+		Waiters.SLEEP(2000).go();
+		product.setValue(policyType.getName());
+		Waiters.SLEEP(2000).go();
+		nextBtn.click();
+		assertThat(buttonAddNewQuote.isPresent());
+	}
 }

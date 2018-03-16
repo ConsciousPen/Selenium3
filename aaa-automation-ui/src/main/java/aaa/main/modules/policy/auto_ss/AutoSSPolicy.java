@@ -34,10 +34,7 @@ public class AutoSSPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.buttonAddNewQuote.click();
-		QuoteSummaryPage.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
-		QuoteSummaryPage.product.setValue(PolicyType.AUTO_SS.getName());
-		QuoteSummaryPage.nextBtn.click();
+		QuoteSummaryPage.initiateQuote(PolicyType.AUTO_SS);
 	}
 
 	@Override
