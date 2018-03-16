@@ -3,36 +3,20 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
-
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.AssetList;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.waiters.Waiters;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.AgencyAutoCaAssetList;
-import aaa.toolkit.webdriver.customcontrols.CalendarBox;
-import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
-import aaa.toolkit.webdriver.customcontrols.VehicleMultiInstanceBeforeAssetList;
+import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoCAForms;
-
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Metadata definitions for products.
@@ -79,7 +63,7 @@ public final class AutoCaMetaData {
 			.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoThirdPartyDesignee']"));
 
 		public static final class NamedInsuredInformation extends MetaData {
-			public static final AssetDescriptor<Button> ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addInsured"));
+			public static final AssetDescriptor<JavaScriptButton> ADD_INSURED = declare("Add", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addInsured"));
 			public static final AssetDescriptor<SingleSelectSearchDialog> INSURED_SEARCH_DIALOG = declare("InsuredSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class,
 				false, By.id("customerSearchPanel_container"));
 
@@ -237,7 +221,7 @@ public final class AutoCaMetaData {
 
 	public static final class DriverTab extends MetaData {
 
-		public static final AssetDescriptor<Button> ADD_DRIVER = declare("Add Driver", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDriver"));
+		public static final AssetDescriptor<JavaScriptButton> ADD_DRIVER = declare("Add Driver", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDriver"));
 		public static final AssetDescriptor<SingleSelectSearchDialog> DRIVER_SEARCH_DIALOG = declare("DriverSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false,
 			By.id("customerSearchPanel_container"));
 
@@ -530,7 +514,7 @@ public final class AutoCaMetaData {
 				.xpath(".//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']//td[normalize-space(.)='Policy Level Liability Coverages']/ancestor::tr[1]//td[3]"));
 		public static final AssetDescriptor<DetailedVehicleCoveragesRepeatAssetList> DETAILED_VEHICLE_COVERAGES = declare("DetailedVehicleCoverages", DetailedVehicleCoveragesRepeatAssetList.class,
 			DetailedVehicleCoverages.class, false);
-		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalc"));
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalc"));
 
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class,
 			OverridePremiumDialog.class,

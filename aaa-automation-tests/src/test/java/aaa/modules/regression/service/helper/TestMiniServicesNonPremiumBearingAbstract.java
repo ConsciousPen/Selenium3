@@ -44,6 +44,7 @@ import aaa.modules.regression.conversions.auto_ss.MaigConversionTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -85,7 +86,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected abstract Tab getVehicleTabElement();
 
-	protected abstract AssetDescriptor<Button> getCalculatePremium();
+	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremium();
 
 	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
 		mainApp().open();

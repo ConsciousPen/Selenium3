@@ -16,9 +16,9 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
@@ -94,7 +94,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
     }
 
     @Override
-    protected AssetDescriptor<Button> getCalculatePremium() {
+    protected AssetDescriptor<JavaScriptButton> getCalculatePremium() {
         return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
     }
 
