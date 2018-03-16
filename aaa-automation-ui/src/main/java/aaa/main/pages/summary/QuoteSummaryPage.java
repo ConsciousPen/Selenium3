@@ -17,7 +17,7 @@ public class QuoteSummaryPage extends MainPage {
 	public static final String DIALOG_META = "ProductInitiateDialog";
 	public static final String PERSONAL_LINES = "Personal Lines";
 
-	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:newQuoteButton']"), Waiters.AJAX.then(Waiters.AJAX));
+	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:newQuoteButton']"), Waiters.AJAX.then(Waiters.SLEEP(5000)));
 	public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
 	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
 	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
@@ -30,18 +30,11 @@ public class QuoteSummaryPage extends MainPage {
 
 	public static void initiateQuote(PolicyType policyType) {
 		buttonAddNewQuote.click();
-		try {
-			Thread.sleep(2000);
-			broadLineOfBusiness.setValue(PERSONAL_LINES);
-			Thread.sleep(2000);
-			assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue())).isTrue();
-			product.setValue(policyType.getName());
-			Thread.sleep(2000);
-			assertThat(StringUtils.isNotBlank(product.getValue())).isTrue();
-			nextBtn.click();
-			assertThat(buttonAddNewQuote.isPresent()).isFalse();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		broadLineOfBusiness.setValue(PERSONAL_LINES);
+		assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue())).isTrue();
+		product.setValue(policyType.getName());
+		assertThat(StringUtils.isNotBlank(product.getValue())).isTrue();
+		nextBtn.click();
+		assertThat(buttonAddNewQuote.isPresent()).isFalse();
 	}
 }
