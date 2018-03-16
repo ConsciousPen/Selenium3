@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 
 import toolkit.datax.TestData;
@@ -251,7 +252,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
 		query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 5. Reversal Write Off 100$
 		BillingSummaryPage.linkOtherTransactions.click();
@@ -264,7 +265,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
 		query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 7. Check Total Due value after write-off/reversal write-off
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
@@ -304,7 +305,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 14. Check Total Due value is increased
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(writeoffAmount));
@@ -323,7 +324,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		// 18. Check Total Due value is decreased
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
@@ -485,14 +486,14 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED);
 		query.put(BillingPaymentsAndOtherTransactionsTable.REASON, reason);
 		query.put(BillingPendingTransactionsTable.AMOUNT, amount.toString());
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
 		query.put(BillingPaymentsAndOtherTransactionsTable.REASON, reason);
 		query.put(BillingPendingTransactionsTable.AMOUNT, amount.negate().toString());
 		query.put(BillingPendingTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.DECLINED);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 
 		expectedTotalDue = expectedTotalDue.subtract(amount.add(feeAmount));
 		BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());

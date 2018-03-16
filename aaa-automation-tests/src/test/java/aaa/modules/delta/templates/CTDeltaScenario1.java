@@ -83,17 +83,16 @@ public class CTDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(false);
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Windstorm Mitigation Discount: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount").equals("")); 
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount")).as("Windstorm Mitigation Discount: wrong value in Rating Details").isEqualTo("");
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
 		
-		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue().toString();
+		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES).getValue();
 		log.info("Distance to coast value is "+distanceToCoast);
-		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue().toString();
+		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET).getValue();
 		log.info("Elevation value is "+elevation);
 		
 		propertyInfoTab.fillTab(td_WindstormMitigationYes);
@@ -105,13 +104,10 @@ public class CTDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(); 
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertFalse("Windstorm Mitigation Discount: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount").equals("0.00")); 
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount")).as("Windstorm Mitigation Discount: wrong value in Rating Details").isNotEqualTo("0.00");
 		if (getPolicyType().equals("HO3")||getPolicyType().equals("DP3")) {
-			CustomAssert.assertTrue("Distance to shore: wrong value in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore").equals(distanceToCoast));
-			CustomAssert.assertTrue("Elevation: wrong value in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation").equals(elevation)); 
+			assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore")).as("Distance to shore: wrong value in Rating Details").isEqualTo(distanceToCoast);
+			assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation")).as("Elevation: wrong value in Rating Details").isEqualTo(elevation);
 		} 
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		

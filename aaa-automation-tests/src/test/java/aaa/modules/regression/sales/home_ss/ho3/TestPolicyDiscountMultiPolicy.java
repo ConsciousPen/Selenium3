@@ -58,7 +58,7 @@ public class TestPolicyDiscountMultiPolicy extends HomeSSHO3BaseTest {
         multiPolicyDiscount_auto.put("Discount Category", "Multi-Policy");
         multiPolicyDiscount_auto.put("Discounts Applied", "AAA Auto");
 		
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(multiPolicyDiscount_auto).verify.present();
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(multiPolicyDiscount_auto)).exists();
 		PremiumsAndCoveragesQuoteTab.buttonCancel.click();
 		
 		new HomeSSPolicyActions.Endorse().perform(getPolicyTD("Endorsement", "TestData"));

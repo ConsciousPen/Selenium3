@@ -77,32 +77,23 @@ public class TestPolicyDiscountSafe extends HomeSSHO3BaseTest {
         premiumWithDiscount = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 
         CustomAssert.enableSoftMode();
-        CustomAssert.assertTrue("Premium after Safe Home discount applied equals to initial premium", 
-        		!premiumWithoutDiscount.equals(premiumWithDiscount));
+        assertThat(premiumWithoutDiscount).as("Premium after Safe Home discount applied equals to initial premium").isNotEqualTo(premiumWithDiscount);
         
         Map<String, String> safeHomeDiscounts_dataRow = new HashMap<>();
         safeHomeDiscounts_dataRow.put("Discount Category", "Safe Home");
         safeHomeDiscounts_dataRow.put("Discounts Applied", "Theft Protection, Newer Home, Fire Protection");
         
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(safeHomeDiscounts_dataRow).verify.present();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(safeHomeDiscounts_dataRow)).exists();
 		
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertFalse("Safe Home Discount is not applied", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Safe Home Discount Category").equals("0.0")); 
-        CustomAssert.assertFalse("Newer Home discount is not applied", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Newer Home discount").equals("0.0")); 
-        CustomAssert.assertTrue("Incorrect value of Theft Alarm in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Alarm").equals("Central")); 
-        CustomAssert.assertTrue("Incorrect value of Private community in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Private community").equals("Yes")); 
-        CustomAssert.assertFalse("Theft Protective Devices discount is not applied", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Protective Devices discount").equals("0.0")); 
-        CustomAssert.assertTrue("Incorrect value of Fire alarm in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire alarm").equals("Central")); 
-        CustomAssert.assertTrue("Incorrect value of Sprinkler protection in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Sprinkler protection").equals("Full")); 
-        CustomAssert.assertFalse("Fire Protective Device discount is not applied", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire Protective Device discount").equals("0.0")); 
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Safe Home Discount Category")).as("Safe Home Discount is not applied").isNotEqualTo("0.0");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Newer Home discount")).as("Newer Home discount is not applied").isNotEqualTo("0.0");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Alarm")).as("Incorrect value of Theft Alarm in Rating Details").isEqualTo("Central");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Private community")).as("Incorrect value of Private community in Rating Details").isEqualTo("Yes");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Theft Protective Devices discount")).as("Theft Protective Devices discount is not applied").isNotEqualTo("0.0");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire alarm")).as("Incorrect value of Fire alarm in Rating Details").isEqualTo("Central");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Sprinkler protection")).as("Incorrect value of Sprinkler protection in Rating Details").isEqualTo("Full");
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Fire Protective Device discount")).as("Fire Protective Device discount is not applied").isNotEqualTo("0.0");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
@@ -116,8 +107,7 @@ public class TestPolicyDiscountSafe extends HomeSSHO3BaseTest {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        CustomAssert.assertTrue("Incorrect premium value on Consolidated page", 
-        		premiumWithDiscount.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
+        assertThat(premiumWithDiscount).as("Incorrect premium value on Consolidated page").isEqualTo(PolicySummaryPage.getTotalPremiumSummaryForProperty());
         CustomAssert.assertAll();
         
 	}

@@ -86,14 +86,14 @@ public class INDeltaScenario1 extends BaseTest {
 			
 			endorsementTab.fillTab(td_add_Forms);
 			
-			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
+			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
 			CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
 			CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);
-			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
+			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
 		}
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -119,7 +119,7 @@ public class INDeltaScenario1 extends BaseTest {
 		
 		CustomAssert.enableSoftMode();
 		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present(false);		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present(false);
+		assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383)).isPresent(false);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
 		new ApplicantTab().fillTab(td_hs2383); 
@@ -134,7 +134,7 @@ public class INDeltaScenario1 extends BaseTest {
 		
 		endorsementTab.fillTab(td_hs2383);
 		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present();
+		assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383)).exists();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 

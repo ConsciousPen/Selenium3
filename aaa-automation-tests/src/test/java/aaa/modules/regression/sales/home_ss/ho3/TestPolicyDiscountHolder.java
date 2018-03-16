@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,14 +100,12 @@ public class TestPolicyDiscountHolder extends HomeSSHO3BaseTest {
         employeeDiscount_dataRow.put("Discount Category", "Policyholder");
         employeeDiscount_dataRow.put("Discounts Applied", "AAA Employee");
         
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(youngHomeOwnerDiscount_dataRow).verify.present();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(youngHomeOwnerDiscount_dataRow)).exists();
         
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertFalse("Incorrect value of Policy holder Discount Category in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0")); 
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category")).as("Incorrect value of Policy holder Discount Category in Rating Details").isNotEqualTo("0.0");
  
-        CustomAssert.assertFalse("Incorrect value of Young Homeowner discount in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Young Homeowner discount").equals("0.0")); 
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Young Homeowner discount")).as("Incorrect value of Young Homeowner discount in Rating Details").isNotEqualTo("0.0");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 
         
@@ -122,22 +121,17 @@ public class TestPolicyDiscountHolder extends HomeSSHO3BaseTest {
         premiumsTab.calculatePremium();
         
         if (getState().equals("NY")) {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow).verify.present(false);            
+        	assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow)).isPresent(false);
             PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-            CustomAssert.assertTrue("Incorrect value of Policy holder Discount Category in Rating Details", 
-            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0%")); 
-            CustomAssert.assertTrue("Incorrect value of Mature Homeowner discount in Rating Details", 
-            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount").equals("0.0")); 
+            assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category")).as("Incorrect value of Policy holder Discount Category in Rating Details").isEqualTo("0.0%");
+            assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount")).as("Incorrect value of Mature Homeowner discount in Rating Details").isEqualTo("0.0");
             PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-        }
-        else {
-        	PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow).verify.present();
+        } else {
+        	assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow)).exists();
             
             PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-            CustomAssert.assertFalse("Incorrect value of Policy holder Discount Category in Rating Details", 
-            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0"));      
-            CustomAssert.assertFalse("Incorrect value of Mature Homeowner discount in Rating Details", 
-            		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount").equals("0.0")); 
+            assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category")).as("Incorrect value of Policy holder Discount Category in Rating Details").isNotEqualTo("0.0");
+            assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount")).as("Incorrect value of Mature Homeowner discount in Rating Details").isNotEqualTo("0.0");
             PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         }       
  
@@ -152,12 +146,11 @@ public class TestPolicyDiscountHolder extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsTab.calculatePremium();
         
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(youngHomeOwnerDiscount_dataRow).verify.present(false);
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow).verify.present(false);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(youngHomeOwnerDiscount_dataRow)).isPresent(false);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(matureHomeOwnerDiscount_dataRow)).isPresent(false);
         
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertTrue("Incorrect value of Policy holder Discount Category in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category").equals("0.0%")); 
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Policy holder Discount Category")).as("Incorrect value of Policy holder Discount Category in Rating Details").isEqualTo("0.0%");
  
         //CustomAssert.assertTrue("Incorrect value of Mature Homeowner discount in Rating Details", 
         //		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature Homeowner Discount").equals("0.0")); 
@@ -171,14 +164,12 @@ public class TestPolicyDiscountHolder extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsTab.calculatePremium();
         
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(employeeDiscount_dataRow).verify.present();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(employeeDiscount_dataRow)).exists();
         
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        CustomAssert.assertTrue("Incorrect value of 'Employee' in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Employee").equals("Yes")); 
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Employee")).as("Incorrect value of 'Employee' in Rating Details").isEqualTo("Yes");
  
-        CustomAssert.assertFalse("Incorrect value of Employee discount in Rating Details", 
-        		PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Employee discount").equals("0.0")); 
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Employee discount")).as("Incorrect value of Employee discount in Rating Details").isNotEqualTo("0.0");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         
         PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();

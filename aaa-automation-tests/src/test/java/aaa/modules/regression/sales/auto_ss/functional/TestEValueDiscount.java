@@ -1052,7 +1052,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		currentBI = biAsset.getValue();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValueContains("Semi-Annual");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueContains("$500");
-		CustomAssert.assertTrue("BI limit shouldn't be changed when we update coverages/ pay plan", biAsset.getValue().equals(currentBI));
+		assertThat(biAsset.getValue()).as("BI limit shouldn't be changed when we update coverages/ pay plan").isEqualTo(currentBI);
 		PremiumAndCoveragesTab.calculatePremium();
 		CustomAssert.assertFalse(successfulCalculation, isTotalTermPremiumEquals0());
 		CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));

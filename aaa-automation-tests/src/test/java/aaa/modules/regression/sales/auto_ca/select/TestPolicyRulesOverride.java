@@ -102,7 +102,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		query.put("Status", "overridden");
 		query.put("Rule name", "200040");
 
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).verify.present();
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).exists();
 
 		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().verify.value(duration);
 		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().verify.value(reason);

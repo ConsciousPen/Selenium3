@@ -8,10 +8,8 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGR
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
@@ -60,7 +58,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         new ApplicantTab().fillTab(getTestSpecificTD("TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
@@ -69,17 +67,17 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         reportTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).
                 getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
         reportTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
-        assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
+        assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
 
         reportTab.cancel(true);
         policy.renew().perform(new SimpleDataProvider());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         applicant.getNamedInsuredAssetList().getAsset("First name", TextBox.class).setValue("Hello");
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(false);
     }
 
 }

@@ -47,8 +47,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score")).as("FR Score value is wrong in Rating Details").isEqualTo(scoreInRatingDetails);
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
@@ -73,18 +72,15 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score")).as("FR Score value is wrong in Rating Details").isEqualTo(scoreInRatingDetails);
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
 		if (getState().equals("CO")) {
-			CustomAssert.assertTrue("Adversely Impacted message is not displaying on Reports Tab",
-				reportsTab.lblAdversalyImpactedMessage.getValue().equals(messageOnReportsTab));	
+			assertThat(reportsTab.lblAdversalyImpactedMessage.getValue()).as("Adversely Impacted message is not displaying on Reports Tab").isEqualTo(messageOnReportsTab);
 		}
 		else {
-			CustomAssert.assertTrue("Extraordinary life circumstance message is not displaying on Reports Tab",
-				reportsTab.lblELCMessage.getValue().equals(messageOnReportsTab));		
+			assertThat(reportsTab.lblELCMessage.getValue()).as("Extraordinary life circumstance message is not displaying on Reports Tab").isEqualTo(messageOnReportsTab);
 		}		
 	}
 
@@ -101,10 +97,8 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		premiumsTab.calculatePremium();
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Hail Resistive Rating: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating").equals("No"));
-		CustomAssert.assertTrue("Hail zone flag: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag").equals("No"));
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating")).as("Hail Resistive Rating: wrong value in Rating Details").isEqualTo("No");
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag")).as("Hail zone flag: wrong value in Rating Details").isEqualTo("No");
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 	}
 	
@@ -115,17 +109,15 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.fillTab(td_hailResistanceRating);
 		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setAnyValueExcept("No");
-		String hailResistanceRating = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).getValue().toString();
+		String hailResistanceRating = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).getValue();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsTab.calculatePremium();
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Hail Resistive Rating: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating").equals(hailResistanceRating));
-		CustomAssert.assertTrue("Hail zone flag: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag").equals("Yes"));
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating")).as("Hail Resistive Rating: wrong value in Rating Details").isEqualTo(hailResistanceRating);
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag")).as("Hail zone flag: wrong value in Rating Details").isEqualTo("Yes");
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 	}
 	
@@ -192,10 +184,8 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		
 		String cancelEffDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
 		
-		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE).getValue().toString().equals(daysOfNotice));
-		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).getValue().toString().equals(cancelEffDate_default));
+		assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE).getValue()).as("'Days of Notice' has wrong value on Cancel Notice tab").isEqualTo(daysOfNotice);
+		assertThat(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).getValue()).as("'Cancellation Effective date' has wrong value on Cancel Notice Tab").isEqualTo(cancelEffDate_default);
 		
 		//cancelNoticeTab.fillTab(td); 
 		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(

@@ -185,8 +185,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row).verify.present(false);
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Storm Shutter Discount: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter").equals("0.0")); 
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("0.0");
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -206,13 +205,10 @@ public class MDDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row).verify.present(); 
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Storm Shutter Discount: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter").equals("3.0%")); 
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("3.0%");
 		if (getPolicyType().equals("HO3")||getPolicyType().equals("DP3")) {
-			CustomAssert.assertTrue("Distance to shore: wrong value in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore").equals(distanceToCoast));
-			CustomAssert.assertTrue("Elevation: wrong value in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation").equals(elevation)); 
+			assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore")).as("Distance to shore: wrong value in Rating Details").isEqualTo(distanceToCoast);
+			assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation")).as("Elevation: wrong value in Rating Details").isEqualTo(elevation);
 		} 
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		

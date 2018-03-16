@@ -46,7 +46,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
 		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
 	}
 
@@ -76,7 +76,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyLapseExistFlagPresent();
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
 		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
 	}
 
@@ -107,7 +107,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
 		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
 	}
 
@@ -137,7 +137,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelLapseExist.verify.present(false);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
 		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement");
 	}
 

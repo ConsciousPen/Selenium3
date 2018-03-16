@@ -72,6 +72,6 @@ public class TestPolicyPayments extends HomeSSHO3BaseTest {
 		query.put("Subtype/Reason", "Deposit Payment");
 		query.put("Amount", "(" + amount + ")");
 
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query)).exists();
 	}
 }
