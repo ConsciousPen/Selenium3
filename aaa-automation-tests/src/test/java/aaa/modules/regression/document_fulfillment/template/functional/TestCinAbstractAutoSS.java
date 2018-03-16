@@ -1,18 +1,43 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
+import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.Job;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
+import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
+import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.inject.internal.ImmutableList;
+import com.google.inject.internal.ImmutableMap;
 import org.junit.Assert;
 import toolkit.datax.TestData;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
 import static java.util.Arrays.asList;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class TestCinAbstractAutoSS extends TestCinAbstract{
+
+    protected static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
+            ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
+                    RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob));
+
+
+
     public static final String DISABLE_MEMBERSHIP = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
@@ -72,6 +97,18 @@ public class TestCinAbstractAutoSS extends TestCinAbstract{
         //ToDo: verify the order
     }
 
+    public void renewPolicy(String policyNumber, TestData renewalTD) {
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        new AutoSSPolicyActions.Renew().performAndFill(renewalTD);
+
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
+    }
+
     protected void verifyCinGenerated (Document cinDocument, String policyNumber) {
         Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
     }
@@ -92,6 +129,10 @@ public class TestCinAbstractAutoSS extends TestCinAbstract{
 
     protected void assertStateEquals(String state, String... applicableStates) {
         assertTrue(asList(applicableStates).contains(state), "Test does not support this state: " + state);
+    }
+
+    protected void assertStateNotEquals(String state, String... applicableStates) {
+        assertFalse(asList(applicableStates).contains(state), "Test does not support this state: " + state);
     }
 
 }

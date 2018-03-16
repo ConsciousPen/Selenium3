@@ -1,0 +1,101 @@
+TestData_MVR_AZ: {
+  GeneralTab: {},
+  DriverTab: ['@Driver_NoChanges', '@Driver_MvrViolation_AZ'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_CLUE_AZ: {
+  GeneralTab: {},
+  DriverTab: ['@Driver_NoChanges', '@Driver_ClueViolation_AZ'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+Driver_NoChanges: {}
+
+# ---------- Insurance Score Data ---------------
+
+Driver_840: {
+  DriverSearchDialog:{},
+  Named Insured: 'John Daniel',
+  "Rel. to First Named Insured": 'Spouse',
+  Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
+  Gender: 'Male',
+  Marital Status: 'Married',
+  Occupation: 'Clergy',
+  License Type: 'Foreign',
+  Age First Licensed: '16',
+  License Number: '1234567'
+}
+
+
+Driver_Score_840: {
+  DriverTab: ['@No_Change', '@Driver_840']
+}
+
+InsuranceScoreOverride_940: {
+  Action: Override Score,
+  EditInsuranceScoreDialog: {
+    New Score: '940',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+}
+
+# ---------- MVR Data ---------------
+
+Driver_MvrViolation_AZ: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'AZ',
+  License Number: A12345679
+}
+
+# ---------- CLUE Data ---------------
+
+Driver_ClueViolation_AZ: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'AZ',
+  License Number: A12345679
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'No'
+}
