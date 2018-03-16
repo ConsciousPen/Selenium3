@@ -18,6 +18,7 @@ import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -37,13 +38,20 @@ public class HelperCommon {
 	private static final String DXP_VIEW_POLICY_ENDPOINT = "/api/v1/policies/%s";
 	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
-	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
+	private static final String GET_RATING_ENDPOINT = "SELECT value FROM PROPERTYCONFIGURERENTITY \n"
+			+ "WHERE VALUE LIKE '%aaa-rating-engine-app%'\n"
+			+ "and propertyname = 'aaaCaHomeRulesClientProxyFactoryBean.address'";
+	private static final String RATING_URL_TEMPLATE = DBService.get().getValue(GET_RATING_ENDPOINT).get();
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
-		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+			return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+		} else {
+			return PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME) + endpointUrlPart;
+		}
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
@@ -165,18 +173,9 @@ public class HelperCommon {
 		if (effectiveDate != null) {
 			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
 		}
-		HashMap <String, String> validateLookupResponse  = runJsonRequestGetDxp(requestUrl, HashMap.class );
+		HashMap<String, String> validateLookupResponse = runJsonRequestGetDxp(requestUrl, HashMap.class);
 		return validateLookupResponse;
 	}
-
-	/*static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
-		if (endorsementDate != null) {
-			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
-		}
-		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
-		return validateVinResponse;
-	}*/
 
 	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
 		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
