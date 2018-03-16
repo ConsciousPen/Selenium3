@@ -17,8 +17,8 @@ public class QuoteSummaryPage extends MainPage {
 	public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
 	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
 	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
-	public static ComboBox broadLineOfBusiness = new ComboBox(By.id("quoteForm:quoteCreationPopupMultiEdit_blob"));
-	public static ComboBox product = new ComboBox(By.id("quoteForm:quoteCreationPopupMultiEdit_productCd"));
+	public static ComboBox broadLineOfBusiness = new ComboBox(By.xpath("//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"));
+	public static ComboBox product = new ComboBox(By.xpath("//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"));
 	public static Button nextBtn = new Button(By.xpath("//input[@id='quoteForm:createQuoteButton']"));
 	public static Button cancelBtn = new Button(By.xpath("//input[@id='quoteForm:cancelButton']"));
 }
