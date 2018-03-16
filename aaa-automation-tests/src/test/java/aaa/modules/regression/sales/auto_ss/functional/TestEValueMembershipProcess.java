@@ -662,10 +662,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-		Waiters.SLEEP(15000).go();
+		Waiters.SLEEP(5000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		Waiters.SLEEP(5000).go();
 		RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
-		Waiters.SLEEP(15000).go();
+		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
 
