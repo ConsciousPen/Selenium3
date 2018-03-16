@@ -11,17 +11,20 @@ import aaa.main.modules.policy.PolicyType;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class QuoteSummaryPage extends MainPage {
 	public static final String DIALOG_META = "ProductInitiateDialog";
 	public static final String PERSONAL_LINES = "Personal Lines";
 
-	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:newQuoteButton']"));
+	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:newQuoteButton']"), Waiters.AJAX.then(Waiters.AJAX));
 	public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
 	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
 	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
-	public static ComboBox broadLineOfBusiness = new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"));
-	public static ComboBox product = new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"));
+	public static ComboBox broadLineOfBusiness =
+			new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_blob']"), Waiters.AJAX.then(Waiters.AJAX));
+	public static ComboBox product =
+			new ComboBox(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//select[@id='quoteForm:quoteCreationPopupMultiEdit_productCd']"), Waiters.AJAX.then(Waiters.AJAX));
 	public static Button nextBtn = new Button(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//input[@id='quoteForm:createQuoteButton']"));
 	public static Button cancelBtn = new Button(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']//input[@id='quoteForm:cancelButton']"));
 
