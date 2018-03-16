@@ -22,6 +22,7 @@ import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
 import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.config.PropertyProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
@@ -39,7 +40,10 @@ public class HelperCommon {
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
 	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
-	private static final String RATING_URL_TEMPLATE = "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + ":9089/aaa-rating-engine-app/REST/ws/home-ca";
+	private static final String GET_RATING_ENDPOINT = "SELECT value FROM PROPERTYCONFIGURERENTITY \n"
+			+ "WHERE VALUE LIKE '%aaa-rating-engine-app%'\n"
+			+ "and propertyname = 'aaaCaHomeRulesClientProxyFactoryBean.address'";
+	private static final String RATING_URL_TEMPLATE = DBService.get().getValue(GET_RATING_ENDPOINT).get();
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 
