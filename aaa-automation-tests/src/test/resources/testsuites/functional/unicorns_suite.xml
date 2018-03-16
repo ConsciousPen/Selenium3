@@ -21,7 +21,7 @@
         </classes>
     </test>
     <test name="PAS-3002 View capping details and override capping for property polices" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ, AZ"/>
+        <parameter name="state" value="VA, DE, NJ, AZ, MD"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
