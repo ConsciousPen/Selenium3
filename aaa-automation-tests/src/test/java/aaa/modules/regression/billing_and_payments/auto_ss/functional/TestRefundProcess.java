@@ -27,7 +27,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
-import aaa.modules.regression.service.helper.wiremock.WireMockStub;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -61,7 +61,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
-	private final List<WireMockStub> REQUEST_ID_LIST = new LinkedList<>();
+	private final List<HelperWireMockStub> REQUEST_ID_LIST = new LinkedList<>();
 
 
 	@Override
@@ -943,18 +943,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "contains=ACH";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		refundProcessHelper.policyCreation();
 
-
-		LastPaymentTemplateData data = LastPaymentTemplateData.create(policyNumber, APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, null, null);
-		WireMockStub stub = WireMockStub.create("last-payment-200", data);
-		stub.mock();
 		CustomAssert.enableSoftMode();
-
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-
-		stub.cleanUp();
-
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1079,26 +1071,28 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.assertAll();
 	}
 
-
-	@Test()
-	public void wiremockExample2() throws IllegalAccessException {
+	/**The test is used to check LastPaymentMethod stub functionality and availability
+	 * @throws IllegalAccessException
+	 */
+	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
+	public void pas111_wireMockExampleTest() throws IllegalAccessException {
 
 		LastPaymentTemplateData data = LastPaymentTemplateData.create("MDSS952918541", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
-		WireMockStub stub = WireMockStub.create("last-payment-200", data);
-		REQUEST_ID_LIST.add(stub);
-		stub.mock();
+		HelperWireMockStub stubRequest1 = HelperWireMockStub.create("last-payment-200", data);
+		REQUEST_ID_LIST.add(stubRequest1);
+		stubRequest1.mock();
 		//don't forget to delete
-		stub.cleanUp();
+		stubRequest1.cleanUp();
 
-		WireMockStub stub1 = WireMockStub.create("last-payment-200", data).mock();
+		HelperWireMockStub stubRequest2 = HelperWireMockStub.create("last-payment-200", data).mock();
 		//don't forget to delete
-		stub1.cleanUp();
+		stubRequest2.cleanUp();
 	}
 
 	@AfterClass(alwaysRun = true)
 	private void deleteMultiplePaperlessPreferencesRequests() {
-		for (WireMockStub wireMockStubObjectCreatedByNauris : REQUEST_ID_LIST) {
-			wireMockStubObjectCreatedByNauris.cleanUp();
+		for (HelperWireMockStub wireMockStubObject : REQUEST_ID_LIST) {
+			wireMockStubObject.cleanUp();
 		}
 		REQUEST_ID_LIST.clear();
 	}

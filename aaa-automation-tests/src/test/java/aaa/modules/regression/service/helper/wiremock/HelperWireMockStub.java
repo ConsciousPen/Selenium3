@@ -15,7 +15,7 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.wiremock.dto.WireMockTemplateData;
 import toolkit.config.PropertyProvider;
 
-public class WireMockStub {
+public class HelperWireMockStub {
 
 	private static final String TEMPLATE_URL_FORMAT = "%s/templates/%s";
 	private static final String POST_MOCK_MAPPING_URL_FORMAT = "%s/__admin/mappings";
@@ -29,7 +29,7 @@ public class WireMockStub {
 	private final String id;
 	private final WireMockTemplateData templateData;
 
-	private WireMockStub(String templateName, WireMockTemplateData templateData) {
+	private HelperWireMockStub(String templateName, WireMockTemplateData templateData) {
 		this.templateName = templateName;
 		this.id = UUID.randomUUID().toString();
 		this.templateData = templateData;
@@ -38,11 +38,11 @@ public class WireMockStub {
 	/**
 	 * templateName - last-payment-200 - hardcoded value for SuccessCase. If error case will be required, then new value will be added
 	 */
-	public static WireMockStub create(String templateName, WireMockTemplateData templateData) {
-		return new WireMockStub(templateName, templateData);
+	public static HelperWireMockStub create(String templateName, WireMockTemplateData templateData) {
+		return new HelperWireMockStub(templateName, templateData);
 	}
 
-	public WireMockStub mock() throws IllegalAccessException {
+	public HelperWireMockStub mock() throws IllegalAccessException {
 		String template = getTemplate();
 		for (Field field : templateData.getClass().getFields()) {
 			final String value = (String) field.get(templateData);
