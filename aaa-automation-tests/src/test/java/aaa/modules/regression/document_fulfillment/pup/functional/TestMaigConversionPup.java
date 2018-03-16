@@ -1,4 +1,4 @@
-package aaa.modules.regression.document_fulfillment.pup;
+package aaa.modules.regression.document_fulfillment.pup.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -21,7 +21,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO3(@Optional("VA") String state) throws NoSuchFieldException {
         pas2571_renewalCoverLetterHSRNPUPXX(state, PolicyType.HOME_SS_HO3);
@@ -37,7 +37,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO4(@Optional("VA") String state) throws NoSuchFieldException {
         pas2571_renewalCoverLetterHSRNPUPXX(state, PolicyType.HOME_SS_HO4);
@@ -53,10 +53,25 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO6(@Optional("VA") String state) throws NoSuchFieldException {
         pas2571_renewalCoverLetterHSRNPUPXX(state, PolicyType.HOME_SS_HO6);
+    }
+
+    /**
+     * @name Test Conversion Document generation (Insurance Renewal Bill)
+     * @scenario 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that AHRBXX document is getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8789"})
+    public void pas8789_insuranceRenewalBillHomeAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
+        pas8789_insuranceRenewalBillPupAHRBXX(state, PolicyType.HOME_SS_HO3);
     }
 
     @Override
