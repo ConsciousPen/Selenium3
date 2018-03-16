@@ -16,7 +16,7 @@ public class QuoteSummaryPage extends MainPage {
 	public static final String DIALOG_META = "ProductInitiateDialog";
 	public static final String PERSONAL_LINES = "Personal Lines";
 
-	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:actionButton_newQuote' or @id='quoteForm:newQuoteButton']"));
+	public static Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:newQuoteButton']"));
 	public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
 	public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
 	public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
