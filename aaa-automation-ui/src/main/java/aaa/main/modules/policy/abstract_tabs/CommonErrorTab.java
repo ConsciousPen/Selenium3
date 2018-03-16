@@ -212,7 +212,7 @@ public abstract class CommonErrorTab extends Tab {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
 			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>(actualTableAndHintErrorMessagePairs.size());
 			actualTableAndHintErrorMessagePairs.forEach(actualMessagePair -> actualTruncatedTableAndHintErrorMessagePairs.add(
-					Pair.of(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim().replaceAll("\\s+", " "), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim().replaceAll("\\s+", " "))));
+					Pair.of(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
 
 			return actualTruncatedTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair ->
 					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue()

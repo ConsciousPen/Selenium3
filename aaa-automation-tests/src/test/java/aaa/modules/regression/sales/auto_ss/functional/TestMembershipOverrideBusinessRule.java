@@ -87,7 +87,6 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10845")
-
     public void pas10845_Validate_Membership_Override_BusinessRule_MSPending() {
 
         TestData testData = getPolicyTD();
@@ -98,31 +97,18 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
                 AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-                AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
-                        tdCurrentCarrierSection)
+                AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),tdCurrentCarrierSection)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
                 AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Eleven Pay - Standard");
-
-        //getPolicyDefaultTD().adjust(TestData.makeKeyPath(new PremiumsAndCoveragesQuoteTab().getMetaKey(), HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
 
         mainApp().open();
         createCustomerIndividual();
         log.info("Policy Creation Started...");
         policy.initiate();
 
-        /*policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-        new PremiumAndCoveragesTab().submitTab();*/
-
         policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
-        new DocumentsAndBindTab().submitTab(true);
-
-        ErrorTab errorTab = new ErrorTab();
-
-        //errorTab.verify.errorsPresent("The selected pay plan is not allowed when Membership is \"\"No\"\". Please choos...");
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
-        //new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
-
-        }
+        new DocumentsAndBindTab().submitTab();
+        verifyErrorAndExit();
     }
 
     /**
@@ -137,6 +123,30 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
      * 8. Bind Quote ---> quote will bind
      * @details
      */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10845")
+    public void pas10845_Validate_Membership_Override_BusinessRule_MSYes() {
+
+        TestData testData = getPolicyTD();
+        TestData tdSpecificProductOwned = getTestSpecificTD("AAAProductOwned_Yes").resolveLinks();
+        TestData tdCurrentCarrierSection = getTestSpecificTD("CurrentCarrierInformation_BR").resolveLinks();
+        TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
+
+        testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                        AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
+                        tdCurrentCarrierSection)
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Eleven Pay - Standard");
+
+        mainApp().open();
+        createCustomerIndividual();
+        log.info("Policy Creation Started...");
+        createPolicy(testData);
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+    }
 
     /**
      * @author Robert Boles
@@ -150,3 +160,36 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
      * 8. Bind Quote ---> Rule should fire -
      * @details
      */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10845")
+    public void pas10845_Validate_Membership_Override_BusinessRule_MSNo() {
+        TestData testData = getPolicyTD();
+        TestData tdSpecificProductOwned = getTestSpecificTD("AAAProductOwned_No").resolveLinks();
+        TestData tdCurrentCarrierSection = getTestSpecificTD("CurrentCarrierInformation_BR").resolveLinks();
+        TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
+
+        testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+                        AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
+                        tdCurrentCarrierSection)
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Eleven Pay - Standard");
+
+        mainApp().open();
+        createCustomerIndividual();
+        log.info("Policy Creation Started...");
+        policy.initiate();
+
+        policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
+        new DocumentsAndBindTab().submitTab();
+        verifyErrorAndExit();
+    }
+
+    private void verifyErrorAndExit() {
+        ErrorTab errorTab = new ErrorTab();
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200127);
+        mainApp().close();
+    }
+}
