@@ -34,8 +34,8 @@ public class TestCFTScenario21 extends ControlledFinancialBaseTest {
 		generateRenewalOfferBill();
 		verifyRenewCustomerDecline();
 		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
-		automatedRefundOnRefundDate();
-//		verifyEscheatmentOnExpDatePlus25Plus13Months();
+		issueAutomatedRefundOnRefundDate();
+		verifyEscheatmentOnExpDatePlus25Plus13Months();
 	}
 
 	@Override
