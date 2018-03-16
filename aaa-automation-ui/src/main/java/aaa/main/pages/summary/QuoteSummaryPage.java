@@ -30,12 +30,12 @@ public class QuoteSummaryPage extends MainPage {
 		buttonAddNewQuote.click();
 		Waiters.SLEEP(5000).go();
 		broadLineOfBusiness.setValue(PERSONAL_LINES);
-		assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue()));
+		assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue())).isTrue();
 		Waiters.SLEEP(5000).go();
 		product.setValue(policyType.getName());
-		assertThat(StringUtils.isNotBlank(product.getValue()));
+		assertThat(StringUtils.isNotBlank(product.getValue())).isTrue();
 		Waiters.SLEEP(5000).go();
 		nextBtn.click();
-		assertThat(buttonAddNewQuote.isPresent());
+		assertThat(buttonAddNewQuote.isPresent()).isFalse();
 	}
 }
