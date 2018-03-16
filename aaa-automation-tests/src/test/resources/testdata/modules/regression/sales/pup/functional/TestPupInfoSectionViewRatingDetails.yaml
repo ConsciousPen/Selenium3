@@ -1,0 +1,92 @@
+# Test data for multiple underlying policies on PUP Prefill Tab
+
+TestData_PrefillTab: '@PrefillTab'
+
+PrefillTab: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+
+  ActiveUnderlyingPolicies: [
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: HO3 policy
+      },
+    ActiveUnderlyingPoliciesManual: {
+      Primary policy: 'Yes'
+      }
+    },
+
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: Auto,
+      Policy Number: Auto policy
+      }
+    }
+  ]
+}
+
+
+
+# Test data for multiple underlying policies on PUP Prefill Tab
+
+TestData_PrefillTab_NoAuto: '@PrefillTab_NoAuto'
+
+PrefillTab_NoAuto: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+
+  ActiveUnderlyingPolicies: [
+    {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: HO3 policy
+      },
+    ActiveUnderlyingPoliciesManual: {
+      Primary policy: 'Yes'
+      }
+    }
+  ]
+}
+
+
+
+
+# Test Data for other active AAA Policies section
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {
+    Policy type: 'Auto',
+    Policy number: 'AutoSS'
+  },
+  ActiveUnderlyingPoliciesManual: {}
+}
+
+
+# Test data for Non PA Auto
+
+PrefillTab_AZ: {
+  Zip Code: '85118',
+  Address Line 1: 4101 S LAST CHANCE TRL,
+  State / Province: 'AZ',
+  Policy State: 'AZ',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+DocumentsAndBindTab_AZ: {
+Agreement: 'I agree'
+}
