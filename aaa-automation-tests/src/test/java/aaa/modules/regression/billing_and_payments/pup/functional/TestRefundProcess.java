@@ -97,7 +97,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
         
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PU", "4WUIC", "Y", "VA", manualRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PU", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -108,7 +108,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "PU", "4WUIC", "Y", "VA", automatedRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "PU", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -130,7 +130,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PU", "4WUIC", "N", "VA", manualRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PU", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -141,7 +141,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "PU", "4WUIC", "N", "VA", automatedRefundAmount, "", "N");
+        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "PU", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -187,7 +187,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String policyNumber = preconditionPolicyCreationPup();
 
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -204,7 +204,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
         String policyNumber = preconditionPolicyCreationPup();
 
         CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
+        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }

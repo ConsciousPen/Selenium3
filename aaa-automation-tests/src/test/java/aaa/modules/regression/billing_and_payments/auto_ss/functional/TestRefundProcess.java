@@ -389,7 +389,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
 
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
@@ -420,7 +420,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
 
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
