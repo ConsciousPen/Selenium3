@@ -140,7 +140,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void payCancellationNoticeByRemittance() {
 		paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
+		JobUtils.executeJob(Jobs.aaaRemittanceFeedAsyncBatchReceiveJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),

@@ -28,7 +28,7 @@ public class TestPolicyCreationFull extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3)
-	public void testQuoteCreation(@Optional("") String state) {
+	public void testPolicyCreationFull(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

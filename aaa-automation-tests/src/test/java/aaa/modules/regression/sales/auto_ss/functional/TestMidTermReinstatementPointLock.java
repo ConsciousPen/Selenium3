@@ -41,7 +41,7 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9687")
 	public void pas9687_MidTermReinstatementPointsLocked(@Optional("NJ") String state) {
 

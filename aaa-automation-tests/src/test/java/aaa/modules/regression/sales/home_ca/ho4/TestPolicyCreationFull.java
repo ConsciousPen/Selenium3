@@ -28,7 +28,7 @@ public class TestPolicyCreationFull extends HomeCaHO4BaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4) 
-    public void testPolicyCreateHo4Full(@Optional("CA") String state) {
+    public void testPolicyCreationFull(@Optional("CA") String state) {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(getPolicyTD("DataGather", "TestData_Full").adjust(getPolicyTD("DataGather", "TestData_AddForm_HO210")).resolveLinks());

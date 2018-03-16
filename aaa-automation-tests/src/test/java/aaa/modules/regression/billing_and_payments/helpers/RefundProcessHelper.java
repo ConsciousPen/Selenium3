@@ -82,7 +82,7 @@ public class RefundProcessHelper extends PolicyBilling {
         String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
 
         RemoteHelper.downloadFile(neededFilePath, LOCAL_FOLDER_PATH + fileName);*/
-		String fileName = "20180110_164313_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
+		String fileName = "20180310_014138_DSB_E_PASSYS_DSBCTRL_7025_D.csv";
 		List<DisbursementEngineHelper.DisbursementFile> listOfRecordsInFile = DisbursementEngineHelper.readDisbursementFile(LOCAL_FOLDER_PATH + fileName);
 		DisbursementEngineHelper.DisbursementFile neededLine = null;
 		for (DisbursementEngineHelper.DisbursementFile s : listOfRecordsInFile) {
@@ -94,7 +94,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.getRequestRefereceId(), transactionID);
 		CustomAssert.assertEquals(neededLine.getRefundType(), refundType);
 		// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
-		if (refundMethod.contains("Check")) {
+		if (refundMethod.contains("CHCK")) {
 			CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
 		} else if (refundMethod.contains("ACH")) {
 			CustomAssert.assertEquals(neededLine.getRefundMethod(), "EFT");
@@ -128,7 +128,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 		CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 		CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-		if (refundMethod.contains("Check")) {
+		if (refundMethod.contains("CHCK")) {
 			CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
 		} else {
 			CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
@@ -148,7 +148,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			acceptPaymentActionTab.back();
 
 			//TODO doesn't work in VDMs
-			RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber);
+			RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
 			String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
 			String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
 
@@ -165,9 +165,9 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getRequestRefereceId(), transactionID);
 			CustomAssert.assertEquals(neededLine.getRefundType(), refundType);
 			// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
-			if (refundMethod.contains("Check")) {
-				CustomAssert.assertEquals(neededLine.getRefundMethod(), "CHCK");
-			} else if (refundMethod.contains("ACH")) {
+			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
+				CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
+			} else if (refundMethod.contains("ACH") || refundMethod.contains("EFT")) {
 				CustomAssert.assertEquals(neededLine.getRefundMethod(), "EFT");
 			} else if (refundMethod.contains("Card")) {
 				CustomAssert.assertEquals(neededLine.getRefundMethod(), "CRDC");
@@ -188,7 +188,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			} else {
 				CustomAssert.assertEquals(neededLine.getPolicyState(), policyState);
 			}
-			CustomAssert.assertEquals(neededLine.getRefundAmount(), refundAmount + ".00");
+			CustomAssert.assertEquals(neededLine.getRefundAmount(), new Dollar(refundAmount).toPlaingString());
 			CustomAssert.assertEquals(neededLine.getPayeeName(), neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
 			CustomAssert.assertFalse(neededLine.getPayeeStreetAddress1().isEmpty());
 			CustomAssert.assertFalse(neededLine.getPayeeCity().isEmpty());
@@ -199,12 +199,17 @@ public class RefundProcessHelper extends PolicyBilling {
 			CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
 			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
 			CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
-			if (refundMethod.contains("Check")) {
+			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
 				CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
 			} else {
 				CustomAssert.assertFalse(neededLine.getReferencePaymentTransactionNumber().isEmpty());
 			}
 			CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
+		} else {
+			//to make sure Automated refund is generated also on SCRUM team envs
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Refund").click();
 		}
 	}
 
@@ -252,7 +257,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	 *
 	 * Note: for the test to work LastPaymentMethod needs to be configured for the payments to be > threshold
 	 * @details
-	 * @param daysDelay - 8 days for HO, 1 day for Auto
+	 * @param daysDelay - 14 days for HO, 1 day for Auto
 	 */
 	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, int daysDelay) {
 
@@ -269,7 +274,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(8));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
@@ -353,9 +358,9 @@ public class RefundProcessHelper extends PolicyBilling {
 	 */
 	public void voidedAutomatedRefundGeneration(boolean isManual, String paymentMethod, String billingAccountNumber, String policyNumber) {
 		if (isManual) {
-			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
+			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7037_D");
 		} else {
-			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "R", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
+			getResponseFromPC(paymentMethod, billingAccountNumber, policyNumber, "R", "ERR", "DSB_E_DSBCTRL_PASSYS_7037_D");
 		}
 	}
 
@@ -803,7 +808,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @param policyNumber - current policy number
 	 * @param refundMethod - can be "M" - manual or "R" - automation
 	 * @param refundStatus - can be "SUCC" - success response from PC and "ERR" - failed response from PC
-	 * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7036_D"
+	 * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7037_D"
 	 */
 	private void getResponseFromPC(String paymentMethod, String billingAccountNumber, String policyNumber, String refundMethod, String refundStatus, String folderName) {
 		String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);

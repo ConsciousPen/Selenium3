@@ -15,12 +15,12 @@ import aaa.modules.policy.HomeCaHO6BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Automation team
  * @name Test Create Home Quote
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Quote
- * 3. Verify quote status is 'Premium Calculated'
+ * 2. Create Home HO6 policy
+ * 3. Verify policy status is 'Policy Active'
  * @details
  */
 public class TestPolicyCreation extends HomeCaHO6BaseTest {

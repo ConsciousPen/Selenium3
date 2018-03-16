@@ -1,14 +1,5 @@
 package aaa.modules.regression.sales.template;
 
-import static aaa.helpers.db.queries.MsrpQueries.*;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -24,12 +15,23 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static aaa.helpers.db.queries.MsrpQueries.*;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected static VehicleTab vehicleTab = new VehicleTab();
@@ -146,6 +148,11 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		SearchPage.tableSearchResults.getRow("Status", "Policy Active").getCell(1).controls.links.getFirst().click();
 	}
 
+	protected void openAndSearchExpiredPolicy(String policyNumber) {
+		searchForPolicy(policyNumber);
+		SearchPage.tableSearchResults.getRow("Status", "Policy Expired").getCell(1).controls.links.getFirst().click();
+	}
+
 	public void searchForPolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -204,7 +211,6 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		// Adjust Rating details report tab
 		return testData.adjust(ratingDetailReportsTab.getMetaKey(), ratingDetailsReportTab).resolveLinks();
 	}
-
 
 	protected TestData getVehicleMotorHomeTestData() {
 		// Build override Informational Notice dialog
@@ -313,7 +319,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 
 	// Used in After suite method, cause of cross-test interruptions
 	public void resetDefaultMSRPVersionValuesVinControlTable() {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE, getState()));
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
 
 }

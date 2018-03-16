@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Conversion Test" verbose="1" parallel="tests" thread-count="1024">
 	<listeners>
-		<!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>-->
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
 		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
 	</listeners>
 	<parameter name="timeshift-scenario-mode" value="method"/>
@@ -29,15 +29,109 @@
 		</classes>
 	</test>
 
-	<test name="MAIG Conversion Test" parallel="methods" thread-count="200">
+
+
+	<test name="VA MAIG Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="VA" />
 		<classes>
-			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest" />
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
+				<methods>
+					<include name="maigConversionTest1"/>
+					<include name="maigConversionTest_customerDeclined1"/>
+				</methods>
+			</class>
 		</classes>
 	</test>
 
-	<test name="MAIG Manual Conversion Test" parallel="methods" thread-count="200">
+	<test name="DE MAIG Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="DE" />
 		<classes>
-			<class name="aaa.modules.regression.conversions.auto_ss.MaigManualConversionTest" />
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
+				<methods>
+					<include name="maigConversionTest2"/>
+					<include name="maigConversionTest_customerDeclined2"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="PA MAIG Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="PA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
+				<methods>
+					<include name="maigConversionTest3"/>
+					<include name="maigConversionTest_customerDeclined3"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="MD MAIG Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="MD" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
+				<methods>
+					<include name="maigConversionTest4"/>
+					<include name="maigConversionTest_customerDeclined4"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="NJ MAIG Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.auto_ss.MaigConversionTest">
+				<methods>
+					<include name="maigConversionTest5"/>
+					<include name="maigConversionTest_customerDeclined5"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+
+
+	<test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ, DE, VA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest" />
+		</classes>
+	</test>
+
+	<test name="Home SS HO3 Manual Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ, DE, VA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.home_ss.ho3.ManualConversionTest" />
+		</classes>
+	</test>
+
+	<test name="Home SS HO4 Manual Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ, DE, VA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.home_ss.ho4.ManualConversionTest" />
+		</classes>
+	</test>
+
+	<test name="Home SS HO6 Manual Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ, DE, VA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.home_ss.ho6.ManualConversionTest" />
+		</classes>
+	</test>
+
+	<test name="Home SS DP3 Manual Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ, DE, VA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest" />
+		</classes>
+	</test>
+
+	<test name="PUP Manual Conversion Test" parallel="methods" thread-count="200">
+		<parameter name="state" value="NJ, DE, VA" />
+		<classes>
+			<class name="aaa.modules.regression.conversions.pup.ManualConversionTest" />
 		</classes>
 	</test>
 

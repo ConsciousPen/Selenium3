@@ -55,9 +55,9 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(class_td, ErrorTab.class, true);
-		new ErrorTab().submitTab();
+		new ErrorTab().buttonOverride.click();
 
-		Tab.buttonCancel.click();
+		Tab.buttonSaveAndExit.click();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
@@ -102,10 +102,10 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		query.put("Status", "overridden");
 		query.put("Rule name", "200040");
 
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).verify.present();
+        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).isPresent();
 
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().verify.value(duration);
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().verify.value(reason);
+        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
+        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

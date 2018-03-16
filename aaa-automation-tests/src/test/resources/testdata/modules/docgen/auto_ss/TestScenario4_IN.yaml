@@ -165,8 +165,8 @@ AA41XX_EDTWO_IN: {
     NmdInsrdStAbrv: {TextField: IN}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 500001023},
-    SubAgntNum: {TextField: 500010068}
+    GenlAgntNum: {TextField: 500016292},
+    #SubAgntNum: {TextField: 500010068}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}

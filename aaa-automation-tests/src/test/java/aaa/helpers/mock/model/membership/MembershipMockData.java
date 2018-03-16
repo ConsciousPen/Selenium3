@@ -5,13 +5,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.exceptions.IstfException;
@@ -39,46 +37,19 @@ public class MembershipMockData {
 		this.membershipResponses = new ArrayList<>(membershipResponses);
 	}
 
-	public Set<String> getNonActiveOrWithFaultCodeMembershipNumbers() {
-		Set<String> nonActiveOrNotPrimaryMembershipNumbers = new HashSet<>();
-		for (String membershipNumber : getMembershipRequestNumbers()) {
-			List<MembershipResponse> responses = getMembershipResponses(membershipNumber);
-			if (responses.stream().noneMatch(this::isActiveAndPrimary) && responses.stream().allMatch(m -> StringUtils.isBlank(m.getFaultCode()))) {
-				nonActiveOrNotPrimaryMembershipNumbers.add(membershipNumber);
-			}
-		}
-		return nonActiveOrNotPrimaryMembershipNumbers;
-	}
-
 	public List<String> getMembershipRequestNumbers() {
 		return getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
 	}
 
-	public Pair<String, Boolean> getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
+	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		//TODO-dchubkov: handle default value of avgAnnualERSperMember=99.9
 		String membershipNumber;
-		boolean isMemberSinceDateSet = true;
 
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
-		if (membershipNumbersSet.isEmpty()) {
-			membershipNumbersSet = getNonActiveOrWithFaultCodeMembershipNumbers();
-			assertThat(membershipNumbersSet).as("No valid membership numbers were found").isNotEmpty();
-			isMemberSinceDateSet = false;
-		}
-
+		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for memberPersistency=" + memberPersistency).isNotEmpty();
 		membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
-		if (membershipNumber == null) {
-			if (isMemberSinceDateSet) {
-				membershipNumbersSet = getNonActiveOrWithFaultCodeMembershipNumbers();
-				membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
-				assertThat(membershipNumber).as("No valid membership numbers were found").isNotNull();
-				isMemberSinceDateSet = false;
-			} else {
-				throw new IstfException("No valid membership numbers were found");
-			}
-		}
-
-		return Pair.of(membershipNumber, isMemberSinceDateSet);
+		assertThat(membershipNumber).as("No valid membership number was found for avgAnnualERSperMember field").isNotNull();
+		return membershipNumber;
 	}
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDateTime memberSinceDate) {

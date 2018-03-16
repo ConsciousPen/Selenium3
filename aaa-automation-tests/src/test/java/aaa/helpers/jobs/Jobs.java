@@ -62,7 +62,7 @@ public class Jobs {
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
 
-	public static Job remittanceFeedBatchReceiveJob = new Job("remittanceFeedBatchReceiveJob");
+	public static Job aaaRemittanceFeedAsyncBatchReceiveJob = new Job("aaaRemittanceFeedAsyncBatchReceiveJob");
 
 	public static Job aaaRefundGenerationAsyncJob = new Job("aaaRefundGenerationAsyncJob");
 
@@ -137,6 +137,8 @@ public class Jobs {
 	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
+
+    public static Job membershipValidationJob = new Job("membershipValidationJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

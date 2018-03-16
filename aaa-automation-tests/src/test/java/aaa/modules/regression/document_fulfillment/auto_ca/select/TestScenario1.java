@@ -73,7 +73,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				DocGenEnum.Documents._550016,
 				DocGenEnum.Documents._550018,
 				DocGenEnum.Documents._550023,
-				DocGenEnum.Documents._550025,
+				//DocGenEnum.Documents._550025, CIN doc is removed
 				DocGenEnum.Documents.AHRCTXXPUP,
 				DocGenEnum.Documents._553333,
 				DocGenEnum.Documents._605005_SELECT,

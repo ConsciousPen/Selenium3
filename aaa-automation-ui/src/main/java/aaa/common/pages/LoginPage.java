@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -14,11 +16,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.ListBox;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -91,8 +89,19 @@ public class LoginPage extends Page implements ILogin {
 			Tab.buttonSaveAndExit.click();
 		}
 		if (lnkLogout.isPresent() && lnkLogout.isVisible()) {
-			lnkLogout.click();
-			logoutDialog.confirm();
+			try {
+				lnkLogout.click();
+				logoutDialog.confirm();
+			}catch (Exception e){
+				// Logout when when dialog overlaps logout button
+				String logoutUri = "/aaa-app/flow?_j_acegi_logout=_j_acegi_logout&local=true&_admin_app=false";
+				try {
+					URL currentUrl = new URL(BrowserController.get().driver().getCurrentUrl());
+					BrowserController.get().open(new URL(currentUrl.getProtocol(), currentUrl.getHost(), currentUrl.getPort(), logoutUri).toString());
+				} catch (MalformedURLException exception) {
+					log.info("Failed to logout using logouturl", exception);
+				}
+			}
 		}
 		if(timeOutStartPage.isPresent() && timeOutStartPage.isVisible()) {
 			timeOutStartPage.click();

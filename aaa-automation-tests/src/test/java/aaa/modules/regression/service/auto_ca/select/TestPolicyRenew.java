@@ -35,9 +35,8 @@ public class TestPolicyRenew extends AutoCaSelectBaseTest {
 
 		policy.createRenewal(getTestSpecificTD("TestData"));
 
-		PolicySummaryPage.buttonRenewals.verify.enabled();
-
-		NotesAndAlertsSummaryPage.alert.verify.contains("This Policy is Pending Renewal");
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
 
 	}
 }

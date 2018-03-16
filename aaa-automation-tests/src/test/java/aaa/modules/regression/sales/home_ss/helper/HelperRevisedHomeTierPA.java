@@ -4,8 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
 import org.apache.commons.lang.math.IntRange;
-import java.util.Arrays;
-import java.util.List;
+import org.apache.commons.lang3.Range;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -31,6 +30,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     private ApplicantTab applicantTab = new ApplicantTab();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
+    private Range<String> range = Range.between("A", "J");
 
     private ComboBox policyTier = applicantTab.getAssetList()
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
@@ -173,6 +173,43 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         assertThat(range.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
         PropertyQuoteTab.RatingDetailsView.close();
 
+        mainApp().close();
+
+    }
+
+    public void pas7025_TestPAPropertyTierChange(PolicyType policyType) {
+
+        TestData tdHome = getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+
+        // TODO This needs to be removed after 5/28/18 (new algo implementation)
+        verifyAlgoDate();
+
+        // Open App create Policy Navigate to P&C page calculate premium
+        mainApp().open();
+        createCustomerIndividual();
+        policyType.get().initiate();
+        policyType.get().getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
+        PropertyQuoteTab.linkViewRatingDetails.click();
+
+        // Check if new algo is implemented
+        assertThat(range.contains( PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+
+        // Issue Policy
+        PropertyQuoteTab.RatingDetailsView.close();
+        premiumsAndCoveragesQuoteTab.submitTab();
+        policyType.get().getDefaultView().fillFromTo(tdHome, MortgageesTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        //Initiate renewal and Navigate to P&C page calculate premium
+        policyType.get().renew().start().submit();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+
+        // Check if the algo is implemented
+        PropertyQuoteTab.RatingDetailsView.open();
+        assertThat(range.contains( PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
+        PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
 
     }

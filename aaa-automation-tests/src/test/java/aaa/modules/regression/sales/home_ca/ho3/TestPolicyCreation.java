@@ -15,7 +15,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Automation team
  * @name Test Create CA Home Policy
  * @scenario
  * 1. Create new or open existed customer.

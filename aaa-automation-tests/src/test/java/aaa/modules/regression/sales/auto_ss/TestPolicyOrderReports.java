@@ -47,6 +47,9 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(classTd, DriverActivityReportsTab.class, true);
 
+		//workaround for PAS-10786
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		
 		DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
 		if (driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()) {
 			driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
@@ -63,9 +66,11 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		}
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		//workaround for PAS-10786
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		if (!getState().equals(Constants.States.OK)) {
-			DriverTab.tableActivityInformationList.verify.rowsCount(5);
+			assertThat(DriverTab.tableActivityInformationList.getRowsCount()).isEqualTo(5);
 		}
 
 		if (!getState().equals(Constants.States.OK)) {

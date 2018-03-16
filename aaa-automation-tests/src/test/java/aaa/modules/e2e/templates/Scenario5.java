@@ -27,8 +27,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.verification.CustomAssertions;
 
 public class Scenario5 extends ScenarioBaseTest {
 
@@ -66,7 +66,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size());
+		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
@@ -255,7 +255,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.buttonRenewals.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled(false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 	}
 
@@ -267,7 +267,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.buttonRenewals.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled(false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

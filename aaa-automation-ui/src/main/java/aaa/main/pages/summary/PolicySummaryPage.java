@@ -31,7 +31,9 @@ public class PolicySummaryPage extends SummaryPage {
 	public static StaticElement labelManualRenew = new StaticElement(By.id("productContextInfoForm:manualRenewFlag"));
 	public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
 	public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
+	public static StaticElement policyLockedException = new StaticElement(By.id("errorsForm:j_id_1x_4l:0:j_id_1x_4s"));
 
+	public static Button buttonBackFromErrorPage = new Button(By.id("errorsForm:backToPreviousConsolidatedView"));
 	public static Button buttonTransactionHistory = new Button(By.id("productContextInfoForm:lnkTransactionHistory"));
 	public static Button buttonPendedEndorsement = new Button(By.id("productContextInfoForm:lnkPendedEndorsements"));
 	public static Button buttonRenewals = new Button(By.id("productContextInfoForm:lnkRenewals"));

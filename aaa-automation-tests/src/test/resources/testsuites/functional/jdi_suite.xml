@@ -101,6 +101,7 @@
                     <include name="pas325_eValueCommissionRelatedFields"/>
                     <include name="pas436_eValueDiscountVariations"/>
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
+                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
                     <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
                 </methods>
@@ -124,7 +125,6 @@
                     <include name="pas3693_eValueConfiguration4"/>
                     <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
-                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
                 </methods>
             </class>
         </classes>
@@ -290,24 +290,29 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
+                    <!--Commented out for PAS18.3 run-->
                     <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
-                    <include name="pas6560_endorsementValidateAllowed"/>
+<!--                    <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
                     <include name="pas6562_endorsementValidateNotAllowedFutureDatedEndorsement"/>
                     <include name="pas6562_endorsementValidateNotAllowedNano"/>
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
-                    <include name="pas6562_endorsementValidateNotAllowedUBI"/>
+                    <include name="pas6562_endorsementValidateNotAllowedUBI"/>-->
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
-                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
+<!--                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
+                    <include name="pas7082_AddVehicle"/>-->
                     <include name="pas8275_vinValidate"/>
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
-                    <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
-                    <include name="pas9337_CheckStartEndorsementInfoServerResponseForExpiredPolicy"/>
+<!--                    <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>-->
+                    <include name="pas9456_9455_PolicyLockUnlockServices"/>
+                    <include name="pas9997_paymentMethodsLookup"/>
+                    <include name="pas9997_paymentPlansLookup"/>
                 </methods>
             </class>
         </classes>
@@ -318,14 +323,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
-                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <!--<include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>-->
                     <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
                 </methods>
             </class>
         </classes>
     </test>
     <test name="TestNonPremiumBearingEndorsementsSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <parameter name="state" value="VA, WV, WY"/>
+        <!--commented out for PAS18.3 runs-->
+        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>

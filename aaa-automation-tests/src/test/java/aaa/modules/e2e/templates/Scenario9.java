@@ -177,6 +177,15 @@ public class Scenario9 extends ScenarioBaseTest {
 			return false;
 	}
 	
+	protected boolean isLastPaymentDateAfterRenewPreviewGenDate() {
+		LocalDateTime lastPaymentDate = getTimePoints().getBillDueDate(installmentDueDates.get(10)); 
+		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate); 
+		if (lastPaymentDate.isAfter(renewPreviewGenDate)) 
+			return true;
+		else 
+			return false;
+	} 
+	
 	protected void renewalImageGeneration() {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);

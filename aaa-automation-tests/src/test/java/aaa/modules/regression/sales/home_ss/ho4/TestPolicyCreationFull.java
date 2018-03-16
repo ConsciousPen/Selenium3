@@ -19,7 +19,7 @@ public class TestPolicyCreationFull extends HomeSSHO4BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4)
-	public void testFullPolicyCreation(@Optional("") String state) {
+	public void testPolicyCreationFull(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.createPolicy(getTestSpecificTD("TestDataFull"));

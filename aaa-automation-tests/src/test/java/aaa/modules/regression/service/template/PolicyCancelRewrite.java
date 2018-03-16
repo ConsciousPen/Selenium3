@@ -45,7 +45,7 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		assertThat(originalPolicyNumber).as("Rewriting Policy %s number is the same as initial policy number %s", originalPolicyNumber, rewritePolicyNumber)
-				.isEqualTo(rewritePolicyNumber);
+		assertThat(originalPolicyNumber).isNotEqualTo(rewritePolicyNumber);
+		
 	}
 }

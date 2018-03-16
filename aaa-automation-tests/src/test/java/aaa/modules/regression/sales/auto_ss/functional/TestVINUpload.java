@@ -1,43 +1,40 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import org.openqa.selenium.By;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.PolicyConstants;
+import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
+import org.testng.annotations.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
@@ -594,34 +591,69 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
 		adminApp().open();
-		vinMethods.uploadFiles(controlTableFile, vinTableFile);
+		//vinMethods.uploadFiles(controlTableFile, vinTableFile);
 
 		// 2. Renewal term is inforce) R-35
-		// According to controlTableFile
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+		// Add vehicle at renewal version
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		// Make sure refresh occurs
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("BACKDATED_SS_MAKE");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		// Add Vehicle to new renewal version
+		TestData renewalVersionVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+				.adjust(AutoSSMetaData.VehicleTab.TYPE.getLabel(), "Private Passenger Auto")
+				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), "7MSRP15H5V1011111");
+
+		List<TestData> renewalVerrsionVehicleTab = new ArrayList<>();
+		renewalVerrsionVehicleTab.add(getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN).getTestData("VehicleTab"));
+		renewalVerrsionVehicleTab.add(renewalVersionVehicle);
+
+		TestData testDataRenewalVersion = getPolicyTD().adjust(vehicleTab.getMetaKey(), renewalVerrsionVehicleTab)
+				.mask(TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()));
+
+		vehicleTab.fillTab(testDataRenewalVersion);
+		PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		new DocumentsAndBindTab().submitTab();
+		// ProposeRenewalVersion500Error
+
+		/*SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		new BillingAccount().acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(1));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);*/
 		openAndSearchActivePolicy(policyNumber);
-		// 4. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
+
+		// 4. Initiate Prior Term (backdated) endorsement with effective date in previous term
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(2));
 		openAndSearchActivePolicy(policyNumber);
 
 		policy.createPriorTermEndorsement(getPolicyTD("Endorsement", "TestData_Plus10Day")
 				.adjust(TestData.makeKeyPath("EndorsementActionTab", "Endorsement Date"),
-						policyExpirationDate.minusDays(5).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
+						policyExpirationDate.minusDays(7).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		new GeneralTab().getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AUTHORIZED_BY.getLabel(), TextBox.class).setValue("Me");
-		// 5. Add new vehicle
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		TestData twoVehicles = addSecondVehicle(NEW_VIN, testData)
-				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 
-		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, DocumentsAndBindTab.class);
+		// 5. Add new vehicle to the endorsement
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+		TestData secondVehicle = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), UPDATABLE_VIN);
+
+		List<TestData> listVehicleTab = new ArrayList<>();
+		listVehicleTab.add(testData.getTestData(vehicleTab.getMetaKey()));
+		listVehicleTab.add(secondVehicle);
+
+		policy.getDefaultView().fillFromTo(testData.adjust(vehicleTab.getMetaKey(), listVehicleTab), VehicleTab.class, DocumentsAndBindTab.class);
+		// Upload New Version of Vehicle Added during endorsement in step 5
+
 		// 6. Bind endorsement
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();
@@ -648,5 +680,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_SS_TEST','BACKDATED_SS','BACKDATED2_SS')";
 		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
+	}
+
+	@AfterSuite(alwaysRun = true)
+	protected void resetDefault() {
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
 }

@@ -39,7 +39,7 @@ public class TestPolicyCreationFull extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testPolicyCreateHO3Full(@Optional("") String state) {
+	public void testPolicyCreationFull(@Optional("") String state) {
 		mainApp().open();
 
 		TestData td = getTestSpecificTD("TestData");

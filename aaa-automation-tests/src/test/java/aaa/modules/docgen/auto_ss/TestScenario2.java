@@ -1,7 +1,7 @@
 package aaa.modules.docgen.auto_ss;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,6 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 
 public class TestScenario2 extends AutoSSBaseTest {
@@ -105,7 +104,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
+
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
@@ -385,19 +384,17 @@ public class TestScenario2 extends AutoSSBaseTest {
 		}
 
 		clearList();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_EndorsePolicy(@Optional("") String state) {
-		CustomAssert.enableSoftMode();
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		storeCoveragesData();
@@ -663,8 +660,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 		}
 
 		clearList();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 
 	}
 
@@ -695,7 +690,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		policy.getDefaultView().fill(getTestSpecificTD("TestData_AddRenewal"));
@@ -713,11 +708,10 @@ public class TestScenario2 extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
-		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		storeCoveragesData();
@@ -918,8 +912,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 		}
 
 		clearList();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	@Parameters({"state"})
@@ -931,10 +923,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
-		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.policyInquiry().start();
 		policyEffectiveDate = TimeSetterUtil.getInstance()
@@ -988,8 +979,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 						.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyDueDt", "DateTimeField"), plcyDueDt),
 				policyNumber);
 
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	private void storeCoveragesData() {
@@ -1005,7 +994,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		String _plcyEffDt = policyEffectiveDate.toString();
 		String _plcyExprDt = policyExpirationDate.toString();
 		String _termExprDt = policyExpirationDate.toString();
-		String _termExprDtPA = policyEffectiveDate.plusDays(182).toString();
+		//PASBB-414 MDd and PA both require that a single set of ID cards for each vehicle are issued every six months regardless if the policy is on an annual term.
+		String _termExprDtPA = policyExpirationDate.minusMonths(6).toString();
 		termEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));

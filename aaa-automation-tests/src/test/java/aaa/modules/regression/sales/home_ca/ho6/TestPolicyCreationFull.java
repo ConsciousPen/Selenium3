@@ -32,7 +32,7 @@ public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6)
-	public void testPolicyCreation(@Optional("CA") String state) {
+	public void testPolicyCreationFull(@Optional("CA") String state) {
 
 		TestData td =getTestSpecificTD("TestDataFull");
 

@@ -84,7 +84,9 @@ public class AutoCaPolicy implements IPolicy {
         calculatePremium(td);
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 		new DriverActivityReportsTab().fillTab(td);
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+	    //TODO workaround for PAS-10786
+		//NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DriverActivityReportsTab().submitTab();
 		new DocumentsAndBindTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
     }

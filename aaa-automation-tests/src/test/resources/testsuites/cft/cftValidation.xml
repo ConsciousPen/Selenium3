@@ -1,10 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CFT Validation">
+<suite name="CFT Validation" >
 
-    <test name="CFT Validation" preserve-order="true">
-		<classes>
-   			<class name="aaa.modules.preconditions.SetTodayDate"/>
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="CFT Validation">
+        <classes>
             <class name="aaa.modules.cft.TestCFTValidator" />
+            <class name="aaa.modules.cft.TestCFTFutureDatedPolicy" />
+            <!--<class name="aaa.modules.cft.TestCFTLedgerAccount" />-->
         </classes>
     </test>
 

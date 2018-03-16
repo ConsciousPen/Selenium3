@@ -1,0 +1,34 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    DwellingAddress_PropertyInfoTab: {
+      Number of family units: '4-Fourplex'
+    }, 
+    PropertyValue: {
+      'Personal property value': '$99,000.00'
+    }, 
+    RecreationalEquipment: {
+      Swimming pool: Restricted access with slide and diving board, 
+      "Spa/hot tub": Restricted access,
+      Trampoline: Restricted access in-ground with safety net
+    },
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

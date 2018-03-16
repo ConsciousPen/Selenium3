@@ -145,7 +145,7 @@ PAS-9157:
   summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
   reason: PROD
   failures:
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
+    - tests: [aaa.modules.e2e.home_ss.*.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
@@ -165,16 +165,6 @@ PAS-9661:
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
     - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
-PAS-9754:
-  summary: "PAS18.2 Regression: Unable to clear Suspense Payment"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.cft.auto_ss.TestCFTScenario13.cftTestScenario13]
-      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
-    - tests: [aaa.modules.cft.auto_ca.choice.TestCFTScenario13.cftTestScenario13]
-      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
-    - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
-      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
 PAS-9337:
   summary: "Green Button Service - Abracradabra"
   reason: PROD
@@ -193,3 +183,52 @@ PAS-10350:
   failures:
     - tests: [aaa.modules]
       messages: ['Cannot get value of StaticElement', "Errors: 'Roof Type' is not in within range"]
+PAS-10700:
+  summary: "Regression: MD Property: Insurance report section is absent on reports tab, but rule is fired requesting to order report"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation,
+              aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement,
+              aaa.modules.regression.sales.pup.TestPolicyCreation,
+              aaa.modules.regression.service.pup.TestPolicyEndorsement]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10702:
+  summary: "Regression: Property: Insurance report rule is fired for additional insured who is not listed on Reports tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+    - tests: [aaa.modules.cft.*]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10699:
+  summary: "eValue is not changed from Pending to Active or Inactive on NB+30"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.*]
+      messages: ["PENDING"]
+PAS-10970:
+  summary: "AARFIXX has empty value instead of NO for tag VehTyp for NV NANO policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["VehTyp"]
+INC0655981:
+  summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
+      messages: ["Miscellaneous"]
+PAS-11405:
+  summary: "Regression: Auto & Home: CA: Can't change payment plan of renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
+      messages: ["Column Policy Status was not found in the table"]
+    - tests: [aaa.modules.e2e.home_ca.*.TestScenario10.TC01_createPolicy]
+      messages: ["Column Policy Status was not found in the table"]
+    - tests: [aaa.modules.e2e.pup.TestScenario10.TC01_createPolicy]
+      messages: ["Column Policy Status was not found in the table"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
+    - tests: [aaa.modules.e2e.home_ca.*.TestScenario12.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]

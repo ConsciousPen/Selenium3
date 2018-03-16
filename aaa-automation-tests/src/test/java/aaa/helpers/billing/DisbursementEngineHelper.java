@@ -15,7 +15,7 @@ import toolkit.utils.logging.CustomLogger;
 
 public class DisbursementEngineHelper {
 
-	public static final String DISBURSEMENT_ENGINE_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER)+"%1$s/inbound/%2$s";
+	public static final String DISBURSEMENT_ENGINE_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "%1$s/inbound/%2$s";
 
 	/**
 	 * This method is used for prepare disbursement engine file with data specified by input parameters.
@@ -44,13 +44,20 @@ public class DisbursementEngineHelper {
 			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_" + fileNameLastPart + ".csv";
 			file = new File(CustomLogger.getLogDirectory().concat("/DisbursementEngine_Files/"), fileName);
 			date = date.plusSeconds(1);
-		} while (file.exists());
+		}
+		while (file.exists());
 		file.getParentFile().mkdir();
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
 			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|{0}|ETLNONPROD|71DCF95E-C|{1}|{2}|C48192E5-E|1\n", fileNameLastPart, fileName, date.format(DATE_TIME_PATTERN));
 			bw.write(header);
-			bw.write(builder.buildData(date.format(DATE_PATTERN)));
+			if (fileNameLastPart.contains("7037")) {
+				bw.write(builder.buildRejectData(date.format(DATE_PATTERN)));
+			} else if (fileNameLastPart.contains("7035")) {
+				bw.write(builder.buildData(date.format(DATE_PATTERN)));
+			} else {
+				throw new IstfException("no folder specified or folder is not handled");
+			}
 			bw.write(builder.buildTrail());
 			bw.flush();
 		} catch (IOException e) {
@@ -59,25 +66,25 @@ public class DisbursementEngineHelper {
 		return file;
 	}
 
-
 	public static synchronized void copyFileToServer(File file, String folderName) {
-		if (file == null)
+		if (file == null) {
 			throw new IstfException("Disbursement engine file is NULL");
+		}
 		RemoteHelper.uploadFile(file.getAbsolutePath(), String.format(DISBURSEMENT_ENGINE_PATH, folderName, file.getName()));
 	}
 
 	public static class DisbursementEngineFileBuilder {
-		String transactionNumber="";
-		String refundMethod="";
-		String paymentType="";
-		String policyNumber="";
-		String productType="";
-		String refundAmount="";
-		String accountLast4="";
-		String checkNumber="";
-		String accountType="";
-		String cardSubType="";
-		String refundStatus="";
+		String transactionNumber = "";
+		String refundMethod = "";
+		String paymentType = "";
+		String policyNumber = "";
+		String productType = "";
+		String refundAmount = "";
+		String accountLast4 = "";
+		String checkNumber = "";
+		String accountType = "";
+		String cardSubType = "";
+		String refundStatus = "";
 
 		public DisbursementEngineFileBuilder setTransactionNumber(String transactionNumber) {
 			this.transactionNumber = transactionNumber;
@@ -150,6 +157,25 @@ public class DisbursementEngineHelper {
 					.append(cardSubType).append("||")
 					.append("12345|")
 					.append(refundStatus).append("||\n").toString();
+		}
+
+		public String buildRejectData(String date) {
+			return new StringBuilder("D|")
+					.append(transactionNumber).append("|")
+					//.append(refundMethod).append("|")
+					.append(paymentType).append("|")
+					.append(date).append("|")
+					.append(date).append("|")
+					.append(policyNumber).append("|")
+					.append("PAS").append("|")
+					.append(productType).append("||")//includes underwriting
+					.append(refundAmount).append("|")
+					//.append(checkNumber).append("|")
+					.append(accountLast4).append("|")
+					.append(accountType).append("|")
+					.append(cardSubType).append("|")
+					.append("12345|err\n").toString();
+			//.append(refundStatus).append("||\n").toString();
 		}
 
 		public String buildTrail() {
@@ -239,7 +265,6 @@ public class DisbursementEngineHelper {
 		private String refundReasonDescription;
 		private String referencePaymentTransactionNumber;
 		private String eRefundEligible;
-
 
 		public DisbursementFile(String recordType, String requestReferenceId, String refundType, String refundMethod,
 				String issueDate, String agreementNumber, String agreementSourceSystem, String productType, String companyId, String insuredFirstName, String insuredLastName,

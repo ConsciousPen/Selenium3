@@ -80,13 +80,14 @@ public class RemoteHelper {
 			throw new IstfException("Stub file is NULL");
 		}
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
-		File destinationFile = new File(destination);
-		if (!isPathExist(destinationFile.getParent())) {
-			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
-			if (destinationFile.getParentFile().getParentFile() != null) {
-				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
-			}
-		}
+//		Folders creation moved into Ssh class and made with sftp commands
+//		File destinationFile = File destinationFile = new File(destination);;
+//		if (!isPathExist(destinationFile.getParent())) {
+//			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
+//			if (destinationFile.getParentFile().getParentFile() != null) {
+//				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
+//			}
+//		}
 		ssh.putFile(source, destination);
 	}
 
