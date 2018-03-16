@@ -1,49 +1,37 @@
 package toolkit.webdriver.controls;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import toolkit.datax.TestData;
 import toolkit.utils.meters.WaitMeters;
 import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.waiters.Waiter;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
- * Standard button implementation.
+ * Base class for clickable controls such as buttons or links (but not checkboxes!)
  */
-public class Button extends AbstractClickableStringElement implements HighlightableElement {
-	public Button(By locator) {
-		super(locator, Waiters.DEFAULT);
-	}
-
-	public Button(By locator, Waiter waiter) {
+public abstract class AbstractClickableStringElement extends AbstractNonEditableStringElement {
+	protected AbstractClickableStringElement(By locator, Waiter waiter) {
 		super(locator, waiter);
 	}
 
-	public Button(BaseElement<?, ?> parent, By locator) {
-		super(parent, locator, Waiters.DEFAULT);
-	}
-
-	public Button(BaseElement<?, ?> parent, By locator, Waiter waiter) {
+	protected AbstractClickableStringElement(BaseElement<?, ?> parent, By locator, Waiter waiter) {
 		super(parent, locator, waiter);
 	}
 
 	@Override
-	protected String getRawValue() {
-		WebElement el = getWebElement();
-		String v = el.getText();
-		if (v.isEmpty()) {
-			v = el.getAttribute("value");
-		}
-		return v;
+	protected void setRawValue(Void value) {
+		click();
 	}
 
+	/**
+	 * "Fill" element by clicking it if provided TestData contains corresponding key (value is ignored)
+	 */
 	@Override
-	public boolean isEnabled() {
-		boolean enabled = super.isEnabled();
-		if (enabled && !getWebElement().getTagName().equals("input")) {
-			enabled = getWebElement().getAttribute("onclick") != null;
+	public void fill(TestData td) {
+		if (td.containsKey(name)) {
+			click();
 		}
-		return enabled;
 	}
 
 	@Override
