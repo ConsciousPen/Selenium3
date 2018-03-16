@@ -11,7 +11,6 @@ import aaa.main.modules.policy.PolicyType;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Table;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class QuoteSummaryPage extends MainPage {
 	public static final String DIALOG_META = "ProductInitiateDialog";
@@ -28,14 +27,18 @@ public class QuoteSummaryPage extends MainPage {
 
 	public static void initiateQuote(PolicyType policyType) {
 		buttonAddNewQuote.click();
-		Waiters.SLEEP(5000).go();
-		broadLineOfBusiness.setValue(PERSONAL_LINES);
-		assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue())).isTrue();
-		Waiters.SLEEP(5000).go();
-		product.setValue(policyType.getName());
-		assertThat(StringUtils.isNotBlank(product.getValue())).isTrue();
-		Waiters.SLEEP(5000).go();
-		nextBtn.click();
-		assertThat(buttonAddNewQuote.isPresent()).isFalse();
+		try {
+			Thread.sleep(2000);
+			broadLineOfBusiness.setValue(PERSONAL_LINES);
+			Thread.sleep(2000);
+			assertThat(StringUtils.isNotBlank(broadLineOfBusiness.getValue())).isTrue();
+			product.setValue(policyType.getName());
+			Thread.sleep(2000);
+			assertThat(StringUtils.isNotBlank(product.getValue())).isTrue();
+			nextBtn.click();
+			assertThat(buttonAddNewQuote.isPresent()).isFalse();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

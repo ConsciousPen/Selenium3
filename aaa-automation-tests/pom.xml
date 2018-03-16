@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <browser.pool.browsertype>firefox</browser.pool.browsertype>
+        <browser.pool.browsertype>googlechrome</browser.pool.browsertype>
         <browser.pool.name>OptBrowserPool.xml</browser.pool.name>
         <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <browser.pool.threads>4</browser.pool.threads>
