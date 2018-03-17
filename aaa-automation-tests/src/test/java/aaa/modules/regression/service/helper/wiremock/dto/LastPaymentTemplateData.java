@@ -63,4 +63,51 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 		data.cardExpirationDate = cardExpirationDate;
 		return data;
 	}
+
+	public enum PaymentMethodEnum {
+		CRDC("CRDC"),
+		EFT("EFT");
+
+		final String paymentMethod;
+
+		PaymentMethodEnum(String paymentMethod) {
+			this.paymentMethod = paymentMethod;
+		}
+
+		public String get() {
+			return paymentMethod;
+		}
+	}
+
+	public enum PaymentMethodSubTypeEnum {
+		VISA("VISA"),
+		MC("MC"),
+		DISCOVER("DISCOVER"),
+		AMEX("AMEX");
+
+		final String paymentMethodSubType;
+
+		PaymentMethodSubTypeEnum(String paymentMethodSubType) {
+			this.paymentMethodSubType = paymentMethodSubType;
+		}
+
+		public String get() {
+			return paymentMethodSubType;
+		}
+	}
+
+	public enum CardSubTypeEnum {
+		CREDIT("CREDIT"),
+		DEBIT("DEBIT");
+
+		final String cardSubType;
+
+		CardSubTypeEnum(String cardSubType) {
+			this.cardSubType = cardSubType;
+		}
+
+		public String get() {
+			return cardSubType;
+		}
+	}
 }
