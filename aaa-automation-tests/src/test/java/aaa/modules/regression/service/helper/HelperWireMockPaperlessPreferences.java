@@ -9,7 +9,7 @@ import aaa.modules.regression.service.helper.wiremock.dto.WireMockMappingRequest
 import aaa.modules.regression.service.helper.wiremock.factory.PaperlessPreferencesWMRequestFactory;
 import toolkit.config.PropertyProvider;
 
-public class HelperWireMock {
+public class HelperWireMockPaperlessPreferences {
 	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/__admin/mappings";
 
 	/**
@@ -61,7 +61,7 @@ public class HelperWireMock {
 
 	@Test
 	public void createPaperlessPreferencesRequestIdTest() {
-		String requestId = setPaperlessPreferencesToValue("QVASS926232047", HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
+		String requestId = setPaperlessPreferencesToValue("QVASS926232047", HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());
 		printToLog("requestId: " + requestId);
 	}
 
