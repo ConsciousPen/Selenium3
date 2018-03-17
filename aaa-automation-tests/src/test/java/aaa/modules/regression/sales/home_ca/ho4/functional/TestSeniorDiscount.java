@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho4.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -62,7 +63,7 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 
 		//PAS-3712 start
 		helperCommon.seniorDiscountDwellingUsageCheck("Secondary");
-		CustomAssert.assertFalse(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(SENIOR_DISCOUNT_NAME));
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(SENIOR_DISCOUNT_NAME)).isFalse();
 
 		helperCommon.seniorDiscountDwellingUsageCheck("Primary");
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(SENIOR_DISCOUNT_NAME);

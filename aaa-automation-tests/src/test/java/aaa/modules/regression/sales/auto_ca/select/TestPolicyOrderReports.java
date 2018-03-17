@@ -45,8 +45,8 @@ public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 		policy.getDefaultView().fillUpTo(class_td, DriverActivityReportsTab.class, true);
 			
 		
-		DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response").verify.value("processing complete, with results information");
-		DriverActivityReportsTab.tableMVRReports.getRow(1).getCell("Response").verify.value("Hit - Activity Found");
+		assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response")).hasValue("processing complete, with results information");
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(1).getCell("Response")).hasValue("Hit - Activity Found");
 		
 
 		

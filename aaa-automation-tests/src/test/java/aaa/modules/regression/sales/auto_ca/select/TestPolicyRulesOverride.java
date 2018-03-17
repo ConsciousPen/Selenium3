@@ -104,8 +104,8 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 
 		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).exists();
 
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().verify.value(duration);
-		UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().verify.value(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst()).hasValue(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst()).hasValue(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

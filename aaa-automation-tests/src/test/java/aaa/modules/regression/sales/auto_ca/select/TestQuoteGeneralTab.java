@@ -111,8 +111,8 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		verifyFieldProperties(PolicyInformation.AGENT_OF_RECORD, false);
 
 
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.COMISSION_TYPE).verify.enabled();
-		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.AUTHORIZED_BY).verify.enabled();
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.COMISSION_TYPE)).isEnabled();
+		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.AUTHORIZED_BY)).isEnabled();
 		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.TOLLFREE_NUMBER)).hasValue("");
 		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.LANGUAGE_PREFERENCE)).hasValue("English");
 		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.SUPPRESS_PRINT)).hasValue("Print Declaration");
@@ -126,7 +126,7 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		documentsAndBindTab.verifyFieldIsEnabled(WORK_PHONE_NUM.getLabel());
 		documentsAndBindTab.verifyFieldIsEnabled(MOBILE_PHONE_NUM.getLabel());
 		documentsAndBindTab.verifyFieldIsEnabled(MOTORCYCLE_POLICY_NUM.getLabel());
-		CustomAssert.assertTrue(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")); // verification that field is mandatory
+		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")).isTrue(); // verification that field is mandatory
 		documentsAndBindTab.fillTab(td).submitTab();
 
 		new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
@@ -145,11 +145,11 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		GeneralTab generalTab = new GeneralTab();
 		if (isEnabled) {
 			//verification that field is enabled
-			generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).verify.enabled();
+			assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor)).isEnabled();
 			//verification that field is mandatory
-			CustomAssert.assertTrue(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).getAttribute("class").contains("required"));
+			assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).getAttribute("class").contains("required")).isTrue();
 		} else {
-			generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).verify.enabled(false);
+			assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor)).isEnabled(false);
 		}
 	}
 

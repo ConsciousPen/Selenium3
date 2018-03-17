@@ -143,20 +143,20 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		 */
 
 		//Steps 2-3
-		CustomAssert.assertTrue(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected());
-		CustomAssert.assertFalse(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected());
-		CustomAssert.assertFalse(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected());
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected()).isTrue();
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected()).isFalse();
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected()).isFalse();
 		CustomAssert.assertFalse
 				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(SELECT_VARIATION).isPresent());
 		CustomAssert.assertFalse
 				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(REMOVE_VARIATION).isPresent());
 		CustomAssert.assertTrue
 				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(RESTORE_DEFAULTS).isPresent());
-		CustomAssert.assertFalse(productOfferingTab.btnAddAdditionalVariation.isEnabled());
+		assertThat(productOfferingTab.btnAddAdditionalVariation).isEnabled(false);
 		//5. Calculate Premium on Offering Tab
 		productOfferingTab.calculatePremium();
 		//6. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
-		CustomAssert.assertTrue(ProductOfferingTab.isTotalPremiumCalculatedProperly(HERITAGE));
+		assertThat(ProductOfferingTab.isTotalPremiumCalculatedProperly(HERITAGE)).isTrue();
 		//Saving of default premium for bundle with default values
 		defaultTotalPremium = ProductOfferingTab.getTotalPremium(HERITAGE);
 
@@ -172,7 +172,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		productOfferingTab.submitTab();
 		endorsementTab.fillTab(td);
 		//Step 7. Verification of the List of all endorsements which are included to Heritage bundle on Endorsement tab.
-		CustomAssert.assertTrue(endorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements));
+		assertThat(endorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements)).isTrue();
 		endorsementTab.submitTab();
 		//34.Verify that modified Total Premium of selected bundle  = Total premium on Quote tab.
 		assertThat(modifiedTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -195,9 +195,9 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		productOfferingTab.getAssetList().getAsset(LEGACY).selectVariation();
 
-		CustomAssert.assertTrue(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected());
-		CustomAssert.assertFalse(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected());
-		CustomAssert.assertFalse(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected());
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected()).isTrue();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected()).isFalse();
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected()).isFalse();
 		CustomAssert.assertFalse
 				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(SELECT_VARIATION).isPresent());
 		CustomAssert.assertFalse
@@ -211,13 +211,13 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		CustomAssert.assertTrue
 				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(RESTORE_DEFAULTS).isPresent());
 
-		CustomAssert.assertFalse(productOfferingTab.btnAddAdditionalVariation.isEnabled());
+		assertThat(productOfferingTab.btnAddAdditionalVariation).isEnabled(false);
 
 
 		//15. Calculate Premium on Offering Tab
 		productOfferingTab.calculatePremium();
 		//16. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
-		CustomAssert.assertTrue(ProductOfferingTab.isTotalPremiumCalculatedProperly(LEGACY));
+		assertThat(ProductOfferingTab.isTotalPremiumCalculatedProperly(LEGACY)).isTrue();
 
 		//Saving of defalut premium for bundle with default values
 		defaultTotalPremium = ProductOfferingTab.getTotalPremium(LEGACY);
@@ -234,7 +234,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		productOfferingTab.submitTab();
 		endorsementTab.fillTab(td);
 		//Step 16. Verification of the List of all endorsements which are included to Legacy bundle on Endorsement tab.
-		CustomAssert.assertTrue(endorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements));
+		assertThat(endorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements)).isTrue();
 		endorsementTab.submitTab();
 		//30. Verify that Total Premium of selected bundle  = Total premium on Quote tab.
 		assertThat(modifiedTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -257,9 +257,9 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		productOfferingTab.getAssetList().getAsset(PRESTIGE).selectVariation();
 
-		CustomAssert.assertTrue(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected());
-		CustomAssert.assertFalse(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected());
-		CustomAssert.assertFalse(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected());
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected()).isTrue();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected()).isFalse();
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected()).isFalse();
 		CustomAssert.assertFalse
 				(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(SELECT_VARIATION).isPresent());
 		CustomAssert.assertFalse
@@ -273,12 +273,12 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		CustomAssert.assertTrue
 				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(RESTORE_DEFAULTS).isPresent());
 
-		CustomAssert.assertFalse(productOfferingTab.btnAddAdditionalVariation.isEnabled());
+		assertThat(productOfferingTab.btnAddAdditionalVariation).isEnabled(false);
 
 		//24. Calculate Premium on Offering Tab
 		productOfferingTab.calculatePremium();
 		//25. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
-		CustomAssert.assertTrue(ProductOfferingTab.isTotalPremiumCalculatedProperly(PRESTIGE));
+		assertThat(ProductOfferingTab.isTotalPremiumCalculatedProperly(PRESTIGE)).isTrue();
 
 		defaultTotalPremium = ProductOfferingTab.getTotalPremium(PRESTIGE);
 
@@ -294,7 +294,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		productOfferingTab.submitTab();
 		endorsementTab.fillTab(td);
 		//Step 25. Verification of the List of all endorsements which are included to Prestige bundle on Endorsement tab.
-		CustomAssert.assertTrue(new EndorsementTab().tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements));
+		assertThat(new EndorsementTab().tblIncludedEndorsements.getColumn("Form ID").getValue().containsAll(includedEndorsements)).isTrue();
 		endorsementTab.submitTab();
 		//38.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
 		assertThat(modifiedTotalPremium).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -344,6 +344,6 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 	private void verifyIncludedEndorsementsAddedOnPremiumAndCoveragesQuoteTab(List<String> includedEndorsementList) {
 		List<String> temp = PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getColumn("Description").getValue();
 		List<String> addedOnTabEndorsementsList = temp.stream().map(e -> e.substring(0, 8)).collect(Collectors.toList());
-		CustomAssert.assertTrue(addedOnTabEndorsementsList.containsAll(includedEndorsementList));
+		assertThat(addedOnTabEndorsementsList.containsAll(includedEndorsementList)).isTrue();
 	}
 }

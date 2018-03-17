@@ -71,10 +71,10 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		CustomAssert.assertTrue(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
 
 		Purchase.linkViewApplicableFeeSchedule.click();
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeACH.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
 		new PurchaseTab().fillTab(getPolicyTD()).submitTab();
@@ -83,11 +83,11 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		autopaySavingMessageCheck(true, delta);
 
 		PremiumsAndCoveragesQuoteTab.linkViewApplicableFeeSchedule.click();
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
+		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
 		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify
 				.value(eftInstallmentFeeACH.toString());
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
+		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
+		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
@@ -147,10 +147,10 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		assertThat(Purchase.autoPaySetupSavingMessage.getValue()).isNotEqualTo("");
 
 		Purchase.linkViewApplicableFeeSchedule.click();
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE).verify.value(nonEftInstallmentFee.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeACH.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeCreditCard.toString());
-		Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE).verify.value(eftInstallmentFeeDebitCard.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
+		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
 		new PurchaseTab().fillTab(getPolicyTD()).submitTab();

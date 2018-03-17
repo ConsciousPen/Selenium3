@@ -392,7 +392,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 		//PAS-439, PAS-234 end
 		//PAS-305 start
-		CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+		assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 		//PAS-305 end
 
 		//Get premiums before discount is applied
@@ -402,7 +402,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//PAS-305 start
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("None");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("None");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		//PAS-305 end
 
@@ -423,7 +423,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		PremiumAndCoveragesTab.calculatePremium();
 
 		//PAS-305 start
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+		assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isTrue();
 		//PAS-305 end
 
 		//Get premiums after discount is applied
@@ -435,12 +435,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		log.info("totalPremiumWithEvalueDiscount: {}", totalPremiumWithEvalueDiscount);
 
 		//Compare premiums before discount and after
-		CustomAssert.assertTrue(totalPremiumWithoutEvalueDiscount.moreThan(totalPremiumWithEvalueDiscount));
+		assertThat(totalPremiumWithoutEvalueDiscount.moreThan(totalPremiumWithEvalueDiscount)).isTrue();
 		//PAS-2053 eValue Status on Policy Summary Page - Don't Show it When not enabled
 
 		//PAS-305 start
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("Yes");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("Yes");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		//PAS-305 end
 
@@ -458,7 +458,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class)
 				.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 		DocumentsAndBindTab.btnPurchase.click();
-		CustomAssert.assertTrue(errorTab.getErrorsControl().getTable().getColumn("Message").getValue().toString().contains("'Email' is required"));
+		assertThat(errorTab.getErrorsControl().getTable().getColumn("Message").getValue().toString().contains("'Email' is required")).isTrue();
 		//PAS-276 end
 
 		CustomAssert.disableSoftMode();
@@ -501,7 +501,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//PAS-302 start VC4
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 		CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "NOTENROLLED");
 		//PAS-302 end
 
@@ -512,7 +512,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 		simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Active");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
 		//PAS-302 start VC2
 		CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "ACTIVE");
 		//PAS-302 end
@@ -526,7 +526,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 		simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 		CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "INACTIVE");
 		//PAS-302 end
 		CustomAssert.disableSoftMode();
@@ -558,12 +558,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 		simplifiedQuoteIssue();
 
 		//BUG PAS-4279 Evalue status showing wrong
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Pending");
 
 		//PAS-302 start VC1
 		CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "PENDING");
@@ -595,9 +595,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 		simplifiedQuoteIssue("ACH");
-		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Pending");
 	}
 
 	/**
@@ -622,9 +622,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isPresent(false);
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
-		CustomAssert.assertFalse(PolicySummaryPage.tableGeneralInformation.getHeader().getValue().contains("eValue Status"));
+		assertThat(PolicySummaryPage.tableGeneralInformation.getHeader().getValue().contains("eValue Status")).isFalse();
 		simplifiedQuoteIssue();
-		CustomAssert.assertFalse(PolicySummaryPage.tableGeneralInformation.getHeader().getValue().contains("eValue Status"));
+		assertThat(PolicySummaryPage.tableGeneralInformation.getHeader().getValue().contains("eValue Status")).isFalse();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -746,7 +746,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 		//BUG PAS-6591 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement
-		CustomAssert.assertTrue(Page.dialogConfirmation.isPresent());
+		assertThat(Page.dialogConfirmation.isPresent()).isTrue();
 		Page.dialogConfirmation.labelMessage.verify.value("If you remove the eValue discount, the premium will increase. Are you sure you want to remove the discount?");
 		Page.dialogConfirmation.reject();
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
@@ -898,7 +898,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//PAS-721 Start
 		String queryFull2 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AHEPXX", "ADHOC_DOC_GENERATE");
-		CustomAssert.assertFalse(DBService.get().getValue(queryFull2).isPresent());
+		assertThat(DBService.get().getValue(queryFull2).isPresent()).isFalse();
 		//PAS-721 End
 
 		CustomAssert.disableSoftMode();
@@ -1007,7 +1007,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	private void processEvalueDiscountPopUp(boolean deletePopup) {
-		CustomAssert.assertTrue(Page.dialogConfirmation.isPresent());
+		assertThat(Page.dialogConfirmation.isPresent()).isTrue();
 		Page.dialogConfirmation.labelMessage.verify
 				.value("BI limit of at least " + CONFIGURED_BI_LIMIT + " must be selected when eValue discount is applied. Please select Yes to confirm this change.");
 		if (deletePopup) {
@@ -1041,7 +1041,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue("BI limit should be changed to lowest BI limit " + LOWER_BI_LIMIT, biAsset.getValue().contains(LOWER_BI_LIMIT));
 		PremiumAndCoveragesTab.calculatePremium();
 		CustomAssert.assertFalse(successfulCalculation, isTotalTermPremiumEquals0());
-		CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+		assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 		applyEvalueDiscountAsset.setValue("Yes");
 		CustomAssert.assertTrue("BI limit should be changed to configured BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
 		biAsset.setValue(searchBILimit(biAsset.getAllValues(), LOWER_BI_LIMIT));
@@ -1055,7 +1055,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		assertThat(biAsset.getValue()).as("BI limit shouldn't be changed when we update coverages/ pay plan").isEqualTo(currentBI);
 		PremiumAndCoveragesTab.calculatePremium();
 		CustomAssert.assertFalse(successfulCalculation, isTotalTermPremiumEquals0());
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+		assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isTrue();
 	}
 
 	/**
@@ -1519,7 +1519,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		updateBillingAccountActionTab.save();
 
 		//Check if eValue was removed by system
-		assertThat("Customer acknowledges that removing recurring payments will cause the eValue to be removed.".equals(Page.dialogConfirmation.labelMessage.getValue())).isTrue();
+		assertThat(Page.dialogConfirmation.labelMessage).hasValue("Customer acknowledges that removing recurring payments will cause the eValue to be removed.");
 		Page.dialogConfirmation.buttonYes.click();
 		checkIfEvalueWasRemovedBySystem(true);
 
@@ -1582,7 +1582,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			PremiumAndCoveragesTab.buttonCalculatePremium.click();
 			PremiumAndCoveragesTab.discountsAndSurcharges.verify.contains(E_VALUE_DISCOUNT);
 		} else {
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 		}
 		PremiumAndCoveragesTab.buttonContinue.click();
 	}
@@ -1722,7 +1722,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private void checkBlueBoxMessages(String topic, List<String> messages) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(topic);
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(topic);
 		List<String> currentValues = Arrays.asList(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue().split("\n"));
 		CustomAssert.assertEquals("Blue Box contains wrong Messages", messages, currentValues);
 	}

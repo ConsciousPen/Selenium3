@@ -1,5 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.pages.Page;
@@ -77,11 +78,11 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 		index++;
 		expandSection();
 		if (index == 0) {
-			CustomAssert.assertTrue(buttonRemove.isPresent() && buttonRemove.isVisible());
+			assertThat(buttonRemove.isPresent() && buttonRemove.isVisible()).isTrue();
 			buttonRemove.click();
 			Page.dialogConfirmation.confirm();
 		} else {
-			CustomAssert.assertTrue(isTableVisible(tableItemsList) && tableItemsList.isVisible());
+			assertThat(isTableVisible(tableItemsList) && tableItemsList.isVisible()).isTrue();
 			tableItemsList.removeRow(index);
 		}
 	}

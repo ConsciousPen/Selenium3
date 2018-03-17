@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -60,11 +61,11 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		CustomAssert.enableSoftMode();
 
-		PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst().verify.value(true);
-		PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst().verify.value(true);
-		PrefillTab.tableDrivers.getRow(1).getCell("First Name").verify.value(expectedFN);
-		PrefillTab.tableDrivers.getRow(1).getCell("Last Name").verify.value(expectedLN);
-		PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth").verify.value(expectedBirthDay);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("First Name")).hasValue(expectedFN);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Last Name")).hasValue(expectedLN);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth")).hasValue(expectedBirthDay);
 
 		if (!getState().equals("IN")) //additional vehicle is returned from stub for IN
 		CustomAssert.assertEquals("No vehicles should be returned from stub", 0, PrefillTab.tableVehicles.getRowsCount());
@@ -127,21 +128,21 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		CustomAssert.enableSoftMode();
 
-		PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst().verify.value(false);
-		PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().verify.value(false);
-		PrefillTab.tableVehicles.getRow(1).getCell("VIN").verify.value(VIN_1);
-		PrefillTab.tableVehicles.getRow(2).getCell("VIN").verify.value(VIN_2);
+		assertThat(PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableVehicles.getRow(1).getCell("VIN")).hasValue(VIN_1);
+		assertThat(PrefillTab.tableVehicles.getRow(2).getCell("VIN")).hasValue(VIN_2);
 
-		PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst().verify.value(true);
-		PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst().verify.value(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(true);
+		assertThat(PrefillTab.tableDrivers.getRow(1).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
 
-		PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().verify.value(false);
-		PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst().verify.value(false);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst()).hasValue(false);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(false);
 
 		PrefillTab.tableVehicles.getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 		PrefillTab.tableVehicles.getRow(2).getCell(1).controls.checkBoxes.getFirst().setValue(true);
 		PrefillTab.tableDrivers.getRow(2).getCell("Named Insured").controls.checkBoxes.getFirst().setValue(true);
-		PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst().verify.value(true);
+		assertThat(PrefillTab.tableDrivers.getRow(2).getCell("Driver").controls.checkBoxes.getFirst()).hasValue(true);
 
 		prefillTab.submitTab();
 

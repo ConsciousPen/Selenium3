@@ -116,9 +116,9 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 
 		//Validation that 2nd NI and Driver is added and displayed on QuoteSummaryScreen
 		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-		PolicySummaryPage.tableInsuredInformation.getRow(2).getCell("Name").verify.value("John I Bamboo");
+		assertThat(PolicySummaryPage.tableInsuredInformation.getRow(2).getCell("Name")).hasValue("John I Bamboo");
 		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
-		PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.value("John I Bamboo");
+		assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name")).hasValue("John I Bamboo");
 
 		log.info("QuoteCustomerSearch test is passed for auto_ss. Quote #" + PolicySummaryPage.labelPolicyNumber.getValue() + "is created");
 	}

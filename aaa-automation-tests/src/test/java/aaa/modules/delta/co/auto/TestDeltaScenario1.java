@@ -191,7 +191,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.valueByRegex("^[^0]+$");
 
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(5).format(DateTimeUtils.MM_DD_YYYY));
-		aiAssetList.getWarning(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).verify.value("Conviction Date later than current date");
+		assertThat(aiAssetList.getWarning(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).hasValue("Conviction Date later than current date");
 		Tab.buttonNext.click();
 		NavigationPage.Verify.viewTabSelected(NavigationEnum.AutoSSTab.DRIVER.get());
 		DriverTab.tableActivityInformationList.isPresent();
@@ -264,7 +264,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		//CO DELTA - No full safety glass
 		//Update: 080-006CO_VA_V3.0 is updated to add Full safety glass coverage
-		CustomAssert.assertTrue(pacTab.getRatingDetailsVehiclesData().stream().allMatch(td -> td.containsKey("Full Safety Glass")));
+		assertThat(pacTab.getRatingDetailsVehiclesData().stream().allMatch(td -> td.containsKey("Full Safety Glass"))).isTrue();
 		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "Yes");
 		pacTab.submitTab();
 		//PAS 11 fix application change #35

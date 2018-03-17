@@ -211,7 +211,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON).verify.value(transactionSubtype);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON)).hasValue(transactionSubtype);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Fee").click();
 		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_TYPE)).hasValue("Fee");
 		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_SUBTYPE)).hasValue(transactionSubtype);

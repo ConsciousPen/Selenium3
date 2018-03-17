@@ -1,5 +1,6 @@
 package aaa.modules.regression.common;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,9 +75,9 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		for (String searchByField : SearchPage.assetListSearch.getAssetNames()) {
 			BaseElement<?, ?> searchByControl = SearchPage.assetListSearch.getAsset(searchByField);
 			if (searchByField.equals(SearchMetaData.Search.SEARCH_FOR.getLabel())) {
-				((RadioGroup) searchByControl).verify.value(defaultSearchForCriteria.get());
+				assertThat(((RadioGroup) searchByControl)).hasValue(defaultSearchForCriteria.get());
 			} else {
-				((AbstractStringElement<?>) searchByControl).verify.value("");
+				assertThat(((AbstractStringElement<?>) searchByControl)).hasValue("");
 			}
 		}
 	}

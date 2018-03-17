@@ -47,7 +47,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Reinstatement with Lapse");
 	}
 
 	@Parameters({"state"})
@@ -77,7 +77,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Reinstatement with Lapse");
 	}
 
 	@Parameters({"state"})
@@ -108,7 +108,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement with Lapse");
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Reinstatement with Lapse");
 	}
 
 	@Parameters({"state"})
@@ -138,7 +138,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type").verify.value("Reinstatement");
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Reinstatement");
 	}
 
 	@Parameters({"state"})

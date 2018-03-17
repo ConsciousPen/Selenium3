@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -33,6 +34,6 @@ public class PolicyEndorsementDeclineByCustomer extends PolicyBaseTest {
         policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
-        PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
+        assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status")).hasValue(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
     }
 }

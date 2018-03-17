@@ -120,7 +120,7 @@ public class ActivitiesAndUserNotes extends Table {
         public Verify() {}
 
         public void description(int rowIndex, String expectedDescription) {
-            ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.DESCRIPTION).verify.value(expectedDescription);
+            assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.DESCRIPTION)).hasValue(expectedDescription);
         }
 
         public void descriptionContains(int rowIndex, String expectedDescription) {
@@ -139,7 +139,7 @@ public class ActivitiesAndUserNotes extends Table {
         }
 
         public void status(int rowIndex, String expectedStatus) {
-            ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.STATUS).verify.value(expectedStatus);
+            assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesTable.STATUS)).hasValue(expectedStatus);
         }
 
         public void descriptionExist(String expectedDescription) {

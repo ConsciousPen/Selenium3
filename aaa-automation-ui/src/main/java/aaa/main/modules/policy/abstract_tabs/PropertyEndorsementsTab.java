@@ -92,12 +92,12 @@ public abstract class PropertyEndorsementsTab extends Tab {
 		}
 	}
 	
-	public boolean verifyLinkEditIsPresent(String formID) {
+	public boolean isLinkEditPresent(String formID) {
 		Link edit = tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Edit"); 
 		return edit.isPresent();
 	}
 	
-	public boolean verifyLinkRemoveIsPresent(String formID) {
+	public boolean isLinkRemovePresent(String formID) {
 		Link remove = tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Remove"); 
 		return remove.isPresent();
 	}

@@ -641,14 +641,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isTrue();
 		} else {
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
 		}
 		if (eValueDiscountPresent) {
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount")).isTrue();
 		} else {
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount")).isFalse();
 		}
 	}
 
@@ -674,10 +674,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 		if (isGenerated) {
-			CustomAssert.assertTrue(DBService.get().getValue(query).isPresent());
+			assertThat(DBService.get().getValue(query).isPresent()).isTrue();
 			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
 		} else {
-			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
+			assertThat(DBService.get().getValue(query).isPresent()).isFalse();
 		}
 	}
 
@@ -688,7 +688,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
 		CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
 		if ("TRUE".equals(membershipEligibilitySwitch)) {
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
 			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
 			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 			CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
@@ -696,7 +696,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
 			CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		} else {
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_4);
+			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_4);
 			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
 			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		}
@@ -1410,14 +1410,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isTrue();
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).verify.value("Yes");
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2)).hasValue("Yes");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		} else {
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).verify.value("None");
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3)).hasValue("None");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		}
 		lastTransactionHistoryExit();
@@ -1427,9 +1427,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
-				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5).verify.value("Yes");
+				assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5)).hasValue("Yes");
 			} else {
-				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("Yes");
+				assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("Yes");
 			}
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		} else {
@@ -1437,11 +1437,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 			assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6)).hasValue("None");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 			if (checkMessages) {
 				if ("TRUE".equals(membershipEligibilitySwitch)) {
-					PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+					assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
 					PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
 				}
 			}
@@ -1503,7 +1503,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			//Efolder.isDocumentExist("Endorsement", "Discount Removed");
 		} else {
 			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
-			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
+			assertThat(DBService.get().getValue(query).isPresent()).isFalse();
 		}
 	}
 
@@ -1556,7 +1556,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				}
 			}
 		} else {
-			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
+			assertThat(DBService.get().getValue(query).isPresent()).isFalse();
 		}
 	}
 }

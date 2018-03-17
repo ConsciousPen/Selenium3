@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.apache.commons.lang3.RandomStringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
@@ -38,11 +39,11 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 				.value(TimeSetterUtil.getInstance().getCurrentTime().minusDays(0).format(DateTimeUtils.MM_DD_YYYY));
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate().getLabel(), TextBox.class).setValue("2011/01/01");
-		getEndorsementActionTab().getAssetList().getWarning(getEndorsementDate().getLabel()).verify.value("Date format should be in MM/dd/yyyy");
+		assertThat(getEndorsementActionTab().getAssetList().getWarning(getEndorsementDate().getLabel())).hasValue("Date format should be in MM/dd/yyyy");
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate().getLabel(), TextBox.class)
 				.setValue(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(timeShift).format(DateTimeUtils.MM_DD_YYYY));
-		CustomAssert.assertTrue(getEndorsementActionTab().getAssetList().getWarning(getEndorsementDate().getLabel()).getValue().contains(""));
+		assertThat(getEndorsementActionTab().getAssetList().getWarning(getEndorsementDate().getLabel()).getValue().contains("")).isTrue();
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate().getLabel(), TextBox.class)
 				.setValue(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(timeShift - 1).format(DateTimeUtils.MM_DD_YYYY));
@@ -51,7 +52,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate().getLabel(), TextBox.class)
 				.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(timeShift).format(DateTimeUtils.MM_DD_YYYY));
-		CustomAssert.assertTrue(getEndorsementActionTab().getAssetList().getWarning(getEndorsementDate().getLabel()).getValue().contains(""));
+		assertThat(getEndorsementActionTab().getAssetList().getWarning(getEndorsementDate().getLabel()).getValue().contains("")).isTrue();
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementDate().getLabel(), TextBox.class)
 				.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(timeShift + 1).format(DateTimeUtils.MM_DD_YYYY));
@@ -62,12 +63,12 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 				.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(0).format(DateTimeUtils.MM_DD_YYYY));
 
 		getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementReason().getLabel(), true, true, true);
-		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason()).verify.value("");
+		assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason())).hasValue("");
 		getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), false, false, false);
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Other");
 		getEndorsementActionTab().getInquiryAssetList().assetFieldUnionCheck(getEndorsementOtherReason().getLabel(), true, true, true);
-		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).verify.value("");
+		assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).hasValue("");
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(), TextBox.class).setValue("other value");
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Maintain");
@@ -75,7 +76,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementReason().getLabel(), ComboBox.class).setValue("contains=Other");
 		//BUG PAS-6205 'Other' field value is not reset to Blank after Endorsment Reason is set to Other for the second time
-		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason()).verify.value("");
+		assertThat(getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason())).hasValue("");
 
 		//BUG PAS-6204 When entering endorsement reason into 'Other' field in Endorsement Action tab longer than 255 characters, error 500 is thrown
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(),TextBox.class).setValue(RandomStringUtils.randomAlphanumeric(256));

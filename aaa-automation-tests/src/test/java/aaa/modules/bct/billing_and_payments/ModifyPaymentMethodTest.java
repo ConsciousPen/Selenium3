@@ -38,7 +38,7 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		}
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(BillingConstants.PaymentPlan.MONTHLY_RENEWAL);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan")).hasValue(BillingConstants.PaymentPlan.MONTHLY_RENEWAL);
 
 	}
 }

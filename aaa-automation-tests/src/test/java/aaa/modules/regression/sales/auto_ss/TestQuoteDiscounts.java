@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -37,14 +38,14 @@ public class TestQuoteDiscounts extends AutoSSBaseTest {
 				.adjust(getTestSpecificTD("MembershipDiscount")).resolveLinks(), PremiumAndCoveragesTab.class, true);
 
 		//Verify that discount is present
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Membership Discount"));
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Membership Discount")).isTrue();
 
 		//Delete conditions for discount and verify is it displayed
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Membership Discount"));
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Membership Discount")).isFalse();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		log.info("Membership discount is verified successfully");
@@ -71,13 +72,13 @@ public class TestQuoteDiscounts extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 
 		//Verify that discount is present
-		CustomAssert.assertTrue(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Loyalty Discount"));
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Loyalty Discount")).isTrue();
 
 		//Delete conditions for discount and verify is it displayed
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Loyalty Discount"));
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Loyalty Discount")).isFalse();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 		log.info("Loyalty discount is verified successfully");

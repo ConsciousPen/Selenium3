@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.helper;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -41,7 +42,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, -1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears - 1);
-        CustomAssert.assertFalse(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(seniorDiscountName));
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "No");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, 1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);

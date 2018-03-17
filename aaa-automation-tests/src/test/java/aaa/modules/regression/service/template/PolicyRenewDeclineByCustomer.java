@@ -45,7 +45,7 @@ public class PolicyRenewDeclineByCustomer extends PolicyBaseTest{
 	     policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData_Plus1Year"));
 	     PolicySummaryPage.buttonRenewals.click();
 
-	     PolicySummaryPage.tableRenewals.getRow(1).getCell(4).verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
+	     assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell(4)).hasValue(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
 	     
 	     CustomAssert.assertAll();
 	     

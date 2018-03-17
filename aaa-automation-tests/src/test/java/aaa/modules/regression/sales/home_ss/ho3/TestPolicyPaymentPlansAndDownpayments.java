@@ -253,7 +253,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		Dollar premium = new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.PREMIUM).getValue());
 		Dollar downPayment = premium.multiply(percentOfTotalPremium).divide(100.0);
 		new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.MINIMUM_DOWNPAYMENT).getValue()).verify.equals(downPayment);
-		purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.NUMBER_OF_REMAINING_INSTALLMENTS).verify.value(String.valueOf(numberOfPayments));
+		assertThat(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.NUMBER_OF_REMAINING_INSTALLMENTS)).hasValue(String.valueOf(numberOfPayments));
 
 		if (isMoreThenNull)
 			new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.moreThan(new Dollar(0));

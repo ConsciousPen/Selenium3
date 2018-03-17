@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Collections;
 
 import org.openqa.selenium.By;
@@ -75,7 +76,7 @@ public class TaskDetailsSummaryPage extends SummaryPage {
 
         public class Verify extends Table.Verify {
             public void taskId(int rowIndex, String expectedtaskId) {
-                getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.TASK_ID).verify.value(expectedtaskId);
+                assertThat(getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.TASK_ID)).hasValue(expectedtaskId);
             }
 
             public void taskName(int rowIndex, String expectedtaskName) {
@@ -89,7 +90,7 @@ public class TaskDetailsSummaryPage extends SummaryPage {
             }
 
             public void description(int rowIndex, String expectedDescription) {
-                getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).verify.value(expectedDescription);
+                assertThat(getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION)).hasValue(expectedDescription);
             }
 
             public void descriptionContains(int rowIndex, String expectedDescription) {

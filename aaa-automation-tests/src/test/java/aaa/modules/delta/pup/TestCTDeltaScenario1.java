@@ -216,12 +216,12 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		SearchPage.openPolicy(policyNumber);
 		policy.cancelNotice().start(); 
 		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
-		cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), TextBox.class).verify.value(DateTimeUtils.getCurrentDateTime().plusDays(49).format(DateTimeUtils.MM_DD_YYYY));
-		cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel(), TextBox.class).verify.value("49");
-		cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), TextBox.class).setValue(DateTimeUtils.getCurrentDateTime().plusDays(48).format(DateTimeUtils.MM_DD_YYYY));
-		cancelNoticeTab.getAssetList().getWarning(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).verify.value(ER_9933);
-		cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), TextBox.class).setValue(DateTimeUtils.getCurrentDateTime().plusDays(367).format(DateTimeUtils.MM_DD_YYYY));
-		cancelNoticeTab.getAssetList().getWarning(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).verify.value(ER_9208);
+		assertThat(cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE)).hasValue(DateTimeUtils.getCurrentDateTime().plusDays(49).format(DateTimeUtils.MM_DD_YYYY));
+		assertThat(cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE)).hasValue("49");
+		cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(DateTimeUtils.getCurrentDateTime().plusDays(48).format(DateTimeUtils.MM_DD_YYYY));
+		assertThat(cancelNoticeTab.getAssetList().getWarning(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE)).hasValue(ER_9933);
+		cancelNoticeTab.getAssetList().getAsset(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(DateTimeUtils.getCurrentDateTime().plusDays(367).format(DateTimeUtils.MM_DD_YYYY));
+		assertThat(cancelNoticeTab.getAssetList().getWarning(PersonalUmbrellaMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE)).hasValue(ER_9208);
 		
 		TestData tdCancelNotice=getTestSpecificTD("TestData_Plus49Days");
 		cancelNoticeTab.fillTab(tdCancelNotice);

@@ -229,9 +229,9 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		driverTab.fillTab(getTestSpecificTD("TestData_CT567"));
 
 		//violation points should be = 0
-		DriverTab.tableActivityInformationList.getRow("Description", "Improper Turn").getCell("Points").verify.value("0");
-		DriverTab.tableActivityInformationList.getRow("Description", "Speeding").getCell("Points").verify.value("0");
-		DriverTab.tableActivityInformationList.getRow("Description", "Accident (Property Damage Only)").getCell("Points").verify.value("0");
+		assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Improper Turn").getCell("Points")).hasValue("0");
+		assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Speeding").getCell("Points")).hasValue("0");
+		assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Accident (Property Damage Only)").getCell("Points")).hasValue("0");
 	}
 
 	/**
@@ -255,9 +255,9 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		driverTab.fillTab(getTestSpecificTD("TestData_CT8"));
 
 		//violation points should be = 7
-		DriverTab.tableActivityInformationList.getRow("Description", "Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
+		assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Accident (Resulting in Bodily Injury)").getCell("Points")).hasValue("7");
 		//violation points should be = 4
-		DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points").verify.value("4");
+		assertThat(DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points")).hasValue("4");
 		//go to Major accident, points for the same day should be = 0
 		DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click(Waiters.AJAX);
 		driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");

@@ -907,9 +907,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(status);
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date").verify.value(date);
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer").verify.value(user);
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status")).hasValue(status);
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Eff. Date")).hasValue(date);
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Last Performer")).hasValue(user);
 	}
 
 	private void convertAgentEndorsementToSystemEndorsement(String policyNumber) {
