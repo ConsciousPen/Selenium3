@@ -134,13 +134,15 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2719", "PAS-1939", "PAS-7057"})
-	public void pas2719_ManualRefundUnissuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) {
+	public void pas2719_ManualRefundUnissuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		refundProcessHelper.policyCreation();
+		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
@@ -154,6 +156,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-7057
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
 
+		stubRequestDC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -169,9 +172,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
@@ -201,9 +202,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
@@ -221,6 +220,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
+
+
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
@@ -259,9 +260,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
@@ -291,9 +291,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
@@ -322,9 +320,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
@@ -384,9 +380,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
@@ -420,9 +414,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
@@ -456,9 +448,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
@@ -520,9 +510,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
@@ -554,9 +542,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
@@ -588,9 +574,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
@@ -647,9 +631,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, false);
@@ -677,9 +659,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, false);
@@ -707,9 +687,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, false);
@@ -762,9 +740,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
@@ -792,9 +768,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, refundAmount, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
@@ -822,9 +796,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, refundAmount, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
@@ -852,9 +824,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_CREDIT_CARD), billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0, true);
@@ -881,9 +851,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_DEBIT_CARD), billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0, true);
@@ -910,9 +878,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedManualRefundGeneration(Optional.of(AMOUNT_ACH), billingAccountNumber, MESSAGE_ACH, refund, false, 0, true);
@@ -939,9 +905,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, AMOUNT_CREDIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, true);
@@ -968,9 +932,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, AMOUNT_DEBIT_CARD, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 
 		CustomAssert.enableSoftMode();
 
@@ -982,6 +944,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		refundProcessHelper.voidedAutomatedRefundGeneration(false, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
 		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, true);
 
+		stubRequestDC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -997,9 +960,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, AMOUNT_ACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 
 		CustomAssert.enableSoftMode();
 
@@ -1045,9 +1006,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=Credit Card";
 
 		String policyNumber = refundProcessHelper.policyCreation();
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
@@ -1056,6 +1015,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
+
+
 
 	// *
 	// * See test method for details
@@ -1068,9 +1029,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=Debit Card";
 
 		String policyNumber = refundProcessHelper.policyCreation();
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
@@ -1091,9 +1050,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=ACH";
 
 		String policyNumber = refundProcessHelper.policyCreation();
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
@@ -1132,9 +1089,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = refundProcessHelper.policyCreation();
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		REQUEST_ID_LIST.add(stubRequestCC);
+		HelperWireMockStub stubRequestCC = getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
 		// TODO OSI: Refund with Check is created because the stubbed amount for VA
@@ -1155,9 +1110,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "Debit Card";
 
 		String policyNumber = refundProcessHelper.policyCreation();
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		REQUEST_ID_LIST.add(stubRequestDC);
+		HelperWireMockStub stubRequestDC = getHelperWireMockStubDC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
@@ -1166,6 +1119,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
+
+
 
 	// *
 	// * See test method for details
@@ -1177,9 +1132,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "ACH";
 		String policyNumber = refundProcessHelper.policyCreation();
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		REQUEST_ID_LIST.add(stubRequestACH);
+		HelperWireMockStub stubRequestACH = getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
@@ -1264,6 +1217,27 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		REQUEST_ID_LIST.add(stubRequestACH);
 
 		stubRequestACH.cleanUp();
+	}
+
+	private HelperWireMockStub getHelperWireMockStubACH(String policyNumber, String refundAmountACH) throws IllegalAccessException {
+		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, refundAmountACH, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
+		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
+		REQUEST_ID_LIST.add(stubRequestACH);
+		return stubRequestACH;
+	}
+
+	private HelperWireMockStub getHelperWireMockStubCC(String policyNumber, String refundAmountCC) throws IllegalAccessException {
+		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, refundAmountCC, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
+		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
+		REQUEST_ID_LIST.add(stubRequestCC);
+		return stubRequestCC;
+	}
+
+	private HelperWireMockStub getHelperWireMockStubDC(String policyNumber, String refundAmountDC) throws IllegalAccessException {
+		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, refundAmountDC, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
+		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
+		REQUEST_ID_LIST.add(stubRequestDC);
+		return stubRequestDC;
 	}
 
 	@AfterClass(alwaysRun = true)
