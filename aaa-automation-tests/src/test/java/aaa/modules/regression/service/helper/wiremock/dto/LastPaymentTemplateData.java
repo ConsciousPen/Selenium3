@@ -40,7 +40,7 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 	 * @param paymentMethodSubType - VISA/MC/DISCOVER/AMEX , null for EFT
 	 * @param cardSubType - CREDIT/DEBIT , null for EFT
 	 * @param last4 - last 4 digits of CC/DC or EFT number
-	 * @param cardExpirationDate - format DD-YYYY with a Dash
+	 * @param cardExpirationDate - format MM-YYYY with a Dash
 	 * @return pre-filled template data with all given parameters
 	 */
 	public static LastPaymentTemplateData create(String policyNumber, String refundableAmt,
