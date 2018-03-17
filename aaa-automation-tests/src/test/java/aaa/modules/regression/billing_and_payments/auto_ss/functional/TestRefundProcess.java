@@ -18,7 +18,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.DbAwaitHelper;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
@@ -81,8 +80,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigCheck() {
-		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
-				.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
+		CustomAssert.assertFalse("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL).get().isEmpty());
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -435,7 +433,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
 
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
@@ -471,7 +469,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
 
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
