@@ -202,7 +202,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=ACH";
 
 		String policyNumber = preconditionPolicyCreationHo();
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
+		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
 		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
 		REQUEST_ID_LIST.add(stubRequestACH);
 
@@ -222,7 +222,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = preconditionPolicyCreationHo();
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE","refundable", "CRDC", "VISA","CREDIT", "5555", "11-2021");
+		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
 		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
 		REQUEST_ID_LIST.add(stubRequestCC);
 
@@ -242,7 +242,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "ACH";
 
 		String policyNumber = preconditionPolicyCreationHo();
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
+		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
 		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
 		REQUEST_ID_LIST.add(stubRequestACH);
 

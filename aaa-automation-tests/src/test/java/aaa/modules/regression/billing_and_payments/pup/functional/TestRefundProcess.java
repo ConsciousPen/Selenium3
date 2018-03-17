@@ -159,7 +159,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=Credit Card";
 
 		String policyNumber = preconditionPolicyCreationPup();
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE","refundable", "CRDC", "VISA","CREDIT", "5555", "11-2021");
+		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
 		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
 		REQUEST_ID_LIST.add(stubRequestCC);
 
@@ -194,7 +194,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = preconditionPolicyCreationPup();
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE","refundable", "CRDC", "VISA","CREDIT", "5555", "11-2021");
+		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, PENDING_REFUND_AMOUNT, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
 		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
 		REQUEST_ID_LIST.add(stubRequestCC);
 
@@ -230,7 +230,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@AfterClass(alwaysRun = true)
-	private void deleteMultiplePaperlessPreferencesRequests() {
+	private void deleteMultipleLastPaymentRequests() {
 		for (HelperWireMockStub wireMockStubObject : REQUEST_ID_LIST) {
 			wireMockStubObject.cleanUp();
 		}
