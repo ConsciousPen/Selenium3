@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -39,8 +40,12 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, Set<CellType<?>> cellTypes) {
 		super(excelSheet.getPoiSheet(),
-				CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
-				CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
+				CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
+						? columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new))
+						: getHeaderColumnsIndexes(headerRow),
+				CollectionUtils.isNotEmpty(rowsIndexesOnSheet)
+						? rowsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new))
+						: getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
 				excelSheet.getExcelManager(), cellTypes);
 		this.headerRow = headerRow;
 		this.excelSheet = excelSheet;
@@ -156,7 +161,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	private static Set<Integer> getHeaderColumnsIndexes(Row headerRow) {
-		Set<Integer> columnsIndexes = new HashSet<>();
+		Set<Integer> columnsIndexes = new LinkedHashSet<>();
 		for (Cell cell : headerRow) {
 			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING && StringUtils.isNotBlank(cell.getStringCellValue())) {
 				columnsIndexes.add(cell.getColumnIndex() + 1);
@@ -169,8 +174,11 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	private static Set<Integer> getTableRowsIndexes(Row headerRow, Set<Integer> columnsIndexesOnSheet) {
-		Set<Integer> rIndexes = new HashSet<>();
-		Set<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow);
+		Set<Integer> rIndexes = new LinkedHashSet<>();
+		Set<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
+				? columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new))
+				: getHeaderColumnsIndexes(headerRow);
+
 		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= headerRow.getSheet().getLastRowNum(); rowIndex++) {
 			if (isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {
 				break;
@@ -285,15 +293,5 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	public ExcelTable deleteRows(String headerColumnName, Object cellValue) {
 		List<TableRow> rowsToDelete = getRows(headerColumnName, cellValue);
 		return deleteRows(rowsToDelete.stream().map(TableRow::getIndex).toArray(Integer[]::new));
-	}
-
-	private Set<String> getHeaderColumnsNames(Row headerRow) {
-		Set<String> headerColumnsNames = new HashSet<>();
-		for (Cell cell : headerRow) {
-			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING) {
-				headerColumnsNames.add(cell.getStringCellValue());
-			}
-		}
-		return headerColumnsNames;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -41,8 +42,12 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.sheet = sheet;
-		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? new HashSet<>(columnsIndexesOnSheet) : getColumnsIndexes(sheet);
-		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? new HashSet<>(rowsIndexesOnSheet) : getRowsIndexes(sheet);
+		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
+				? new LinkedHashSet<>(columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+				: getColumnsIndexes(sheet);
+		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet)
+				? new LinkedHashSet<>(rowsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+				: getRowsIndexes(sheet);
 		this.excelManager = excelManager;
 		this.cellTypes = new HashSet<>(cellTypes);
 		this.considerRowsOnComparison = true;
@@ -418,10 +423,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 				maxCellsNumber = row.getLastCellNum();
 			}
 		}
-		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toSet());
+		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	private Set<Integer> getRowsIndexes(Sheet sheet) {
-		return IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toSet());
+		return IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 }

@@ -43,11 +43,9 @@ public class MembershipMockData {
 
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		//TODO-dchubkov: handle default value of avgAnnualERSperMember=99.9
-		String membershipNumber;
-
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
 		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for memberPersistency=" + memberPersistency).isNotEmpty();
-		membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
+		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
 		assertThat(membershipNumber).as("No valid membership number was found for avgAnnualERSperMember field").isNotNull();
 		return membershipNumber;
 	}

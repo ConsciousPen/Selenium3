@@ -88,15 +88,6 @@
         </classes>
     </test>
 
-    <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="OR"/>
-        <parameter name="fileName" value="ORTests-20170915.xls"/>
-        <parameter name="policyNumbers" value="2"/>
-        <classes>
-            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
-        </classes>
-    </test>
-
     <test name="AutoSS [SD] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="SD"/>
         <parameter name="fileName" value="SDTests-20160601.xls"/>
