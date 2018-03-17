@@ -11,24 +11,27 @@ import toolkit.config.PropertyProvider;
  */
 public class LastPaymentTemplateData implements WireMockTemplateData {
 
-	private static final String URL_PATH_PATTERN = "/%s/billing/lastPayment";
-	private static final String MATCHES_JSON_PATH = "$[?(@.agreementNumber == '%s')]";
-
-	private String urlPath;
-	private String matchesJsonPath;
-	private String eligibilityStatus;
-	private String eligibilityStatusDescription;
-	private String transactionDateTime;
-	private String transactionId;
-	private String lineItemAmt;
-	private String paymentMethod;
-	private String paymentMethodSubType;
-	private String paymentAccountLast4;
-	private String cardSubType;
-	private String cardExpirationDate;
+	private static final String URL_PATH_PATTERN = "/%s/billing/last-payment";
+	private static final String MATCHES_JSON_PATH = "$[?(@.agreementNumber == '%s')]";//"$.[?(@.policyNumber == '%s')]";
 
 	/**
-	 *
+	 * public fields for use in tests
+	 */
+	public String urlPath;
+	public String matchesJsonPath;
+	public String eligibilityStatus;
+	public String eligibilityStatusDescription;
+	public String transactionDateTime;
+	public String transactionId;
+	public String lineItemAmt;
+	public String paymentMethod;
+	public String paymentMethodSubType;
+	public String paymentAccountLast4;
+	public String cardSubType;
+	public String cardExpirationDate;
+
+	/**
+	 *Creates template with parameters
 	 * @param policyNumber - policy number
 	 * @param refundableAmt - amount
 	 * @param eligibilityStatus - REFUNDABLE/NON_REFUNDABLE
@@ -38,7 +41,7 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 	 * @param cardSubType - CREDIT/DEBIT , null for EFT
 	 * @param last4 - last 4 digits of CC/DC or EFT number
 	 * @param cardExpirationDate - format DD-YYYY with a Dash
-	 * @return
+	 * @return pre-filled template data with all given parameters
 	 */
 	public static LastPaymentTemplateData create(String policyNumber, String refundableAmt,
 			String eligibilityStatus, String eligibilityStatusDescription,

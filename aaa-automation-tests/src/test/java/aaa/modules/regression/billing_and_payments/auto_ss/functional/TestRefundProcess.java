@@ -902,7 +902,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCC(@org.testng.annotations.Optional("VA") String state) {
 
 		String paymentMethod = "contains=Credit Card";
@@ -920,7 +920,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsDC(@org.testng.annotations.Optional("AZ") String state) {
 
 		String paymentMethod = "contains=Debit Card";
@@ -938,7 +938,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
 
 		String paymentMethod = "contains=ACH";
@@ -956,7 +956,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCheck(@org.testng.annotations.Optional("VA") String state) {
 
 		String paymentMethod = "Check";
@@ -974,7 +974,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCC(@org.testng.annotations.Optional("VA") String state) {
 
 		String paymentMethod = "Credit Card";
@@ -993,7 +993,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsDC(@org.testng.annotations.Optional("AZ") String state) {
 
 		String paymentMethod = "Debit Card";
@@ -1011,15 +1011,21 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingAutomatedRefundsACH(@org.testng.annotations.Optional("MD") String state) {
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
+	public void pas7298_pendingAutomatedRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
 
 		String paymentMethod = "ACH";
-
 		String policyNumber = refundProcessHelper.policyCreation();
+		LastPaymentTemplateData data = LastPaymentTemplateData.create(policyNumber, APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
+		HelperWireMockStub stubRequest1 = HelperWireMockStub.create("last-payment-200", data).mock();
+		REQUEST_ID_LIST.add(stubRequest1);
+
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+
+		stubRequest1.cleanUp();
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1077,12 +1083,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	public void pas111_wireMockExampleTest() throws IllegalAccessException {
 
-		LastPaymentTemplateData data = LastPaymentTemplateData.create("MDSS952918541", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
-		HelperWireMockStub stubRequest1 = HelperWireMockStub.create("last-payment-200", data);
+		LastPaymentTemplateData data = LastPaymentTemplateData.create("MDSS952918542", APPROVED_REFUND_AMOUNT, "REFUNDABLE","refundable", "EFT", null,null, "1234", null);
+/*		HelperWireMockStub stubRequest1 = HelperWireMockStub.create("last-payment-200", data);
 		REQUEST_ID_LIST.add(stubRequest1);
 		stubRequest1.mock();
 		//don't forget to delete
-		stubRequest1.cleanUp();
+		stubRequest1.cleanUp();*/
 
 		HelperWireMockStub stubRequest2 = HelperWireMockStub.create("last-payment-200", data).mock();
 		//don't forget to delete
