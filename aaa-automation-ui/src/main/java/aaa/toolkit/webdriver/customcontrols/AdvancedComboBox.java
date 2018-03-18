@@ -1,15 +1,12 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
 import org.mortbay.log.Log;
 import org.openqa.selenium.By;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.meters.WaitMeters;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.waiters.Waiter;
@@ -18,10 +15,10 @@ import toolkit.webdriver.controls.waiters.Waiter;
  * Extended ComboBox with extra features like setting random values, etc.
  */
 public class AdvancedComboBox extends ComboBox {
-
 	public static final String RANDOM_MARK = "/random";
 	public static final String SELECTED_MARK = "/selected";
 	public static final String RANDOM_EXCEPT_MARK = RANDOM_MARK + "_except";
+	public static final String RANDOM_EXCEPT_CONTAINS_MARK = RANDOM_EXCEPT_MARK + "_contains";
 	private Random random = new Random();
 
 	public AdvancedComboBox(By locator) {
@@ -40,43 +37,18 @@ public class AdvancedComboBox extends ComboBox {
 		super(parent, locator, waiter);
 	}
 
-	/**
-	 * Set random option from list of existing options including selected one but excluding options from 'exceptValues' array
-	 *
-	 * @param exceptValues  array of values to be excluded from random selection. If this array is empty then nothing will be excluded
-	 */
 	public void setAnyValueExcept(String... exceptValues) {
-		setAnyValueExcept(false, exceptValues);
-	}
-
-	/**
-	 * Overload {@link AdvancedComboBox#setAnyValueExceptContains(boolean, String...)}
-	 * with excluding current value from list of possible values
-	 *
-	 *  @param exceptSubstrings   parts of strings which should be excluded
-	 */
-	public void setAnyValueExceptContains(String... exceptSubstrings) {
-		setAnyValueExceptContains(true, exceptSubstrings);
+		setAnyValueExcept(true, exceptValues);
 	}
 
 	@Override
 	protected void setRawValue(String value) {
-		if (value.startsWith(RANDOM_EXCEPT_MARK)) {
-			String[] parsedValue = value.split("=");
-			assertThat(parsedValue.length).as("'%s' should be followed with '=' and list of options separated with '|' to be excluded from random selection.", RANDOM_MARK).isEqualTo(2);
-			String[] excludedValues = parsedValue[1].split("\\|", -1);
-			if (Arrays.asList(excludedValues).contains(SELECTED_MARK)) {
-				excludedValues = ArrayUtils.removeElement(excludedValues, SELECTED_MARK);
-				setAnyValueExcept(true, excludedValues);
-			} else {
-				setAnyValueExcept(false, excludedValues);
-			}
-			WaitMeters.capture(WaitMeters.PAGE_LOAD);
-			waitForPageUpdate();
+		if (value.startsWith(RANDOM_EXCEPT_CONTAINS_MARK)) {
+			setRawValueExcept(value, true);
+		} else if (value.startsWith(RANDOM_EXCEPT_MARK)) {
+			setRawValueExcept(value, false);
 		} else if (value.equals(RANDOM_MARK)) {
 			setAnyValue();
-			WaitMeters.capture(WaitMeters.PAGE_LOAD);
-			waitForPageUpdate();
 		} else {
 			super.setRawValue(value);
 		}
@@ -90,59 +62,49 @@ public class AdvancedComboBox extends ComboBox {
 		setAnyValueExcept(true);
 	}
 
+	public void setAnyValueExcept(boolean exceptCurrentValue, String... exceptValues) {
+		setAnyValueExcept(exceptCurrentValue, false, exceptValues);
+	}
+
 	/**
 	 * Set random option from list of existing options except selected one (if exceptCurrentValue = true) and except other values from exceptValues array
 	 *
 	 * @param exceptCurrentValue if true then exclude selected option from random selection
-	 * @param exceptValues  array of values to be excluded from random selection (including existing value if exceptCurrentValue = true).
+	 * @param exceptValuesByContains if true then excludes from list of possible values Strings which contains substings from exceptValues array,
+	 *                                  otherwise Strings which equals to values from exceptValues will be excluded
+	 * @param exceptValues  array of values to be excluded from random selection (including existing value if exceptCurrentValue = true)
 	 *                      If this array is empty then nothing will be excluded (except current value if ceptCurrentValue = true)
 	 */
-	public void setAnyValueExcept(boolean exceptCurrentValue, String... exceptValues) {
-		String[] excludedValues;
-
-		if (exceptCurrentValue) {
-			excludedValues = Arrays.copyOf(exceptValues, exceptValues.length + 1);
-			excludedValues[excludedValues.length - 1] = getRawValue();
+	public void setAnyValueExcept(boolean exceptCurrentValue, boolean exceptValuesByContains, String... exceptValues) {
+		List<String> optionsList = getAllValues();
+		if (1 == optionsList.size()) {
+			Log.warn("Combobox {} has only one option, can't change to another one", this);
 		} else {
-			excludedValues = Arrays.copyOf(exceptValues, exceptValues.length);
-		}
+			if (exceptCurrentValue) {
+				optionsList.remove(getRawValue());
+			}
 
-		List<String> optionsArray = getAllValues();
-		if (1 == optionsArray.size()) {
-			Log.warn("Combobox has only one option, can't change to another one");
-		} else {
-			List<String> optionsList = new ArrayList<>(optionsArray);
-			optionsList.removeAll(Arrays.asList(excludedValues));
-			assertThat(optionsList).as("Can't get random option - all available options were excluded.").isNotEmpty();
+			if (exceptValuesByContains) {
+				optionsList.removeIf(v -> Arrays.stream(exceptValues).anyMatch(v::contains));
+			} else {
+				optionsList.removeIf(v -> Arrays.stream(exceptValues).anyMatch(v::equals));
+			}
+
+			assertThat(optionsList).as("Can't get random option for %s combobox - all available options were excluded", this).isNotEmpty();
 			String randomValue = optionsList.get(random.nextInt(optionsList.size()));
 			setValue(randomValue);
 		}
 	}
 
-	/**
-	 * Sets random value to the ComboBox.
-	 *
-	 * List of random values selects from list of comboBox values
-	 * And will not include current value if exceptCurrentValue is true
-	 * Additionally excludes from list of possible values Strings which contains substings from exceptSubstrings array
-	 *
-	 *
-	 * @param exceptCurrentValue if true then exclude selected option from random selection
-	 * @param exceptSubstrings   parts of strings which should be excluded
-	 */
-	public void setAnyValueExceptContains(boolean exceptCurrentValue, String... exceptSubstrings) {
-		List<String> allValues = getAllValues();
-		if (exceptCurrentValue) {
-			allValues.remove(getRawValue());
+	private void setRawValueExcept(String value, boolean exceptValuesByContains) {
+		String[] parsedValue = value.split("=");
+		assertThat(parsedValue.length).as("'%s' should be followed with '=' and list of options separated with '|' to be excluded from random selection.", RANDOM_MARK).isEqualTo(2);
+		String[] excludedValues = parsedValue[1].split("\\|", -1);
+		if (Arrays.asList(excludedValues).contains(SELECTED_MARK)) {
+			excludedValues = ArrayUtils.removeElement(excludedValues, SELECTED_MARK);
+			setAnyValueExcept(true, exceptValuesByContains, excludedValues);
+		} else {
+			setAnyValueExcept(false, exceptValuesByContains, excludedValues);
 		}
-
-		allValues.removeIf(v -> Arrays.stream(exceptSubstrings).anyMatch(v::contains));
-
-		if (allValues.isEmpty()) {
-			throw new IstfException(name + " " + this.getClass().getSimpleName() + " " +
-					"doesn't contains values which not contains " + exceptCurrentValue);
-		}
-
-		setValue(allValues.get(random.nextInt(allValues.size())));
 	}
 }
