@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.CardSubTypeEnum.CREDIT;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.CardSubTypeEnum.DEBIT;
+import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.REFUNDABLE;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.CRDC;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodSubTypeEnum.MC;
@@ -44,21 +45,21 @@ public class HelperWireMockLastPaymentMethod {
 		String policyNumber = "aaaaa";
 		String approvedRefundAmount = "500";
 		//CC
-		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, "REFUNDABLE", "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
+		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, REFUNDABLE.get(), "refundable", "CRDC", "VISA", "CREDIT", "5555", "11-2021");
 		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
 
 
 		stubRequestCC.cleanUp();
 
 		//DC
-		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, "REFUNDABLE", "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
+		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, REFUNDABLE.get(), "refundable", "CRDC", "VISA", "DEBIT", "4444", "11-2021");
 		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
 
 
 		stubRequestDC.cleanUp();
 
 		//ACH
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, "REFUNDABLE", "refundable", "EFT", null, null, "1234", null);
+		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, REFUNDABLE.get(), "refundable", "EFT", null, null, "1234", null);
 		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
 
 

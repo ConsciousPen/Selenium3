@@ -2,6 +2,7 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
+import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NONREFUNDABLE;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,7 @@ import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
+import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -143,7 +145,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
-		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
 		// PAS-2719, PAS-1940, PAS-6210, PAS-7858, PAS-352, PAS-3619
@@ -157,7 +159,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-7057
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "RefundPaymentVoided", null, true, false);
 
-		stubRequestDC.cleanUp();
+		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1177,18 +1179,26 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
-	public void pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund(@org.testng.annotations.Optional("CT") String state) {
+	public void pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund(@org.testng.annotations.Optional("CT") String state) throws IllegalAccessException {
 
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 
+		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, "100", NONREFUNDABLE.get(), "refundable", "EFT", null, null, "1234", null);
+		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
+		requestIdList.add(stubRequestACH);
+
+		stubRequestACH.cleanUp();
+
 		CustomAssert.enableSoftMode();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
 				.value("No payment method available for electronic refund.");
+
+		stubRequestACH.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}

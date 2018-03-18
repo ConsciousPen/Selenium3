@@ -79,6 +79,21 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 		}
 	}
 
+	public enum EligibilityStatusEnum {
+		REFUNDABLE("REFUNDABLE"),
+		NONREFUNDABLE("NONREFUNDABLE");
+
+		final String eligibilityStatus;
+
+		EligibilityStatusEnum(String eligibilityStatus) {
+			this.eligibilityStatus = eligibilityStatus;
+		}
+
+		public String get() {
+			return eligibilityStatus;
+		}
+	}
+
 	public enum PaymentMethodSubTypeEnum {
 		VISA("VISA"),
 		MC("MC"),
