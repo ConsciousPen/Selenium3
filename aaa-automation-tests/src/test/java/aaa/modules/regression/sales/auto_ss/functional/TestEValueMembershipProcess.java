@@ -39,6 +39,7 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueM
 import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -657,15 +658,23 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		if (clearExgPasArchiveFolder) {
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
+			try {
+				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
+				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
+			} catch (IstfException e) {
+				log.debug(e.getMessage());
+			}
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
 		Waiters.SLEEP(5000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
 		Waiters.SLEEP(5000).go();
-		RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		try {
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		} catch (IstfException e) {
+			log.debug(e.getMessage());
+		}
 		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
@@ -1293,7 +1302,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
-			if(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()){
+			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()) {
 				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
 			}
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
