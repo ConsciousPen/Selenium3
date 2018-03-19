@@ -306,7 +306,7 @@ TestData_MD: {
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab_MD',
+  UnderwritingAndApprovalTab: '@<home_ss_dp3>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
