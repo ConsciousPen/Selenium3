@@ -39,7 +39,7 @@ public class PupPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.initiateQuote(PolicyType.PUP);
+		new QuoteSummaryPage().initiateQuote(PolicyType.PUP);
 	}
 
 	@Override

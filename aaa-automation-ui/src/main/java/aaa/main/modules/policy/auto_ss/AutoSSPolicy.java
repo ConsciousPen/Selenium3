@@ -34,7 +34,7 @@ public class AutoSSPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.initiateQuote(PolicyType.AUTO_SS);
+		new QuoteSummaryPage().initiateQuote(PolicyType.AUTO_SS);
 	}
 
 	@Override

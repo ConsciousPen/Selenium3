@@ -36,7 +36,7 @@ public class HomeSSPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.initiateQuote(PolicyType.HOME_SS_HO3);
+		new QuoteSummaryPage().initiateQuote(PolicyType.HOME_SS_HO3);
 	}
 
 	@Override

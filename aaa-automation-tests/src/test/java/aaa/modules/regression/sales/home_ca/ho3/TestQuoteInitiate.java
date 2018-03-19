@@ -35,11 +35,12 @@ public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 		createCustomerIndividual();
 
 		CustomerSummaryPage.buttonAddQuote.click();
-		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
-		QuoteSummaryPage.buttonAddNewQuote.click();
-		QuoteSummaryPage.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
-		QuoteSummaryPage.product.setValue(getPolicyType().getName());
-		QuoteSummaryPage.nextBtn.click();
+		QuoteSummaryPage qsp = new QuoteSummaryPage();
+		qsp.buttonAddNewQuote.verify.enabled();
+		qsp.buttonAddNewQuote.click();
+		qsp.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
+		qsp.product.setValue(getPolicyType().getName());
+		qsp.nextBtn.click();
 
 		policy.getDefaultView().getTab(GeneralTab.class).getAssetList().verify.enabled();
 		GeneralTab.buttonSaveAndExit.click();

@@ -35,7 +35,7 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.initiateQuote(PolicyType.AUTO_CA_SELECT);
+		new QuoteSummaryPage().initiateQuote(PolicyType.AUTO_CA_SELECT);
 	}
 
 	@Override
