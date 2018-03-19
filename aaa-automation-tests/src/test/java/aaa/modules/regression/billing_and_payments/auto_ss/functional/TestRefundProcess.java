@@ -1,6 +1,8 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import org.testng.annotations.Parameters;
@@ -88,10 +90,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertTrue("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
 		CustomAssert.assertTrue("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
-				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get()
 				.contains(APP_HOST));
 		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE", DBService.get()
-				.getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).get()
 				.contains(APP_HOST));
 
 		CustomAssert.disableSoftMode();
@@ -309,9 +311,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732"})
-	public void pas1939_ManualRefundUnissuedIssuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) {
+	public void pas1939_ManualRefundUnissuedIssuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) throws IOException {
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(10.01), "Approved");
+		String refundAmount = "10.01";
+		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
@@ -325,6 +328,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
 		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0, false);
@@ -336,9 +341,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732"})
-	public void pas1939_ManualRefundUnissuedIssuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) {
+	public void pas1939_ManualRefundUnissuedIssuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IOException {
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(10.00), "Approved");
+		String refundAmount = "10.00";
+		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
@@ -352,6 +358,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
 		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 2, false);
@@ -364,9 +372,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732"})
-	public void pas1936_ManualRefundUnissuedIssuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) {
+	public void pas1936_ManualRefundUnissuedIssuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IOException {
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(21.99), "Approved");
+		String refundAmount = "21.99";
+		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
@@ -380,6 +389,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
+
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
 		refundProcessHelper.voidedRefundVerification(false, billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 2, false);
@@ -392,9 +403,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732"})
-	public void pas1936_ManualRefundUnissuedIssuedVoidedACH(@org.testng.annotations.Optional("MD") String state) {
+	public void pas1936_ManualRefundUnissuedIssuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IOException {
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(30.01), "Approved");
+		String refundAmount = "30.01";
+		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = refundProcessHelper.policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
@@ -407,6 +419,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		refundProcessHelper.issuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
+
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
 
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);

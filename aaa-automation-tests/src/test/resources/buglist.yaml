@@ -159,16 +159,6 @@ PAS-9661:
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
     - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
-PAS-9754:
-  summary: "PAS18.2 Regression: Unable to clear Suspense Payment"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.cft.auto_ss.TestCFTScenario13.cftTestScenario13]
-      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
-    - tests: [aaa.modules.cft.auto_ca.choice.TestCFTScenario13.cftTestScenario13]
-      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
-    - tests: [aaa.modules.cft.home_ss.ho3.TestCFTScenario13.cftTestScenario13]
-      messages: ["Cannot set value of AssetList {ClearSuspenseActionTab: By.xpath: //div[@id='contentWrapper']} to"]
 PAS-9337:
   summary: "Green Button Service - Abracradabra"
   reason: PROD
@@ -210,6 +200,27 @@ PAS-10702:
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.*.TestPolicyCreationFull]
       messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+    - tests: [aaa.modules.cft.*]
+      messages: ['Cannot get value of StaticElement', "Errors: AAA_HO_SS67cbad46; Error; All named insureds must have an insurance score ordered"]
+PAS-10699:
+  summary: "eValue is not changed from Pending to Active or Inactive on NB+30"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.*]
+      messages: ["PENDING"]
+PAS-10970:
+  summary: "AARFIXX has empty value instead of NO for tag VehTyp for NV NANO policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
+      messages: ["VehTyp"]
+INC0655981:
+  summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
+      messages: ["Miscellaneous"]
+
 PAS-10779:
   summary: "HSRFIXX is not generated on Issue anymore"
   reason: PROD
