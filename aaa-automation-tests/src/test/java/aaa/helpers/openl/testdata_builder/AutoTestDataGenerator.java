@@ -295,9 +295,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
 
 		int duration = Math.abs(Math.toIntExact(Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
-		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt(duration));
+		LocalDateTime expirationDate = duration == 0 ? policyEffectiveDate : policyEffectiveDate.plusDays(new Random().nextInt(duration));
 
-		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
+		return DataProviderFactory.dataOf(
+				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
 	}
 

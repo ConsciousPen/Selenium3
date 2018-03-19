@@ -157,7 +157,11 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

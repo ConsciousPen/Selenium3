@@ -132,8 +132,8 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	@Override
 	public String toString() {
 		return "AutoCaSelectOpenLVehicle{" +
-				"primaryDriver=" + primaryDriver +
-				", coverages=" + coverages +
+				"coverages=" + coverages +
+				", primaryDriver=" + primaryDriver +
 				", aaaMembership=" + aaaMembership +
 				", applyFixedExpense=" + applyFixedExpense +
 				", commuteBand='" + commuteBand + '\'' +
@@ -151,7 +151,11 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

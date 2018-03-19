@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -178,6 +179,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				driverData.adjust(VEHICLE_ASSIGNED_ID_TESTDATA_KEY, driver.getVehicleAssignedId()); // for searching valid vehicle for driver assignment, should be masked in result test data
 			}
 
+			if (isFirstDriver && Constants.States.AZ.equals(getState())) {
+				driverData.adjust(AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), "regex=.*\\S.*");
+			}
+
 			if (!isFirstDriver) {
 				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
 						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
@@ -286,7 +291,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "regex=.*\\S.*");
 		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
-		if (!getState().equals(Constants.States.NY)) {
+		if (!atFaultAccident && getState().equals(Constants.States.PA)) {
 			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 		}
 		return new SimpleDataProvider(activityInformationData);
@@ -305,7 +310,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
 		if (openLPolicy.getNoOfVehiclesExcludingTrailer() != null) {
-			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(v.getStatCode())).count());
+			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(v.getBiLiabilitySymbol())).count());
 			int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 			assertThat(trailersCount).as("Number of vehicles recognized by their stat codes set [%s] is not equal to "
 					+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount).isEqualTo(expectedTrailersCount);
@@ -318,6 +323,17 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			if (Boolean.TRUE.equals(vehicle.isHybrid())) {
 				//TODO-dchubkov: to be implemented and impossible to set via UI
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
+			}
+
+			if (vehicle.getBiLiabilitySymbol() != null) {
+				HashSet<String> liabilitySymbols = new HashSet<>();
+				liabilitySymbols.add(vehicle.getBiLiabilitySymbol());
+				liabilitySymbols.add(vehicle.getPdLiabilitySymbol());
+				liabilitySymbols.add(vehicle.getMpLiabilitySymbol());
+				liabilitySymbols.add(vehicle.getUmLiabilitySymbol());
+				if (liabilitySymbols.size() > 1) {
+					throw new NotImplementedException(String.format("Not all *LiabilitySymbol field values are the same: %s, test data generation for this case is not implemented", liabilitySymbols));
+				}
 			}
 
 			TestData vehicleData = getVehicleTabInformationData(vehicle);
@@ -449,10 +465,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
 		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
-
 		String vin = getVinFromDb(vehicle);
 		Map<String, Object> vehicleInformation = new HashMap<>();
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(vehicle.getStatCode()));
+		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
 		if (StringUtils.isNotBlank(vin)) {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
@@ -464,14 +480,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
 
-				if (isTrailerType(vehicle.getStatCode())) {
-					String trailerType = getVehicleTabTrailerType(vehicle.getStatCode());
+				if (isTrailerType(statCode)) {
+					String trailerType = getVehicleTabTrailerType(statCode);
 					vehicleInformation.put(AutoSSMetaData.VehicleTab.TRAILER_TYPE.getLabel(), trailerType);
 					if ("Travel Trailer".equals(trailerType)) {
-						vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(vehicle.getStatCode()));
+						vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
 					}
 				} else {
-					vehicleInformation.put(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), getVehicleTabMotorHomeType(vehicle.getStatCode()));
+					vehicleInformation.put(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), getVehicleTabMotorHomeType(statCode));
 				}
 			} else {
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "regex=.*\\S.*");
@@ -480,13 +496,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "regex=.*\\S.*");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(vehicle.getStatCode()));
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
 			}
 		}
 
 		int streetNumber = RandomUtils.nextInt(100, 1000);
 		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
+		//TODO-dchubkov: there are lots of tests with invalid zip code. Test data should be fixed
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip());
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
@@ -541,9 +558,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private String getVinFromDb(AutoSSOpenLVehicle vehicle) {
 		String vin = "";
+		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
+
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
 		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(vehicle.getStatCode())) {
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(statCode)) {
 			//TODO-dchubkov: add argument for stat code
 			String getVinQuery = String.format("select VIN \n"
 							+ "from VEHICLEREFDATAVIN\n"
