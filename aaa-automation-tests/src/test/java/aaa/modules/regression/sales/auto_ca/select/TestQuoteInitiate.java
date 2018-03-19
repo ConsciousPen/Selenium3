@@ -37,10 +37,7 @@ public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage qsp = new QuoteSummaryPage();
 		qsp.buttonAddNewQuote.verify.enabled();
-		qsp.buttonAddNewQuote.click();
-		qsp.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
-		qsp.product.setValue(getPolicyType().getName());
-		qsp.nextBtn.click();
+		qsp.initiateQuote(getPolicyType());
 
 		//new GeneralPolicyTab().getAssetList().verify.enabled();
 		Tab.buttonSaveAndExit.click();

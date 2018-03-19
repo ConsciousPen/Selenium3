@@ -37,10 +37,7 @@ public class TestQuoteInitiate extends AutoSSBaseTest {
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage qsp = new QuoteSummaryPage();
 		qsp.buttonAddNewQuote.verify.enabled();
-		qsp.buttonAddNewQuote.click();
-		qsp.broadLineOfBusiness.setValue(QuoteSummaryPage.PERSONAL_LINES);
-		qsp.product.setValue(getPolicyType().getName());
-		qsp.nextBtn.click();
+		qsp.initiateQuote(getPolicyType());
 		Tab.buttonSaveAndExit.click();
 		PolicySummaryPage.labelPolicyNumber.verify.present();
 
