@@ -43,11 +43,11 @@ ConversionForms_VA: {
 }
 
 ConversionForms_PA: {
-  FormsList: ["stub","DS02","AHAUXX","IL 09 10","AHPNXX","HSMPDCNVXX","AHMVCNV"]
+  FormsList: ["stub","HS65PA","DS02","AHAUXX","IL 09 10","AHPNXX","HSMPDCNVXX","AHMVCNV"]
 }
 
 ConversionForms_MD: {
-  FormsList: ["stub","HS65PA","DS02","AHAUXX","AHPNXX","HSMPDCNVXX","AHMVCNV","HSFLD","DSACCCMD","HSWSBMD","HSLLCMD"]
+  FormsList: ["stub","DS02","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSFLD","DSACCCMD","HSWSBMD","HSLLCMD"]
 }
 
 

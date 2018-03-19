@@ -12,6 +12,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.xml.model.Document;
+import aaa.helpers.xml.model.DocumentPackage;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -119,7 +120,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+//https://csaaig.atlassian.net/browse/PAS-11474
+		List<DocumentPackage> allDocumentPackages = DocGenHelper.getAllDocumentPackages(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		List<Document> actualDocumentsListAfterFirstRenewal = getDocumentsFromListDocumentPackages(allDocumentPackages);
+
 		verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
 		// End PAS-2764 Scenario 1
 
@@ -168,6 +172,14 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
+	}
+
+	private List<Document> getDocumentsFromListDocumentPackages(List<DocumentPackage> allDocumentPackages) {
+		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
+		for( DocumentPackage documentPackage: allDocumentPackages){
+			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
+		}
+		return actualDocumentsListAfterFirstRenewal;
 	}
 
 	/**
@@ -324,7 +336,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
 		if (!getPolicyType().equals(PolicyType.PUP)) {
-			testData.adjust(membershipFieldMetaKey, "4290072030989503");
+			testData.adjust(membershipFieldMetaKey, "4343433333333335");
 		}
 		policy.getDefaultView().fill(testData);
 
