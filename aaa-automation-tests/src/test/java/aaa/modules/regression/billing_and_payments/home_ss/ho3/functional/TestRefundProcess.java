@@ -41,195 +41,192 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
-    private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-    private static final String REMOTE_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER)+"DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
-    private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
-    private static final String PENDING_REFUND_AMOUNT = "1000";
-    private static final String APPROVED_REFUND_AMOUNT = "999.99";
-    private TestData tdBilling = testDataManager.billingAccount;
-    private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
-    private BillingAccount billingAccount = new BillingAccount();
-    private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-    private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
-    private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-    private BindTab bindTab = new BindTab();
-    private ApplicantTab applicantTab = new ApplicantTab();
-    private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
+	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private static final String REMOTE_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
+	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
+	private static final String PENDING_REFUND_AMOUNT = "1000";
+	private static final String APPROVED_REFUND_AMOUNT = "999.99";
+	private TestData tdBilling = testDataManager.billingAccount;
+	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
+	private BillingAccount billingAccount = new BillingAccount();
+	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
+	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	private BindTab bindTab = new BindTab();
+	private ApplicantTab applicantTab = new ApplicantTab();
+	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
-    @Test(description = "Precondition for TestRefundProcess tests")
-    public void precondJobAdding() {
-        adminApp().open();
-        NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
-        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
-        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
-        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
-    }
+	@Test(description = "Precondition for TestRefundProcess tests")
+	public void precondJobAdding() {
+		adminApp().open();
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
+	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
+	public void pas7039_Debug(@Optional("VA") String state) throws SftpException, JSchException, IOException {
+		String manualRefundAmount = "100";
+		String automatedRefundAmount = "101";
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3952521998");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
-    public void pas7039_Debug(@Optional("VA") String state) throws SftpException, JSchException, IOException {
-        String manualRefundAmount = "100";
-        String automatedRefundAmount = "101";
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VAH3952521998");
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
+		refundProcessHelper.refundDebug(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
-        refundProcessHelper.refundDebug(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
+	public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
+		String manualRefundAmount = "100";
+		String automatedRefundAmount = "101";
+		mainApp().open();
 
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+		String policyNumber = preconditionPolicyCreationHo();
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
-    public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
-        String manualRefundAmount = "100";
-        String automatedRefundAmount = "101";
-        mainApp().open();
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+		applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class)
+				.getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Deceased");
 
-        String policyNumber = preconditionPolicyCreationHo();
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		bindTab.submitTab();
 
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class)
-                .getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Deceased");
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
 
-        premiumsAndCoveragesQuoteTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        bindTab.submitTab();
+		CustomAssert.enableSoftMode();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-        billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
-        CustomAssert.enableSoftMode();
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
 
-        JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
 
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        Dollar totalDue = BillingSummaryPage.getTotalDue();
-        billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
-        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-        JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
+	public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
+		String manualRefundAmount = "100";
+		String automatedRefundAmount = "101";
 
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+		String policyNumber = preconditionPolicyCreationHo();
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
-    public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
-        String manualRefundAmount = "100";
-        String automatedRefundAmount = "101";
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
 
-        String policyNumber = preconditionPolicyCreationHo();
+		CustomAssert.enableSoftMode();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-        billingAccount.refund().manualRefundPerform("Check", manualRefundAmount);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
 
-        CustomAssert.enableSoftMode();
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-       
-        JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "HO", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
 
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        Dollar totalDue = BillingSummaryPage.getTotalDue();
-        billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(automatedRefundAmount)));
-        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
 
-        
-        JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-        JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-        refundProcessHelper.refundRecordInFileCheck(policyNumber, "R", "CHCK", "HO", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) {
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) {
+		String paymentMethod = "contains=Credit Card";
 
-        String paymentMethod = "contains=Credit Card";
+		preconditionPolicyCreationHo();
 
-        preconditionPolicyCreationHo();
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) {
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) {
+		String paymentMethod = "contains=ACH";
 
-        String paymentMethod = "contains=ACH";
+		preconditionPolicyCreationHo();
 
-        preconditionPolicyCreationHo();
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
+		String paymentMethod = "Credit Card";
 
-        String paymentMethod = "Credit Card";
+		String policyNumber = preconditionPolicyCreationHo();
 
-        String policyNumber = preconditionPolicyCreationHo();
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
+	public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) {
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-    public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) {
+		String paymentMethod = "ACH";
 
-        String paymentMethod = "ACH";
+		String policyNumber = preconditionPolicyCreationHo();
 
-        String policyNumber = preconditionPolicyCreationHo();
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 
-        CustomAssert.enableSoftMode();
-        refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 8);
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
-
-    private String preconditionPolicyCreationHo() {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        log.info("policyNumber: {}", policyNumber);
-        return policyNumber;
-    }
+	private String preconditionPolicyCreationHo() {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		log.info("policyNumber: {}", policyNumber);
+		return policyNumber;
+	}
 
 }
