@@ -155,16 +155,6 @@ PAS-9361:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Email"]
-PAS-9661:
-  summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
-      messages: ["Column Policy Status was not found in the table"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
 PAS-9337:
   summary: "Green Button Service - Abracradabra"
   reason: PROD
@@ -222,13 +212,10 @@ PAS-11405:
   summary: "Regression: Auto & Home: CA: Can't change payment plan of renewal"
   reason: PROD
   failures:
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy,
+              aaa.modules.e2e.home_ca.*.TestScenario10.TC01_createPolicy,
+              aaa.modules.e2e.pup.TestScenario10.TC01_createPolicy]
       messages: ["Column Policy Status was not found in the table"]
-    - tests: [aaa.modules.e2e.home_ca.*.TestScenario10.TC01_createPolicy]
-      messages: ["Column Policy Status was not found in the table"]
-    - tests: [aaa.modules.e2e.pup.TestScenario10.TC01_createPolicy]
-      messages: ["Column Policy Status was not found in the table"]
-    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy]
-      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
-    - tests: [aaa.modules.e2e.home_ca.*.TestScenario12.TC01_createPolicy]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy,
+              aaa.modules.e2e.home_ca.*.TestScenario12.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
