@@ -24,7 +24,7 @@ public class QuoteSummaryPage extends MainPage {
 	public Button buttonAddNewQuote = new Button(By.xpath("//input[@id='quoteForm:newQuoteButton']"));
 	public AbstractContainer<?, ?> initiateQuote = new AssetList(By.xpath("//*[@id='quoteForm:quoteCreationPopup_container']"), QuoteMetaData.InitiateQuote.class);
 
-	public void initiateQuote(PolicyType policyType) {
+	public synchronized void initiateQuote(PolicyType policyType) {
 		buttonAddNewQuote.click();
 
 		TestData td = DataProviderFactory.dataOf(
