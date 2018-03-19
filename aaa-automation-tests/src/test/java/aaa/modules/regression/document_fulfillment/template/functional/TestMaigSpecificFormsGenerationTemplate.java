@@ -364,7 +364,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		assertThat(documentList).isNotEmpty().isNotNull();
 		assertSoftly(softly -> {
 			// Check that all documents where generated
-			documentList.stream().map(Document::getTemplateId).collect(Collectors.toList()).contains(expectedFormsOrder);
+			documentList.stream().map(Document::getTemplateId).collect(Collectors.toList()).containsAll(expectedFormsOrder);
 			// Get all docs +  sequence number
 			HashMap<Integer, String> actualDocuments = new HashMap<>();
 			documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
