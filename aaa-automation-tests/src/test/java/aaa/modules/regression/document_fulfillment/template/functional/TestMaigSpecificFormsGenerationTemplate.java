@@ -59,15 +59,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	/**
 	 * @author Viktor Petrenko
-	 *
+	 * <p>
 	 * PAS-10668 CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
 	 * PAS-6731 CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
-	 *
-	 * @scenario
-	 * 1. Initiate manual entry
+	 * @scenario 1. Initiate manual entry
 	 * 2. Shift time
 	 * 3. Run jobs to generate aaaPreRenewalNoticeAsyncJob
-	 *
 	 */
 	public String generatePreRenewalEvent(TestData testData, LocalDateTime renewalOfferEffectiveDate, LocalDateTime preRenewalGenDate) {
 		mainApp().open();
@@ -85,12 +82,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	/**
 	 * @author Viktor Petrenko
-	 *
+	 * <p>
 	 * PAS-2674 MAIG CONVERSION: test conversion renewal offer package generation and print sequence of end/notices (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
-	 *
-	 * @scenario
-	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify conversion specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
 	 * 4. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
@@ -99,9 +94,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * 7. Check verify Policy Transaction Code and conversion specific forms absense
 	 */
 
-	protected void  verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
+	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
 		// Specific conditions which will reflected in forms which will be verified later
-		boolean specificProductCondition = Arrays.asList("HomeSS","HomeSS_HO4", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
+		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO4", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
 		boolean mortgageePaymentPlanPresence = false;
 		if (!getPolicyType().getShortName().equals("PUP")) {
 			mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
@@ -169,7 +164,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas2674_verifyConversionRenewalPackageAbsence(forms, actualDocumentsAfterSecondRenewal);
 
 		// PAS-8777, PAS-8766
-		if(specificProductCondition){
+		if (specificProductCondition) {
 			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
@@ -177,12 +172,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	/**
 	 * @author Viktor Petrenko
-	 *
+	 * <p>
 	 * PAS-9816 PAS-9816 MAIG CONVERSION: test conversion renewal billing package generation and print sequence (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
-	 *
-	 * @scenario
-	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify billing specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
 	 * 4. set Up Trigger Home Banking Conversion Renewal
@@ -219,8 +212,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		billGeneration(renewalOfferEffectiveDate);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
+		if (getState().equals(Constants.States.PA) || getState().equals(Constants.States.MD)) {
+			pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		}
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
 
@@ -257,7 +251,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
+
+		if (getState().equals(Constants.States.PA) || getState().equals(Constants.States.MD)) {
+			assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
+		}
 	}
 
 	public void pas9816_verifyBillingRenewalPackageAbsence(String policyNumber) {
@@ -367,7 +364,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		assertThat(documentList).isNotEmpty().isNotNull();
 		assertSoftly(softly -> {
 			// Check that all documents where generated
-			assertThat(documentList.stream().map(Document::getTemplateId).toArray()).contains(expectedFormsOrder);
+			documentList.stream().map(Document::getTemplateId).collect(Collectors.toList()).contains(expectedFormsOrder);
 			// Get all docs +  sequence number
 			HashMap<Integer, String> actualDocuments = new HashMap<>();
 			documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
@@ -395,12 +392,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	private List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence, boolean specificProductCondition) {
 		List<String> forms = new ArrayList<>(getTestSpecificTD("ConversionForms").getList("FormsList"));
 		//"HO3","H04","HO6","DP3" if test data has Mortgagee payment plan, swap first form in sequence to HSRNHODPXX
-		if(specificProductCondition && mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		if (specificProductCondition && mortgageePaymentPlanPresence) {
+			forms.set(0, DocGenEnum.Documents.HSRNMXX.getIdInXml());
 		}
 		//"HO3","H04","HO6","DP3" swap first form in sequence to HSRNMXX
-		else if(specificProductCondition && !mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
+		else if (specificProductCondition && !mortgageePaymentPlanPresence) {
+			forms.set(0, DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
 		log.info("List of forms we expect : {}", forms);
