@@ -206,7 +206,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
-			+ "set value = lower('%s/%s/billing/last-payment')\n"
+			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pcDisbursementEngine' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";

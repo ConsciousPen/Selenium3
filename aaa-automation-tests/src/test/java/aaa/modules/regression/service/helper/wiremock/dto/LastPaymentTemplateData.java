@@ -11,14 +11,11 @@ import toolkit.config.PropertyProvider;
  */
 public class LastPaymentTemplateData implements WireMockTemplateData {
 
-	private static final String URL_PATH_PATTERN = "/%s/billing/last-payment";
-	private static final String MATCHES_JSON_PATH = "$[?(@.agreementNumber == '%s')]";//"$.[?(@.policyNumber == '%s')]";
-
 	/**
 	 * public fields for use in tests
 	 */
-	public String urlPath;
-	public String matchesJsonPath;
+	public String envPrefix;
+	public String agreementNumber;
 	public String eligibilityStatus;
 	public String eligibilityStatusDescription;
 	public String transactionDateTime;
@@ -48,18 +45,18 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 			PaymentMethodEnum paymentMethod, PaymentMethodSubTypeEnum paymentMethodSubType, CardSubTypeEnum cardSubType,
 			String last4, String cardExpirationDate) {
 		final LastPaymentTemplateData data = new LastPaymentTemplateData();
-		data.urlPath = String.format(URL_PATH_PATTERN, PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
-		data.matchesJsonPath = String.format(MATCHES_JSON_PATH, policyNumber);
-		data.eligibilityStatus = eligibilityStatus.get();
+		data.envPrefix = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+		data.agreementNumber = policyNumber;
+		data.eligibilityStatus = eligibilityStatus != null ? eligibilityStatus.get() : null;
 		data.eligibilityStatusDescription = eligibilityStatusDescription;
 		data.transactionDateTime = ISO8601DateFormat.getDateTimeInstance().format(DateTime.now().toDate());
 		final Random rnd = new Random();
 		data.transactionId = Integer.valueOf(100000 + rnd.nextInt(900000)).toString();
 		data.lineItemAmt = refundableAmt;
-		data.paymentMethod = paymentMethod.get();
-		data.paymentMethodSubType = paymentMethodSubType.get();
+		data.paymentMethod = paymentMethod != null ? paymentMethod.get() : null;
+		data.paymentMethodSubType = paymentMethodSubType != null ? paymentMethodSubType.get() : null;
 		data.paymentAccountLast4 = last4;
-		data.cardSubType = cardSubType.get();
+		data.cardSubType = cardSubType != null ? cardSubType.get() : null;
 		data.cardExpirationDate = cardExpirationDate;
 		return data;
 	}

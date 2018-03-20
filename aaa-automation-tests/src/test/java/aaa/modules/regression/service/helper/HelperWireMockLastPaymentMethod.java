@@ -42,7 +42,7 @@ public class HelperWireMockLastPaymentMethod {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
 	public void pas111_wireMockExampleTest() throws IllegalAccessException {
 
-		String policyNumber = "aaaaa";
+		String policyNumber = "VASS952918785";
 		String approvedRefundAmount = "500";
 		//CC
 		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, approvedRefundAmount, REFUNDABLE, "refundable", CRDC, VISA, CREDIT, "5555", "11-2021");

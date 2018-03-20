@@ -1195,8 +1195,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
 		requestIdList.add(stubRequestACH);
 
-		stubRequestACH.cleanUp();
-
 		CustomAssert.enableSoftMode();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
