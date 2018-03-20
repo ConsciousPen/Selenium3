@@ -43,9 +43,9 @@ ConversionForms_VA: {
 }
 
 ConversionForms_PA: {
-  FormsList: ["HSRNPUPXX","PS02","AHPNXX"]
+  FormsList: ["HSRNPUPXX","PS02","AHPNXX","HSMPDCNVXX"]
 }
 
 ConversionForms_MD: {
-  FormsList: ["HSRNPUPXX","PS02","AHPNXX"]
+  FormsList: ["HSRNPUPXX","PS02","AHPNXX","HSMPDCNVXX","HSCRRMD"]
 }

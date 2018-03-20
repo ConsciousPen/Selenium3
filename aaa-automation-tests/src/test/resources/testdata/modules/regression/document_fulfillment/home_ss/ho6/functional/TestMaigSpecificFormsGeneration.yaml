@@ -47,5 +47,5 @@ ConversionForms_PA: {
 }
 
 ConversionForms_MD: {
-  FormsList: ["stub","HS65MD","HS02_6","AHMVCNV","AHPNXX","AHMVCNV","HSAOCMDC","HSSNMDC"]
+  FormsList: ["stub","HS65MD","HS02_6","AHPNXX","AHMVCNV","HSAOCMDC","HSSNMDC"]
 }
