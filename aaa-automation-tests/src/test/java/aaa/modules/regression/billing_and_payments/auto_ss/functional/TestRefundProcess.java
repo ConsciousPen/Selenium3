@@ -15,7 +15,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.DbAwaitHelper;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
@@ -75,8 +74,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigCheck() {
-		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
-				.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
+		CustomAssert.assertFalse("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL).get().isEmpty());
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

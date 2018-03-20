@@ -27,7 +27,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	ProductOfferingTab productOfferingTab = new ProductOfferingTab();
 
-
 	/**
 	 * @author R. Kazlauskiene
 	 * @name Test View And Override Capping Details
@@ -44,7 +43,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 * 9. Check Capping Factor and Capped Term Premium values
 	 *
 	 **/
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-3002")
@@ -194,8 +192,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 				.isEqualTo(cappingFactorAfterOverride);
 	}
 
-
-
 	/**
 	 * @author Parth Varmora
 	 * @name Test Check Capping Lock Indicator
@@ -214,7 +210,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 * 11. Assert that Capping Lock get selected.
 	 *
 	 **/
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")

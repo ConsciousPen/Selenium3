@@ -55,7 +55,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		Dollar feeAmount = new Dollar(20);
 
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), amount);
-		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "(" + amount.toString() + ")");
+		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "(" + amount + ")");
 
 		CustomAssert.enableSoftMode();
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
@@ -70,7 +70,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION)
 				.setAmount(feeAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 
-		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
+		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(new Dollar(feeAmount)));
 		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid);
 		CustomAssert.disableSoftMode();
 	}
@@ -90,7 +90,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		Dollar feeAmount = new Dollar(20);
 
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), amount);
-		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeRestriction"), "(" + amount.toString() + ")");
+		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_FeeRestriction"), "(" + amount + ")");
 
 		CustomAssert.enableSoftMode();
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
@@ -127,7 +127,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		Dollar feeAmount = new Dollar(20);
 
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), amount);
-		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "(" + amount.toString() + ")");
+		billingAccount.declinePayment().perform(testDataManager.billingAccount.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "(" + amount + ")");
 
 		CustomAssert.enableSoftMode();
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
