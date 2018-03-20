@@ -1153,7 +1153,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.assertAll();
 	}
 
-	/**
+	/** Not used, because wiremock stub currently doesn't support error response fro LastPaymentMethod
 	 /* @author Megha Gubbala
 	 /* @name Refund Message when only method is check
 	 /* @scenario 1. Create new policy for DC
@@ -1163,7 +1163,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	 /* @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
+	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
 	public void pas1952_MessageWhenOnlyMethodIsCheck(@org.testng.annotations.Optional("DC") String state) {
 
