@@ -2,7 +2,8 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NONREFUNDABLE;
+import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
+import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -1190,7 +1191,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 
-		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, "100", NONREFUNDABLE.get(), "refundable", "EFT", null, null, "1234", null);
+		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, "100", NON_REFUNDABLE, "Refund Method is mandatory for Manual Refund", EFT, null, null, "1234", null);
 		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
 		requestIdList.add(stubRequestACH);
 

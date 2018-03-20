@@ -44,22 +44,22 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 	 * @return pre-filled template data with all given parameters
 	 */
 	public static LastPaymentTemplateData create(String policyNumber, String refundableAmt,
-			String eligibilityStatus, String eligibilityStatusDescription,
-			String paymentMethod, String paymentMethodSubType, String cardSubType,
+			EligibilityStatusEnum eligibilityStatus, String eligibilityStatusDescription,
+			PaymentMethodEnum paymentMethod, PaymentMethodSubTypeEnum paymentMethodSubType, CardSubTypeEnum cardSubType,
 			String last4, String cardExpirationDate) {
 		final LastPaymentTemplateData data = new LastPaymentTemplateData();
 		data.urlPath = String.format(URL_PATH_PATTERN, PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
 		data.matchesJsonPath = String.format(MATCHES_JSON_PATH, policyNumber);
-		data.eligibilityStatus = eligibilityStatus;
+		data.eligibilityStatus = eligibilityStatus.get();
 		data.eligibilityStatusDescription = eligibilityStatusDescription;
 		data.transactionDateTime = ISO8601DateFormat.getDateTimeInstance().format(DateTime.now().toDate());
 		final Random rnd = new Random();
 		data.transactionId = Integer.valueOf(100000 + rnd.nextInt(900000)).toString();
 		data.lineItemAmt = refundableAmt;
-		data.paymentMethod = paymentMethod;
-		data.paymentMethodSubType = paymentMethodSubType;
+		data.paymentMethod = paymentMethod.get();
+		data.paymentMethodSubType = paymentMethodSubType.get();
 		data.paymentAccountLast4 = last4;
-		data.cardSubType = cardSubType;
+		data.cardSubType = cardSubType.get();
 		data.cardExpirationDate = cardExpirationDate;
 		return data;
 	}
@@ -81,7 +81,7 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 
 	public enum EligibilityStatusEnum {
 		REFUNDABLE("REFUNDABLE"),
-		NONREFUNDABLE("NONREFUNDABLE");
+		NON_REFUNDABLE("NON_REFUNDABLE");
 
 		final String eligibilityStatus;
 
