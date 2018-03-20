@@ -145,10 +145,16 @@ PAS-9157:
   summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
   reason: PROD
   failures:
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario12.TC01_createPolicy]
+    - tests: [aaa.modules.e2e.home_ss.*.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
+PAS-9361:
+  summary: "Generate eSignature Document button doesnt open email popup"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
+      messages: ["Email"]
 PAS-9661:
   summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
   reason: PROD
@@ -220,10 +226,26 @@ INC0655981:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Miscellaneous"]
-
 PAS-10779:
   summary: "HSRFIXX is not generated on Issue anymore"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI.*]
       messages: ['No value present']
+PAS-11405:
+  summary: "Regression: Auto & Home: CA: Can't change payment plan of renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy,
+              aaa.modules.e2e.home_ca.*.TestScenario10.TC01_createPolicy,
+              aaa.modules.e2e.pup.TestScenario10.TC01_createPolicy]
+      messages: ["Column Policy Status was not found in the table"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy,
+              aaa.modules.e2e.home_ca.*.TestScenario12.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
+PAS-11538:
+  summary: "Regression: Home SS: HO4: UT: Renewal status is Policy Pending on R-35"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho4.TestScenario9.TC01_createPolicy]
+      messages: ["Column Status was not found in the table"]
