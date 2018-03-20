@@ -22,9 +22,9 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	private Integer safetyScore;
 	private String usage;
 	private Integer vehicleAge;
-	private Boolean isABS; // DC specific ?
+	private Boolean isABS; // NY specific
 	private Boolean isDaytimeRunning; // DC specific ?
-	private String firstOrAddlVehicle; // NJ specific ?
+	private String firstOrAddlVehicle; // NJ specific
 	private Integer maxDriverAge; // VA specific ?
 	private Integer totalVehiclePoint; // VA specific ?
 

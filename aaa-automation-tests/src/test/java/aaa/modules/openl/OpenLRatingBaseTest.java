@@ -68,15 +68,18 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
 						policyAndPremium.getKey().getNumber(), policyAndPremium.getValue(), openLFileName);
 
-				TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
-				policy.initiate();
-				policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
-				new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-
+				createAndRateQuote(tdGenerator, policyAndPremium.getKey());
 				softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString());
 				Tab.buttonCancel.click();
 			}
 		});
+	}
+
+	protected void createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy) {
+		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
 	}
 
 	protected <O extends OpenLFile<P>> Map<P, Dollar> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {

@@ -25,6 +25,20 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
 	}
 
+	@Override
+	protected void createAndRateQuote(TestDataGenerator<AutoSSOpenLPolicy> tdGenerator, AutoSSOpenLPolicy openLPolicy) {
+		if ("LegacyConv".equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+			TestData renewalEntryData = ((AutoSSTestDataGenerator) tdGenerator).getRenewalEntryData(openLPolicy);
+			TestData quoteRatingData = ((AutoSSTestDataGenerator) tdGenerator).getRatingData(openLPolicy, true);
+
+			customer.initiateRenewalEntry().perform(renewalEntryData);
+			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
+		} else {
+			super.createAndRateQuote(tdGenerator, openLPolicy);
+		}
+	}
+
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {

@@ -284,6 +284,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AFFINITY_GROUP = declare("Affinity Group", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> TRAVELINK_DISCOUNT = declare("Travelink Discount", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SMART_DRIVER_COURSE_COMPLETED = declare("Smart Driver Course Completed?", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> SMART_DRIVER_COURSE_COMPLETION_DATE = declare("Smart Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> SMART_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Smart Driver Course Certificate Number", TextBox.class);
@@ -443,6 +444,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> AIR_BAGS = declare("Air Bags", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ANTI_THEFT = declare("Anti-theft", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> ALTERNATIVE_FUEL_VEHICLE = declare("Alternative Fuel Vehicle", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> ANTI_LOCK_BRAKES = declare("Anti-Lock Brakes", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> LESS_THAN_3000_MILES = declare("Less Than 3,000 Miles", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> IS_THIS_A_REPLACEMENT_VEHICLE = declare("Is this a Replacement Vehicle?", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> MILES_ONE_WAY_TO_WORK_OR_SCHOOL = declare("Miles One-way to Work or School", TextBox.class);

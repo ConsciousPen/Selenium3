@@ -3,6 +3,7 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -202,6 +203,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		switch (getState()) {
 			case Constants.States.OR:
 			case Constants.States.CO:
+			case Constants.States.CT:
 			case Constants.States.IN:
 			case Constants.States.OK:
 			case Constants.States.WY:
@@ -226,7 +228,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
 		coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
-		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 		coveragesMap.put("PIP", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel());
 		coveragesMap.put("ADBC", AutoSSMetaData.PremiumAndCoveragesTab.ACCIDENTAL_DEATH_BENEFITS.getLabel());
 		coveragesMap.put("IL", AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS_BENEFIT.getLabel());
@@ -243,7 +244,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPolicyLevelCoverage(String coverageCD) {
-		return Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UMPD", "UIMPD", "UM/SUM", "APIP", "OBEL").contains(coverageCD);
+		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
+		if (!getState().equals(Constants.States.OR)) {
+			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
+			policyLevelCoverage.add("UMPD");
+		}
+		return policyLevelCoverage.contains(coverageCD);
 	}
 
 	boolean isFirstPartyBenefitsComboCoverage(String coverageCD) {
@@ -307,7 +313,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case 12:
 				return "Annual";
 			case 6:
-				return "regex=Semi-[aA]nnual";
+				return "regex=Semi-[aA]nnual.*";
 			default:
 				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}

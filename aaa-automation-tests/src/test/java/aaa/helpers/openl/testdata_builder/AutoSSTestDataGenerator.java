@@ -23,7 +23,9 @@ import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
@@ -50,6 +52,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
+		return getRatingData(openLPolicy, false);
+	}
+
+	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy, boolean isLegacyConvPolicy) {
 		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
 			//TODO-dchubkov: to be implemented...
 			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
@@ -61,6 +67,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		if (openLPolicy.getCappingDetails().get(0).getTermCappingFactor() != null && openLPolicy.getCappingDetails().get(0).getTermCappingFactor() != 1) {
 			//TODO-dchubkov: to be implemented...
 			throw new NotImplementedException("Test data generation for \"termCappingFactor\" not equal to 1 is not implemented.");
+		}
+
+		if (openLPolicy.getCappingDetails().get(0).getPreviousCappingFactor() != null && openLPolicy.getCappingDetails().get(0).getPreviousCappingFactor() != 1) {
+			//TODO-dchubkov: to be implemented...
+			throw new NotImplementedException("Test data generation for \"previousCappingFactor\" not equal to 1 is not implemented.");
 		}
 
 		String membershipNumber = null;
@@ -82,7 +93,29 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				new AssignmentTab().getMetaKey(), getAssignmentTabData(driversTestDataList),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
-		return TestDataHelper.merge(getRatingDataPattern(), td);
+		td = TestDataHelper.merge(getRatingDataPattern(), td);
+
+		if (isLegacyConvPolicy) {
+			TestData policyInformationTd = td.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
+					.mask(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.LEAD_SOURCE.getLabel());
+			td.adjust(TestData.makeKeyPath("GeneralTab", "PolicyInformation"), policyInformationTd);
+			td.getTestDataList(new DriverTab().getMetaKey()).forEach(driverData -> driverData.adjust(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), getState()));
+		}
+		return td;
+	}
+
+	public TestData getRenewalEntryData(AutoSSOpenLPolicy openLPolicy) {
+		TestData initiateRenewalEntryActionData = DataProviderFactory.dataOf(
+				CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_POLICY_NUMBER.getLabel(), "$<rx:\\d{10}>",
+				CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_SOURCE_SYSTEM.getLabel(), "SIS",
+				CustomerMetaData.InitiateRenewalEntryActionTab.RISK_STATE.getLabel(), getState(),
+				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
+				CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().get(0).getPlcyInceptionDate().format(DateTimeUtils.MM_DD_YYYY),
+				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel(), "4000",
+				CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getCappingDetails().get(0).getTerm()),
+				CustomerMetaData.InitiateRenewalEntryActionTab.PROGRAM_CODE.getLabel(), "LegacyConv",
+				CustomerMetaData.InitiateRenewalEntryActionTab.ENROLLED_IN_AUTOPAY.getLabel(), "No");
+		return DataProviderFactory.dataOf(new InitiateRenewalEntryActionTab().getMetaKey(), initiateRenewalEntryActionData);
 	}
 
 	private TestData getPrefillTabData() {
@@ -219,12 +252,20 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (Constants.States.MD.equals(getState()) && Boolean.TRUE.equals(driver.isCleanDriver())) {
-				driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
+				driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), "Yes");
 			}
 
 			if (Constants.States.VA.equals(getState()) && Boolean.TRUE.equals(driver.hasFR44())) {
-				driverData.adjust(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasFR44()))
+				driverData.adjust(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), "Yes")
 						.adjust(AutoSSMetaData.DriverTab.FORM_TYPE.getLabel(), "FR44");
+			}
+
+			if (Constants.States.DE.equals(getState()) && driver.hasTravelink() != null) {
+				driverData.adjust(AutoSSMetaData.DriverTab.TRAVELINK_DISCOUNT.getLabel(), getYesOrNo(driver.hasTravelink()));
+			}
+
+			if (Constants.States.NJ.equals(getState()) && Boolean.TRUE.equals(driver.isExcludedDriver())) {
+				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_TYPE.getLabel(), "Excluded");
 			}
 
 			if (Boolean.TRUE.equals(driver.isOutOfStateLicenseSurcharge())) {
@@ -477,6 +518,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), vehicle.getCollSymbol() * 1000);
+			if (getState().equals(Constants.States.NY) && vehicle.isABS() != null) {
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), getYesOrNo(vehicle.isABS()));
+			}
+
 			if (isTrailerOrMotorHomeType(vehicle.getUsage())) {
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
@@ -505,8 +550,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		int streetNumber = RandomUtils.nextInt(100, 1000);
 		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
-		//TODO-dchubkov: there are lots of tests with invalid zip code. Test data should be fixed
-		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip());
+		if (getState().equals(Constants.States.CT)) {
+			// For CT state ZIP code in Address tab actually means Location Code from "Geography" tab of rater file CT_SS_Auto_Eff_20171101_Update_20171020.xlsm
+			//TODO-dchubkov: replace hardcoded value with getting appropriate value from DB (if possible) or from rater file
+			if (!"60003".equals(vehicle.getAddress().get(0).getZip())) {
+				throw new IstfException("Vehicle's ZIP code test data generation for Location Code !=60003 for CT state is not implemented");
+			}
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), "06010");
+		} else {
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip());
+		}
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
