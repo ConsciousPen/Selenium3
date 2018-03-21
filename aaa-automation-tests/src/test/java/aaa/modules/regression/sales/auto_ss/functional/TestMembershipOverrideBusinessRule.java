@@ -40,8 +40,6 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
      * 8. Bind Quote ---> quote will bind
      * @details
      */
-
-
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10845")
@@ -66,7 +64,6 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
 
         mainApp().open();
         createCustomerIndividual();
-        log.info("Policy Creation Started...");
         createPolicy(testData);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
@@ -103,7 +100,6 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
 
         mainApp().open();
         createCustomerIndividual();
-        log.info("Policy Creation Started...");
         policy.initiate();
 
         policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
@@ -143,7 +139,6 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
 
         mainApp().open();
         createCustomerIndividual();
-        log.info("Policy Creation Started...");
         createPolicy(testData);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
@@ -179,7 +174,6 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
 
         mainApp().open();
         createCustomerIndividual();
-        log.info("Policy Creation Started...");
         policy.initiate();
 
         policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
