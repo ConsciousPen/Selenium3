@@ -1,0 +1,42 @@
+AAAProductOwned_Override: {
+  Current AAA Member: 'Membership Override',
+#  Override Type: 'Term', #this is default, so no point to selecting it COMMENT/REMOVE
+  Member Since Date: 01/04/2009,
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned_Yes: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: 'Test'
+}
+
+AAAProductOwned_Pend: {
+  Current AAA Member: 'Membership Pending',
+}
+
+AAAProductOwned_No: {
+  Current AAA Member: 'No',
+}
+
+CurrentCarrierInformation_BR: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Eleven Pay - Standard,
+}
+#PremiumAndCoveragesTab_Eleven: {
+#  Payment Plan: Eleven Pay - Standard,
+#  #Policy Term: Annual,
+#  Bodily Injury Liability: 'contains=$100,000/$300,000',
+#  Comprehensive Deductible: 'contains=$750',
+#  #Collision Deductible: 'contains=$500',
+#  #Special Equipment Coverage: 1100
+#}
+
