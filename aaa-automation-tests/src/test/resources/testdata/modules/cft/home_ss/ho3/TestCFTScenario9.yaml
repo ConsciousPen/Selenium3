@@ -1,20 +1,24 @@
 # --- Data Gather
-TestData_DataGather: {
-  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
-  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
-  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
-  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
-  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
-  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+#TestData: {
+#  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab',
+#  ApplicantTab: '@ApplicantTab',
+#  ReportsTab: '@ReportsTab',
+#  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+#  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+#  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+#  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+#  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+#  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+#  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+#  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+#}
+
+GeneralTab_DataGather: {
+  Effective date: '$<today+2d>'
 }
 
-ApplicantTab: {
+ApplicantTab_DataGather: {
   NamedInsured: ['@NamedInsured1','@NamedInsured2'],
   AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
@@ -23,6 +27,94 @@ ApplicantTab: {
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo'
+}
+
+ApplicantTab_DataGather_DE: {
+  NamedInsured: ['@NamedInsured1','@NamedInsured2'],
+  AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DE',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DE'
+}
+
+ApplicantTab_DataGather_NJ: {
+  NamedInsured: ['@NamedInsured1','@NamedInsured2'],
+  AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NJ',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_NJ'
+}
+
+ApplicantTab_DataGather_OK: {
+  NamedInsured: ['@NamedInsured1','@NamedInsured2'],
+  AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OK',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OK'
+}
+
+ReportsTab_DataGather: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{
+    Customer Agreement: 'Customer agrees',
+    Report: 'Order report'}, {
+    Report: 'Order report'
+    }],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+ReportsTab_DataGather_DE: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{
+    Customer Agreement: 'Customer agrees',
+    Report: 'Order report'}, {
+    Report: 'Order report'
+    }],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+ReportsTab_DataGather_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{
+    Customer Agreement: 'Customer agrees',
+    Report: 'Order report'}, {
+    Report: 'Order report'
+    }],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+ReportsTab_DataGather_OK: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{
+    Customer Agreement: 'Customer agrees',
+    Report: 'Order report'}, {
+    Report: 'Order report'
+    }],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard
 }
 
 NamedInsured1: {
@@ -35,17 +127,10 @@ NamedInsured1: {
 NamedInsured2: {
   CustomerSearchDialog: {},
   First name: 'John$<rx:\d{8}>',
-  Last name: 'Smith$<rx:\d{8}>',
+  Last name: 'Smith',
   Relationship to primary named insured:  Other,
   Marital status: Single,
   Social security number: 1234567899,
   Date of birth: '$<today-40y>',
   AAA employee: 'Yes'
-}
-
-GeneralTab_DataGather: {
-  Effective date: '$<today+2d>'
-}
-PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard
 }

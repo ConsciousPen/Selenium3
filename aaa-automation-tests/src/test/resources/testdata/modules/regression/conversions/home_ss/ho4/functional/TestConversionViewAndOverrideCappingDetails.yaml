@@ -1,15 +1,13 @@
-# ====================== TestData VA, DE, AZ, MD =======================
+# ====================== TestData VA, DE, AZ, MD, PA =======================
 TestData: {
   InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
   GeneralTab: '@GeneralTab',
-  ReportsTab: '@ReportsTab'
 }
 
 # ====================== TestData NJ =======================
 TestData_NJ: {
   InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab_NJ',
   GeneralTab: '@GeneralTab_NJ',
-  ReportsTab: '@ReportsTab',
 }
 
 GeneralTab_NJ: {
@@ -21,15 +19,11 @@ InitiateRenewalEntryActionTab_NJ: {
 }
 
 InitiateRenewalEntryActionTab: {
-  Renewal Policy Premium: 1000
+  Renewal Policy Premium: 980
 }
 
 GeneralTab: {
   Immediate prior carrier: 'CSAA Affinity Insurance Company',
-}
-
-ReportsTab: {
-  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}]
 }
 
 # --------- View Capping Details----------
