@@ -224,9 +224,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		billGeneration(renewalOfferEffectiveDate);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		if (getState().equals(Constants.States.PA) || getState().equals(Constants.States.MD)) {
-			pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		}
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+
+		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
 
@@ -262,11 +262,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		String policyTransactionCode2 = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
-		if (getState().equals(Constants.States.PA) || getState().equals(Constants.States.MD)) {
-			assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
-		}
+		assertThat(policyTransactionCode2.equals("STMT") || policyTransactionCode2.equals("0210")).isEqualTo(true);
 	}
 
 	public void pas9816_verifyBillingRenewalPackageAbsence(String policyNumber) {
@@ -320,6 +318,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
 		mainApp().open();
+		// Set birthdate if NJ to generate Senior Discount
 		if (getState().equals(Constants.States.NJ)) {
 			createCustomerIndividual(getCustomerIndividualTD("DataGather", "TestData")
 					.adjust(TestData.makeKeyPath("GeneralTab", "Date of Birth"), TimeSetterUtil.getInstance().getCurrentTime().minusYears(65)
@@ -330,7 +329,16 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		// adjust with real policies if PUP )
 		if (getPolicyType().equals(PolicyType.PUP)) {
-			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
+			Map<String,String> policies = new HashMap<>();
+			TestData tdHomeEntry = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "InitiateRenewalEntry", "TestData");
+			TestData tdHomeConversion = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "Conversion", "TestData");
+			customer.initiateRenewalEntry().perform(tdHomeEntry);
+			PolicyType.HOME_SS_HO3.get().getDefaultView().fill(tdHomeConversion);
+			String homePolicyNum = PolicySummaryPage.getPolicyNumber();
+			policies.put("Primary_HO3", homePolicyNum);
+			testData = new PrefillTab().adjustWithRealPolicies(testData, policies);
+
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		}
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
@@ -386,9 +394,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			// Get documents order by sequence number
 			List<String> actualOrder = new ArrayList<>();
 			sortedKeys.forEach(sequenceId -> actualOrder.add(actualDocuments.get(sequenceId)));
+			log.info(actualOrder.toString());
 			// Get Intersection order
 			List<String> intersectionsWithActualList = actualOrder.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
 			// Check sequence
+			log.info("Expected list of forms : " + expectedFormsOrder.toString());
+			log.info("Actual list of forms : " + intersectionsWithActualList.toString());
 			softly.assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
 		});
 	}
