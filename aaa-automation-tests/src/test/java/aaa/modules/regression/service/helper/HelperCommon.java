@@ -2,13 +2,15 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.base.app.Application;
@@ -208,13 +210,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.post(Entity.json(request));
+			response = createJsonRequest(client, url).post(Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
@@ -241,13 +237,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.delete();
+			response = createJsonRequest(client, url).delete();
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
@@ -266,8 +256,7 @@ public class HelperCommon {
 	}
 
 	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
-		T result = runJsonRequestGetDxp(url, responseType, 200);
-		return result;
+		return runJsonRequestGetDxp(url, responseType, 200);
 	}
 
 	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
@@ -275,13 +264,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.get();
+			response = createJsonRequest(client, url).get();
 			T result = response.readEntity(responseType);
 			log.info(response.toString());
 				if (response.getStatus() != status) {
@@ -319,6 +302,41 @@ public class HelperCommon {
 				throw new IstfException(response.readEntity(String.class));
 			}
 			return result;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	private static Invocation.Builder createJsonRequest(Client client, String url) {
+		Invocation.Builder builder = client.target(url).request()
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+		if(BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
+			final String token = getBearerToken();
+			if(StringUtils.isNotEmpty(token)) {
+				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+			}
+		}
+		return builder;
+	}
+
+	private static String getBearerToken() {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(PropertyProvider.getProperty(CustomTestProperties.PING_HOST));
+
+			response = target
+					.request()
+					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
+					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
+			final JsonNode result = response.readEntity(JsonNode.class);
+			return result.findValue("access_token").asText();
 		} finally {
 			if (response != null) {
 				response.close();
