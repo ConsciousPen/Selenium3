@@ -42,7 +42,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
-import aaa.modules.regression.service.helper.HelperWireMock;
+import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
@@ -1218,7 +1218,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		eValueQuoteCreation();
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-		String requestId = createPaperlessPreferencesRequestId(quoteNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		String requestId = createPaperlessPreferencesRequestId(quoteNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1237,7 +1237,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Start PAS-296
 		//first endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
+		String requestId2 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_OUT.get());
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1258,7 +1258,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//start new endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus10Day"));
-		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMock.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
+		String requestId3 = createPaperlessPreferencesRequestId(policyNumber, HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN.get());
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1281,19 +1281,19 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private void deleteMultiplePaperlessPreferencesRequests() {
 		for (Object requestId : requestIdList) {
-			HelperWireMock.deleteProcessedRequestFromStub(requestId.toString());
+			HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId.toString());
 		}
 		requestIdList.clear();
 	}
 
 	private String createPaperlessPreferencesRequestId(String policyNumber, String scenarioJsonFile) {
-		String requestId = HelperWireMock.setPaperlessPreferencesToValue(policyNumber, scenarioJsonFile);
+		String requestId = HelperWireMockPaperlessPreferences.setPaperlessPreferencesToValue(policyNumber, scenarioJsonFile);
 		requestIdList.add(requestId);
 		return requestId;
 	}
 
 	private void deleteSinglePaperlessPreferenceRequest(String requestId) {
-		HelperWireMock.deleteProcessedRequestFromStub(requestId);
+		HelperWireMockPaperlessPreferences.deleteProcessedRequestFromStub(requestId);
 		requestIdList.remove(requestId);
 	}
 
