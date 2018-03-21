@@ -40,20 +40,20 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer noOfVehiclesExcludingTrailer;
 	private Boolean multiCar;
 	private Boolean supplementalSpousalLiability; // NY specific (but field was also found in OR file with FALSE value)
-	private Boolean umbiConvCode; // CT specific ?
-	private Integer aaaAPIPIncomeContBenLimit; // NJ specific ?
-	private String aaaAPIPLengthIncomeCont; // NJ specific ?
-	private Integer aaaPIPExtMedPayLimit; // NJ specific ?
-	private Integer aaaPIPMedExpDeductible; // NJ specific ?
-	private Integer aaaPIPMedExpLimit; // NJ specific ?
-	private String aaaPIPNonMedExp; // NJ specific ?
-	private String aaaPIPPrimaryInsurer; // NJ specific ?
-	private Integer noOfAPIPAddlNamedRel; // NJ specific ?
-	private Integer previousAaaInsurancePersistency; // NJ specific ?
-	private String rbTier; // NY specific ?
-	private Integer yafAfterInception; // NY specific ?
-	private Integer ycfAfterInception; // NY specific ?
-	private String tort; // PA specific ?
+	private Boolean umbiConvCode; // CT specific
+	private Integer aaaAPIPIncomeContBenLimit; // NJ specific
+	private String aaaAPIPLengthIncomeCont; // NJ specific
+	private Integer aaaPIPExtMedPayLimit; // NJ specific
+	private Integer aaaPIPMedExpDeductible; // NJ specific
+	private Integer aaaPIPMedExpLimit; // NJ specific
+	private String aaaPIPNonMedExp; // NJ specific
+	private String aaaPIPPrimaryInsurer; // NJ specific
+	private Integer noOfAPIPAddlNamedRel; // NJ specific
+	private Integer previousAaaInsurancePersistency; // PA specific
+	private String rbTier; // NY specific
+	private Integer yafAfterInception; // NY specific
+	private Integer ycfAfterInception; // NY specific
+	private String tort; // PA specific
 
 	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLCappingDetails> cappingDetails;
@@ -64,6 +64,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLDriver> drivers;
 
+	@Override
 	public Integer getTerm() {
 		return term;
 	}

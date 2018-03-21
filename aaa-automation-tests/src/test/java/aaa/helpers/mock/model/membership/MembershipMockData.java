@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -41,11 +42,29 @@ public class MembershipMockData {
 		return getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList());
 	}
 
+	public Set<String> getActiveAndPrimaryMembershipNumbersWithoutFaultCodes() {
+		Set<String> membershipNembers = new HashSet<>();
+		for (MembershipRequest request : getMembershipRequests()) {
+			List<MembershipResponse> responses = getMembershipResponses(request.getMembershipNumber());
+			if (responses.stream().anyMatch(r -> StringUtils.isNotBlank(r.getFaultCode()))) {
+				continue;
+			}
+			if (responses.stream().anyMatch(this::isActiveAndPrimary)) {
+				membershipNembers.add(request.getMembershipNumber());
+			}
+		}
+		assertThat(membershipNembers).as("There is no active and primary membership numbers without fault codes").isNotEmpty();
+		return membershipNembers;
+	}
+
 	public String getMembershipNumberForAvgAnnualERSperMember(LocalDateTime policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
-		//TODO-dchubkov: handle default value of avgAnnualERSperMember=99.9
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
 		assertThat(membershipNumbersSet).as("No active and primary membership numbers were found for policyEffectiveDate=%1$s and memberPersistency=%2$s", policyEffectiveDate, memberPersistency)
 				.isNotEmpty();
+
+		if (avgAnnualERSperMember.equals(99.9)) {
+			return membershipNumbersSet.stream().findFirst().get();
+		}
 		String membershipNumber = getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
 		assertThat(membershipNumber).as("No valid membership number was found for avgAnnualERSperMember field").isNotNull();
 		return membershipNumber;
@@ -53,42 +72,29 @@ public class MembershipMockData {
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDateTime memberSinceDate) {
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
-		List<String> validMembershipIds = new ArrayList<>();
-		Set<String> membershipIds = getMembershipResponses().stream().map(MembershipResponse::getId).collect(Collectors.toSet());
-		for (String id : membershipIds) {
-			List<MembershipResponse> membershipResponses = getMembershipResponses().stream().filter(mr -> Objects.equals(id, mr.getId())).collect(Collectors.toList());
-			if (membershipResponses.stream().anyMatch(r -> StringUtils.isNotBlank(r.getFaultCode()))) {
-				continue;
-			}
+		Set<String> validMembershipNumbers = new HashSet<>();
+		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
+			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
+				//Response is valid if memberStartDate=memberSinceDate
+				if (isEqualDates(r.getMemberStartDate(), memberSinceDate)) {
+					validMembershipNumbers.add(membershipNumber);
+					break;
+				}
 
-			boolean isValidId = false;
-			for (MembershipResponse r : membershipResponses) {
-				if (isActiveAndPrimary(r)) {
-					//Response is valid if memberStartDate=memberSinceDate
-					if (isEqualDates(r.getMemberStartDate(), memberSinceDate)) {
-						isValidId = true;
-						break;
-					}
+				//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
+				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualDates(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
+					validMembershipNumbers.add(membershipNumber);
+					break;
+				}
 
-					//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
-					if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && isEqualDates(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
-						isValidId = true;
-						break;
-					}
-
-					//Response is valid if memberSinceDate == today AND memberStartDate is empty AND memberStartDateMonthsOffset is empty
-					if (isEqualDates(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
-						isValidId = true;
-						break;
-					}
+				//Response is valid if memberSinceDate == today AND memberStartDate is empty AND memberStartDateMonthsOffset is empty
+				if (isEqualDates(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
+					validMembershipNumbers.add(membershipNumber);
+					break;
 				}
 			}
-
-			if (isValidId) {
-				validMembershipIds.add(id);
-			}
 		}
-		return validMembershipIds.stream().map(this::getMembershipRequestNumber).collect(Collectors.toSet());
+		return validMembershipNumbers;
 	}
 
 	public List<MembershipResponse> getMembershipResponses(String membershipRequestNumber) {
@@ -102,14 +108,14 @@ public class MembershipMockData {
 	}
 
 	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDateTime policyEffectiveDate, Double avgAnnualERSperMember) {
-		double defaultAvgAnnualERSperMember = 99.9;
+		//double defaultAvgAnnualERSperMember = 99.9;
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		for (String mNumber : membershipNumbers) {
 			int ersCount = 0;
 			int totalYearsCount = 0;
 
 			List<MembershipResponse> membershipResponses = getMembershipResponses(mNumber);
-			if (membershipResponses.stream().anyMatch(m -> StringUtils.isNotBlank(m.getFaultCode()))) {
+			/*if (membershipResponses.stream().anyMatch(m -> StringUtils.isNotBlank(m.getFaultCode()))) {
 				if (avgAnnualERSperMember.equals(defaultAvgAnnualERSperMember)) {
 					return mNumber;
 				}
@@ -131,7 +137,7 @@ public class MembershipMockData {
 					return mNumber;
 				}
 				continue;
-			}
+			}*/
 
 			for (MembershipResponse mResponse : membershipResponses) {
 				if ("Active".equals(mResponse.getStatus())) {

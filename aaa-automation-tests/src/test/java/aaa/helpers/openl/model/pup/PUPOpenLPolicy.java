@@ -9,6 +9,7 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_RISK_ITEM_SHEET_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
@@ -189,6 +190,12 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	@Override
+	public Integer getTerm() {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException(String.format("Getting term for %s is not implemented", this.getClass().getSimpleName()));
 	}
 
 	@Override

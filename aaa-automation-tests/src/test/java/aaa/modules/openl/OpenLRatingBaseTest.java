@@ -70,7 +70,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 				createAndRateQuote(tdGenerator, policyAndPremium.getKey());
 				softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString());
-				Tab.buttonCancel.click();
+				Tab.buttonSaveAndExit.click();
 			}
 		});
 	}
@@ -111,6 +111,9 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				expectedPremium = new Dollar(row.getValue(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME));
 			} else {
 				expectedPremium = new Dollar(row.getSumContains("_res_.$Value"));
+				if (openLPolicy.getTerm() == 6) {
+					expectedPremium = expectedPremium.divide(2);
+				}
 			}
 			openLPoliciesAndPremiumsMap.put(openLPolicy, expectedPremium);
 		}

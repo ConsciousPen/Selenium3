@@ -49,18 +49,24 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 		return "Y".equalsIgnoreCase(value) ? "Yes" : "No";
 	}
 
+	String getDollarValue(int value) {
+		return getDollarValue(value, true);
+	}
+
+	String getDollarValue(int value, boolean excludeZeroHundredths) {
+		String dollarValue = new Dollar(value).toString();
+		if (excludeZeroHundredths) {
+			dollarValue = dollarValue.replaceAll("\\.00", "");
+		}
+		return dollarValue;
+	}
+
 	String getRangedDollarValue(int fromBoundary, int toBoundary) {
 		return getRangedDollarValue(fromBoundary, toBoundary, true);
 	}
 
 	String getRangedDollarValue(int fromBoundary, int toBoundary, boolean excludeZeroHundredths) {
-		String from = new Dollar(fromBoundary).toString();
-		String to = new Dollar(toBoundary).toString();
-		if (excludeZeroHundredths) {
-			from = from.replaceAll("\\.00", "");
-			to = to.replaceAll("\\.00", "");
-		}
-		return from + "/" + to;
+		return getDollarValue(fromBoundary, excludeZeroHundredths) + "/" + getDollarValue(toBoundary, excludeZeroHundredths);
 	}
 
 	String getRandom(String... values) {

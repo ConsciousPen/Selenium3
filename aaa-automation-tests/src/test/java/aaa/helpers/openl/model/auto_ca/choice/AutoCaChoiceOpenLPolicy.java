@@ -49,6 +49,7 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 		this.nanoPolicyType = nanoPolicyType;
 	}
 
+	@Override
 	public Integer getTerm() {
 		return term;
 	}

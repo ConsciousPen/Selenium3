@@ -2,7 +2,7 @@ package aaa.helpers.openl.model;
 
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
-public class OpenLPolicy {
+public abstract class OpenLPolicy {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
@@ -23,6 +23,8 @@ public class OpenLPolicy {
 	public void setPolicyNumber(String policyNumber) {
 		this.policyNumber = policyNumber;
 	}
+
+	public abstract Integer getTerm();
 
 	@Override
 	public String toString() {
