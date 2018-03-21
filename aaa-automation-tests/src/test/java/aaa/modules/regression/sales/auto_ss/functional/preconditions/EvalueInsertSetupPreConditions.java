@@ -219,4 +219,8 @@ public interface EvalueInsertSetupPreConditions {
 	String PAPERLESS_PREFERENCES_POPUP_STUB_POINT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://localhost:8090/prefmgmt-portal/prefsetup'\n"
 			+ "where propertyname = 'aaaPreferenceUrlBuilder.prefSharedUrl'";
+
+	String DXP_AUTHENTICATION_PARAMETERS_INSERT = "INSERT\n"
+			+ " INTO PROPERTYCONFIGURERENTITY (author, description, PROPERTYNAME, VALUE)\n"
+			+ " values('%s', '%s', '%s', '%s')\n";
 }

@@ -355,7 +355,7 @@ public class HelperCommon {
 		applicationContext.correlationId = Guid.GUID.newGuid().toString();
 		applicationContext.subSystem = "AutomationTest";
 		applicationContext.transactionType = "AutomationTest";
-		applicationContext.transactionType = "MyPolicy";
+		applicationContext.userId = "MyPolicy";
 		return applicationContext;
 	}
 
