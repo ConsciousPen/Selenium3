@@ -53,19 +53,19 @@
   </test>
 -->
 
-  <test name="MVR Predictor Algo for 2 of 4 Drivers">
+    <test name="MVR Predictor Algo for 2 of 4 Drivers">
       <parameter name="state" value="CT"/>
       <classes>
           <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
       </classes>
-  </test>
+    </test>
 
-  <test name="Remove Distant Driver Discount">
+    <test name="Remove Distant Driver Discount">
       <parameter name="state" value="NJ"/>
       <classes>
           <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
       </classes>
-  </test>
+    </test>
 
   <!--Tests for Property-->
 
@@ -209,7 +209,7 @@
 
 
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
-        <parameter name="state" value="CO, OH, MD"/>
+        <parameter name="state" value="CO, OH, UT"/>
         <classes>
             <class name = "aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
