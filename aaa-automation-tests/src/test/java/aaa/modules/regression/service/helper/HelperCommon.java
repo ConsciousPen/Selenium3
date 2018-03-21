@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
@@ -47,6 +48,7 @@ public class HelperCommon {
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
+	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
@@ -313,12 +315,12 @@ public class HelperCommon {
 	}
 
 	private static Invocation.Builder createJsonRequest(Client client, String url) {
-		Invocation.Builder builder = client.target(url).request()
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 		if(BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
 			final String token = getBearerToken();
 			if(StringUtils.isNotEmpty(token)) {
-				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+						.header(APPLICATION_CONTEXT_HEADER, createApplicationContext());
 			}
 		}
 		return builder;
@@ -330,7 +332,6 @@ public class HelperCommon {
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			WebTarget target = client.target(PropertyProvider.getProperty(CustomTestProperties.PING_HOST));
-
 			response = target
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
@@ -345,6 +346,17 @@ public class HelperCommon {
 				client.close();
 			}
 		}
+	}
+
+	private static ApplicationContext createApplicationContext() {
+		final ApplicationContext applicationContext = new ApplicationContext();
+		applicationContext.address = "AutomationTest";
+		applicationContext.application = "AutomationTest";
+		applicationContext.correlationId = Guid.GUID.newGuid().toString();
+		applicationContext.subSystem = "AutomationTest";
+		applicationContext.transactionType = "AutomationTest";
+		applicationContext.transactionType = "MyPolicy";
+		return applicationContext;
 	}
 
 }
