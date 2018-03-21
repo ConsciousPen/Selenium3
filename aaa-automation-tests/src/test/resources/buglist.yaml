@@ -249,3 +249,21 @@ PAS-11538:
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho4.TestScenario9.TC01_createPolicy]
       messages: ["Column Status was not found in the table"]
+PAS-11445:
+  summary: "500 Error happens after click on submit manual entry button"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
+      messages: ["Errors: Error 500. Internal server error occurred"]
+PAS-11662:
+  summary: "Cannot rate PUP policy with effective date higher or equal to 2020-02-01n"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
+      messages: ["Internal rating engine error"]

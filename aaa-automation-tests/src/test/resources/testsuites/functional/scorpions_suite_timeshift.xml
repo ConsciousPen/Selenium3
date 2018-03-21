@@ -110,7 +110,7 @@
     </test>
 
     <test name="Dp3 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+        <parameter name="state" value="DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -145,7 +145,7 @@
     </test>
 
     <test name="HO3 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+        <parameter name="state" value="DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -180,7 +180,7 @@
     </test>
 
     <test name="HO4 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+        <parameter name="state" value="DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -215,7 +215,7 @@
     </test>
 
     <test name="HO6 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+        <parameter name="state" value="DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -248,7 +248,7 @@
     </test>
 
     <test name="PUP pas9816_BillingPacketGeneration" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+        <parameter name="state" value="DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -269,4 +269,17 @@
             </class>
         </classes>
     </test>
+
+    <test name="DP3 pas10666 PreRenewal Letter Generation new timeline -65 (mortgagee)" thread-count="200">
+        <parameter name="state" value="PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas10666_PreRenewalLetterGeneration"/>
+                    <include name="pas10666_PreRenewalLetterGenerationNegativeScenario"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
