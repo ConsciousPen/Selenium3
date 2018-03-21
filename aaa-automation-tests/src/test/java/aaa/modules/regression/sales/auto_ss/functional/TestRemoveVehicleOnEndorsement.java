@@ -69,7 +69,7 @@ public class TestRemoveVehicleOnEndorsement extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 
 		// Endorse Policy Remove Vehicle Rate policy and issue endorsement
-		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.removeRow(2);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

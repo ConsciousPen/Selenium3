@@ -12,13 +12,3 @@ VehicleTab: {
 }
 }
 
-########   Endorse
-
-TestData_Endorse: {
-EndorsementActionTab: '@EndorsementActionTab',
-}
-
-EndorsementActionTab: {
-    Endorsement Date: $<today>,
-    Endorsement Reason: Maintain General Information
-}
