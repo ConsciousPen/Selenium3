@@ -43,7 +43,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
-	@Test(description = "Precondition for AHDRXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	//AHDRXX is not currently turned on for all states and products
+	@Test(enabled = false, description = "Precondition for AHDRXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void ahdrxxConfigCheckUpdate() {
 		List<String> configForStatesLimits = Arrays.asList(
 				"VA"
@@ -55,7 +56,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		}
 	}
 
-	@Test(description = "Precondition for AHDEXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	//AHDRXX is not currently turned on for all states and products
+	@Test(enabled = false, description = "Precondition for AHDEXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void ahdexxConfigCheckUpdate() {
 		List<String> configForStatesLimits = Arrays.asList(
 				"VA"
