@@ -26,7 +26,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointUpdate() {
-		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
 		} else {
 			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS, APP_HOST, APP_STUB_URL));
@@ -69,7 +69,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for eValue related Document Generation, different endpoint than Master or PAS13", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueDocGenStubEndpointInsert() {
-		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			log.info("not a scrum env");
 			DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
 			DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
@@ -156,7 +156,11 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {
-		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
+			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
+		} else {
+			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+		}
 	}
 
 	@Test(description = "Precondition updating pending refund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
