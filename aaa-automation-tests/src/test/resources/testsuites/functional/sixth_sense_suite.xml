@@ -8,7 +8,6 @@
 
     <!--Tests for Auto-->
 
-
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
         <classes>
@@ -45,21 +44,30 @@
         </classes>
     </test>
 
-    <test name="MVR Predictor Algo for 2 of 4 Drivers">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
-        </classes>
-    </test>
+    <!--- Commented until PAS-11404 is fixed.
+  <test name="Remove Vehicle on Current Term Endorsement">
+      <parameter name="state" value="VA"/>
+      <classes>
+          <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
+      </classes>
+  </test>
+-->
 
-    <test name="Remove Distant Driver Discount">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
-        </classes>
-    </test>
+  <test name="MVR Predictor Algo for 2 of 4 Drivers">
+      <parameter name="state" value="CT"/>
+      <classes>
+          <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo"/>
+      </classes>
+  </test>
 
-    <!--Tests for Property-->
+  <test name="Remove Distant Driver Discount">
+      <parameter name="state" value="NJ"/>
+      <classes>
+          <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
+      </classes>
+  </test>
+
+  <!--Tests for Property-->
 
 
     <test name="Test Renovation Discount for KS DP3, HO3">
