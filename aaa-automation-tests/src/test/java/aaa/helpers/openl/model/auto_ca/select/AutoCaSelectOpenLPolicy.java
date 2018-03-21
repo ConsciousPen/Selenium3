@@ -73,6 +73,7 @@ public class AutoCaSelectOpenLPolicy extends OpenLPolicy {
 		this.aaaMember = aaaMember;
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}

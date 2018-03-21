@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model;
 
+import java.time.LocalDateTime;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
 public abstract class OpenLPolicy {
@@ -25,6 +26,8 @@ public abstract class OpenLPolicy {
 	}
 
 	public abstract Integer getTerm();
+
+	public abstract LocalDateTime getEffectiveDate();
 
 	@Override
 	public String toString() {

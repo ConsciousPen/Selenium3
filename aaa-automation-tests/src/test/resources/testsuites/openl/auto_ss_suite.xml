@@ -26,15 +26,6 @@
     </test>
 
     <!--
-    <test name="AutoSS [CT] Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CT"/>
-        <parameter name="fileName" value="CTTests-20171101.xls"/>
-        <parameter name="policyNumbers" value="17, 20"/>
-        <classes>
-            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
-        </classes>
-    </test>
-
     <test name="AutoSS [DE] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="DE"/>
         <parameter name="fileName" value="DETests-20161123.xls"/>
@@ -174,6 +165,16 @@
         <parameter name="state" value="MT"/>
         <parameter name="fileName" value="MTTests-20171201.xls"/>
         <parameter name="policyNumbers" value="1, 6"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+
+    <test name="AutoSS [CT] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CT"/>
+        <parameter name="fileName" value="CTTests-20171101.xls"/>
+        <!--<parameter name="policyNumbers" value="61, 71, 81, 91"/>-->
+        <parameter name="policyNumbers" value="61, 91"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

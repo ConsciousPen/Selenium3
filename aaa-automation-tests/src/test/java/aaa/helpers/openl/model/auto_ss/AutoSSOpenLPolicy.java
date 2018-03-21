@@ -361,6 +361,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.tort = tort;
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}

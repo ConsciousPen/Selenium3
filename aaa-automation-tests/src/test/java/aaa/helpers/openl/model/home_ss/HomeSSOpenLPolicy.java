@@ -164,6 +164,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.riskMeterData = new ArrayList<>(riskMeterData);
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}

@@ -1,7 +1,9 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -52,6 +54,12 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 	@Override
 	public Integer getTerm() {
 		return term;
+	}
+
+	@Override
+	public LocalDateTime getEffectiveDate() {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException(String.format("Getting Effective Date for %s is not implemented", this.getClass().getSimpleName()));
 	}
 
 	public void setTerm(Integer term) {
