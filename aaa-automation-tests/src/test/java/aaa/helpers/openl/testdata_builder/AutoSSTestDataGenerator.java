@@ -121,7 +121,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
 				CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().get(0).getPlcyInceptionDate().format(DateTimeUtils.MM_DD_YYYY),
 				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel(), "4000",
-				CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getCappingDetails().get(0).getTerm()),
+				CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TERM.getLabel(), getTerm(openLPolicy.getCappingDetails().get(0).getTerm()),
 				CustomerMetaData.InitiateRenewalEntryActionTab.PROGRAM_CODE.getLabel(), LEGACY_CONV_PROGRAM_CODE,
 				CustomerMetaData.InitiateRenewalEntryActionTab.ENROLLED_IN_AUTOPAY.getLabel(), "No");
 		return DataProviderFactory.dataOf(new InitiateRenewalEntryActionTab().getMetaKey(), initiateRenewalEntryActionData);
@@ -168,7 +168,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getCappingDetails().get(0).getTerm()),
+				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getTerm(openLPolicy.getCappingDetails().get(0).getTerm()),
 				AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), "AAA Agent" // hardcoded value
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 		);
@@ -708,42 +708,5 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel(), new SimpleDataProvider(td));
-	}
-
-	private String getPremiumAndCoveragesTabLimitOrDeductible(AutoSSOpenLCoverage coverage) {
-		String coverageCd = coverage.getCoverageCd();
-		if ("SP EQUIP".equals(coverageCd)) {
-			return new Dollar(coverage.getLimit()).toString();
-		}
-
-		String limitOrDeductible;
-		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
-			limitOrDeductible = coverage.getDeductible();
-		} else {
-			limitOrDeductible = coverage.getLimit();
-		}
-
-		String[] limitRange = limitOrDeductible.split("/");
-		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
-
-		if ("EMB".equals(coverageCd)) {
-			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
-		}
-
-		StringBuilder returnLimit = new StringBuilder();
-		String formattedLimit = getFormattedCoverageLimit(limitRange[0], coverageCd);
-		if (!formattedLimit.startsWith(AdvancedComboBox.RANDOM_MARK) && !formattedLimit.startsWith("starts=")) {
-			returnLimit.append("starts=");
-		}
-		returnLimit.append(formattedLimit);
-		if (limitRange.length == 2) {
-			returnLimit.append("/");
-			if ("IL".equals(coverageCd)) {
-				returnLimit.append("month (").append(getFormattedCoverageLimit(limitRange[1], coverageCd)).append(" max)");
-			} else {
-				returnLimit.append(getFormattedCoverageLimit(limitRange[1], coverageCd));
-			}
-		}
-		return returnLimit.toString();
 	}
 }

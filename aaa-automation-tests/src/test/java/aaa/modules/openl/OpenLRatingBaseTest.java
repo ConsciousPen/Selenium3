@@ -64,7 +64,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		//TODO-dchubkov: assert that date in openLFileName is valid
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
-
 		mainApp().open();
 		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
@@ -134,6 +133,7 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		//Sort map by policies effective dates for further valid timeshifts
 		openLPoliciesAndPremiumsMap = openLPoliciesAndPremiumsMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(OpenLPolicy::getEffectiveDate)))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
 		return openLPoliciesAndPremiumsMap;
 	}
 
