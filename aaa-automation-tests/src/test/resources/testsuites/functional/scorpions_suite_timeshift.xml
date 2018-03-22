@@ -90,8 +90,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketNJ"/>
-                    <include name="pas2674_ConversionPacketNJMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -102,15 +102,15 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketOtherStates"/>
-                    <include name="pas2674_ConversionPacketOtherStatesMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
     </test>
 
     <test name="Dp3 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA,MD,PA" />
+        <parameter name="state" value="DE,VA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -125,8 +125,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketNJ"/>
-                    <include name="pas2674_ConversionPacketNJMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -137,8 +137,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketOtherStates"/>
-                    <include name="pas2674_ConversionPacketOtherStatesMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -160,8 +160,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketNJ"/>
-                    <include name="pas2674_ConversionPacketNJMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -172,8 +172,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketOtherStates"/>
-                    <include name="pas2674_ConversionPacketOtherStatesMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -195,8 +195,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketNJ"/>
-                    <include name="pas2674_ConversionPacketNJMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -207,8 +207,8 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketOtherStates"/>
-                    <include name="pas2674_ConversionPacketOtherStatesMortgagee"/>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -225,23 +225,23 @@
         </classes>
     </test>
 
-    <test name="PUP pas2674_ConversionPacketNJ" thread-count="200">
+    <test name="PUP pas2674_ConversionPacket" thread-count="200">
         <parameter name="state" value="NJ" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketNJ"/>
+                    <include name="pas2674_ConversionPacket"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="PUP pas2674_ConversionPacketOtherStates" thread-count="200">
+    <test name="PUP pas2674_ConversionPacket" thread-count="200">
         <parameter name="state" value="DE,VA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacketOtherStates"/>
+                    <include name="pas2674_ConversionPacket"/>
                 </methods>
             </class>
         </classes>

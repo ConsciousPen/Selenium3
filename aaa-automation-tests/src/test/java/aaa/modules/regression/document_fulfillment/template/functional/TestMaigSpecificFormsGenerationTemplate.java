@@ -287,7 +287,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		// Remove renewal specific forms
 		List<String> getOnlyConversionSpecificForms = getOnlyRenewalSpecificForms(forms);
-
+		log.info("List of forms which are not expected on second renewal :" + getOnlyConversionSpecificForms);
+		log.info("List of forms on second renewal :" + listOfFormsAfterSecondRenewal);
 		assertThat(listOfFormsAfterSecondRenewal).doesNotContainAnyElementsOf(getOnlyConversionSpecificForms);
 	}
 
@@ -384,7 +385,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		assertThat(documentList).isNotEmpty().isNotNull();
 		assertSoftly(softly -> {
 			// Check that all documents where generated
-			documentList.stream().map(Document::getTemplateId).collect(Collectors.toList()).containsAll(expectedFormsOrder);
+			List<String> collectedDocs = documentList.stream().map(Document::getTemplateId).collect(Collectors.toList());
+			log.info("Collected from xml list of documents  : " + expectedFormsOrder.toString());
+			softly.assertThat(collectedDocs).containsAll(expectedFormsOrder);
 			// Get all docs +  sequence number
 			HashMap<Integer, String> actualDocuments = new HashMap<>();
 			documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
@@ -433,12 +436,21 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				Arrays.asList(
 						DocGenEnum.Documents.HSTP.getIdInXml(),
 						DocGenEnum.Documents.AHPNXX.getIdInXml(),
+						DocGenEnum.Documents.AHAUXX.getIdInXml(),
 						DocGenEnum.Documents.HS02.getIdInXml(),
 						DocGenEnum.Documents.HS02_4.getIdInXml(),
 						DocGenEnum.Documents.HS02_6.getIdInXml(),
 						DocGenEnum.Documents.HSCSNA.getIdInXml(),
 						DocGenEnum.Documents.PS02.getIdInXml(),
-						DocGenEnum.Documents.DS02.getIdInXml()
+						DocGenEnum.Documents.DS02.getIdInXml(),
+						DocGenEnum.Documents.IL_09_10.getIdInXml(),
+						DocGenEnum.Documents.DSACCCMD.getIdInXml(),
+						DocGenEnum.Documents.HSAOCMDA.getIdInXml(),
+						DocGenEnum.Documents.HSSNMDA.getIdInXml(),
+						DocGenEnum.Documents.HSCRRMD.getIdInXml(),
+						DocGenEnum.Documents.HSSNMDB.getIdInXml(),
+						DocGenEnum.Documents.HSAOCMDB.getIdInXml()
+
 				));
 		return getOnlyConversionSpecificForms;
 	}

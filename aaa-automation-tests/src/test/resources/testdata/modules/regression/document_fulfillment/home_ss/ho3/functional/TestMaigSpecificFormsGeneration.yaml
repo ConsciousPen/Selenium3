@@ -49,3 +49,19 @@ ConversionForms_PA: {
 ConversionForms_MD: {
   FormsList: ["stub","HS65MD","HS02","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSFLD","HSAOCMDA","HSSNMDA","HSCRRMD","HSWSBMD","HSLLCMD"]
 }
+
+ConversionForms_PA: {
+  FormsList: ["stub","HS02","AHAUXX","IL 09 10","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+}
+
+ConversionForms_MD: {
+  FormsList: ["stub","HS02","AHPNXX","AHMVCNV","HSMPDCNVXX","HSAOCMDA","HSSNMDA","HSCRRMD"]
+}
+
+#ConversionForms_PA: {
+#  FormsList: ["stub","HS65PA","HS02","AHAUXX","IL 09 10","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+#}
+#
+#ConversionForms_MD: {
+#  FormsList: ["stub","HS65MD","HS02","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSFLD","HSAOCMDA","HSSNMDA","HSCRRMD","HSWSBMD","HSLLCMD"]
+#}
