@@ -16,6 +16,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -25,6 +26,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -39,6 +41,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
     private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
     private final DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
+    private final ErrorTab errorTab = new ErrorTab();
     private String policyNumberNb;
     private String policyNumberConv;
     private Dollar premiumValue;
@@ -97,7 +100,11 @@ public class TestTierCalculation extends AutoSSBaseTest {
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumCovTab.submitTab();
 
+        //Finish policy, override error 2001027, and save/exit
         policy.getDefaultView().fillFromTo(tdAutoConv, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+        documentsTab.submitTab();
+        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200127);
+        errorTab.override();
         documentsTab.submitTab();
         policyNumberConv = PolicySummaryPage.linkPolicy.getValue();
 
@@ -122,7 +129,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
     public void pas4145_calculateTierNyConversionCheckRenewal(@Optional("NY") String state) {
         LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
         mainApp().reopen();
         SearchPage.openBilling(policyNumberConv);
@@ -137,7 +145,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumberConv);
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
-        JobUtils.executeJob(Jobs.renewalJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         CustomAssert.assertEquals(getRenewalValues(policyNumberConv), getRenewalValues(policyNumberNb));
 
     }
