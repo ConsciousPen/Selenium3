@@ -242,7 +242,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		});
-		policy.rollOn().perform(false, false);
+		policy.rollOn().perform(false, true);
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
