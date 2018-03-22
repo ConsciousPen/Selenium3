@@ -18,13 +18,13 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class TestCFTScenario20 extends ControlledFinancialBaseTest {
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario20(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptTotalDuePlusOverpaymentOnStartDatePlus2(new Dollar(200));
-		issuedRefundOnStartDatePlus16(new Dollar(200));
+		automatedRefundOnStartDatePlus16(new Dollar(200));
 		voidRefundOnStartDatePlus25();
 		futureEndorsePolicyOnCancellationNoticeDate(new String[]{new EndorsementActionTab().getMetaKey(), HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
 	}

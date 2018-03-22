@@ -25,7 +25,7 @@ public interface EvalueInsertSetupPreConditions {
 				+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 	*/
 	/*PAS18.1 related endpoints*/
-	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
+/*	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://soaqa1.tent.trt.csaa.pri:80/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
 
@@ -35,10 +35,10 @@ public interface EvalueInsertSetupPreConditions {
 
 	String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://soaqa1.tent.trt.csaa.pri:80/1.1/RetrieveDocument'\n"
-			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
+			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";*/
 
-	/*PAS18.2 related endpoints*/
-/*	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
+	/*PAS18.2-18.3-Master related endpoints*/
+	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
 
@@ -48,7 +48,7 @@ public interface EvalueInsertSetupPreConditions {
 
 	String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveDocument'\n"
-			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";*/
+			+ "where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
 	String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"
 			+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
@@ -109,6 +109,10 @@ public interface EvalueInsertSetupPreConditions {
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = '%s'\n"
+			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
+
+	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s%sws/policy/preferences'\n"
 			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
 	String AHDRXX_CONFIG_CHECK = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
@@ -201,15 +205,19 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set value = 'http://%s%sws/billing/lastPayment'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
+	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
+			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"
+			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
+
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pcDisbursementEngine' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/local/authentication'\n"
+			+ "set value = lower('http://%s%sws/local/authentication')\n"
 			+ "where propertyname = 'oAuthClient.oAuthPingUri'";
 
 	String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
-			+ "where priv_id = (select id from s_authority ar\n"
-			+ "where name = 'Billing Refund Cash')\n";
+			+ "where priv_id in (select id from s_authority ar\n"
+			+ "where name in ('Billing Refund Cash', 'Refund Actions'))";
 
 	//original endpoint - https://preferenceUI-perf.tent.trt.csaa.pri/prefmgmt-portal/prefsetup, but none of envs are connected to it.
 	String PAPERLESS_PREFERENCES_POPUP_STUB_POINT = "update propertyconfigurerentity\n"

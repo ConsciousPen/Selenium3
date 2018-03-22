@@ -45,10 +45,8 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO4BaseTe
 
         PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
-        TestData td = getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath(ReportsTab.class.getSimpleName(),
-                HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT.getLabel()), getTestSpecificTD("TestData")
-                    .getTestData("ReportsTab").getTestDataList("InsuranceScoreReport"))
-                .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel()),
+        TestData td = getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(),
+                HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel()),
                         getTestSpecificTD("TestData").getTestData("GeneralTab").getValue("Immediate prior carrier"));
         TestData initiateRenewalEntry = getManualConversionInitiationTd()
                 .adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),

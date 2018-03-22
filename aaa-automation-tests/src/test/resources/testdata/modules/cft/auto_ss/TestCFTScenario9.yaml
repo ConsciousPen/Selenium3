@@ -63,7 +63,7 @@ DriverTab1: {
 DriverTab2: {
   DriverSearchDialog: {},
   Named Insured: 'index=0',
-  'Rel. to First Named Insured': Spouse,
+  'Rel. to First Named Insured': Other,
   Date of Birth: 01/01/1981,
   Gender: Female,
   Marital Status: Married,
@@ -92,8 +92,8 @@ NamedInsuredInformation1: {
 
 NamedInsuredInformation2: {
   InsuredSearchDialog: {},
-  First Name: Jenny,
-  Last Name: Smith,
+  First Name: 'John$<rx:\d{8}>',
+  Last Name: 'Smith$<rx:\d{8}>',
   Base Date: $<today>,
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',

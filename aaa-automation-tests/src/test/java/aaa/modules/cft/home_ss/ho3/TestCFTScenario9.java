@@ -1,5 +1,7 @@
 package aaa.modules.cft.home_ss.ho3;
 
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -43,7 +45,9 @@ public class TestCFTScenario9 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected TestData getPolicyTestData() {
-		TestData td = getTestSpecificTD("TestData_DataGather");
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
+		td.adjust(ApplicantTab.class.getSimpleName(), getTestSpecificTD("ApplicantTab_DataGather"));
+		td.adjust(ReportsTab.class.getSimpleName(), getTestSpecificTD("ReportsTab_DataGather"));
 		td.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()),
 				getTestSpecificTD("GeneralTab_DataGather").getValue(HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()));
 		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()),

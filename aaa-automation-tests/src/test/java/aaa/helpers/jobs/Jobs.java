@@ -138,6 +138,8 @@ public class Jobs {
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 
+    public static Job membershipValidationJob = new Job("membershipValidationJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}

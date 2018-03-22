@@ -33,7 +33,7 @@ public class AppLogGrabber {
 		String methodName = result.getTestClass().getName() + "." + result.getMethod().getMethodName();
 		String testParameters = TestNGUtils.getTestParameters(result);
 		if (testParameters != null) {
-			methodName += "_" + testParameters.replace(", ", "_");
+			methodName += "_" + testParameters.split(", ")[0];
 		}
 		return methodName;
 	}

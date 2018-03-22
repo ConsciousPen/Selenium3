@@ -10,12 +10,14 @@ TestData_UT: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -33,11 +35,13 @@ TestData_AZ: {
   Refund: [10, NONE],
   Cancellation notice: [8, NEXT],
   Cancellation: [10, NONE],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -54,12 +58,14 @@ TestData_CO: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -76,12 +82,14 @@ TestData_CT: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [17, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -98,12 +106,14 @@ TestData_DC: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [32, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -120,12 +130,14 @@ TestData_DE: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -142,12 +154,14 @@ TestData_ID: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [17, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -164,12 +178,14 @@ TestData_IN: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -186,12 +202,14 @@ TestData_KS: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -208,12 +226,14 @@ TestData_KY: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [16, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -230,12 +250,14 @@ TestData_MD: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -252,12 +274,14 @@ TestData_MT: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [22, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [31, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -274,12 +298,14 @@ TestData_NJ: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [19, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -296,12 +322,14 @@ TestData_NV: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -318,12 +346,14 @@ TestData_NY: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [17, NONE],
   Renew customer decline: [22, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -340,12 +370,14 @@ TestData_OH: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -362,12 +394,14 @@ TestData_OK: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -384,12 +418,14 @@ TestData_OR: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -398,7 +434,7 @@ TestData_PA: {
   Renew generate image: [-73, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
-  Pre-renewal letter: [-40, PREVIOUS],
+  Pre-renewal letter: [-65, PREVIOUS],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
@@ -406,12 +442,14 @@ TestData_PA: {
   Update policy status: [1, NEXT],
   Refund: [7, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [32, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -428,12 +466,14 @@ TestData_SD: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [22, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -450,12 +490,14 @@ TestData_VA: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [17, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -472,12 +514,14 @@ TestData_WV: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }
@@ -494,12 +538,14 @@ TestData_WY: {
   Update policy status: [1, NEXT],
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
+  Mortgagee Bill First Renewal: [10, PREVIOUS],
   Cancellation: [13, NONE],
   Renew customer decline: [15, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
+  Mortgagee Bill Final Exp: [40, PREVIOUS],
   Earned premium bill third: [45, NONE],
   Earned premium write off: [60, NEXT]
 }

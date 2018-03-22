@@ -248,6 +248,8 @@ public final class DocGenEnum {
 		HSRNMXX("Renewal Cover Letter (Mortgagee)"),
 		HSRNPUPXX("Renewal Cover Letter PUP"),
 		HSRNHODPXX("Renewal Cover Letter"),
+		HSRRXX("Mortgagee Bill First Renewal Reminder"),
+		HSRR2XX("Mortgagee Bill Final Expiration Notice"),
 		HSRNHBXX("HSRNHBXX","Renewal Reminder (Home Banking)"),
 		HSRNHBPUP("HSRNHBPUP","Renewal Reminder (Home Banking PUP)"),
 		HSRFIXX("Request for Information"),
