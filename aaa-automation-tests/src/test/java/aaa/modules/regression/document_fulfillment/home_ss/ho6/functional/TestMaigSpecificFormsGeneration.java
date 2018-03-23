@@ -18,7 +18,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	}
 
 	/**
-	 * Specific Conversion Packet Generation NJ with default payment plan
+	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA with default payment plan
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
@@ -33,7 +33,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	}
 
 	/**
-	 * Specific Conversion Packet Generation NJ with mortgagee payment plan
+	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA with mortgagee payment plan
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
@@ -48,41 +48,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	}
 
 	/**
-	 * Specific Conversion Packet Generation for DE, VA , PA , CW with default payment plan
-	 * @author Viktor Petrenko
-	 * PAS-9607
-	 * PAS-2674
-	 * PAS-8777
-	 * PAS-8766
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
-	 */
-	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketOtherStates(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
-	}
-
-	/**
-	 * Specific Conversion Packet Generation for DE, VA , PA , CW with mortgagee payment plan
-	 * @author Viktor Petrenko
-	 * PAS-9607
-	 * PAS-2674
-	 * PAS-8777
-	 * PAS-8766
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
-	 */
-	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacketOtherStatesMortgagee(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()));
-	}
-
-	/**
-	 * Specific Billing Packet Generation For CW, DE, VA
+	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA
 	 * @author Viktor Petrenko
 	 * PAS-9816
 	 * PAS-9607

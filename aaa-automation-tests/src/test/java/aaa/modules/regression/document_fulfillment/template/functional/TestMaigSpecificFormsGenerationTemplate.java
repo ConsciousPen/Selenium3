@@ -330,7 +330,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		// adjust with real policies if PUP )
 		if (getPolicyType().equals(PolicyType.PUP)) {
-			Map<String,String> policies = new HashMap<>();
+			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
+			// Workaround for prefill
+			/*Map<String,String> policies = new HashMap<>();
 			TestData tdHomeEntry = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "InitiateRenewalEntry", "TestData");
 			TestData tdHomeConversion = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "Conversion", "TestData");
 			customer.initiateRenewalEntry().perform(tdHomeEntry);
@@ -339,7 +341,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			policies.put("Primary_HO3", homePolicyNum);
 			testData = new PrefillTab().adjustWithRealPolicies(testData, policies);
 
-			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());*/
 		}
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
@@ -449,8 +451,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 						DocGenEnum.Documents.HSSNMDA.getIdInXml(),
 						DocGenEnum.Documents.HSCRRMD.getIdInXml(),
 						DocGenEnum.Documents.HSSNMDB.getIdInXml(),
-						DocGenEnum.Documents.HSAOCMDB.getIdInXml()
-
+						DocGenEnum.Documents.HSAOCMDB.getIdInXml(),
+						DocGenEnum.Documents.HSAOCMDC.getIdInXml(),
+						DocGenEnum.Documents.HSSNMDC.getIdInXml()
 				));
 		return getOnlyConversionSpecificForms;
 	}
