@@ -40,7 +40,7 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DocumentsAndBindTab.class, PurchaseTab.class, true);
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);		
+		//DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);		
 		
 		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob, true);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
