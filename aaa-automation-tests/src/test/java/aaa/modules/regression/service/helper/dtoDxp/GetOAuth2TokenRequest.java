@@ -2,6 +2,8 @@ package aaa.modules.regression.service.helper.dtoDxp;
 
 import aaa.helpers.config.CustomTestProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import toolkit.config.PropertyLoader;
+import toolkit.config.PropertyProvider;
 
 import javax.annotation.Nonnull;
 import java.io.UnsupportedEncodingException;
@@ -28,7 +30,9 @@ public class GetOAuth2TokenRequest {
     }
 
     public static GetOAuth2TokenRequest create() {
-        return new GetOAuth2TokenRequest(CustomTestProperties.DXP_CLIENT_ID, CustomTestProperties.DXP_CLIENT_SECRET, CustomTestProperties.DXP_GRANT_TYPE);
+        return new GetOAuth2TokenRequest(PropertyProvider.getProperty(CustomTestProperties.DXP_CLIENT_ID),
+                PropertyProvider.getProperty(CustomTestProperties.DXP_CLIENT_SECRET),
+                PropertyProvider.getProperty(CustomTestProperties.DXP_GRANT_TYPE));
     }
 
     public String asUrlEncoded() {
