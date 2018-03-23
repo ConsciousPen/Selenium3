@@ -21,17 +21,14 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-	private AssetList assetListNamedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
 	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
-	private static final String TRIGGER_OFF_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY);
 	private static final String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 	/**
@@ -68,30 +65,27 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillFromTo(testDataAdjusted, PrefillTab.class, GeneralTab.class, false);
 
-		CustomAssert.enableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			// Start of PAS-3794 New Business DE & NJ: Non-Member Message
+			generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
+			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
+					.getMessage());
 
-		// Start of PAS-3794 New Business DE & NJ: Non-Member Message
-		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
-		generalTab.verifyFieldHasValue(assetListAAAProductOwned, AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171018
-				.getMessage());
+			generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
+					.getMessage());
+			// End of PAS-3794 New Business DE & NJ: Non-Member Message
+			policy.getDefaultView().fillFromTo(getAdjustedTestData(), GeneralTab.class, PremiumAndCoveragesTab.class, true);
 
-		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
-		generalTab.verifyFieldHasValue(assetListAAAProductOwned, AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171018
-				.getMessage());
-		// End of PAS-3794 New Business DE & NJ: Non-Member Message
-		policy.getDefaultView().fillFromTo(getAdjustedTestData(), GeneralTab.class, PremiumAndCoveragesTab.class, true);
+			// Start of PAS-3795 New Business DE & NJ: Member Validation Failed Message
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 
-		// Start of PAS-3795 New Business DE & NJ: Member Validation Failed Message
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-
-		String message = Constants.States.NJ.equals(state) ? ErrorEnum.Errors.ERROR_AAA_SS171018_NJ.getMessage() : ErrorEnum.Errors.ERROR_AAA_SS171018_DE.getMessage();
-		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, message).verify.present();
-		errorTab.cancel();
-		// End of PAS-3795 New Business DE & NJ: Member Validation Failed Message
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			String message = Constants.States.NJ.equals(state) ? ErrorEnum.Errors.ERROR_AAA_SS171018_NJ.getMessage() : ErrorEnum.Errors.ERROR_AAA_SS171018_DE.getMessage();
+			softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, message)).exists();
+			errorTab.cancel();
+			// End of PAS-3795 New Business DE & NJ: Member Validation Failed Message
+			PremiumAndCoveragesTab.buttonSaveAndExit.click();
+		});
 	}
 
 	@AfterClass(alwaysRun = true)

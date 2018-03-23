@@ -27,8 +27,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 	private static final String AUTOPAY_SAVING_MESSAGE = "This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.";
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private BindTab bindTab = new BindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
-	private ErrorTab errorTab = new ErrorTab();
-	private String mortgageeTabKey;
 
 	/**
 	 * *@author Oleg Stasyuk
@@ -68,7 +66,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.submitTab();
-		CustomAssert.assertTrue(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
+		assertThat(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, delta));
 
 		Purchase.linkViewApplicableFeeSchedule.click();
 		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
@@ -84,8 +82,8 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 		PremiumsAndCoveragesQuoteTab.linkViewApplicableFeeSchedule.click();
 		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
-		PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE).verify
-				.value(eftInstallmentFeeACH.toString());
+		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE))
+				.hasValue(eftInstallmentFeeACH.toString());
 		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
 		assertThat(PremiumsAndCoveragesQuoteTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
 		Page.dialogConfirmation.buttonCloseWithCross.click();
@@ -161,8 +159,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
-
-
 	}
 
 	private void autopaySavingMessageCheck(boolean isPresent, String delta) {
@@ -180,7 +176,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
 		if (isPresent) {
-			CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
+			assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, delta));
 		}
 	}
 
@@ -197,7 +193,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
 		if (isPresent) {
-			CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
+			assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, delta));
 		}
 	}
 

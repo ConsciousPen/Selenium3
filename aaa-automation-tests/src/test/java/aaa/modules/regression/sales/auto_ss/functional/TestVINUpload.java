@@ -82,7 +82,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		createAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED)).hasValue("No");
 		VehicleTab.buttonSaveAndExit.click();
 
 		//save quote number to open it later
@@ -148,7 +148,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		createAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED)).hasValue("No");
 		vehicleTab.submitTab();
 
 		//start pas 938
@@ -230,7 +230,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		createAndFillUpTo(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED)).hasValue("Yes");
 		String oldModelValue = vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue();
 		vehicleTab.submitTab();
 

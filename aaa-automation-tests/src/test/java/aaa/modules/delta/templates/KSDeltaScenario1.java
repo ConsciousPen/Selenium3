@@ -11,6 +11,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -115,7 +116,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
-		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
+		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
 
 		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
 		

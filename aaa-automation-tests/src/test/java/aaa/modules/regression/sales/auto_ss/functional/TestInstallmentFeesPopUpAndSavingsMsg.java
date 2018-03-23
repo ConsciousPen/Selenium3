@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
 import org.testng.annotations.Optional;
@@ -17,19 +16,18 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.Purchase;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestInstallmentFeesPopUpAndSavingsMsg extends AutoSSBaseTest {
 
 	private static final String AUTOPAY_SAVING_MESSAGE = "This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.";
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
-	private ErrorTab errorTab = new ErrorTab();
 
 	/**
 	 * *@author Oleg Stasyuk
@@ -63,52 +61,52 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends AutoSSBaseTest {
 		String delta = nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", "");
 		Page.dialogConfirmation.buttonCloseWithCross.click();
 
-		autopaySavingMessageCheck(false, delta);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			autopaySavingMessageCheck(false, delta, softly);
 
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.fillTab(getPolicyDefaultTD());
-		documentsAndBindTab.submitTab();
-		CustomAssert.assertTrue(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.fillTab(getPolicyDefaultTD());
+			documentsAndBindTab.submitTab();
 
-		Purchase.linkViewApplicableFeeSchedule.click();
-		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
-		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
-		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
-		assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
-		Page.dialogConfirmation.buttonCloseWithCross.click();
+			softly.assertThat(Purchase.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, delta));
 
-		new PurchaseTab().fillTab(getPolicyTD()).submitTab();
+			Purchase.linkViewApplicableFeeSchedule.click();
+			softly.assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
+			softly.assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
+			softly.assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
+			softly.assertThat(Purchase.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
+			Page.dialogConfirmation.buttonCloseWithCross.click();
 
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		autopaySavingMessageCheck(true, delta);
+			new PurchaseTab().fillTab(getPolicyTD()).submitTab();
 
-		PremiumAndCoveragesTab.linkPaymentPlan.click();
-		PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.click();
-		assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
-		assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
-		assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
-		assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
-		Page.dialogConfirmation.buttonCloseWithCross.click();
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			autopaySavingMessageCheck(true, delta, softly);
 
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.submitTab();
+			PremiumAndCoveragesTab.linkPaymentPlan.click();
+			PremiumAndCoveragesTab.linkViewApplicableFeeSchedule.click();
+			softly.assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Any").getCell(INSTALLMENT_FEE)).hasValue(nonEftInstallmentFee.toString());
+			softly.assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Checking / Savings Account (ACH)").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeACH.toString());
+			softly.assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Credit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeCreditCard.toString());
+			softly.assertThat(PremiumAndCoveragesTab.tableInstallmentFeeDetails.getRowContains(PAYMENT_METHOD, "Debit Card").getCell(INSTALLMENT_FEE)).hasValue(eftInstallmentFeeDebitCard.toString());
+			Page.dialogConfirmation.buttonCloseWithCross.click();
 
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.submitTab();
+		});
 	}
 
-	private void autopaySavingMessageCheck(boolean isPresent, String delta) {
+	private void autopaySavingMessageCheck(boolean isPresent, String delta, ETCSCoreSoftAssertions softly) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("Annual");
 		PremiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
+		softly.assertThat(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).isPresent(false);
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("contains=Standard");
 		//BUG PAS-7586 A popup about removal of eValue discount is shown on Endorsement wjen eValue=No and payment plan is changed from Annual to non-Annual
 		PremiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(isPresent);
+		softly.assertThat(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).isPresent(isPresent);
 		if (isPresent) {
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2).getValue().equals(String.format(AUTOPAY_SAVING_MESSAGE, delta)));
+			softly.assertThat(PremiumAndCoveragesTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).hasValue(String.format(AUTOPAY_SAVING_MESSAGE, delta));
 		}
 	}
 

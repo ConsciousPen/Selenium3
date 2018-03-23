@@ -60,8 +60,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
-	private ErrorTab errorTab = new ErrorTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
@@ -685,7 +683,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 		if (isGenerated) {
 			assertThat(DBService.get().getValue(query).isPresent()).isTrue();
-			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
+			assertThat(Integer.parseInt(DBService.get().getValue(query2).get())).isEqualTo(numberOfDocuments);
 		} else {
 			assertThat(DBService.get().getValue(query).isPresent()).isFalse();
 		}
@@ -694,21 +692,22 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void ahdexxContentCheck(String membershipEligibilitySwitch, String policyNumber) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 
-		CustomAssert.assertTrue("Membership discount tag problem", "5.0%".equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
-		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
-		CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+		assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+				.as("Membership discount tag problem").isEqualTo("5.0%");
+		assertThat(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString()).contains("AAA Membership Discount");
+		assertThat(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount")).isTrue();
 		if ("TRUE".equals(membershipEligibilitySwitch)) {
 			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
-			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1)).valueContains(MESSAGE_BULLET_8);
 			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
-			CustomAssert.assertTrue("eValue discount tag problem", "13.5%"
-					.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
-			CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
-			CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+			assertThat(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
+					.as("eValue discount tag problem").isEqualTo("13.5%");
+			assertThat(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString()).contains("eValue Discount");
+			assertThat(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount")).isTrue();
 		} else {
 			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_4);
 			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
-			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+			assertThat(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount")).isFalse();
 		}
 	}
 
@@ -1397,15 +1396,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		} else {
 			if (NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "for the policy based on Preferences and Membership logic").isPresent()) {
 				int rowNum = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "for the policy based on Preferences and Membership logic").getIndex();
-				CustomAssert.assertFalse(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(rowNum).getCell("Date/Time").getValue()
-						.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY)));
+				assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(rowNum).getCell("Date/Time").getValue()).doesNotContain(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 			}
 		}
 	}
 
 	private void transactionHistoryRecordCountCheck(int rowCount) {
 		PolicySummaryPage.buttonTransactionHistory.click();
-		CustomAssert.assertEquals(PolicySummaryPage.tableTransactionHistory.getRowsCount(), rowCount);
+		assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(rowCount);
 	}
 
 	private void latestTransactionMembershipAndEvalueDiscountsCheck(boolean membershipDiscountPresent, boolean eValueDiscountPresent, String membershipEligibilitySwitch) {
@@ -1452,7 +1450,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			if (checkMessages) {
 				if ("TRUE".equals(membershipEligibilitySwitch)) {
 					assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
-					PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+					assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1)).valueContains(MESSAGE_BULLET_8);
 				}
 			}
 			lastTransactionHistoryExit();
@@ -1464,49 +1462,43 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		if (isGenerated) {
 			if (isMembershipDataPresent) {
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				assertThat(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount")).isTrue();
 				//PAS-1549 Start
-				CustomAssert.assertTrue("5.0%"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("5.0%");
 				//PAS-1549 End
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("Y");
 			} else {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				assertThat(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount")).isFalse();
+				assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("N");
 			}
 
 			if (isEvalueDataPresent) {
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				assertThat(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount")).isTrue();
 				//PAS-1549 Start
-				CustomAssert.assertTrue("13.5%"
-						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("13.5%");
 				//PAS-1549 End
 			} else {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				assertThat(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount")).isFalse();
 			}
 
 			if (isPaperlessDiscDataPresent) {
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("Y");
 			} else {
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("N");
 			}
 
 			if (isPaperlessDlvryDataPresent) {
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("Y");
 			} else {
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField()).isEqualTo("N");
 			}
 			lastTransactionHistoryExit();
 			//TODO OSI return the check when EM team confirms why the docs are generated with such a long delay - INC0655981
@@ -1522,48 +1514,44 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		if (isGenerated) {
 			if (isMembershipDataPresent) {
-				CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				assertThat(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount")).isTrue();
 				//PAS-1549 Start
-				CustomAssert.assertTrue("5.0%"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("5.0%");
 				//PAS-1549 End
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("Y");
 			} else {
-				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-				CustomAssert.assertTrue("N"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				assertThat(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount")).isFalse();
+				assertThat(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("N");
 			}
 
 			if (isEvalueDataPresent) {
 				//BUG no evalue info in AHDEXX
-				CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				assertThat(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount")).isTrue();
 				//PAS-1549 Start
-				CustomAssert.assertTrue("13.5%".equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				assertThat(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("13.5%");
 				//PAS-1549 End
 			} else {
-				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				assertThat(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount")).isFalse();
 			}
 
 			if (isPaperlessDiscDataPresent) {
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
-			} else {
-				if (!DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
-					CustomAssert.assertTrue("N".equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
-				}
+				assertThat(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("Y");
+			} else if (!DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
+				assertThat(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("N");
 			}
 
 			if (isPaperlessDlvryDataPresent) {
-				CustomAssert.assertTrue("Y"
-						.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
-			} else {
-				if (!DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
-					CustomAssert.assertTrue("N".equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
-				}
+				assertThat(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("Y");
+			} else if (!DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
+				assertThat(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0)
+						.getDataElementChoice().getTextField()).isEqualTo("N");
 			}
 		} else {
 			assertThat(DBService.get().getValue(query).isPresent()).isFalse();

@@ -12,7 +12,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
@@ -38,7 +37,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(effectiveDateDaysDelta).format(DateTimeUtils.MM_DD_YYYY));
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(seniorDiscountName);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, -1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears - 1);
@@ -46,7 +45,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "No");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, 1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(seniorDiscountName);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
     }
 
@@ -56,10 +55,10 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         //BUG QC 44971 Regression: Senior discount is not displayed in rating details dialog
         switch(seniorDiscountName) {
             case "Senior":
-                CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Senior Discount"), seniorDiscountValue);
+                assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Senior Discount")).isEqualTo(seniorDiscountValue);
                 break;
             case "Mature Policy Holder":
-                CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature policy holder"), seniorDiscountValue);
+                assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature policy holder")).isEqualTo(seniorDiscountValue);
                 break;
         }
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -72,7 +71,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
         premiumsAndCoveragesQuoteTab.calculatePremium();
         int ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
-        CustomAssert.assertEquals(ageFromDb, ageInDbYears);
+        assertThat(ageFromDb).isEqualTo(ageInDbYears);
     }
 
     // This creates a customer, policy and return the policy number as a String.

@@ -3,7 +3,6 @@
 package aaa.modules.delta.co.auto;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.Arrays;
 import java.util.Collections;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
@@ -30,8 +29,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.StaticElement;
 
 /**
@@ -66,44 +64,42 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	public void testSC1_TC01(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
-		CustomAssert.enableSoftMode();
-		//Verify Dropdown Values on General tab
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Own Home", "Own Condo", "Own Mobile Home", "Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other"));
+		CustomSoftAssertions.assertSoftly(softly -> {
+			//Verify Dropdown Values on General tab
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE))
+					.hasOptions("Own Home", "Own Condo", "Own Mobile Home", "Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
 
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Yes", "No", "Membership Pending"));
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER))
+					.hasOptions("Yes", "No", "Membership Pending");
 
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.SOURCE_OF_BUSINESS.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("New Business", "Spin", "Split", "Rewrite", "Book Roll"));
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.SOURCE_OF_BUSINESS))
+					.hasOptions("New Business", "Spin", "Split", "Rewrite", "Book Roll");
 
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Standard", "Named Non Owner"));
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE))
+					.hasOptions("Standard", "Named Non Owner");
 
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Annual", "Semi-annual"));
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM))
+					.hasOptions("Annual", "Semi-annual");
 
-		//Verify that there is no Motorcycle option in 'AAA Products Owned' section
-		assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE)).isPresent(false);
+			//Verify that there is no Motorcycle option in 'AAA Products Owned' section
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE)).isPresent(false);
 
-		//Select option "Yes" For all available products owned - Life, Home, Renters, Condo.
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).setValue("Yes");
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME).setValue("Yes");
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS).setValue("Yes");
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO).setValue("Yes");
+			//Select option "Yes" For all available products owned - Life, Home, Renters, Condo.
+			gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).setValue("Yes");
+			gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME).setValue("Yes");
+			gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS).setValue("Yes");
+			gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO).setValue("Yes");
 
-		//Verify field TollFree Number visible
-		assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER)).isPresent();
+			//Verify field TollFree Number visible
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER)).isPresent();
 
-		//Select any option other than "None" for 'Adversely Impacted' field.
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
+			//Select any option other than "None" for 'Adversely Impacted' field.
+			gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
 
-		//Verify dropdown visible
-		assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED)).isPresent();
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-
-		Tab.buttonSaveAndExit.click();
+			//Verify dropdown visible
+			softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED)).isPresent();
+			Tab.buttonSaveAndExit.click();
+		});
 	}
 
 	/**
@@ -125,25 +121,21 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		driverTab.fillTab(getTestSpecificTD("TestData"));
 
-		CustomAssert.enableSoftMode();
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Available for Rating", "Not Available for Rating", "Excluded"));
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE)).hasOptions("Available for Rating", "Not Available for Rating", "Excluded");
 
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("First Named Insured", "Spouse", "Child", "Parent", "Sibling", "Other Resident Relative", "Employee", "Other", "Registered Domestic Partner/Civil Union"));
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED))
+					.hasOptions("First Named Insured", "Spouse", "Child", "Parent", "Sibling", "Other Resident Relative", "Employee", "Other", "Registered Domestic Partner/Civil Union");
 
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER.getLabel(), ComboBox.class).verify.options(Arrays.asList("Male", "Female"));
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER)).hasOptions("Male", "Female");
 
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Married", "Single", "Divorced", "Widowed", "Separated", "Registered Domestic Partner/Civil Union", "Common Law"));
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS))
+					.hasOptions("Married", "Single", "Divorced", "Widowed", "Separated", "Registered Domestic Partner/Civil Union", "Common Law");
 
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Licensed (US)", "Licensed (Canadian)", "Foreign", "Not Licensed", "Learner's Permit"));
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-
-		Tab.buttonSaveAndExit.click();
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE))
+					.hasOptions("Licensed (US)", "Licensed (Canadian)", "Foreign", "Not Licensed", "Learner's Permit");
+			Tab.buttonSaveAndExit.click();
+		});
 	}
 
 	/**
@@ -188,7 +180,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS)).hasValue("0");
 
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue("01/01/2015");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.valueByRegex("^[^0]+$");
+		assertThat(aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS)).valueMatches("^[^0]+$");
 
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(5).format(DateTimeUtils.MM_DD_YYYY));
 		assertThat(aiAssetList.getWarning(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE)).hasValue("Conviction Date later than current date");
@@ -216,8 +208,8 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		TestData adjustedData = getTestSpecificTD("TestData").adjust(driverTab.getMetaKey(), Collections.singletonList(getTestSpecificTD("DriverTab_TC04")));
 		policy.getDefaultView().fillFromTo(adjustedData, DriverTab.class, VehicleTab.class, true);
 
-		vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE).verify.options(Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van", "Trailer"));
-		vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).verify.options(Arrays.asList("Pleasure", "Commute", "Business", "Artisan", "Farm"));
+		assertThat(vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE)).hasOptions("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van", "Trailer");
+		assertThat(vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE)).hasOptions("Pleasure", "Commute", "Business", "Artisan", "Farm");
 		vTab.submitTab();
 
 		Tab.buttonNext.click();
@@ -265,7 +257,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		//CO DELTA - No full safety glass
 		//Update: 080-006CO_VA_V3.0 is updated to add Full safety glass coverage
 		assertThat(pacTab.getRatingDetailsVehiclesData().stream().allMatch(td -> td.containsKey("Full Safety Glass"))).isTrue();
-		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "Yes");
+		assertThat(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied")).isEqualTo("Yes");
 		pacTab.submitTab();
 		//PAS 11 fix application change #35
 		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200103);
@@ -275,7 +267,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMessage"));
-		warningMessage.verify.value(String.format("Adversely Impacted was applied to the policy effective %s.", QuoteDataGatherPage.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)));
+		assertThat(warningMessage).hasValue(String.format("Adversely Impacted was applied to the policy effective %s.", QuoteDataGatherPage.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setValue("None");
@@ -284,11 +276,11 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "No");
+		assertThat(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied")).isEqualTo("No");
 		pacTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		warningMessage.verify.present(false);
+		assertThat(warningMessage).isPresent(false);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
@@ -379,8 +371,8 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		goddTab.verify
 				.documentsPresent(DocGenEnum.Documents.AA11CO, DocGenEnum.Documents.AA43CO, DocGenEnum.Documents.AAIQCO, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.AU03, DocGenEnum.Documents.AA16CO, DocGenEnum.Documents.AADNCO, DocGenEnum.Documents.AHAUXX);
-		goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, DocGenEnum.Documents.AA43CO.getId())
-				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(false);
+		assertThat(goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, DocGenEnum.Documents.AA43CO.getId())
+				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst()).isEnabled(false);
 		TestData td = DataProviderFactory.dataOf(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow.FREE_FORM_TEXT.getLabel(), "Free Text");
 		goddTab.generateDocuments(td);
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());

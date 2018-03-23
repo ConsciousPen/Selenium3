@@ -16,7 +16,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestNoPriorInsuranceError extends AutoSSBaseTest {
@@ -44,7 +44,6 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private AssetList namedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
-	private static final String TRIGGER_OFF_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY);
 	private static final String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 	@Parameters({"state"})
@@ -59,46 +58,44 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillFromTo(getPolicyTD(), PrefillTab.class, PremiumAndCoveragesTab.class, true);
 
-		CustomAssert.enableSoftMode();
-		// Start of PAS-3805 New Business DE & NJ: No Prior Insurance Message
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TRIGGER_ON_EFFECTIVE_DATE);
-		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
-		generalTab.verifyFieldHasValue(namedInsuredInfo, AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_CARRIER_INFORMATION_WARNING_MESSAGE.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171019
-				.getMessage());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			// Start of PAS-3805 New Business DE & NJ: No Prior Insurance Message
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TRIGGER_ON_EFFECTIVE_DATE);
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
+			softly.assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_CARRIER_INFORMATION_WARNING_MESSAGE)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171019
+					.getMessage());
 
-		generalTab.getCurrentCarrierInfoAssetList().fill(testDataCurrentCarrierInfo);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_CARRIER_INFORMATION_WARNING_MESSAGE.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171019
-				.getMessage());
-		// End of PAS-3805 New Business DE & NJ: No Prior Insurance Message
+			generalTab.getCurrentCarrierInfoAssetList().fill(testDataCurrentCarrierInfo);
+			softly.assertThat(namedInsuredInfo.getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_CARRIER_INFORMATION_WARNING_MESSAGE)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171019
+					.getMessage());
+			// End of PAS-3805 New Business DE & NJ: No Prior Insurance Message
 
-		// Start PAS-4244 New Business DE & NJ: No Prior Insurance Error
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage()).verify.present();
-		errorTab.cancel();
-		// Remove Trigger till Purchase Quote Error // More than 6 months Total Insurance Experience
-		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE)
-				.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY));
+			// Start PAS-4244 New Business DE & NJ: No Prior Insurance Error
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+			softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage())).exists();
+			errorTab.cancel();
+			// Remove Trigger till Purchase Quote Error // More than 6 months Total Insurance Experience
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE)
+					.setValue(TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY));
 
-		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE)
-				.setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE)
+					.setValue(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 
-		// Set trigger data for error
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getCurrentCarrierInfoAssetList().fill(testDataCurrentCarrierInfo);
-		// Calculate Premium
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage()).verify.present();
-		// End PAS-4244 New Business DE & NJ: No Prior Insurance Error
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			// Set trigger data for error
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getCurrentCarrierInfoAssetList().fill(testDataCurrentCarrierInfo);
+			// Calculate Premium
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			DocumentsAndBindTab.btnPurchase.click();
+			softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage())).exists();
+			// End PAS-4244 New Business DE & NJ: No Prior Insurance Error
+		});
 	}
 
 	/**
@@ -106,8 +103,7 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	* AND the policy effective date is on or after 01/01/2018
 	* AND Days Lapsed (from General page, Current Carrier section) is set to  >  0 and < 3
 	*/
-	private TestData getAdjustedTestData(TestData testData) {
-		TestData defaultTestData = testData;
+	private TestData getAdjustedTestData(TestData defaultTestData) {
 		// "no prior insurance" logic
 		TestData policyInformationSection = defaultTestData.getTestData(generalTab.getMetaKey()).getTestData(generalTab.getPolicyInfoAssetList().getName())
 				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), TRIGGER_ON_EFFECTIVE_DATE);

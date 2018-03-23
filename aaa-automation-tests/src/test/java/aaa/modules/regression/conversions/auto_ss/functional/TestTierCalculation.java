@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT;
 import static aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.AGREEMENT;
 import static aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE;
@@ -12,7 +13,6 @@ import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformati
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.LEAD_SOURCE;
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM;
 import static aaa.main.metadata.policy.AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +48,6 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 
@@ -115,7 +114,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         policyNumberConv = PolicySummaryPage.linkPolicy.getValue();
 
         //Compare new business and conversion values
-        CustomAssert.assertEquals(nbParams, convParams);
+        assertThat(nbParams).isEqualTo(convParams);
 
     }
 
@@ -149,7 +148,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumberConv);
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
         JobUtils.executeJob(Jobs.renewalJob);
-        CustomAssert.assertEquals(getRenewalValues(policyNumberConv), getRenewalValues(policyNumberNb));
+        assertThat(getRenewalValues(policyNumberConv)).isEqualTo(getRenewalValues(policyNumberNb));
 
     }
 
@@ -191,7 +190,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         Map<String, String> params = new HashMap<String, String>() {{
             put("Premium", PremiumAndCoveragesTab.totalActualPremium.getValue());
         }};
-        buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue());
         params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Customer's Tier").getCell(2).getValue());
         return params;

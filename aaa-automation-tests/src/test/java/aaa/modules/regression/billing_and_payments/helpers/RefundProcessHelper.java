@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.helpers;
 
+import static org.assertj.core.api.Assertions.fail;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
@@ -41,7 +42,6 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -49,7 +49,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class RefundProcessHelper extends PolicyBilling {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String REFUND_GENERATION_FOLDER = "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
 	private static final String REFUND_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + REFUND_GENERATION_FOLDER;
 	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
@@ -90,50 +89,50 @@ public class RefundProcessHelper extends PolicyBilling {
 				neededLine = s;
 			}
 		}
-		CustomAssert.assertEquals(neededLine.getRecordType(), "D");
-		CustomAssert.assertEquals(neededLine.getRequestRefereceId(), transactionID);
-		CustomAssert.assertEquals(neededLine.getRefundType(), refundType);
+		assertThat(neededLine.getRecordType()).isEqualTo("D");
+		assertThat(neededLine.getRequestRefereceId()).isEqualTo(transactionID);
+		assertThat(neededLine.getRefundType()).isEqualTo(refundType);
 		// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
 		if (refundMethod.contains("CHCK")) {
-			CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
+			assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
 		} else if (refundMethod.contains("ACH")) {
-			CustomAssert.assertEquals(neededLine.getRefundMethod(), "EFT");
+			assertThat(neededLine.getRefundMethod()).isEqualTo("EFT");
 		} else if (refundMethod.contains("Card")) {
-			CustomAssert.assertEquals(neededLine.getRefundMethod(), "CRDC");
+			assertThat(neededLine.getRefundMethod()).isEqualTo("CRDC");
 		} else {
-			CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
+			assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
 		}
-		CustomAssert.assertEquals(neededLine.getIssueDate(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
-		CustomAssert.assertEquals(neededLine.getAgreementNumber(), policyNumber);
-		CustomAssert.assertEquals(neededLine.getAgreementSourceSystem(), "PAS");
-		CustomAssert.assertEquals(neededLine.getProductType(), productType);
-		CustomAssert.assertEquals(neededLine.getCompanyId(), companyId);
+		assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+		assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
+		assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
+		assertThat(neededLine.getProductType()).isEqualTo(productType);
+		assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
 		assertThat(neededLine.getInsuredFirstName()).isNotEmpty();
 		assertThat(neededLine.getInsuredLastName()).isNotEmpty();
 		//TODO update once the deceased indicator is implemented
-		CustomAssert.assertEquals(neededLine.getDeceasedNamedInsuredFlag(), deceasedNamedInsuredFlag);
+		assertThat(neededLine.getDeceasedNamedInsuredFlag()).isEqualTo(deceasedNamedInsuredFlag);
 		if (null == policyState) {
 			assertThat(neededLine.getPolicyState()).isNotEmpty();
 		} else {
-			CustomAssert.assertEquals(neededLine.getPolicyState(), policyState);
+			assertThat(neededLine.getPolicyState()).isEqualTo(policyState);
 		}
-		CustomAssert.assertEquals(neededLine.getRefundAmount(), refundAmount + ".00");
-		CustomAssert.assertEquals(neededLine.getPayeeName(), neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
+		assertThat(neededLine.getRefundAmount()).isEqualTo(refundAmount + ".00");
+		assertThat(neededLine.getPayeeName()).isEqualTo(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
 		assertThat(neededLine.getPayeeStreetAddress1()).isNotEmpty();
 		assertThat(neededLine.getPayeeCity()).isNotEmpty();
 		assertThat(neededLine.getPayeeState()).isNotEmpty();
 		assertThat(neededLine.getPayeeZip()).isNotEmpty();
-		CustomAssert.assertEquals(neededLine.getInsuredEmailId(), email);
-		CustomAssert.assertEquals(neededLine.getCheckNumber(), "");
-		CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
-		CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
-		CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
+		assertThat(neededLine.getInsuredEmailId()).isEqualTo(email);
+		assertThat(neededLine.getCheckNumber()).isEqualTo("");
+		assertThat(neededLine.getPrinterIdentificationCode()).isEqualTo("FFD");
+		assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
+		assertThat(neededLine.getRefundReasonDescription()).isEqualTo("");
 		if (refundMethod.contains("CHCK")) {
-			CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+			assertThat(neededLine.getReferencePaymentTransactionNumber()).isEqualTo("");
 		} else {
 			assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
 		}
-		CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
+		assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
 	}
 
 	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
@@ -161,50 +160,50 @@ public class RefundProcessHelper extends PolicyBilling {
 					neededLine = s;
 				}
 			}
-			CustomAssert.assertEquals(neededLine.getRecordType(), "D");
-			CustomAssert.assertEquals(neededLine.getRequestRefereceId(), transactionID);
-			CustomAssert.assertEquals(neededLine.getRefundType(), refundType);
+			assertThat(neededLine.getRecordType()).isEqualTo("D");
+			assertThat(neededLine.getRequestRefereceId()).isEqualTo(transactionID);
+			assertThat(neededLine.getRefundType()).isEqualTo(refundType);
 			// RefundMethod = 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
 			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
-				CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
+				assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
 			} else if (refundMethod.contains("ACH") || refundMethod.contains("EFT")) {
-				CustomAssert.assertEquals(neededLine.getRefundMethod(), "EFT");
+				assertThat(neededLine.getRefundMethod()).isEqualTo("EFT");
 			} else if (refundMethod.contains("Card")) {
-				CustomAssert.assertEquals(neededLine.getRefundMethod(), "CRDC");
+				assertThat(neededLine.getRefundMethod()).isEqualTo("CRDC");
 			} else {
-				CustomAssert.assertEquals(neededLine.getRefundMethod(), refundMethod);
+				assertThat(neededLine.getRefundMethod()).isEqualTo(refundMethod);
 			}
-			CustomAssert.assertEquals(neededLine.getIssueDate(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
-			CustomAssert.assertEquals(neededLine.getAgreementNumber(), policyNumber);
-			CustomAssert.assertEquals(neededLine.getAgreementSourceSystem(), "PAS");
-			CustomAssert.assertEquals(neededLine.getProductType(), productType);
-			CustomAssert.assertEquals(neededLine.getCompanyId(), companyId);
+			assertThat(neededLine.getIssueDate()).isEqualTo(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MMddyyyy")));
+			assertThat(neededLine.getAgreementNumber()).isEqualTo(policyNumber);
+			assertThat(neededLine.getAgreementSourceSystem()).isEqualTo("PAS");
+			assertThat(neededLine.getProductType()).isEqualTo(productType);
+			assertThat(neededLine.getCompanyId()).isEqualTo(companyId);
 			assertThat(neededLine.getInsuredFirstName()).isNotEmpty();
 			assertThat(neededLine.getInsuredLastName()).isNotEmpty();
 			//TODO update once the deceased indicator is implemented
-			CustomAssert.assertEquals(neededLine.getDeceasedNamedInsuredFlag(), deceasedNamedInsuredFlag);
+			assertThat(neededLine.getDeceasedNamedInsuredFlag()).isEqualTo(deceasedNamedInsuredFlag);
 			if (null == policyState) {
 				assertThat(neededLine.getPolicyState()).isNotEmpty();
 			} else {
-				CustomAssert.assertEquals(neededLine.getPolicyState(), policyState);
+				assertThat(neededLine.getPolicyState()).isEqualTo(policyState);
 			}
-			CustomAssert.assertEquals(neededLine.getRefundAmount(), new Dollar(refundAmount).toPlaingString());
-			CustomAssert.assertEquals(neededLine.getPayeeName(), neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
+			assertThat(neededLine.getRefundAmount()).isEqualTo(new Dollar(refundAmount).toPlaingString());
+			assertThat(neededLine.getPayeeName()).isEqualTo(neededLine.getInsuredFirstName() + " " + neededLine.getInsuredLastName());
 			assertThat(neededLine.getPayeeStreetAddress1()).isNotEmpty();
 			assertThat(neededLine.getPayeeCity()).isNotEmpty();
 			assertThat(neededLine.getPayeeState()).isNotEmpty();
 			assertThat(neededLine.getPayeeZip()).isNotEmpty();
-			CustomAssert.assertEquals(neededLine.getInsuredEmailId(), email);
-			CustomAssert.assertEquals(neededLine.getCheckNumber(), "");
-			CustomAssert.assertEquals(neededLine.getPrinterIdentificationCode(), "FFD");
-			CustomAssert.assertEquals(neededLine.getRefundReason(), "Overpayment");
-			CustomAssert.assertEquals(neededLine.getRefundReasonDescription(), "");
+			assertThat(neededLine.getInsuredEmailId()).isEqualTo(email);
+			assertThat(neededLine.getCheckNumber()).isEqualTo("");
+			assertThat(neededLine.getPrinterIdentificationCode()).isEqualTo("FFD");
+			assertThat(neededLine.getRefundReason()).isEqualTo("Overpayment");
+			assertThat(neededLine.getRefundReasonDescription()).isEqualTo("");
 			if (refundMethod.contains("CHCK") || refundMethod.contains("Check")) {
-				CustomAssert.assertEquals(neededLine.getReferencePaymentTransactionNumber(), "");
+				assertThat(neededLine.getReferencePaymentTransactionNumber()).isEqualTo("");
 			} else {
 				assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
 			}
-			CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
+			assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
 		} else {
 			//to make sure Automated refund is generated also on SCRUM team envs
 			mainApp().open();
@@ -289,7 +288,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	private void pendingRefundPaymentMethodCheck(String paymentMethod) {
 		BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(TYPE).controls.links.get("Refund").click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.valueContains(paymentMethod);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).valueContains(paymentMethod);
 		acceptPaymentActionTab.back();
 	}
 
@@ -411,12 +410,12 @@ public class RefundProcessHelper extends PolicyBilling {
 		if (!withAllocation) {
 			billingAccount.refund().start();
 			manualRefundDefaultValues(billingAccountNumber, paymentMethodMessage, isCheck, transactionNumber);
-			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(refund.get(AMOUNT));
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(refund.get(AMOUNT));
 
 			if (!isCheck) {
 				//PAS-1937 Start
-				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE.getLabel(), StaticElement.class).getValue();
-				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE.getLabel(), StaticElement.class).verify
+				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE).getValue();
+				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE).verify
 						.value("$" + amountPaymentTypeStub.get() + " is the maximum amount available for this payment method.");
 				//PAS-1937 End
 			}
@@ -424,12 +423,12 @@ public class RefundProcessHelper extends PolicyBilling {
 		} else {
 			performPaymentWithAllocation(refund);
 			billingAccount.refund().start();
-			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(paymentMethodMessage);
-			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(refund.get(AMOUNT));
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue(paymentMethodMessage);
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(refund.get(AMOUNT));
 			BillingSummaryPage.linkAdvancedAllocation.click();
-			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).setValue(getAllocationAmount(refund));
-			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).setValue(getAllocationAmount(refund));
-			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).setValue(getAllocationAmount(refund));
+			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM).setValue(getAllocationAmount(refund));
+			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER).setValue(getAllocationAmount(refund));
+			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE).setValue(getAllocationAmount(refund));
 			advancedAllocationsActionTab.submitTab();
 		}
 
@@ -475,12 +474,12 @@ public class RefundProcessHelper extends PolicyBilling {
 	 */
 	private void performPaymentWithAllocation(Map<String, String> refund) {
 		billingAccount.acceptPayment().start();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue("Cash");
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(refund.get(AMOUNT));
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(refund.get(AMOUNT));
 		BillingSummaryPage.linkAdvancedAllocation.click();
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM.getLabel(), TextBox.class).setValue(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER.getLabel(), TextBox.class).setValue(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE.getLabel(), TextBox.class).setValue(getAllocationAmount(refund));
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM).setValue(getAllocationAmount(refund));
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER).setValue(getAllocationAmount(refund));
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE).setValue(getAllocationAmount(refund));
 		advancedAllocationsActionTab.submitTab();
 	}
 
@@ -531,8 +530,8 @@ public class RefundProcessHelper extends PolicyBilling {
 			Map<String, String> adjustment = getRefundMap(adjustmentDate, "Adjustment", "Refund Payment Voided", new Dollar(refund.get(AMOUNT)).negate(), statusAdjustment);
 			Map<String, String> refundVoided = new HashMap<>(refund);
 			refundVoided.put(STATUS, statusRefund);
-			CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex(), 1);
-			CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex(), 2);
+			assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex()).isEqualTo(1);
+			assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex()).isEqualTo(2);
 
 			unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundVoided, isCheck, transactionNumber);
 			refundActions(refundVoided, statusRefund);
@@ -551,9 +550,9 @@ public class RefundProcessHelper extends PolicyBilling {
 				Map<String, String> refundApproved = new HashMap<>(refund);
 				refundApproved.put(STATUS, statusRefundApproved);
 				refundApproved.put(SUBTYPE_REASON, "Automated Refund");
-				CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundApproved).getIndex(), 1);
-				CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex(), 2);
-				CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex(), 3);
+				assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundApproved).getIndex()).isEqualTo(1);
+				assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(adjustment).getIndex()).isEqualTo(2);
+				assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided).getIndex()).isEqualTo(3);
 
 				unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundVoided, isCheck, transactionNumber);
 				unprocessedSuccessfullyRefundVerification(billingAccountNumber, "Check", refundApproved, true, 0);
@@ -579,11 +578,9 @@ public class RefundProcessHelper extends PolicyBilling {
 		BillingSummaryPage.linkAdvancedAllocation.click();
 		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL)).hasValue(refund.get(AMOUNT));
 		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM).verify
-				.value(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM)).hasValue(getAllocationAmount(refund));
 		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER)).hasValue(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE).verify
-				.value(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE)).hasValue(getAllocationAmount(refund));
 		advancedAllocationsActionTab.back();
 		acceptPaymentActionTab.back();
 	}
@@ -676,7 +673,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			refundDetailsValues(billingAccountNumber, paymentMethodMessage, NOT_VALIDATE_TRANSACTIONID, NOT_VALIDATE_CHECK_NUMBER, NOT_VALIDATE_CHECK_DATE, NOT_VALIDATE_PAYEENAME, null, transactionNumber);
 		}
 		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT)).isEnabled();
-		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.verify.present(false);
+		assertThat(AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod).isPresent(false);
 		//PAS-1462 end
 	}
 
@@ -699,12 +696,12 @@ public class RefundProcessHelper extends PolicyBilling {
 	}
 
 	private void refundDetailsPresence(boolean transactionIdPresent, boolean checkNumberPresent, boolean checkDatePresent, boolean payeeNamePresent) {
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).isPresent();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).isPresent();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).verify.present(transactionIdPresent);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.present(checkNumberPresent);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.present(checkDatePresent);
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present(payeeNamePresent);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).isPresent();
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT)).isPresent();
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID)).isPresent(transactionIdPresent);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER)).isPresent(checkNumberPresent);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE)).isPresent(checkDatePresent);
+		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME)).isPresent(payeeNamePresent);
 	}
 
 	private void refundDetailsValues(String billingAccountNumber, String paymentMethodValue, Optional<Boolean> transactionIdPresent, Optional<String> checkNumberValue,
@@ -718,8 +715,8 @@ public class RefundProcessHelper extends PolicyBilling {
 		//PAS-6615 start
 		transactionIdPresent.ifPresent(p -> {
 					if (transactionIdPresent.get()) {
-						CustomAssert.assertEquals("TranzactionID in DB is different from TranzactionID on UI", getRefundTransactionIDFromDB(billingAccountNumber, transactionNumber),
-								acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue());
+						assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID))
+								.as("TranzactionID in DB is different from TranzactionID on UI").isEqualTo(getRefundTransactionIDFromDB(billingAccountNumber, transactionNumber));
 					}
 				}
 		);
@@ -727,8 +724,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		checkNumberValue.ifPresent(p ->
 				assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER)).hasValue(p));
 		refundDateValue.ifPresent(p -> assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE)).hasValue(p));
-		payeeNameNotEmpty.ifPresent(p -> CustomAssert
-				.assertEquals(p.booleanValue(), !acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME).getValue()
+		payeeNameNotEmpty.ifPresent(p -> assertThat(p.booleanValue()).isEqualTo(!acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME).getValue()
 						.isEmpty()));
 	}
 
@@ -743,7 +739,7 @@ public class RefundProcessHelper extends PolicyBilling {
 				break;
 			}
 		}
-		CustomAssert.assertEquals("Not match number of actions", expectedActions.length, counter);
+		assertThat(expectedActions.length).as("Not match number of actions").isEqualTo(counter);
 		for (int i = 0; i < expectedActions.length; i++) {
 			assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(i + 1)).hasValue(expectedActions[i]);
 		}
@@ -786,10 +782,10 @@ public class RefundProcessHelper extends PolicyBilling {
 	}
 
 	private void subLedgerVerification(String amount, String transactionType, String ledgerAccountNumber, String billingPaymentMethod, Map<String, String> ledgerEntry) {
-		CustomAssert.assertEquals(amount, ledgerEntry.get("ENTRYAMT"));
-		CustomAssert.assertEquals(transactionType, ledgerEntry.get("TRANSACTIONTYPE"));
-		CustomAssert.assertEquals(ledgerAccountNumber, ledgerEntry.get("LEDGERACCOUNTNO"));
-		CustomAssert.assertEquals(billingPaymentMethod, ledgerEntry.get("BILLINGPAYMENTMETHOD"));
+		assertThat(amount).isEqualTo(ledgerEntry.get("ENTRYAMT"));
+		assertThat(transactionType).isEqualTo(ledgerEntry.get("TRANSACTIONTYPE"));
+		assertThat(ledgerAccountNumber).isEqualTo(ledgerEntry.get("LEDGERACCOUNTNO"));
+		assertThat(billingPaymentMethod).isEqualTo(ledgerEntry.get("BILLINGPAYMENTMETHOD"));
 	}
 
 	private static void checkRefundDocumentInDb(String state, String policyNumber) {
@@ -797,13 +793,13 @@ public class RefundProcessHelper extends PolicyBilling {
 		if ("VA".equals(state)) {
 			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)) {
 				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-				CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));
+				assertThat(DbAwaitHelper.waitForQueryResult(query, 5)).isFalse();
 			}
 		} else {
 			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));
+			assertThat(DbAwaitHelper.waitForQueryResult(query, 5)).isTrue();
 			String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), 1);
+			assertThat(Integer.parseInt(DBService.get().getValue(query2).get())).isEqualTo(1);
 		}
 		//PAS-443 end
 	}
@@ -820,7 +816,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		String transactionID = getRefundTransactionIDFromDB(billingAccountNumber, 0);
 
 		if (transactionID == null) {
-			CustomAssert.assertTrue("Transaction number isn't found on UI", transactionID != null);
+			fail("Transaction number isn't found on UI");
 			return;
 		}
 

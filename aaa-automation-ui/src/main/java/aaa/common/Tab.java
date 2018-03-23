@@ -8,6 +8,7 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -177,28 +178,6 @@ public abstract class Tab {
 
 	public Tab verifyFieldIsDisabled(String label) {
 		CustomAssert.assertFalse("Field '" + label + "' must be disabled but it is not", assetList.getAsset(label).isEnabled());
-		return this;
-	}
-
-	public Tab verifyFieldHasValue(String label, String expectedValue) {
-		return verifyFieldHasValue(assetList, label, expectedValue);
-	}
-
-	public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, String label, String expectedValue) {
-		String actualValue = assetList.getAsset(label).getValue().toString();
-		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", label, actualValue, expectedValue);
-		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
-		return this;
-	}
-
-	public Tab verifyFieldHasValue(AssetDescriptor<BaseElement<?, ?>> attributeDescriptor, String expectedValue) {
-		return verifyFieldHasValue(assetList, attributeDescriptor, expectedValue);
-	}
-
-	public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, AssetDescriptor<BaseElement<?, ?>> attributeDescriptor, String expectedValue) {
-		String actualValue = assetList.getAsset(attributeDescriptor).getValue().toString();
-		String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'", attributeDescriptor.getLabel(), actualValue, expectedValue);
-		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
 		return this;
 	}
 

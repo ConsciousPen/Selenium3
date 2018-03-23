@@ -85,7 +85,7 @@ public class TaskDetailsSummaryPage extends SummaryPage {
                 if (temp.endsWith("...")) {
                     CustomAssert.assertTrue(expectedtaskName.startsWith(temp.replace("...", "")));
                 } else {
-                    CustomAssert.assertEquals(expectedtaskName, temp);
+                    assertThat(expectedtaskName).isEqualTo(temp);
                 }
             }
 

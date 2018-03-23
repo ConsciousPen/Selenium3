@@ -128,7 +128,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
-		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
+		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
 
 		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
 		

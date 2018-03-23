@@ -134,9 +134,9 @@ public class CODeltaScenario1 extends BaseTest {
 		
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
-		generalTab.verifyFieldHasValue("Adversely Impacted", "None"); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED.getLabel(), ComboBox.class).verify.optionsContain(
-				Arrays.asList("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined"));
+		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED)).hasValue("None");
+		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED))
+				.containsAllOptions("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined");
 		
 		String messageAdverselyImpacted = "Adversely Impacted was applied to the policy effective "+effectiveDate;
 		
