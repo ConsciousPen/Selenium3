@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import org.openqa.selenium.By;
+
 import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.controls.composite.table.Table;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -235,6 +238,12 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")); 
 		policy.endorse().performAndFill(endorsementTD);
+
+		Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
+		if (tableDifferences.isPresent()) {
+			Tab.buttonCancel.click();
+		}
+
 		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated(); 
 		
@@ -270,8 +279,6 @@ public class Scenario9 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 		
 		Dollar minDueRenewTerm = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getColumn("Min. Due").getCell(1).getValue());
-		//log.info("Min Due of current term is: " + minDueRenewTerm);
-		//log.info("Min Due of previous term is: " + currentTermDueAmount); 
 		
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
 			.setDueDate(policyExpirationDate)
@@ -325,7 +332,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF); 
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, "(" + currentTermDueAmount.toString() + ")");
-		
+
 		CustomAssertions.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(writeOffTransaction)).isPresent();
 	}
 	

@@ -77,6 +77,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		DriverTab driverTab = new DriverTab();
 		PurchaseTab purchaseTab = new PurchaseTab();
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+		ErrorTab errorTab = new ErrorTab();
 		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		
@@ -188,6 +189,8 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 		
+		errorTab.fillTab(getTestSpecificTD("ErrorTab_Discounts5"));
+		errorTab.submitTab();
 		log.info("Policy Mid-term Endorsement completed: "+policyNumber+" with Discounts: "+currentDiscounts);
 		
 		

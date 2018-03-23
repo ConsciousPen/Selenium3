@@ -40,9 +40,16 @@ public class TestScenario9 extends Scenario9 {
 				generateLastBill(softly);
 				renewalImageGeneration();
 			}
-			payLastBill();
-			removeAutoPay();
-			renewalPreviewGeneration();
+			if (isLastPaymentDateAfterRenewPreviewGenDate()) {
+				renewalPreviewGeneration(); 
+				payLastBill();
+				removeAutoPay();
+			}
+			else {
+				payLastBill();
+				removeAutoPay();
+				renewalPreviewGeneration();
+			}
 			renewalOfferGeneration();
 			endorsementOnCurrentTerm();
 			dontPayRenewalBill();

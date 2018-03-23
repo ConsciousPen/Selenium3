@@ -6,6 +6,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.PolicyConstants;
@@ -61,6 +62,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		deletePendingTransaction(policy);
 
 		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
@@ -98,7 +100,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		String reinstatementDate = cancellationDate.plusDays(48).format(DateTimeUtils.MM_DD_YYYY);
 		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), HomeSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
 		reinstatementTab.fillTab(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, reinstatementDate));
-		reinstatementTab.buttonOk.click();
+		Tab.buttonOk.click();
 		Page.dialogConfirmation.labelMessage.verify.contains("Policy will be reinstated with a lapse");
 		Page.dialogConfirmation.confirm();
 
@@ -122,6 +124,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		deletePendingTransaction(policy);
 
 		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
