@@ -1,6 +1,6 @@
 TestData_Purchase: {
   DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
-  ErrorTab: '@ErrorTab',
+  #ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab_WithAutopay'
 }
 
