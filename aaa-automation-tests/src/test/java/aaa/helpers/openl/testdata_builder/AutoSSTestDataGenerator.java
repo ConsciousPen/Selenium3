@@ -182,7 +182,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
-		List<TestData> driversTestData = new ArrayList<>(openLPolicy.getDrivers().size());
+		List<TestData> driversTestDataList = new ArrayList<>(openLPolicy.getDrivers().size());
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
@@ -320,10 +320,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				driverData.adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), activityInformationList);
 			}
 
-			driversTestData.add(driverData);
+			driversTestDataList.add(driverData);
 			isFirstDriver = false;
 		}
-		return driversTestData;
+		return driversTestDataList;
 	}
 
 	private TestData getActivityInformationData(boolean atFaultAccident, LocalDateTime policyEffectiveDate, int yearsAccidentFree) {

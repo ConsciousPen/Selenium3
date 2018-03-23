@@ -1,11 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -16,6 +18,7 @@ import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
@@ -46,7 +49,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				//new MembershipTab().getMetaKey(), getMembershipTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
-				//new AssignmentTab().getMetaKey(), getAssignmentTabData(openLPolicy),
+				new AssignmentTab().getMetaKey(), getAssignmentTabData(openLPolicy),
 				//new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
 		return TestDataHelper.merge(getRatingDataPattern(), td);
@@ -62,19 +65,51 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 
 	private List<TestData> getDriverTabData(AutoCaChoiceOpenLPolicy openLPolicy) {
 		List<TestData> driversTestDataList = new ArrayList<>(openLPolicy.getDrivers().size());
+		boolean isFirstDriver = true;
 		for (AutoCaChoiceOpenLDriver driver : openLPolicy.getDrivers()) {
-			int ageFirstLicensed = RandomUtils.nextInt(18, 31);
+			int driverAge = Boolean.TRUE.equals(driver.isMatureDriver()) ? RandomUtils.nextInt(50, 81) : RandomUtils.nextInt(16, 50);
 			TestData driverData = DataProviderFactory.dataOf(
+					AutoCaMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), isFirstDriver ? null : DataProviderFactory.emptyData(),
+					AutoCaMetaData.DriverTab.DRIVER_TYPE.getLabel(), isFirstDriver ? null : "Available for Rating",
+					AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), isFirstDriver ? null : AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
+					AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), isFirstDriver ? null : "FN_" + driver.getId(),
+					AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), isFirstDriver ? null : "LN_" + driver.getId(),
 					AutoCaMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(driver.getGender()),
 					AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), getDriverTabMartialStatus(driver.getMaritalStatus()),
 					AutoCaMetaData.DriverTab.OCCUPATION.getLabel(), "regex=.*\\S.*",
-					AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), ageFirstLicensed,
+					AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driverAge - driver.getTyde(),
 					AutoCaMetaData.DriverTab.PERMIT_BEFORE_LICENSE.getLabel(), "No",
 					AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel(), getState(),
 					AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "C1234567",
-					AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(ageFirstLicensed + driver.getTyde(), openLPolicy.getEffectiveDate()),
+					AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driverAge, openLPolicy.getEffectiveDate()),
+					AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(driver.isMatureDriver()) : null,
+					AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(driver.isMatureDriver())
+							? openLPolicy.getEffectiveDate().minusMonths(new Random().nextInt(36)).format(DateTimeUtils.MM_DD_YYYY) : null,
+					AutoCaMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), driverAge <= 25 ? "regex=.*\\S.*" : null,
 					AutoCaMetaData.DriverTab.SMOKER_CIGARETTES_OR_PIPES.getLabel(), Boolean.TRUE.equals(driver.isNonSmoker()) ? "No" : "Yes");
+
+			List<TestData> activityInformationList = new ArrayList<>();
+			if (driver.getDsr() != null && driver.getDsr() > 0) {
+				switch (driver.getDsr()) {
+					case 4:
+						activityInformationList.add(get4ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
+						break;
+					case 10:
+						activityInformationList.add(get3ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
+						activityInformationList.add(get3ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
+						activityInformationList.add(get4ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
+						break;
+					default:
+						throw new IstfException(String.format("Unknown mapping for dsr=%s value", driver.getDsr()));
+				}
+			}
+
+			if (!activityInformationList.isEmpty()) {
+				driverData.adjust(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), activityInformationList);
+			}
+
 			driversTestDataList.add(driverData);
+			isFirstDriver = false;
 		}
 		return driversTestDataList;
 	}
@@ -104,7 +139,12 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 	}
 
 	private TestData getAssignmentTabData(AutoCaChoiceOpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
+		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
+		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
+			TestData assignmentData = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
+			driverVehicleRelationshipTable.add(assignmentData);
+		}
+		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
 	}
 
 	private TestData getFormsTabTabData(AutoCaChoiceOpenLPolicy openLPolicy) {
@@ -167,13 +207,28 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
+		String vehicleType = getVehicleTabType(statCode, vehicle.getModelYear());
 
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode, vehicle.getModelYear()));
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType);
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.SERIES.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(), 1000);
+
+		if (vehicle.getModelYear() > 1980) {
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.SERIES.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
+		} else {
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "OTHER");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel(), "some other series $<rx:\\d{3}>");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "some other body style $<rx:\\d{3}>");
+			if ("Antique / Classic".equals(vehicleType)) {
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS.getLabel(), "Yes");
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST.getLabel(), "Yes");
+			}
+		}
 
 		//TODO-dchubkov: just guessing, to be verified
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), vehicle.getAntiTheft() ? "STD" : "OPT");
@@ -194,7 +249,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName));
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData());
 
 		switch (vehicle.getVehicleUsageCd()) {
 			case "P":
@@ -223,6 +278,24 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 			default:
 				throw new IstfException("Unknown vehicle type for statCode: " + statCode);
 		}
+	}
+
+	private TestData get3ViolationPointsActivityInformationData(LocalDateTime effectiveDate) {
+		return getActivityInformationData(effectiveDate, "Minor Violation", getRandom("Child seat belt violation", "Disregard police", "Driving left of center", "Driving on sidewalk"));
+	}
+
+	private TestData get4ViolationPointsActivityInformationData(LocalDateTime effectiveDate) {
+		return getActivityInformationData(effectiveDate, "Major Violation", "regex=.*\\S.*");
+	}
+
+	private TestData getActivityInformationData(LocalDateTime effectiveDate, String type, String description) {
+		String occurrenceAndConvictionDate = effectiveDate.minusMonths(new Random().nextInt(36)).format(DateTimeUtils.MM_DD_YYYY);
+		return DataProviderFactory.dataOf(
+				AutoCaMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
+				AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,
+				AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceAndConvictionDate,
+				AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceAndConvictionDate,
+				AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), "Yes");
 	}
 
 }

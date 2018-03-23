@@ -32,8 +32,12 @@ public class DriverTab extends Tab {
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
 			@Override
 			protected void addSection(int index, int size) {
-				if (index > 0)
-					((Button) getAssetCollection().get("Add Driver")).click();
+				((Button) getAssetCollection().get(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel())).click();
+			}
+
+			@Override
+			protected boolean sectionExists(int index) {
+				return tableDriverList.getRow(index + 1).isPresent();
 			}
 		};
 	}

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.AgencyAutoCaAssetList;
 import aaa.toolkit.webdriver.customcontrols.CalendarBox;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
@@ -242,7 +243,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> NAMED_INSURED = declare("Named Insured", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> TITLE = declare("Title", TextBox.class);
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
@@ -269,6 +270,8 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> GOOD_DRIVER_DISCOUNT = declare("Good Driver Discount", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> NEW_DRIVER_COURSE_COMPLETED = declare("New Driver Course Completed", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS = declare("Mature driver course completed within 36 months", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> MATURE_DRIVER_COURSE_COMPLETION_DATE = declare("Mature Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SMOKER_CIGARETTES_OR_PIPES = declare("Smoker: Cigarettes, cigars or pipes", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
@@ -289,6 +292,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> CONVICTION_POINTS = declare("Conviction Points", TextBox.class);
 			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
+			public static final AssetDescriptor<TextBox> CONVICTION_DATE = declare("Conviction Date", TextBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_YAF = declare("Include in Points and/or YAF?", RadioGroup.class);
@@ -343,18 +347,22 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> CHOOSE_VIN = declare("Choose VIN", ComboBox.class);
 		public static final AssetDescriptor<StaticElement> VIN_MATCHED = declare("VIN Matched", StaticElement.class);
 		public static final AssetDescriptor<TextBox> YEAR = declare("Year", TextBox.class);
-		public static final AssetDescriptor<ComboBox> MAKE = declare("Make", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> MODEL = declare("Model", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> SERIES = declare("Series", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> BODY_STYLE = declare("Body Style", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> PRIMARY_USE = declare("Primary Use", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> MAKE = declare("Make", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_MAKE = declare("Other Make", TextBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> MODEL = declare("Model", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_MODEL = declare("Other Model", TextBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> SERIES = declare("Series", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_SERIES = declare("Other Series", TextBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> BODY_STYLE = declare("Body Style", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_BODY_STYLE = declare("Other Body Style", TextBox.class);
-
-		public static final AssetDescriptor<ComboBox> STAT_CODE = declare("Stat Code", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> STAT_CODE = declare("Stat Code", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> VALUE = declare("Value($)", TextBox.class);
+		public static final AssetDescriptor<ComboBox> PRIMARY_USE = declare("Primary Use", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> VIEW_KIT_CAR_QUESTIONNAIRE = declare("View Kit Car questionnaire?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> VIEW_ANTIQUE_VEHICLE_QUESTIONNAIRE = declare("View Antique vehicle questionnaire?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS = declare("Restored to orginal stock condition with no alterations?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST =
+				declare("Used soley in exhibitions, club activity parades and other fun functions of public interest?", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> COBP_COLL_SYMBOL = declare("Comp/Coll Symbol", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AIR_BAGS = declare("Air Bags", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ANTI_THEFT = declare("Anti-theft", ComboBox.class);
@@ -444,8 +452,8 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class AssignmentTab extends MetaData {
-		public static final AssetDescriptor<FillableTable> DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By
-				.xpath("//table[@id='policyDataGatherForm:driverVehicleRelationshipSummary']"));
+		public static final AssetDescriptor<FillableTable> DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class,
+				By.xpath("//table[@id='policyDataGatherForm:driverVehicleRelationshipSummary']"));
 
 		public static final class DriverVehicleRelationshipTableRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> VEHICLE = declare("Vehicle", StaticElement.class, Waiters.AJAX);

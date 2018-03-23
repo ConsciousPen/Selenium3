@@ -43,11 +43,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	String getDriverTabMartialStatus(String martialStatus) {
 		// Rating engine accepts S, M and W
 		switch (martialStatus) {
-			case "J": //TODO-dchubkov: just guessed, to be double checked for AutoCA Choise
+			case "J":
+				return "Domestic Partner"; // Auto CA Choice
 			case "M":
-				return getRandom("Married", "Registered Domestic Partner");//, "Common Law", "Civil Union");
+				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
 			case "S":
-				return getRandom("Single", "Divorced", "Separated");
+				return getRandom("Single");
 			case "W":
 				return "Widowed";
 			default:
@@ -385,6 +386,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		if ("EMB".equals(coverageCd)) {
 			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
+		}
+
+		//for AutoCA Choice
+		if ("RENTAL".equals(coverageCd) || "TOWING".equals(coverageCd)) {
+			return "1".equals(limitRange[0]) ? "starts=Yes" : "starts=No Coverage";
 		}
 
 		StringBuilder returnLimit = new StringBuilder();

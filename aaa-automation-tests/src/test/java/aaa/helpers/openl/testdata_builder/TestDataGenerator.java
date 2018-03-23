@@ -42,10 +42,16 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 	public abstract TestData getRatingData(P openLPolicy);
 
 	String getYesOrNo(Boolean value) {
+		if (value == null) {
+			return null;
+		}
 		return Boolean.TRUE.equals(value) ? "Yes" : "No";
 	}
 
 	String getYesOrNo(String value) {
+		if (value == null) {
+			return null;
+		}
 		return "Y".equalsIgnoreCase(value) ? "Yes" : "No";
 	}
 
