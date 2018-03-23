@@ -8,7 +8,7 @@ public final class BillingConstants {
 	}
 
 	public static final class PolicyFlag {
-		public static final String CANCEL_NOTICE = "Cancel Notice";
+		public static final String CANCEL_NOTICE = "Cancel Notice Flag"; //"Cancel Notice";
 		public static final String LAPSE_EXIST = "Term includes a lapse period";
 		public static final String DO_NOT_RENEW = "Do Not Renew";
 		public static final String DEFAULT = "";
