@@ -1,0 +1,30 @@
+TestData_Pending: {
+  ApplicantTab: {
+    AAAMembership: {
+      Current AAA Member: 'Membership Pending'
+    }
+  }
+}
+
+AAAMembership_Pending: {
+  Current AAA Member: 'Membership Pending'
+}
+
+AAAMembership_No: {
+Current AAA Member: 'No'
+}
+
+AAAMembership_Override: {
+  Current AAA Member: 'Membership Override',
+  Member Since Date: '$<today>'
+}
+
+OtherActiveAAAPolicies: {}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}

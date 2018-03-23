@@ -199,4 +199,80 @@
         </classes>
     </test>
 
+    <test name="Restriction form (AZ) HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRestrictedPaymentPlan">
+                <methods>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPending"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverride"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingCalculation"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingNoAuto"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Restriction form (DE) HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestRestrictedPaymentPlan">
+                <methods>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPending"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverride"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingCalculation"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingNoAuto"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Restriction form (VA) HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRestrictedPaymentPlan">
+                <methods>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPending"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverride"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingCalculation"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingNoAuto"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Restriction form (CT) DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRestrictedPaymentPlan">
+                <methods>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPending"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverride"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingCalculation"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipPendingNoAuto"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas10870_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

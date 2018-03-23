@@ -11,6 +11,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -41,6 +42,11 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
+	public static StaticElement labelPaymentPlanRestriction = new StaticElement(By.xpath("//*[@id='policyDataGatherForm:paymentPlansTogglePanel:content']/table[2]/tbody"));
+	public static Table tablePaymentPlans = new Table(By.id("policyDataGatherForm:paymentPlansTable"));
+	public static Table tableUnrestrictedPaymentPlans = new Table(By.id("policyDataGatherForm:unrestrictedPaymentPlansTable"));
+	public static StaticElement labelInstallmentFees = new StaticElement(By.xpath("(//*[@id='policyDataGatherForm:paymentPlansTogglePanel:content']/table)[last()]/tbody"));
+
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
 	public static Link linkViewCappingDetails = new Link(By.id("policyDataGatherForm:cappingHODetailsPopup"), Waiters.AJAX);
 
