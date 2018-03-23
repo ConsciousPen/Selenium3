@@ -11,12 +11,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import com.exigen.ipb.etcsa.base.app.Application;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
@@ -24,14 +20,8 @@ import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullReque
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
-	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
-			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
-
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
@@ -64,15 +54,11 @@ public class HelperCommon {
 	}
 
 	static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
-			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
-		} else {
 			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
 			request.email = emailAddressChanged;
 			request.authorizedBy = authorizedBy;
 			String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 			runJsonRequestPostDxp(requestUrl, request);
-		}
 	}
 
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
@@ -134,41 +120,15 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
 	}
 
-	static HashMap <String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
+	@SuppressWarnings("unchecked")
+	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
 		if (effectiveDate != null) {
 			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
 		}
-		return runJsonRequestGetDxp(requestUrl, HashMap.class );
+		return runJsonRequestGetDxp(requestUrl, HashMap.class);
 	}
 
-	private void authentication() {
-		WebDriver driver = BrowserController.get().driver();
-		driver.switchTo().alert();
-		//Selenium-WebDriver Java Code for entering Username & Password as below:
-		driver.findElement(By.id("userID")).sendKeys("admin");
-		driver.findElement(By.id("password")).sendKeys("admin");
-		driver.switchTo().alert().accept();
-		driver.switchTo().defaultContent();
-	}
-
-	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
-		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
-		Application.open(swaggerUiUrl);
-		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
-
-		Waiters.SLEEP(2000).go();
-		SwaggerUiTab.policyV1Endorsements.click();
-		SwaggerUiTab.policyV1EndorsementsPost.click();
-
-		SwaggerUiTab.policyNumber.setValue(policyNumber);
-		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \"" + emailAddress + "\",\n"
-				+ "  \"authorizedBy\": \"" + authorizedBy + "\"}");
-		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
-		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
-		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
-		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
-	}
 
 	private static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
 		return runJsonRequestPostDxp(url, request, String.class);
