@@ -85,8 +85,8 @@
         </classes>
     </test>
 
-    <test name="Dp3 Conversion forms NJ " thread-count="200">
-        <parameter name="state" value="NJ" />
+    <test name="Dp3 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -97,31 +97,9 @@
         </classes>
     </test>
 
-    <test name="Dp3 Conversion forms DE,VA,PA states" thread-count="200">
-        <parameter name="state" value="DE,VA,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_ConversionPacket"/>
-                    <include name="pas2674_ConversionPacketMortgagee"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 
-    <test name="Dp3 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO3 Conversion forms NJ " thread-count="200">
-        <parameter name="state" value="NJ" />
+    <test name="HO3 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -132,31 +110,9 @@
         </classes>
     </test>
 
-    <test name="HO3 Conversion forms DE,VA,PA states" thread-count="200">
-        <parameter name="state" value="DE,VA,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_ConversionPacket"/>
-                    <include name="pas2674_ConversionPacketMortgagee"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 
-    <test name="HO3 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA,MD,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO4 Conversion forms NJ " thread-count="200">
-        <parameter name="state" value="NJ" />
+    <test name="HO4 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA"  />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
@@ -167,88 +123,76 @@
         </classes>
     </test>
 
-    <test name="HO4 Conversion forms DE,VA,PA states" thread-count="200">
-        <parameter name="state" value="DE,VA,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_ConversionPacket"/>
-                    <include name="pas2674_ConversionPacketMortgagee"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO4 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA,MD,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO6 Conversion forms NJ " thread-count="200">
-        <parameter name="state" value="NJ" />
+    <test name="HO6 Conversion forms NJ,DE,VA,MD,PA states" thread-count="200">
+        <parameter name="state"  value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_ConversionPacket"/>
                     <include name="pas2674_ConversionPacketMortgagee"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO6 Conversion forms DE,VA,PA states" thread-count="200">
-        <parameter name="state" value="DE,VA,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas2674_ConversionPacket"/>
-                    <include name="pas2674_ConversionPacketMortgagee"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="HO6 Billing forms" thread-count="200">
-        <parameter name="state" value="DE,VA,MD,PA" />
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
-                <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
                 </methods>
             </class>
         </classes>
     </test>
 
     <test name="PUP pas2674_ConversionPacket" thread-count="200">
-        <parameter name="state" value="NJ" />
+        <parameter name="state"  value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
                     <include name="pas2674_ConversionPacket"/>
+                    <include name="pas2674_ConversionPacketMortgagee"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="PUP pas2674_ConversionPacket" thread-count="200">
-        <parameter name="state" value="DE,VA" />
+    <test name="Dp3 pas9816_BillingPacketGeneration" thread-count="200">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO3 pas9816_BillingPacketGeneration" thread-count="200">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO4 pas9816_BillingPacketGeneration" thread-count="200">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="HO6 pas9816_BillingPacketGeneration" thread-count="200">
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9816_BillingPacketGeneration"/>
                 </methods>
             </class>
         </classes>
     </test>
 
     <test name="PUP pas9816_BillingPacketGeneration" thread-count="200">
-        <parameter name="state" value="DE,VA,MD,PA" />
+        <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
