@@ -34,6 +34,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * PAS-9607
 	 * PAS-2674
 	 * PAS-8777
+	 * PAS-9651
 	 * PAS-8766
 	 * @throws NoSuchFieldException
 	 * See detailed steps in template file
@@ -51,6 +52,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * PAS-9607
 	 * PAS-2674
 	 * PAS-8777
+	 * PAS-9651
 	 * PAS-8766
 	 * @throws NoSuchFieldException
 	 * See detailed steps in template file
@@ -67,6 +69,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * @author Viktor Petrenko
 	 * PAS-9816
 	 * PAS-9607
+	 * PAS-9650
 	 * @throws NoSuchFieldException
 	 * See detailed steps in template file
 	 */

@@ -86,6 +86,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * <p>
 	 * PAS-2674 MAIG CONVERSION: test conversion renewal offer package generation and print sequence of end/notices (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
+	 * PAS-9651	Print Sequence: Conversion Renewal OFFER (PA & MD)
+	 *
 	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify conversion specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
@@ -187,6 +189,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	 * <p>
 	 * PAS-9816 PAS-9816 MAIG CONVERSION: test conversion renewal billing package generation and print sequence (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
+	 * PAS-9650	Print Sequence: Conversion Renewal BILLING (PA & MD)
+	 *
 	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify billing specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
