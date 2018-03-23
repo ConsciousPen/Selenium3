@@ -48,7 +48,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
     /**
      * @author Dominykas Razgunas
-     * @name Test PUP policies that have an underlying DP3 policy with multiple units is rated properly for SS states.
+     * @name Test PUP VRD Auto tier and Underlying risks Auto tier with underlying Auto policy
      * @scenario
      * 1. Create customer
      * 2. Create Auto policy
@@ -138,7 +138,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
     /**
      * @author Dominykas Razgunas
-     * @name Test PUP policies that have an underlying DP3 policy with multiple units is rated properly for SS states.
+     * @name Test PUP VRD Auto tier with no underlying Auto policy
      * @scenario
      * 1. Create customer
      * 2. Create HO3 policy without underlying Auto
@@ -202,7 +202,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
     /**
      * @author Dominykas Razgunas
-     * @name Test PUP policies that have an underlying DP3 policy with multiple units is rated properly for SS states.
+     * @name Test PUP VRD Auto tier and Underlying risks Auto tier with non PA Auto policy
      * @scenario
      * 1. Create customer
      * 2. Create Non PA Auto policy
@@ -291,7 +291,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         premiumAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsViewPUP.open();
 
-        // Verify That Auto tier is N/A or between 1. PAS-10397
+        // Verify That Auto tier is 1. PAS-10397
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("1")).isTrue();
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();

@@ -1,6 +1,9 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3.functional;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -31,6 +34,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
+import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -46,6 +51,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
 	private static final String PENDING_REFUND_AMOUNT = "1000";
 	private static final String APPROVED_REFUND_AMOUNT = "999.99";
+	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
@@ -55,6 +61,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private BindTab bindTab = new BindTab();
 	private ApplicantTab applicantTab = new ApplicantTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
+	private HelperWireMockLastPaymentMethod helperWireMockLastPaymentMethod = new HelperWireMockLastPaymentMethod();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -71,6 +78,13 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
+	/***
+	 * The test is used to debug 7025 generated file using minimu actions, when file is already generated
+	 * @param state
+	 * @throws SftpException
+	 * @throws JSchException
+	 * @throws IOException
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196"})
@@ -164,14 +178,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) {
+	public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
 		String paymentMethod = "contains=Credit Card";
 
-		preconditionPolicyCreationHo();
+		String policyNumber = preconditionPolicyCreationHo();
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber,PENDING_REFUND_AMOUNT);
+		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+
+		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -179,14 +197,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) {
+	public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) throws IllegalAccessException {
 
 		String paymentMethod = "contains=ACH";
 
-		preconditionPolicyCreationHo();
+		String policyNumber = preconditionPolicyCreationHo();
+		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber,PENDING_REFUND_AMOUNT);
+		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+
+		stubRequestACH.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -194,14 +216,18 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) {
+	public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = preconditionPolicyCreationHo();
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber,PENDING_REFUND_AMOUNT);
+		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
+
+		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -209,14 +235,19 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) {
+	public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) throws IllegalAccessException {
 
 		String paymentMethod = "ACH";
 
 		String policyNumber = preconditionPolicyCreationHo();
 
+		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber,PENDING_REFUND_AMOUNT);
+		requestIdList.add(stubRequestACH);
+
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 14);
+
+		stubRequestACH.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -229,4 +260,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		return policyNumber;
 	}
 
+	@AfterClass(alwaysRun = true)
+	private void deleteMultiplePaperlessPreferencesRequests() {
+		for (HelperWireMockStub wireMockStubObject : requestIdList) {
+			wireMockStubObject.cleanUp();
+		}
+		requestIdList.clear();
+	}
 }
