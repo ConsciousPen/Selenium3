@@ -218,7 +218,9 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 				, BindTab.class, true);
 		new BindTab().submitTab();
 		ErrorTab errorTab = new ErrorTab();
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7050000);
-		errorTab.submitTab();
+		if (errorTab.isVisible()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7050000);
+			errorTab.submitTab();
+		}
 	}
 }
