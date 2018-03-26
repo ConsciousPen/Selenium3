@@ -243,17 +243,18 @@ public class CODeltaScenario1 extends BaseTest {
 					DocGenEnum.Documents.HSSCCOA); 
 			break; 
 		case "HomeSS_HO4": 
-			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_4.setState(getState()));		
-			odd_tab.generateDocuments(DocGenEnum.Documents.HS11_4.setState(getState())); 
+			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));		
+			odd_tab.generateDocuments(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState()))); 
 			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_4.setState(getState()), 
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())), 
 					DocGenEnum.Documents.HSSCCOB); 
 			break; 
 		case "HomeSS_HO6": 
-			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_6.setState(getState()));		
-			odd_tab.generateDocuments(DocGenEnum.Documents.HS11_6.setState(getState())); 
+			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));		
+			odd_tab.generateDocuments(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState()))); 
 			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_6.setState(getState()), DocGenEnum.Documents.HSSCCOC); 
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())), 
+					DocGenEnum.Documents.HSSCCOC); 
 			break; 
 		case "HomeSS_DP3": 
 			odd_tab.verify.documentsPresent(DocGenEnum.Documents.DS11.setState(getState()));		
