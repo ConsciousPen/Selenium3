@@ -15,4 +15,9 @@ public class CustomTestProperties extends TestProperties {
 	public static final String SCRUM_ENVS_SSH = "scrum.envs.ssh";
 	public static final String CUSTOM_DATE1 = "test.date1";
 	public static final String CUSTOM_DATE2 = "test.date2";
+	public static final String OAUTH2_ENABLED = "oauth2.enabled";
+	public static final String PING_HOST = "ping.host";
+	public static final String DXP_CLIENT_ID = "dxp.clientId";
+	public static final String DXP_CLIENT_SECRET = "dxp.clientSecret";
+	public static final String DXP_GRANT_TYPE = "dxp.grantType";
 }

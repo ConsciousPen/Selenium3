@@ -14,8 +14,30 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
 import toolkit.config.PropertyProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.waiters.Waiters;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
+
+import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -31,6 +53,8 @@ public class HelperCommon {
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
+	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
+	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
@@ -162,13 +186,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.post(Entity.json(request));
+			response = createJsonRequest(client, url).post(Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
@@ -195,13 +213,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.delete();
+			response = createJsonRequest(client, url).delete();
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
@@ -228,13 +240,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.get();
+			response = createJsonRequest(client, url).get();
 			T result = response.readEntity(responseType);
 			log.info(response.toString());
 				if (response.getStatus() != status) {
@@ -279,6 +285,56 @@ public class HelperCommon {
 			if (client != null) {
 				client.close();
 			}
+		}
+	}
+
+	private static Invocation.Builder createJsonRequest(Client client, String url) {
+		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+		if(BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
+			final String token = getBearerToken();
+			if(StringUtils.isNotEmpty(token)) {
+				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+						.header(APPLICATION_CONTEXT_HEADER, createApplicationContext());
+			}
+		}
+		return builder;
+	}
+
+	private static String getBearerToken() {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)
+					+ PropertyProvider.getProperty(CustomTestProperties.PING_HOST));
+			response = target
+					.request()
+					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
+					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
+			final Map result = response.readEntity(Map.class);
+			return result.get("access_token").toString();
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	private static String createApplicationContext() {
+		try {
+			final ApplicationContext applicationContext = new ApplicationContext();
+			applicationContext.address = "AutomationTest";
+			applicationContext.application = "AutomationTest";
+			applicationContext.correlationId = Guid.GUID.newGuid().toString();
+			applicationContext.subSystem = "AutomationTest";
+			applicationContext.transactionType = "AutomationTest";
+			applicationContext.userId = "MyPolicy";
+			return DEFAULT_OBJECT_MAPPER.writeValueAsString(applicationContext);
+		} catch (JsonProcessingException e) {
+			throw new IstfException("Failed to create application context");
 		}
 	}
 
