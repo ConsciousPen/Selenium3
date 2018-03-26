@@ -626,7 +626,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		waiveFeeOnDate(waiveDate);
 	}
 
-	protected void maigConversionOnStartDate(String state) {
+	protected void maigConversionOnStartDatePlus3(String state) {
 		LocalDateTime conversionDate = TimeSetterUtil.getInstance().getStartTime().plusDays(3);
 		log.info("Conversion started on {}", conversionDate);
 		TimeSetterUtil.getInstance().nextPhase(conversionDate);
