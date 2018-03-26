@@ -378,8 +378,6 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> SOURCE = declare("Source", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS = declare("Is the vehicle used in any commercial business operations?",
 				RadioGroup.class);
-		public static final AssetDescriptor<TextBox> BUSINESS_USE_DESCRIPTION = declare("Business Use Description", TextBox.class);
-
 		public static final AssetDescriptor<Button> CALCULATE_MILEAGE = declare("Calculate Mileage", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:calculateMileage"));
 
 		/*
@@ -409,6 +407,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST_INFORMATION = declare("AdditionalInterestInformation",
 				MultiInstanceAfterAssetList.class, AdditionalInterestInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAdditionalInterest']"));
 		public static final AssetDescriptor<ComboBox> VEHICLE_USE = declare("Vehicle Use", ComboBox.class);
+		public static final AssetDescriptor<TextBox> BUSINESS_USE_DESCRIPTION = declare("Business Use Description", TextBox.class);
 
 		public static final class ListOfVehicleRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);

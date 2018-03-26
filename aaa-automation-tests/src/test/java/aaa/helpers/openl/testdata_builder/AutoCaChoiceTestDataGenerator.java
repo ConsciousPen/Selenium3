@@ -3,6 +3,7 @@ package aaa.helpers.openl.testdata_builder;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -53,6 +55,38 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 				//new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
 		return TestDataHelper.merge(getRatingDataPattern(), td);
+	}
+
+	@Override
+	boolean isPolicyLevelCoverage(String coverageCD) {
+		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCD);
+	}
+
+	String getVehicleTabStatCode(String statCode, int modelYear) {
+		switch (statCode) {
+			case "A":
+				return modelYear > 1989
+						? getRandom("Passenger Car Small", "Trailer/ Shell")
+						: getRandom("Trailer/ Shell", "Antique vehicle");
+			case "B":
+				return modelYear > 1989
+						? getRandom("Passenger Car Midsize", "Station wagon", "SUV Small", "Pickup/ Utility Truck Small", "Passenger Van")
+						: "Pickup/ Utility Truck Small";
+			case "C":
+				return modelYear > 1989
+						? getRandom("Pickup/ Utility Truck Standard", "Passenger Car Large", "Custom van")
+						: "Pickup/Utility Truck";
+			case "D":
+				return modelYear > 1989
+						? getRandom("Motorhome", "SUV Large", "Cargo Van", "SUV Midsize")
+						: getRandom("Motorhome", "Cargo Van");
+			case "E":
+				return modelYear > 1989
+						? getRandom("Limited Production vehicle", "High Exposure car Small", "High Exposure car Midsize", "High Exposure car Large")
+						: getRandom("High Exposure car", "Limited Production vehicle");
+			default:
+				throw new IstfException(String.format("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode));
+		}
 	}
 
 	private TestData getPrefillTabData() {
@@ -91,10 +125,13 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 			List<TestData> activityInformationList = new ArrayList<>();
 			if (driver.getDsr() != null && driver.getDsr() > 0) {
 				switch (driver.getDsr()) {
+					//TODO-dchubkov: implement logic to add incidents with any violation points number
 					case 4:
 						activityInformationList.add(get4ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
 						break;
-					case 10:
+					case 13:
+						//For Choice product we should always add "3" points if driver has at least 3 activities with non-zero violation points included in rating.
+						// Therefore if we need driver with 13 points we can add 3 incidents with 10 points in total
 						activityInformationList.add(get3ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
 						activityInformationList.add(get3ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
 						activityInformationList.add(get4ViolationPointsActivityInformationData(openLPolicy.getEffectiveDate()));
@@ -207,13 +244,23 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
-		String vehicleType = getVehicleTabType(statCode, vehicle.getModelYear());
+		String vehicleType = getVehicleType(vehicle.getVehType());
 
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType);
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(), 1000);
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(),
+				getVehicleTabValueFromDb(vehicle.getCollSymbol(), vehicle.getCompSymbol(), vehicle.getModelYear(), vehicle.getVehType(), statCode));
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "OTHER");
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel(), "some other series $<rx:\\d{3}>");
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "some other body style $<rx:\\d{3}>");
+		if ("Antique / Classic".equals(vehicleType)) {
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS.getLabel(), "Yes");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST.getLabel(), "Yes");
+		}
 
-		if (vehicle.getModelYear() > 1980) {
+		/*if (vehicle.getModelYear() > 1980) {
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.SERIES.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
@@ -228,11 +275,19 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 				vehicleInformation.put(AutoCaMetaData.VehicleTab.RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS.getLabel(), "Yes");
 				vehicleInformation.put(AutoCaMetaData.VehicleTab.USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST.getLabel(), "Yes");
 			}
+		}*/
+
+		if ("Regular".equals(vehicleType)) {
+			//for other vehicle types Stat Code is disabled
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel(), getVehicleTabStatCode(statCode, vehicle.getModelYear()));
 		}
 
-		//TODO-dchubkov: just guessing, to be verified
-		vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), vehicle.getAntiTheft() ? "STD" : "OPT");
-		if (!"T".equals(statCode) && !"C".equals(statCode)) { // if not Trailer and Camper type
+		if (Boolean.TRUE.equals(vehicle.getAntiTheft())) {
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), "STD");
+			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), "Vehicle Recovery Device");
+		}
+
+		if (!"Trailer".equals(vehicleType) && !"Camper".equals(vehicleType)) {
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), vehicle.getAntiLock() ? "Rear only Standard" : "Not available");
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), 3000);
 		}
@@ -252,16 +307,38 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData());
 
 		switch (vehicle.getVehicleUsageCd()) {
-			case "P":
-				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
+			case "WC":
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
+				break;
+			case "FM":
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm non-business(on premises)");
+				break;
+			case "FMB":
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm business (farm to market delivery)");
 				break;
 			case "BU":
-				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm business (farm to market delivery)");
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Business (small business non-commercial)");
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes");
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
+				break;
+			case "P": // TODO-dchubkov: to be checked
+			case "PL":
+				vehicleInformation.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
 				break;
 			default:
 				throw new IstfException("Unknown mapping for vehicleUsageCd: " + vehicle.getVehicleUsageCd());
 		}
 		return new SimpleDataProvider(vehicleInformation);
+	}
+
+	private Integer getVehicleTabValueFromDb(Integer collSymbol, Integer compSymbol, Integer modelYear, String vehType, String statCode) {
+		String getVinQuery = "select m.MSRPMIN, m.MSRPMAX from MSRPCOMPCOLLLOOKUP m where m.COLLSYMBOL=? and m.COMPSYMBOL=? and m.KEY in (select c.KEY from MSRPCOMPCOLLCONTROL c\n"
+				+ "   where c.MSRPVERSION = 'MSRP_2000_CHOICE'\n"
+				+ "   and (? between c.VEHICLEYEARMIN and c.VEHICLEYEARMAX or (c.VEHICLEYEARMIN is null and c.VEHICLEYEARMAX is null))\n"
+				+ "   and (c.VEHICLETYPE = ? or c.VEHICLETYPE is null)\n"
+				+ "   and (c.LIABILITYSYMBOL = ? or c.LIABILITYSYMBOL is null))";
+		Map<String, String> resultRow = DBService.get().getRow(getVinQuery, collSymbol, compSymbol, modelYear, vehType, statCode);
+		return RandomUtils.nextInt(Integer.parseInt(resultRow.get("MSRPMIN")), Integer.parseInt(resultRow.get("MSRPMAX")));
 	}
 
 	private String getVehicleTabType(String statCode, int modelYear) {
@@ -280,6 +357,19 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		}
 	}
 
+	private String getVehicleType(String vehType) {
+		switch (vehType) {
+			case "M":
+				return "Motor Home";
+			case "P":
+				return "Regular";
+			case "O":
+				return getRandom("Antique / Classic", "Trailer", "Camper");
+			default:
+				throw new IstfException("Unknown vehicle type for vehType: " + vehType);
+		}
+	}
+
 	private TestData get3ViolationPointsActivityInformationData(LocalDateTime effectiveDate) {
 		return getActivityInformationData(effectiveDate, "Minor Violation", getRandom("Child seat belt violation", "Disregard police", "Driving left of center", "Driving on sidewalk"));
 	}
@@ -289,7 +379,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 	}
 
 	private TestData getActivityInformationData(LocalDateTime effectiveDate, String type, String description) {
-		String occurrenceAndConvictionDate = effectiveDate.minusMonths(new Random().nextInt(36)).format(DateTimeUtils.MM_DD_YYYY);
+		String occurrenceAndConvictionDate = effectiveDate.minusMonths(new Random().nextInt(33)).format(DateTimeUtils.MM_DD_YYYY);
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
 				AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,
