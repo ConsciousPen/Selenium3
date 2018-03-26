@@ -626,7 +626,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		waiveFeeOnDate(waiveDate);
 	}
 
-	protected void maigConversionOnStartDatePlus3(String state) {
+	protected void maigConversionOnStartDate(String state) {
 		LocalDateTime conversionDate = TimeSetterUtil.getInstance().getStartTime().plusDays(3);
 		log.info("Conversion started on {}", conversionDate);
 		TimeSetterUtil.getInstance().nextPhase(conversionDate);
@@ -634,11 +634,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate);
 		String policyN = ConversionUtils.importPolicy(data);
 
-		// LocalDateTime effDate = TimeSetterUtil.getInstance().getStartTime();
-		// LocalDateTime convDate = getTimePoints().getRenewPreviewGenerationDate(effDate.plusYears(1));
-		// ConversionPolicyData data = new MaigConversionData(state + ".xml", effDate.plusYears(1));
-		// String policyN = ConversionUtils.importPolicy(data);
-		// TimeSetterUtil.getInstance().nextPhase(convDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyN);
 		policy.dataGather().start();
@@ -677,6 +672,34 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		billingAccount.refund().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		log.info("Manual Refund action completed successfully");
+	}
+
+	protected void manualRenewalEntryOnStartDate() {
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
+		log.info("Manual Renewal action started on {}", effDate);
+		mainApp().open();
+		createCustomerIndividual();
+		TestData policyTd = getConversionPolicyDefaultTD();
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
+		getPolicyType().get().getDefaultView().fill(policyTd);
+		String policyN = PolicySummaryPage.linkPolicy.getValue();
+		SearchPage.openPolicy(policyN);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingAccountInformationHolder.addBillingAccountDetails(
+				new BillingAccountDetails.Builder()
+						.setBillingAccountNumber(BillingSummaryPage.labelBillingAccountNumber.getValue())
+						.addPolicyDetails(new PolicyDetails.Builder()
+								.setPolicyNumber(policyN)
+								.setPolicyEffectiveDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY))
+								.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY).plusYears(1))
+								.build())
+						.build());
+		log.info("Manual Renewal action completed successfully");
+		log.info("Policy effective date {}", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate());
+		log.info("Policy expirition date {}", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+
+
 	}
 
 	protected void flatCancellationOnStartDatePlus16() {

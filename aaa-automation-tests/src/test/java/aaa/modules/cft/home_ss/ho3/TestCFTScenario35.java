@@ -14,11 +14,11 @@ public class TestCFTScenario35 extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario35(@Optional(StringUtils.EMPTY) String state) {
-		maigConversionOnStartDatePlus3(state);
-//		generateRenewalOffer();
-//		generateRenewalOfferBill();
-//		acceptMinDuePaymentOnUpdatePolicyStatusDate();
-//		verifyPolicyActiveOnUpdatePolicyStatusDate();
+		manualRenewalEntryOnStartDate();
+		generateRenewalOffer();
+		generateRenewalOfferBill();
+		acceptMinDuePaymentOnUpdatePolicyStatusDate();
+		verifyPolicyActiveOnUpdatePolicyStatusDate();
 	}
 
 	@Override
