@@ -3206,7 +3206,7 @@
     </option>
   </inspection_tool>
   <inspection_tool class="gwtRawAsyncCallback" enabled="true" level="WARNING" enabled_by_default="true" />
-  <inspection_tool class="unused" enabled="true" level="WARNING" enabled_by_default="false">
+  <inspection_tool class="unused" enabled="true" level="WARNING" enabled_by_default="true">
     <scope name="Tests" level="WARNING" enabled="true">
       <option name="LOCAL_VARIABLE" value="true" />
       <option name="FIELD" value="false" />

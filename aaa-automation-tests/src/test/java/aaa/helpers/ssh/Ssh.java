@@ -79,6 +79,7 @@ public class Ssh {
 
 		try {
 			openSftpChannel();
+			sftpChannel.cd("/");
 			sftpChannel.cd(folderName);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 			for (ChannelSftp.LsEntry file : list) {
@@ -111,6 +112,7 @@ public class Ssh {
 
 		try {
 			openSftpChannel();
+			sftpChannel.cd("/");
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 
@@ -132,6 +134,7 @@ public class Ssh {
 		try {
 			openSftpChannel();
 			destination.getAbsoluteFile().getParentFile().mkdir();
+			sftpChannel.cd("/");
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 			File response = null;
