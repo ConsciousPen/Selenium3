@@ -5,6 +5,8 @@ public final class ErrorEnum {
 	}
 
 	public enum Errors {
+
+		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
@@ -91,6 +93,7 @@ public final class ErrorEnum {
 		ERROR_AAA_PUP_SS5310180("AAA_PUP_SS5310180", "Applicants who own property, or reside for extended periods, outside of the U..."),
 		ERROR_AAA_PUP_SS5310750("AAA_PUP_SS5310750", "Vehicles used for business, promotional or racing are ineligible."),
 		ERROR_AAA_PUP_SS5311428("AAA_PUP_SS5311428", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
+		ERROR_AAA_PUP_SS7050000("AAA_PUP_SS7050000", "A high level premium variance has been detected between the legacy premium an..."),
 		ERROR_AAA_PUP_SS7150344("AAA_PUP_SS7150344", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 		ERROR_AAA_PUP_SS7160072("AAA_PUP_SS7160072", "Trustees/LLCs on underlying risks are ineligible. (AAA_PUP_SS7160072) [for AA..."),
 		ERROR_AAA_PUP_SS7160090("AAA_PUP_SS7160090", "Risks with a property liability limit less than $500,000 are ineligible. (AAA..."),
