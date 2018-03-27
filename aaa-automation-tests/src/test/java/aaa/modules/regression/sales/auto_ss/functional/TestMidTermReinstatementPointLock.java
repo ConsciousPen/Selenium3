@@ -47,7 +47,6 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9687")
 	public void pas9687_MidTermReinstatementPointsLocked(@Optional("NJ") String state) {
 
-		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime().plusHours(1);
 		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
 
 		TestData testData = getPolicyTD();
@@ -88,8 +87,5 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 
 		//Check that the saved value is the same during mid term endorsement even after reinstatement was made. Change time back to current day.
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue()).isEqualTo(reinstatementHistory);
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(today);
 	}
 }
