@@ -1611,14 +1611,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		mainApp().open();
 		createCustomerIndividual();
-
 		TestData td = getPolicyTD("DataGather", "TestData");
-
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_AllDrivers").getTestDataList("DriverTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//Create a pended
+		//Create a pended Endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
@@ -1632,7 +1630,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String driverAssignment2 = assignmentsPrimary.get(1).toString();
 
 		DriverAssignmentDto[] response = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
-
 		assertSoftly(softly -> {
 			softly.assertThat(driverAssignment1.contains(response[0].vehicleDisplayValue));
 			softly.assertThat(response[0].vehicleOid).isNotNull();
@@ -1669,7 +1666,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String driverAssignment5 = assignmentsUnassigned.get(0).toString();
 
 		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponce = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
-
 		assertSoftly(softly -> {
 			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].vehicleDisplayValue));
 			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].vehicleOid).isNotNull();
@@ -1697,7 +1693,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String driverAssignment6 = assignmentOccasional.get(0).toString();
 
 		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponse1 = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
-
 		assertSoftly(softly -> {
 			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse1[0].vehicleDisplayValue));
 			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].vehicleOid).isNotNull();
