@@ -1481,7 +1481,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		mainApp().close();
+		VehicleTab.buttonCancel.click();
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -1496,7 +1496,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 		Dollar dxpPremium = new Dollar(rateResponse[0].getActualAmt());
 
-		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
