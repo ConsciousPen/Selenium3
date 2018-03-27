@@ -22,6 +22,7 @@ import static aaa.helpers.openl.model.OpenLFile.RISK_METER_DATA_SHEET_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -163,6 +164,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.riskMeterData = new ArrayList<>(riskMeterData);
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -235,6 +237,12 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public void setPolicyNumber(String policyNumber) {
 		this.policyNumber = policyNumber;
+	}
+
+	@Override
+	public Integer getTerm() {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException(String.format("Getting term for %s is not implemented", this.getClass().getSimpleName()));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package aaa.helpers.openl.model.home_ca;
 
+import java.time.LocalDateTime;
+import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.OpenLPolicy;
 
 public class HomeCaOpenLPolicy extends OpenLPolicy {
@@ -56,6 +58,18 @@ public class HomeCaOpenLPolicy extends OpenLPolicy {
 
 	public void setYearsWithCsaa(Integer yearsWithCsaa) {
 		this.yearsWithCsaa = yearsWithCsaa;
+	}
+
+	@Override
+	public LocalDateTime getEffectiveDate() {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException(String.format("Getting Effective Date for %s is not implemented", this.getClass().getSimpleName()));
+	}
+
+	@Override
+	public Integer getTerm() {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException(String.format("Getting term for %s is not implemented", this.getClass().getSimpleName()));
 	}
 
 	@Override

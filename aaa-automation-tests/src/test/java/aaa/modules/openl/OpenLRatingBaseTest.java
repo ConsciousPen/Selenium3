@@ -4,6 +4,7 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
@@ -62,21 +65,32 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
-		createCustomerIndividual();
+		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
 			for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
+				P policyObject = policyAndPremium.getKey();
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
-						policyAndPremium.getKey().getNumber(), policyAndPremium.getValue(), openLFileName);
+						policyObject.getNumber(), policyAndPremium.getValue(), openLFileName);
 
-				TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
-				policy.initiate();
-				policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
-				new PremiumAndCoveragesTab().fillTab(quoteRatingData);
+				//TODO-dchubkov: add assertion that policy effective date is not too old (ask about valid policy age requirement)
+				if (policyObject.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
+					TimeSetterUtil.getInstance().nextPhase(policyObject.getEffectiveDate());
+					mainApp().reopen();
+					SearchPage.openCustomer(customerNumber);
+				}
 
+				createAndRateQuote(tdGenerator, policyObject);
 				softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString());
-				Tab.buttonCancel.click();
+				Tab.buttonSaveAndExit.click();
 			}
 		});
+	}
+
+	protected void createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy) {
+		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
 	}
 
 	protected <O extends OpenLFile<P>> Map<P, Dollar> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
@@ -108,11 +122,18 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				expectedPremium = new Dollar(row.getValue(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME));
 			} else {
 				expectedPremium = new Dollar(row.getSumContains("_res_.$Value"));
+				if (openLPolicy.getTerm() == 6) {
+					expectedPremium = expectedPremium.divide(2);
+				}
 			}
 			openLPoliciesAndPremiumsMap.put(openLPolicy, expectedPremium);
 		}
-
 		openLFileManager.close();
+
+		//Sort map by policies effective dates for further valid timeshifts
+		openLPoliciesAndPremiumsMap = openLPoliciesAndPremiumsMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(OpenLPolicy::getEffectiveDate)))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
 		return openLPoliciesAndPremiumsMap;
 	}
 

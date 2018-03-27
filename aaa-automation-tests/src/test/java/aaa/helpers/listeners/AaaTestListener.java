@@ -9,7 +9,7 @@ public class AaaTestListener extends TestngTestListener2 {
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		log.info("Test failure date/time: " + TimeSetterUtil.getInstance().getCurrentTime());
+		log.info("Test failure date/time: {}", TimeSetterUtil.getInstance().getCurrentTime());
 		super.onTestFailure(result);
 	}
 

@@ -22,9 +22,9 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	private Integer safetyScore;
 	private String usage;
 	private Integer vehicleAge;
-	private Boolean isABS; // DC specific ?
-	private Boolean isDaytimeRunning; // DC specific ?
-	private String firstOrAddlVehicle; // NJ specific ?
+	private Boolean isABS; // NY specific
+	private Boolean isDaytimeRunning; // NY specific
+	private String firstOrAddlVehicle; // NJ specific
 	private Integer maxDriverAge; // VA specific ?
 	private Integer totalVehiclePoint; // VA specific ?
 
@@ -157,7 +157,11 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

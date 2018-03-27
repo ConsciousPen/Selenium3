@@ -42,11 +42,29 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 	public abstract TestData getRatingData(P openLPolicy);
 
 	String getYesOrNo(Boolean value) {
+		if (value == null) {
+			return null;
+		}
 		return Boolean.TRUE.equals(value) ? "Yes" : "No";
 	}
 
 	String getYesOrNo(String value) {
+		if (value == null) {
+			return null;
+		}
 		return "Y".equalsIgnoreCase(value) ? "Yes" : "No";
+	}
+
+	String getDollarValue(int value) {
+		return getDollarValue(value, true);
+	}
+
+	String getDollarValue(int value, boolean excludeZeroHundredths) {
+		String dollarValue = new Dollar(value).toString();
+		if (excludeZeroHundredths) {
+			dollarValue = dollarValue.replaceAll("\\.00", "");
+		}
+		return dollarValue;
 	}
 
 	String getRangedDollarValue(int fromBoundary, int toBoundary) {
@@ -54,13 +72,7 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 	}
 
 	String getRangedDollarValue(int fromBoundary, int toBoundary, boolean excludeZeroHundredths) {
-		String from = new Dollar(fromBoundary).toString();
-		String to = new Dollar(toBoundary).toString();
-		if (excludeZeroHundredths) {
-			from = from.replaceAll("\\.00", "");
-			to = to.replaceAll("\\.00", "");
-		}
-		return from + "/" + to;
+		return getDollarValue(fromBoundary, excludeZeroHundredths) + "/" + getDollarValue(toBoundary, excludeZeroHundredths);
 	}
 
 	String getRandom(String... values) {
