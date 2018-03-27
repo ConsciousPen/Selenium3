@@ -9,7 +9,6 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -58,7 +57,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(class_td, ErrorTab.class, true);
 		new ErrorTab().buttonOverride.click();
 
-		Tab.buttonSaveAndExit.click();
+		PurchaseTab.buttonCancel.click();
         assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
