@@ -892,6 +892,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		log.info("Delay end");
 		documentsAndBindTab.saveAndExit();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+		//BUG INC0655981: summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
 		Efolder.isDocumentExist("Miscellaneous", "EVALUE ACKNOWLEDGEMENT FORM");
 		//PAS-264 end
 
@@ -1666,7 +1667,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 *
 	 * @param paymentMethod - DC - Debit Card, CC - Credit Card, ACH - EFT
 	 */
-	public String simplifiedQuoteIssue(String paymentMethod) {
+	private String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
 		if (generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE).isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());

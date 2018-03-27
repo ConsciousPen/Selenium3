@@ -15,8 +15,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
@@ -55,8 +53,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
@@ -94,12 +90,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -113,12 +106,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -132,12 +122,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -151,12 +138,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -170,12 +154,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -189,12 +170,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -208,12 +186,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -227,12 +202,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -246,12 +218,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -265,12 +234,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -284,12 +250,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -303,12 +266,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -322,12 +282,9 @@
             <!-- NANO is not applicable for NY	<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>-->
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
@@ -342,12 +299,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -361,12 +315,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -380,12 +331,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -399,12 +347,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -418,12 +363,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -437,12 +379,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
@@ -457,12 +396,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -476,12 +412,9 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
         </classes>
     </test>
@@ -495,7 +428,6 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNano"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyRulesOverride"/>
-            <!--<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicySpin"/>-->
             <class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteGeneralTab"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteInitiate"/>
@@ -526,7 +458,6 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano"/>
-            <!--<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicySpin"/>-->
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyCancelNoticeAddDelete"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyCancelRewrite"/>

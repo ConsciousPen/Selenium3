@@ -16,24 +16,6 @@ EndorsementActionTab: {
     Endorsement Reason: Maintain Vehicle(s)
 }
 
-TestData_OOS: {
-  EndorsementActionTab: '@EndorsementActionTab_OOS',
-  GeneralTab: {},
-  DriverTab: {},
-  MembershipTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
-}
-
-EndorsementActionTab_OOS: {
-    Endorsement Date: $<startTime+1d>,
-    Endorsement Reason: Maintain Vehicle(s)
-}
-
 DriverTab: {
    Financial Responsibility Filling Needed: 'Yes',
    Filling Type: 'SR-22'
@@ -48,7 +30,47 @@ FormsTab: {
     }
   }
 }
- 
+
+TestData_OOS: {
+  EndorsementActionTab: '@EndorsementActionTab_OOS',
+  GeneralTab: {},
+  DriverTab: '@DriverTab_OOS',
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click,
+  },
+    DocumentsAndBindTab: {}
+}
+
+EndorsementActionTab_OOS: {
+    Endorsement Date: $<startTime+1d>,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab_OOS: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: 'index=0',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: 'Ana$<rx:\d{8}>',
+  Last Name: 'Smith',
+  Date of Birth: '$<today-37y>',
+  Occupation: Self Employed,
+  Gender: Female,
+  Marital Status: Single,
+  Age First Licensed: 36,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234500
+}
+
+#--- Data Gather ---
 DriverTab_DataGather: {
     Employee Benefit Type: 'Active employee',
     Employee ID: '12345678'

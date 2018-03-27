@@ -1,0 +1,5 @@
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
+}

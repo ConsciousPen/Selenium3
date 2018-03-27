@@ -2,7 +2,6 @@ package aaa.modules.delta.templates;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +9,8 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -25,19 +26,20 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.verification.CustomAssertions;
 
 public class CODeltaScenario1 extends BaseTest {
 	
 	protected IPolicy policy;
+	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
 	protected String effectiveDate;
 	
-	public void TC_createQuote(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
+	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
 		
 		mainApp().open();		
@@ -53,7 +55,7 @@ public class CODeltaScenario1 extends BaseTest {
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	public void TC_verifyLOVsOfImmediatePriorCarrier() {
+	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -65,70 +67,62 @@ public class CODeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC_verifyEndorsementsTab() {
+	public void verifyEndorsementsTab() {
 		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		
-		Map<String, String> endorsement_HS0312 = new HashMap<>();
-		endorsement_HS0312.put("Form ID", "HS 03 12");
-		endorsement_HS0312.put("Name", "Windstorm Or Hail Deductible - Percentage"); 
+		Map<String, String> HS_03_12 = new HashMap<>();
+		HS_03_12.put("Form ID", "HS 03 12");
+		HS_03_12.put("Name", "Windstorm Or Hail Deductible - Percentage");
 				
-		Map<String, String> endorsement_HS0493 = new HashMap<>(); 
-		endorsement_HS0493.put("Form ID", "HS 04 93"); 
-		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
+		Map<String, String> HS_04_93 = new HashMap<>();
+		HS_04_93.put("Form ID", "HS 04 93");
+		HS_04_93.put("Name", "Actual Cash Value - Windstorm Or Hail Losses");
 			
 		mainApp().open();		
-		SearchPage.openQuote(quoteNumber);	
-		
+		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-
-		CustomAssert.enableSoftMode();
+		EndorsementTab endorsementTab = new EndorsementTab();
 		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
-			
+		switch (getPolicyType().getShortName()) {
+		case "HomeSS":
+			CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent();
+			CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
 			endorsementTab.fillTab(td_add_Forms);
-			
-			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
-			assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isTrue();
-			assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isTrue();
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
-			assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
+			CustomAssertions.assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
+			CustomAssertions.assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isEqualTo(true);
+			CustomAssertions.assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isEqualTo(true);
+			break;
+		case "HomeSS_HO4":
+		case "HomeSS_HO6":
+			CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent(false);
+			CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent(false);
+			CustomAssertions.assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent(false);
+			endorsementTab.fillTab(td_add_Forms);
+			break;
+		case "HomeSS_DP3":
+			endorsementTab.fillTab(td_add_Forms);
+			break;
+		default:
+			break;
 		}
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();
+		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 	}
 	
-	public void TC_verifyQuoteODD() {
-		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
-
-		policy.quoteDocGen().start();		
-		CustomAssert.enableSoftMode();	
-		
-		//TODO add verification of On-Demand Documents Tab
-		
-		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
-	}
-	
-	public void TC_verifyAdverselyImpacted() {
+	public void verifyAdverselyImpacted() {
 		TestData td_Declined_with_Score700 = getTestSpecificTD("TestData_Declined_with_Score700");
 		TestData td_Dissolution_with_Score700 = getTestSpecificTD("TestData_Dissolution_with Score700");
 		TestData td_IdentityTheft_with_Score800 = getTestSpecificTD("TestData_IdentityTheft_with_Score800");
 		TestData td_IdentityTheft_with_Score999 = getTestSpecificTD("TestData_IdentityTheft_with_Score999");
 		TestData td_AdverselyImpacted_None = getTestSpecificTD("TestData_AdverselyImpacted_None");
 		
-		mainApp().open();		
+		String messageAdverselyImpacted = "Adversely Impacted was applied to the policy effective "+effectiveDate;
+
+		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
@@ -137,8 +131,8 @@ public class CODeltaScenario1 extends BaseTest {
 		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED)).hasValue("None");
 		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED))
 				.containsAllOptions("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined");
-		
-		String messageAdverselyImpacted = "Adversely Impacted was applied to the policy effective "+effectiveDate;
+
+		generalTab.submitTab();
 		
 		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score700, "700");
 		
@@ -163,7 +157,7 @@ public class CODeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC_verifyIneligibleRoofType() {
+	public void verifyIneligibleRoofType() {
 		TestData td_eligibleData = getTestSpecificTD("TestData");
 		TestData td_construction1 = getTestSpecificTD("TestData_Construction1");
 		TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
@@ -197,9 +191,7 @@ public class CODeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC_purchasePolicy(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
-		
+	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
 		
@@ -218,13 +210,50 @@ public class CODeltaScenario1 extends BaseTest {
         log.info("DELTA CO SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);		
 	}
 	
-	public void TC_verifyPolicyODD() {
+	public void verifyPolicyODD() {
 		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
 		
-		//TODO add verification of On-Demand Documents Tab
-		
-		policy.policyDocGen().start();		
+		policy.policyDocGen().start();
+		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
+
+		switch (getPolicyType().getShortName()) {
+		case "HomeSS":
+			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11.setState(getState()));
+			odd_tab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()));
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11.setState(getState()),
+					//TODO
+					//DocGenEnum.Documents.HS0312,
+					//DocGenEnum.Documents.HS0454,
+					//DocGenEnum.Documents.HS2473,
+					DocGenEnum.Documents.HSSCCOA);
+			break;
+		case "HomeSS_HO4":
+			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+			odd_tab.generateDocuments(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())),
+					DocGenEnum.Documents.HSSCCOB);
+			break;
+		case "HomeSS_HO6":
+			odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+			odd_tab.generateDocuments(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())),
+					DocGenEnum.Documents.HSSCCOC);
+			break;
+		case "HomeSS_DP3":
+			odd_tab.verify.documentsPresent(DocGenEnum.Documents.DS11.setState(getState()));
+			odd_tab.generateDocuments(DocGenEnum.Documents.DS11.setState(getState()));
+			WebDriverHelper.switchToDefault();
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.DS11.setState(getState()),
+					DocGenEnum.Documents.HSSCCOD);
+			break;
+		default:
+			break;
+		}
+
 	}
 	
 	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();	

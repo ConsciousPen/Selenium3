@@ -11,12 +11,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import com.exigen.ipb.etcsa.base.app.Application;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
@@ -24,14 +20,8 @@ import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullReque
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssertions;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
-	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
-			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
-
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
@@ -50,30 +40,25 @@ public class HelperCommon {
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
-		} else {
-			return PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME) + endpointUrlPart;
 		}
+		return PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME) + endpointUrlPart;
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
 		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.ADMIN_PORT) + endpointUrlPart;
 	}
 
-	public static <T> RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
+	public static RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
 		String requestUrl = urlBuilderAdmin(ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT) + policyNumber + "/" + date;
 		return runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
 	}
 
 	static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
-			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
-		} else {
 			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
 			request.email = emailAddressChanged;
 			request.authorizedBy = authorizedBy;
 			String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 			runJsonRequestPostDxp(requestUrl, request);
-		}
 	}
 
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
@@ -97,20 +82,17 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		ErrorResponseDto validateEndorsementResponseError = runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class);
-		return validateEndorsementResponseError;
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class);
 	}
 
 	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
-		PolicyLockUnlockDto validatePolicyLockStatus = runJsonRequestPostDxp(requestUrl, null, PolicyLockUnlockDto.class, status);
-		return validatePolicyLockStatus;
+		return runJsonRequestPostDxp(requestUrl, null, PolicyLockUnlockDto.class, status);
 	}
 
 	static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
-		PolicyLockUnlockDto validatePolicyUnlockStatus = runJsonRequestDeleteDxp(requestUrl, PolicyLockUnlockDto.class, status);
-		return validatePolicyUnlockStatus;
+		return runJsonRequestDeleteDxp(requestUrl, PolicyLockUnlockDto.class, status);
 	}
 
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
@@ -123,8 +105,7 @@ public class HelperCommon {
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
-		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
-		return vehicle;
+		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
@@ -136,52 +117,24 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
-		return aaaEndorseResponse;
+		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
 	}
 
+	@SuppressWarnings("unchecked")
 	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
 		if (effectiveDate != null) {
 			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
 		}
-		HashMap<String, String> validateLookupResponse = runJsonRequestGetDxp(requestUrl, HashMap.class);
-		return validateLookupResponse;
+		return runJsonRequestGetDxp(requestUrl, HashMap.class);
 	}
 
-	private void authentication() {
-		WebDriver driver = BrowserController.get().driver();
-		driver.switchTo().alert();
-		//Selenium-WebDriver Java Code for entering Username & Password as below:
-		driver.findElement(By.id("userID")).sendKeys("admin");
-		driver.findElement(By.id("password")).sendKeys("admin");
-		driver.switchTo().alert().accept();
-		driver.switchTo().defaultContent();
-	}
-
-	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
-		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
-		Application.open(swaggerUiUrl);
-		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
-
-		Waiters.SLEEP(2000).go();
-		SwaggerUiTab.policyV1Endorsements.click();
-		SwaggerUiTab.policyV1EndorsementsPost.click();
-
-		SwaggerUiTab.policyNumber.setValue(policyNumber);
-		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \"" + emailAddress + "\",\n"
-				+ "  \"authorizedBy\": \"" + authorizedBy + "\"}");
-		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
-		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
-		CustomAssertions.assertThat(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost)).isEqualTo("200");
-		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
-	}
 
 	private static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
 		return runJsonRequestPostDxp(url, request, String.class);
 	}
 
-	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
+	private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
 		return runJsonRequestPostDxp(url, request, responseType, Response.Status.OK.getStatusCode());
 	}
 
@@ -218,7 +171,7 @@ public class HelperCommon {
 		return runJsonRequestDeleteDxp(url, responseType, Response.Status.OK.getStatusCode());
 	}
 
-	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
+	private static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
 		Client client = null;
 		Response response = null;
 		try {
