@@ -14,30 +14,17 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.base.app.Application;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
 import toolkit.config.PropertyProvider;
-import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.HashMap;
 import java.util.Map;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -54,7 +41,7 @@ public class HelperCommon {
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT="/api/v1/policies/%s/endorsement/assignments";
-	private static final String DXP_VIEW_PRIMIUM_POLICY="/api/v1/policies/%s/premiums";
+	private static final String DXP_VIEW_PREMIUM_POLICY ="/api/v1/policies/%s/premiums";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -147,8 +134,8 @@ public class HelperCommon {
 		return validateEndorsementDriverAssignmentResponse;
 	}
 
-	static PremiumDTO[] viewPrimiumInfo(String policyNumber) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PRIMIUM_POLICY, policyNumber));
+	static PremiumDTO[] viewPremiumInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
 		PremiumDTO[] validateViewPremiumInfoResponse = runJsonRequestGetDxp(requestUrl, PremiumDTO[].class);
 		return validateViewPremiumInfoResponse;
 	}

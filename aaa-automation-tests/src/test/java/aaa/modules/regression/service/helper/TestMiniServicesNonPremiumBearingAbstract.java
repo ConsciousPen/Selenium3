@@ -1730,17 +1730,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String actualPremium = premiumAndCoveragesTab.totalActualPremium.getValue();
 		String totalPremium = PremiumAndCoveragesTab.totalTermPremium.getValue();
 
-		PremiumDTO[] response = HelperCommon.viewPrimiumInfo(policyNumber);
+		PremiumDTO[] response = HelperCommon.viewPremiumInfo(policyNumber);
 		assertSoftly(softly -> {
 			softly.assertThat(response[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(response[0].actualAmt).isEqualTo(actualPremium);
-			softly.assertThat(response[0].termPremium).isEqualTo(totalPremium);
+			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
+			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
 		});
 	}
 
-	protected void pas10227_ViewPremiumServiceForPendedEndorsement(PolicyType policyType)
-	{
+	protected void pas10227_ViewPremiumServiceForPendedEndorsement(PolicyType policyType) {
 		mainApp().open();
 		//createCustomerIndividual();
 		//policyType.get().createPolicy(getPolicyTD());
@@ -1754,12 +1753,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin = "4S2CK58W8X4307498";
-
 
 		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
 		assertSoftly(softly ->
@@ -1776,10 +1773,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String actualPremium = premiumAndCoveragesTab.totalActualPremium.getValue();
 		String totalPremium = PremiumAndCoveragesTab.totalTermPremium.getValue();
 
-
-
 	}
-
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
