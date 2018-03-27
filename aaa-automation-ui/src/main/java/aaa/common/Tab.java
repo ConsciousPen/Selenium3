@@ -103,7 +103,7 @@ public abstract class Tab {
 		return labelPolicyNumber.getValue();
 	}
 
-	public String getPolicyNumberForPup() {
+	public String getPolicyNumberForPupOrConversion() {
 		return labelForConversionPolicy.getValue();
 	}
 
