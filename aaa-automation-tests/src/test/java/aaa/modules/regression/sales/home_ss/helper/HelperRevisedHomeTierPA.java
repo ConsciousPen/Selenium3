@@ -3,7 +3,9 @@ package aaa.modules.regression.sales.home_ss.helper;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
-import org.apache.commons.lang.math.IntRange;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.apache.commons.lang3.Range;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -33,7 +35,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
-    private IntRange rangeAutoTier = new IntRange(1, 16);
 
     private ComboBox policyTier = applicantTab.getAssetList()
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
@@ -133,6 +134,9 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
     public void pas6676_TestPAViewRatingDetails(PolicyType policyType) {
 
+        List<String> rangeAutoTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
+        rangeAutoTier.add("N/A");
+
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
         verifyAlgoDate();
 
@@ -157,8 +161,8 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         policyType.get().getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
         PropertyQuoteTab.RatingDetailsView.open();
 
-        // Auto Tier Value is in range of 1-16. PAS-6676
-        assertThat(rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
+        // Auto Tier Value is in range of 1-16 or N/A. PAS-6676
+        assertThat(rangeAutoTier).contains(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier"));
 
         // Market Tier is in range of A-J. PAS-7025
         assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
@@ -183,8 +187,8 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
 
-        // Auto Tier Value is in range of 1-16. PAS-6676
-        assertThat(rangeAutoTier.containsInteger(Integer.parseInt(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier")))).isTrue();
+        // Auto Tier Value is in range of 1-16 or N/A. PAS-6676
+        assertThat(rangeAutoTier).contains(PropertyQuoteTab.RatingDetailsView.values.getValueByKey("Auto tier"));
 
         // Market Tier is in range of A-J. PAS-7025
         assertThat(rangeMarketTier.contains(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Market tier"))).isTrue();
@@ -197,6 +201,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         PropertyQuoteTab.RatingDetailsView.close();
         mainApp().close();
     }
+
 
     public void pas6829_TestPrivelegeToEditCompanionAutoTier(PolicyType policyType) {
 
@@ -268,7 +273,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     }
 
 
-
     public void pas6829_TestPrivelegeToEditManualCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
@@ -313,7 +317,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         // Check if policy tier is disabled
         assertThat(policyTier).isDisabled();
 
-
         // Issue Policy
         applicantTab.submitTab();
         policyType.get().getDefaultView().fillFromTo(tdHomeManualAuto, ReportsTab.class, PurchaseTab.class, true);
@@ -338,7 +341,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         assertThat(policyTier).isEnabled();
         mainApp().close();
     }
-
 
 
     private TestData getTdWithAutoPolicy(TestData tdAuto, PolicyType policyType) {

@@ -128,8 +128,7 @@ public class HelperCommon {
 
 	static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
-		DriverAssignmentDto[] validateEndorsementDriverAssignmentResponse = runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
-		return validateEndorsementDriverAssignmentResponse;
+		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
