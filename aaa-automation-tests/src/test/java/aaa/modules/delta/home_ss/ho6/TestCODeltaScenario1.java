@@ -32,12 +32,11 @@ public class TestCODeltaScenario1 extends CODeltaScenario1 {
 		SoftAssertions.assertSoftly(softly -> {
 			verifyLOVsOfImmediatePriorCarrier();
 			verifyEndorsementsTab();
-			//verifyQuoteODD();
 			verifyAdverselyImpacted();
 			verifyIneligibleRoofType();
 			verifyIneligibleRoofType();
 			purchasePolicy(td, scenarioPolicyType); 
-			//verifyPolicyODD();
+			verifyPolicyODD();
 		});
 	}	
 }

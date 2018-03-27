@@ -104,6 +104,7 @@ public class CODeltaScenario1 extends BaseTest {
 			endorsementTab.fillTab(td_add_Forms);
 			break; 
 		case "HomeSS_DP3":
+			endorsementTab.fillTab(td_add_Forms);
 			break;
 		default: 
 			break;
@@ -112,18 +113,6 @@ public class CODeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-	}
-	
-	public void verifyQuoteODD() {
-		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
-
-		policy.quoteDocGen().start();			
-		//TODO add verification of On-Demand Documents Tab
-		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
-		odd_tab.verify.documentsPresent(DocGenEnum.Documents.HSIQXX);
-		
-		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
 	}
 	
 	public void verifyAdverselyImpacted() {
@@ -260,7 +249,8 @@ public class CODeltaScenario1 extends BaseTest {
 			odd_tab.verify.documentsPresent(DocGenEnum.Documents.DS11.setState(getState()));		
 			odd_tab.generateDocuments(DocGenEnum.Documents.DS11.setState(getState())); 
 			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.DS11.setState(getState()), DocGenEnum.Documents.HSSCCOD); 
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.DS11.setState(getState()), 
+					DocGenEnum.Documents.HSSCCOD); 
 			break;
 		default: 
 			break; 

@@ -32,12 +32,11 @@ public String scenarioPolicyType = "DP3";
 		SoftAssertions.assertSoftly(softly -> {
 			verifyLOVsOfImmediatePriorCarrier();
 			verifyEndorsementsTab();
-			//verifyQuoteODD();
 			verifyAdverselyImpacted();
 			verifyIneligibleRoofType();
 			verifyIneligibleRoofType();
 			purchasePolicy(td, scenarioPolicyType); 
-			//verifyPolicyODD();
+			verifyPolicyODD();
 		});
 	}
 }
