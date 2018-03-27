@@ -45,6 +45,7 @@ public class HelperCommon {
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
+	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT="/api/v1/policies/%s/endorsement/assignments";
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
@@ -141,6 +142,12 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT, policyNumber));
 		Vehicle[] validateEndorsementVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 		return validateEndorsementVehicleResponse;
+	}
+
+	static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
+		DriverAssignmentDto[] validateEndorsementDriverAssignmentResponse = runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+		return validateEndorsementDriverAssignmentResponse;
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
