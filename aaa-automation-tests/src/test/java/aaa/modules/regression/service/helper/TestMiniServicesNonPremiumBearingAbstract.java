@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -1199,7 +1200,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			policy.getDefaultView().fill(getPolicyTD("Conversion", "TestData"));
 			String policyNum = PolicySummaryPage.linkPolicy.getValue();
 			SearchPage.openPolicy(policyNum);
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
@@ -1312,7 +1313,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			SearchPage.openPolicy(policyNum);
 			MaigConversionTest maigConversionTest = new MaigConversionTest();
 			maigConversionTest.fillPolicy();
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
@@ -1605,7 +1606,95 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
 		});
+	}
 
+	protected void pas508_BindManualEndorsement(PolicyType policyType) {
+		String authorizedBy = "Osi Testas Insured";
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
+		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
+
+		//Create pended endorsement manually
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(getPremiumAndCoverageTab());
+		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
+		getPremiumAndCoverageTabElement().saveAndExit();
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isTrue();
+
+		//issue through service
+		HelperCommon.executeEndorsementBind(policyNumber, authorizedBy, 200);
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+		//check bound endorsement created by
+		checkAuthorizedByChanged(authorizedBy);
+
+		//check number of documents in DB
+		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(numberOfDocumentsRecordsInDb + 1);
+
+		//Create additional endorsement
+		SearchPage.openPolicy(policyNumber);
+		secondEndorsementIssueCheck();
+	}
+
+	protected void pas508_BindServiceEndorsement(PolicyType policyType) {
+		String authorizedBy = "Osi Testas Insured";
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		assertSoftly(softly -> {
+			String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
+			int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
+
+			//Create pended endorsement
+			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, null);
+			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.executeEndorsementRate(policyNumber, 200);
+			softly.assertThat(endorsementRateResponse[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(endorsementRateResponse[0].getPremiumCode()).isEqualTo("GWT");
+			softly.assertThat(endorsementRateResponse[0].getActualAmt()).isNotBlank();
+
+			//Create pended endorsement
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(PREMIUM_CALCULATED);
+			Tab.buttonBack.click();
+
+			//issue through service
+			HelperCommon.executeEndorsementBind(policyNumber, authorizedBy, 200);
+			SearchPage.openPolicy(policyNumber);
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+			//check bound endorsement created by
+			checkAuthorizedByChanged(authorizedBy);
+
+			//check number of documents in DB
+			softly.assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(numberOfDocumentsRecordsInDb + 1);
+
+			//Create additional endorsement
+			SearchPage.openPolicy(policyNumber);
+			secondEndorsementIssueCheck();
+		});
+	}
+
+	private void checkAuthorizedByChanged(String authorizedBy) {
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(getDocumentsAndBindTab());
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
+			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
+		}
+		Tab.buttonCancel.click();
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
@@ -1653,7 +1742,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
 	private void emailUpdateTransactionHistoryCheck(String policyNumber) {

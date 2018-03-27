@@ -2,42 +2,24 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import org.apache.xerces.impl.dv.util.Base64;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.ContentType;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import toolkit.config.PropertyProvider;
-import toolkit.db.DBService;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.waiters.Waiters;
-
+import java.util.Map;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
-
-import static aaa.admin.modules.IAdmin.log;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -53,6 +35,8 @@ public class HelperCommon {
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
+	private static final String DXP_ENDORSEMENT_BIND_ENDPOINT = "/api/v1/policies/%s/endorsement/bind";
+	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -172,6 +156,17 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, HashMap.class);
 	}
 
+	static String executeEndorsementBind(String policyNumber, String authorizedBy, int status) {
+		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
+		request.authorizedBy = authorizedBy;
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_BIND_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
+	}
+
+	static PolicyPremiumInfo[] executeEndorsementRate(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
+	}
 
 	protected static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
 		return runJsonRequestPostDxp(url, request, String.class);
