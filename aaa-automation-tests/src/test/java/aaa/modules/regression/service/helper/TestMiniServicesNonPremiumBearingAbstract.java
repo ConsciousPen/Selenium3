@@ -1730,12 +1730,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String actualPremium = premiumAndCoveragesTab.totalActualPremium.getValue();
 		String totalPremium = PremiumAndCoveragesTab.totalTermPremium.getValue();
 
-		PremiumDTO[] response = HelperCommon.viewPremiumInfo(policyNumber);
+		PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
-			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
+			softly.assertThat(response[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(response[0].getPremiumCode()).isEqualTo("GWT");
+			softly.assertThat(new Dollar(response[0].getActualAmt())).isEqualTo(new Dollar(actualPremium));
+			softly.assertThat(new Dollar(response[0].getTermPremium())).isEqualTo(new Dollar(totalPremium));
 		});
 	}
 

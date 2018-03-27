@@ -134,9 +134,9 @@ public class HelperCommon {
 		return validateEndorsementDriverAssignmentResponse;
 	}
 
-	static PremiumDTO[] viewPremiumInfo(String policyNumber) {
+	static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
-		PremiumDTO[] validateViewPremiumInfoResponse = runJsonRequestGetDxp(requestUrl, PremiumDTO[].class);
+		PolicyPremiumInfo[] validateViewPremiumInfoResponse = runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 		return validateViewPremiumInfoResponse;
 	}
 
