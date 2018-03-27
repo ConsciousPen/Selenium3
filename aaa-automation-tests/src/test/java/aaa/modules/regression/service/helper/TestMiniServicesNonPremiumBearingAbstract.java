@@ -1496,9 +1496,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 		Dollar dxpPremium = new Dollar(rateResponse[0].getActualAmt());
 
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(new Dollar(PremiumAndCoveragesTab.getActualPremium())).isEqualTo(dxpPremium);
@@ -1529,6 +1529,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			});
 		}
 
+		SearchPage.openPolicy(policyNumber);
 		//Add usage (this part should be removed when usage dxp service will be added)
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -1543,7 +1544,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Dollar dxpPremium2 = new Dollar(rateResponse2[0].getActualAmt());
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
