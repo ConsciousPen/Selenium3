@@ -44,15 +44,6 @@
         </classes>
     </test>
 
-    <!--- Commented until PAS-11404 is fixed.
-  <test name="Remove Vehicle on Current Term Endorsement">
-      <parameter name="state" value="VA"/>
-      <classes>
-          <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
-      </classes>
-  </test>
--->
-
     <test name="MVR Predictor Algo for 2 of 4 Drivers">
       <parameter name="state" value="CT"/>
       <classes>
@@ -96,9 +87,7 @@
         </classes>
     </test>
 
-<!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
-
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="200">
+    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
@@ -134,11 +123,8 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPrivilegeToEditCompanionAutoTier"/>
         </classes>
     </test>
-  -->
 
     <!--Tests for PUP-->
-
-    <!-- Commenting out below lines until PA Revised Home Tier feature branch is merged with master (PAS 18.4)
 
      <test name=" Test Pup Info Section View Rating Details">
          <parameter name="state" value="PA"/>
@@ -146,7 +132,6 @@
              <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails"/>
          </classes>
      </test>
-     -->
 
     <test name="Test Override Liability Losses">
         <parameter name="state" value="NJ"/>
@@ -229,5 +214,14 @@
             </class>
         </classes>
     </test>
+
+    <!--- Commented until PAS-11404 is fixed.
+ <test name="Remove Vehicle on Current Term Endorsement">
+     <parameter name="state" value="VA"/>
+     <classes>
+         <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
+     </classes>
+ </test>
+-->
 
 </suite>
