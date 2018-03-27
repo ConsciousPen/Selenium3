@@ -10,7 +10,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.utils.EntityLogger;
@@ -44,14 +48,14 @@ public class AutoSSPolicy implements IPolicy {
 		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
-	    log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
+	    log.info("QUOTE CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 	}
 
 	@Override
 	public void createPolicy(TestData td) {
 		initiate();
 		getDefaultView().fill(td);
-		log.info("POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+		log.info("POLICY CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
     @Override
@@ -75,7 +79,7 @@ public class AutoSSPolicy implements IPolicy {
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	    new DocumentsAndBindTab().fillTab(td).submitTab();
 	    new PurchaseTab().fillTab(td).submitTab();
-	    log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+	    log.info("Purchased Quote {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
     }
 
     @Override
@@ -108,7 +112,7 @@ public class AutoSSPolicy implements IPolicy {
     public void copyPolicy(TestData td) {
         policyCopy().perform(td);
         calculatePremiumAndPurchase(td);
-	    log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+	    log.info("Copy Policy {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
     }
 
     @Override

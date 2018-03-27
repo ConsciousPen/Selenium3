@@ -38,7 +38,7 @@ import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
+public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
 	private String testsDir;
 
@@ -79,18 +79,12 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 					SearchPage.openCustomer(customerNumber);
 				}
 
-				createAndRateQuote(tdGenerator, policyObject);
+				String quoteNumber = createAndRateQuote(tdGenerator, policyObject);
+				log.info("QUOTE CREATED: {}", quoteNumber);
 				softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString());
 				Tab.buttonSaveAndExit.click();
 			}
 		});
-	}
-
-	protected void createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy) {
-		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
-		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
 	}
 
 	protected <O extends OpenLFile<P>> Map<P, Dollar> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
@@ -154,4 +148,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		}
 		return policyNumbers;
 	}
+
+	abstract String createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 }

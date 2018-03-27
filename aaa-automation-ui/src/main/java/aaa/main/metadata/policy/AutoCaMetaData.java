@@ -358,6 +358,9 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<AdvancedComboBox> STAT_CODE = declare("Stat Code", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> VALUE = declare("Value($)", TextBox.class);
 		public static final AssetDescriptor<ComboBox> PRIMARY_USE = declare("Primary Use", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> SPECIAL_EQUIPMENT = declare("Special Equipment", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_VALUE = declare("Special Equipment Value", TextBox.class);
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> VIEW_KIT_CAR_QUESTIONNAIRE = declare("View Kit Car questionnaire?", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> VIEW_ANTIQUE_VEHICLE_QUESTIONNAIRE = declare("View Antique vehicle questionnaire?", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS = declare("Restored to orginal stock condition with no alterations?", RadioGroup.class);
@@ -547,19 +550,6 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<Button> VIEW_QUOTE_WITH_DISCOUNTS = declare("View Quote with Discounts", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:applySelectedDiscounts"));
 		public static final AssetDescriptor<FillableTable> DRIVER_DISCOUNTS_TABLE = declare("Driver Discounts", FillableTable.class, DriverDiscountsRow.class,
 				By.id("policyDataGatherForm:j_id_1_1x_56_1_s_1_2_k_1_1_c_3"));
-		// UNKNOWN CONTROLS below, should we remove them?
-		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMEGE = declare("Uninsured Motorist Property Damage", ComboBox.class,
-				By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBox.class,
-				By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible Waiver']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class,
-				By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//input"));
-		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class,
-				By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
-		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class,
-				By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class,
-				By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX,
 				By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
@@ -588,6 +578,13 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE = declare("Collision Deductible", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMEGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class);
+			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class);
+			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class);
+
 			public static final AssetDescriptor<ComboBox> ENHANCED_TRASPORTATION_EXPENCE = declare("Enhanced Transportation Expense", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> ALL_RISK = declare("All Risk", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", ComboBox.class);
