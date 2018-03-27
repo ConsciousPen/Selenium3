@@ -325,7 +325,9 @@
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas10484_ViewDriverAssignment"/>
-                    </methods>
+                    <include name="pas508_BindManualEndorsement"/>
+                    <include name="pas508_BindServiceEndorsement"/>
+                </methods>
             </class>
         </classes>
     </test>

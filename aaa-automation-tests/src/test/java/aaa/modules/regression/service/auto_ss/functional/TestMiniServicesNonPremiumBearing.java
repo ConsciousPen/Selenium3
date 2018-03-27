@@ -674,6 +674,46 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas10484_ViewDriverAssignmentService(getPolicyType());
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Bind Manually created endorsement
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Create an endorsement manually
+	 * 3. Rate endorsement manually
+	 * 4. Bind endorsement using service
+	 * 5. Check number of document records generated in aaaDocGenEntity
+	 * 6. Check Authorized By was set correctly
+	 * 7. Create and Issue one more endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
+	public void pas508_BindManualEndorsement(@Optional("VA") String state) {
+
+		pas508_BindManualEndorsement(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Bind Manually created endorsement
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Create an endorsement through service
+	 * 3. Rate endorsement through service
+	 * 4. Bind endorsement using service
+	 * 5. Check number of document records generated in aaaDocGenEntity
+	 * 6. Check Authorized By was set correctly
+	 * 7. Create and Issue one more endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
+	public void pas508_BindServiceEndorsement(@Optional("VA") String state) {
+
+		pas508_BindServiceEndorsement(getPolicyType());
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
