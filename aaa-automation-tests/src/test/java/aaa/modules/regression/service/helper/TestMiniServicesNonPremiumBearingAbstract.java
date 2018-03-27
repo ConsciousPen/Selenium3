@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -32,10 +33,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -67,6 +65,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private String purchaseDate;
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private ErrorTab errorTab = new ErrorTab();
+	private AssignmentTab assignmentTab = new AssignmentTab();
 
 	protected abstract String getGeneralTab();
 
@@ -1556,13 +1555,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
 		//Create pended endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
-
-		VehicleTab vehicleTab = new VehicleTab();
 
 		//Get OID from View vehicle
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
@@ -1695,6 +1690,114 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
 		}
 		Tab.buttonCancel.click();
+	}
+
+	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_AllDrivers").getTestDataList("DriverTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Create a pended Endorsement
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+
+		List assignmentsPrimary = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue();
+		String driverAssignment1 = assignmentsPrimary.get(0).toString();
+		String driverAssignment2 = assignmentsPrimary.get(1).toString();
+
+		DriverAssignmentDto[] response = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignment1.contains(response[0].vehicleDisplayValue));
+			softly.assertThat(response[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment1.contains(response[0].driverDisplayValue));
+			softly.assertThat(response[0].driverOid).isNotNull();
+			softly.assertThat(response[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment2.contains(response[1].vehicleDisplayValue));
+			softly.assertThat(response[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment2.contains(response[1].driverDisplayValue));
+			softly.assertThat(response[1].driverOid).isNotNull();
+			softly.assertThat(response[1].relationshipType).isEqualTo("primary");
+
+		});
+		assignmentTab.saveAndExit();
+
+		//add vehicle
+		String purchaseDate = "2012-02-21";
+		String vin2 = "4S2CK58W8X4307498";
+
+		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertSoftly(softly ->
+				softly.assertThat(addVehicle.oid).isNotEmpty()
+		);
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+
+		String driverAssignment3 = assignmentsPrimary.get(0).toString();
+		String driverAssignment4 = assignmentsPrimary.get(1).toString();
+
+		List assignmentsUnassigned = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
+		String driverAssignment5 = assignmentsUnassigned.get(0).toString();
+
+		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponce = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponce[1].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponce[1].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment5.contains(driverAssignmentAfterAddingVehicleResponce[2].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverDisplayValue).isEqualTo("unassigned");
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].relationshipType).isEqualTo("unassigned");
+		});
+
+		assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getAsset("Select Driver", ComboBox.class).setValue("index=1");
+		assignmentTab.buttonTopSave.click();
+
+		List assignmentOccasional = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
+		String driverAssignment6 = assignmentOccasional.get(0).toString();
+
+		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponse1 = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse1[0].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse1[0].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponse1[1].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponse1[1].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[1].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[1].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment6.contains(driverAssignmentAfterAddingVehicleResponse1[2].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[2].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment6.contains(driverAssignmentAfterAddingVehicleResponse1[2].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[2].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[2].relationshipType).isEqualTo("occasional");
+		});
+
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {

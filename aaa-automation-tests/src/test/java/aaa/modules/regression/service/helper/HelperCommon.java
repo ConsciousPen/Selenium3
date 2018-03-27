@@ -37,6 +37,7 @@ public class HelperCommon {
 	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
 	private static final String DXP_ENDORSEMENT_BIND_ENDPOINT = "/api/v1/policies/%s/endorsement/bind";
 	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
+	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT="/api/v1/policies/%s/endorsement/assignments";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -121,6 +122,12 @@ public class HelperCommon {
 	static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+	}
+
+	static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
+		DriverAssignmentDto[] validateEndorsementDriverAssignmentResponse = runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+		return validateEndorsementDriverAssignmentResponse;
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {

@@ -654,6 +654,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas9610_UpdateVehicleService(getPolicyType());
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy with 2 driver and 2 vehicle
+	 * Create pended endorsement using DXP
+	 * For 2 driver and 1 vehicle check primary response
+	 * Add vehicle Using DXP
+	 * Hit driver assignement service to verify unassigned response
+	 * Pas go to assign page and save
+	 * Hit driver assignement service to verify unassigned response
+	 * Verify Occasional Satatus
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
+	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
+
+		pas10484_ViewDriverAssignmentService(getPolicyType());
+	}
 
 	/**
 	 * @author Oleg Stasyuk
