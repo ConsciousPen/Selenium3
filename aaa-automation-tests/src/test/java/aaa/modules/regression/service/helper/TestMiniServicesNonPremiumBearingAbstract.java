@@ -1554,13 +1554,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
 		//Create pended endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
-
-		VehicleTab vehicleTab = new VehicleTab();
 
 		//Get OID from View vehicle
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
