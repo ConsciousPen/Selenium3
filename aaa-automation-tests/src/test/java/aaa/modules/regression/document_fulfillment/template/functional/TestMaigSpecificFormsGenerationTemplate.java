@@ -238,7 +238,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(10)));
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(30)));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -392,7 +392,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		assertSoftly(softly -> {
 			// Check that all documents where generated
 			List<String> collectedDocs = documentList.stream().map(Document::getTemplateId).collect(Collectors.toList());
-			log.info("Collected from xml list of documents  : " + expectedFormsOrder.toString());
+			log.info("Collected from xml list of documents  : " + collectedDocs.toString());
 			softly.assertThat(collectedDocs).containsAll(expectedFormsOrder);
 			// Get all docs +  sequence number
 			HashMap<Integer, String> actualDocuments = new HashMap<>();

@@ -43,7 +43,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacket(@Optional("MD") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD()));
+		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD())
+				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
 	}
 
 	/**
@@ -61,7 +62,8 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacketMortgagee(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()));
+		verifyConversionFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD())
+				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
 	}
 
 	/**

@@ -55,7 +55,14 @@ ConversionForms_PA: {
 }
 
 ConversionForms_MD: {
-  FormsList: ["stub","HS02","AHPNXX","AHMVCNV","HSMPDCNVXX","HSAOCMDA","HSSNMDA","HSCRRMD"]
+  FormsList: ["stub","HS02","AHPNXX","AHMVCNV","HSMPDCNVXX","HSAOCMDA","HSSNMDA","HSCRRMD","HSWSBMD"]
+}
+
+#HSWSBMD
+EndorsementTab_MD: {
+  HS 04 95:{
+    Action: "Add"
+  }
 }
 
 #ConversionForms_PA: {
