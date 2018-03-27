@@ -63,6 +63,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_7 = "State does not allow endorsements";
 	private String purchaseDate;
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private AssignmentTab assignmentTab = new AssignmentTab();
 
@@ -1622,6 +1623,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 
 		List assignmentsPrimary = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue();
+
 		String driverAssignment1 = assignmentsPrimary.get(0).toString();
 		String driverAssignment2 = assignmentsPrimary.get(1).toString();
 
@@ -1710,6 +1712,74 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 
 	}
+
+	protected void pas10227_ViewPremiumServiceForPolicy(PolicyType policyType) {
+
+		mainApp().open();
+		//createCustomerIndividual();
+		//policyType.get().createPolicy(getPolicyTD());
+		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		//String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String policyNumber = "VASS952918542";
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		String actualPremium = premiumAndCoveragesTab.totalActualPremium.getValue();
+		String totalPremium = PremiumAndCoveragesTab.totalTermPremium.getValue();
+
+		PremiumDTO[] response = HelperCommon.viewPrimiumInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(response[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
+			softly.assertThat(response[0].actualAmt).isEqualTo(actualPremium);
+			softly.assertThat(response[0].termPremium).isEqualTo(totalPremium);
+		});
+	}
+
+	protected void pas10227_ViewPremiumServiceForPendedEndorsement(PolicyType policyType)
+	{
+		mainApp().open();
+		//createCustomerIndividual();
+		//policyType.get().createPolicy(getPolicyTD());
+		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		//String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String policyNumber = "VASS952918542";
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		//Create a pended Endorsement
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//add vehicle
+		String purchaseDate = "2012-02-21";
+		String vin = "4S2CK58W8X4307498";
+
+
+		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertSoftly(softly ->
+				softly.assertThat(addVehicle.oid).isNotEmpty()
+		);
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(getPremiumAndCoverageTab());
+		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
+
+		String actualPremium = premiumAndCoveragesTab.totalActualPremium.getValue();
+		String totalPremium = PremiumAndCoveragesTab.totalTermPremium.getValue();
+
+
+
+	}
+
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
 		PolicySummaryPage.buttonPendedEndorsement.click();

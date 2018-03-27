@@ -674,6 +674,34 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas10484_ViewDriverAssignmentService(getPolicyType());
 	}
 
+	/**
+	 * @author Megha Gubbala
+
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	public void pas10227_ViewPremiumService(@Optional("VA") String state) {
+
+		pas10227_ViewPremiumServiceForPolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
+
+		pas10227_ViewPremiumServiceForPendedEndorsement(getPolicyType());
+	}
+
+
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();
