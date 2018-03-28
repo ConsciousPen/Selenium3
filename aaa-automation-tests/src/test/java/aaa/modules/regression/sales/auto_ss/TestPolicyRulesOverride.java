@@ -57,7 +57,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(class_td, ErrorTab.class, true);
 		new ErrorTab().buttonOverride.click();
 
-		PurchaseTab.buttonCancel.click();
+		Tab.buttonSaveAndExit.click();
         assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
