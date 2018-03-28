@@ -255,3 +255,9 @@ PAS-11467:
   failures:
     - tests: [aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7039_newDataElementsDeceasedYes]
       messages: ["Order CLUE report before", "unknown error"]
+PAS-11906:
+  summary: "Regression: Reorder Insurance Score Report enabled during renewal process for PA"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport.pas6827_disableReorderReportRenewal]
+      messages: ["Override Score link is enabled"]
