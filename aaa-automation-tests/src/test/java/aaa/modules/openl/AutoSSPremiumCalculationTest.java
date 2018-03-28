@@ -3,6 +3,7 @@ package aaa.modules.openl;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
@@ -28,20 +29,22 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	}
 
 	@Override
-	protected void createAndRateQuote(TestDataGenerator<AutoSSOpenLPolicy> tdGenerator, AutoSSOpenLPolicy openLPolicy) {
+	protected String createAndRateQuote(TestDataGenerator<AutoSSOpenLPolicy> tdGenerator, AutoSSOpenLPolicy openLPolicy) {
+		boolean isLegacyConvPolicy = false;
 		if (AutoSSTestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+			isLegacyConvPolicy = true;
 			TestData renewalEntryData = ((AutoSSTestDataGenerator) tdGenerator).getRenewalEntryData(openLPolicy);
-			TestData quoteRatingData = ((AutoSSTestDataGenerator) tdGenerator).getRatingData(openLPolicy, true);
 
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 			}
 			customer.initiateRenewalEntry().perform(renewalEntryData);
-			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
-			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-		} else {
-			super.createAndRateQuote(tdGenerator, openLPolicy);
 		}
+
+		TestData quoteRatingData = ((AutoSSTestDataGenerator) tdGenerator).getRatingData(openLPolicy, isLegacyConvPolicy);
+		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
+		return Tab.labelPolicyNumber.getValue();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})
