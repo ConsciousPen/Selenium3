@@ -1660,7 +1660,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String driverAssignment3 = assignmentsPrimary.get(0).toString();
 		String driverAssignment4 = assignmentsPrimary.get(1).toString();
 
-		List<TestData>assignmentsUnassigned = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
+		List<TestData> assignmentsUnassigned = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
 		String driverAssignment5 = assignmentsUnassigned.get(0).toString();
 
 		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponce = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
@@ -1754,9 +1754,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
- 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
- 		//add vehicle
+		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin = "4S2CK58W8X4307498";
 
@@ -1774,7 +1774,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String actualPremium = premiumAndCoveragesTab.totalActualPremium.getValue();
 		String totalPremium = PremiumAndCoveragesTab.totalTermPremium.getValue();
-
 
 		PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
 		assertSoftly(softly -> {
