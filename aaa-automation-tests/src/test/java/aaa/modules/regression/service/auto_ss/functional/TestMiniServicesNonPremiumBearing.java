@@ -672,7 +672,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * Hit driver assignement service to verify unassigned response
 	 * Verify Occasional Satatus
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
@@ -719,6 +718,38 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas508_BindServiceEndorsement(@Optional("VA") String state) {
 
 		pas508_BindServiceEndorsement(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * Get actual and term premium from pas
+	 * Run view Premium service
+	 * Match both premium
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	public void pas10227_ViewPremiumServicePolicy(@Optional("VA") String state) {
+
+		pas10227_ViewPremiumServiceForPolicy(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * add vehicle
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
+
+		pas10227_ViewPremiumServiceForPendedEndorsement(getPolicyType());
 	}
 
 	@Override
