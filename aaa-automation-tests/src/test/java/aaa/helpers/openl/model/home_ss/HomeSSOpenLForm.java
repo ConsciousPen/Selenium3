@@ -6,7 +6,7 @@ public class HomeSSOpenLForm extends OpenLForm {
 	private Integer covPercentage;
 	private Integer formOid;
 	private Boolean masonaryOrFarmPremisesInd;
-	private Integer optionalValue;
+	private Double optionalValue;
 	private String type;
 	private Integer noOfFamilies; // MD specific ?
 	private Integer noOfPersons; // MD specific ?
@@ -35,11 +35,11 @@ public class HomeSSOpenLForm extends OpenLForm {
 		this.masonaryOrFarmPremisesInd = masonaryOrFarmPremisesInd;
 	}
 
-	public Integer getOptionalValue() {
+	public Double getOptionalValue() {
 		return optionalValue;
 	}
 
-	public void setOptionalValue(Integer optionalValue) {
+	public void setOptionalValue(Double optionalValue) {
 		this.optionalValue = optionalValue;
 	}
 

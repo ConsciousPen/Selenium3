@@ -8,6 +8,12 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
+	@ExcelTransient
+	public static final int COVERAGE_HEADER_ROW_NUMBER = 4;
+
+	@ExcelTransient
+	public static final String TESTS_SHEET_NAME = "FinalTest";
+
 	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLPolicy> policies;
 
@@ -20,7 +26,7 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	private List<OpenLConstructionInfo> policyConstructionInfo;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = 4)
 	private List<HomeSSOpenLCoverage> coverages;
 
 	@ExcelTransient
@@ -28,7 +34,7 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	private List<HomeSSOpenLForm> forms;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = LOSS_INFORMATION_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLLossInformation> policyLossInformation;
 
 	@ExcelTransient
@@ -37,7 +43,7 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<OpenLCappingDetails> cappingDetails;
+	private List<HomeSSOpneLCappingDetails> cappingDetails;
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
@@ -54,15 +60,6 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	@ExcelTransient
 	@ExcelTableElement(sheetName = RISK_METER_DATA_SHEET_NAME, headerRowIndex = RISK_METER_DATA_HEADER_ROW_NUMBER)
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
-
-	@Override
-	public List<HomeSSOpenLPolicy> getPolicies() {
-		return new ArrayList<>(policies);
-	}
-
-	public void setPolicies(List<HomeSSOpenLPolicy> policies) {
-		this.policies = new ArrayList<>(policies);
-	}
 
 	public List<OpenLNamedInsured> getPolicyNamedInsured() {
 		return new ArrayList<>(policyNamedInsured);
@@ -116,7 +113,7 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 		return new ArrayList<>(cappingDetails);
 	}
 
-	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
+	public void setCappingDetails(List<HomeSSOpneLCappingDetails> cappingDetails) {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
@@ -150,6 +147,15 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 
 	public void setRiskMeterData(List<OpenLRiskMeterData> riskMeterData) {
 		this.riskMeterData = new ArrayList<>(riskMeterData);
+	}
+
+	@Override
+	public List<HomeSSOpenLPolicy> getPolicies() {
+		return new ArrayList<>(policies);
+	}
+
+	public void setPolicies(List<HomeSSOpenLPolicy> policies) {
+		this.policies = new ArrayList<>(policies);
 	}
 
 	@Override
