@@ -324,9 +324,19 @@
                     <include name="pas9997_paymentPlansLookup"/>
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
-                    <include name="pas10484_ViewDriverAssignment"/>
+
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="GreenButtonServiceVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas10484_ViewDriverAssignment"/>
                 </methods>
             </class>
         </classes>

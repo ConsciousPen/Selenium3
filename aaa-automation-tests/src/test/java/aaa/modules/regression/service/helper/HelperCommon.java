@@ -93,7 +93,7 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class);
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
 	}
 
 	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status) {
