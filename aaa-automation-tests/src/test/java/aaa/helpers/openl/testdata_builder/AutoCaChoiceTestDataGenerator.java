@@ -61,7 +61,9 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		switch (statCode) {
 			case "A":
 				return modelYear > 1989
-						? getRandom("Passenger Car Small", "Trailer/ Shell")
+						//TODO-dchubkov: remove workaround after fixing PAS-11783 - Positive delta limits appears in policy level coverages in add more than 1 vehicle for Auto CA Select quote
+						//? getRandom("Passenger Car Small", "Trailer/ Shell")
+						? getRandom("Passenger Car Small")
 						: getRandom("Trailer/ Shell", "Antique vehicle");
 			case "B":
 				return modelYear > 1989

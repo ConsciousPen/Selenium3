@@ -24,6 +24,7 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
@@ -65,7 +66,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
-		String customerNumber = createCustomerIndividual();
+		//String customerNumber = createCustomerIndividual();
+		SearchPage.openCustomer("700032289");
 		assertSoftly(softly -> {
 			for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
 				P policyObject = policyAndPremium.getKey();
@@ -108,14 +110,22 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = new LinkedHashMap<>(openLPoliciesList.size());
-		ExcelTable testsTable = openLFileManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
+
+		String testsSheetName = OpenLFile.TESTS_SHEET_NAME;
+		String policyColumnName = "policy";
+		if ("Homeowners Signature Series".equals(getPolicyType().getName())) {
+			testsSheetName = HomeSSOpenLFile.TESTS_SHEET_NAME;
+			policyColumnName = "p";
+		}
+
+		ExcelTable testsTable = openLFileManager.getSheet(testsSheetName).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
 		Dollar expectedPremium;
 		for (P openLPolicy : openLPoliciesList) {
-			TableRow row = testsTable.getRow("policy", openLPolicy.getNumber());
+			TableRow row = testsTable.getRow(policyColumnName, openLPolicy.getNumber());
 			if (row.hasColumn(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME) && !row.isEmpty(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME)) {
 				expectedPremium = new Dollar(row.getValue(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME));
 			} else {
-				expectedPremium = new Dollar(row.getSumContains("_res_.$Value"));
+				expectedPremium = new Dollar(row.getSumContains("_res_"));
 				if (openLPolicy.getTerm() == 6) {
 					expectedPremium = expectedPremium.divide(2);
 				}
