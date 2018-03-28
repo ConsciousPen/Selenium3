@@ -6,6 +6,11 @@ public class DoubleCellType extends NumberCellType<Double> {
 	}
 
 	@Override
+	public boolean isFloatingPointType() {
+		return true;
+	}
+
+	@Override
 	protected Double parseText(String t) {
 		return Double.valueOf(t);
 	}

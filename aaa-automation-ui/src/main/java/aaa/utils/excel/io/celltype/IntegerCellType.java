@@ -19,23 +19,22 @@ public class IntegerCellType extends NumberCellType<Integer> {
 
 	@Override
 	public boolean isNumeric(ExcelCell cell) {
-		return super.isNumeric(cell) && isInteger(cell.getPoiCell().getNumericCellValue());
+		return super.isNumeric(cell) && isInteger(cell);
+	}
+
+	@Override
+	public boolean isFloatingPointType() {
+		return false;
 	}
 
 	@Override
 	public boolean hasValueInTextFormat(ExcelCell cell) {
-		boolean isIntegerInTextFormat = false;
-		if (super.hasValueInTextFormat(cell)) {
-			try {
-				isIntegerInTextFormat = isInteger(Double.valueOf(getText(cell)));
-			} catch (NumberFormatException ignore) {
-			}
-		}
-		return isIntegerInTextFormat;
+		return super.hasValueInTextFormat(cell) && !getText(cell).contains(".");
 	}
 
 	@SuppressWarnings({"FloatingPointEquality", "NumericCastThatLosesPrecision"})
-	private boolean isInteger(double d) {
-		return d == (int) d;
+	private boolean isInteger(ExcelCell cell) {
+		double d = cell.getPoiCell().getNumericCellValue();
+		return d == (int) d && !getText(cell).contains(".");
 	}
 }
