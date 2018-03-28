@@ -2,12 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -20,11 +14,18 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -617,19 +618,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Check Vehicle status using view vehicle service
+	 * @name Check Vehicle status using view vehicle service/ check endorsement rate service
 	 * @scenario
 	 * 1. Create active policy with one vehicle.
 	 * 2. Create Endorsement using dxp server.
-	 * 3. Hit the view vehicle service.
-	 * 4. Check the vehicles status.
-	 * 5. Go to in policy view and bind pended endorsement.
-	 * 6. Hit the view vehicle service again.
-	 * 7. Check if Pended vehicle status was changed.
+	 * 3. Hit rate endorsement service.
+	 * 4. Check premium amount in service and UI, check the endorsement status.
+	 * 5. Add new vehicle.
+	 * 6. Hit the view vehicle service.
+	 * 7. Check the vehicles status.
+	 * 8. Edit endorsement, add usage for new vehicle. Save it.
+	 * 9. Hit rating service.
+	 * 10. Check if premium amount from ui and from service is the same. Check endorsement status again.
+	 * 11. Bind pended endorsement.
+	 * 12. Hit the view vehicle service again.
+	 * 13. Check if Pended vehicle status was changed.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
 	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
 
 		pas9490_ViewVehicleServiceCheckVehiclesStatus(getPolicyType());
@@ -672,6 +679,46 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
 		pas10484_ViewDriverAssignmentService(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Bind Manually created endorsement
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Create an endorsement manually
+	 * 3. Rate endorsement manually
+	 * 4. Bind endorsement using service
+	 * 5. Check number of document records generated in aaaDocGenEntity
+	 * 6. Check Authorized By was set correctly
+	 * 7. Create and Issue one more endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
+	public void pas508_BindManualEndorsement(@Optional("VA") String state) {
+
+		pas508_BindManualEndorsement(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Bind Manually created endorsement
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Create an endorsement through service
+	 * 3. Rate endorsement through service
+	 * 4. Bind endorsement using service
+	 * 5. Check number of document records generated in aaaDocGenEntity
+	 * 6. Check Authorized By was set correctly
+	 * 7. Create and Issue one more endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
+	public void pas508_BindServiceEndorsement(@Optional("VA") String state) {
+
+		pas508_BindServiceEndorsement(getPolicyType());
 	}
 
 	/**

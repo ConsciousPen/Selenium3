@@ -3,12 +3,12 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -41,7 +41,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRulesOverride extends AutoSSBaseTest {
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyRulesOverride(@Optional("") String state) {
 
@@ -57,8 +57,8 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(class_td, ErrorTab.class, true);
 		new ErrorTab().buttonOverride.click();
 
-		PurchaseTab.buttonCancel.click();
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+		Tab.buttonSaveAndExit.click();
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
 		policy.updateRulesOverride().start();
@@ -77,7 +77,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		new PurchaseTab().fillTab(class_td);
 		new PurchaseTab().submitTab();
 
-        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//override rule for policy
 		policy.updateRulesOverride().perform(getTestSpecificTD("UpdateRulesTestData_2"));
@@ -102,10 +102,10 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		query.put("Status", "overridden");
 		query.put("Rule name", "200040");
 
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).isPresent());
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).isPresent());
 
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
-        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 
