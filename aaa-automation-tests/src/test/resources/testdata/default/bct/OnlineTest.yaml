@@ -43,7 +43,7 @@ BCT_ONL_008_CancelPolicy: {
 }
 
 BCT_ONL_009_CancelPolicy: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'HOME' and EXPIRATION > '/EXECDATE/' and riskstatecd = '/STATE/' and rownum = 1"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'HOME' and EXPIRATION > '/EXECDATE/' and riskstatecd = '/STATE/'"
 }
 
 BCT_ONL_010_ReinstatePolicy: {
@@ -51,7 +51,7 @@ BCT_ONL_010_ReinstatePolicy: {
 }
 
 BCT_ONL_011_ReinstatePolicy: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'HOME' and riskstatecd = '/STATE/' and EXPIRATION > '/EXECDATE/' and rownum=1"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'HOME' and riskstatecd = '/STATE/' and EXPIRATION > '/EXECDATE/'"
 }
 
 BCT_ONL_012_CancelPolicy: {
@@ -163,7 +163,7 @@ BCT_ONL_038_RefundTransfer: {
 }
 
 BCT_ONL_040_CopyQuote: {
-  SelectPolicy: "select p.policynumber from pasadm.policysummary P , pasadm.quoteversion q where p.id = q.policyid and p.txtype = 'quote' and policystatuscd = 'rated' and timedpolicystatuscd = 'rated' and q.txtype = 'quote' and p.LOB = 'HOME' and riskstatecd = '/STATE/' and rownum = 1"
+  SelectPolicy: "select p.policynumber from pasadm.policysummary P , pasadm.quoteversion q where p.id = q.policyid and p.txtype = 'quote' and policystatuscd = 'rated' and timedpolicystatuscd = 'rated' and q.txtype = 'quote' and p.policyformcd = 'HO4' and riskstatecd = '/STATE/' and rownum = 1"
 }
 
 BCT_ONL_047_ManualRenewal: {

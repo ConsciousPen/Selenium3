@@ -83,7 +83,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		Dollar totalDue = BillingSummaryPage.getTotalDue().add(new Dollar(1));
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		BillingSummaryPage.openPolicy(1);
 
