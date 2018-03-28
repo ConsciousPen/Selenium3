@@ -40,7 +40,7 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 
 		TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
 		policy.createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		String termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);

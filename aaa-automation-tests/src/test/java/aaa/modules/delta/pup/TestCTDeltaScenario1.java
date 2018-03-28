@@ -227,7 +227,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		cancelNoticeTab.fillTab(tdCancelNotice);
 		CancelNoticeActionTab.buttonOk.click();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		
 		
 	}

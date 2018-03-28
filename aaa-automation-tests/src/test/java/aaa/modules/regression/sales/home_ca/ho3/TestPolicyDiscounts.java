@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -65,7 +66,7 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.contains(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(premiumAutoMultiPolice);
 
         new HomeCaPolicyActions.Endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -85,7 +86,7 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
         new BindTab().submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.contains(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(premiumPUPMultiPolice);
     }
 }

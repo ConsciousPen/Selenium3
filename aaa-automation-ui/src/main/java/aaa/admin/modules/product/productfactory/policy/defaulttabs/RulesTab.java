@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.modules.product.productfactory.policy.defaulttabs;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
@@ -13,7 +14,6 @@ import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.pages.product.CommonProductFactoryPage;
 import aaa.common.Tab;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -119,7 +119,7 @@ public class RulesTab extends PFDefaultTab {
         public void ruleExists(TestData testData, boolean exist) {
             BrowserController.get().driver().switchTo().frame(frame.getWebElement());
             search(testData);
-            CustomAssert.assertEquals("Rule is not exist as expected.", exist, tableSearchResults.getRowsCount() == 1);
+            assertThat(tableSearchResults.getRowsCount() == 1).as("Rule is not exist as expected.").isEqualTo(exist);
             BrowserController.get().driver().switchTo().defaultContent();
         }
 
@@ -129,7 +129,7 @@ public class RulesTab extends PFDefaultTab {
         public void ruleStatus(TestData testData, boolean enabled) {
             BrowserController.get().driver().switchTo().frame(frame.getWebElement());
             search(testData);
-            CustomAssert.assertEquals("Rule is not enabled as expected.", enabled, !tableSearchResults.getRow(1).getAttribute("class").contains("rule-disabled"));
+            assertThat(!tableSearchResults.getRow(1).getAttribute("class").contains("rule-disabled")).as("Rule is not enabled as expected.").isEqualTo(enabled);
             BrowserController.get().driver().switchTo().defaultContent();
         }
     }

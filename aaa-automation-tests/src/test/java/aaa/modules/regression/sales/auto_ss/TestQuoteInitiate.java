@@ -39,10 +39,10 @@ public class TestQuoteInitiate extends AutoSSBaseTest {
 
         CustomerSummaryPage.buttonAddQuote.click();
         QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_SS.getName());
-        QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
+        assertThat(QuoteSummaryPage.buttonAddNewQuote).isEnabled();
         QuoteSummaryPage.buttonAddNewQuote.click();
         Tab.buttonSaveAndExit.click();
-        PolicySummaryPage.labelPolicyNumber.verify.present();
+        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
         log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 

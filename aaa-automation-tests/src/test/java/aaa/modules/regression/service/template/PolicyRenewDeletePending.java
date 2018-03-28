@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -39,6 +39,6 @@ public abstract class PolicyRenewDeletePending extends PolicyBaseTest {
         PolicySummaryPage.buttonRenewals.click();
 
         policy.deletePendingRenwals().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonRenewals.verify.enabled(false);
+        assertThat(PolicySummaryPage.buttonRenewals).isDisabled();
     }
 }

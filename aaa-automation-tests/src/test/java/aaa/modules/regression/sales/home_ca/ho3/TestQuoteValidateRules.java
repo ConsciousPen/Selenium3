@@ -53,7 +53,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         generalTab.fillTab(getPolicyTD());
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(91).format(DateTimeUtils.MM_DD_YYYY));
-        generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()).verify.contains(expectedWarning);
+        assertThat(generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel())).valueContains(expectedWarning);
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
         generalTab.submitTab();

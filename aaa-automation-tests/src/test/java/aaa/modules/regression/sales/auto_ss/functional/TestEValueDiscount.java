@@ -317,45 +317,45 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				+ "and lookuplist_id = (select id from lookuplist where lookupname = '%s')";
 
 		CustomAssert.enableSoftMode();
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "annualSS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "semiAnnual6SS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "annualSS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "semiAnnual6SS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans")).isPresent());
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "annualSS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "semiAnnual6SS", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "annualSS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "semiAnnual6SS_R", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentPlans"))).isPresent();
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciDebitCard", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciCreditCard", "FALSE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "eft", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods")).isPresent());
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciDebitCard", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "pciCreditCard", "FALSE", "AAA_SS", "AAAeValueQualifyingPaymentMethods"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "eft", "TRUE", "AAA_SS", "AAAeValueQualifyingPaymentMethods"))).isPresent();
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "25000/50000", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBILimits", "50000/100000", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorInsurance", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "membershipEligibility", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBIRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paymentPlanRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "myPolicyRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paperlessPreferencesRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorBILimits", "25000/50000", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBILimits", "50000/100000", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "priorInsurance", "TRUE", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "membershipEligibility", "TRUE", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "currentBIRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paymentPlanRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "myPolicyRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paperlessPreferencesRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications"))).isPresent();
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "eMember", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDRXX", "TRUE",  "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDEXX", "TRUE",  "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_HO_SS", state, "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVXX2", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE",  "AAARolloutEligibilityLookup")).isPresent());
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "eMember", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDRXX", "TRUE",  "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDEXX", "TRUE",  "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_HO_SS", state, "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVXX2", "FALSE", "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE",  "AAARolloutEligibilityLookup"))).isPresent();
 
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eMember", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eMember", "FALSE", "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "FALSE", "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "FALSE", "AAARolloutEligibilityLookup"))).isPresent();
 
 	//new state specific configs for NJ/NY/MD- PAS-10359
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "membershipEligibility", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NY", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "currentBIRequired", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "pciCreditCard", "TRUE", "AAA_SS", "MD", "AAAeValueQualifyingPaymentMethods")).isPresent());
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "membershipEligibility", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NY", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "currentBIRequired", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications"))).isPresent();
+		assertThat(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "pciCreditCard", "TRUE", "AAA_SS", "MD", "AAAeValueQualifyingPaymentMethods"))).isPresent();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -407,7 +407,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//PAS-2053
 		premiumAndCoveragesTab.saveAndExit();
-		PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, E_VALUE_DISCOUNT).verify.present(false);
+		assertThat(PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, E_VALUE_DISCOUNT)).isPresent(false);
 		//PAS-2053
 
 		policy.dataGather().start();
@@ -746,7 +746,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 		//BUG PAS-6591 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement
 		assertThat(Page.dialogConfirmation.isPresent()).isTrue();
-		Page.dialogConfirmation.labelMessage.verify.value("If you remove the eValue discount, the premium will increase. Are you sure you want to remove the discount?");
+		assertThat(Page.dialogConfirmation.labelMessage).hasValue("If you remove the eValue discount, the premium will increase. Are you sure you want to remove the discount?");
 		Page.dialogConfirmation.reject();
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
 		//PAS-316 end
@@ -780,16 +780,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isPresent(false);
 		//PAS-309 start
-		PremiumAndCoveragesTab.tableEValueMessages.verify.present(false);
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages).isPresent(false);
 		//PAS-309 end
 		//PAS-305 start
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).verify.present(false);
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT)).isPresent(false);
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		//PAS-305 end
 		//PAS-2053 start
 		premiumAndCoveragesTab.saveAndExit();
-		PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, E_VALUE_DISCOUNT).verify.present(false);
+		assertThat(PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, E_VALUE_DISCOUNT)).isPresent(false);
 		//PAS-2053 end
 
 		//PAS-276 start
@@ -802,7 +802,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 
 		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS6591343").verify.present(false);
+		assertThat(errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS6591343")).isPresent(false);
 		//PAS-276 end
 	}
 
@@ -860,7 +860,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		DocumentsAndBindTab.btnPurchase.click();
 		//if clause used fot the case if there will be no overridable errors
 		if (errorTab.getErrorsControl().getTable().isPresent()) {
-			errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577").verify.present(false);
+			assertThat(errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577")).isPresent(false);
 			errorTab.cancel();
 		} else {
 			policy.dataGather().start();
@@ -893,7 +893,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		documentsAndBindTab.saveAndExit();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 		//BUG INC0655981: summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
-		Efolder.isDocumentExist("Miscellaneous", "EVALUE ACKNOWLEDGEMENT FORM");
+		assertThat(Efolder.isDocumentExist("Miscellaneous", "EVALUE ACKNOWLEDGEMENT FORM")).isTrue();
 		//PAS-264 end
 
 		//PAS-721 Start
@@ -1037,7 +1037,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		List<String> allValues = biAsset.getAllValues();
 		biAsset.setValue(searchBILimit(allValues, LOWER_BI_LIMIT));
 		processEvalueDiscountPopUp(true);
-		applyEvalueDiscountAsset.verify.value("No");
+		assertThat(applyEvalueDiscountAsset).hasValue("No");
 		CustomAssert.assertTrue("BI limit should be changed to lowest BI limit " + LOWER_BI_LIMIT, biAsset.getValue().contains(LOWER_BI_LIMIT));
 		PremiumAndCoveragesTab.calculatePremium();
 		CustomAssert.assertFalse(successfulCalculation, isTotalTermPremiumEquals0());
@@ -1046,7 +1046,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue("BI limit should be changed to configured BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
 		biAsset.setValue(searchBILimit(biAsset.getAllValues(), LOWER_BI_LIMIT));
 		processEvalueDiscountPopUp(false);
-		applyEvalueDiscountAsset.verify.value("Yes");
+		assertThat(applyEvalueDiscountAsset).hasValue("Yes");
 		CustomAssert.assertTrue("BI limit should be changed to prevoius BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(CONFIGURED_BI_LIMIT));
 		biAsset.setValueContains(HIGHER_BI_LIMIT);
 		currentBI = biAsset.getValue();
@@ -1073,7 +1073,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private void testDefaultBILimitValue(RadioGroup applyEvalueDiscountAsset, ComboBox biAsset, ComboBox uumbiAsset) {
 		String currentBI;
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		applyEvalueDiscountAsset.verify.value("No");
+		assertThat(applyEvalueDiscountAsset).hasValue("No");
 		currentBI = biAsset.getValue();
 		applyEvalueDiscountAsset.setValue("Yes");
 		CustomAssert.assertTrue("BI limit shouldn't be changed as default BI limit ($100,000/$300,000) > required BI limit " + CONFIGURED_BI_LIMIT, biAsset.getValue().contains(currentBI));
@@ -1526,7 +1526,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Check if pended endorsement was deleted by system
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 		PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		//PAS-336 END
 	}
 
@@ -1580,7 +1580,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		if (eValueIsPresent) {
 			new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 			PremiumAndCoveragesTab.buttonCalculatePremium.click();
-			PremiumAndCoveragesTab.discountsAndSurcharges.verify.contains(E_VALUE_DISCOUNT);
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains(E_VALUE_DISCOUNT);
 		} else {
 			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 		}

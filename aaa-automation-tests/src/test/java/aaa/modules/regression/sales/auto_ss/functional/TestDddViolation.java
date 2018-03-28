@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
@@ -143,7 +144,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private void verifyDrivers() {
-		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.contains("Defensive Driving Course Discount");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).valueContains("Defensive Driving Course Discount");
 		DRIVERS_WITH_DISCOUNT.forEach(driver -> checkDriverDiscount(getTestSpecificTD(driver)));
 		DRIVERS_WITHOUT_DISCOUNT.forEach(v ->
 				CustomAssert.assertFalse(getDriverFullName(getTestSpecificTD(v)) + " should not have discount",

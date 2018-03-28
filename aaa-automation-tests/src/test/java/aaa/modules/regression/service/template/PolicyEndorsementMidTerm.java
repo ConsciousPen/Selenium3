@@ -36,7 +36,7 @@ public abstract class PolicyEndorsementMidTerm extends PolicyBaseTest {
 		TestData endorsementTd = getTestSpecificTD("TestData");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 	}

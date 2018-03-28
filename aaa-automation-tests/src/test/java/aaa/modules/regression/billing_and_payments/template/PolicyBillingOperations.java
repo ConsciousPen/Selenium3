@@ -83,7 +83,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		OtherTransactionsActionTab.buttonOk.click();
 
 		// 4. Check fee transaction appears in "Payments&Other Transactions"
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).verify.contains(PaymentsAndOtherTransactionType.FEE);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE)).valueContains(PaymentsAndOtherTransactionType.FEE);
 
 		// 5. Check total amount due is increased on fee amount
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
@@ -158,17 +158,17 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		new BillingAccount().refund().start();
 		refundActionTab.fillTab(refund.mask(keyPathRefundAmount));
 		RefundActionTab.buttonOk.click();
-		refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel()).verify.contains("Amount is required");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Amount is required");
 
 		// 5. Check for an error message if Refund Amount > Total Paid Amount
 		refundActionTab.fillTab(refund.adjust(keyPathRefundAmount, totalPaid.add(1).toString()));
 		RefundActionTab.buttonOk.click();
-		refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.TOTAL_AMOUNT.getLabel()).verify.contains("Sum of subtotal amounts do not match total amount");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.TOTAL_AMOUNT.getLabel())).valueContains("Sum of subtotal amounts do not match total amount");
 
 		// 6. Check for an error message if Refund Amount is "0"
 		refundActionTab.fillTab(refund.adjust(keyPathRefundAmount, "0"));
 		RefundActionTab.buttonOk.click();
-		refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel()).verify.contains("Amount is required");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Amount is required");
 
 		// 7. Make a refund of 1000$
 		refundActionTab.fillTab(tdBilling.getTestData("Refund", "TestData_Check"));
@@ -185,7 +185,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		NavigationPage.toMainTab(AppMainTabs.MY_WORK.get());
 		new MyWork().filterTask().performByReferenceId(referenceID);
 		MyWorkSummaryPage.linkAllQueues.click();
-		MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).verify.contains(referenceID);
+		assertThat(MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID)).valueContains(referenceID);
 		MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).controls.links.getFirst().click();
 
 		// 10. Approve the refund transaction
@@ -474,7 +474,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 			DeclinePaymentActionTab.buttonOk.click();
 
 			if (reason.equals(PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION)) {
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).verify.contains(PaymentsAndOtherTransactionType.FEE);
+				assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE)).valueContains(PaymentsAndOtherTransactionType.FEE);
 
 				Dollar fee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 				feeAmount = feeAmount.add(fee);

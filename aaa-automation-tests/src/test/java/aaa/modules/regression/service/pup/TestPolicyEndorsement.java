@@ -1,6 +1,5 @@
 package aaa.modules.regression.service.pup;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -12,7 +11,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
@@ -32,15 +31,14 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 		TestData endorsementTd = getTestSpecificTD("TestData");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 
-		CustomAssert.enableSoftMode();
+		CustomSoftAssertions.assertSoftly(softly -> {
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
+			//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
 
-		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+			softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
+		});
 	}
 }

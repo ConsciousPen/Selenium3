@@ -65,7 +65,7 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(testData);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
 
@@ -140,7 +140,7 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(testData);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /**

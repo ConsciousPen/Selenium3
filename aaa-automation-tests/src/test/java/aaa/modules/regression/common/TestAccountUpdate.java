@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.common;
 
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -60,7 +60,7 @@ public class TestAccountUpdate extends BaseTest {
         new Account().update().perform(getTestSpecificTD("TD_UpdateAccount"));
         
         String accountName = getTestSpecificTD("TD_UpdateAccount").getTestData(TestData.makeKeyPath(new AcctInfoTab().getMetaKey())).getValue(AccountMetaData.AcctInfoTab.ACCOUNT_NAME.getLabel());
-        CustomerSummaryPage.labelAccountName.verify.value(accountName);
+        assertThat(CustomerSummaryPage.labelAccountName).hasValue(accountName);
         
         log.info("Account updated with Name: "+accountName);
         

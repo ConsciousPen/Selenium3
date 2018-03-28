@@ -166,7 +166,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("Pay in Full");
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
+		assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).isPresent(false);
 
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("contains=Standard");
 		//BUG PAS-7586 A popup about removal of eValue discount is shown on Endorsement wjen eValue=No and payment plan is changed from Annual to non-Annual
@@ -185,7 +185,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends HomeSSHO3BaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue("Mortgagee Bill");
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2).verify.present(false);
+		assertThat(PremiumsAndCoveragesQuoteTab.autoPaySetupSavingMessage.getRow(1).getCell(2)).isPresent(false);
 
 		if (Page.dialogConfirmation.isPresent()) {
 			Page.dialogConfirmation.confirm();

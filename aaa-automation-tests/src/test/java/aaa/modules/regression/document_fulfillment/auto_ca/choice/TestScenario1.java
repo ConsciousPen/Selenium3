@@ -186,10 +186,10 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 
 	private void checkAA52CA(){
 		NavigationPage.toViewTab(AutoCaTab.FORMS.get());
-		FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA").verify.present(false);
+		assertThat(FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA")).isPresent(false);
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		premiumTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY).setValue("contains=No Coverage");
 		NavigationPage.toViewTab(AutoCaTab.FORMS.get());
-		FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA").verify.present();
+		assertThat(FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA")).isPresent();
 	}
 }

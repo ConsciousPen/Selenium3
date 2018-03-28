@@ -70,10 +70,10 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 		CustomAssert.enableSoftMode();
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
+		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 
 		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 

@@ -85,7 +85,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 
 		//to check that Endorsement is started
 		getEndorsementActionTab().saveAndExit();
-		PolicySummaryPage.buttonPendedEndorsement.verify.present();
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isPresent();
 	}
 
 }

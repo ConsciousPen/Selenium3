@@ -37,11 +37,11 @@ public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
         CustomerSummaryPage.buttonAddQuote.click();
         QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.PUP.getName());
-        QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
+        assertThat(QuoteSummaryPage.buttonAddNewQuote).isEnabled();
         QuoteSummaryPage.buttonAddNewQuote.click();
-        new PrefillTab().getAssetList().verify.enabled();
+        assertThat(new PrefillTab().getAssetList()).isPresent();
         PrefillTab.buttonSaveAndExit.click();
-        PolicySummaryPage.labelPolicyNumber.verify.present();
+        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
         log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 

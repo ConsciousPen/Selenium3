@@ -10,7 +10,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 
 /**
@@ -53,6 +52,7 @@ public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 		String rewrittenPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Rewritten Policy Number: " + rewrittenPolicyNumber);
 
-		CustomAssert.assertFalse(String.format("Rewritten Policy Number %s is the same as Initial Policy Number %s", initialPolicyNumber, rewrittenPolicyNumber), rewrittenPolicyNumber.equals(initialPolicyNumber));
+		assertThat(rewrittenPolicyNumber).as("Rewritten Policy Number %s is the same as Initial Policy Number %s", initialPolicyNumber, rewrittenPolicyNumber)
+				.isEqualTo(initialPolicyNumber);
 	}
 }

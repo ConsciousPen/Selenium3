@@ -71,7 +71,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 
 		TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
 		policy.createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
@@ -124,7 +124,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -142,7 +142,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		BillingSummaryPage.open();

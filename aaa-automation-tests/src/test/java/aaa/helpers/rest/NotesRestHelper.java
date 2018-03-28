@@ -1,5 +1,6 @@
 package aaa.helpers.rest;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.rest.RestServiceHelper.REQUESTS_TD_KEY;
 import static aaa.helpers.rest.RestServiceHelper.RESPONSES_TD_KEY;
 
@@ -119,9 +120,9 @@ public class NotesRestHelper {
 		}
 		NotesAndAlertsSummaryPage.open();
 		if ("true".equals(expectedTestData.getValue("presentOnUi"))) {
-			NotesAndAlertsSummaryPage.tableFilterResults.getRowContains(AdminConstants.AdminFilterResultsTable.TITLE, requestTestData.getValue("title")).verify.present();
+			assertThat(NotesAndAlertsSummaryPage.tableFilterResults.getRowContains(AdminConstants.AdminFilterResultsTable.TITLE, requestTestData.getValue("title"))).isPresent();
 		} else {
-			NotesAndAlertsSummaryPage.tableFilterResults.getRowContains(AdminConstants.AdminFilterResultsTable.TITLE, requestTestData.getValue("title")).verify.present(false);
+			assertThat(NotesAndAlertsSummaryPage.tableFilterResults.getRowContains(AdminConstants.AdminFilterResultsTable.TITLE, requestTestData.getValue("title"))).isPresent(false);
 		}
 		Tab.buttonBack.click();
 	}

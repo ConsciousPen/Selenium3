@@ -39,11 +39,11 @@ public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 
         CustomerSummaryPage.buttonAddQuote.click();
         QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA_SELECT.getName());
-        QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
+        assertThat(QuoteSummaryPage.buttonAddNewQuote).isEnabled();
         QuoteSummaryPage.buttonAddNewQuote.click();
         //new GeneralPolicyTab().getAssetList().verify.enabled();
         Tab.buttonSaveAndExit.click();
-        PolicySummaryPage.labelPolicyNumber.verify.present();
+        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
         log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 

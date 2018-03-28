@@ -75,6 +75,6 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
         Page.dialogConfirmation.confirm();
 
         // 11. Verify billing account status is "Active"
-        AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS).verify.contains(BillingStatus.ACTIVE);
+        assertThat(AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS)).valueContains(BillingStatus.ACTIVE);
     }
 }

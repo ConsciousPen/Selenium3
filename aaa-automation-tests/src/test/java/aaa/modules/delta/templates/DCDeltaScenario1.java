@@ -16,7 +16,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 public class DCDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -43,12 +42,10 @@ public class DCDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
-	}	
+	}
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
 		TestData td = getTestSpecificTD("TestData");
@@ -79,7 +76,7 @@ public class DCDeltaScenario1 extends BaseTest {
 		//TODO add verification of On-Demand Documents Tab
 	}
 	
-	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {
 		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
 		immediatePriorCarrierLOVs.add("AAA Other");

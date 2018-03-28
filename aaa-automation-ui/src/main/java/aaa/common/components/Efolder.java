@@ -13,14 +13,14 @@ public abstract class Efolder {
     public static Link linkOpenEfolder = new Link(By.id("leftContextHeader"));
     public static Link linkCloseEfolder = new Link(By.id("slide_panel_close_ctrl"));
 
-    public static void isDocumentExist(String path, String documentName) {
+    public static boolean isDocumentExist(String path, String documentName) {
         expandFolder(path);
-        new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", documentName))).verify.present();
+        return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", documentName))).isPresent();
     }
 
-    public static void isDocumentExist(String pathWithDocumentName) {
+    public static boolean isDocumentExist(String pathWithDocumentName) {
         expandFolder(FilenameUtils.getPath(pathWithDocumentName));
-        new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", FilenameUtils.getName(pathWithDocumentName)))).verify.present();
+        return new StaticElement(By.xpath(String.format("//form[@id='efForm']//span[@class='rf-trn-lbl'][contains(.,'%s')]", FilenameUtils.getName(pathWithDocumentName)))).isPresent();
     }
 
     public static void expandFolder(String path) {

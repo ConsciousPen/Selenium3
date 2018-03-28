@@ -250,7 +250,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
@@ -806,7 +806,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String purchaseDate = "2012-02-21";
@@ -862,7 +862,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 

@@ -69,7 +69,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 			SearchPage.tableSearchResults.getRow(SearchMetaData.Search.ACCOUNT.getLabel(), expectedAccountNumber).getCell(SearchMetaData.Search.ACCOUNT.getLabel()).controls.links.getFirst().click();
 		}
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.CustomerSummaryTab.ACCOUNT.get())).isTrue();
-		CustomerSummaryPage.labelAccountNumber.verify.value(expectedAccountNumber);
+		assertThat(CustomerSummaryPage.labelAccountNumber).hasValue(expectedAccountNumber);
 
 		//Search for Account by all search by criteria simultaneously
 		SearchPage.search(td);
@@ -77,7 +77,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 			SearchPage.tableSearchResults.getRow(SearchMetaData.Search.ACCOUNT.getLabel(), expectedAccountNumber).getCell(SearchMetaData.Search.ACCOUNT.getLabel()).controls.links.getFirst().click();
 		}
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.CustomerSummaryTab.ACCOUNT.get())).isTrue();
-		CustomerSummaryPage.labelAccountNumber.verify.value(expectedAccountNumber);
+		assertThat(CustomerSummaryPage.labelAccountNumber).hasValue(expectedAccountNumber);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -112,12 +112,12 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 		//Search for Customer by its number
 		SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, expectedCustomerNumber);
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())).isTrue();
-		CustomerSummaryPage.labelCustomerNumber.verify.value(expectedCustomerNumber);
+		assertThat(CustomerSummaryPage.labelCustomerNumber).hasValue(expectedCustomerNumber);
 
 		//Search for Customer by all search by criteria simultaneously
 		SearchPage.search(td);
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())).isTrue();
-		CustomerSummaryPage.labelCustomerNumber.verify.value(expectedCustomerNumber);
+		assertThat(CustomerSummaryPage.labelCustomerNumber).hasValue(expectedCustomerNumber);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -193,12 +193,12 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 		//Search for Policy by its number
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, expectedPolicyNumber);
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())).isTrue();
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedPolicyNumber);
+		assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedPolicyNumber);
 
 		//Search for Policy by all search by criteria simultaneously
 		SearchPage.search(td);
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())).isTrue();
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedPolicyNumber);
+		assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedPolicyNumber);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -234,12 +234,12 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 		//Search for Quote by its number
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, expectedQuoteNumber);
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get())).isTrue();
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedQuoteNumber);
+		assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedQuoteNumber);
 
 		//Search for Quote by all search by criteria simultaneously
 		SearchPage.search(td);
 		assertThat(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get())).isTrue();
-		PolicySummaryPage.labelPolicyNumber.verify.value(expectedQuoteNumber);
+		assertThat(PolicySummaryPage.labelPolicyNumber).hasValue(expectedQuoteNumber);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

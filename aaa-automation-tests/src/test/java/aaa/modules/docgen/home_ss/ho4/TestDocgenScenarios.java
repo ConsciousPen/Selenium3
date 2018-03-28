@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.ho4;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -217,7 +218,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest {
 		// enable
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.cancelNotice().perform(getTestSpecificTD("TestData_CancelNotice"));
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		policy.policyDocGen().start();
 		goddTab.verify.documentsEnabled(HSU02XX);
 

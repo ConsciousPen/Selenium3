@@ -2,18 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 import java.util.Arrays;
@@ -196,7 +195,7 @@ public abstract class Tab {
 	}
 
 	public Tab verifyTabHasBottomMessage(String errorMessage) {
-		getBottomWarning().verify.contains(errorMessage);
+		assertThat(getBottomWarning()).valueContains(errorMessage);
 		return this;
 	}
 

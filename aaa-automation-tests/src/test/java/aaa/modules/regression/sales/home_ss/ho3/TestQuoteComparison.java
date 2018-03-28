@@ -146,12 +146,9 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected()).isTrue();
 		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected()).isFalse();
 		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected()).isFalse();
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(SELECT_VARIATION).isPresent());
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(REMOVE_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(RESTORE_DEFAULTS).isPresent());
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(SELECT_VARIATION)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(REMOVE_VARIATION)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(RESTORE_DEFAULTS)).isPresent();
 		assertThat(productOfferingTab.btnAddAdditionalVariation).isEnabled(false);
 		//5. Calculate Premium on Offering Tab
 		productOfferingTab.calculatePremium();
@@ -188,7 +185,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		verifyIncludedEndorsementsAddedOnPremiumAndCoveragesQuoteTab(includedEndorsements);
 		log.info("Heritage bundle is verified successfully");
 
-		/**
+		/*
 		 * Legacy Bundle verification
 		 * Steps 11-18, 28-31
 		 */
@@ -198,18 +195,12 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected()).isTrue();
 		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected()).isFalse();
 		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected()).isFalse();
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(SELECT_VARIATION).isPresent());
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(REMOVE_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(RESTORE_DEFAULTS).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(SELECT_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(REMOVE_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(RESTORE_DEFAULTS).isPresent());
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(SELECT_VARIATION)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(REMOVE_VARIATION)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(RESTORE_DEFAULTS)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(SELECT_VARIATION)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(REMOVE_VARIATION)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).getAsset(RESTORE_DEFAULTS)).isPresent();
 
 		assertThat(productOfferingTab.btnAddAdditionalVariation).isEnabled(false);
 
@@ -250,7 +241,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		verifyIncludedEndorsementsAddedOnPremiumAndCoveragesQuoteTab(includedEndorsements);
 		log.info("Legacy bundle is verified successfully");
 
-		/**
+		/*
 		 * Prestige Bundle verification
 		 * Steps 19-27, 36-39
 		 */
@@ -260,18 +251,12 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).isVariationSelected()).isTrue();
 		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE).isVariationSelected()).isFalse();
 		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).isVariationSelected()).isFalse();
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(SELECT_VARIATION).isPresent());
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(REMOVE_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(RESTORE_DEFAULTS).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(SELECT_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(REMOVE_VARIATION).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(RESTORE_DEFAULTS).isPresent());
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(SELECT_VARIATION)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(REMOVE_VARIATION)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE).getAsset(RESTORE_DEFAULTS)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(SELECT_VARIATION)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(REMOVE_VARIATION)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY).getAsset(RESTORE_DEFAULTS)).isPresent();
 
 		assertThat(productOfferingTab.btnAddAdditionalVariation).isEnabled(false);
 
@@ -319,21 +304,15 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		productOfferingTab.getAssetList().getAsset(LEGACY).removeVariation();
 
-		CustomAssert.assertFalse
-				(productOfferingTab.getAssetList().getAsset(LEGACY).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(PRESTIGE).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).isPresent());
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY)).isPresent(false);
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE)).isPresent();
 
 		productOfferingTab.getAssetList().getAsset(LEGACY).addVariation();
 
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(LEGACY).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(PRESTIGE).isPresent());
-		CustomAssert.assertTrue
-				(productOfferingTab.getAssetList().getAsset(HERITAGE).isPresent());
+		assertThat(productOfferingTab.getAssetList().getAsset(LEGACY)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(PRESTIGE)).isPresent();
+		assertThat(productOfferingTab.getAssetList().getAsset(HERITAGE)).isPresent();
 
 		policy.getDefaultView().fillFromTo(td, ProductOfferingTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();

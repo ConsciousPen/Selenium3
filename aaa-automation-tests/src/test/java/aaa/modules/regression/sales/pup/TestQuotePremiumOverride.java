@@ -65,8 +65,8 @@ public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {
        // premiumQuoteTab.calculatePremium();
         PremiumAndCoveragesQuoteTab.btnOverridePremium.click();
         premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Percentage").resolveLinks(),false);
-        PremiumAndCoveragesQuoteTab.lblErrorMessage.verify.present();
-        PremiumAndCoveragesQuoteTab.lblErrorMessage.verify.value("The premium cannot be decreased by more than 100%.");
+        assertThat(PremiumAndCoveragesQuoteTab.lblErrorMessage).isPresent();
+        assertThat(PremiumAndCoveragesQuoteTab.lblErrorMessage).hasValue("The premium cannot be decreased by more than 100%.");
         
 //		Override premium by Percentage (20%), check calculated values.
         premiumQuoteTab.fillTab(getTestSpecificTD("TestData_Percentage").adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","OverridePremium","Percentage"),"20"),false);
@@ -84,7 +84,7 @@ public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {
 		PremiumAndCoveragesQuoteTab.getPolicyTermPremium().verify.notEquals(PremiumAndCoveragesQuoteTab.getFinalTermPremium());
 
 		PremiumAndCoveragesQuoteTab.dialogOverridePremium.confirm();
-		PremiumAndCoveragesQuoteTab.lblOverridenPremium.verify.value("Original term premium has been overridden.");
+		assertThat(PremiumAndCoveragesQuoteTab.lblOverridenPremium).hasValue("Original term premium has been overridden.");
 		log.info("Override message is displayed on Premium&Coverages tab");
         PremiumAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);

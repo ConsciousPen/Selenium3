@@ -23,6 +23,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class CTDeltaScenario1 extends BaseTest { 
 	
@@ -54,11 +55,9 @@ public class CTDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
 	}
 	
 	//public void TC_verifyEndorsements() {}	
@@ -127,22 +126,22 @@ public class CTDeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();		
-		GeneralTab generalTab = new GeneralTab();
-		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
-		generalTab.submitTab();
 
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
-		
-		ReportsTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();		
+		CustomSoftAssertions.assertSoftly(softly -> {
+			GeneralTab generalTab = new GeneralTab();
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
+			generalTab.submitTab();
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999", softly);
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750", softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab, softly);
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab, softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599", softly);
+
+			ReportsTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void purchasePolicy(TestData policyCreationTD, String scenarioPolicyType) {
@@ -190,7 +189,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		CancelNoticeActionTab.buttonOk.click();
 		
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		CustomAssert.assertAll();
 	}
 	

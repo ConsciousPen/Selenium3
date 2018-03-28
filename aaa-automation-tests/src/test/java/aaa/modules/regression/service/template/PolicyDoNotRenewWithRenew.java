@@ -42,7 +42,7 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 		
 		policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelDoNotRenew.verify.present();
+		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
 	}
 	
 	protected void TC02_RenewPolicyTemplate(){
@@ -54,6 +54,6 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.buttonRenewals.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonRenewals).isDisabled();
 	}
 }

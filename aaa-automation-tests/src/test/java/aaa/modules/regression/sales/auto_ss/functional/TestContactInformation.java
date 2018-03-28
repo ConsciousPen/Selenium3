@@ -147,7 +147,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 		driverActivityReportsTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 		DriverActivityReportsTab.buttonNext.click();
 		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.tableErrors.getRowContains("Message", ErrorEnum.Errors.ERROR_AAA_SS10240324.getMessage()).verify.present();
+		assertThat(errorTab.tableErrors.getRowContains("Message", ErrorEnum.Errors.ERROR_AAA_SS10240324.getMessage())).isPresent();
 		CustomAssert.assertEquals("Error with code 'AAA_SS10240324' should be displayed only for first named insured", 1, errorTab.getErrorsControl().getTable().getRowsCount());
 		errorTab.cancel();
 	}

@@ -47,7 +47,7 @@ public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.labelPolicyEffectiveDate.verify.contains(date);
+		assertThat(PolicySummaryPage.labelPolicyEffectiveDate).valueContains(date);
 
 	}
 }

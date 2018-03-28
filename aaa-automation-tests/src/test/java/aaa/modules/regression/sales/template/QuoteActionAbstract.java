@@ -47,17 +47,17 @@ public abstract class QuoteActionAbstract extends PolicyBaseTest {
 		policy.propose().start();
 		if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
 			assertThat(policy.propose().getView().getTab(GenerateProposalActionTab.class).getAssetList().getAsset(HomeSSMetaData.ProposeActionTab.NOTES)).isEnabled();
-			GenerateProposalActionTab.message.verify.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
+			assertThat(GenerateProposalActionTab.message).hasValue("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
 		}
 
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
 			assertThat(policy.propose().getView().getTab(aaa.main.modules.policy.home_ss.actiontabs.ProposeActionTab.class).getAssetList().getAsset(HomeSSMetaData.ProposeActionTab.NOTES)).isEnabled();
-			aaa.main.modules.policy.home_ss.actiontabs.ProposeActionTab.message.verify.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
+			assertThat(aaa.main.modules.policy.home_ss.actiontabs.ProposeActionTab.message).hasValue("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
 		}
 		
 		if (getPolicyType().equals(PolicyType.AUTO_SS)) {
 			assertThat(policy.propose().getView().getTab(aaa.main.modules.policy.auto_ss.actiontabs.ProposeActionTab.class).getAssetList().getAsset(HomeSSMetaData.ProposeActionTab.NOTES)).isEnabled();
-			aaa.main.modules.policy.auto_ss.actiontabs.ProposeActionTab.message.verify.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
+			assertThat(aaa.main.modules.policy.auto_ss.actiontabs.ProposeActionTab.message).hasValue("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
 		}
 		
 		policy.propose().submit();

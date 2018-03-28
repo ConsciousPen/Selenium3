@@ -66,7 +66,7 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
                 .contains("Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.");
         underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.INCIDENTAL_BUSINESS_OCCUPANCY.getLabel()).verify
                 .contains("Policies must be endorsed with the HO 04 42 10 00 Permitted Incidental Occupancies – Residence Premises Endorsement when a permitted incidental occupancy exposure is present on the premises and is deemed eligible for coverage.");
-        underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.OTHERS.getLabel()).verify.contains("Other business exposures on premises are unacceptable.");
+        assertThat(underwritingAndApprovalTab.getAssetList().getWarning(HomeCaMetaData.UnderwritingAndApprovalTab.OTHERS.getLabel())).valueContains("Other business exposures on premises are unacceptable.");
 
         //  6.  Set 3 to Total number of part time and full time resident employees, fill Remarks, check WM0541 error on Bind action
         policy.getDefaultView().fill(getTestSpecificTD("TestData_TotalNumber3"));

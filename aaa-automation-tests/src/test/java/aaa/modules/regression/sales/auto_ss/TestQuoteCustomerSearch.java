@@ -50,14 +50,14 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 
 		//Verify that if no search criteria were entered, No search results will be returned, error message will be displayed
 		insuredSearchDialog.search();
-		insuredSearchDialog.labelErrorMessage.verify.value("At least 3 search criteria must be supplied.");
+		assertThat(insuredSearchDialog.labelErrorMessage).hasValue("At least 3 search criteria must be supplied.");
 
 		//Verify that error message is displayed if result exceed the display limit
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Lisa");
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.LAST_NAME).setValue("Adams");
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.DATE_OF_BIRTH).setValue("05/06/1970");
 		insuredSearchDialog.search();
-		insuredSearchDialog.labelErrorMessage.verify.value("Returned results exceed the display limit; please refine your search criteria");
+		assertThat(insuredSearchDialog.labelErrorMessage).hasValue("Returned results exceed the display limit; please refine your search criteria");
 
 		//Verify case if multiple customers are returned in search result
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Roland");
@@ -65,7 +65,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.DATE_OF_BIRTH).clear();
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).setValue("CA");
 		insuredSearchDialog.search();
-		insuredSearchDialog.tableSearchResults.verify.rowsCount(4);
+		assertThat(insuredSearchDialog.tableSearchResults).hasRows(4);
 
 		//Validation of the case if Search returns no results
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("John");
@@ -73,14 +73,14 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.POSTAL_CODE).setValue("85207"); //input incorrect value for zip code
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).setValue("");
 		insuredSearchDialog.search();
-		insuredSearchDialog.tableSearchResults.verify.rowsCount(0);
-		insuredSearchDialog.labelErrorMessage.verify.value("No Results");
+		assertThat(insuredSearchDialog.tableSearchResults).hasRows(0);
+		assertThat(insuredSearchDialog.labelErrorMessage).hasValue("No Results");
 
 		//Validation that Search returns correct result (One customer)
 		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.POSTAL_CODE).setValue("85206");
 		insuredSearchDialog.search();
-		insuredSearchDialog.tableSearchResults.verify.rowsCount(1);
-		insuredSearchDialog.labelErrorMessage.verify.present(false);
+		assertThat(insuredSearchDialog.tableSearchResults).hasRows(1);
+		assertThat(insuredSearchDialog.labelErrorMessage).isPresent(false);
 
 		insuredSearchDialog.tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
@@ -115,9 +115,9 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		RatingDetailReportsTab.buttonSaveAndExit.click();
 
 		//Validation that 2nd NI and Driver is added and displayed on QuoteSummaryScreen
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
+		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 		assertThat(PolicySummaryPage.tableInsuredInformation.getRow(2).getCell("Name")).hasValue("John I Bamboo");
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
+		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
 		assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name")).hasValue("John I Bamboo");
 
 		log.info("QuoteCustomerSearch test is passed for auto_ss. Quote #" + PolicySummaryPage.labelPolicyNumber.getValue() + "is created");

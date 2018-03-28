@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -95,7 +96,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     */
     private void validateFirstError(String notOrderedMembershipFirstMessage){
         ratingDetailsReportsTab.buttonNext.click();
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).isPresent();
         errorTab.cancel();
     }
 
@@ -104,7 +105,7 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     */
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).isPresent();
         errorTab.cancel();
         ratingDetailsReportsTab.saveAndExit();
     }
@@ -114,10 +115,10 @@ public class TestNotOrderedMembershipError extends AutoSSBaseTest {
     */
     private void validateThirdError(String notOrderedMembershipSecondMessage){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).isPresent();
         errorTab.cancel();
         premiumsAndCoveragesTab.calculatePremium();
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).isPresent();
         errorTab.cancel();
         premiumsAndCoveragesTab.saveAndExit();
     }

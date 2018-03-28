@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.choice;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -71,9 +72,9 @@ public class TestPolicySpin extends AutoCaChoiceBaseTest {
 		policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
 
 		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+		assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 
 		//B. Steps to checking new quote which has been spun from initial policy
 		//5. Search spun quote
@@ -94,9 +95,9 @@ public class TestPolicySpin extends AutoCaChoiceBaseTest {
 		policy.getDefaultView().fill(quoteTestData);
 
 		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+		assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
 
 		CustomAssert.assertAll();
 	}

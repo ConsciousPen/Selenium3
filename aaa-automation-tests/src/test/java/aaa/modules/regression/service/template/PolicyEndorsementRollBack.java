@@ -37,7 +37,7 @@ public abstract class PolicyEndorsementRollBack extends PolicyBaseTest {
         TestData endorsement_td = getStateTestData(testDataManager.getDefault(this.getClass()), "TestData");
         policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+        assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 

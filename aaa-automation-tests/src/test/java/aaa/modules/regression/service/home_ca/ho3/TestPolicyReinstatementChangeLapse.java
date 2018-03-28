@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -46,18 +47,18 @@ public class TestPolicyReinstatementChangeLapse extends HomeCaHO3BaseTest {
 
 		log.info("Reinstate Policy #" + policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		PolicySummaryPage.labelLapseExist.verify.present(false);
+		assertThat(PolicySummaryPage.labelLapseExist).isPresent(false);
 
 		log.info("TEST: Add Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus10Days"));
-		PolicySummaryPage.labelLapseExist.verify.present();
+		assertThat(PolicySummaryPage.labelLapseExist).isPresent();
 
 		log.info("TEST: Change Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
-		PolicySummaryPage.labelLapseExist.verify.present();
+		assertThat(PolicySummaryPage.labelLapseExist).isPresent();
 
 		log.info("TEST: Remove Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData"));
-		PolicySummaryPage.labelLapseExist.verify.present(false);
+		assertThat(PolicySummaryPage.labelLapseExist).isPresent(false);
 	}
 }

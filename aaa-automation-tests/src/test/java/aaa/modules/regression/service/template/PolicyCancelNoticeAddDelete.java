@@ -38,11 +38,11 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
         
         log.info("TEST: Cancel Notice for Policy #" + policyNumber);
         policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
-        PolicySummaryPage.labelCancelNotice.verify.present();
+        assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
         
         log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
-		PolicySummaryPage.labelCancelNotice.verify.present(false);
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
         
 		CustomAssert.assertAll();
 

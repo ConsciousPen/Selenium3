@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,7 +17,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -81,7 +81,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		Map<String, Object> map = new LinkedHashMap<>();
 		List<String> keys = tableRatingDetailsQuoteInfo.getColumn(1).getValue();
 		List<String> values = tableRatingDetailsQuoteInfo.getColumn(2).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
@@ -89,7 +89,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 		keys = tableRatingDetailsQuoteInfo.getColumn(3).getValue();
 		values = tableRatingDetailsQuoteInfo.getColumn(4).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
 		}
@@ -102,7 +102,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		Map<String, Object> map = new LinkedHashMap<>();
 		List<String> keys = tableRatingDetailsUnderwriting.getColumn(1).getValue();
 		List<String> values = tableRatingDetailsUnderwriting.getColumn(2).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
@@ -110,7 +110,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 		keys = tableRatingDetailsUnderwriting.getColumn(4).getValue();
 		values = tableRatingDetailsUnderwriting.getColumn(5).getValue();
-		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));
 		}
@@ -131,8 +131,8 @@ public class PremiumAndCoveragesTab extends Tab {
 	public List<TestData> getTermPremiumByVehicleData() {
 		List<TestData> testDataList = new ArrayList<>();
 		Map<String, Object> map = new LinkedHashMap<>();
-		List<String> keys = new ArrayList<String>();
-		List<String> _keys = new ArrayList<String>();
+		List<String> keys = new ArrayList<>();
+		List<String> _keys = new ArrayList<>();
 		_keys.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[2]")).getColumn(1).getValue());
 		_keys.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[3]")).getColumn(1).getValue());
 		_keys.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[4]")).getColumn(1).getValue());
@@ -147,7 +147,7 @@ public class PremiumAndCoveragesTab extends Tab {
 			if (tableTermPremiumbyVehicle.getColumn(column).getValue().stream().allMatch(String::isEmpty)) {
 				continue; // empty column means absent vehicle
 			}
-			List<String> values = new ArrayList<String>();
+			List<String> values = new ArrayList<>();
 			if (column == 1) {
 				values.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[2]")).getColumn(2).getValue());
 				values.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[3]")).getColumn(2).getValue());
@@ -241,7 +241,7 @@ public class PremiumAndCoveragesTab extends Tab {
 					continue; // skip column with only "No Coverage"
 				}
 
-				CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+				assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 				for (int i = 0; i < keys.size(); i++) {
 					map.put(keys.get(i), values.get(i));

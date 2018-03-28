@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 import org.testng.annotations.Optional;
@@ -72,7 +73,7 @@ public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
 
     private void verifySelectedEndorsementsPresent(Table tableForms, String columnName, List<String> selectedEndorsements) {
         for (String form : selectedEndorsements) {
-            tableForms.getRowContains(columnName, form).verify.present();
+            assertThat(tableForms.getRowContains(columnName, form)).isPresent();
         }
     }
 }

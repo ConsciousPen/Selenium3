@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -120,8 +121,8 @@ public class Scenario13 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.isEnabled();
 		PolicySummaryPage.buttonPendedEndorsement.click();		
 		policy.deletePendedTransaction().perform(new SimpleDataProvider()); 		
-		//PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false); 
-		CustomAssertions.assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
+		//assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
 		BillingSummaryPage.getTotalDue().verify.equals(totalDueBeforeEndorsement);

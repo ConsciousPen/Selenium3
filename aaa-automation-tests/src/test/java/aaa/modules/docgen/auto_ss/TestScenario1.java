@@ -141,7 +141,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		BillingSummaryPage.open();
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString().replace("$", ""));

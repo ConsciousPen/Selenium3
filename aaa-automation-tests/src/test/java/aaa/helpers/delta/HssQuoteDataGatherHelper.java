@@ -17,24 +17,18 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 public class HssQuoteDataGatherHelper extends BaseTest {
 	
 	public static void verifyLOVsOfImmediatePriorCarrier(ArrayList<String> optionsOfImmediatePriorCarrier) {
 		GeneralTab generalTab = new GeneralTab();
-		ComboBox immediatePriorCarrier = generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class); 
-		verifyLOVs(immediatePriorCarrier, optionsOfImmediatePriorCarrier, "Immediate Prior Carrier");
+		ComboBox immediatePriorCarrier = generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER);
+		assertThat(immediatePriorCarrier).containsAllOptions(optionsOfImmediatePriorCarrier);
 	}
-	
-	public static void verifyLOVs(ComboBox nameComboBox, ArrayList<String> options, String comboBoxName){
-		for (String i: options){
-			CustomAssert.assertTrue("Option "+i+" is not in "+comboBoxName+" combo box", nameComboBox.isOptionPresent(i));
-		}
-	}
-	
-	public static void verifyBestFRScoreNotApplied(TestData td, String scoreInRatingDetails) {
+
+	public static void verifyBestFRScoreNotApplied(TestData td, String scoreInRatingDetails, ETCSCoreSoftAssertions softly) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
 		new GeneralTab().fillTab(td);
 		
@@ -46,20 +40,20 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score")).as("FR Score value is wrong in Rating Details").isEqualTo(scoreInRatingDetails);
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score")).as("FR Score value is wrong in Rating Details").isEqualTo(scoreInRatingDetails);
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
 		if (getState().equals("CO")) {
-			reportsTab.lblAdversalyImpactedMessage.verify.present(false);
+			softly.assertThat(reportsTab.lblAdversalyImpactedMessage).isPresent(false);
 		}
 		else {
-			reportsTab.lblELCMessage.verify.present(false);
+			softly.assertThat(reportsTab.lblELCMessage).isPresent(false);
 		}
 	}
 	
-	public static void verifyBestFRScoreApplied(TestData td, String scoreInRatingDetails, String messageOnReportsTab) {
+	public static void verifyBestFRScoreApplied(TestData td, String scoreInRatingDetails, String messageOnReportsTab, ETCSCoreSoftAssertions softly) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
 		new GeneralTab().fillTab(td);
 		
@@ -71,16 +65,16 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score")).as("FR Score value is wrong in Rating Details").isEqualTo(scoreInRatingDetails);
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score")).as("FR Score value is wrong in Rating Details").isEqualTo(scoreInRatingDetails);
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
 		if (getState().equals("CO")) {
-			assertThat(reportsTab.lblAdversalyImpactedMessage.getValue()).as("Adversely Impacted message is not displaying on Reports Tab").isEqualTo(messageOnReportsTab);
+			softly.assertThat(reportsTab.lblAdversalyImpactedMessage.getValue()).as("Adversely Impacted message is not displaying on Reports Tab").isEqualTo(messageOnReportsTab);
 		}
 		else {
-			assertThat(reportsTab.lblELCMessage.getValue()).as("Extraordinary life circumstance message is not displaying on Reports Tab").isEqualTo(messageOnReportsTab);
+			softly.assertThat(reportsTab.lblELCMessage.getValue()).as("Extraordinary life circumstance message is not displaying on Reports Tab").isEqualTo(messageOnReportsTab);
 		}		
 	}
 
@@ -133,10 +127,10 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		premiumsTab.calculatePremium(); 
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertFalse("Hail Resistive Rating is present in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating").isPresent());
-		CustomAssert.assertFalse("Hail zone flag is present in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating"))
+				.as("Hail Resistive Rating is present in Rating Details").isPresent(false);
+		assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail zone flag"))
+				.as("Hail zone flag is present in Rating Details").isPresent(false);
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
 	}
 	

@@ -66,7 +66,7 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(SENIOR_DISCOUNT_NAME)).isFalse();
 
 		helperCommon.seniorDiscountDwellingUsageCheck("Primary");
-		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(SENIOR_DISCOUNT_NAME);
+		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(SENIOR_DISCOUNT_NAME);
 		//PAS-3712 end
 
 		CustomAssert.disableSoftMode();

@@ -94,7 +94,7 @@ public class TaskDetailsSummaryPage extends SummaryPage {
             }
 
             public void descriptionContains(int rowIndex, String expectedDescription) {
-                getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION).verify.contains(expectedDescription);
+                assertThat(getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.NOTE_DESCRIPTION)).valueContains(expectedDescription);
             }
 
             public void descriptionByRegex(int rowIndex, String expectedDescription) {

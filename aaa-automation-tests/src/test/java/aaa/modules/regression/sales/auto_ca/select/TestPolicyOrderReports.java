@@ -54,7 +54,7 @@ public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 		//workaround for PAS-10786
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-		 DriverTab.tableActivityInformationList.verify.rowsCount(5);
+		 assertThat(DriverTab.tableActivityInformationList).hasRows(5);
 		
 		//check 1 incident
 		assertThat(aiAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");

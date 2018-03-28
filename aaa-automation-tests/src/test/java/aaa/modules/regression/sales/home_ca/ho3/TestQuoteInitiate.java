@@ -38,11 +38,11 @@ public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
 		CustomerSummaryPage.buttonAddQuote.click();
 		QuoteSummaryPage.comboBoxProduct.setValue(getPolicyType().getName());
-		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
+		assertThat(QuoteSummaryPage.buttonAddNewQuote).isEnabled();
 		QuoteSummaryPage.buttonAddNewQuote.click();
-		policy.getDefaultView().getTab(GeneralTab.class).getAssetList().verify.enabled();
+		assertThat(policy.getDefaultView().getTab(GeneralTab.class).getAssetList()).isEnabled();
 		GeneralTab.buttonSaveAndExit.click();
-		PolicySummaryPage.labelPolicyNumber.verify.present();
+		assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
 
 		log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 

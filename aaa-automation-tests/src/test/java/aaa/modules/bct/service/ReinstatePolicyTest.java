@@ -20,7 +20,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 
 public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
@@ -101,7 +100,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		String reinstatementKey = TestData.makeKeyPath(reinstatementTab.getMetaKey(), HomeSSMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel());
 		reinstatementTab.fillTab(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, reinstatementDate));
 		Tab.buttonOk.click();
-		Page.dialogConfirmation.labelMessage.verify.contains("Policy will be reinstated with a lapse");
+		assertThat(Page.dialogConfirmation.labelMessage).valueContains("Policy will be reinstated with a lapse");
 		Page.dialogConfirmation.confirm();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -137,7 +136,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData").adjust(reinstatementKey, cancellationDate.format(DateTimeUtils.MM_DD_YYYY)));
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelLapseExist.verify.present(false);
+		assertThat(PolicySummaryPage.labelLapseExist).isPresent(false);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
@@ -151,7 +150,6 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_014_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
-		aaa.main.modules.policy.auto_ca.actiontabs.ReinstatementActionTab reinstatementTab = new aaa.main.modules.policy.auto_ca.actiontabs.ReinstatementActionTab();
 
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
@@ -179,8 +177,8 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData"));
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present", false);
+		assertThat(PolicySummaryPage.labelLapseExist).as("Lapse period flag is present").isPresent(false);
 
-		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", PolicySummaryPage.TransactionHistory.getType(1), "Reinstatement");
+		assertThat(PolicySummaryPage.TransactionHistory.getType(1)).as("Reinstatement transaction added to Transaction History").isEqualTo("Reinstatement");
 	}
 }

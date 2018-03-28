@@ -51,7 +51,7 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
         TestData endorsement_td1 = getStateTestData(testDataManager.getDefault(TestPolicyEndorsement.class), "TestData");
         policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+        assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         assertThat(policyPremium).isNotEqualTo(policyPremium2);
         assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());

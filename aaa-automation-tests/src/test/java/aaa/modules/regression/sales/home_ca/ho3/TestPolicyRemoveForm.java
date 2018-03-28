@@ -45,10 +45,10 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
         policy.initiate();
 
         policy.getDefaultView().fillUpTo(getPolicyTD().adjust(getTestSpecificTD("TestData_AddForm_HARI")).resolveLinks(), PremiumsAndCoveragesQuoteTab.class, false);
-        PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel()).verify.present();
+        assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel())).isPresent();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
         policy.getDefaultView().fill(getPolicyTD().ksam(EndorsementTab.class.getSimpleName()).adjust(getTestSpecificTD("TestData_RemoveForm_HARI")).resolveLinks());
-        PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel()).verify.present(false);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(PolicyEndorsementFormsTable.DESCRIPTION, HomeCaMetaData.EndorsementTab.HARI.getLabel())).isPresent(false);
         policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, PurchaseTab.class);
         policy.getDefaultView().fill(getPolicyTD().ksam(PurchaseTab.class.getSimpleName()));
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

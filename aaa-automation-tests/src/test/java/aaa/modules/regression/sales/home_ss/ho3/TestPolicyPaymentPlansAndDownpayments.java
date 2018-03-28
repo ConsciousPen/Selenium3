@@ -191,8 +191,8 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT.getLabel()), origMinimumRequiredDownPayment.add(excessAmount).toString())
 			.adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 				origMinimumRequiredDownPayment.add(excessAmount).toString()));
-		purchaseTab.btnApplyPayment.verify.enabled(false);
-		purchaseTab.getBottomWarning().verify.contains(expectedErrorMessage);
+		assertThat(purchaseTab.btnApplyPayment).isDisabled();
+		assertThat(purchaseTab.getBottomWarning()).valueContains(expectedErrorMessage);
 		purchaseTab.fillTab(getTestSpecificTD("TestData_CorrectValue").adjust(
 			TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
 			origMinimumRequiredDownPayment.toString()));

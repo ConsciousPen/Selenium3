@@ -61,7 +61,7 @@ public class TestPolicyRemoveForm extends HomeSSHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
 		policy.getDefaultView().getTab(EndorsementTab.class).fillTab(tdEndorsementDelete).submitTab();
 
-		PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", expectedEndorsementName).verify.present(false);
+		assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", expectedEndorsementName)).isPresent(false);
 
 		policy.getDefaultView().fillFromTo(td, PremiumsAndCoveragesQuoteTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();

@@ -43,12 +43,12 @@ public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 
 		CustomAssert.enableSoftMode();
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
-		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(2);
-		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
+		assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(2);
+		assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(2);
+		assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 
 		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 

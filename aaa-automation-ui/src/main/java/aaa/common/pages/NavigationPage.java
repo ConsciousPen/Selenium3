@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.Application.AppType;
@@ -9,7 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
@@ -113,34 +113,34 @@ public class NavigationPage extends Page {
 
         public static void mainTabSelected(String tab) {
             StaticElement tabLabel = new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab) + "/../.."));
-            CustomAssert.assertTrue(String.format("Tab with locator %s is not selected", tabLabel.getLocator()), tabLabel.getAttribute("class").contains("selected"));
+            assertThat(tabLabel.getAttribute("class").contains("selected")).as("Tab with locator %s is not selected", tabLabel.getLocator()).isTrue();
         }
 
         public static void viewTabSelected(String tab) {
             StaticElement tabLabel = new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_TAB, tab) + "/../.."));
             if (tabLabel.getAttribute("class").contains("selected")) {
-                CustomAssert.assertTrue(String.format("Tab with locator %s is not selected", tabLabel.getLocator()), tabLabel.getAttribute("class").contains("selected"));
+                assertThat(tabLabel.getAttribute("class").contains("selected")).as("Tab with locator %s is not selected", tabLabel.getLocator()).isTrue();
             } else {
                 tabLabel = new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_TAB, tab)));
-                CustomAssert.assertTrue(String.format("Tab with locator %s is not selected", tabLabel.getLocator()), tabLabel.getAttribute("class").contains("sel"));
+                assertThat(tabLabel.getAttribute("class").contains("sel")).as("Tab with locator %s is not selected", tabLabel.getLocator()).isTrue();
             }
         }
 
         public static void viewMainTabSelected(String tab) {
             StaticElement tabLabel = new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_SUBTAB, tab)));
-            CustomAssert.assertTrue(String.format("Tab with locator %s is not selected", tabLabel.getLocator()), tabLabel.getAttribute("class").contains("selected"));
+            assertThat(tabLabel.getAttribute("class").contains("selected")).as("Tab with locator %s is not selected", tabLabel.getLocator()).isTrue();
         }
 
         public static void viewTabPresent(String tab, boolean isPresent) {
-            new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_TAB, tab))).verify.present(isPresent);
+            assertThat(new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_TAB, tab)))).isPresent(isPresent);
         }
 
         public static void viewTabLeftPresent(String tab, boolean isPresent) {
-            new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_TAB_LEFT_SINGLE, tab, tab))).verify.present(isPresent);
+            assertThat(new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_VIEW_TAB_LEFT_SINGLE, tab, tab)))).isPresent(isPresent);
         }
 
         public static void viewTabMainPresent(String tab, boolean isPresent) {
-            new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab, tab))).verify.present(isPresent);
+            assertThat(new StaticElement(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab)))).isPresent(isPresent);
         }
     }
 

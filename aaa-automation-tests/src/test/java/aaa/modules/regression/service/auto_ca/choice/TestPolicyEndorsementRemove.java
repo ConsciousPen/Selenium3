@@ -53,7 +53,7 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
 		GeneralTab.tableInsuredList.removeRow(2);
 
 		//3. driver tab is opened, driver which is related to removed insured is removed automatically
-		DriverTab.tableDriverList.verify.rowsCount(1);
+		assertThat(DriverTab.tableDriverList).hasRows(1);
 		
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
 		
@@ -67,7 +67,7 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		
 		VehicleTab.tableVehicleList.removeRow(2);
-		VehicleTab.tableVehicleList.verify.rowsCount(1);
+		assertThat(VehicleTab.tableVehicleList).hasRows(1);
 				
 		//5. fill all mandatory fields required to bind
         policy.getDefaultView().fillFromTo(class_td, VehicleTab.class, DocumentsAndBindTab.class, true);
@@ -77,9 +77,9 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
         //6. check drivers and vehicles are removed
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-        PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-        PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-        PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+        assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+        assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+        assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(1);
         
         CustomAssert.assertAll();
     }

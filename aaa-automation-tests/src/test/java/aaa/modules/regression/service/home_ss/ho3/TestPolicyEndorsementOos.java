@@ -53,7 +53,7 @@ public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 		policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
 				.adjust(getTestSpecificTD("TestData2").resolveLinks()));
 
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		assertThat(policyPremium).isNotEqualTo(policyPremium2);
 		assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());

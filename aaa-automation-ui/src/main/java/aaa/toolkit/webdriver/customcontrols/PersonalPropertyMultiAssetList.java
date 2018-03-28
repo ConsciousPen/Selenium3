@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.pages.Page;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -50,7 +49,7 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 	@Override
 	protected void addSection(int index, int size) {
 		expandSection();
-		CustomAssert.assertTrue(String.format("Can't add new row, looks like tables' rows limit [%s] is reached.", count.getValue()), buttonAdd.isPresent() && buttonAdd.isVisible());
+		assertThat(buttonAdd).as("Can't add new row, looks like tables' rows limit [%s] is reached.", count.getValue()).isPresent();
 		buttonAdd.click();
 	}
 

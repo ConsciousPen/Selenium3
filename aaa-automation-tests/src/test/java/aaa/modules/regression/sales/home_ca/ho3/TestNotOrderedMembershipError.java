@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -94,7 +95,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     */
     private void validateFirstError(String notOrderedMembershipFirstMessage){
         reportsTab.submitTab();
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).isPresent();
         errorTab.cancel();
     }
 
@@ -103,7 +104,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     */
     private void validateSecondError(String notOrderedMembershipFirstMessage){
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipFirstMessage)).isPresent();
         errorTab.cancel();
         reportsTab.saveAndExit();
     }
@@ -112,7 +113,7 @@ public class TestNotOrderedMembershipError extends HomeCaHO3BaseTest {
     Method validates that second type error is being thrown after pressing on Premium and Coverages Tab and after pressing Calculate Premium button
     */
     private void validateThirdError(String notOrderedMembershipSecondMessage){
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).isPresent();
         errorTab.cancel();
         premiumsAndCoveragesQuoteTab.saveAndExit();
     }

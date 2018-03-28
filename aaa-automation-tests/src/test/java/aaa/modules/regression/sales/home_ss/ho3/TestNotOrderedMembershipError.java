@@ -80,7 +80,7 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         policy.getDefaultView().fillFromTo(tdMembershipQuote, ApplicantTab.class, ReportsTab.class);
         reportsTab.submitTab();
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).isPresent();
         errorTab.cancel();
 
         // Validating second error condition [Endorsement Quote]
@@ -100,7 +100,7 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
     */
     private void validateSecondError(String notOrderedMembershipSecondMessage){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipSecondMessage)).isPresent();
         errorTab.cancel();
         reportsTab.saveAndExit();
     }
@@ -109,7 +109,7 @@ public class TestNotOrderedMembershipError extends HomeSSHO3BaseTest {
     Method validates that third type error is being thrown after pressing on Premium and Coverages Tab and after pressing Calculate Premium button
     */
     private void validateThirdError(String notOrderedMembershipThirdMessage){
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipThirdMessage).verify.present();
+        assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, notOrderedMembershipThirdMessage)).isPresent();
         errorTab.cancel();
         premiumsAndCoveragesQuoteTab.saveAndExit();
     }

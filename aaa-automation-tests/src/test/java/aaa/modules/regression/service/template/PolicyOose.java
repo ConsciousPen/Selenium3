@@ -8,7 +8,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -53,20 +52,14 @@ public abstract class PolicyOose extends PolicyBaseTest {
         
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         
-        CustomAssert.enableSoftMode();
-        
         //Execute action 'Roll on Changes' and select values manually
         rollOnPerformManual();
         
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         //check if there is 2nd NI, Driver & Vehicle
-        PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.contains("Violeta Minolta");
-        PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.contains("Violeta Minolta");
-        PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell("Make").verify.present();
-
-        CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+	    assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name")).valueContains("Violeta Minolta");
+	    assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2)).hasCell("Make");
     }
 	
 	private void rollOnPerformManual(){

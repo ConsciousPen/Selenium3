@@ -29,7 +29,7 @@ public class PolicyRenewWithLapse extends PolicyBaseTest {
         policy.renew().performAndExit(getPolicyTD("Renew", "TestData_Plus370Days"));
 
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelLapseExist.verify.present(false);
+        assertThat(PolicySummaryPage.labelLapseExist).isPresent(false);
 
         //TODO: Need change time before renew action.
         PolicySummaryPage.buttonRenewals.click();

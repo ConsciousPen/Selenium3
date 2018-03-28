@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -82,6 +83,6 @@ public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
         NavigationPage.toMainTab(AppMainTabs.MY_WORK.get());
         myWork.filterTask().performByReferenceId(referenceID);
         MyWorkSummaryPage.linkAllQueues.click();
-        MyWorkSummaryPage.tableTasks.getRowContains(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID, referenceID).verify.present(false);
+        assertThat(MyWorkSummaryPage.tableTasks.getRowContains(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID, referenceID)).isPresent(false);
     }
 }

@@ -25,6 +25,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class KSDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -113,31 +114,31 @@ public class KSDeltaScenario1 extends BaseTest {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();		
-		GeneralTab generalTab = new GeneralTab();
-		assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
 
-		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750"); 
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score740, "745", messageOnReportsTab);
-		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "745", messageOnReportsTab);
-		
-		//verify AAA_HO_SS7230342 - "Underwriting approval is required for the option you have selected"
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		new BindTab().btnPurchase.click();
-		
-		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
-		errorTab.cancel();
-		
-		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740"); 
-		
-		ReportsTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();	
+		CustomSoftAssertions.assertSoftly(softly -> {
+			GeneralTab generalTab = new GeneralTab();
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EXTRAORDINARY_LIFE_CIRCUMSTANCE)).hasValue("None");
+
+			String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective " + effectiveDate;
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999", softly);
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750", softly);
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score740, "745", messageOnReportsTab, softly);
+			HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "745", messageOnReportsTab, softly);
+
+			//verify AAA_HO_SS7230342 - "Underwriting approval is required for the option you have selected"
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			new BindTab().btnPurchase.click();
+
+			ErrorTab errorTab = new ErrorTab();
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
+			errorTab.cancel();
+
+			HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740", softly);
+
+			ReportsTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyHailResistanceRating() {

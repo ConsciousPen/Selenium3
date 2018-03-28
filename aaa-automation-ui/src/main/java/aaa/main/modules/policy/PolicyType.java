@@ -7,8 +7,6 @@ import aaa.main.modules.policy.auto_ss.AutoSSPolicy;
 import aaa.main.modules.policy.home_ca.HomeCaPolicy;
 import aaa.main.modules.policy.home_ss.HomeSSPolicy;
 import aaa.main.modules.policy.pup.PupPolicy;
-import aaa.rest.policy.PolicyRest;
-import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
 
 /**
  * Single-root product (actually, entity) enum/factory.
@@ -34,7 +32,6 @@ public class PolicyType {
 	protected String fullName;
 	protected boolean isAutoPolicy;
 	protected boolean isCaProduct;
-	protected PolicyRest policyRest;
 
 	public PolicyType(String shortName, String fullName, boolean isAutoPolicy, boolean isCaProduct, IPolicy policy) {
 		this.shortName = shortName;
@@ -42,7 +39,6 @@ public class PolicyType {
 		this.isAutoPolicy = isAutoPolicy;
 		this.isCaProduct = isCaProduct;
 		this.policy = policy;
-		this.policyRest = new PersonalLinesPolicyRest(this);
 	}
 
 	public String getName() {
@@ -55,10 +51,6 @@ public class PolicyType {
 
 	public String getKey() {
 		return policy.getClass().getSimpleName();
-	}
-
-	public PolicyRest getPolicyRest() {
-		return policyRest;
 	}
 
 	public boolean isAutoPolicy() {

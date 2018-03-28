@@ -161,7 +161,7 @@ public class Scenario12 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonTasks.click();
-		//MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, "Payment received for cancelled policy for possible rewrite.").verify.present();
+		//assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME, "Payment received for cancelled policy for possible rewrite.")).isPresent();
 		CustomAssertions.assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkTasksTable.TASK_NAME,
 				"Payment received for cancelled policy for possible rewrite.")).isPresent();
 		MyWorkSummaryPage.buttonCancel.click();

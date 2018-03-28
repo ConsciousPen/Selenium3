@@ -313,7 +313,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		CancelNoticeActionTab.buttonOk.click();
 		
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		CustomAssert.assertAll();
 		
 	}	

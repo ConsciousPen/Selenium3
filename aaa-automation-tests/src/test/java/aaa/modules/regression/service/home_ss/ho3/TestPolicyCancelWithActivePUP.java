@@ -65,7 +65,7 @@ public class TestPolicyCancelWithActivePUP extends HomeSSHO3BaseTest {
         cancellationActionTab.fillTab(getPolicyTD("Cancellation", "TestData"));
         CancellationActionTab.buttonOk.click();
 
-        NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation.verify.contains(alert);
+        assertThat(NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation).valueContains(alert);
 
         Page.dialogConfirmation.buttonOk.click();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
