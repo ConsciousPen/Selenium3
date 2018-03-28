@@ -672,7 +672,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * Hit driver assignement service to verify unassigned response
 	 * Verify Occasional Satatus
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
@@ -728,7 +727,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * Run view Premium service
 	 * Match both premium
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
@@ -746,7 +744,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * hit view premium service
 	 * Validate premium with pas
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
@@ -754,8 +751,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 		pas10227_ViewPremiumServiceForPendedEndorsement(getPolicyType());
 	}
-
-
 
 	@Override
 	protected String getGeneralTab() {
