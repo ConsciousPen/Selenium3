@@ -260,4 +260,4 @@ PAS-11906:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport.pas6827_disableReorderReportRenewal]
-      messages: ["Override Score link is enabled"]
+      messages: ["expected"]
