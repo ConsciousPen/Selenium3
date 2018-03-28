@@ -45,6 +45,7 @@ public class HelperCommon {
 	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT="/api/v1/policies/%s/endorsement/assignments";
 	private static final String DXP_VIEW_PREMIUM_POLICY ="/api/v1/policies/%s/premiums";
+	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT="/api/v1/policies/%s/endorsement/premiums";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -138,10 +139,13 @@ public class HelperCommon {
 
 	static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
-		PolicyPremiumInfo[] validateViewPremiumInfoResponse = runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
-		return validateViewPremiumInfoResponse;
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
+	static PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_ENDORSEMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
+	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
 		AAAEndorseRequest request = new AAAEndorseRequest();

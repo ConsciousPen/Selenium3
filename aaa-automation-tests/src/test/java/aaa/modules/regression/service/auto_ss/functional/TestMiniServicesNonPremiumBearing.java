@@ -723,7 +723,10 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Megha Gubbala
-
+	 * Create a policy
+	 * Get actual and term premium from pas
+	 * Run view Premium service
+	 * Match both premium
 	 */
 
 	@Parameters({"state"})
@@ -736,7 +739,12 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Megha Gubbala
-
+	 * Create a policy
+	 * create a pended endorsment
+	 * add vehicle
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
 	 */
 
 	@Parameters({"state"})
