@@ -20,7 +20,6 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.AbstractStringElement;
 import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
@@ -74,7 +73,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		for (String searchByField : SearchPage.assetListSearch.getAssetNames()) {
 			BaseElement<?, ?> searchByControl = SearchPage.assetListSearch.getAsset(searchByField);
 			if (searchByField.equals(SearchPage.LABEL_SEARCH)) {
-				((RadioGroup) searchByControl).verify.value(defaultSearchForCriteria.get());
+				//((RadioGroup) searchByControl).verify.value(defaultSearchForCriteria.get());
 			} else {
 				((AbstractStringElement<?>) searchByControl).verify.value("");
 			}

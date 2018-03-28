@@ -1,0 +1,14 @@
+################## Additional vehicle
+
+TestData_Vehicle: {
+
+VehicleTab: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WAUKJAFM8C6314628,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No'
+}
+}
+

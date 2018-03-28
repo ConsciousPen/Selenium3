@@ -1,16 +1,33 @@
 package aaa.helpers.product;
 
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import javax.annotation.Nonnull;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class PolicyHelper {
+
+    private static final String GET_CEILLING_BY_POLICY_NUMBER = "SELECT pcg.ceiling\n"
+            + "FROM POLICYSUMMARY PS JOIN POLICYDETAIL PD ON PD.ID = PS.POLICYDETAIL_ID\n"
+            + "JOIN PREMIUMCAPPING PC ON PD.PREMIUMCAPPING_ID = PC.ID\n"
+            + "JOIN PREMIUMCAPPINGCONFIGURATION PCG ON pcg.id = pc.cappingconfig_id\n"
+            + "WHERE PD.ID = PS.POLICYDETAIL_ID\n"
+            + "AND PS.POLICYNUMBER='%s' AND ROWNUM = 1";
+
+    private static final String GET_FLOOR_BY_POLICY_NUMBER = "SELECT pcg.floor\n"
+            + "FROM POLICYSUMMARY PS JOIN POLICYDETAIL PD ON PD.ID = PS.POLICYDETAIL_ID\n"
+            + "JOIN PREMIUMCAPPING PC ON PD.PREMIUMCAPPING_ID = PC.ID\n"
+            + "JOIN PREMIUMCAPPINGCONFIGURATION PCG ON pcg.id = pc.cappingconfig_id\n"
+            + "WHERE PD.ID = PS.POLICYDETAIL_ID\n"
+            + "AND PS.POLICYNUMBER='%s' AND ROWNUM = 1";
 
     //TODO: Refactor verifyPresent methods, use constants instead of string literals
     public static void verifyEndorsementIsCreated() {
@@ -39,7 +56,17 @@ public class PolicyHelper {
         BigDecimal rtp = new BigDecimal(new Dollar(renewalTermPremiumOld).toPlaingString());
         BigDecimal ctp = new BigDecimal(new Dollar(calculatedTermPremium).toPlaingString());
         BigDecimal fcv = new BigDecimal(new Dollar(floorOrCeilCap).toPlaingString());
-        BigDecimal percentValue = (rtp.divide(ctp, 5,5)).multiply((BigDecimal.ONE).add(fcv.divide(new BigDecimal(100))).multiply(new BigDecimal(100))).setScale(0, RoundingMode.HALF_EVEN );
+        BigDecimal percentValue = (rtp.divide(ctp, 5, 5)).multiply((BigDecimal.ONE).add(fcv.divide(new BigDecimal(100))).multiply(new BigDecimal(100))).setScale(0, RoundingMode.HALF_EVEN);
         return String.format("%s.00%%", percentValue.toString());
+    }
+
+    public static String getCeilingByPolicyNumber(@Nonnull String policyNumber) {
+        String query = String.format(GET_CEILLING_BY_POLICY_NUMBER, policyNumber);
+        return DBService.get().getValue(query).get();
+    }
+
+    public static String getFloorByPolicyNumber(@Nonnull String policyNumber) {
+        String query = String.format(GET_FLOOR_BY_POLICY_NUMBER, policyNumber);
+        return DBService.get().getValue(query).get();
     }
 }

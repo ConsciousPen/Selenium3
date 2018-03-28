@@ -205,10 +205,14 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set value = 'http://%s%sws/billing/lastPayment'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
+	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
+			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"
+			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
+
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pcDisbursementEngine' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/local/authentication'\n"
+			+ "set value = lower('http://%s%sws/local/authentication')\n"
 			+ "where propertyname = 'oAuthClient.oAuthPingUri'";
 
 	String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"
@@ -219,4 +223,8 @@ public interface EvalueInsertSetupPreConditions {
 	String PAPERLESS_PREFERENCES_POPUP_STUB_POINT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://localhost:8090/prefmgmt-portal/prefsetup'\n"
 			+ "where propertyname = 'aaaPreferenceUrlBuilder.prefSharedUrl'";
+
+	String DXP_AUTHENTICATION_PARAMETERS_INSERT = "INSERT\n"
+			+ " INTO PROPERTYCONFIGURERENTITY (author, description, PROPERTYNAME, VALUE)\n"
+			+ " values('%s', '%s', '%s', '%s')\n";
 }

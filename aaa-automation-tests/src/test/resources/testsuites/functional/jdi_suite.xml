@@ -89,10 +89,9 @@
                     <include name="eValuePriorBiConfigCheck"/>
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueConfigCheck"/>
-                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
-                    <include name="pas233_eValueTerritoryChannelDependency"/>
+
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
@@ -118,6 +117,7 @@
                     <include name="eValuePriorBiConfigCheck"/>
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueMembershipConfigCheck"/>
+                    <include name="eValueTerritoryChannelForORConfigCheck"/>
 
                     <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas3693_eValueConfiguration1"/>
@@ -126,6 +126,7 @@
                     <include name="pas3693_eValueConfiguration4"/>
                     <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
+                    <include name="pas233_eValueTerritoryChannelDependency"/>
                 </methods>
             </class>
         </classes>
@@ -323,6 +324,19 @@
                     <include name="pas9997_paymentPlansLookup"/>
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
+
+                    <include name="pas508_BindManualEndorsement"/>
+                    <include name="pas508_BindServiceEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="GreenButtonServiceVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas10484_ViewDriverAssignment"/>
                 </methods>
             </class>
         </classes>

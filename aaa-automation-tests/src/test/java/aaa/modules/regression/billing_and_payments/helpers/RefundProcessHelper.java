@@ -270,10 +270,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
 		approvedRefundVoid();
+		//lastManualPaymentDecline(); - probably not needed
 
 		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(14));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(daysDelay));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
@@ -293,6 +294,11 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	private void approvedRefundVoid() {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(ACTION).controls.links.get("Void").click();
+		Page.dialogConfirmation.confirm();
+	}
+
+	private void lastManualPaymentDecline() {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(SUBTYPE_REASON, "Manual Payment").getCell(ACTION).controls.links.get("Decline").click();
 		Page.dialogConfirmation.confirm();
 	}
 

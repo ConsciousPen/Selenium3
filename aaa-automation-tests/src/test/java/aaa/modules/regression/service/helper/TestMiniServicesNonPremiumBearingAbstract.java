@@ -1,18 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -31,10 +18,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -43,6 +27,10 @@ import aaa.modules.regression.conversions.auto_ss.MaigConversionTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -53,6 +41,19 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
 
@@ -66,6 +67,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private String purchaseDate;
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private ErrorTab errorTab = new ErrorTab();
+	private AssignmentTab assignmentTab = new AssignmentTab();
 
 	protected abstract String getGeneralTab();
 
@@ -1199,7 +1201,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			policy.getDefaultView().fill(getPolicyTD("Conversion", "TestData"));
 			String policyNum = PolicySummaryPage.linkPolicy.getValue();
 			SearchPage.openPolicy(policyNum);
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
@@ -1312,7 +1314,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			SearchPage.openPolicy(policyNum);
 			MaigConversionTest maigConversionTest = new MaigConversionTest();
 			maigConversionTest.fillPolicy();
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", 200);
@@ -1479,11 +1481,28 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		mainApp().close();
+		VehicleTab.buttonCancel.click();
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//Start PAS-479
+		//Check premium
+		PolicyPremiumInfo[] rateResponse = HelperCommon.executeEndorsementRate(policyNumber, 200);
+		assertSoftly(softly -> {
+			softly.assertThat(rateResponse[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(rateResponse[0].getPremiumCode()).isEqualTo("GWT");
+		});
+		Dollar dxpPremium = new Dollar(rateResponse[0].getActualAmt());
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(new Dollar(PremiumAndCoveragesTab.getActualPremium())).isEqualTo(dxpPremium);
+		PremiumAndCoveragesTab.buttonCancel.click();
 
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
@@ -1510,21 +1529,31 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			});
 		}
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-		//Bind endorsement
+		SearchPage.openPolicy(policyNumber);
+		//Add usage (this part should be removed when usage dxp service will be added)
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		vehicleTab.getAssetList().getAsset(USAGE.getLabel(), ComboBox.class).setValue("Pleasure");
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-		PremiumAndCoveragesTab.calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
+		vehicleTab.saveAndExit();
 
+		//Check premium after new vehicle was added
+		PolicyPremiumInfo[] rateResponse2 = HelperCommon.executeEndorsementRate(policyNumber, 200);
+		Dollar dxpPremium2 = new Dollar(rateResponse2[0].getActualAmt());
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		assertThat(new Dollar(PremiumAndCoveragesTab.getActualPremium())).isEqualTo(dxpPremium2);
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		premiumAndCoveragesTab.cancel();
+		//End PAS-479
+
+		//Issue pended endorsement
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
@@ -1555,13 +1584,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
 		//Create pended endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
-
-		VehicleTab vehicleTab = new VehicleTab();
 
 		//Get OID from View vehicle
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
@@ -1604,6 +1629,202 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingDifferent).isEqualTo(false);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
+		});
+	}
+
+	protected void pas508_BindManualEndorsement(PolicyType policyType) {
+		String authorizedBy = "Osi Testas Insured";
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
+		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
+
+		//Create pended endorsement manually
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(getPremiumAndCoverageTab());
+		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
+		getPremiumAndCoverageTabElement().saveAndExit();
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isTrue();
+
+		//issue through service
+		HelperCommon.executeEndorsementBind(policyNumber, authorizedBy, 200);
+		SearchPage.openPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+		//check bound endorsement created by
+		checkAuthorizedByChanged(authorizedBy);
+
+		//check number of documents in DB
+		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(numberOfDocumentsRecordsInDb + 1);
+
+		//Create additional endorsement
+		SearchPage.openPolicy(policyNumber);
+		secondEndorsementIssueCheck();
+	}
+
+	protected void pas508_BindServiceEndorsement(PolicyType policyType) {
+		String authorizedBy = "Osi Testas Insured";
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(getPolicyTD());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		assertSoftly(softly -> {
+			String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
+			int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
+
+			//Create pended endorsement
+			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, null);
+			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.executeEndorsementRate(policyNumber, 200);
+			softly.assertThat(endorsementRateResponse[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(endorsementRateResponse[0].getPremiumCode()).isEqualTo("GWT");
+			softly.assertThat(endorsementRateResponse[0].getActualAmt()).isNotBlank();
+
+			//Create pended endorsement
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(PREMIUM_CALCULATED);
+			Tab.buttonBack.click();
+
+			//issue through service
+			HelperCommon.executeEndorsementBind(policyNumber, authorizedBy, 200);
+			SearchPage.openPolicy(policyNumber);
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+			//check bound endorsement created by
+			checkAuthorizedByChanged(authorizedBy);
+
+			//check number of documents in DB
+			softly.assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(numberOfDocumentsRecordsInDb + 1);
+
+			//Create additional endorsement
+			SearchPage.openPolicy(policyNumber);
+			secondEndorsementIssueCheck();
+		});
+	}
+
+	private void checkAuthorizedByChanged(String authorizedBy) {
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(getDocumentsAndBindTab());
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
+			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
+		}
+		Tab.buttonCancel.click();
+	}
+
+	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_AllDrivers").getTestDataList("DriverTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Create a pended Endorsement
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+
+		List assignmentsPrimary = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue();
+		String driverAssignment1 = assignmentsPrimary.get(0).toString();
+		String driverAssignment2 = assignmentsPrimary.get(1).toString();
+
+		DriverAssignmentDto[] response = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignment1.contains(response[0].vehicleDisplayValue));
+			softly.assertThat(response[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment1.contains(response[0].driverDisplayValue));
+			softly.assertThat(response[0].driverOid).isNotNull();
+			softly.assertThat(response[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment2.contains(response[1].vehicleDisplayValue));
+			softly.assertThat(response[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment2.contains(response[1].driverDisplayValue));
+			softly.assertThat(response[1].driverOid).isNotNull();
+			softly.assertThat(response[1].relationshipType).isEqualTo("primary");
+
+		});
+		assignmentTab.saveAndExit();
+
+		//add vehicle
+		String purchaseDate = "2012-02-21";
+		String vin2 = "4S2CK58W8X4307498";
+
+		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertSoftly(softly ->
+				softly.assertThat(addVehicle.oid).isNotEmpty()
+		);
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+
+		String driverAssignment3 = assignmentsPrimary.get(0).toString();
+		String driverAssignment4 = assignmentsPrimary.get(1).toString();
+
+		List assignmentsUnassigned = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
+		String driverAssignment5 = assignmentsUnassigned.get(0).toString();
+
+		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponce = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponce[1].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponce[1].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment5.contains(driverAssignmentAfterAddingVehicleResponce[2].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverDisplayValue).isEqualTo("unassigned");
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].relationshipType).isEqualTo("unassigned");
+		});
+
+		assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getAsset("Select Driver", ComboBox.class).setValue("index=1");
+		assignmentTab.buttonTopSave.click();
+
+		List assignmentOccasional = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
+		String driverAssignment6 = assignmentOccasional.get(0).toString();
+
+		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponse1 = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse1[0].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse1[0].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponse1[1].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponse1[1].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[1].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[1].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(driverAssignment6.contains(driverAssignmentAfterAddingVehicleResponse1[2].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[2].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment6.contains(driverAssignmentAfterAddingVehicleResponse1[2].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[2].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse1[2].relationshipType).isEqualTo("occasional");
 		});
 
 	}
@@ -1653,7 +1874,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
 	private void emailUpdateTransactionHistoryCheck(String policyNumber) {
