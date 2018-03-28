@@ -34,7 +34,7 @@ public abstract class ExcelCell implements Writable {
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
 	private static Comparator<NumberCellType<?>> isFloatComparator = (n1, n2) -> {
-		if (n1.isFloatingPointType() && n2.isFloatingPointType()) {
+		if (Objects.equals(n1.isFloatingPointType(), n2.isFloatingPointType())) {
 			return 0;
 		}
 		if (n1.isFloatingPointType()) {
@@ -118,7 +118,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public Object getValue() {
-		// Let's try to obtain numeric value first
+		// Let's try to obtain numeric value first (non-floating types are checked first)
 		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t)
 				.sorted(isFloatComparator).collect(Collectors.toCollection(LinkedHashSet::new));
 		for (NumberCellType<?> type : numericTypes) {

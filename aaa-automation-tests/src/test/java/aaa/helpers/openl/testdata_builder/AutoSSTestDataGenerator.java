@@ -604,7 +604,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure"); // or Nano in case of Nano policy
 				break;
 
-			//For Tailer, Golf Cart and Motor Home
+			//For Trailer, Golf Cart and Motor Home
 			case "P1":
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.USAGE.getLabel(), "Pleasure Use - Occupied Less than 30 Days a Year");
 				break;
