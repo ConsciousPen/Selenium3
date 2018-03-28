@@ -11,6 +11,7 @@ import aaa.helpers.openl.testdata_builder.HomeCaHO4TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import toolkit.datax.TestData;
 
 public class HomeCaHO4PremiumCalculationTest extends OpenLRatingBaseTest<HomeCaHO4OpenLPolicy> {
@@ -18,6 +19,11 @@ public class HomeCaHO4PremiumCalculationTest extends OpenLRatingBaseTest<HomeCaH
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO4;
+	}
+
+	@Override
+	protected TestData getRatingDataPattern() {
+		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());
 	}
 
 	@Override
