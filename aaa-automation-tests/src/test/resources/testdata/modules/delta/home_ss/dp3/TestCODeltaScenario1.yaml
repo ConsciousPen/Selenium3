@@ -1,15 +1,10 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
+  MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab'
+}
+
+TestData_add_Forms: {
   EndorsementTab: '@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@DocumentsTab',
-  BindTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@BindTab',
-  PurchaseTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PurchaseTab'
 }
 
 GeneralTab: {
