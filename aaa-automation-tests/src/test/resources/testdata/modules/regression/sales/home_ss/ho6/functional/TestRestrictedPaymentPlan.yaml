@@ -24,7 +24,6 @@ OtherActiveAAAPolicies: {}
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-  RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
 }
