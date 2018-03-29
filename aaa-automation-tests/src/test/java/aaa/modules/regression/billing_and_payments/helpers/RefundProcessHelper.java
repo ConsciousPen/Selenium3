@@ -683,7 +683,9 @@ public class RefundProcessHelper extends PolicyBilling {
 	public String policyCreation() {
 		mainApp().open();
 		createCustomerIndividual();
-		getPolicyType().get().createPolicy(getPolicyTD());
+		/*getPolicyType().get().createPolicy(getPolicyTD());*/
+		getCopiedPolicy();
+
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info("policyNumber: {}", policyNumber);
