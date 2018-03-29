@@ -19,6 +19,16 @@ public class HomeSSOpenLCoverage extends OpenLCoverage {
 	}
 
 	@Override
+	public String getCoverageCd() {
+		return coverageCd;
+	}
+
+	@Override
+	public void setCoverageCd(String coverageCd) {
+		this.coverageCd = coverageCd;
+	}
+
+	@Override
 	public String toString() {
 		return "HomeSSOpenLCoverage{" +
 				"id=" + id +
