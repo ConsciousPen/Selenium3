@@ -43,8 +43,8 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 			"Minimum Down Payment",
 			"Installment Amount (w/o fees)",
 			"# of Remaining Installments");
-	private static final String restrictedPayPlansMessage = "The available pay plans for this quote are restricted to those shown above. The below options can be offered if the following condition is addressed: AAA Membership must be provided.\nAfter addressing the condition, recalculate premium to refresh the available pay plans.";
-	private static final String installmentFeesMessage = "Installment Amount does not include transaction fees. View applicable fee schedule.";
+	private static final String RESTRICTED_PAY_PLANS_MESSAGE = "The available pay plans for this quote are restricted to those shown above. The below options can be offered if the following condition is addressed: AAA Membership must be provided.\nAfter addressing the condition, recalculate premium to refresh the available pay plans.";
+	private static final String INSTALLMENT_FEES_MESSAGE = "Installment Amount does not include transaction fees. View applicable fee schedule.";
 
 	/**
 	 * @name Test Restricted Payment Plan For Home with Membership = Yes and no other restrictions
@@ -251,7 +251,7 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
 		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getColumn(1).getValue()).isEqualTo(ALL_PAYMENT_PLANS);
 		//check that installment fees message is present
-		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(installmentFeesMessage);
+		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
 		//check that unrestricted payment plans table is absent
 		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans).isAbsent();
 	}
@@ -266,13 +266,13 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
 		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getColumn(1).getValue()).isEqualTo(RESTRICTED_PAYMENT_PLANS);
 		//check that restricted payment plans message is present
-		assertThat(PremiumAndCoveragesTab.labelPaymentPlanRestriction.getValue()).isEqualTo(restrictedPayPlansMessage);
+		assertThat(PremiumAndCoveragesTab.labelPaymentPlanRestriction.getValue()).isEqualTo(RESTRICTED_PAY_PLANS_MESSAGE);
 		//check that second table for PaymentPlans has unrestricted payment plans
 		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans).isPresent();
 		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
 		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans.getColumn(1).getValue()).isEqualTo(UNRESTRICTED_PAYMENT_PLANS);
 		//check that installment fees message is present
-		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(installmentFeesMessage);
+		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
 	}
 
 	private void verifyRestrictedPaymentPlans(){
@@ -285,7 +285,7 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
 		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getColumn(1).getValue()).isEqualTo(RESTRICTED_PAYMENT_PLANS);
 		//check that installment fees message is present
-		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(installmentFeesMessage);
+		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
 		//check that unrestricted payment plans table is absent
 		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans).isAbsent();
 	}

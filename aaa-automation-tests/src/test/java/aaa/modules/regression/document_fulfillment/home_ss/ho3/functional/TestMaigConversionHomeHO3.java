@@ -132,7 +132,7 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2309"})
-    public void pas2309_renewalCoverLetterPupConvHSRNHODPXX(@Optional("NJ") String state) throws NoSuchFieldException {
+    public void pas2309_renewalCoverLetterPupConvHSRNHODPXX(@Optional("VA") String state) throws NoSuchFieldException {
         super.pas2309_renewalCoverLetterPupConvHSRNHODPXX(state);
     }
 

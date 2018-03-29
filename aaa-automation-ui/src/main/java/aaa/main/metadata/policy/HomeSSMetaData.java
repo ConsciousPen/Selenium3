@@ -107,7 +107,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEMBER_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
-
 		}
 
 		// Dwelling Address
