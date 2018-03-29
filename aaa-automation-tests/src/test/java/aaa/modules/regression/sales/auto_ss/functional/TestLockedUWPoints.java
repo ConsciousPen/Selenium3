@@ -25,13 +25,17 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestLockedBILimitsAndUWPoints extends AutoSSBaseTest {
+public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
+
+	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
+	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
+
 	/**
 	*@author Dominykas Razgunas
-	*@name PA Auto Policy - UI Changes to display locked BI Limits & UW Points.
+	*@name PA Auto Policy - UI Changes to display locked UW Points.
 	*@scenario
 	 * 1. Initiate quote creation
 	 * 2. Rate quote
@@ -47,14 +51,13 @@ public class TestLockedBILimitsAndUWPoints extends AutoSSBaseTest {
 	 * 12. Initiate Renewal.
 	 * 13. Navigate to P&C View Rating Details.
 	 * 14. Check the sum of UW Points. Check that all of the UW components are blank.
-	 * 15. Close Application Change system date to current date.
 	*@details
 	*/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
-	public void pas9063_verifyLockedUWPointsAndBILimits(@Optional("PA") String state) {
+	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
 		verifyAlgoDate();
 
@@ -68,34 +71,15 @@ public class TestLockedBILimitsAndUWPoints extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		// Save Locked UW Points value.
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String lockedTotalUWPoints = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue();
 
-		// Verify that Age of NI, AAA persistency, Days lapsed, Prior Term BI, Reinstatement history is present
-		List<String> pas9063FieldsRow1a = Arrays.asList("Age of the Named Insured Used in Tier","AAA Insurance Persistency","Days Lapsed", "Prior Term Bodily Injury (BI) limit", "Reinstatement History");
-		pas9063FieldsRow1a.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f)).isPresent());
-
-		// Verify that Insurance Score, YAFAF and YCF scores are displayed.
-		List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
-		pas9063FieldsRow1.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f)).isPresent());
-
-		pas9063FieldsRow1.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isNotEmpty());
-
-		// Verify that Number of Comp Claims, Number of NAFA and Emergency Roadside Usage scores are displayed.
-		List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
-		pas9063FieldsRow2.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f)).isPresent());
-
-		pas9063FieldsRow2.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isNotEmpty());
+		// Verify VRD Page for NB
+		verifyLockedLimitsNB();
 
 		// Issue Policy
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
@@ -116,22 +100,12 @@ public class TestLockedBILimitsAndUWPoints extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		// Verify that UW Points are the same
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		// Verify that Age of NI, AAA persistency, Days lapsed, Prior Term BI, Reinstatement History scores are not displayed
-		pas9063FieldsRow1a.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isEmpty());
-
-		// Verify that Insurance Score, YAFAF, YCF scores are not displayed.
-		pas9063FieldsRow1.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isEmpty());
-
-		// Verify that Number of Comp Claims, Number of NAFA and Emergency Roadside Usage scores are not displayed.
-		pas9063FieldsRow2.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
+		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Save and Exit Endorsement. Renew Policy and Navigate to P&C Page.
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -139,22 +113,12 @@ public class TestLockedBILimitsAndUWPoints extends AutoSSBaseTest {
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		// Verify that UW Points are the same
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		// Verify that Age of NI, AAA persistency, Days lapsed, Prior Term BI, Reinstatement History scores are not displayed
-		pas9063FieldsRow1a.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isEmpty());
-
-		// Verify that Insurance Score, YAFAF, YCF scores are not displayed.
-		pas9063FieldsRow1.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isEmpty());
-
-		// Verify that Number of Comp Claims, Number of NAFA and Emergency Roadside Usage scores are not displayed.
-		pas9063FieldsRow2.forEach(f -> assertThat(
-				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
+		verifyLockedLimitsRenewalAndEndorsement();
 	}
 
 	//TODO remove verify algo date after 2018-06-20
@@ -163,6 +127,34 @@ public class TestLockedBILimitsAndUWPoints extends AutoSSBaseTest {
 		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
 			TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
 		}
+	}
+
+	private void verifyLockedLimitsNB(){
+		// Verify that Insurance Score, YAFAF and YCF scores are displayed.
+		pas9063FieldsRow1.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f)).isPresent());
+		pas9063FieldsRow1.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isNotEmpty());
+
+		// Verify that Number of Comp Claims, Number of NAFA and Emergency Roadside Usage scores are displayed.
+		pas9063FieldsRow2.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f)).isPresent());
+		pas9063FieldsRow2.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isNotEmpty());
+	}
+
+	private void verifyLockedLimitsRenewalAndEndorsement(){
+		// Verify that Insurance Score, YAFAF, YCF scores are not displayed.
+		pas9063FieldsRow1.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f)).isPresent());
+		pas9063FieldsRow1.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f).getCell("Score").getValue()).isEmpty());
+
+		// Verify that Number of Comp Claims, Number of NAFA and Emergency Roadside Usage scores are not displayed.
+		pas9063FieldsRow2.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f)).isPresent());
+		pas9063FieldsRow2.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 	}
 
 }
