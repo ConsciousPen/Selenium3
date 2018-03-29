@@ -552,10 +552,24 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
+				+ "from policySummary ps\n"
+				+ "where 1=1\n"
+				+ "and ps.policyNumber not like 'Q%'\n"
+				+ "and ps.policyNumber like '%SS%'\n"
+				+ "and ps.POLICYSTATUSCD = 'issued'\n"
+				+ "and to_char(ps.EFFECTIVE, 'yyyy-MM-dd') = to_char(sysdate, 'yyyy-MM-dd')\n"
+				+ "and rownum = 1";
+
+		String policyNumber;
+		if(DBService.get().getValue(getAnyActivePolicy).isPresent()){
+			policyNumber = DBService.get().getValue(getAnyActivePolicy).get();
+		} else {
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createPolicy(getPolicyTD());
+			policyNumber = PolicySummaryPage.getPolicyNumber();
+		}
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String vin1 = "aaaa"; //VIN too short
