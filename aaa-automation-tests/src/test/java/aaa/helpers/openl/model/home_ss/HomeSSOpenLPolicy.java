@@ -237,7 +237,9 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public Integer getTerm() {
-		return getCappingDetails().get(0).getTerm();
+		Integer term = getCappingDetails().get(0).getTerm();
+		//TODO-dchubkov: to be verified whether 12 is OK for default term or not
+		return term != null ? term : 12;
 	}
 
 	@Override

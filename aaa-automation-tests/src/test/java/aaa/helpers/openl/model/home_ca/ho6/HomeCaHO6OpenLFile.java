@@ -8,6 +8,9 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeCaHO6OpenLFile extends HomeCaOpenLFile<HomeCaHO6OpenLPolicy> {
+	@ExcelTransient
+	public static final int FORM_HEADER_ROW_NUMBER = 4;
+
 	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	protected List<HomeCaHO6OpenLPolicy> policies;
 

@@ -3,13 +3,13 @@ package aaa.helpers.openl.model.home_ca;
 import aaa.helpers.openl.model.OpenLCoverage;
 
 public class HomeCaOpenLCoverage extends OpenLCoverage {
-	protected Integer limitAmount;
+	protected Double limitAmount;
 
-	public Integer getLimitAmount() {
+	public Double getLimitAmount() {
 		return limitAmount;
 	}
 
-	public void setLimitAmount(Integer limitAmount) {
+	public void setLimitAmount(Double limitAmount) {
 		this.limitAmount = limitAmount;
 	}
 

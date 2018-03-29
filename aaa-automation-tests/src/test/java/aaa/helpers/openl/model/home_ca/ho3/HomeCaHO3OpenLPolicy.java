@@ -20,8 +20,8 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLCoverage> coverages;
 
-	private Integer covALimit;
-	private Integer covELimit;
+	private Double covALimit;
+	private Double covELimit;
 	private Boolean hasEmployeeDiscount;
 	private Boolean hasMultiPolicyDiscount;
 	private Boolean hasPolicySupportingForm;
@@ -51,19 +51,19 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public Integer getCovALimit() {
+	public Double getCovALimit() {
 		return covALimit;
 	}
 
-	public void setCovALimit(Integer covALimit) {
+	public void setCovALimit(Double covALimit) {
 		this.covALimit = covALimit;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 

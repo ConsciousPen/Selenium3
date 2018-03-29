@@ -6,7 +6,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 public class HomeCaOpenLForm extends OpenLForm {
 	@SuppressWarnings("FieldNameHidesFieldInSuperclass")
 	@ExcelTableColumnElement(name = "formLimit")
-	protected Integer limit;
+	protected Double limit;
 
 	protected Boolean applyDiscounts;
 	protected Boolean hasSupportingForm;

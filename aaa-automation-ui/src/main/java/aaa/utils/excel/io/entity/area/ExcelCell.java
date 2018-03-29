@@ -107,7 +107,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public Object getValue() {
-		// Let's try to obtain numeric value first
+		// Let's try to obtain numeric value first (non-floating types are checked first)
 		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t).collect(Collectors.toSet());
 		for (NumberCellType<?> type : numericTypes) {
 			if (type.isTypeOf(this)) {

@@ -66,8 +66,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
-		//String customerNumber = createCustomerIndividual();
-		SearchPage.openCustomer("700032289");
+		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
 			for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
 				P policyObject = policyAndPremium.getKey();
