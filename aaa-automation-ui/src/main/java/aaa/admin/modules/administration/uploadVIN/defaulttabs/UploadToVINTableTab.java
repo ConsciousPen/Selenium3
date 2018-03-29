@@ -49,7 +49,7 @@ public class UploadToVINTableTab extends DefaultTab {
 
 		//added a 'wait' here because the loading animation on the page was causing the upload verification to fail. This wait allows the animation to complete.
 		//Added more time
-		long timeout = System.currentTimeMillis() + (120 * 1000);
+		long timeout = System.currentTimeMillis() + (220 * 1000);
 		while (timeout > System.currentTimeMillis() && !labelUploadSuccessful.getValue().contains("Rows added")){
 			try {
 				Thread.sleep(1000);
