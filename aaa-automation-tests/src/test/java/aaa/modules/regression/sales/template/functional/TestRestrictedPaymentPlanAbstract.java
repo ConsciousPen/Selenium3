@@ -202,7 +202,7 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         createCustomerIndividual();
         policy.initiate();
         String autoKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies");
+        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies_Home");
         TestData td = getPolicyDefaultTD().adjust(autoKey, autoTD);
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
         verifyRestrictedPaymentPlans();
@@ -227,7 +227,7 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         String reportTabKey = TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName());
         TestData reportTabTD = getTestSpecificTD("ReportsTab");
         String autoKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies");
+        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies_Home");
         TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD).adjust(reportTabKey, reportTabTD).adjust(autoKey, autoTD);
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
         verifyRestrictedPaymentPlans();
@@ -252,7 +252,7 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         String reportTabKey = TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName());
         TestData reportTabTD = getTestSpecificTD("ReportsTab");
         String autoKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies");
+        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies_Home");
         TestData td = getPolicyDefaultTD().adjust(membershipNoKey, membershipNoTD).adjust(reportTabKey, reportTabTD).adjust(autoKey, autoTD);
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
         verifyRestrictedPaymentPlans();
@@ -277,7 +277,7 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         String reportTabKey = TestData.makeKeyPath(HomeSSMetaData.ReportsTab.class.getSimpleName());
         TestData reportTabTD = getTestSpecificTD("ReportsTab");
         String autoKey = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
-        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies");
+        TestData autoTD = getTestSpecificTD("OtherActiveAAAPolicies_Home");
         TestData td = getPolicyDefaultTD().adjust(membershipOverrideKey, membershipOverrideTD).adjust(reportTabKey, reportTabTD).adjust(autoKey, autoTD);
         policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
         verifyRestrictedPaymentPlans();
@@ -350,7 +350,7 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         //check that second table for PaymentPlans has unrestricted payment plans
         assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans).isPresent();
         assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans.getColumn(1).getValue()).isEqualTo(UNRESTRICTED_PAYMENT_PLANS);
+        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(UNRESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
         //check that installment fees message is present
         assertThat(PremiumsAndCoveragesQuoteTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
     }

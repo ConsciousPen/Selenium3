@@ -19,12 +19,25 @@ AAAMembership_Override: {
   Member Since Date: '$<today>'
 }
 
-OtherActiveAAAPolicies: {}
+OtherActiveAAAPolicies_Home: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual: {
+  Policy type: HO3,
+  Policy number: '345345345',
+  Coverage E: '1000',
+  Deductible: '1000',
+  Dwelling usage: Primary,
+  Occupancy type: Owner occupied
+}
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-  FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
 }

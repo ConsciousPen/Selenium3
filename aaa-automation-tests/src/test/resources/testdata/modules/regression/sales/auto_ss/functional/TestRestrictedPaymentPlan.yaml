@@ -22,7 +22,7 @@ AAAProductOwned_Override: {
 CurrentCarrierInformation_No: {}
 
 PremiumAndCoveragesTab_Minimum: {
-  Bodily Injury Liability: 'contains=$15,000/$30,000',
+  Bodily Injury Liability: 'contains=$25,000/$50,000',
   Property Damage Liability: 'contains=$10,000'
 }
 
