@@ -1,0 +1,29 @@
+TestData_Pending: {
+  GeneralTab: {
+    AAAProductOwned: {
+      Current AAA Member: 'Membership Pending'
+    }
+  }
+}
+
+AAAProductOwned_Pending: {
+  Current AAA Member: 'Membership Pending'
+}
+
+AAAProductOwned_No: {
+Current AAA Member: 'No'
+}
+
+AAAProductOwned_Override: {
+  Current AAA Member: 'Membership Override',
+  Member Since Date: '$<today>'
+}
+
+CurrentCarrierInformation_No: {}
+
+PremiumAndCoveragesTab_Minimum: {
+  Bodily Injury Liability: 'contains=$15,000/$30,000',
+  Property Damage Liability: 'contains=$10,000'
+}
+
+
