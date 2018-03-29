@@ -58,6 +58,13 @@
       </classes>
     </test>
 
+    <test name="Test Enhanced UIM Coverage Behavior">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+        </classes>
+    </test>
+
     <!-- Commented until PAS-9063 is merged to master.
     <test name="Test Locked BI Limits And UW Points">
         <parameter name="state" value="PA"/>

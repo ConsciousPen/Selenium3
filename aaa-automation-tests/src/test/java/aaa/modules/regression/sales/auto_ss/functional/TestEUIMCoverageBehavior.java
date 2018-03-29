@@ -1,5 +1,3 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
- * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -53,13 +51,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         verifyAlgoDate();
 
-        TestData testData = getPolicyTD();
-
         // Initiate Policy, calculate premium
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
+        policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class, true);
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -81,8 +77,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
         verifyAlgoDate();
-
-        TestData testData = getPolicyTD();
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -117,8 +111,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         verifyAlgoDate();
 
-        TestData testData = getPolicyTD();
-
         // Create customer & policy
         mainApp().open();
         createCustomerIndividual();
@@ -148,9 +140,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //AC1,AC2 PAS-11200. for Quotes and Policies created on or after 2018/07/01 EUIM should be present.
         //AC1 PAS-11620. EUIM BI and PD limits are defaulted to BI/PD limits.
-        if (enhancedUIM.getValue().equals(true)){
-            enhancedUIM.setValue(false);
-        }
         enhancedUIM.setValue(true);
         assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
         assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
