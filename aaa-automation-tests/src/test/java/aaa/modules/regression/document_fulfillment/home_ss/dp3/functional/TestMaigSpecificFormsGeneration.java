@@ -96,11 +96,12 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
 	public void pas6731_PreRenewalLetterGeneration(@Optional("PA") String state){
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
+		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(65);
 
-		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, getTimePoints().getPreRenewalLetterGenerationDate(renewalOfferEffectiveDate));
+		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate,preRenewalGenDate);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSPRNXX.getIdInXml());
 	}
 
 	/**
@@ -119,11 +120,10 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
 		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(55);
 
-		// Create manual entry
 		String policyNumber = generatePreRenewalEvent(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, preRenewalGenDate);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSPRNXX.getIdInXml());
 	}
 
 	/**
@@ -140,11 +140,12 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-6731"})
 	public void pas10666_PreRenewalLetterGeneration(@Optional("PA") String state){
 		LocalDateTime renewalOfferEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(70);
+		LocalDateTime preRenewalGenDate = renewalOfferEffectiveDate.minusDays(65);
 
-		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, getTimePoints().getPreRenewalLetterGenerationDate(renewalOfferEffectiveDate));
+		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, preRenewalGenDate);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSPRNMXX.getIdInXml());
 	}
 
 
@@ -168,6 +169,6 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, preRenewalGenDate);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
-		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSPRNMXX.getIdInXml());
 	}
 }
