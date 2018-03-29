@@ -82,7 +82,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Policy, calculate premium
         mainApp().open();
         createCustomerIndividual();
-        createPolicy();
+        getCopiedPolicy();
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -91,7 +91,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
-
     }
 
     /**
@@ -115,7 +114,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Create customer & policy
         mainApp().open();
         createCustomerIndividual();
-        createPolicy();
+        getCopiedPolicy();
 
         // Initiate Renewal
         policy.renew().start();
@@ -124,7 +123,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
-
     }
 
     //TODO remove verify algo date after 2018-07-01
@@ -181,12 +179,10 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         //AC4 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
         PremiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(false);
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium()).isEqualTo("$0.00");
-        assertThat(premiumAndCoveragesTab.getVehicleCoveragePremiumByVehicle(1)).isEqualTo("$0.00");
+        assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");
         PremiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(true);
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium()).isEqualTo("$0.00");
-        assertThat(premiumAndCoveragesTab.getVehicleCoveragePremiumByVehicle(1)).isEqualTo("$0.00");
+        assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");
         PremiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448
