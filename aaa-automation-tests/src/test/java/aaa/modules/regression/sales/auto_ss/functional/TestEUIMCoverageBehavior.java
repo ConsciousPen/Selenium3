@@ -202,8 +202,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //PAS11204
         List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
-        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
-        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
 
     }
 
