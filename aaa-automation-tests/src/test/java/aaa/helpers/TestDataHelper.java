@@ -21,8 +21,14 @@ public class TestDataHelper {
 	}
 
 	public static TestData merge(TestData tdLeft, TestData tdRight, boolean convertStringToList, boolean convertTestDataToList) {
+		return merge(tdLeft, tdRight, convertStringToList, convertTestDataToList, true);
+	}
+
+	private static TestData merge(TestData tdLeft, TestData tdRight, boolean convertStringToList, boolean convertTestDataToList, boolean isFirstCycleMerge) {
 		if (tdLeft.equals(tdRight)) { //TODO-dchubkov: double check equals for test data
-			log.warn("Both provided test datas are equal");
+			if (isFirstCycleMerge) {
+				log.warn("Both provided test datas are equal, there is nothing to merge");
+			}
 			return tdLeft;
 		}
 
@@ -56,7 +62,7 @@ public class TestDataHelper {
 					resultData.adjust(key, tdRight.getValue(key));
 					break;
 				case TESTDATA:
-					resultData.adjust(key, merge(resultData.getTestData(key), tdRight.getTestData(key), convertStringToList, convertTestDataToList));
+					resultData.adjust(key, merge(resultData.getTestData(key), tdRight.getTestData(key), convertStringToList, convertTestDataToList, false));
 					break;
 				case LIST_STRING:
 					List<String> resultList = new ArrayList<>(getStringList(tdRight, key, convertStringToList));
@@ -78,7 +84,7 @@ public class TestDataHelper {
 					tdRightList = convertAllToSimpleDataProviderType(tdRightList);
 					for (int i = 0; i < tdLeftList.size(); i++) {
 						if (i < tdRightList.size()) {
-							resultTestDataList.add(merge(tdLeftList.get(i), tdRightList.get(i), convertStringToList, convertTestDataToList));
+							resultTestDataList.add(merge(tdLeftList.get(i), tdRightList.get(i), convertStringToList, convertTestDataToList, false));
 						} else {
 							resultTestDataList.add(tdLeftList.get(i));
 						}

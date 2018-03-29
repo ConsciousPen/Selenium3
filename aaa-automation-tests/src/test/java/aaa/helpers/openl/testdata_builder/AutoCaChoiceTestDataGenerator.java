@@ -71,7 +71,9 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 						: "Pickup/ Utility Truck Small";
 			case "C":
 				return modelYear > 1989
-						? getRandom("Pickup/ Utility Truck Standard", "Passenger Car Large", "Custom Van")
+						//for "Custom Van" we need to fill Special Equipment.* controls in Vehicle tab which affect total premium, therefore this stat code is excluded
+						//? getRandom("Pickup/ Utility Truck Standard", "Passenger Car Large", "Custom Van")
+						? getRandom("Pickup/ Utility Truck Standard", "Passenger Car Large")
 						: "Pickup/Utility Truck";
 			case "D":
 				return modelYear > 1989
@@ -119,7 +121,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 					AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driverAge, openLPolicy.getEffectiveDate()),
 					AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(driver.isMatureDriver()) : null,
 					AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(driver.isMatureDriver())
-							? openLPolicy.getEffectiveDate().minusMonths(new Random().nextInt(33)).format(DateTimeUtils.MM_DD_YYYY) : null,
+							? openLPolicy.getEffectiveDate().minusDays(new Random().nextInt(33 * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
 					AutoCaMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), driverAge <= 25 ? "regex=.*\\S.*" : null,
 					AutoCaMetaData.DriverTab.SMOKER_CIGARETTES_OR_PIPES.getLabel(), Boolean.TRUE.equals(driver.isNonSmoker()) ? "No" : "Yes");
 
@@ -363,7 +365,8 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 	}
 
 	private TestData getActivityInformationData(LocalDateTime effectiveDate, String type, String description) {
-		String occurrenceAndConvictionDate = effectiveDate.minusMonths(new Random().nextInt(33)).format(DateTimeUtils.MM_DD_YYYY);
+		// Incident should be not older than 33 month from effective date to affect premium;
+		String occurrenceAndConvictionDate = effectiveDate.minusDays(new Random().nextInt(33 * 28)).format(DateTimeUtils.MM_DD_YYYY);
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
 				AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,

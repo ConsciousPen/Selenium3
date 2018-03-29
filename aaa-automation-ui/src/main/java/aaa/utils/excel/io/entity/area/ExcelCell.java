@@ -6,9 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -53,7 +55,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public static Set<CellType<?>> getBaseTypes() {
-		return new HashSet<>(Arrays.asList(BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, DOUBLE_TYPE, LOCAL_DATE_TIME_TYPE));
+		return Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	public Cell getPoiCell() {
