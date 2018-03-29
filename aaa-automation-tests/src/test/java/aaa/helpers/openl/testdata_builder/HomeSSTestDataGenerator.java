@@ -84,14 +84,56 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getFamilyUnits()
 		);
 
-		TestData publicProtectionClass = DataProviderFactory.dataOf(
+		TestData publicProtectionClassData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getProtectionClass()
 		);
 
+		String limit = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit();
+		TestData propertyValueData = DataProviderFactory.dataOf(
+				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), limit
+		);
+
+		TestData constructionData = DataProviderFactory.dataOf(
+				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getYearBuilt(),
+				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getRoofType(),
+				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType(),
+				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(),
+				(openLPolicy.getPolicyConstructionInfo().get(0).getConstructionType().equals("Masonry Veneer")) ? "Yes" : "No"
+		);
+
+		TestData interiorData = DataProviderFactory.dataOf(
+				HomeSSMetaData.PropertyInfoTab.Interior.DWELLING_USAGE.getLabel(),
+				(Boolean.TRUE.equals(openLPolicy.getPolicyDwellingRatingInfo().get(0).getSecondaryHome())) ? "Secondary" : "Primary"
+
+		);
+
+		TestData fireFireProtectiveDeviceDiscountData = DataProviderFactory.dataOf(
+				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.LOCAL_FIRE_ALARM.getLabel(),
+				(openLPolicy.getPolicyDiscountInformation().get(0).getFireAlarmType().equals("Local")) ? "true" : "false",
+				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.CENTRAL_FIRE_ALARM.getLabel(),
+				(openLPolicy.getPolicyDiscountInformation().get(0).getFireAlarmType().equals("Central")) ? "true" : "false",
+				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.FULL_RESIDENTIAL_SPRINKLERS.getLabel(),
+				(openLPolicy.getPolicyDiscountInformation().get(0).getSprinklerType().equals("Full")) ? "true" : "false",
+				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.PARTIAL_RESIDENTIAL_SPRINKLERS.getLabel(),
+				(openLPolicy.getPolicyDiscountInformation().get(0).getSprinklerType().equals("Partial")) ? "true" : "false"
+		);
+
+		TestData theftProtectiveDeviceDiscountData = DataProviderFactory.dataOf(
+			HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(),
+				(openLPolicy.getPolicyDiscountInformation().get(0).getTheftAlarmType().equals("Local"))? "true":"false",
+				HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(),
+				(openLPolicy.getPolicyDiscountInformation().get(0).getTheftAlarmType().equals("Central"))? "true":"false",
+				HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.GATED_COMMUNITY.getLabel(), openLPolicy.getPolicyDiscountInformation().get(0).isPrivateCommunity()
+		);
 
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
-				HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionClass
+				HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionClassData,
+				HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
+				HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
+				HomeSSMetaData.PropertyInfoTab.INTERIOR.getLabel(), interiorData,
+				HomeSSMetaData.PropertyInfoTab.FIRE_PROTECTIVE_DD.getLabel(), fireFireProtectiveDeviceDiscountData,
+				HomeSSMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceDiscountData
 		);
 
 
