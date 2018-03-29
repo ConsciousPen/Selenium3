@@ -23,11 +23,6 @@ public class IntegerCellType extends NumberCellType<Integer> {
 	}
 
 	@Override
-	public boolean isFloatingPointType() {
-		return false;
-	}
-
-	@Override
 	public boolean hasValueInTextFormat(ExcelCell cell) {
 		return super.hasValueInTextFormat(cell) && !getText(cell).contains(".");
 	}

@@ -46,6 +46,4 @@ public abstract class NumberCellType<T extends Number> extends AbstractCellType<
 		Cell c = cell.getPoiCell();
 		return c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && !DateUtil.isCellDateFormatted(c);
 	}
-
-	public abstract boolean isFloatingPointType();
 }
