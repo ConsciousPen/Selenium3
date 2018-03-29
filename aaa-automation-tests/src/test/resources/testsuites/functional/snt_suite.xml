@@ -204,15 +204,12 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRestrictedPaymentPlan">
                 <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
                 </methods>
             </class>
         </classes>
@@ -223,15 +220,12 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestRestrictedPaymentPlan">
                 <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
                 </methods>
             </class>
         </classes>
@@ -242,15 +236,12 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRestrictedPaymentPlan">
                 <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipNoAutoNo"/>
                 </methods>
             </class>
         </classes>
@@ -261,22 +252,19 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRestrictedPaymentPlan">
                 <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipYesAutoNo"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Restriction form (VA) Auto" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
+    <test name="Restriction form (AZ) Auto" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestRestrictedPaymentPlan">
                 <methods>
