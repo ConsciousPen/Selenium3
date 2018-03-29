@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -191,13 +192,19 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         //PAS-11448
         String euimExpectedText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
                 + "Insured has the option to choose EUIM coverage in place of UM coverage.  Coverage applies to both EUIMBI and EUIMPD.";
-        String euimbiExpectedText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured in an accident and the driver "
+        String euimBIExpectedText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured in an accident and the driver "
                 + "who is legally liable does not have insurance or has insufficient limits of liability insurance. Please see policy contract and EUIM endorsement.";
-        String euimpdExpectedText = "Pays up to the specified limit the insured is legally entitled to recover or waives the collision deductible to cover damages resulting from an accident "
+        String euimPDExpectedText = "Pays up to the specified limit the insured is legally entitled to recover or waives the collision deductible to cover damages resulting from an accident "
                 + "with an uninsured motor vehicle. Please see policy contract and EUIM endorsement.";
         assertThat(PremiumAndCoveragesTab.enhancedUIMHelpText.getAttribute("title")).isEqualTo(euimExpectedText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("title")).isEqualTo(euimbiExpectedText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("title")).isEqualTo(euimpdExpectedText);
+        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("title")).isEqualTo(euimBIExpectedText);
+        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("title")).isEqualTo(euimPDExpectedText);
+
+        //PAS11204
+        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
+        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+
     }
 
 }
