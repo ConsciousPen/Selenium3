@@ -5,9 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,15 +31,6 @@ public abstract class ExcelCell implements Writable {
 	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
-	private static Comparator<NumberCellType<?>> isFloatComparator = (n1, n2) -> {
-		if (Objects.equals(n1.isFloatingPointType(), n2.isFloatingPointType())) {
-			return 0;
-		}
-		if (n1.isFloatingPointType()) {
-			return 1;
-		}
-		return -1;
-	};
 	private ExcelRow<? extends ExcelCell> row;
 	private Cell cell;
 	private int columnIndexInArea;
@@ -119,8 +108,7 @@ public abstract class ExcelCell implements Writable {
 
 	public Object getValue() {
 		// Let's try to obtain numeric value first (non-floating types are checked first)
-		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t)
-				.sorted(isFloatComparator).collect(Collectors.toCollection(LinkedHashSet::new));
+		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t).collect(Collectors.toSet());
 		for (NumberCellType<?> type : numericTypes) {
 			if (type.isTypeOf(this)) {
 				return getValue(type);
