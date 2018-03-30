@@ -30,6 +30,22 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		super(state, ratingDataPattern);
 	}
 
+	protected String getVehicleTabType(String statCode) {
+		if (isPrivatePassengerAutoType(statCode)) {
+			return "Private Passenger Auto";
+		}
+		if (isConversionVanType(statCode)) {
+			return "Conversion Van";
+		}
+		if (isMotorHomeType(statCode)) {
+			return "Motor Home";
+		}
+		if (isTrailerType(statCode)) {
+			return "Trailer";
+		}
+		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
+	}
+
 	String getDriverTabGender(String gender) {
 		if ("F".equals(gender)) {
 			return "Female";
@@ -116,22 +132,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			default:
 				throw new IstfException("Unknown trailer type for statCode: " + statCode);
 		}
-	}
-
-	protected String getVehicleTabType(String statCode) {
-		if (isPrivatePassengerAutoType(statCode)) {
-			return "Private Passenger Auto";
-		}
-		if (isConversionVanType(statCode)) {
-			return "Conversion Van";
-		}
-		if (isMotorHomeType(statCode)) {
-			return "Motor Home";
-		}
-		if (isTrailerType(statCode)) {
-			return "Trailer";
-		}
-		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
 	}
 
 	String getVehicleTabMotorHomeType(String statCode) {
@@ -243,10 +243,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("FUNERAL", AutoSSMetaData.PremiumAndCoveragesTab.FUNERAL_BENEFITS.getLabel());
 		coveragesMap.put("EMB", AutoSSMetaData.PremiumAndCoveragesTab.EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS.getLabel());
 		coveragesMap.put("UM/SUM", AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
-		coveragesMap.put("OBEL",  AutoSSMetaData.PremiumAndCoveragesTab.OPTIONAL_BASIC_ECONOMIC_LOSS.getLabel());
-		coveragesMap.put("APIP",  AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
-		coveragesMap.put("TOWING",  AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
-		coveragesMap.put("RENTAL",  AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
+		coveragesMap.put("OBEL", AutoSSMetaData.PremiumAndCoveragesTab.OPTIONAL_BASIC_ECONOMIC_LOSS.getLabel());
+		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
+		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
+		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
@@ -255,13 +255,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return coveragesMap.get(coverageCD);
 	}
 
-	boolean isPolicyLevelCoverage(String coverageCD) {
+	List<String> getPolicyLevelCoverageCDs() {
 		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
 		if (!getState().equals(Constants.States.OR)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");
 		}
-		return policyLevelCoverage.contains(coverageCD);
+		return policyLevelCoverage;
+	}
+
+	boolean isPolicyLevelCoverageCd(String coverageCd) {
+		return getPolicyLevelCoverageCDs().contains(coverageCd);
 	}
 
 	boolean isFirstPartyBenefitsComboCoverage(String coverageCD) {
@@ -365,7 +369,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			return "starts=No Coverage";
 		}
 		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
-		if (isPolicyLevelCoverage(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
+		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}
 		return cLimit.toString().replaceAll("\\.00", "");

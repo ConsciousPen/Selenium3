@@ -53,8 +53,8 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 	}
 
 	@Override
-	boolean isPolicyLevelCoverage(String coverageCD) {
-		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCD);
+	boolean isPolicyLevelCoverageCd(String coverageCd) {
+		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCd);
 	}
 
 	String getVehicleTabStatCode(String statCode, int modelYear) {
@@ -215,7 +215,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoTestDataGenerator<AutoCaC
 		for (AutoCaChoiceOpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			for (AutoOpenLCoverage coverage : vehicle.getCoverages()) {
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
-				if (isPolicyLevelCoverage(coverage.getCoverageCd())) {
+				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
