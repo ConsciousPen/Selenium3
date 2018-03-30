@@ -483,7 +483,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String effectiveDate2 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup22 = HelperCommon.executeLookupValidate(lookupName2, productCd, riskStateCd, effectiveDate2);
-			softly.assertThat("TRUE".equals(responseValidateLookup22.get("pciDebitCard"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup22.get("pciDebitCard"))).isTrue();
 			softly.assertThat("FALSE".equals(responseValidateLookup22.get("pciCreditCard"))).isTrue();
 			softly.assertThat("TRUE".equals(responseValidateLookup22.get("eft"))).isTrue();
 			softly.assertThat(responseValidateLookup12.size()).isEqualTo(3);
@@ -525,7 +525,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String effectiveDate2 = TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			HashMap<String, String> responseValidateLookup21 = HelperCommon.executeLookupValidate(lookupName1, productCd, riskStateCd, effectiveDate2);
-			softly.assertThat("TRUE".equals(responseValidateLookup21.get("annualSS"))).isTrue();
+			softly.assertThat("FALSE".equals(responseValidateLookup21.get("annualSS"))).isTrue();
 			softly.assertThat("TRUE".equals(responseValidateLookup21.get("semiAnnual6SS"))).isTrue();
 			softly.assertThat("TRUE".equals(responseValidateLookup21.get("annualSS_R"))).isTrue();
 			softly.assertThat("TRUE".equals(responseValidateLookup21.get("semiAnnual6SS_R"))).isTrue();
