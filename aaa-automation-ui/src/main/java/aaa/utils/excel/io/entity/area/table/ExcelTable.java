@@ -104,8 +104,8 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		Map<Integer, TableColumn> tableIndexesAndColumnsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
 		int columnIndexInTable = 1;
 		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
-			Row row = getSheet().getPoiSheet().getRow(columnIndexOnSheet - 1);
-			tableIndexesAndColumnsMap.put(columnIndexInTable, new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes));
+			TableColumn column = new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes);
+			tableIndexesAndColumnsMap.put(columnIndexInTable, column);
 			columnIndexInTable++;
 		}
 		return tableIndexesAndColumnsMap;

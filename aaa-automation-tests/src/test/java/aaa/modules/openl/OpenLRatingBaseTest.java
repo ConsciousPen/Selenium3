@@ -28,8 +28,6 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
@@ -54,11 +52,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	}
 
 	protected TestData getRatingDataPattern() {
-		TestData td = getPolicyTD().mask(new PurchaseTab().getMetaKey());
-		/*if (getPolicyType().equals(PolicyType.PUP)) {
-			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
-		}*/
-		return td;
+		return getPolicyTD();
 	}
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
@@ -68,10 +62,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		mainApp().open();
 		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
-			for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
-				P policyObject = policyAndPremium.getKey();
+			for (Map.Entry<P, Dollar> policyAndExpectedPremium : openLPoliciesAndPremiumsMap.entrySet()) {
+				P policyObject = policyAndExpectedPremium.getKey();
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
-						policyObject.getNumber(), policyAndPremium.getValue(), openLFileName);
+						policyObject.getNumber(), policyAndExpectedPremium.getValue(), openLFileName);
 
 				//TODO-dchubkov: add assertion that policy effective date is not too old (ask about valid policy age requirement)
 				if (policyObject.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
@@ -80,9 +74,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 					SearchPage.openCustomer(customerNumber);
 				}
 
-				String quoteNumber = createAndRateQuote(tdGenerator, policyObject);
-				log.info("QUOTE CREATED: {}", quoteNumber);
-				softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString());
+				String actualPremium = createAndRateQuote(tdGenerator, policyObject);
+				softly.assertThat(actualPremium).as("Total premium is not equal to expected one").isEqualTo(policyAndExpectedPremium.getValue().toString());
+
+				log.info("QUOTE CREATED: {}", Tab.labelPolicyNumber.getValue());
 				Tab.buttonSaveAndExit.click();
 			}
 		});
@@ -133,7 +128,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		}
 		openLFileManager.close();
 
-		//Sort map by policies effective dates for further valid timeshifts
+		//Sort map by policies effective dates for further valid time shifts
 		openLPoliciesAndPremiumsMap = openLPoliciesAndPremiumsMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(OpenLPolicy::getEffectiveDate)))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 

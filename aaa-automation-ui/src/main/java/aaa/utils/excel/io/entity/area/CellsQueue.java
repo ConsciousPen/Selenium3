@@ -194,7 +194,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		if (cell.isDate(formatters)) {
 			return Objects.equals(cell.getDateValue(formatters), expectedValue);
 		}
-		return Objects.equals(cell.getValue(), expectedValue);
+		return cell.getCellTypes().stream().anyMatch(cellType -> Objects.equals(cell.getValue(cellType), expectedValue));
 	}
 
 	public CellsQueue<CELL> registerCellType(CellType<?>... cellTypes) {
