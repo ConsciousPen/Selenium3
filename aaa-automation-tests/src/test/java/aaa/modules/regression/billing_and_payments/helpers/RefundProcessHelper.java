@@ -67,6 +67,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		return PolicyType.AUTO_SS;
 	}
 
+	@SuppressWarnings("Unchecked")
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
 			String email, String refundEligible)
 			throws IOException {
@@ -136,6 +137,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 	}
 
+	@SuppressWarnings("Unchecked")
 	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
 			String refundAmount, String email, String refundEligible)
 			throws IOException {
@@ -682,8 +684,6 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	public String policyCreation() {
 		mainApp().open();
-		createCustomerIndividual();
-		/*getPolicyType().get().createPolicy(getPolicyTD());*/
 		getCopiedPolicy();
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

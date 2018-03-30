@@ -1777,9 +1777,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			} else {
 				count = 1;
-				createCustomerIndividual();
 
-				//if (!EntitiesHolder.getEntities().containsKey(getPolicyType().getKey() + "_evalue_" + getState())) {
 				TestData defaultTestData = getPolicyTD("DataGather", "TestData");
 				TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
 				TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");

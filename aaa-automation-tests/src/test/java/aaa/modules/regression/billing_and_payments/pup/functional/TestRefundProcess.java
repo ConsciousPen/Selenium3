@@ -226,7 +226,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private String preconditionPolicyCreationPup() {
 		mainApp().open();
 		createCustomerIndividual();
-		/*String policyNumber = createPolicy();*/
 		String policyNumber = getCopiedPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
