@@ -32,7 +32,7 @@ public class AutoCaSelectPremiumCalculationTest extends OpenLRatingBaseTest<Auto
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-		return PremiumAndCoveragesTab.getPolicyTermPremium().toString();
+		return PremiumAndCoveragesTab.totalTermPremium.getValue();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})
