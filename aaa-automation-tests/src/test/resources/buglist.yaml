@@ -279,9 +279,3 @@ PAS-11662:
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
       messages: ["Internal rating engine error"]
-PAS-11906:
-  summary: "Regression: Reorder Insurance Score Report enabled during renewal process for PA"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport.pas6827_disableReorderReportRenewal]
-      messages: ["expected"]
