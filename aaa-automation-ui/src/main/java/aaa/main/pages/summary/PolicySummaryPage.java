@@ -3,6 +3,9 @@
 package aaa.main.pages.summary;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -10,6 +13,7 @@ import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
@@ -124,6 +128,14 @@ public class PolicySummaryPage extends SummaryPage {
 		}
 		return linkPolicy.getValue();
 	}
+
+	public static String getAutoCoveragesSummaryTextAt(int row, int column) {
+        List<Table> coveragesTables;
+        int numTables = BrowserController.get().driver().findElements(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table")).size();
+        coveragesTables = IntStream.range(1, numTables + 1).mapToObj(i -> new Table(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table[" + i + "]")))
+                .collect(Collectors.toList());
+        return coveragesTables.get(row).getRow(1).getCell(column).getValue();
+    }
 
 	public static void verifyCancelNoticeFlagPresent() {
 		labelCancelNotice.verify.present("'Cancel Notice' flag is present");
