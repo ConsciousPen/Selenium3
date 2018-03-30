@@ -1746,7 +1746,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//EntitiesHolder.addNewEntity(eValueKey, "VASS952918562");
 
 		mainApp().open();
-		String policyNumber = openDefaultPolicy(getPolicyType());
+		openDefaultPolicy(getPolicyType());
 		policy.policyCopy().perform(td);
 		policy.dataGather().start();
 		//TODO workaround for QC 44220 Failed to rate policy QAZSS953305611,1528211031,quote
@@ -1758,9 +1758,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 		documentsAndBindTab.saveAndExit();
-		log.info("policyNum: {}", policyNumber);
+		String eValueQuote = PolicySummaryPage.getPolicyNumber();
+		log.info("NEW EVALUE QUOTE", eValueQuote);
 	}
-
 
 	private String openDefaultPolicy(PolicyType policyType) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
@@ -1797,7 +1797,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				getPolicyType().get().createQuote(eValuePolicyData);
 				policyNumber = simplifiedQuoteIssue();
 				EntitiesHolder.addNewEntity(getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
-				printToLog("EVALUE QUOTE WAS CREATED "+getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
+				printToLog("DEFAULE EVALUE QUOTE WAS CREATED " + getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
 
 			}
 			policyCount.put(eValueKey, count);
