@@ -596,7 +596,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
 		assertSoftly(softly -> {
-			softly.assertThat(response0.getVehicles().get(0).getVin()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getVin()).isEqualTo(vin0);
 			softly.assertThat(response0.getVehicles().get(0).getYear().toString()).isNotEmpty();
 			softly.assertThat(response0.getVehicles().get(0).getMake()).isNotEmpty();
 			softly.assertThat(response0.getVehicles().get(0).getModelText()).isNotEmpty();
