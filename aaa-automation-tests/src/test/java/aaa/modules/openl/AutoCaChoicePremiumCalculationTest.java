@@ -3,7 +3,6 @@ package aaa.modules.openl;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLFile;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
@@ -33,7 +32,7 @@ public class AutoCaChoicePremiumCalculationTest extends OpenLRatingBaseTest<Auto
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-		return Tab.labelPolicyNumber.getValue();
+		return PremiumAndCoveragesTab.getPolicyTermPremium().toString();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

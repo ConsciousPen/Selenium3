@@ -511,8 +511,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE.getLabel(), getYesOrNo(openLPolicy.getUmbiConvCode()));
 		}
 
-		if (getState().equals(Constants.States.MT) && !policyCoveragesData.containsKey(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel())) {
-			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel(), "starts=No Coverage");
+		if ((getState().equals(Constants.States.MT) || getState().equals(Constants.States.CO)) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("UMBI"))) {
+			policyCoveragesData.put(getPremiumAndCoveragesTabCoverageName("UMBI"), "starts=No Coverage");
 		}
 
 		return DataProviderFactory.dataOf(
