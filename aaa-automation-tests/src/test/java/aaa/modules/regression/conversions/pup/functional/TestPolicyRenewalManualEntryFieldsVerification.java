@@ -6,7 +6,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -63,9 +62,9 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
         String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE.getLabel()).getValue());
         String pupPolicyNumberSuffix = policyState + "PU109";
 
-        assertThat(generalTab.getPolicyNumberForPup().startsWith(pupPolicyNumberSuffix)).isTrue();
-        assertThat(generalTab.getPolicyNumberForPup().substring(4).matches("^\\d+$")).isTrue();
-        assertThat(generalTab.getPolicyNumberForPup().length()).isEqualTo(13);
+        assertThat(generalTab.getPolicyNumberForPupOrConversion().startsWith(pupPolicyNumberSuffix)).isTrue();
+        assertThat(generalTab.getPolicyNumberForPupOrConversion().substring(4).matches("^\\d+$")).isTrue();
+        assertThat(generalTab.getPolicyNumberForPupOrConversion().length()).isEqualTo(13);
 
     }
 }

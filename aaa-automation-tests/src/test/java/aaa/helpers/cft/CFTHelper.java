@@ -43,6 +43,15 @@ public class CFTHelper extends BaseTest {
 		}
 	}
 
+	public static void checkFile(String dirPath, String fileName) {
+		File directory = new File(dirPath);
+		if (directory.mkdirs()) {
+			log.info("\"{}\" folder was created", directory.getAbsolutePath());
+		} else {
+			FileUtils.deleteQuietly(new File (dirPath+fileName));
+		}
+	}
+
 	public static Map<String, Double> getExcelValues(String downloadDir, String suffix) {
 		Map<String, Double> accountsMapSummaryFromOR = new HashMap<>();
 		for (File reportFile : new File(downloadDir).listFiles()) {

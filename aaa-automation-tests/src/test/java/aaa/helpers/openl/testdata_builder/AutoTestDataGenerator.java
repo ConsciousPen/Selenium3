@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -194,41 +195,48 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
-		switch (coverageCD) {
-			case "BI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel();
-			case "PD":
-				return AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel();
-			case "UMBI":
-				return AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
-			case "SP EQUIP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel();
-			case "COMP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel();
-			case "COLL":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel();
-			case "UMPD":
-				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
-			case "UIMBI":
-				//TODO-dchubkov: replace with correct coverage name key
-				return "UNKNOWN COVERAGE (AZ)";
-			case "UIMPD":
-				//TODO-dchubkov: replace with correct coverage name key
-				return "UNKNOWN COVERAGE (DC)";
-			case "UM/SUM":
-				//TODO-dchubkov: replace with correct coverage name key
-				return "UNKNOWN COVERAGE (NY)";
-			case "MP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel();
-			case "PIP":
-				return AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel();
-			default:
-				throw new IstfException("Unknown mapping for coverageCD: " + coverageCD);
+		Map<String, String> coveragesMap = new HashMap<>();
+
+		coveragesMap.put("BI", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel());
+		coveragesMap.put("PD", AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel());
+		if (getState().equals(Constants.States.OR)) {
+			coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		} else {
+			coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 		}
+		coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
+		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+
+		if (getState().equals(Constants.States.PA)) {
+			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_EXPENSES.getLabel());
+		} else {
+			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel());
+		}
+		coveragesMap.put("PIP",AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel());
+
+		// PA state
+		coveragesMap.put("ADBC", AutoSSMetaData.PremiumAndCoveragesTab.ACCIDENTAL_DEATH_BENEFITS.getLabel());
+		coveragesMap.put("IL", AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS_BENEFIT.getLabel());
+		coveragesMap.put("FUNERAL", AutoSSMetaData.PremiumAndCoveragesTab.FUNERAL_BENEFITS.getLabel());
+		coveragesMap.put("EMB", AutoSSMetaData.PremiumAndCoveragesTab.EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS.getLabel());
+
+		//TODO-dchubkov: replace with correct coverage name key
+		coveragesMap.put("UIMPD", "UNKNOWN COVERAGE (DC)");
+		coveragesMap.put("UM/SUM", "UNKNOWN COVERAGE (NY)");
+
+		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
+		return coveragesMap.get(coverageCD);
 	}
 
 	boolean isPolicyLevelCoverage(String coverageCD) {
-		return Arrays.asList("BI", "PD", "UMBI", "MP", "PIP").contains(coverageCD);
+		return Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB").contains(coverageCD);
+	}
+
+	boolean isFirstPartyBenefitsComboCoverage(String coverageCD) {
+		return Arrays.asList("ADBC", "IL", "FUNERAL").contains(coverageCD);
 	}
 
 	TestData getVehicleTabVehicleDetailsData(String safetyScore) {
@@ -320,8 +328,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
-		Dollar cLimit = new Dollar(coverageLimit);
-		if (isPolicyLevelCoverage(coverageCD)) {
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
+		if (isPolicyLevelCoverage(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}
 		return cLimit.toString().replaceAll("\\.00", "");

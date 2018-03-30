@@ -18,7 +18,7 @@ import toolkit.exceptions.IstfException;
 public class HttpStub {
 
 	private static final String PARAMS_FILENAME = "stub.txt";
-	private static final String STUB_URL = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
+	private static final String STUB_URL = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URL_TEMPLATE);
 	private static Logger log = LoggerFactory.getLogger(HttpStub.class);
 	private static String host = HttpHelper.getHost();
 	private static String urlTemplate = HttpConstants.URL_PROTOCOL + host + STUB_URL;
@@ -79,7 +79,7 @@ public class HttpStub {
 			httpRequestor.sendPostRequest(urlTemplate + batchName.getRequest(), queryBuilder.buildQueryString(0, null));
 
 			String result = HttpHelper.find(httpRequestor.getResponse(), RESULT_REGEXP);
-			log.info("HTTP Stub: '" + batchName.getName() + "' execution finished with result: " + result);
+			log.info("HTTP Stub: '{}' execution finished with result: {}", batchName.getName(), result);
 		} catch (IOException e) {
 			throw new IstfException("HTTP Stub ERROR: '" + batchName.getName() + "' execution failed. \n", e);
 		}

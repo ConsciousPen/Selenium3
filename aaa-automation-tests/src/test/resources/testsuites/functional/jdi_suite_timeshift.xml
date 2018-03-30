@@ -147,6 +147,13 @@
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless"/>
+
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48"/>
+                    <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63"/>
+                    <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
+                    <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
                 </methods>
             </class>
         </classes>

@@ -27,7 +27,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	ProductOfferingTab productOfferingTab = new ProductOfferingTab();
 
-
 	/**
 	 * @author R. Kazlauskiene
 	 * @name Test View And Override Capping Details
@@ -44,7 +43,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 * 9. Check Capping Factor and Capped Term Premium values
 	 *
 	 **/
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-3002")
@@ -53,7 +51,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		TestData td = initTestData();
 		TestData initiateRenewalEntry = initInitiateRenewalEntry();
 
-		TestData tdViewCappingDetails = getTestSpecificTD("TD_ViewCappingDetails");
 		String renewalTermPremiumOld = getTestSpecificTD("TestData").getTestData
 				("InitiateRenewalEntryActionTab").getValue("Renewal Policy Premium");
 
@@ -65,6 +62,9 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 		//Fill Quote
 		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
+
+		String ceilingCap =  PolicyHelper.getCeilingByPolicyNumber(premiumsAndCoveragesQuoteTab.getPolicyNumberForPupOrConversion());
+		String floorCap =  PolicyHelper.getFloorByPolicyNumber(premiumsAndCoveragesQuoteTab.getPolicyNumberForPupOrConversion());
 		//View Capping Details
 		premiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 
@@ -73,10 +73,10 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 		//Check Capping Details
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.RENEWAL_TERM_PREMIUM_OLD_RATER)).isEqualTo(new Dollar(renewalTermPremiumOld).toString());
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CHANGE_IN_POLICY_PREMIUM)).isEqualTo(PolicyHelper.calculateChangeInPolicyPremium(calculatedTermPremium, renewalTermPremiumOld));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CEILING_CAP)).isEqualTo(String.format("%s.0%%", tdViewCappingDetails.getValue("Ceiling Cap").toString()));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.FLOOR_CAP)).isEqualTo(String.format("%s.0%%", tdViewCappingDetails.getValue("Floor Cap").toString()));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.SYSTEM_CALCULATED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
-		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, tdViewCappingDetails.getValue("Floor Cap")));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CEILING_CAP)).isEqualTo(String.format("%s.0%%", ceilingCap));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.FLOOR_CAP)).isEqualTo(String.format("%s.0%%", floorCap));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.SYSTEM_CALCULATED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, floorCap));
+		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, floorCap));
 		assertThat(premiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.PROGRAM_CODE)).isEqualTo("LegacyConv");
 		//Override Capping Factor
 		overrideCappingFactor(premiumsAndCoveragesQuoteTab);
@@ -194,8 +194,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 				.isEqualTo(cappingFactorAfterOverride);
 	}
 
-
-
 	/**
 	 * @author Parth Varmora
 	 * @name Test Check Capping Lock Indicator
@@ -214,7 +212,6 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 * 11. Assert that Capping Lock get selected.
 	 *
 	 **/
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-8847")

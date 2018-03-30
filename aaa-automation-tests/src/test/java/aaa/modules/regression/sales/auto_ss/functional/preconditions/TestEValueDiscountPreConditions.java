@@ -28,20 +28,20 @@ public interface TestEValueDiscountPreConditions {
 			+ "FROM LOOKUPVALUE \n"
 			+ "WHERE LOOKUPLIST_ID IN (\n"
 			+ " SELECT ID \n"
-			+ " FROM PASADM.LOOKUPLIST \n"
+			+ " FROM LOOKUPLIST \n"
 			+ " WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ " AND CODE='eMember' \n"
-			+ " and RiskStateCd = 'VA')";
+			+ " and RiskStateCd = 'OR')";
 
 	String EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK = "select ChannelCd from(\n"
 			+ "SELECT code, displayvalue, effective, productCd, riskstatecd, territoryCd, channelCd, underwritercd \n"
 			+ "FROM LOOKUPVALUE \n"
 			+ "WHERE LOOKUPLIST_ID IN (\n"
 			+ " SELECT ID \n"
-			+ " FROM PASADM.LOOKUPLIST \n"
+			+ " FROM LOOKUPLIST \n"
 			+ " WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ " AND CODE='eMember' \n"
-			+ " and RiskStateCd = 'VA')";
+			+ " and RiskStateCd = 'OR')";
 
 	String EVALUE_CURRENT_BI_CONFIG_CHECK = "select effective from (\n"
 			+ "SELECT code, displayValue, productCd, riskStateCd, effective, expiration \n"

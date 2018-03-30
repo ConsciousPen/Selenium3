@@ -7,6 +7,9 @@ import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class OpenLTest {
+	@ExcelTransient
+	public static final String TOTAL_PREMIUM_COLUMN_NAME = "Total Premium";
+
 	@ExcelTableColumnElement(isPrimaryKey = true)
 	private Integer policy;
 
@@ -14,7 +17,7 @@ public class OpenLTest {
 	@ExcelTransient
 	private List<Integer> premiums;
 
-	@ExcelTableColumnElement(name = "Total Premium")
+	@ExcelTableColumnElement(name = TOTAL_PREMIUM_COLUMN_NAME)
 	private Integer totalPremium;
 
 	public Integer getPolicy() {

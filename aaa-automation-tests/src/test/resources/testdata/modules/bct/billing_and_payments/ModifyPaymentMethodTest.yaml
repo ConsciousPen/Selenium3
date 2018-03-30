@@ -10,7 +10,45 @@ TestData: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {
-     Payment Plan: 'Monthly (Renewal)'
+     Payment Plan: 'Monthly'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_NY: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'Maintain Driver(s)'
+  },
+   GeneralTab: {
+    PolicyInformation: {Authorized by: QA}
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+     Payment Plan: 'Monthly'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_VA: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'Maintain Driver(s)'
+  },
+   GeneralTab: {
+    PolicyInformation: {Authorized by: QA}
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+     Payment Plan: 'Monthly'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
@@ -23,5 +61,6 @@ TestData_Override: {
     Duration: 'Life',
     'Reason for override': 'index=1'
     }
-  }
+  },
+  PurchaseTab: {}
 }

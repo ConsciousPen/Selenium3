@@ -54,7 +54,7 @@ public class ConversionUtils {
 	protected static File prepareXML(ConversionPolicyData conversionData) {
 		String newName = String.format("%s_%s_%s-%s.xml", conversionData.getConversionType().name(),
 			conversionData.getFile().getName().substring(0, conversionData.getFile().getName().lastIndexOf(".")),
-			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{3}").random());
+			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{4}").random());
 		File changedFile = new File(CustomLogger.getLogDirectory() + File.separator + "uploded_files", newName);
 		changedFile.getAbsoluteFile().getParentFile().mkdir();
 

@@ -1,0 +1,45 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    #Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    DwellingAddress_PropertyInfoTab: {
+      Number of family units: '4-Fourplex'
+    }, 
+    PropertyValue: {
+      Coverage A - Dwelling limit: 174000, 
+    }, 
+    DetachedStructures: [{
+      "Are there any detached structures on the property?": 'Yes', 
+      Rented to others: 'Yes', 
+      Description: 'Detached structure 1',
+      Limit of liability: '10000', 
+      Number of family units: '4', 
+      Number of occupants: '2'
+    }],
+    RecreationalEquipment: {
+      Swimming pool: Restricted access with slide and diving board, 
+      "Spa/hot tub": Restricted access,
+      Trampoline: Restricted access in-ground with safety net
+    },
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

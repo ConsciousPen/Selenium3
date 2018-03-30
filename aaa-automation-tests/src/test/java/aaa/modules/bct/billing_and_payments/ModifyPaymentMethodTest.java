@@ -1,20 +1,19 @@
 package aaa.modules.bct.billing_and_payments;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 
 public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
@@ -37,7 +36,6 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		}
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(BillingConstants.PaymentPlan.MONTHLY_RENEWAL);
-
+		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(getTestSpecificTD("TestData").getTestData("PremiumAndCoveragesTab").getValue("Payment Plan"));
 	}
 }

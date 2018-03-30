@@ -94,42 +94,42 @@
 
 
 	<test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, AZ, VA, PA, NJ, DE, MD" />
+		<parameter name="state" value="NJ, DE, VA" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest" />
 		</classes>
 	</test>
 
 	<test name="Home SS HO3 Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, AZ, VA, PA, NJ, DE, MD, NY" />
+		<parameter name="state" value="NJ, DE, VA" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.home_ss.ho3.ManualConversionTest" />
 		</classes>
 	</test>
 
 	<test name="Home SS HO4 Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, CO, CT, DC, MT, SD" />
+		<parameter name="state" value="NJ, DE, VA" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.home_ss.ho4.ManualConversionTest" />
 		</classes>
 	</test>
 
 	<test name="Home SS HO6 Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, ID, IN, KS, KY, WV" />
+		<parameter name="state" value="NJ, DE, VA" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.home_ss.ho6.ManualConversionTest" />
 		</classes>
 	</test>
 
 	<test name="Home SS DP3 Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, NV, WY, OH, OK, OR" />
+		<parameter name="state" value="NJ, DE, VA" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest" />
 		</classes>
 	</test>
 
 	<test name="PUP Manual Conversion Test" parallel="methods" thread-count="200">
-		<parameter name="state" value="UT, AZ, VA, PA, NJ, DE, MD" />
+		<parameter name="state" value="NJ, DE, VA" />
 		<classes>
 			<class name="aaa.modules.regression.conversions.pup.ManualConversionTest" />
 		</classes>

@@ -1,0 +1,168 @@
+AAAMembership: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+  Member Since Date: 01/01/2006,
+  Membership Number: ,
+  Last name:
+}
+
+AAAMembership_NoMemSinceDate: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+  Member Since Date: ,
+  Membership Number: ,
+  Last name:
+}
+
+AAAMembership_NonMember: {
+  Current AAA Member: 'No'
+}
+
+AAAMembership_TERM: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+  Member Since Date: '01/01/2018'
+}
+
+AAAMembership_LIFE: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Life',
+  Member Since Date: '02/01/2018'
+}
+
+AAAMembership_ActiveMember: {
+  Current AAA Member: 'Yes',
+  Membership number: '8800400000000007',
+  Last name: Nov1
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  #AAAMembershipReport: [{Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+ReportsTab_ActiveMember: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+AAAMembershipReport: {}
+
+Endorsement_AddActiveMember: {
+  GeneralTab: {},
+  ApplicantTab: {
+    AAAMembership: {
+      Current AAA Member: 'Yes',
+      Membership number: '8800400000000007',
+      Last name: Nov1
+    },
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+Endorsement_AddMemberOverride: {
+  GeneralTab: {},
+  ApplicantTab: {
+    AAAMembership: {
+      Current AAA Member: 'Membership Override',
+      Override Type: 'Term',
+      Member Since Date: 01/01/2006,
+      Membership Number: ,
+      Last name:
+    },
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree'
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+Endorsement_DoNothing: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+Renewal_DoNothing: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+Renewal_AddMemberOverride: {
+  GeneralTab: {},
+  ApplicantTab: {
+    AAAMembership: {
+      Current AAA Member: 'Membership Override',
+      Override Type: 'Life',
+      Membership Number: ,
+      Last name:
+    },
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree'
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+AgentInfo: {
+  Channel Type: "AAA Agent",
+  Agency: "SMTestNCNU - 400001005",
+  Sales Channel: "IE DSC-District Sales and Marketing",
+  Agency Location: "SMTestNCNU LOCATION - 400001105 - Emeryville"
+}
+
+PropertyInfoTab_ForPPC: {
+  Fire department type: 'index=1',
+  Subscription to fire department/station: 'No',
+  Public protection class: 'index=1',
+  Distance to fire hydrant: 'index=1',
+  Fire protection area: 'Place'
+}

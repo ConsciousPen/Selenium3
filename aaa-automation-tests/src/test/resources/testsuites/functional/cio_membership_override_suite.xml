@@ -1,0 +1,40 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CIO Functional Membership Override Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
+            </class>
+        </classes>
+    </test>
+
+</suite>

@@ -1,11 +1,12 @@
 package aaa.helpers.jobs;
 
+import aaa.helpers.config.CustomTestProperties;
+import toolkit.config.PropertyProvider;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import aaa.helpers.config.CustomTestProperties;
-import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
@@ -98,6 +99,8 @@ public class Jobs {
 
 	public static Job doNotRenewJob = new Job("DoNotRenewJob");
 
+	public static Job policyDoNotRenewAsyncJob = new Job("policyDoNotRenewAsyncJob");
+
 	public static Job preRenewalReminderGenerationAsyncJob = new Job("preRenewalReminderGenerationAsyncJob");
 
 	public static Job applyPendingTransactionAsyncjob = new Job("applypendingtransactionAsyncjob");
@@ -137,6 +140,8 @@ public class Jobs {
 	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
+
+    public static Job membershipValidationJob = new Job("membershipValidationJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

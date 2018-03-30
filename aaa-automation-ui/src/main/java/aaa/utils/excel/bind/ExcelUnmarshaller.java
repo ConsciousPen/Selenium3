@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -190,18 +191,21 @@ public class ExcelUnmarshaller {
 				Field primaryKeyField = ColumnFieldHelper.getPrimaryKeyField(tableRowClass);
 				List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(ColumnFieldHelper.getPrimaryKeysSeparator(primaryKeyField)));
 
-				boolean ignoreCaseForAllFields = TableFieldHelper.isCaseIgnored(tableColumnField);
-				Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(row.getTable().getExcelManager(), tableColumnField, ignoreCaseForAllFields, strictMatch);
+				Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(row.getTable().getExcelManager(), tableColumnField, ignoreColumnNameCase, strictMatch);
+				boolean ignorePrimaryKeyColumnNameCase = ignoreColumnNameCase || ColumnFieldHelper.isCaseIgnored(primaryKeyField);
+				int primaryKeyColumnIndex = tableAndColumnsFields.getLeft().getColumnIndex(ColumnFieldHelper.getHeaderColumnName(primaryKeyField), ignorePrimaryKeyColumnNameCase);
+				List<TableRow> linkedTableRows = tableAndColumnsFields.getLeft().getRows().stream().filter(r -> linkedTableRowIds.contains(r.getStringValue(primaryKeyColumnIndex)))
+						.collect(Collectors.toList());
+
+				//TODO-dchubkov: cache same tableRowObjects
 				List<Object> tableRowObjects = new ArrayList<>();
-				for (TableRow linkedTableRow : tableAndColumnsFields.getLeft()) {
+				for (TableRow linkedTableRow : linkedTableRows) {
 					Object tableRowObject = BindHelper.getInstance(tableRowClass);
-					if (linkedTableRowIds.contains(TableFieldHelper.getPrimaryKeyValue(primaryKeyField, linkedTableRow))) {
-						for (Field linkedTableRowField : tableAndColumnsFields.getRight()) {
-							boolean ignoreCase = ignoreCaseForAllFields || ColumnFieldHelper.isCaseIgnored(linkedTableRowField);
-							setFieldValue(linkedTableRowField, tableRowObject, linkedTableRow, ignoreCase, strictMatch);
-						}
-						tableRowObjects.add(tableRowObject);
+					for (Field linkedTableRowField : tableAndColumnsFields.getRight()) {
+						boolean ignoreCase = ignoreColumnNameCase || ColumnFieldHelper.isCaseIgnored(linkedTableRowField);
+						setFieldValue(linkedTableRowField, tableRowObject, linkedTableRow, ignoreCase, strictMatch);
 					}
+					tableRowObjects.add(tableRowObject);
 				}
 				BindHelper.setFieldValue(tableColumnField, rowObject, tableRowObjects);
 				break;

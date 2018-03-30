@@ -1,0 +1,29 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+PremiumAndCoveragesTab : {
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '100',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+#---- Data Gather ----
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard
+}

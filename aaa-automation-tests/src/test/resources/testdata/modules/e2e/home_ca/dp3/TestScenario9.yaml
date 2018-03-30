@@ -1,0 +1,25 @@
+TestData: '@ho3@TestScenario9@TestData'
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 185000, 
+      ISO replacement cost: 185000, 
+      #Reason replacement cost differs from the tool value: 'index=1'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '99000',
+    Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

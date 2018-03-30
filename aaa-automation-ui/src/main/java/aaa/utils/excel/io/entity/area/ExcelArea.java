@@ -142,10 +142,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		ExcelArea<?, ?, ?> otherArea = (ExcelArea<?, ?, ?>) other;
 		conditions.add(Objects.equals(getPoiSheet().getSheetName(), otherArea.getPoiSheet().getSheetName()));
 		conditions.add(Objects.equals(getCellTypes(), otherArea.getCellTypes()));
-		if (this.considerRowsOnComparison) {
+		if (isRowsComparisonRuleSet() && otherArea.isRowsComparisonRuleSet()) {
 			conditions.add(Objects.equals(getRowsIndexes(), otherArea.getRowsIndexes()));
 		}
-		if (this.considerColumnsOnComparison) {
+		if (isColumnsComparisonRuleSet() && otherArea.isColumnsComparisonRuleSet()) {
 			conditions.add(Objects.equals(getColumnsIndexes(), otherArea.getColumnsIndexes()));
 		}
 
@@ -185,10 +185,22 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this;
 	}
 
-	public ExcelArea<CELL, ROW, COLUMN> setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
+	public ExcelArea<CELL, ROW, COLUMN> considerRowsOnComparison(boolean considerRowsOnComparison) {
 		this.considerRowsOnComparison = considerRowsOnComparison;
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> considerColumnsOnComparison(boolean considerColumnsOnComparison) {
 		this.considerColumnsOnComparison = considerColumnsOnComparison;
 		return this;
+	}
+
+	public boolean isRowsComparisonRuleSet() {
+		return this.considerRowsOnComparison;
+	}
+
+	public boolean isColumnsComparisonRuleSet() {
+		return this.considerColumnsOnComparison;
 	}
 
 	public CELL getFirstColumnCell(int rowIndex) {
