@@ -1,0 +1,50 @@
+AAAMembership_CIN: {
+  Current AAA Member: 'No'
+}
+
+MembershipReport_CIN: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+TestData_Renewal: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+AddNamedInsuredWithCluePropertyViolation: {
+   NamedInsured: ['@NamedInsured_Score_650', '@NamedInsuredWithCluePropertyViolation'],
+}
+
+NamedInsured_Score_650: {
+  First name: 'NI650'
+}
+
+NamedInsuredWithCluePropertyViolation: {
+  CustomerSearchDialog: {},
+  First name: PropChargeable,
+  Last name: Activity,
+  Marital status: Married,
+  Date of birth: 12/05/1970,
+  Relationship to primary named insured: Spouse,
+  Social security number: 1234567890,
+  Occupation: 'index=1'
+}
+
+Reorder_InsuranceScore_CLUEReport: {
+  Sales Agent Agreement: 'I Agree',
+  CLUEreport: [Report: 'Re-order report'],
+  InsuranceScoreReport: [Report: 'Re-order report'],
+}

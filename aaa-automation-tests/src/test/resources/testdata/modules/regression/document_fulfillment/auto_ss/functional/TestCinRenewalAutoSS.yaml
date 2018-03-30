@@ -1,3 +1,15 @@
+TestData_Renewal: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 TestData_MVR_AZ: {
   GeneralTab: {},
   DriverTab: ['@Driver_NoChanges', '@Driver_MvrViolation_AZ'],
@@ -24,24 +36,44 @@ TestData_CLUE_AZ: {
 
 Driver_NoChanges: {}
 
+NamedInsured_NoChanges: {}
+
 # ---------- Insurance Score Data ---------------
+
+Driver_Score_840: {
+  DriverTab: ['@Driver_NoChanges', '@Driver_840']
+}
 
 Driver_840: {
   DriverSearchDialog:{},
   Named Insured: 'John Daniel',
-  "Rel. to First Named Insured": 'Spouse',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
   Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
-  Gender: 'Male',
-  Marital Status: 'Married',
-  Occupation: 'Clergy',
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
   License Type: 'Foreign',
-  Age First Licensed: '16',
   License Number: '1234567'
 }
 
+NamedInsured_Score_840: {
+  NamedInsuredInformation: ['@NamedInsured_NoChanges', '@NamedInsured_840']
+}
 
-Driver_Score_840: {
-  DriverTab: ['@No_Change', '@Driver_840']
+NamedInsured_Update_Score_840: {
+  NamedInsuredInformation: ['@NamedInsured_840']
+}
+
+NamedInsured_840: {
+  InsuredSearchDialog: {},
+  Base Date: '$<today:MM/dd/yyyy>',
+  First Name: 'John',
+  Last Name: 'Daniel',
+  "Has lived here for less than three years?": 'No',
+  Residence: 'Own Home',
+  Social Security Number: 123456789
 }
 
 InsuranceScoreOverride_940: {
@@ -51,6 +83,38 @@ InsuranceScoreOverride_940: {
     Reason for Override: 'Fair Credit Reporting Act Dispute',
     Save: 'click'
   }
+}
+
+Dont_Override_CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'No',
+}
+
+RequiredToIssue_No_PriorBI: {
+}
+
+InsuranceScoreOverride_649: {
+  Action: Override Score,
+  EditInsuranceScoreDialog: {
+    New Score: '649',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+}
+
+RatingDetailReportsTab_InsuranceScore: {
+  Customer Agreement: 'Customer Agrees',
+  OrderInsuranceScoreReport: [Select: 'Yes'],
+  Order Report: click
+}
+
+ErrorTab_ForeignLicense: {
+    ErrorsOverride: [{
+        Message: "contains=Foreign",
+        Override: 'true',
+        Approval: 'true',
+        Duration: Life,
+        Reason for override: index=1
+    }]
 }
 
 # ---------- MVR Data ---------------

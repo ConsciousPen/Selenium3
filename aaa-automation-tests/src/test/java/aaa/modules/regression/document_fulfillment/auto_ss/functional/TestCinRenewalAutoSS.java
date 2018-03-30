@@ -119,36 +119,19 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
-        String policyNumber = createPolicy(policyTD);
+        TestData renewalTD = getTestSpecificTD("TestData_Renewal")
+                .adjust(getTestSpecificTD("Driver_Score_840").resolveLinks())
+                .adjust(NAMED_INSURED_OVERRIDE, getTestSpecificTD("NamedInsured_Score_840").resolveLinks().getTestDataList("NamedInsuredInformation"))
+                .adjust(RATING_DETAILS_REPORTS_TAB, getTestSpecificTD("RatingDetailReportsTab_InsuranceScore"))
+                .adjust(ERROR_TAB, getTestSpecificTD("ErrorTab_ForeignLicense"));
 
-        TestData renewalTD = getTestSpecificTD("TestData_CLUE").resolveLinks()
-                .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("NamedInsured_Score_840"));
+        String policyNumber = createPolicy(policyTD);
 
         renewPolicy(policyNumber, renewalTD);
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
         verifyCinGenerated(cinDocument, policyNumber);
-
-//        PolicyCINTestingTemplate test = getTestInstance();
-//        test.createPolicyForTest();
-//        test.loadTestData(TEST_DATA_RENEWAL);
-//        ScenarioAdjustments betterScoreAdjustments = new ScenarioAdjustments()
-//                .merge(GENERAL_TAB, "NamedInsured_Score_840")
-//                .merge(TEST_DATA, "Driver_Score_840")
-//                .merge(RATING_DETAILS_REPORTS_TAB, "Reorder_InsuranceScore")
-//                .merge(ERROR_TAB, "ErrorTab_ForeignLicense")
-//                .merge(DRIVER_ACTIVITY_REPORTS_TAB, "Reorder_CLUE");
-//
-//        if (asList("UT").contains(state)) {
-//            betterScoreAdjustments.merge(ERROR_TAB, "ErrorTab_ForeignLicense");
-//        }
-//
-//        test.adjustPolicyTestData(betterScoreAdjustments);
-//        test.renewPolicy();
-//        test.verifyCINIsGenerated();
-//        test.verifyDisplayPremiumDifferenceIsNotGenerated();
-//        test.verifyDocumentOrder(getDocumentSequence(AUTO + state + RENEWAL + GENERAL_SCENARIO));
     }
 
     /**
@@ -164,27 +147,66 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
      * 5. Do renewal proposal
      * 6. Verify that CIN document is generated
      */
-//    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-//    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
-//    @Parameters({STATE_PARAM})
-//    public void testReorderBetterScore(@Optional("AZ") String state) {
-//        assertStateNotEquals(state, "MD", "CO");
-//        PolicyCINTestingTemplate test = getTestInstance();
-//        test.adjustPolicyTestData(DISABLE_MEMBERSHIP);
-//        test.createPolicyForTest();
-//        test.loadTestData(TEST_DATA_RENEWAL);
-//        ScenarioAdjustments betterScoreAdjustments = new ScenarioAdjustments()
-//                .merge(GENERAL_TAB, "Update_FNI_840")
-//                .merge(PRODUCT_OWNED, "Membership_NI_840")
-//                .merge(RATING_DETAILS_REPORTS_TAB, "Reorder_InsuranceScore")
-//                .merge(DRIVER_ACTIVITY_REPORTS_TAB, "Reorder_CLUE");
-//
-//        test.adjustPolicyTestData(betterScoreAdjustments);
-//        test.renewPolicy();
-//        test.verifyCINIsGenerated();
-//        test.verifyDisplayPremiumDifferenceIsNotGenerated();
-//        test.verifyDocumentOrder(getDocumentSequence(AUTO + state + RENEWAL + GENERAL_SCENARIO));
-//    }
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
+    @Parameters({STATE_PARAM})
+    public void testReorderBetterScore(@Optional("AZ") String state) {
+        assertStateNotEquals(state, "MD", "CO");
+        TestData policyTD = getPolicyDefaultTD()
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
+
+        TestData renewalTD = getTestSpecificTD("TestData_Renewal")
+                .adjust(NAMED_INSURED_OVERRIDE, getTestSpecificTD("NamedInsured_Update_Score_840").resolveLinks().getTestDataList("NamedInsuredInformation"))
+                .adjust(RATING_DETAILS_REPORTS_TAB, getTestSpecificTD("RatingDetailReportsTab_InsuranceScore"));
+
+        String policyNumber = createPolicy(policyTD);
+
+        renewPolicy(policyNumber, renewalTD);
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+
+        verifyCinGenerated(cinDocument, policyNumber);
+    }
+
+    /*******************************
+     *
+     * PRIOR BI LIMIT TRIGGERS
+     *
+     *******************************/
+
+    /**
+     * Tests Prior BI Limit trigger
+     * Creates a policy where there is no prior carrier
+     * BI Limit trigger should be suppressed for renewal
+     *
+     * @param state any
+     * @scenario
+     * 1. Start a quote
+     * 2. Make sure that prior carrier is 'None'
+     * 3. Bind the policy
+     * 4. Renew the policy
+     * 5. Make sure that CIN document is not generated
+     */
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
+    @Parameters({STATE_PARAM})
+    public void testPriorBILimitNoPriorCarrier(@Optional("AZ") String state) {
+        TestData policyTD = getPolicyDefaultTD()
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_940"))
+                .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
+                .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));
+
+        TestData renewalTD = getTestSpecificTD("TestData_Renewal");
+
+        String policyNumber = createPolicy(policyTD);
+
+        renewPolicy(policyNumber, renewalTD);
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
+
+        verifyCinNotGenerated(cinDocument, policyNumber);
+    }
 
     @Override
     protected PolicyType getPolicyType() {

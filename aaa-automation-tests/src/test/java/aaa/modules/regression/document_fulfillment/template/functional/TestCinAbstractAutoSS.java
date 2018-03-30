@@ -42,9 +42,8 @@ public class TestCinAbstractAutoSS extends TestCinAbstract{
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
 
-    public static final String SUPPRESS_INSURANCE_SCORE_TRIGGER = TestData.makeKeyPath(
-            AutoSSMetaData.RatingDetailReportsTab.class.getSimpleName(),
-            AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel());
+    public static final String RATING_DETAILS_REPORTS_TAB = TestData.makeKeyPath(
+            AutoSSMetaData.RatingDetailReportsTab.class.getSimpleName());
 
     public static final String SUPPRESS_PRIOR_BI_TRIGGER = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
@@ -86,6 +85,10 @@ public class TestCinAbstractAutoSS extends TestCinAbstract{
 
     public static final String ERROR_TAB = TestData.makeKeyPath(
             AutoSSMetaData.ErrorTab.class.getSimpleName());
+
+    public static final String NAMED_INSURED_OVERRIDE = TestData.makeKeyPath(
+            AutoSSMetaData.GeneralTab.class.getSimpleName(),
+            AutoSSMetaData.GeneralTab.NamedInsuredInformation.class.getSimpleName());
 
     protected Document ssNewBusinessMainFlow(TestData testData) {
 
