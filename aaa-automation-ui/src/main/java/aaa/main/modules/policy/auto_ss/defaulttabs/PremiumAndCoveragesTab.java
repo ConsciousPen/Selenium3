@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -34,6 +36,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
 	public static Table tableRatingDetailsUnderwriting = new Table(By.id("ratingDetailsPopupForm:underwriting_summary"));
+	public static Table tableCappingDetailsUnderwriting = new Table(By.id("ratingDetailsPopupForm:underwriting_summary"));
 	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
 	public static Table tableRatingDetailsActivities = new Table(By.id("ratingDetailsPopupForm:incident_summary"));
@@ -49,6 +52,8 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
 	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"), Waiters.AJAX);
+	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
+	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
@@ -181,6 +186,9 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 		buttonCalculatePremium.click();
 	}
+
+	public static PropertyQuoteTab.RatingDetailsTable tableCappedPolicyPremium = new PropertyQuoteTab.RatingDetailsTable
+			("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 
 	@Override
 	public Tab fillTab(TestData td) {
