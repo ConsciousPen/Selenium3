@@ -815,10 +815,10 @@ public final class HomeCaMetaData {
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO60.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_60C = declare("HO-60C",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO60C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_61 = declare("HO-61",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO61.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_61C = declare("HO-61C",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO61C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_61 = declare("HO-61", HomeCAEndorsementsMultiAssetList.class, EndorsementHO61.class, 
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_61C = declare("HO-61C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO61C.class, 
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_61_1004 = declare("61 1004",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO611004.class,
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
@@ -1132,6 +1132,12 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO90 extends MetaData {
+		}
+		
+		public static final class EndorsementHO61C extends MetaData {
+		}
+		
+		public static final class EndorsementHO61 extends MetaData {
 		}
 	}
 

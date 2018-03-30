@@ -1,12 +1,18 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
+import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
@@ -22,6 +28,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenLPolicy> {
@@ -77,7 +84,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 			aaaMembership.adjust(HomeCaMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith");
 		}
 		TestData dwellingAddress = DataProviderFactory.dataOf(
-				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwellings().get(1).getAddress().get(1).getZipCode());
+				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwellings().get(0).getAddress().get(0).getZipCode());
 		TestData otherActiveAAAPolicies = DataProviderFactory.dataOf(
 				HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), getYesOrNo(openLPolicy.getHasMultiPolicyDiscount()));
 		if (openLPolicy.getHasMultiPolicyDiscount()) {
@@ -97,7 +104,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	
 	private List<TestData> getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		List<TestData> dwellingTestDataList = new ArrayList<>(openLPolicy.getDwellings().size()); 
-		Double coverageA = openLPolicy.getCovALimit();
+		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
 		
 		for (HomeCaHO3OpenLDwelling dwelling: openLPolicy.getDwellings()) {
 			TestData dwellingAddressData = DataProviderFactory.dataOf(
@@ -106,9 +113,11 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 					HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), dwelling.getPpcValue());
 			TestData wildfireScoreData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE.getLabel(), dwelling.getFirelineScore());	
+			
 			TestData propertyValueData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), coverageA, 
-					HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST, coverageA);
+					HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST, coverageA.multiply(0.85), 
+					HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), "Mortgagee requirements");
 			
 			TestData constructionData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(dwelling.getAgeOfHome()).getYear(),
@@ -147,8 +156,27 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		return theftProtectiveDeviceData;
 	}
 	
-	private TestData getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
-		return null;
+	private List<TestData> getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
+		List<TestData> formsTestDataList = new ArrayList<>(openLPolicy.getForms().size()); 
+		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (!form.getFormCode().equals("premium")) {
+				formsTestDataList.add(getFormData(form));
+			}
+		}
+		return formsTestDataList;
+	}
+	
+	private TestData getFormData(HomeCaHO3OpenLForm form) {
+		switch (form.getFormCode()){
+		case "HO-61C": 
+			TestData form_HO61C = DataProviderFactory.dataOf("Action", "Add");
+			return DataProviderFactory.dataOf(HomeCaMetaData.EndorsementTab.HO_61C.getLabel(), form_HO61C);
+		case "HO-61": 
+			TestData form_HO61 = DataProviderFactory.dataOf("Action", "Add");
+			return DataProviderFactory.dataOf(HomeCaMetaData.EndorsementTab.HO_61.getLabel(), form_HO61);
+		default: 
+			return null;
+		}
 	}
 	
 	private TestData getPersonalPropertyTabData() {
@@ -156,7 +184,26 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
-		return null;
+		Map<String, Object> premiumAndCoveragesTabTestData = new HashMap<>();
+		for(HomeCaOpenLCoverage coverage: openLPolicy.getCoverages()) {
+			switch (coverage.getCoverageCd()) {
+			case "CovA": 
+				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_A.getLabel(), coverage.getLimitAmount());
+				break;
+			case "CovC": 
+				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), coverage.getLimitAmount());
+				break; 
+			case "CovD": 
+				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), coverage.getLimitAmount());
+				break; 
+			case "CovE": 
+				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), coverage.getLimitAmount());
+				break;
+			default: 
+				break;
+			}
+		}
+		return new SimpleDataProvider(premiumAndCoveragesTabTestData);
 	}
 	
 	private TestData getMortgageesTabData() {
