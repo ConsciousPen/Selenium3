@@ -2,30 +2,36 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.client.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.xerces.impl.dv.util.Base64;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+
+import javax.ws.rs.client.*;
+import java.util.Map;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
-	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
+	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vin-info/%s";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
@@ -38,6 +44,8 @@ public class HelperCommon {
 	private static final String DXP_ENDORSEMENT_BIND_ENDPOINT = "/api/v1/policies/%s/endorsement/bind";
 	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT="/api/v1/policies/%s/endorsement/assignments";
+	private static final String DXP_VIEW_PREMIUM_POLICY ="/api/v1/policies/%s/premiums";
+	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT="/api/v1/policies/%s/endorsement/premiums";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -93,7 +101,7 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class);
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
 	}
 
 	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status) {
@@ -116,7 +124,7 @@ public class HelperCommon {
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
-		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
+		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
 	static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
@@ -126,8 +134,17 @@ public class HelperCommon {
 
 	static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
-		DriverAssignmentDto[] validateEndorsementDriverAssignmentResponse = runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
-		return validateEndorsementDriverAssignmentResponse;
+		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+	}
+
+	static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
+	}
+
+	static PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_ENDORSEMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
 	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {

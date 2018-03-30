@@ -123,7 +123,7 @@ public class Ssh {
 			}
 			log.info("SSH: Files were removed from the folder '" + source + "'.");
 		} catch (Exception e) {
-			throw new RuntimeException("SSH: Folder '" + source + "' doesn't exist.", e);
+			throw new RuntimeException("SSH: Error deleting files from folder '" + source + "'", e);
 		}
 	}
 

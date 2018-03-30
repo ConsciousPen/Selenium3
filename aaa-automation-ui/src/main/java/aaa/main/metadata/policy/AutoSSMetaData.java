@@ -572,7 +572,8 @@ public final class AutoSSMetaData {
 
 		public static final class ExcessVehiclesRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> EXCESS_VEHICLES = declare("Excess Vehicle(s)", StaticElement.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX, By.xpath(".//select[contains(@id,'driverCombobox')]"));
+
 		}
 	}
 

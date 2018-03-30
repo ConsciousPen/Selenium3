@@ -32,6 +32,7 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestServiceRFI extends HomeSSHO3BaseTest {
 
@@ -86,7 +87,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "POLICY_ISSUE");
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "OldHoModrnDiscYN", "Y");
@@ -167,7 +168,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "POLICY_ISSUE");
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "NewHoModrnDiscYN", "Y");
