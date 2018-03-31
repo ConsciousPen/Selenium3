@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -23,6 +24,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.EntitiesHolder;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -37,6 +39,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -45,6 +48,7 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueD
 import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -64,6 +68,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
+	private static Map<String, Integer> policyCount = new HashMap<>();
 
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
 			"$25,000/$50,000",
@@ -324,12 +329,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoState, "BaseProductLookupValue", "paperlessPreferencesRequired", "TRUE", "AAA_SS", "AAAeMemberQualifications")).isPresent());
 
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "eMember", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDRXX", "TRUE",  "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDEXX", "TRUE",  "AAARolloutEligibilityLookup")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDRXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHDEXX", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_SS", state, "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "TRUE", "AAA_HO_SS", state, "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVXX2", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
-		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE",  "AAARolloutEligibilityLookup")).isPresent());
+		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "AHMVNBXX", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eMember", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "PaperlessPreferences", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
@@ -338,7 +343,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "FALSE", "AAARolloutEligibilityLookup")).isPresent());
 
-	//new state specific configs for NJ/NY/MD- PAS-10359
+		//new state specific configs for NJ/NY/MD- PAS-10359
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "membershipEligibility", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NJ", "AAAeMemberQualifications")).isPresent());
 		CustomAssert.assertTrue(DBService.get().getValue(String.format(lookupCheckWithState, "BaseProductLookupValue", "priorInsurance", "FALSE", "AAA_SS", "NY", "AAAeMemberQualifications")).isPresent());
@@ -451,7 +456,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
-
 
 	/**
 	 * @author Megha Gubbala
@@ -850,7 +854,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		if (errorTab.getErrorsControl().getTable().isPresent()) {
 			errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS8120577").verify.present(false);
 			errorTab.cancel();
-		} else if(Page.dialogConfirmation.isPresent()){
+		} else if (Page.dialogConfirmation.isPresent()) {
 			Page.dialogConfirmation.reject();
 		}
 		//PAS-264 end
@@ -1210,7 +1214,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-297","PAS-296"})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-297", "PAS-296"})
 	public void pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences(@Optional("VA") String state) {
 
 		eValueQuoteCreation();
@@ -1736,24 +1740,67 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public void eValueQuoteCreation() {
-		//Default VA test data didn't work, so had to use multiple adjustments
-		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
-		TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
-		TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
-				.adjust("PolicyInformation", policyInformationSectionAdjusted)
-				.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
-
-		TestData eValuePolicyData = defaultTestData
-				.adjust("GeneralTab", generalTabAdjusted)
-				.resolveLinks();
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData");
+		//Debug data
+		//String eValueKey = getPolicyType().getKey() + "_evalue_" + getState();
+		//EntitiesHolder.addNewEntity(eValueKey, "VASS952918562");
 
 		mainApp().open();
-		createCustomerIndividual();
+		openDefaultPolicy(getPolicyType());
+		policy.policyCopy().perform(td);
+		policy.dataGather().start();
+		//TODO workaround for QC 44220 Failed to rate policy QAZSS953305611,1528211031,quote
+		//no error if general tab is opened before premium calculation
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		new RatingDetailReportsTab().fillTab(td).submitTab();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		getPolicyType().get().createQuote(eValuePolicyData);
-		String policyNum = PolicySummaryPage.getPolicyNumber();
-		log.info("policyNum: {}", policyNum);
+		policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+		documentsAndBindTab.saveAndExit();
+		String eValueQuote = PolicySummaryPage.getPolicyNumber();
+		log.info("NEW EVALUE QUOTE", eValueQuote);
+	}
+
+	private String openDefaultPolicy(PolicyType policyType) {
+		Assert.assertNotNull(policyType, "PolicyType is not set");
+		String eValueKey = getPolicyType().getKey() + "_evalue_" + getState();
+		String policyNumber;
+		synchronized (eValueKey) {
+			Integer count = policyCount.get(eValueKey);
+			if (count == null) {
+				count = 1;
+			}
+			if (EntitiesHolder.isEntityPresent(eValueKey) && count < 10) {
+				count++;
+				policyNumber = EntitiesHolder.getEntity(eValueKey);
+				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			} else {
+				count = 1;
+
+				TestData defaultTestData = getPolicyTD("DataGather", "TestData");
+				TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
+				TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
+				TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
+						.adjust("PolicyInformation", policyInformationSectionAdjusted)
+						.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
+
+				TestData eValuePolicyData = defaultTestData
+						.adjust("GeneralTab", generalTabAdjusted)
+						.resolveLinks();
+
+				mainApp().open();
+				createCustomerIndividual();
+
+				getPolicyType().get().createQuote(eValuePolicyData);
+				policyNumber = simplifiedQuoteIssue();
+				EntitiesHolder.addNewEntity(getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
+				printToLog("DEFAULE EVALUE QUOTE WAS CREATED " + getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
+
+			}
+			policyCount.put(eValueKey, count);
+		}
+		return policyNumber;
 	}
 
 	public String simplifiedQuoteIssue() {
@@ -1772,7 +1819,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		} else {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			if (documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).isPresent() && documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).isEnabled()){
+			if (documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).isPresent() && documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).isEnabled()) {
 				documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
 			}
 		}

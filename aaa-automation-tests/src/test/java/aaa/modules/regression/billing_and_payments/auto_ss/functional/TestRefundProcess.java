@@ -1068,9 +1068,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.assertAll();
 	}
 
-	// *
-	// * See test method for details
-
+	/**
+	 * See test method for details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
@@ -1081,7 +1081,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = refundProcessHelper.policyCreation();
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1101,7 +1101,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		CustomAssert.enableSoftMode();
 		// TODO OSI: Refund with Check is created because the stubbed amount for VA
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
 		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1122,7 +1122,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestDC);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
 
 		stubRequestDC.cleanUp();
 		CustomAssert.disableSoftMode();
@@ -1145,7 +1145,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
 
 		stubRequestACH.cleanUp();
 

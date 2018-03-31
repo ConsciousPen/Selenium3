@@ -64,11 +64,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_5 = "The requested entity is currently locked by other user";
 	private static final String START_ENDORSEMENT_INFO_ERROR_6 = "Could not acquire a new lock: the requested entity is currently locked";
 	private static final String START_ENDORSEMENT_INFO_ERROR_7 = "State does not allow endorsements";
-	private String purchaseDate;
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private AssignmentTab assignmentTab = new AssignmentTab();
+	private VehicleTab vehicleTab = new VehicleTab();
 
 	protected abstract String getGeneralTab();
 
@@ -88,12 +88,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected abstract AssetDescriptor<Button> getCalculatePremium();
 
-	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
+	protected void pas1441_emailChangeOutOfPasTestBody() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
 		//BUG PAS-5815 There is an extra Endorse action available for product
 		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
@@ -128,12 +125,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		secondEndorsementIssueCheck();
 	}
 
-	protected void pas6560_endorsementValidateAllowedNoEffectiveDate(PolicyType policyType) {
+	protected void pas6560_endorsementValidateAllowedNoEffectiveDate() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 		mainApp().close();
 
 		ValidateEndorsementResponse response = HelperCommon.executeEndorsementsValidate(policyNumber, null);
@@ -148,10 +142,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas6560_endorsementValidateAllowed(PolicyType policyType) {
+	protected void pas6560_endorsementValidateAllowed() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -193,8 +186,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected void pas6560_endorsementValidateAllowedPendedEndorsementUser(PolicyType policyType) {
 
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -259,8 +251,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -319,8 +310,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas6562_endorsementValidateNotAllowedOutOfBound(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
@@ -345,8 +335,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
@@ -385,8 +374,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
 
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
@@ -428,8 +416,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas8784_endorsementValidateNoDelayAllowedAgent(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -444,8 +431,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas8784_endorsementValidateNoDelayNotAllowedSystem(PolicyType policyType) {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -562,7 +548,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 				+ "and rownum = 1";
 
 		String policyNumber;
-		if(DBService.get().getValue(getAnyActivePolicy).isPresent()){
+		if (DBService.get().getValue(getAnyActivePolicy).isPresent()) {
 			policyNumber = DBService.get().getValue(getAnyActivePolicy).get();
 		} else {
 			mainApp().open();
@@ -610,7 +596,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
 		assertSoftly(softly -> {
-			softly.assertThat(response0.getVehicles().get(0).getVin()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).getVin()).isEqualTo(vin0);
 			softly.assertThat(response0.getVehicles().get(0).getYear().toString()).isNotEmpty();
 			softly.assertThat(response0.getVehicles().get(0).getMake()).isNotEmpty();
 			softly.assertThat(response0.getVehicles().get(0).getModelText()).isNotEmpty();
@@ -1111,17 +1097,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas9716_policySummaryForActiveRenewal(PolicyType policyType, String state) {
+	protected void pas9716_policySummaryForActiveRenewalBody(String state) {
 		assertSoftly(softly -> {
 
 			mainApp().open();
-			createCustomerIndividual();
-			policyType.get().createPolicy(getPolicyTD());
+			String policyNumber = getCopiedPolicy();
 			if ("VA".equals(state)) {
 				endorsePolicyAddEvalue();
 			}
 
-			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 			LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -1435,13 +1419,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 	}
 
-	protected void pas9456_9455_PolicyLockUnlockServices(PolicyType policyType) {
-
+	protected void pas9456_9455_PolicyLockUnlockServices() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 		mainApp().close();
 
 		//Lock policy and check service response
@@ -1483,16 +1463,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus(PolicyType policyType) {
-
+	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = getCopiedPolicy();
 
-		VehicleTab vehicleTab = new VehicleTab();
-
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
@@ -1592,12 +1566,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 	}
 
-	protected void pas9610_UpdateVehicleService(PolicyType policyType) {
+	protected void pas9610_UpdateVehicleService() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -1647,14 +1618,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas508_BindManualEndorsement(PolicyType policyType) {
+	protected void pas508_BindManualEndorsement() {
 		String authorizedBy = "Osi Testas Insured";
 
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
 		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
@@ -1682,14 +1650,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		secondEndorsementIssueCheck();
 	}
 
-	protected void pas508_BindServiceEndorsement(PolicyType policyType) {
+	protected void pas508_BindServiceEndorsement() {
 		String authorizedBy = "Osi Testas Insured";
 
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
 		assertSoftly(softly -> {
 			String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
@@ -1737,7 +1702,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
-
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -1845,13 +1809,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	}
 
-	protected void pas10227_ViewPremiumServiceForPolicy(PolicyType policyType) {
-
+	protected void pas10227_ViewPremiumServiceForPolicy() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1868,12 +1828,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas10227_ViewPremiumServiceForPendedEndorsement(PolicyType policyType) {
+	protected void pas10227_ViewPremiumServiceForPendedEndorsement() {
 		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
 		//Create a pended Endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));

@@ -6,6 +6,7 @@ import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransaction
 import static aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions.REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +67,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		return PolicyType.AUTO_SS;
 	}
 
+	@SuppressWarnings("Unchecked")
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
 			String email, String refundEligible)
 			throws IOException {
@@ -135,6 +137,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 	}
 
+	@SuppressWarnings("Unchecked")
 	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
 			String refundAmount, String email, String refundEligible)
 			throws IOException {
@@ -256,25 +259,25 @@ public class RefundProcessHelper extends PolicyBilling {
 	 *
 	 * Note: for the test to work LastPaymentMethod needs to be configured for the payments to be > threshold
 	 * @details
-	 * @param daysDelay - 14 days for HO, 1 day for Auto
 	 */
-	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, int daysDelay) {
+	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod) {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDue1 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(daysDelay));
+		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
 		approvedRefundVoid();
-		//lastManualPaymentDecline(); - probably not needed
 
 		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(daysDelay));
+		LocalDateTime refundDate2 = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		TimeSetterUtil.getInstance().nextPhase(refundDate2);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
@@ -681,8 +684,8 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	public String policyCreation() {
 		mainApp().open();
-		createCustomerIndividual();
-		getPolicyType().get().createPolicy(getPolicyTD());
+		getCopiedPolicy();
+
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info("policyNumber: {}", policyNumber);

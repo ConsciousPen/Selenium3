@@ -66,7 +66,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas1441_emailChangeOutOfPas(@Optional("VA") String state) {
 
 		CustomAssert.enableSoftMode();
-		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
+		pas1441_emailChangeOutOfPasTestBody();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -85,7 +85,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
 	public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("VA") String state) {
 
-		pas6560_endorsementValidateAllowedNoEffectiveDate(getPolicyType());
+		pas6560_endorsementValidateAllowedNoEffectiveDate();
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
 	public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
 
-		pas6560_endorsementValidateAllowed(getPolicyType());
+		pas6560_endorsementValidateAllowed();
 	}
 
 	/**
@@ -505,7 +505,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForActiveRenewal(@Optional("VA") String state) {
 
-		pas9716_policySummaryForActiveRenewal(getPolicyType(), state);
+		pas9716_policySummaryForActiveRenewalBody(state);
 	}
 
 	/**
@@ -581,7 +581,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
 	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
 
-		pas9456_9455_PolicyLockUnlockServices(getPolicyType());
+		pas9456_9455_PolicyLockUnlockServices();
 	}
 
 	/**
@@ -639,7 +639,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
 	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
 
-		pas9490_ViewVehicleServiceCheckVehiclesStatus(getPolicyType());
+		pas9490_ViewVehicleServiceCheckVehiclesStatus();
 	}
 
 	/**
@@ -658,7 +658,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9610"})
 	public void pas9610_UpdateVehicleService(@Optional("VA") String state) {
 
-		pas9610_UpdateVehicleService(getPolicyType());
+		pas9610_UpdateVehicleService();
 	}
 
 	/**
@@ -697,7 +697,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
 	public void pas508_BindManualEndorsement(@Optional("VA") String state) {
 
-		pas508_BindManualEndorsement(getPolicyType());
+		pas508_BindManualEndorsement();
 	}
 
 	/**
@@ -717,7 +717,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
 	public void pas508_BindServiceEndorsement(@Optional("VA") String state) {
 
-		pas508_BindServiceEndorsement(getPolicyType());
+		pas508_BindServiceEndorsement();
 	}
 
 	/**
@@ -732,7 +732,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
 	public void pas10227_ViewPremiumServicePolicy(@Optional("VA") String state) {
 
-		pas10227_ViewPremiumServiceForPolicy(getPolicyType());
+		pas10227_ViewPremiumServiceForPolicy();
 	}
 
 	/**
@@ -749,7 +749,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
 	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
 
-		pas10227_ViewPremiumServiceForPendedEndorsement(getPolicyType());
+		pas10227_ViewPremiumServiceForPendedEndorsement();
 	}
 
 	@Override
