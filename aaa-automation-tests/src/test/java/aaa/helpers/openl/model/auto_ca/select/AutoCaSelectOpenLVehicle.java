@@ -121,6 +121,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.vehicleAge = vehicleAge;
 	}
 
+	@Override
 	public List<AutoCaSelectOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}

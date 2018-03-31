@@ -100,6 +100,7 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 		this.totalVehiclePoint = totalVehiclePoint;
 	}
 
+	@Override
 	public List<AutoSSOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}

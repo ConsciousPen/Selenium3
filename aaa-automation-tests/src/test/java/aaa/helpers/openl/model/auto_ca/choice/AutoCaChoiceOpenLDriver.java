@@ -1,48 +1,18 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
-import aaa.helpers.openl.model.OpenLDriver;
+import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 
-public class AutoCaChoiceOpenLDriver extends OpenLDriver {
+public class AutoCaChoiceOpenLDriver extends AutoCaOpenLDriver {
 	private Boolean driverTrainingDiscount;
-	private Boolean goodDriver;
-	private Boolean matureDriver;
 	private Boolean nonSmoker;
 	private Boolean occasionalUse;
-
-	public Boolean hasDriverTrainingDiscount() {
-		return driverTrainingDiscount;
-	}
 
 	public void setDriverTrainingDiscount(Boolean driverTrainingDiscount) {
 		this.driverTrainingDiscount = driverTrainingDiscount;
 	}
 
-	public Boolean isGoodDriver() {
-		return goodDriver;
-	}
-
-	public void setGoodDriver(Boolean goodDriver) {
-		this.goodDriver = goodDriver;
-	}
-
-	public Boolean isMatureDriver() {
-		return matureDriver;
-	}
-
-	public void setMatureDriver(Boolean matureDriver) {
-		this.matureDriver = matureDriver;
-	}
-
-	public Boolean isNonSmoker() {
-		return nonSmoker;
-	}
-
 	public void setNonSmoker(Boolean nonSmoker) {
 		this.nonSmoker = nonSmoker;
-	}
-
-	public Boolean isOccasionalUse() {
-		return occasionalUse;
 	}
 
 	public void setOccasionalUse(Boolean occasionalUse) {
@@ -65,5 +35,20 @@ public class AutoCaChoiceOpenLDriver extends OpenLDriver {
 				", dsr=" + dsr +
 				", goodStudent=" + goodStudent +
 				'}';
+	}
+
+	@Override
+	public Boolean hasDriverTrainingDiscount() {
+		return driverTrainingDiscount;
+	}
+
+	@Override
+	public Boolean isNonSmoker() {
+		return nonSmoker;
+	}
+
+	@Override
+	public Boolean isOccasionalUse() {
+		return occasionalUse;
 	}
 }
