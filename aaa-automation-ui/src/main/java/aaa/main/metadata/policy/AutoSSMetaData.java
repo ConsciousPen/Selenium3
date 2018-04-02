@@ -582,6 +582,11 @@ public final class AutoSSMetaData {
 				By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Supplemental Spousal Liability']/ancestor::tr[1]//table"));
 		public static final AssetDescriptor<ComboBox> PROPERTY_DAMAGE_LIABILITY = declare("Property Damage Liability", ComboBox.class,
 				By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Property Damage Liability']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<CheckBox> ENHANCED_UIM = declare("Enhanced UIM", CheckBox.class, Waiters.AJAX, By.xpath("1"));
+		public static final AssetDescriptor<ComboBox> ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Enhanced Uninsured/Underinsured Motorists Bodily Injury", ComboBox.class,
+				By.xpath("1"));
+		public static final AssetDescriptor<ComboBox> ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Enhanced Uninsured Motorist Property Damage", ComboBox.class,
+				By.xpath("1"));
 		public static final AssetDescriptor<ComboBox> SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY =
 				declare("Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM)", ComboBox.class, By.xpath(
 						".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM)']/ancestor::tr[1]//select"));
