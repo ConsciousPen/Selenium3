@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,7 +35,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 	 * 4. Endorse Policy
 	 * 5. Remove Distant Driver
 	 * 6. Calculate Premium
-	 * 7. Check that Distant Driver Discount is not applied
+	 * 7. Check if Distant Driver Discount is applied
 	* @details
 	*/
 
@@ -75,7 +76,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
 		// Calculate Premium and check that there is no Discount applied
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).doesNotHaveValue("Distant Student Discount(Angel FromEarth)");
 

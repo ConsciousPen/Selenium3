@@ -2,6 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,18 +20,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -793,7 +792,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	@Override
-	protected AssetDescriptor<Button> getCalculatePremium() {
+	protected AssetDescriptor<JavaScriptButton> getCalculatePremium() {
 		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
 	}
 

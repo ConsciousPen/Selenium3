@@ -35,8 +35,7 @@ public class HomeCaPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_CA_HO3.getName());
-		QuoteSummaryPage.buttonAddNewQuote.click();
+		new QuoteSummaryPage().initiateQuote(PolicyType.HOME_CA_HO3);
 	}
 
 	@Override

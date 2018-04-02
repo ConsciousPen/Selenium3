@@ -78,7 +78,8 @@ public final class AutoSSMetaData {
 
 		// By.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
 		public static final class NamedInsuredInformation extends MetaData {
-			public static final AssetDescriptor<Button> ADD_INSURED = declare("Add", Button.class, Waiters.AJAX.then(Waiters.AJAX), false, By.id("policyDataGatherForm:addInsured"));
+			public static final AssetDescriptor<JavaScriptButton> ADD_INSURED =
+					declare("Add", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addInsured"));
 			public static final AssetDescriptor<SingleSelectSearchDialog> INSURED_SEARCH_DIALOG =
 					declare("InsuredSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false, By.id("customerSearchPanel_container"));
 			public static final AssetDescriptor<ComboBox> PREFIX = declare("Prefix", ComboBox.class);
@@ -243,7 +244,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<FillableTable> LIST_OF_DRIVER =
 				declare("List of Driver", FillableTable.class, ListOfDriver.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListDriver']/div/table"));
 
-		public static final AssetDescriptor<Button> ADD_DRIVER = declare("Add Driver", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDriver"));
+		public static final AssetDescriptor<JavaScriptButton> ADD_DRIVER = declare("Add Driver", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDriver"));
 		public static final AssetDescriptor<SingleSelectSearchDialog> DRIVER_SEARCH_DIALOG =
 				declare("DriverSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false, By.id("customerSearchPanel_container"));
 
@@ -562,8 +563,7 @@ public final class AutoSSMetaData {
 
 		public static final class ExcessVehiclesRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> EXCESS_VEHICLES = declare("Excess Vehicle(s)", StaticElement.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX, By.xpath(".//select[contains(@id,'driverCombobox')]"));
-
+			public static final AssetDescriptor<ComboBox> SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX);
 		}
 	}
 
@@ -636,6 +636,7 @@ public final class AutoSSMetaData {
 		// Coverages", StaticElement.class,
 		// By.id("policyDataGatherForm:policyTableTotalVehiclePremium:0:j_id_1_1x_56_1_a_1_2_k_1_1_3z"));
 
+		//TODO Anton Perapecha 15/03/2018: Workaround -  Moved COMPREGENSIVE_DEDUCTIBLE after SPECIAL_EQUIPMENT_MD due to BLS issue.
 		public static final AssetDescriptor<ComboBox> COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBox.class,
 				By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Comprehensive Deductible']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE = declare("Collision Deductible", ComboBox.class,
@@ -660,7 +661,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AssetDescriptor<UnverifiableDrivingRecordSurcharge> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable Driving Record Surcharge",
 				UnverifiableDrivingRecordSurcharge.class, MetaData.class, By.id("policyDataGatherForm:unverifiableDrivingRecordSurchargeTable:tbody_element"));
-		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX.then(Waiters.SLEEP(5000)), By.id("policyDataGatherForm:premiumRecalc"));
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM =
+				declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX.then(Waiters.SLEEP(5000)), By.id("policyDataGatherForm:premiumRecalc"));
 		public static final AssetDescriptor<RadioGroup> ADDITIONAL_SAVINGS_OPTIONS = declare("Additional Savings Options", RadioGroup.class, Waiters.AJAX, false,
 				By.xpath("//table[@id='policyDataGatherForm:visibleRadio']"));
 		public static final AssetDescriptor<CheckBox> MEMBERSHIP = declare("Membership", CheckBox.class, By.xpath("//td[text()='Membership']//input"));
