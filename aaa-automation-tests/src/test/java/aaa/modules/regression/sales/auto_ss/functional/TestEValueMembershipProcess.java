@@ -39,7 +39,6 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueM
 import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -1355,7 +1354,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		} else {
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 		}
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
 

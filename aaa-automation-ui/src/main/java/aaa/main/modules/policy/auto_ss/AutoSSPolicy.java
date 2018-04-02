@@ -87,7 +87,7 @@ public class AutoSSPolicy implements IPolicy {
 		new RatingDetailReportsTab().fillTab(td).submitTab();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if ("$0.00".equals(PremiumAndCoveragesTab.totalTermPremium.getValue())) {
-			PremiumAndCoveragesTab.calculatePremium();
+			new PremiumAndCoveragesTab().calculatePremium();
 		}
 
 	}
