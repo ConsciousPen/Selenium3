@@ -108,8 +108,8 @@ public class HomeSSFormTestDataGenerator {
 	}*/
 
 	public enum Forms {
-		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", Arrays.asList("Heritage, Legacy, Prestige"), formHS0420DataFunction),
-		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", Arrays.asList("Legacy, Prestige"), formHS0495DataFunction);
+		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", Arrays.asList("Heritage", "Legacy", "Prestige"), formHS0420DataFunction),
+		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", Arrays.asList("Legacy", "Prestige"), formHS0495DataFunction);
 		//TODO: add other forms...
 		/*selectedForms.put("HS0420", "Heritage, Legacy, Prestige");
 		selectedForms.put("HS0435", "Legacy, Prestige");
