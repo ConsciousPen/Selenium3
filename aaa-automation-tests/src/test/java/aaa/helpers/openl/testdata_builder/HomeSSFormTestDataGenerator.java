@@ -37,7 +37,6 @@ public class HomeSSFormTestDataGenerator {
 	}
 
 	public TestData formHS0420Data(HomeSSOpenLPolicy openLPolicy, String formCode) {
-
 		int amount = openLPolicy.getForms().stream().filter(c -> formCode.equals(c.getFormCode())).findFirst().get().getCovPercentage();
 		TestData formData = DataProviderFactory.dataOf(
 				"Action", selectedForms.get(formCode).contains(openLPolicy.getLevel()) ? "Edit" : "Add",
@@ -87,8 +86,7 @@ public class HomeSSFormTestDataGenerator {
 	}
 
 	public TestData formHS0495Data(HomeSSOpenLPolicy openLPolicy, String formCode) {
-		Double limit = 5000.0;
-//		Double limit = openLPolicy.getForms().stream().filter(c -> formCode.equals(c.getFormCode())).findFirst().get().getLimit();
+		Double limit = openLPolicy.getForms().stream().filter(c -> formCode.equals(c.getFormCode())).findFirst().get().getLimit();
 		TestData formData = DataProviderFactory.dataOf(
 				"Action", selectedForms.get(formCode).contains(openLPolicy.getLevel()) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), "$" + limit.toString().split("\\.")[0]
