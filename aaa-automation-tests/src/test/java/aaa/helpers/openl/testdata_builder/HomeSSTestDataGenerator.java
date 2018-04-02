@@ -1,22 +1,20 @@
 package aaa.helpers.openl.testdata_builder;
 
-import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import java.util.*;
+import java.util.function.BiFunction;
 import org.apache.commons.lang3.NotImplementedException;
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
 
 public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy> {
 
@@ -42,6 +40,12 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 
 		return TestDataHelper.merge(getRatingDataPattern(), td);
+	}
+
+	@Override
+	public void setRatingDataPattern(TestData ratingDataPattern) {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
 	}
 
 	private TestData getGeneralTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -72,15 +76,15 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName)
 		);
 
-//		TestData otherActiveAAAPoliciesData = DataProviderFactory.dataOf(
-//				HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), "No"
-//		);
+		//		TestData otherActiveAAAPoliciesData = DataProviderFactory.dataOf(
+		//				HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), "No"
+		//		);
 
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), Arrays.asList(namedInsuredData),
 				HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), aaaMembershipData,
 				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData
-//				HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), otherActiveAAAPoliciesData
+				//				HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), otherActiveAAAPoliciesData
 		);
 	}
 
@@ -121,20 +125,20 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 		TestData fireFireProtectiveDeviceDiscountData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.LOCAL_FIRE_ALARM.getLabel(),
-				"Local".equals(openLPolicy.getPolicyDiscountInformation().get(0).getFireAlarmType()) ? true : false,
+				"Local".equals(openLPolicy.getPolicyDiscountInformation().get(0).getFireAlarmType()),
 				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.CENTRAL_FIRE_ALARM.getLabel(),
-				"Central".equals(openLPolicy.getPolicyDiscountInformation().get(0).getFireAlarmType()) ? true : false,
+				"Central".equals(openLPolicy.getPolicyDiscountInformation().get(0).getFireAlarmType()),
 				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.FULL_RESIDENTIAL_SPRINKLERS.getLabel(),
-				"Full".equals(openLPolicy.getPolicyDiscountInformation().get(0).getSprinklerType()) ? true : false,
+				"Full".equals(openLPolicy.getPolicyDiscountInformation().get(0).getSprinklerType()),
 				HomeSSMetaData.PropertyInfoTab.FireProtectiveDD.PARTIAL_RESIDENTIAL_SPRINKLERS.getLabel(),
-				"Partial".equals(openLPolicy.getPolicyDiscountInformation().get(0).getSprinklerType()) ? true : false
+				"Partial".equals(openLPolicy.getPolicyDiscountInformation().get(0).getSprinklerType())
 		);
 
 		TestData theftProtectiveDeviceDiscountData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(),
-				"Local".equals(openLPolicy.getPolicyDiscountInformation().get(0).getTheftAlarmType()) ? true : false,
+				"Local".equals(openLPolicy.getPolicyDiscountInformation().get(0).getTheftAlarmType()),
 				HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(),
-				"Central".equals(openLPolicy.getPolicyDiscountInformation().get(0).getTheftAlarmType()) ? true : false,
+				"Central".equals(openLPolicy.getPolicyDiscountInformation().get(0).getTheftAlarmType()),
 				HomeSSMetaData.PropertyInfoTab.TheftProtectiveTPDD.GATED_COMMUNITY.getLabel(), openLPolicy.getPolicyDiscountInformation().get(0).isPrivateCommunity()
 		);
 
@@ -154,12 +158,16 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
+		Map<String, BiFunction<HomeSSOpenLPolicy, String, TestData>> formCodesAndTestDataFunctionsMap = new HashMap<>();
+		formCodesAndTestDataFunctionsMap.put("HS0420", HomeSSFormTestDataGenerator.formHS0420Data);
+		formCodesAndTestDataFunctionsMap.put("HS0495", HomeSSFormTestDataGenerator.formHS0495Data);
+		//...
 
 		String className = "aaa.helpers.openl.testdata_builder.HomeSSFormTestDataGenerator";
 		List<String> formList = new ArrayList<>();
 		TestData endorsementData = new SimpleDataProvider();
 
-		try {
+		/*try {
 			Object obj = Class.forName(className).newInstance();
 			Method method;
 			for (int i = 0; i < openLPolicy.getForms().size(); i++) {
@@ -174,6 +182,15 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}*/
+
+		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
+			String formCode = form.getFormCode();
+			if (!formList.contains(formCode)) {
+				formList.add(formCode);
+				TestData td = formCodesAndTestDataFunctionsMap.get(formCode).apply(openLPolicy, formCode);
+				endorsementData.adjust(td);
+			}
 		}
 
 		return endorsementData;
@@ -193,12 +210,5 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0]
 		);
 	}
-
-	@Override
-	public void setRatingDataPattern(TestData ratingDataPattern) {
-		//TODO-dchubkov: to be implemented
-		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
-	}
-
 
 }
