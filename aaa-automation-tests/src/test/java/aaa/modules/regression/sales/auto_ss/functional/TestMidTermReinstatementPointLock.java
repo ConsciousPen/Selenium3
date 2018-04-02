@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
@@ -18,7 +17,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import net.sf.cglib.core.Local;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -82,7 +80,7 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		//Check that the saved value is the same during mid term endorsement even after reinstatement was made. Change time back to current day.
