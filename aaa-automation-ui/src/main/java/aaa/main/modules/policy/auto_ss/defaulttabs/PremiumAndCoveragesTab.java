@@ -208,7 +208,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		return this;
 	}
 
-	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
+	public Dollar getVehicleCoveragePremiumByVehicle(int index) {
 		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
 		return new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
 	}
