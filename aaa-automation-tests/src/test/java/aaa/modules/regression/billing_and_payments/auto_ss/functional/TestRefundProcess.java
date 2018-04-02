@@ -60,7 +60,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private static final String BILLING_PAYMENT_METHOD_ACH = "AAAPaymentDetailsEFT";
 	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
 	private TestData tdBilling = testDataManager.billingAccount;
-	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();

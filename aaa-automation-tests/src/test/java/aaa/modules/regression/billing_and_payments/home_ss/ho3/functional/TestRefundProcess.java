@@ -16,7 +16,6 @@ import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -24,8 +23,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -37,7 +34,6 @@ import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -47,17 +43,11 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String REMOTE_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
-	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
 	private static final String PENDING_REFUND_AMOUNT = "1000";
 	private static final String APPROVED_REFUND_AMOUNT = "999.99";
 	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
 	private TestData tdBilling = testDataManager.billingAccount;
-	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
-	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private BindTab bindTab = new BindTab();
 	private ApplicantTab applicantTab = new ApplicantTab();
@@ -187,7 +177,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=Credit Card";
 
 		String policyNumber = preconditionPolicyCreationHo();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber,PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
@@ -206,7 +196,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "contains=ACH";
 
 		String policyNumber = preconditionPolicyCreationHo();
-		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber,PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
@@ -225,7 +215,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = preconditionPolicyCreationHo();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber,PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
@@ -245,7 +235,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String policyNumber = preconditionPolicyCreationHo();
 
-		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber,PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
