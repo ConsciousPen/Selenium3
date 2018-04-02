@@ -1,125 +1,72 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import aaa.common.pages.SearchPage;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.Job;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.xml.model.Document;
-import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
 import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
-import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.inject.internal.ImmutableList;
-import com.google.inject.internal.ImmutableMap;
-import org.junit.Assert;
 import toolkit.datax.TestData;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+public class TestCinAbstractAutoSS extends TestCinAbstract {
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
-import static java.util.Arrays.asList;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-public class TestCinAbstractAutoSS extends TestCinAbstract{
-
-    protected static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
-            ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
-                    RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob));
-
-
-
-    public static final String DISABLE_MEMBERSHIP = TestData.makeKeyPath(
+    /******* This section should be refactored once generic solution for building paths is implemented ********/
+    //Auto SS specific paths
+    protected static final String DISABLE_MEMBERSHIP = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
 
-    public static final String RATING_DETAILS_REPORTS_TAB = TestData.makeKeyPath(
+    protected static final String RATING_DETAILS_REPORTS_TAB = TestData.makeKeyPath(
             AutoSSMetaData.RatingDetailReportsTab.class.getSimpleName());
 
-    public static final String SUPPRESS_PRIOR_BI_TRIGGER = TestData.makeKeyPath(
+    protected static final String SUPPRESS_PRIOR_BI_TRIGGER = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
             AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel());
 
-    public static final String DRIVER_ACTIVITY_REPORTS_PATH = TestData.makeKeyPath(
+    protected static final String DRIVER_ACTIVITY_REPORTS_PATH = TestData.makeKeyPath(
             AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName());
 
-    public static final String NAME_INSURED_FIRST_NAME = TestData.makeKeyPath(
+    protected static final String NAME_INSURED_FIRST_NAME = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
-            AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()+"[0]",
+            AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
             AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel());
 
-    public static final String NAME_INSURED_LAST_NAME = TestData.makeKeyPath(
+    protected static final String NAME_INSURED_LAST_NAME = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
-            AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()+"[0]",
+            AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
             AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel());
 
-    public static final String INSURANCE_SCORE_OVERRIDE = TestData.makeKeyPath(
+    protected static final String INSURANCE_SCORE_OVERRIDE = TestData.makeKeyPath(
             AutoSSMetaData.RatingDetailReportsTab.class.getSimpleName(),
             AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel());
 
-    public static final String CURRENT_CARRIER_INFORMATION = TestData.makeKeyPath(
+    protected static final String CURRENT_CARRIER_INFORMATION = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel());
 
-    public static final String REQUIRED_TO_ISSUE = TestData.makeKeyPath(
+    protected static final String REQUIRED_TO_ISSUE = TestData.makeKeyPath(
             AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(),
             AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel());
 
-    public static final String ADJUST_ELC = TestData.makeKeyPath(
+    protected static final String ADJUST_ELC = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
             AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE.getLabel());
 
-    public static final String ERROR_TAB_CALCULATE_PREMIUM = TestData.makeKeyPath(
+    protected static final String ERROR_TAB_CALCULATE_PREMIUM = TestData.makeKeyPath(
             AutoSSMetaData.ErrorTabCalculatePremium.class.getSimpleName());
 
-    public static final String ERROR_TAB = TestData.makeKeyPath(
+    protected static final String ERROR_TAB = TestData.makeKeyPath(
             AutoSSMetaData.ErrorTab.class.getSimpleName());
 
-    public static final String NAMED_INSURED_OVERRIDE = TestData.makeKeyPath(
+    protected static final String NAMED_INSURED_OVERRIDE = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
             AutoSSMetaData.GeneralTab.NamedInsuredInformation.class.getSimpleName());
+    /**********************************************************************************************************/
 
-    protected Document ssNewBusinessMainFlow(TestData testData) {
-
-        String policyNumber = createPolicy(testData);
-
-        //wait for CIN specific form and a package itself to appear in the DB
-        return DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-
-        //ToDo: verify the order
-    }
-
-    public void renewPolicy(String policyNumber, TestData renewalTD) {
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        mainApp().reopen();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        new AutoSSPolicyActions.Renew().performAndFill(renewalTD);
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-    }
-
-    protected void verifyCinGenerated (Document cinDocument, String policyNumber) {
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
-    }
-
-    protected void verifyCinNotGenerated (Document cinDocument, String policyNumber) {
-        Assert.assertNull(getPolicyErrorMessage("CIN document mustn't have been generated, but it's there", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
-    }
-
+    /**
+     * Adjust Named Insured {@link TestData} with First&Last name. The reason why this method is here is that most of mappings in
+     * the stub service are done using exactly those fields.
+     *
+     * @param testData {@link TestData}
+     */
     public TestData adjustNameInsured(TestData testData, String nameInsuredTestData) {
         TestData nameInsuredTD = getTestSpecificTD(nameInsuredTestData);
 
@@ -130,12 +77,10 @@ public class TestCinAbstractAutoSS extends TestCinAbstract{
                 .adjust(NAME_INSURED_LAST_NAME, lastName);
     }
 
-    protected void assertStateEquals(String state, String... applicableStates) {
-        assertTrue(asList(applicableStates).contains(state), "Test does not support this state: " + state);
-    }
 
-    protected void assertStateNotEquals(String state, String... applicableStates) {
-        assertFalse(asList(applicableStates).contains(state), "Test does not support this state: " + state);
+    @Override
+    protected void performRenewal(TestData renewalTD) {
+        new AutoSSPolicyActions.Renew().performAndFill(renewalTD);
     }
 
 }

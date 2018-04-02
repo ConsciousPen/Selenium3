@@ -14,10 +14,11 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static java.util.Arrays.asList;
+import static org.testng.Assert.*;
 
 public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
+
 
     /*******************************
      *
@@ -44,7 +45,11 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
-        ssNewBusinessMainFlow(policyTD);
+        String policyNumber = createPolicy(policyTD);
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -54,8 +59,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      * @scenario 1. Create Customer
      * 2. Create Policy with Driver having chargeable CLUE violation
      * 3. Check that CIN document is getting generated
-     * 4. Verify that at fault display section is not present in the request
-     * 5. Verify document sequence
+     * 4. Verify document sequence
      * @details
      */
     @Parameters({STATE_PARAM})
@@ -68,7 +72,12 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
-        ssNewBusinessMainFlow(policyTD);
+        String policyNumber = createPolicy(policyTD);
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        ;
     }
 
     /*******************************
@@ -95,7 +104,11 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
-        ssNewBusinessMainFlow(policyTD);
+        String policyNumber = createPolicy(policyTD);
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -122,7 +135,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
 
@@ -150,7 +163,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -177,7 +190,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -205,7 +218,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -233,7 +246,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /*******************************
@@ -268,7 +281,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -297,7 +310,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -326,7 +339,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -357,7 +370,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -386,7 +399,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -417,7 +430,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -446,7 +459,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /**
@@ -477,7 +490,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     /*******************************
@@ -502,7 +515,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinNotAtFaultCLUEVA(@Optional("VA") String state) {
-        assertStateEquals(state, "VA");
+        assertTrue(asList("VA").contains(state), "Test does not support this state: " + state);
 
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NamedInsured_ChangeableNAF")
                 .adjust(ERROR_TAB, getTestSpecificTD("ErrorTab_VA_MVR"))
@@ -512,7 +525,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
         String policyNumber = createPolicy(policyTD);
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
 
         String atFaultAccidentFlag = retrieveElementValue(cinDocument, "DriverDetails", "AtFltAccYN");
         assertNotNull(atFaultAccidentFlag, getPolicyErrorMessage("At fault flag is missing in the CIN document request", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
@@ -536,7 +549,8 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreELC(@Optional("MT") String state) {
-        assertStateEquals(state, "NJ", "DE", "CO", "CT", "KS", "KY", "NV", "MT");
+        assertTrue(asList("NJ", "DE", "CO", "CT", "KS", "KY", "NV", "MT")
+                .contains(state), "Test does not support this state: " + state);
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(ADJUST_ELC, getTestSpecificTD("GeneralTab_ELC").getValue("Extraordinary Life Circumstance"))
                 .adjust(ERROR_TAB_CALCULATE_PREMIUM, getTestSpecificTD("ErrorTab_ELC"))
@@ -547,7 +561,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     @Override

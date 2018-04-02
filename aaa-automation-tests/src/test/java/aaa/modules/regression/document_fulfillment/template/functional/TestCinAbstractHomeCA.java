@@ -6,11 +6,15 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
+import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import org.junit.Assert;
 import toolkit.datax.TestData;
 
 public class TestCinAbstractHomeCA extends TestCinAbstract{
 
+    /******* This section should be refactored once generic solution for building paths is implemented ********/
+    //Home CA specific paths
     public static final String PRODUCT_OWNED_PATH = TestData.makeKeyPath(
             HomeCaMetaData.ApplicantTab.class.getSimpleName(),
             HomeCaMetaData.ApplicantTab.AAAMembership.class.getSimpleName());
@@ -37,16 +41,10 @@ public class TestCinAbstractHomeCA extends TestCinAbstract{
             HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
             HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(),
             HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM.getLabel());
+    /**********************************************************************************************************/
 
-    protected void mainFlow(TestData testData) {
-
-        String policyNumber = createPolicy(testData);
-
-        //wait for CIN specific form and a package itself to appear in the DB
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
-
-        //ToDo: verify the order
+    @Override
+    protected void performRenewal(TestData renewalTD) {
+        new HomeCaPolicyActions.Renew().performAndFill(renewalTD);
     }
 }

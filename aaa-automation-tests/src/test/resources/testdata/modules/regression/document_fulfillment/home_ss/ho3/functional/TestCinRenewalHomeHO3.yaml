@@ -45,6 +45,6 @@ NamedInsuredWithCluePropertyViolation: {
 
 Reorder_InsuranceScore_CLUEReport: {
   Sales Agent Agreement: 'I Agree',
-  CLUEreport: [Report: 'Re-order report'],
-  InsuranceScoreReport: [Report: 'Re-order report'],
+  CLUEreport: [{Report: 'Re-order report'}],
+  InsuranceScoreReport: [{Report: 'Re-order report'}]
 }

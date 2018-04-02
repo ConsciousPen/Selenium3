@@ -2,8 +2,13 @@ package aaa.modules.regression.document_fulfillment.home_ca.ho6.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractHomeCA;
+import org.junit.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,7 +27,7 @@ public class TestCinNewBusinessHomeCAHO6 extends TestCinAbstractHomeCA {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_CA_HO6, testCaseId = "PAS-7225")
     public void testCinNewBusinessProperty(@Optional("CA") String state) {
         TestData policyTD = getPolicyDefaultTD().adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAMembership_CIN"))
@@ -30,7 +35,13 @@ public class TestCinNewBusinessHomeCAHO6 extends TestCinAbstractHomeCA {
                 .adjust(NAME_INSURED_FIRST_NAME, getTestSpecificTD("NamedInsuredProperty").getValue("First Name"))
                 .adjust(NAME_INSURED_LAST_NAME, getTestSpecificTD("NamedInsuredProperty").getValue("Last Name"))
                 .adjust(PUBLIC_PROTECTION_CLASS_PATH, getTestSpecificTD("PublicProtectionClass"));
-        mainFlow(policyTD);
+
+        String policyNumber = createPolicy(policyTD);
+
+        //wait for CIN specific form and a package itself to appear in the DB
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+
+        Assert.assertNotNull(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
     }
 
     @Override

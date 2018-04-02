@@ -1,37 +1,28 @@
 package aaa.modules.regression.document_fulfillment.auto_ss.functional;
 
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-import java.time.LocalDateTime;
-
 import static java.util.Arrays.asList;
+import static org.testng.Assert.*;
 
-public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
+public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     /**
      * @name Test CIN Document generation (MVR activity)
-     *
+     * <p>
      * Depends on ChoicePointMvrMockData mocksheet was updated with Applicant: First Name: MvrChargeable Last Name: Activity
-     *
-     * @scenario
-     * 1. Create Customer
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal with Name Insured having chargeable MVR property violation
@@ -54,17 +45,15 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
     }
 
     /**
-     * @name Test CIN Document generation (CLUE activity)
-     *
-     * Depends on ChoicePointClueMockData mocksheet was updated with Applicant: First Name: ClueChargeable Last Name: Activity
-     *
      * @param state any except MD, CO
-     * @scenario
-     * 1. Create Customer
+     * @name Test CIN Document generation (CLUE activity)
+     * <p>
+     * Depends on ChoicePointClueMockData mocksheet was updated with Applicant: First Name: ClueChargeable Last Name: Activity
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal with Name Insured having chargeable CLUE property violation
@@ -75,7 +64,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinCLUE(@Optional("AZ") String state) {
-        assertStateNotEquals(state, "MD", "CO");
+        assertFalse(asList("MD", "CO").contains(state), "Test does not support this state: " + state);
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
@@ -88,7 +77,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
     }
 
     /*******************************
@@ -102,8 +91,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
      * CIN document should be generated if insurance score was re-ordered and the new score was better but not in the best band
      *
      * @param state any except MD, CO has its own test
-     * @scenario
-     * 1. Issue a NB policy (score 650)
+     * @scenario 1. Issue a NB policy (score 650)
      * 2. Initiate renewal
      * 3. Add a new driver who has a better insurance score
      * 4. Reorder insurance score report (best score changes to 840) + reorder clue report
@@ -114,8 +102,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testNewDriverBetterScore(@Optional("AZ") String state) {
-        assertStateNotEquals(state, "MD", "CO");
-
+        assertFalse(asList("MD", "CO").contains(state), "Test does not support this state: " + state);
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
@@ -131,7 +118,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
     }
 
     /**
@@ -139,8 +126,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
      * CIN document should be generated if insurance score was re-ordered and the new score was better but not in the best band
      *
      * @param state any except MD, CO has its own test
-     * @scenario
-     * 1. Issue a NB policy (score 650)
+     * @scenario 1. Issue a NB policy (score 650)
      * 2. Initiate renewal
      * 3. Update NI first name so that we are forced to reorder insurance score
      * 4. Reorder insurance score report (score changes to 840) + reorder clue report
@@ -151,7 +137,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     @Parameters({STATE_PARAM})
     public void testReorderBetterScore(@Optional("AZ") String state) {
-        assertStateNotEquals(state, "MD", "CO");
+        assertFalse(asList("MD", "CO").contains(state), "Test does not support this state: " + state);
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
@@ -165,7 +151,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        verifyCinGenerated(cinDocument, policyNumber);
+        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
     }
 
     /*******************************
@@ -180,8 +166,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
      * BI Limit trigger should be suppressed for renewal
      *
      * @param state any
-     * @scenario
-     * 1. Start a quote
+     * @scenario 1. Start a quote
      * 2. Make sure that prior carrier is 'None'
      * 3. Bind the policy
      * 4. Renew the policy
@@ -205,7 +190,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS{
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        verifyCinNotGenerated(cinDocument, policyNumber);
+        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
     }
 
     @Override

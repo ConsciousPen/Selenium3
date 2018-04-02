@@ -8,22 +8,21 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractHomeSS;
+import org.junit.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestCinRenewalHomeHO3 extends TestCinAbstractHomeSS{
+public class TestCinRenewalHomeHO3 extends TestCinAbstractHomeSS {
 
     /**
-     * @name CLUE trigger for HO Renewal(All States) CIN generation should be surpressed.
-     *
-     * Depends on ChoicePointCluePropertyMockData mocksheet was updated with Applicant: First Name: PropChargeable Last Name: Activity
-     *
      * @param state any except MD
-     * @scenario
-     * 1. Create Customer
+     * @name CLUE trigger for HO Renewal(All States) CIN generation should be surpressed.
+     * <p>
+     * Depends on ChoicePointCluePropertyMockData mocksheet was updated with Applicant: First Name: PropChargeable Last Name: Activity
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal with Name Insured having chargeable CLUE property violation
@@ -31,7 +30,7 @@ public class TestCinRenewalHomeHO3 extends TestCinAbstractHomeSS{
      * @details
      */
     @Parameters({STATE_PARAM})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-7278")
     public void testCluePropertyChargeableDriver(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
@@ -39,14 +38,16 @@ public class TestCinRenewalHomeHO3 extends TestCinAbstractHomeSS{
                 .adjust(MEMBERSHIP_REPORT_PATH, getTestSpecificTD("MembershipReport_CIN"));
 
         TestData renewalTD = getTestSpecificTD("TestData_Renewal")
-                .adjust(APPLICANT_TAB_NAME_INSURED, getTestSpecificTD("AddNamedInsuredWithCluePropertyViolation").resolveLinks().getTestDataList("NamedInsured"));
-                //.adjust(REPORTS_TAB, getTestSpecificTD("Reorder_InsuranceScore_CLUEReport"));
+                .adjust(APPLICANT_TAB_NAME_INSURED, getTestSpecificTD("AddNamedInsuredWithCluePropertyViolation").resolveLinks().getTestDataList("NamedInsured"))
+                .adjust(REPORTS_TAB, getTestSpecificTD("Reorder_InsuranceScore_CLUEReport"));
 
         String policyNumber = createPolicy(policyTD);
 
         renewPolicy(policyNumber, renewalTD);
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, false);
+
+        Assert.assertNotNull(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
     }
 
     @Override

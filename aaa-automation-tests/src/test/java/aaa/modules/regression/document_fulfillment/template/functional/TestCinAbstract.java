@@ -2,9 +2,11 @@ package aaa.modules.regression.document_fulfillment.template.functional;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.model.Document;
 import aaa.helpers.xml.model.DocumentDataElement;
 import aaa.helpers.xml.model.DocumentDataSection;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -14,12 +16,16 @@ import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.junit.Assert;
 import toolkit.datax.TestData;
 
 import java.time.LocalDateTime;
 
 public abstract class TestCinAbstract extends BaseTest {
     IPolicy policy;
+
+    protected static final String CIN_DOCUMENT_MISSING_ERROR = "CIN document must have been generated.";
+    protected static final String CIN_DOCUMENT_REDUNDANT_ERROR = "CIN document mustn't have been generated, but it's there.";
 
     /**
      * Prepares error message for logging
@@ -31,6 +37,14 @@ public abstract class TestCinAbstract extends BaseTest {
         return msg + " for policy: " + policyNumber + ", event: " + event;
     }
 
+    /**
+     * Retrieves a value from a provided {@link Document} based on Section Name and Field Name
+     *
+     * @param sectionName
+     * @param fieldName
+     * @param cinDocument
+     * @return error message containing data about policy and DocGen even
+     */
     protected String retrieveElementValue(Document cinDocument, String sectionName, String fieldName) {
         String elementValue = null;
         for (DocumentDataSection documentDataSection : cinDocument.getDocumentDataSections()) {
@@ -46,19 +60,45 @@ public abstract class TestCinAbstract extends BaseTest {
     }
 
     /**
-     * Create a policy base on custom {@link TestData}
+     * Perform a manual renewal on a policy specified by Policy Number with custom {@link TestData}
+     *
+     * @param policyNumber
+     * @param renewalTD {@link TestData}
+     */
+    public void renewPolicy(String policyNumber, TestData renewalTD) {
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        performRenewal(renewalTD);
+
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
+
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+    }
+
+    /**
+     * Placeholder for product-specific renewal
+     *
+     * @param renewalTD {@link TestData}
+     */
+    abstract protected void performRenewal(TestData renewalTD);
+
+    /**
+     * Create a policy based on custom {@link TestData}
      *
      * @param policyTD
      * @return policyNumber
      */
     protected String createPolicy (TestData policyTD) {
-
         mainApp().open();
         createCustomerIndividual();
         super.createPolicy(policyTD);
-
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
         return PolicySummaryPage.getPolicyNumber();
     }
 }
