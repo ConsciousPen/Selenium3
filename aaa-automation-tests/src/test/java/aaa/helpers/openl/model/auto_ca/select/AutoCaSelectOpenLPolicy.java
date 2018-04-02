@@ -30,7 +30,7 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 		this.baseYear = baseYear;
 	}
 
-	public Boolean getAaaMember() {
+	public Boolean isAaaMember() {
 		return aaaMember;
 	}
 

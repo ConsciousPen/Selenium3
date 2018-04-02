@@ -57,6 +57,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy, boolean isLegacyConvPolicy) {
+		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
+
 		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
 			//TODO-dchubkov: to be implemented...
 			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
@@ -77,16 +79,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		String membershipNumber = null;
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
-			/*if (LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode()) && openLPolicy.getAvgAnnualERSperMember().equals(99.9)) {
-				membershipNumber = MockDataHelper.getMembershipData().getActiveAndPrimaryMembershipNumbersWithoutFaultCodes().stream().findFirst().get();
-			} else {
-				membershipNumber = MockDataHelper.getMembershipData().getMembershipNumberForAvgAnnualERSperMember(
-						openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
-			}*/
 			membershipNumber = MockDataHelper.getMembershipData()
 					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
 		} else {
-			getRatingDataPattern().mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())
+			ratingDataPattern
+					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())
 					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
 		}
 
@@ -100,7 +97,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				new AssignmentTab().getMetaKey(), getAssignmentTabData(driversTestDataList),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
-		td = TestDataHelper.merge(getRatingDataPattern(), td);
+		td = TestDataHelper.merge(ratingDataPattern, td);
 
 		if (isLegacyConvPolicy) {
 			TestData policyInformationTd = td.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
