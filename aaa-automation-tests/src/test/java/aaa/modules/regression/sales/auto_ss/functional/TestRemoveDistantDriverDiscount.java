@@ -17,7 +17,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
@@ -76,7 +75,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
 		// Calculate Premium and check that there is no Discount applied
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).doesNotHaveValue("Distant Student Discount(Angel FromEarth)");
 
