@@ -8,28 +8,13 @@ import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
-import aaa.toolkit.webdriver.customcontrols.AdvancedRadioGroup;
-import aaa.toolkit.webdriver.customcontrols.ConfirmationComboBox;
-import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
-import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurcharge;
+import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -712,12 +697,18 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> WEEKLY_INCOME_CONTINUATION_BENEFITS = declare("Weekly Income Continuation Benefits", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LENGTH_OF_INCOME_CONTINUATION = declare("Length of Income Continuation", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COVERAGE_INCLUDES = declare("Coverage Includes", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME1 = declare("Relative's Name 1", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName1_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME2 = declare("Relative's Name 2", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName22_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME3 = declare("Relative's Name 3", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName3_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME4 = declare("Relative's Name 4", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName44_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME5 = declare("Relative's Name 5", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName5_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME6 = declare("Relative's Name 6", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName66_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME1 =
+					declare("Relative's Name 1", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName1_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME2 =
+					declare("Relative's Name 2", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName22_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME3 =
+					declare("Relative's Name 3", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName3_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME4 =
+					declare("Relative's Name 4", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName44_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME5 =
+					declare("Relative's Name 5", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName5_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME6 =
+					declare("Relative's Name 6", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName66_id"));
 		}
 
 		public static final class OverridePremiumDialog extends MetaData {

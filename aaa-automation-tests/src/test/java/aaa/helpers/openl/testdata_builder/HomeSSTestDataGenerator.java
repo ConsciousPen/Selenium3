@@ -1,17 +1,16 @@
 package aaa.helpers.openl.testdata_builder;
 
-import aaa.helpers.TestDataHelper;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import java.util.Arrays;
 import org.apache.commons.lang3.NotImplementedException;
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.util.Arrays;
 
 public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy> {
 	public HomeSSTestDataGenerator(String state) {
@@ -24,7 +23,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	@Override
 	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy) {
-
 
 		TestData td = DataProviderFactory.dataOf(
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
@@ -136,7 +134,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PropertyInfoTab.FIRE_PROTECTIVE_DD.getLabel(), fireFireProtectiveDeviceDiscountData,
 				HomeSSMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceDiscountData
 		);
-
 
 	}
 

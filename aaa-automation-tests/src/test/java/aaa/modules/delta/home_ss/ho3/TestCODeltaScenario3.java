@@ -4,7 +4,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -22,13 +21,13 @@ public class TestCODeltaScenario3 extends CODeltaScenario1 {
 	}
 	
 	@Parameters({"state"})
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void CO_Delta_Scenario1(@Optional("CO") String state) {	
-		tdPolicy = testDataManager.policy.get(getPolicyType()); 
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+	public void CO_Delta_Scenario1(@Optional("CO") String state) {
+		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 		createQuote(td, scenarioPolicyType);
-		
+
 		SoftAssertions.assertSoftly(softly -> {
 			verifyLOVsOfImmediatePriorCarrier();
 			verifyEndorsementsTab();
@@ -36,7 +35,7 @@ public class TestCODeltaScenario3 extends CODeltaScenario1 {
 			verifyAdverselyImpacted();
 			verifyIneligibleRoofType();
 			verifyIneligibleRoofType();
-			purchasePolicy(td, scenarioPolicyType); 
+			purchasePolicy(td, scenarioPolicyType);
 			//verifyPolicyODD();
 		});
 	}

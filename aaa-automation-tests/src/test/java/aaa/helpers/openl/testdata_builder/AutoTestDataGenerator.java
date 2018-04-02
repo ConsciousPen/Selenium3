@@ -3,12 +3,7 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -30,6 +25,25 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		super(state, ratingDataPattern);
 	}
 
+	List<String> getPolicyLevelCoverageCDs() {
+		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
+		if (!getState().equals(Constants.States.OR)) {
+			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
+			policyLevelCoverage.add("UMPD");
+		}
+		return policyLevelCoverage;
+	}
+
+	String getDriverTabGender(String gender) {
+		if ("F".equals(gender)) {
+			return "Female";
+		}
+		if ("M".equals(gender)) {
+			return "Male";
+		}
+		throw new IstfException("Unknown mapping for gender: " + gender);
+	}
+
 	protected String getVehicleTabType(String statCode) {
 		if (isPrivatePassengerAutoType(statCode)) {
 			return "Private Passenger Auto";
@@ -44,32 +58,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			return "Trailer";
 		}
 		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
-	}
-
-	String getDriverTabGender(String gender) {
-		if ("F".equals(gender)) {
-			return "Female";
-		}
-		if ("M".equals(gender)) {
-			return "Male";
-		}
-		throw new IstfException("Unknown mapping for gender: " + gender);
-	}
-
-	String getDriverTabMartialStatus(String martialStatus) {
-		// Rating engine accepts S, M and W
-		switch (martialStatus) {
-			case "J":
-				return "Domestic Partner"; // Auto CA Choice
-			case "M":
-				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
-			case "S":
-				return getRandom("Single");
-			case "W":
-				return "Widowed";
-			default:
-				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
-		}
 	}
 
 	String getDriverTabDateOfBirth(Integer driverAge, LocalDateTime policyEffectiveDate) {
@@ -199,6 +187,22 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
+	String getDriverTabMartialStatus(String martialStatus) {
+		// Rating engine accepts S, M and W
+		switch (martialStatus) {
+			case "J":
+				return "Domestic Partner"; // Auto CA Choice
+			case "M":
+				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+			case "S":
+				return getRandom("Single");
+			case "W":
+				return "Widowed";
+			default:
+				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
+		}
+	}
+
 	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
 		Map<String, String> coveragesMap = new HashMap<>();
 
@@ -253,15 +257,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
 		return coveragesMap.get(coverageCD);
-	}
-
-	List<String> getPolicyLevelCoverageCDs() {
-		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
-		if (!getState().equals(Constants.States.OR)) {
-			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
-			policyLevelCoverage.add("UMPD");
-		}
-		return policyLevelCoverage;
 	}
 
 	boolean isPolicyLevelCoverageCd(String coverageCd) {

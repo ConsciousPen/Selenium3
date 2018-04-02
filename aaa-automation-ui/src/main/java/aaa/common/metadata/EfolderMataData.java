@@ -10,16 +10,16 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 public class EfolderMataData {
-    public static final class AddDocumentTab extends MetaData{
-        public static final AssetDescriptor<FileUpload> FILE_UPLOAD = declare("File", FileUpload.class, By.id("addDocumentForm:documentUpload"));
-        public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
-        public static final AssetDescriptor<ComboBox> FOLDER = declare("Folder", ComboBox.class);
-        public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
-        public static final AssetDescriptor<TextBox> COMMENT = declare("Comment", TextBox.class);
-    }
+	public static final class AddDocumentTab extends MetaData {
+		public static final AssetDescriptor<FileUpload> FILE_UPLOAD = declare("File", FileUpload.class, By.id("addDocumentForm:documentUpload"));
+		public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
+		public static final AssetDescriptor<ComboBox> FOLDER = declare("Folder", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
+		public static final AssetDescriptor<TextBox> COMMENT = declare("Comment", TextBox.class);
+	}
 
-    public static class AddExtDocumentTab extends MetaData {
-        public static final AssetDescriptor<TextBox> FILE_URL = declare("File URL", TextBox.class);
-        public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
-    }
+	public static class AddExtDocumentTab extends MetaData {
+		public static final AssetDescriptor<TextBox> FILE_URL = declare("File URL", TextBox.class);
+		public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
+	}
 }

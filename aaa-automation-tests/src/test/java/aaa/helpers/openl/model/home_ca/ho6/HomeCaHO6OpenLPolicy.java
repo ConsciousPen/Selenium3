@@ -1,11 +1,8 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
+import static aaa.helpers.openl.model.OpenLFile.*;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -17,7 +14,7 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
 	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO6OpenLFile.FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLForm> forms;
 
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
 	private Integer covALimit;

@@ -48,7 +48,6 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueD
 import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;

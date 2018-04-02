@@ -6,7 +6,6 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>
-
     <test name="AutoSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
         <parameter name="fileName" value="AZTests-20171101.xls"/>
@@ -15,7 +14,6 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
     <test name="AutoSS [CO] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CO"/>
         <parameter name="fileName" value="COTests-20171006.xls"/>
@@ -34,7 +32,6 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
     <test name="AutoSS [DC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="DC"/>
         <parameter name="fileName" value="DCTests-20180114_part1.xls"/>
@@ -43,7 +40,6 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
     <test name="AutoSS [MT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MT"/>
         <parameter name="fileName" value="MTTests-20171201.xls"/>
@@ -61,7 +57,6 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
     <test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="PA"/>
         <parameter name="fileName" value="PATests-20180312_part1.xls"/>

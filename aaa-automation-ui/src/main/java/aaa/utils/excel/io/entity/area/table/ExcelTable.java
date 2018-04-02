@@ -1,16 +1,7 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
@@ -99,16 +90,17 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		return tableIndexesAndRowsMap;
 	}
 
-	@Override
-	protected Map<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
-		Map<Integer, TableColumn> tableIndexesAndColumnsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
-		int columnIndexInTable = 1;
-		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
-			TableColumn column = new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes);
-			tableIndexesAndColumnsMap.put(columnIndexInTable, column);
-			columnIndexInTable++;
+	private static Set<Integer> getHeaderColumnsIndexes(Row headerRow) {
+		Set<Integer> columnsIndexes = new LinkedHashSet<>();
+		for (Cell cell : headerRow) {
+			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING && StringUtils.isNotBlank(cell.getStringCellValue())) {
+				columnsIndexes.add(cell.getColumnIndex() + 1);
+			}
 		}
-		return tableIndexesAndColumnsMap;
+		assertThat(columnsIndexes)
+				.as("There are no non-empty String columns in header row number %1$s on sheet \"%1$s\"", headerRow.getRowNum() + 1, headerRow.getSheet().getSheetName())
+				.isNotEmpty();
+		return columnsIndexes;
 	}
 
 	@Override
@@ -160,19 +152,6 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		return true;
 	}
 
-	private static Set<Integer> getHeaderColumnsIndexes(Row headerRow) {
-		Set<Integer> columnsIndexes = new LinkedHashSet<>();
-		for (Cell cell : headerRow) {
-			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING && StringUtils.isNotBlank(cell.getStringCellValue())) {
-				columnsIndexes.add(cell.getColumnIndex() + 1);
-			}
-		}
-		assertThat(columnsIndexes)
-				.as("There are no non-empty String columns in header row number %1$s on sheet \"%1$s\"", headerRow.getRowNum() + 1, headerRow.getSheet().getSheetName())
-				.isNotEmpty();
-		return columnsIndexes;
-	}
-
 	private static Set<Integer> getTableRowsIndexes(Row headerRow, Set<Integer> columnsIndexesOnSheet) {
 		Set<Integer> rIndexes = new LinkedHashSet<>();
 		Set<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
@@ -186,6 +165,18 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 			rIndexes.add(rowIndex + 1);
 		}
 		return rIndexes;
+	}
+
+	@Override
+	protected Map<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
+		Map<Integer, TableColumn> tableIndexesAndColumnsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
+		int columnIndexInTable = 1;
+		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
+			TableColumn column = new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes);
+			tableIndexesAndColumnsMap.put(columnIndexInTable, column);
+			columnIndexInTable++;
+		}
+		return tableIndexesAndColumnsMap;
 	}
 
 	public ExcelTable excludeColumns(String... headerColumnNames) {

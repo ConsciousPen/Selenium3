@@ -48,6 +48,18 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 		this.nanoPolicyType = nanoPolicyType;
 	}
 
+	public Integer getMonsOfPriorIns() {
+		return monsOfPriorIns;
+	}
+
+	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
+		this.monsOfPriorIns = monsOfPriorIns;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
+	}
+
 	public void setMultiCar(Boolean multiCar) {
 		this.multiCar = multiCar;
 	}
@@ -55,18 +67,6 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 	@Override
 	public Integer getTerm() {
 		return term;
-	}
-
-	public void setTerm(Integer term) {
-		this.term = term;
-	}
-
-	public Integer getMonsOfPriorIns() {
-		return monsOfPriorIns;
-	}
-
-	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
-		this.monsOfPriorIns = monsOfPriorIns;
 	}
 
 	@Override

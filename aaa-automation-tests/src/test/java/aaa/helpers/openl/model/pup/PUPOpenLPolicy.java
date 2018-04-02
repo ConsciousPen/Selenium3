@@ -2,10 +2,7 @@ package aaa.helpers.openl.model.pup;
 
 import static aaa.helpers.openl.model.OpenLFile.COVERAGE_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_COVERAGE_SHEET_NAME;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_RISK_ITEM_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_RISK_ITEM_SHEET_NAME;
+import static aaa.helpers.openl.model.pup.PUPOpenLFile.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
