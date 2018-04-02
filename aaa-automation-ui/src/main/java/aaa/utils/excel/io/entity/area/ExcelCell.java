@@ -3,24 +3,15 @@ package aaa.utils.excel.io.entity.area;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.celltype.BooleanCellType;
-import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.celltype.DoubleCellType;
-import aaa.utils.excel.io.celltype.IntegerCellType;
-import aaa.utils.excel.io.celltype.LocalDateTimeCellType;
-import aaa.utils.excel.io.celltype.NumberCellType;
-import aaa.utils.excel.io.celltype.StringCellType;
+import aaa.utils.excel.io.celltype.*;
 import aaa.utils.excel.io.entity.Writable;
 import toolkit.exceptions.IstfException;
 
@@ -53,7 +44,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public static Set<CellType<?>> getBaseTypes() {
-		return new HashSet<>(Arrays.asList(BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, DOUBLE_TYPE, LOCAL_DATE_TIME_TYPE));
+		return Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	public Cell getPoiCell() {
@@ -107,7 +98,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public Object getValue() {
-		// Let's try to obtain numeric value first
+		// Let's try to obtain numeric value first (non-floating types are checked first)
 		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t).collect(Collectors.toSet());
 		for (NumberCellType<?> type : numericTypes) {
 			if (type.isTypeOf(this)) {

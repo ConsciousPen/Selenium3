@@ -13,23 +13,21 @@ import aaa.helpers.constants.Groups;
 import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
-import toolkit.utils.TestInfo;
 
 public class ScorpionsPreconditions extends BaseTest {
 	/* Vin refresh enable/disable queries */
-	private String SELECT_LOOKUP_ROW_FROM_AAAROLLOUTELIGIBILITYLOOKUP_BY_CODE = "select * from LOOKUPVALUE where LOOKUPLIST_ID in"
+	private static final String SELECT_LOOKUP_ROW_FROM_AAAROLLOUTELIGIBILITYLOOKUP_BY_CODE = "select * from LOOKUPVALUE where LOOKUPLIST_ID in"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 
-	private String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
+	private static final String UPDATE_DISPLAYVALUE_BY_CODE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = '%1$s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST "
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 
 	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
 	private String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE);
+	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URL_TEMPLATE);
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION}, description = "Renewal job adding")
-	@TestInfo()
 	public void renewalJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -46,7 +44,7 @@ public class ScorpionsPreconditions extends BaseTest {
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Precondition set doc generation endpoints")
 	public static void docGenStubEndpointInsert() {
-		int result = 0;
+		int result;
 		List<String> queries = Arrays.asList(DOC_GEN_WEB_CLIENT,AAA_RETRIEVE_AGREEMENT_WEB_CLIENT,AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
 		for(String query : queries){
 			result = DBService.get().executeUpdate(query);

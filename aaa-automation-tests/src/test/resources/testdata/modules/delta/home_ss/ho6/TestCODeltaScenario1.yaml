@@ -1,25 +1,6 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ApplicantTab',
-  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  EndorsementTab: '@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@DocumentsTab',
-  BindTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@BindTab',
-  PurchaseTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PurchaseTab'
-}
-
-GeneralTab: {
-  State: 'CO',
-  Policy type: 'HO6',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Lead source: 'Book Roll',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
+  MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab'
 }
 
 PropertyInfoTab: {
@@ -39,9 +20,22 @@ PropertyInfoTab: {
   ClaimHistory: {},
 }
 
+TestData_add_Forms: {
+  EndorsementTab: '@EndorsementTab',
+}
+
 EndorsementTab: {
-  HS 04 54: '@Endorsement_HS0454',
+  HS 04 54: '@<delta_home_ss_ho3>@TestCODeltaScenario1@Endorsement_HS0454',
   HS 24 72: '@Endorsement_HS2472'
+}
+
+# ----- Endorsements Tab -----
+Endorsement_HS2472: {
+  Action: 'Add', 
+  Description of the nature of the farming: 'Test', 
+  "Is the farming located at the residence premises?": 'Yes', 
+  "Is the income derived from the farming a primary source of income?": 'No', 
+  "Is the farming location used for racing purposes?": 'No'  
 }
  
 # ----- PropertyInfo Tab -----
@@ -54,21 +48,6 @@ Construction: {
     Condominium Coverage A Dwelling requested for: Interior
   }
   
-# ----- Endorsements Tab -----
-Endorsement_HS0454: {
-  Action: 'Add', 
-  Deductible: '5%', 
-  "Include coverage for earthquake loss to exterior masonry veneer?": 'No'
-}
-
-Endorsement_HS2472: {
-  Action: 'Add', 
-  Description of the nature of the farming: 'Test', 
-  "Is the farming located at the residence premises?": 'Yes', 
-  "Is the income derived from the farming a primary source of income?": 'No', 
-  "Is the farming location used for racing purposes?": 'No'  
-}
-
 # ========= TC04 Adversely Impacted verification =========
 TestData_Declined_with_Score700: {
   GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_Declined', 

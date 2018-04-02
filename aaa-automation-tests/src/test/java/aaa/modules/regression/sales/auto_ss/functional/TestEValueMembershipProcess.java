@@ -661,8 +661,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			try {
 				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
 				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
-			} catch (IstfException e) {
-				log.debug(e.getMessage());
+			} catch (Exception e) {
+				log.info("Failed to cleaar folder PAS_B_EXGPAS_PASHUB_4004_D/archive and PAS_B_PASHUB_EXGPAS_4004_D/archive", e);
 			}
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
@@ -672,8 +672,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		Waiters.SLEEP(5000).go();
 		try {
 			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
-		} catch (IstfException e) {
-			log.debug(e.getMessage());
+		} catch (Exception e) {
+			log.info("Failed to cleaar folder PAS_B_EXGPAS_PASHUB_4004_D/outbound", e);
 		}
 		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);

@@ -3,8 +3,7 @@
 package aaa.admin.modules.commission.commissionstrategy.commissionstrategy_gb.defaulttabs;
 
 import org.openqa.selenium.By;
-
-import aaa.admin.metadata.commission.CommissionMetaData.AddGBCommissionRule;
+import aaa.admin.metadata.commission.CommissionMetaData;
 import aaa.common.DefaultTab;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
@@ -19,7 +18,7 @@ public class AddGBCommissionRuleTab extends DefaultTab {
     public static final ComboBox comboBoxCommissionRuleType = new ComboBox(By.id("strategyTopForm:ruleStructure"));
     public static final Button buttonAddNewCommissionRule = new Button(By.id("strategyTopForm:showAddRulePopup"));
 
-    private final MultiAssetList assetListPolicyYear = new MultiAssetList(By.xpath(Page.DEFAULT_DIALOG_LOCATOR), AddGBCommissionRule.AddCommissionRule.PolicyYear.class) {
+	private final MultiAssetList assetListPolicyYear = new MultiAssetList(By.xpath(Page.DEFAULT_DIALOG_LOCATOR), CommissionMetaData.AddGBCommissionRule.AddCommissionRule.PolicyYear.class) {
         @Override
         protected void addSection(int index, int size) {
             if (index > 0)
@@ -31,14 +30,15 @@ public class AddGBCommissionRuleTab extends DefaultTab {
     };
 
     public AddGBCommissionRuleTab() {
-        super(AddGBCommissionRule.AddCommissionRule.class);
+	    super(CommissionMetaData.AddGBCommissionRule.AddCommissionRule.class);
     }
 
-    public Tab fillTab(final TestData td) {
+	@Override
+	public Tab fillTab(TestData td) {
         assetList = new MultiAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
             @Override
             protected void addSection(int index, int size) {
-                comboBoxCommissionRuleType.setValue(td.getTestDataList(metaDataClass.getSimpleName()).get(index).getValue(AddGBCommissionRule.COMMISSION_TYPE.getLabel()));
+	            comboBoxCommissionRuleType.setValue(td.getTestDataList(metaDataClass.getSimpleName()).get(index).getValue(CommissionMetaData.AddGBCommissionRule.COMMISSION_TYPE.getLabel()));
                 buttonAddNewCommissionRule.click();
             }
 

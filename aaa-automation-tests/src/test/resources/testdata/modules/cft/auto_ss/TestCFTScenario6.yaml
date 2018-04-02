@@ -34,12 +34,14 @@ EndorsementActionTab: {
 TestData_OOS: {
   EndorsementActionTab: '@EndorsementActionTab_OOS',
   GeneralTab: {},
-  DriverTab: {},
+  DriverTab: '@DriverTab_OOS',
   RatingDetailReportsTab: {},
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
   DocumentsAndBindTab: {}
 }
 
@@ -57,6 +59,25 @@ DriverTab_KY: {
     Filing State: Arizona
 }
 
+DriverTab_OOS: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Other,
+  First Name: 'John$<rx:\d{8}>',
+  Last Name: 'Smith',
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'AZ',
+  License Number: 400064774,
+  Affinity Group: 'AAA Employee'
+}
+
+#--- Data Gather ---
 DriverTab_DataGather: {
     Affinity Group: 'AAA Employee'
 }

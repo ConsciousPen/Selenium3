@@ -5,6 +5,7 @@ import java.util.List;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
@@ -15,6 +16,10 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 	private Boolean antiTheft;
 	private String vehType;
 	private String vehicleUsageCd;
+
+	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
+	@ExcelTableColumnElement(name = "umbiLiabilitySymbol") //TODO-dchubkov: possible mistake in file, to be investigated
+	protected String umLiabilitySymbol;
 
 	public String getVehType() {
 		return vehType;
@@ -56,6 +61,17 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 		this.antiTheft = antiTheft;
 	}
 
+	@SuppressWarnings("RedundantMethodOverride")
+	@Override
+	public void setMpLiabilitySymbol(String mpLiabilitySymbol) {
+		this.mpLiabilitySymbol = mpLiabilitySymbol;
+	}
+
+	@Override
+	public String getUmLiabilitySymbol() {
+		return umLiabilitySymbol;
+	}
+
 	@Override
 	public String toString() {
 		return "AutoCaChoiceOpenLVehicle{" +
@@ -70,7 +86,11 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}
