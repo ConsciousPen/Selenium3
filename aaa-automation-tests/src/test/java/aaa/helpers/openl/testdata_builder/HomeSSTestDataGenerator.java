@@ -1,7 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.util.*;
-import java.util.function.BiFunction;
+import java.util.Arrays;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -158,13 +157,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
-		Map<String, BiFunction<HomeSSOpenLPolicy, String, TestData>> formCodesAndTestDataFunctionsMap = new HashMap<>();
-		formCodesAndTestDataFunctionsMap.put("HS0420", HomeSSFormTestDataGenerator.formHS0420Data);
-		formCodesAndTestDataFunctionsMap.put("HS0495", HomeSSFormTestDataGenerator.formHS0495Data);
-		//...
-
-		String className = "aaa.helpers.openl.testdata_builder.HomeSSFormTestDataGenerator";
-		List<String> formList = new ArrayList<>();
+		//String className = "aaa.helpers.openl.testdata_builder.HomeSSFormTestDataGenerator";
+		//List<String> formList = new ArrayList<>();
 		TestData endorsementData = new SimpleDataProvider();
 
 		/*try {
@@ -184,11 +178,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			e.printStackTrace();
 		}*/
 
-		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
-			String formCode = form.getFormCode();
-			if (!formList.contains(formCode)) {
-				formList.add(formCode);
-				TestData td = formCodesAndTestDataFunctionsMap.get(formCode).apply(openLPolicy, formCode);
+		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+			String formCode = openLForm.getFormCode();
+			if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
+				TestData td = HomeSSFormTestDataGenerator.getFormTestData(openLForm, openLPolicy.getLevel());
 				endorsementData.adjust(td);
 			}
 		}
