@@ -37,6 +37,7 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 		this.vehicleUsageCd = vehicleUsageCd;
 	}
 
+	@Override
 	public List<AutoOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}

@@ -26,7 +26,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
 
-	public AutoTestDataGenerator(String state, TestData ratingDataPattern) {
+	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
 	}
 
