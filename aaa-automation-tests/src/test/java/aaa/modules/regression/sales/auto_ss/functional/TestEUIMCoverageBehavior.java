@@ -89,7 +89,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -121,7 +121,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Renewal
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -153,7 +153,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedBodilyInjury.setValueByIndex(1);
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS11111);
         errorTab.submitTab();
 
@@ -163,11 +163,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedPropertyDamage.setValueByIndex(1);
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS22222);
         errorTab.submitTab();
         enhancedBodilyInjury.setValueByIndex(1);
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS11111);
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS22222);
         errorTab.submitTab();
@@ -179,13 +179,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
         //AC4 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(false);
         assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(true);
         assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448
         String euimExpectedText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
