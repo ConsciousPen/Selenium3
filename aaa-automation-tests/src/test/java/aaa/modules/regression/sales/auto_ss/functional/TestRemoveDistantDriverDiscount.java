@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -35,7 +34,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 	 * 4. Endorse Policy
 	 * 5. Remove Distant Driver
 	 * 6. Calculate Premium
-	 * 7. Check if Distant Driver Discount is applied
+	 * 7. Check that Distant Driver Discount is not applied
 	* @details
 	*/
 
@@ -69,7 +68,7 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 		purchaseTab.submitTab();
 
 		// Endorse Policy and Remove the eligibility for DSD
-		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Months"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		DriverTab.viewDriver(2);
 		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DISTANT_STUDENT).setValue("No");
