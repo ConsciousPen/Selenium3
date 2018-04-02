@@ -1,10 +1,13 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
@@ -13,9 +16,13 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
+	@ExcelTransient
+	private LocalDateTime effectiveDate;
+
 	private Boolean multiCar;
 	private String nanoPolicyType;
 	private Integer term;
+	private Integer monsOfPriorIns; // unknown type, it's always empty in excel
 
 	public List<AutoCaChoiceOpenLDriver> getDrivers() {
 		return new ArrayList<>(drivers);
@@ -33,14 +40,6 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
-	public Boolean getMultiCar() {
-		return multiCar;
-	}
-
-	public void setMultiCar(Boolean multiCar) {
-		this.multiCar = multiCar;
-	}
-
 	public String getNanoPolicyType() {
 		return nanoPolicyType;
 	}
@@ -49,6 +48,11 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 		this.nanoPolicyType = nanoPolicyType;
 	}
 
+	public void setMultiCar(Boolean multiCar) {
+		this.multiCar = multiCar;
+	}
+
+	@Override
 	public Integer getTerm() {
 		return term;
 	}
@@ -57,16 +61,42 @@ public class AutoCaChoiceOpenLPolicy extends OpenLPolicy {
 		this.term = term;
 	}
 
+	public Integer getMonsOfPriorIns() {
+		return monsOfPriorIns;
+	}
+
+	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
+		this.monsOfPriorIns = monsOfPriorIns;
+	}
+
+	@Override
+	public LocalDateTime getEffectiveDate() {
+		if (effectiveDate == null) {
+			return TimeSetterUtil.getInstance().getCurrentTime();
+		}
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDateTime effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
 	@Override
 	public String toString() {
-		return "AutoCaCOpenLPolicy{" +
+		return "AutoCaChoiceOpenLPolicy{" +
 				"drivers=" + drivers +
 				", vehicles=" + vehicles +
+				", effectiveDate=" + effectiveDate +
 				", multiCar=" + multiCar +
 				", nanoPolicyType='" + nanoPolicyType + '\'' +
 				", term=" + term +
+				", monsOfPriorIns=" + monsOfPriorIns +
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';
+	}
+
+	public Boolean isMultiCar() {
+		return multiCar;
 	}
 }

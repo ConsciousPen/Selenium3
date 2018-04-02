@@ -44,14 +44,14 @@ public class AutoSSPolicy implements IPolicy {
 		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
-		log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
+	    log.info("QUOTE CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 	}
 
 	@Override
 	public void createPolicy(TestData td) {
 		initiate();
 		getDefaultView().fill(td);
-		log.info("POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+		log.info("POLICY CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
@@ -70,13 +70,13 @@ public class AutoSSPolicy implements IPolicy {
 	}
 
 	@Override
-	public void purchase(TestData td) {
-		dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().fillTab(td).submitTab();
-		new PurchaseTab().fillTab(td).submitTab();
-		log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
-	}
+    public void purchase(TestData td) {
+    	dataGather().start();
+	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+	    new DocumentsAndBindTab().fillTab(td).submitTab();
+	    new PurchaseTab().fillTab(td).submitTab();
+	    log.info("Purchased Quote {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+    }
 
 	@Override
 	public void calculatePremium(TestData td) {
@@ -105,12 +105,12 @@ public class AutoSSPolicy implements IPolicy {
 	    new PurchaseTab().fillTab(td).submitTab();
     }
 
-	@Override
-	public void copyPolicy(TestData td) {
-		policyCopy().perform(td);
-		calculatePremiumAndPurchase(td);
-		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
-	}
+    @Override
+    public void copyPolicy(TestData td) {
+        policyCopy().perform(td);
+        calculatePremiumAndPurchase(td);
+	    log.info("Copy Policy {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+    }
 
 	@Override
 	public PolicyActions.Endorse endorse() {
