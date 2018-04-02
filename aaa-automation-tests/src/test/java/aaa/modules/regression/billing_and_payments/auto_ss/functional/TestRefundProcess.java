@@ -32,7 +32,6 @@ import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -59,7 +58,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private static final String BILLING_PAYMENT_METHOD_CARD = "AAAPaymentDetailsPCICreditCard";
 	private static final String BILLING_PAYMENT_METHOD_ACH = "AAAPaymentDetailsEFT";
 	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
-	private TestData tdBilling = testDataManager.billingAccount;
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
@@ -1080,7 +1078,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = refundProcessHelper.policyCreation();
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1099,8 +1097,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
-		// TODO OSI: Refund with Check is created because the stubbed amount for VA
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1121,7 +1118,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestDC);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestDC.cleanUp();
 		CustomAssert.disableSoftMode();
@@ -1144,7 +1141,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestACH.cleanUp();
 

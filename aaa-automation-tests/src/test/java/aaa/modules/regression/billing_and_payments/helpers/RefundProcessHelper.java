@@ -20,6 +20,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.billing.DisbursementEngineHelper;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.db.DbAwaitHelper;
@@ -32,7 +33,6 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
@@ -61,10 +61,11 @@ public class RefundProcessHelper extends PolicyBilling {
 	private static final Optional<Boolean> NOT_VALIDATE_PAYEENAME = Optional.empty();
 	private static final Optional<Boolean> NOT_VALIDATE_TRANSACTIONID = Optional.empty();
 
-	@Override
+	//OSI: the class is shared between products. There should be no single PolicyType defined
+/*	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
-	}
+		return PolicyType.AUTO_SS;
+	}*/
 
 	@SuppressWarnings("Unchecked")
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
@@ -258,11 +259,11 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * Note: for the test to work LastPaymentMethod needs to be configured for the payments to be > threshold
 	 * @details
 	 */
-	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod) {
+	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, TimePoints getTimePoints) {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDue1 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
-		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		LocalDateTime refundDate = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
@@ -273,7 +274,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
-		LocalDateTime refundDate2 = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		LocalDateTime refundDate2 = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate2);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 

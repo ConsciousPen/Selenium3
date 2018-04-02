@@ -189,7 +189,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		requestIdList.add(stubRequestCC);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
@@ -206,7 +206,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String policyNumber = preconditionPolicyCreationPup();
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
