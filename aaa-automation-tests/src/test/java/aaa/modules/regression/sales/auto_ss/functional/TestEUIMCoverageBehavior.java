@@ -211,6 +211,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(2,2)).isEqualTo("Bodily Injury Liability");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(3,2)).isEqualTo("Property Damage Liability");
         assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(4,2)).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(5,2)).isEqualTo("Enhanced Uninsured Motorist Property Damage");
 
