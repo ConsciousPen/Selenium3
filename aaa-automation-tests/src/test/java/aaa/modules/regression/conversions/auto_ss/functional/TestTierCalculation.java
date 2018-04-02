@@ -22,11 +22,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -92,7 +88,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Initiate manual conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdAutoConv, PremiumAndCoveragesTab.class, true);
-        PremiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
 
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
@@ -156,7 +152,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         new AutoSSPolicyActions.DataGather().start();
-        PremiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         Map<String, String> result = paramMapToCompere();
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         mainApp().close();

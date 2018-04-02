@@ -1,6 +1,13 @@
 package aaa.modules.regression.conversions.pup;
 
-import aaa.common.Tab;
+import java.time.LocalDateTime;
+import java.util.Map;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,10 +23,12 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
+import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -27,15 +36,6 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import java.time.LocalDateTime;
-import java.util.Map;
 
 public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
@@ -119,7 +119,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		fillPolicy(effDate);
+		fillPolicy();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		//TODO Verify coverages
@@ -158,7 +158,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		fillPolicy(effDate);
+		fillPolicy();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
@@ -200,7 +200,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
-	private void fillPolicy(LocalDateTime effDate) {
+	private void fillPolicy() {
 		policy.dataGather().start();
 		PrefillTab prefillTab = new PrefillTab();
 		prefillTab.getNamedInsuredListChangeLink(2).click();
@@ -214,7 +214,12 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 				.mask(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "ActiveUnderlyingPolicies"))
 				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), "PolicyInfo"), getTestSpecificTD("PolicyInfo"))
 				.adjust(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName(), getTestSpecificTD("UnderlyingRisksAllResidentsTab"))
-				, BindTab.class);
-		Tab.buttonSaveAndExit.click();
+				, BindTab.class, true);
+		new BindTab().submitTab();
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7050000);
+			errorTab.submitTab();
+		}
 	}
 }

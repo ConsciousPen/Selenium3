@@ -2,12 +2,7 @@ package aaa.modules.openl;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,11 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
@@ -35,7 +33,7 @@ import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
+public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
 	private String testsDir;
 
@@ -62,19 +60,24 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
-		createCustomerIndividual();
+		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
 			for (Map.Entry<P, Dollar> policyAndPremium : openLPoliciesAndPremiumsMap.entrySet()) {
+				P policyObject = policyAndPremium.getKey();
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
-						policyAndPremium.getKey().getNumber(), policyAndPremium.getValue(), openLFileName);
+						policyObject.getNumber(), policyAndPremium.getValue(), openLFileName);
 
-				TestData quoteRatingData = tdGenerator.getRatingData(policyAndPremium.getKey());
-				policy.initiate();
-				policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
-				new PremiumAndCoveragesTab().fillTab(quoteRatingData);
+				//TODO-dchubkov: add assertion that policy effective date is not too old (ask about valid policy age requirement)
+				if (policyObject.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
+					TimeSetterUtil.getInstance().nextPhase(policyObject.getEffectiveDate());
+					mainApp().reopen();
+					SearchPage.openCustomer(customerNumber);
+				}
 
+				String quoteNumber = createAndRateQuote(tdGenerator, policyObject);
+				log.info("QUOTE CREATED: {}", quoteNumber);
 				softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(policyAndPremium.getValue().toString());
-				Tab.buttonCancel.click();
+				Tab.buttonSaveAndExit.click();
 			}
 		});
 	}
@@ -100,19 +103,34 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 
 		Map<P, Dollar> openLPoliciesAndPremiumsMap = new LinkedHashMap<>(openLPoliciesList.size());
-		ExcelTable testsTable = openLFileManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
+
+		String testsSheetName = OpenLFile.TESTS_SHEET_NAME;
+		String policyColumnName = "policy";
+		if ("Homeowners Signature Series".equals(getPolicyType().getName())) {
+			testsSheetName = HomeSSOpenLFile.TESTS_SHEET_NAME;
+			policyColumnName = "p";
+		}
+
+		ExcelTable testsTable = openLFileManager.getSheet(testsSheetName).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
 		Dollar expectedPremium;
 		for (P openLPolicy : openLPoliciesList) {
-			TableRow row = testsTable.getRow("policy", openLPolicy.getNumber());
+			TableRow row = testsTable.getRow(policyColumnName, openLPolicy.getNumber());
 			if (row.hasColumn(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME) && !row.isEmpty(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME)) {
 				expectedPremium = new Dollar(row.getValue(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME));
 			} else {
-				expectedPremium = new Dollar(row.getSumContains("_res_.$Value"));
+				expectedPremium = new Dollar(row.getSumContains("_res_"));
+				if (openLPolicy.getTerm() == 6) {
+					expectedPremium = expectedPremium.divide(2);
+				}
 			}
 			openLPoliciesAndPremiumsMap.put(openLPolicy, expectedPremium);
 		}
-
 		openLFileManager.close();
+
+		//Sort map by policies effective dates for further valid time shifts
+		openLPoliciesAndPremiumsMap = openLPoliciesAndPremiumsMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(OpenLPolicy::getEffectiveDate)))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
 		return openLPoliciesAndPremiumsMap;
 	}
 
@@ -133,4 +151,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		}
 		return policyNumbers;
 	}
+
+	abstract String createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 }

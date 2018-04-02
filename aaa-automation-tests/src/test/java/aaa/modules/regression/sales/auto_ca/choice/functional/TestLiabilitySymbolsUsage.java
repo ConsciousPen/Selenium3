@@ -1,7 +1,8 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -10,11 +11,12 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.FormsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestLiabilitySymbolsUsageTemplate;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -95,7 +97,7 @@ public class TestLiabilitySymbolsUsage extends TestLiabilitySymbolsUsageTemplate
         assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE,
                 ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();
 
-        PremiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
 
         assertThat(errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE,
                 ErrorEnum.Errors.ERROR_AAA_MES_PC_0017_CA_CHOICE.getMessage()).isPresent()).isFalse();

@@ -1,5 +1,10 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -7,16 +12,10 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import aaa.modules.regression.conversions.ConvPUPBaseTest;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
  * @author S. Jaraminas
@@ -62,9 +61,9 @@ public class TestPolicyRenewalManualEntryFieldsVerification extends ConvPUPBaseT
         String policyState = String.valueOf(generalTab.getPolicyInfoAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.STATE.getLabel()).getValue());
         String pupPolicyNumberSuffix = policyState + "PU109";
 
-        assertThat(generalTab.getPolicyNumberForPupOrConversion().startsWith(pupPolicyNumberSuffix)).isTrue();
-        assertThat(generalTab.getPolicyNumberForPupOrConversion().substring(4).matches("^\\d+$")).isTrue();
-        assertThat(generalTab.getPolicyNumberForPupOrConversion().length()).isEqualTo(13);
+	    assertThat(generalTab.getPolicyNumberForConversion().startsWith(pupPolicyNumberSuffix)).isTrue();
+	    assertThat(generalTab.getPolicyNumberForConversion().substring(4).matches("^\\d+$")).isTrue();
+	    assertThat(generalTab.getPolicyNumberForConversion().length()).isEqualTo(13);
 
     }
 }

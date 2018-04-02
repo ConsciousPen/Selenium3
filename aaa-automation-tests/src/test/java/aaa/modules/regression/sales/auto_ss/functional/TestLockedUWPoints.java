@@ -99,7 +99,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		// Verify that UW Points are the same
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -112,7 +112,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		// Verify that UW Points are the same
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
