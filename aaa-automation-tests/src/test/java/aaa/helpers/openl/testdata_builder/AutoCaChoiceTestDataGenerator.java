@@ -46,32 +46,10 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
 		AutoCaChoiceOpenLVehicle autoCaChoiceVehicle = (AutoCaChoiceOpenLVehicle) vehicle;
 		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
-		String vehicleType = getVehicleType(autoCaChoiceVehicle.getVehType());
 		String value = String.valueOf(getVehicleTabValueFromDb(vehicle.getCollSymbol(), vehicle.getCompSymbol(), vehicle.getModelYear(), autoCaChoiceVehicle.getVehType(), statCode));
+
 		TestData vehicleInformation = super.getVehicleTabInformationData(vehicle);
-
-		vehicleInformation
-				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType)
-				.adjust(AutoCaMetaData.VehicleTab.VALUE.getLabel(), value);
-
-		if ("Antique / Classic".equals(vehicleType)) {
-			vehicleInformation
-					.adjust(AutoCaMetaData.VehicleTab.RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS.getLabel(), "Yes")
-					.adjust(AutoCaMetaData.VehicleTab.USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST.getLabel(), "Yes");
-		}
-
-		if ("Regular".equals(vehicleType)) {
-			//for other vehicle types Stat Code is disabled
-			String uiStatCode = getVehicleTabStatCode(statCode, vehicle.getModelYear());
-			vehicleInformation.adjust(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel(), uiStatCode);
-			if ("Custom Van".equals(uiStatCode)) {
-				vehicleInformation
-						.adjust(AutoCaMetaData.VehicleTab.SPECIAL_EQUIPMENT.getLabel(), "Yes")
-						.adjust(AutoCaMetaData.VehicleTab.SPECIAL_EQUIPMENT_VALUE.getLabel(), "$<rx:\\d{3}>")
-						.adjust(AutoCaMetaData.VehicleTab.SPECIAL_EQUIPMENT_DESCRIPTION.getLabel(), "some special equipment description $<rx:\\d{3}>");
-			}
-		}
-
+		vehicleInformation.adjust(AutoCaMetaData.VehicleTab.VALUE.getLabel(), value);
 		switch (autoCaChoiceVehicle.getVehicleUsageCd()) {
 			case "WC":
 				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
@@ -95,8 +73,12 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			default:
 				throw new IstfException("Unknown mapping for vehicleUsageCd: " + autoCaChoiceVehicle.getVehicleUsageCd());
 		}
-
 		return vehicleInformation;
+	}
+
+	@Override
+	protected String getVehicleTabType(OpenLVehicle vehicle) {
+		return ((AutoCaChoiceOpenLVehicle) vehicle).getVehType();
 	}
 
 	@Override
@@ -117,17 +99,8 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 	}
 
-	private Integer getVehicleTabValueFromDb(Integer collSymbol, Integer compSymbol, Integer modelYear, String vehType, String statCode) {
-		String getVinQuery = "select m.MSRPMIN, m.MSRPMAX from MSRPCOMPCOLLLOOKUP m where m.COLLSYMBOL=? and m.COMPSYMBOL=? and m.KEY in (select c.KEY from MSRPCOMPCOLLCONTROL c\n"
-				+ "   where c.MSRPVERSION = 'MSRP_2000_CHOICE'\n"
-				+ "   and (? between c.VEHICLEYEARMIN and c.VEHICLEYEARMAX or (c.VEHICLEYEARMIN is null and c.VEHICLEYEARMAX is null))\n"
-				+ "   and (c.VEHICLETYPE = ? or c.VEHICLETYPE is null)\n"
-				+ "   and (c.LIABILITYSYMBOL = ? or c.LIABILITYSYMBOL is null))";
-		Map<String, String> resultRow = DBService.get().getRow(getVinQuery, collSymbol, compSymbol, modelYear, vehType, statCode);
-		return RandomUtils.nextInt(Integer.parseInt(resultRow.get("MSRPMIN")), Integer.parseInt(resultRow.get("MSRPMAX")));
-	}
-
-	private String getVehicleTabStatCode(String statCode, int modelYear) {
+	@Override
+	protected String getVehicleTabStatCode(String statCode, int modelYear) {
 		switch (statCode) {
 			case "A":
 				return modelYear > 1989
@@ -165,5 +138,15 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			driverVehicleRelationshipTable.add(assignmentData);
 		}
 		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
+	}
+
+	private Integer getVehicleTabValueFromDb(Integer collSymbol, Integer compSymbol, Integer modelYear, String vehType, String statCode) {
+		String getVinQuery = "select m.MSRPMIN, m.MSRPMAX from MSRPCOMPCOLLLOOKUP m where m.COLLSYMBOL=? and m.COMPSYMBOL=? and m.KEY in (select c.KEY from MSRPCOMPCOLLCONTROL c\n"
+				+ "   where c.MSRPVERSION = 'MSRP_2000_CHOICE'\n"
+				+ "   and (? between c.VEHICLEYEARMIN and c.VEHICLEYEARMAX or (c.VEHICLEYEARMIN is null and c.VEHICLEYEARMAX is null))\n"
+				+ "   and (c.VEHICLETYPE = ? or c.VEHICLETYPE is null)\n"
+				+ "   and (c.LIABILITYSYMBOL = ? or c.LIABILITYSYMBOL is null))";
+		Map<String, String> resultRow = DBService.get().getRow(getVinQuery, collSymbol, compSymbol, modelYear, vehType, statCode);
+		return RandomUtils.nextInt(Integer.parseInt(resultRow.get("MSRPMIN")), Integer.parseInt(resultRow.get("MSRPMAX")));
 	}
 }

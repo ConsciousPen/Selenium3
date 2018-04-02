@@ -151,10 +151,10 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
 		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 		Map<String, Object> vehicleInformation = new HashMap<>();
-		/*String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
-		String vehicleType = getVehicleType(vehicle.getVehType());*/
+		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
+		String vehicleType = getVehicleTabType(vehicle);
 
-		//vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType);
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType);
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
 		/*vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(),
 				getVehicleTabValueFromDb(vehicle.getCollSymbol(), vehicle.getCompSymbol(), vehicle.getModelYear(), vehicle.getVehType(), statCode));*/
@@ -163,7 +163,7 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel(), "some other series $<rx:\\d{3}>");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "some other body style $<rx:\\d{3}>");
-		/*if ("Antique / Classic".equals(vehicleType)) {
+		if ("Antique / Classic".equals(vehicleType)) {
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.RESTORED_TO_ORGINAL_STOCK_CONDITION_WITH_NO_ALTERATIONS.getLabel(), "Yes");
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.USED_SOLEY_IN_EXHIBITIONS_CLUB_ACTIVITY_PARADES_AND_OTHER_FUN_FUNCTIONS_OF_PUBLIC_INTEREST.getLabel(), "Yes");
 		}
@@ -179,12 +179,12 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 			}
 		}
 
-		if (Boolean.TRUE.equals(vehicle.getAntiTheft())) {
+		/*if (Boolean.TRUE.equals(vehicle.getAntiTheft())) {
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), "STD");
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT_RECOVERY_DEVICE.getLabel(), "Vehicle Recovery Device");
-		}
+		}*/
 
-		if (!"Trailer".equals(vehicleType) && !"Camper".equals(vehicleType)) {
+		/*if (!"Trailer".equals(vehicleType) && !"Camper".equals(vehicleType)) {
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), vehicle.getAntiLock() ? "Rear only Standard" : "Not available");
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), 3000);
 		}*/
@@ -205,6 +205,10 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 
 		return new SimpleDataProvider(vehicleInformation);
 	}
+
+	protected abstract String getVehicleTabType(OpenLVehicle vehicle);
+
+	protected abstract String getVehicleTabStatCode(String statCode, int modelYear);
 
 	private int getRandomAge(int minAgeInclusive, int maxAgeInclusive, int tyde) {
 		assertThat(minAgeInclusive)
