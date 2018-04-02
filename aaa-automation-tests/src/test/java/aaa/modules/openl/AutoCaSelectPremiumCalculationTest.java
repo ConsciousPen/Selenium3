@@ -9,6 +9,7 @@ import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoCaSelectTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
@@ -23,7 +24,7 @@ public class AutoCaSelectPremiumCalculationTest extends OpenLRatingBaseTest<Auto
 
 	@Override
 	protected TestData getRatingDataPattern() {
-		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
+		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey(), new AssignmentTab().getMetaKey());
 	}
 
 	@Override
