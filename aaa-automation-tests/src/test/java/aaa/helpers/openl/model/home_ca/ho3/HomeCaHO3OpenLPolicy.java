@@ -1,11 +1,8 @@
 package aaa.helpers.openl.model.home_ca.ho3;
 
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
+import static aaa.helpers.openl.model.OpenLFile.*;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -17,11 +14,11 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO3OpenLFile.FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaHO3OpenLForm> forms;
 
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLCoverage> coverages;
 
-	private Integer covALimit;
-	private Integer covELimit;
+	private Double covALimit;
+	private Double covELimit;
 	private Boolean hasEmployeeDiscount;
 	private Boolean hasMultiPolicyDiscount;
 	private Boolean hasPolicySupportingForm;
@@ -51,19 +48,19 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public Integer getCovALimit() {
+	public Double getCovALimit() {
 		return covALimit;
 	}
 
-	public void setCovALimit(Integer covALimit) {
+	public void setCovALimit(Double covALimit) {
 		this.covALimit = covALimit;
 	}
 
-	public Integer getCovELimit() {
+	public Double getCovELimit() {
 		return covELimit;
 	}
 
-	public void setCovELimit(Integer covELimit) {
+	public void setCovELimit(Double covELimit) {
 		this.covELimit = covELimit;
 	}
 

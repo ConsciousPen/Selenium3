@@ -1,14 +1,20 @@
 package aaa.helpers.openl.model.home_ca;
 
+import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeCaOpenLPolicy extends OpenLPolicy {
 	protected Integer claimPoints;
-	protected Integer covCLimit;
+	protected Double covCLimit;
 	protected Integer expClaimPoints;
 	protected Boolean isAaaMember;
 	protected Integer yearsOfPriorInsurance;
 	protected Integer yearsWithCsaa;
+
+	@ExcelTransient
+	private LocalDateTime effectiveDate;
 
 	public Integer getClaimPoints() {
 		return claimPoints;
@@ -18,11 +24,11 @@ public class HomeCaOpenLPolicy extends OpenLPolicy {
 		this.claimPoints = claimPoints;
 	}
 
-	public Integer getCovCLimit() {
+	public Double getCovCLimit() {
 		return covCLimit;
 	}
 
-	public void setCovCLimit(Integer covCLimit) {
+	public void setCovCLimit(Double covCLimit) {
 		this.covCLimit = covCLimit;
 	}
 
@@ -56,6 +62,24 @@ public class HomeCaOpenLPolicy extends OpenLPolicy {
 
 	public void setYearsWithCsaa(Integer yearsWithCsaa) {
 		this.yearsWithCsaa = yearsWithCsaa;
+	}
+
+	@Override
+	public LocalDateTime getEffectiveDate() {
+		if (effectiveDate == null) {
+			return TimeSetterUtil.getInstance().getCurrentTime();
+		}
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDateTime effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	@Override
+	public Integer getTerm() {
+		//TODO-dchubkov: to be verified
+		return 12;
 	}
 
 	@Override

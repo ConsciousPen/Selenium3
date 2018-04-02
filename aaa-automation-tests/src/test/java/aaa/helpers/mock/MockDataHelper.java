@@ -15,8 +15,8 @@ public class MockDataHelper {
 
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String DESTINATION_TEMP_MOCKS_FOLDER = "src/test/resources/mock";
-	private static final String SOURCE_MOCKS_FOLDER_PATTERN = String.format("/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/"
-			+ "aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
+	private static final String SOURCE_MOCKS_FOLDER_PATTERN = String.format(
+			"/opt/IBM/WebSphere/AppServer/profiles/AppSrv01/installedApps/%sCell01/aaa-external-stub-services-app-ear.ear/aaa-external-stub-services-app.war/WEB-INF/classes/META-INF/mock", ENV_NAME);
 
 	private static MembershipMockData membershipData;
 	private static VehicleUBIDetailsMockData vehicleUBIDetailsData;

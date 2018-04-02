@@ -38,6 +38,7 @@ EndorsementActionTab_OOS: {
     Endorsement Reason: 'Other Interest(s)/Mortgagees'
 }
 
+#--- Data Gather ---
 ApplicantTab_DataGather: {
   AAA employee: 'Yes'
 }
