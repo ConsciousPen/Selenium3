@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
+
+import aaa.main.pages.summary.PolicySummaryPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -207,6 +209,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(4,2)).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(5,2)).isEqualTo("Enhanced Uninsured Motorist Property Damage");
+
 
     }
 
