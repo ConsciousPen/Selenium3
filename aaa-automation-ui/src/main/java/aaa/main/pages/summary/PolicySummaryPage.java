@@ -3,7 +3,10 @@
 package aaa.main.pages.summary;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.openqa.selenium.By;
@@ -12,12 +15,15 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class PolicySummaryPage extends SummaryPage {
@@ -129,12 +135,58 @@ public class PolicySummaryPage extends SummaryPage {
 		return linkPolicy.getValue();
 	}
 
+    /**
+     * Returns the text at the given row/column in the Coverages Summary Table.
+     * @param row the specific row to get information from.  Row 1 is the first vehicle, such as '#1, 2011, CHEVROLET, EXPRESS VAN'
+     * @param column the column to get information from.  Column 1 is 'Vehicle'
+     * @return String object representing the text found at the specified row/column
+     */
 	public static String getAutoCoveragesSummaryTextAt(int row, int column) {
         List<Table> coveragesTables;
         int numTables = BrowserController.get().driver().findElements(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table")).size();
         coveragesTables = IntStream.range(1, numTables + 1).mapToObj(i -> new Table(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table[" + i + "]")))
                 .collect(Collectors.toList());
         return coveragesTables.get(row).getRow(1).getCell(column).getValue();
+    }
+
+    public static List<TestData> getAutoCoveragesSummaryTestData() {
+        List<Table> coveragesTables;
+        Map<String, Object> coverageDataList = new LinkedHashMap<>();
+        List<TestData> testDataList = new ArrayList<>();
+
+        int numTables = BrowserController.get().driver().findElements(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table")).size();
+        coveragesTables = IntStream.range(1, numTables + 1).mapToObj(i -> new Table(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table[" + i + "]")))
+                .collect(Collectors.toList());
+
+        Row labels = coveragesTables.get(0).getRow(1);
+        String limit = labels.getCell(3).getValue();
+        String deductible = labels.getCell(4).getValue();
+        String premium = labels.getCell(5).getValue();
+        for (int tableRow = 1; tableRow < numTables; tableRow++) {
+            String firstValue = coveragesTables.get(tableRow).getRow(1).getCell(1).getValue();
+            if (firstValue.startsWith("#")) {
+                String thisVehicle = firstValue;
+                Map<String, Object> coverages = new LinkedHashMap<>();
+                tableRow++;
+                do {
+                    Map<String, String> limitsPremiumsData = new LinkedHashMap<>();
+                    limitsPremiumsData.put(limit, coveragesTables.get(tableRow).getRow(1).getCell(3).getValue());
+                    limitsPremiumsData.put(deductible, coveragesTables.get(tableRow).getRow(1).getCell(4).getValue());
+                    limitsPremiumsData.put(premium, coveragesTables.get(tableRow).getRow(1).getCell(5).getValue());
+                    coverages.put(coveragesTables.get(tableRow).getRow(1).getCell(2).getValue(), limitsPremiumsData);
+                    firstValue = coveragesTables.get(++tableRow).getRow(1).getCell(1).getValue();
+                } while (firstValue.isEmpty());
+                coverageDataList.put(thisVehicle, coverages);
+                if (firstValue.startsWith("Total")) {
+                    coverageDataList.put(firstValue, coveragesTables.get(tableRow).getRow(1).getCell(2).getValue());
+                }
+            }
+            if (!coverageDataList.keySet().contains(firstValue)) {
+                coverageDataList.put(firstValue, coveragesTables.get(tableRow).getRow(1).getCell(2).getValue());
+            }
+        }
+        testDataList.add(new SimpleDataProvider(coverageDataList));
+        return testDataList;
     }
 
 	public static void verifyCancelNoticeFlagPresent() {
