@@ -39,7 +39,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
 
     /**
-     *@author Dominykas Razgunas, Josh Carpenter
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for NB
      *@scenario
      * 1. Create Customer.
@@ -49,7 +49,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -65,7 +65,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     /**
-     *@author Dominykas Razgunas, Josh Carpenter
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Endorsements
      *@scenario
      * 1. Create Customer
@@ -76,7 +76,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -96,7 +96,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     /**
-     *@author Dominykas Razgunas, Josh Carpenter
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Renewals
      *@scenario
      * 1. Create Customer.
@@ -108,7 +108,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
         verifyAlgoDate();
