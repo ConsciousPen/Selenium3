@@ -1,6 +1,7 @@
 package aaa.helpers.openl.testdata_builder;
 
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -10,11 +11,15 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 
-import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy> {
+
 	public HomeSSTestDataGenerator(String state) {
 		super(state);
 	}
@@ -25,7 +30,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	@Override
 	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy) {
-
 
 		TestData td = DataProviderFactory.dataOf(
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
@@ -150,7 +154,29 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
+
+		String className = "aaa.helpers.openl.testdata_builder.HomeSSFormTestDataGenerator";
+		List<String> formList = new ArrayList<>();
+		TestData endorsementData = new SimpleDataProvider();
+
+		try {
+			Object obj = Class.forName(className).newInstance();
+			Method method;
+			for (int i = 0; i < openLPolicy.getForms().size(); i++) {
+				String formCode = openLPolicy.getForms().get(i).getFormCode();
+				if (!formList.contains(formCode)) {
+					formList.add(formCode);
+					// execute method
+					method = obj.getClass().getMethod("form" + formCode + "Data", HomeSSOpenLPolicy.class, String.class);
+					TestData td = (TestData) method.invoke(obj, openLPolicy, formCode);
+					endorsementData.adjust(td);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return endorsementData;
 	}
 
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -160,9 +186,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		Double covD = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimit());
 
 		return DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int)(covB * 100 / covA)),
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) (covB * 100 / covA)),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit(),
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int)(covD * 100 / covA)),
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) (covD * 100 / covA)),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0]
 		);
@@ -173,4 +199,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		//TODO-dchubkov: to be implemented
 		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
 	}
+
+
 }

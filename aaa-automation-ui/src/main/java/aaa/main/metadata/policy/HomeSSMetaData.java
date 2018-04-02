@@ -768,8 +768,8 @@ public final class HomeSSMetaData {
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_32 = declare("HS 09 32", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0932.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_34 = declare("HS 09 34", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0934.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_34 = declare("HS 09 34", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0934.class,
+		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_37 = declare("HS 09 37", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0937.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_65 = declare("HS 09 65", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0965.class, By
@@ -809,6 +809,7 @@ public final class HomeSSMetaData {
 
 		public static final class EndorsementDS0420 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> AMOUNT_OF_INSURANCE = declare("Amount of insurance", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementDS0463 extends MetaData {
@@ -1033,6 +1034,8 @@ public final class HomeSSMetaData {
 		public static final class EndorsementHS0926 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
+
+		public static final class EndorsementHS0934 extends MetaData {}
 
 		public static final class EndorsementHS0937 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_STRUCTURE = declare("Description of structure", TextBox.class, Waiters.AJAX);
