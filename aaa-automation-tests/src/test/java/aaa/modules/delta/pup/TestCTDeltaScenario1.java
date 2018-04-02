@@ -37,6 +37,7 @@ import static aaa.main.enums.DocGenEnum.Documents.*;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.*;
 
 
+@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	
@@ -70,7 +71,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC01_createQuote(@Optional("VA") String state) {
+	public void TC01_createQuote(@Optional("") String state) {
 		mainApp().open();		
         createCustomerIndividual();
         TestData td = getTestSpecificTD("TestData");

@@ -45,5 +45,11 @@ public class TestPolicyCreationBig extends AutoCaSelectBaseTest {
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
+		log.info("CA Select Policy Product Verification Started...");
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.labelProductInquiry.verify.contains("CA Select");
+
+		Tab.buttonCancel.click();
 	}
 }
