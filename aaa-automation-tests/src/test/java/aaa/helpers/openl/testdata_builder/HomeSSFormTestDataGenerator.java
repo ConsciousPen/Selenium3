@@ -1,21 +1,26 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssertions;
 
 public class HomeSSFormTestDataGenerator {
-	private static Map<String, String> selectedForms = new HashMap<>();
-	private static BiFunction<HomeSSOpenLForm, String, TestData> formHS0420DataFunction =
-			(openlForm, policyLevel) -> DataProviderFactory.dataOf(HomeSSMetaData.EndorsementTab.EndorsementDS0420.AMOUNT_OF_INSURANCE.getLabel(), openlForm.getCovPercentage() + "%");
+	private static Map<String, List<String>> selectedForms = new HashMap<>();
+	private static BiFunction<HomeSSOpenLForm, String, TestData> formHS0420DataFunction = (openlForm, policyLevel) -> DataProviderFactory.dataOf(
+			HomeSSMetaData.EndorsementTab.EndorsementDS0420.AMOUNT_OF_INSURANCE.getLabel(), openlForm.getCovPercentage() + "%");
 
-	private static BiFunction<HomeSSOpenLForm, String, TestData> formHS0495DataFunction =
-			(openlForm, policyLevel) -> DataProviderFactory.dataOf(HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), "$" + openlForm.getLimit().toString().split("\\.")[0]);
-
+	private static BiFunction<HomeSSOpenLForm, String, TestData> formHS0495DataFunction = (openlForm, policyLevel) -> DataProviderFactory.dataOf(
+			HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), "$" + openlForm.getLimit().toString().split("\\.")[0]);
 	//TODO: add functions for other forms...
 
 	public static TestData getFormTestData(HomeSSOpenLForm openLForm, String policyLevel) {
@@ -24,6 +29,19 @@ public class HomeSSFormTestDataGenerator {
 
 	public static String getFormMetaKey(String formCode) {
 		return getFormEnum(formCode).getMetaKey();
+	}
+
+	public static boolean isFormAdded(String formCode, String policyLevel) {
+		if (selectedForms.isEmpty()) {
+			String getFormsQuery = "select COMPONENTREFNAME from POLICYPLANCOMPONENT where DTYPE='PolicyPlanEndorsementForm' and FORM_POLICYPLAN_ID in (select ID from POLICYPLAN where name=?) and availability = 'MANDATORY'";
+			for (String pLevel : Arrays.asList("Heritage", "Legacy", "Prestige")) {
+				List<String> forms = DBService.get().getColumn(getFormsQuery, pLevel);
+				forms = forms.stream().map(f -> f.replaceAll("EndorsementForm.*", "")).collect(Collectors.toList());
+				selectedForms.put(pLevel, forms);
+			}
+		}
+		CustomAssertions.assertThat(selectedForms).as("Unknown %s policy level", policyLevel).containsKey(policyLevel);
+		return selectedForms.get(policyLevel).contains(formCode);
 	}
 
 	private static Forms getFormEnum(String formCode) {
@@ -108,8 +126,8 @@ public class HomeSSFormTestDataGenerator {
 	}*/
 
 	public enum Forms {
-		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", Arrays.asList("Heritage", "Legacy", "Prestige"), formHS0420DataFunction),
-		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", Arrays.asList("Legacy", "Prestige"), formHS0495DataFunction);
+		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", formHS0420DataFunction),
+		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", formHS0495DataFunction);
 		//TODO: add other forms...
 		/*selectedForms.put("HS0420", "Heritage, Legacy, Prestige");
 		selectedForms.put("HS0435", "Legacy, Prestige");
@@ -128,13 +146,11 @@ public class HomeSSFormTestDataGenerator {
 
 		private final String metaKey;
 		private final String formCode;
-		private final List<String> policyLevels;
 		private final BiFunction<HomeSSOpenLForm, String, TestData> testDataFunction;
 
-		Forms(String metaKey, String formCode, List<String> policyLevels, BiFunction<HomeSSOpenLForm, String, TestData> testDataFunction) {
+		Forms(String metaKey, String formCode, BiFunction<HomeSSOpenLForm, String, TestData> testDataFunction) {
 			this.metaKey = metaKey;
 			this.formCode = formCode;
-			this.policyLevels = new ArrayList<>(policyLevels);
 			this.testDataFunction = testDataFunction;
 		}
 
@@ -146,17 +162,13 @@ public class HomeSSFormTestDataGenerator {
 			return formCode;
 		}
 
-		public List<String> getPolicyLevels() {
-			return new ArrayList<>(policyLevels);
-		}
-
 		public BiFunction<HomeSSOpenLForm, String, TestData> getTestDataFunction() {
 			return testDataFunction;
 		}
 
 		public TestData getTestData(HomeSSOpenLForm openLForm, String policyLevel) {
 			TestData td = getTestDataFunction().apply(openLForm, policyLevel);
-			td.adjust("Action", getPolicyLevels().contains(policyLevel) ? "Edit" : "Add");
+			td.adjust("Action", isFormAdded(getFormCode(), policyLevel) ? "Edit" : "Add");
 			return DataProviderFactory.dataOf(getMetaKey(), td);
 		}
 	}
