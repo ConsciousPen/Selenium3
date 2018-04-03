@@ -1,31 +1,27 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
 
 import org.apache.commons.lang3.NotImplementedException;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
+//import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PersonalPropertyTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -49,11 +45,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
 				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(),
-				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy),
-				new MortgageesTab().getMetaKey(), getMortgageesTabData(),
-				new UnderwritingAndApprovalTab().getMetaKey(), getUnderwritingAndApprovalTabData(),
-				new DocumentsTab().getMetaKey(), getDocumentsTabData(),
-				new BindTab().getMetaKey(), getBindTabData());
+				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy));
 		
 		return TestDataHelper.merge(getRatingDataPattern(), td);
 	}
@@ -108,7 +100,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		for (HomeCaHO3OpenLDwelling dwelling: openLPolicy.getDwellings()) {
 			TestData dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + dwelling.getNumOfFamilies());
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + dwelling.getNumOfFamilies());	
 			TestData ppcData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), dwelling.getPpcValue());
 			TestData wildfireScoreData = DataProviderFactory.dataOf(
@@ -116,7 +108,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 			
 			TestData propertyValueData = DataProviderFactory.dataOf(
 					HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), coverageA, 
-					HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST, coverageA.multiply(0.85), 
+					HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), coverageA.multiply(0.85),  
 					HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), "Mortgagee requirements");
 			
 			TestData constructionData = DataProviderFactory.dataOf(
@@ -156,27 +148,17 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		return theftProtectiveDeviceData;
 	}
 	
-	private List<TestData> getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
-		List<TestData> formsTestDataList = new ArrayList<>(openLPolicy.getForms().size()); 
-		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
-			if (!form.getFormCode().equals("premium")) {
-				formsTestDataList.add(getFormData(form));
+	private TestData getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
+		TestData endorsementData = new SimpleDataProvider();
+		
+		for (HomeCaHO3OpenLForm openLForm: openLPolicy.getForms()) {
+			String formCode = openLForm.getFormCode();
+			if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
+				TestData td = HomeCAFormTestDataGenerator.getFormTestData(openLForm);
+				endorsementData.adjust(td);
 			}
-		}
-		return formsTestDataList;
-	}
-	
-	private TestData getFormData(HomeCaHO3OpenLForm form) {
-		switch (form.getFormCode()){
-		case "HO-61C": 
-			TestData form_HO61C = DataProviderFactory.dataOf("Action", "Add");
-			return DataProviderFactory.dataOf(HomeCaMetaData.EndorsementTab.HO_61C.getLabel(), form_HO61C);
-		case "HO-61": 
-			TestData form_HO61 = DataProviderFactory.dataOf("Action", "Add");
-			return DataProviderFactory.dataOf(HomeCaMetaData.EndorsementTab.HO_61.getLabel(), form_HO61);
-		default: 
-			return null;
-		}
+		}		
+		return endorsementData;
 	}
 	
 	private TestData getPersonalPropertyTabData() {
@@ -184,6 +166,18 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
+		//Coverage A is disabled on Premiums & Coverges Quote tab
+		//Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		Double covC = openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+
+		return DataProviderFactory.dataOf(
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(covE.toString().split("\\.")[0]), 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));
+		/*
 		Map<String, Object> premiumAndCoveragesTabTestData = new HashMap<>();
 		for(HomeCaOpenLCoverage coverage: openLPolicy.getCoverages()) {
 			switch (coverage.getCoverageCd()) {
@@ -204,22 +198,52 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 			}
 		}
 		return new SimpleDataProvider(premiumAndCoveragesTabTestData);
+		*/
 	}
 	
-	private TestData getMortgageesTabData() {
-		return null;
-	}
-	
-	private TestData getUnderwritingAndApprovalTabData() {
-		return null;
-	}
-
-	private TestData getDocumentsTabData() {
-		return null; 
-	}
-	
-	private TestData getBindTabData() {
-		return null;
+	private String getDeductibleValueByForm(HomeCaHO3OpenLPolicy openLPolicy) {
+		String deductible = "contains=" + new Dollar(100);		
+		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			switch (form.getFormCode()) {
+			case "HO-57": 
+				deductible = "contains=" + new Dollar(100); 
+				break;
+			case "HO-59": 
+				deductible = "contains=" + new Dollar(500);
+				break;
+			case "HO-60": 
+				deductible = "contains=" + new Dollar(1000); 
+				break;
+			case "HO-76": 
+				deductible = "contains=" + new Dollar(1500); 
+				break;
+			case "HO-77": 
+				deductible = "contains=" + new Dollar(2000);
+				break;
+			case "HO-78": 
+				deductible = "contains=" + new Dollar(2500);
+				break;
+			case "HO-79": 
+				deductible = "contains=" + new Dollar(3000);
+				break;
+			case "HO-80": 
+				deductible = "contains=" + new Dollar(4000);
+				break;
+			case "HO-81": 
+				deductible = "contains=" + new Dollar(5000);
+				break;
+			case "HO-82":
+				deductible = "contains=" + new Dollar(7500);
+				break;
+			case "HO-177": 
+				deductible = "contains=Theft";
+				break;
+			default: 
+				deductible = "contains=" + new Dollar(100);
+				break; 
+			}
+		}
+		return deductible;
 	}
 	
 	@Override
