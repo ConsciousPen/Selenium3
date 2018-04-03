@@ -71,13 +71,26 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 		runJsonRequestPostDxp(requestUrl, request);
 	}
-	//JOVITA pakeist start endorsement info method **********************
+
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		final RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.responseType = ValidateEndorsementResponse.class;
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
-			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
+		return runJsonRequestGetDxp(restRequestInfo);
+	}
+
+	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate, String sessionId) {
+		final RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.responseType = ValidateEndorsementResponse.class;
+		restRequestInfo.sessionId = sessionId;
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		if (endorsementDate != null) {
+			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
+		}
+		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
 	static Vehicle updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
@@ -94,13 +107,16 @@ public class HelperCommon {
 		}
 		return runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 	}
-//Jovita pakeist start endorsement info method *******************
+
 	static ErrorResponseDto validateEndorsementResponseError(String policyNumber, String endorsementDate, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		final RestRequestInfo<ErrorResponseDto> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		restRequestInfo.status = status;
+		restRequestInfo.responseType = ErrorResponseDto.class;
 		if (endorsementDate != null) {
-			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
 	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
