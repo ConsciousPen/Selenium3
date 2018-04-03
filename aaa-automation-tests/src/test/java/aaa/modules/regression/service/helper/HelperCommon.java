@@ -71,7 +71,7 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
 		runJsonRequestPostDxp(requestUrl, request);
 	}
-
+	//JOVITA pakeist start endorsement info method **********************
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
@@ -94,7 +94,7 @@ public class HelperCommon {
 		}
 		return runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 	}
-
+//Jovita pakeist start endorsement info method *******************
 	static ErrorResponseDto validateEndorsementResponseError(String policyNumber, String endorsementDate, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
@@ -154,22 +154,16 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
-	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate, String sessionId) {
-
+	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
 		AAAEndorseRequest request = new AAAEndorseRequest();
 		request.endorsementDate = endorsementDate;
 		request.endorsementReason = "OTHPB";
 		request.endorsementReasonOther = "Some reason why endorsement was done";
-		final RestRequestInfo<AAAEndorseResponse> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.bodyRequest = request;
-		restRequestInfo.sessionId = sessionId;
-		restRequestInfo.responseType = AAAEndorseResponse.class;
-		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENT_START_ENDPOINT, policyNumber));
-		restRequestInfo.status = Response.Status.CREATED.getStatusCode();
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_START_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
-			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestPostDxp(restRequestInfo);
+		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
 	}
 
 	@SuppressWarnings("unchecked")
