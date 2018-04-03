@@ -340,23 +340,6 @@ public class DocGenHelper {
 		return listOfDocumentPackages;
 	}
 
-	/**
-	 * Get all document Document Packages
-	 * @param policyNumber policy number
-	 * @param eventName  AaaDocGenEntityQueries.EventNames
-	 * @return List<DocumentPackage>
-	 */
-	public static List<DocumentPackage> getAllDocumentPackages(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
-		List<Map<String, String>> allDocs = DbXmlHelper.getXmlsByPolicyNumber(policyNumber, eventName);
-		List<DocumentPackage> listOfDocumentPackages = new ArrayList<>();
-
-		for(Map<String, String> doc: allDocs) {
-			String xmlDoc = doc.get("DATA");
-			DocumentPackage documentPackage = getDocumentPackage(xmlDoc);
-			listOfDocumentPackages.add(documentPackage);
-		}
-		return listOfDocumentPackages;
-	}
 
 	/**
 	 * Get All Documents from Document Package List
