@@ -29,3 +29,37 @@ PremiumsAndCoveragesQuoteTab_Mortgagee: {
   Payment plan: 'Mortgagee Bill (Renewal)',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
+
+ConversionForms_NJ: {
+  FormsList: ["stub","HSTP","HS02_6","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+}
+
+ConversionForms_DE: {
+  FormsList: ["stub","HS02_6","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+}
+
+ConversionForms_VA: {
+  FormsList: ["stub","HS02_6","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+}
+
+ConversionForms_PA: {
+  FormsList: ["stub","HS02_6","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+}
+
+ConversionForms_MD: {
+  FormsList: ["stub","HS02_6","AHPNXX","AHMVCNV","HSMPDCNVXX","HSWSBMD"]
+}
+#HSWSBMD
+EndorsementTab_MD: {
+  HS 04 95:{
+    Action: "Add"
+  }
+}
+#
+#ConversionForms_PA: {
+#  FormsList: ["stub","HS65PA","HS02_6","AHAUXX","IL 09 10","AHPNXX","AHMVCNV","HSMPDCNVXX"]
+#}
+#
+#ConversionForms_MD: {
+#  FormsList: ["stub","HS65MD","HS02_6","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSFLD","HSAOCMDC","HSSNMDC","HSAOCMDC"]
+#}

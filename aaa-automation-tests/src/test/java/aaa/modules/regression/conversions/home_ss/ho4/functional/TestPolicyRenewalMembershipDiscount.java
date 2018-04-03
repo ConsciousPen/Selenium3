@@ -80,7 +80,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO4BaseTest {
                 PremiumsAndCoveragesQuoteTab.class, true);
         policyNumber = PremiumsAndCoveragesQuoteTab.labelForConversionPolicy.getValue();
         assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts
-                .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(false);
+                .getRow(2).getCell(2).getValue().contains("AAA Membership")).isEqualTo(true);
         PremiumsAndCoveragesQuoteTab.buttonNext.click();
         policy.getDefaultView().fillFromTo(td, MortgageesTab.class, BindTab.class, true);
         bindTab.submitTab();
@@ -117,7 +117,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO4BaseTest {
                         .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(),
                                 HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(),
                                 HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()),
-                                "4290072030989503"),
+                                "3111111111111121"),
                 ReportsTab.class, false);
         reportsTab.reorderReports();
         premiumsAndCoveragesQuoteTab.calculatePremium();

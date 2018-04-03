@@ -1,27 +1,11 @@
 TestData: {
   GeneralTab: '@GeneralTab',
-  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
   AcceptPaymentActionTab: '@AcceptPaymentActionTab'
-}
-
-TestDataConv: {
-  GeneralTab: '@GeneralTabConv',
-  PremiumAndCoveragesTab: 'PremiumAndCoveragesTabConv',
-  DriverTab: 'DriverTabConv',
-  VehicleTab: 'VehicleTabConv'
 }
 
 AcceptPaymentActionTab: {
   Payment Method: 'Cash'
 }
-
-GeneralTabConv: {
-  PolicyInformation:{
-    'Lead Source': null,
-  }
-}
-
-
 
 GeneralTab: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
@@ -30,7 +14,6 @@ GeneralTab: {
   CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_NY'
 }
-
 
 AAAProductOwned: {
      Current AAA Member: 'No'
@@ -45,7 +28,6 @@ CurrentCarrierInformation: {
   More than 6 months Total Insurance Experience: 'Yes'
 }
 
-
 PolicyInformation_NY: {
   Policy Type: Standard,
   Effective Date: '$<today+45d:MM/dd/yyyy>',
@@ -58,16 +40,6 @@ PolicyInformation_NY: {
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
-}
-
-InitiateRenewalEntryActionTab: {
-  Previous Policy Number: '$<rx:\d{10}>',
-  Previous Source System: SIS,
-  Risk State: NY,
-  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
-  Renewal Policy Premium: 0,
-  Policy Term: Annual,
-  Enrolled in Autopay: 'No'
 }
 
 

@@ -291,7 +291,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         premiumAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsViewPUP.open();
 
-        // Verify That Auto tier is N/A or between 1. PAS-10397
+        // Verify That Auto tier is 1. PAS-10397
         assertThat(PropertyQuoteTab.RatingDetailsViewPUP.pupInformation.getValueByKey("Auto tier").contains("1")).isTrue();
 
         PropertyQuoteTab.RatingDetailsViewPUP.close();

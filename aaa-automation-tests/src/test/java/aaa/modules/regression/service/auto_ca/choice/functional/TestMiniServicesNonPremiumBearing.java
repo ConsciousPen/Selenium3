@@ -47,7 +47,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 
 		CustomAssert.enableSoftMode();
-		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
+		pas1441_emailChangeOutOfPasTestBody();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -87,7 +87,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForActiveRenewal(@Optional("CA") String state) {
 
-		pas9716_policySummaryForActiveRenewal(getPolicyType(), state);
+		pas9716_policySummaryForActiveRenewalBody(state);
 	}
 
 	/**

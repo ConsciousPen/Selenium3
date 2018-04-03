@@ -32,8 +32,8 @@ AAAMembership_LIFE: {
 
 AAAMembership_ActiveMember: {
   Current AAA Member: 'Yes',
-  Membership number: '8800400000000007',
-  Last name: Nov1
+  Membership number: '9999999999999995',
+  Last name: Dummy
 }
 
 ReportsTab: {

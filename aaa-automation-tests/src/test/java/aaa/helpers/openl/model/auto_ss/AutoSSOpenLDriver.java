@@ -16,10 +16,10 @@ public class AutoSSOpenLDriver extends OpenLDriver {
 	private Boolean outOfStateLicenseSurcharge;
 	private Boolean smartDriver;
 	private Boolean unverifiableDrivingRecord;
-	private Boolean occasionalOperator; // DC specific ?
+	private Boolean occasionalOperator; // NY specific
 	private String vehicleAssignedId; // DC specific ?
-	private Boolean hasTravelink; // DE specific ?
-	private Boolean isExcludedDriver; // NJ specific ?
+	private Boolean hasTravelink; // DE specific
+	private Boolean isExcludedDriver; // NJ specific
 
 	public String getName() {
 		return name;

@@ -21,22 +21,6 @@ GeneralTab: {
   Immediate prior carrier: 'CSAA Affinity Insurance Company',
 }
 
-# --------- View Capping Details----------
-TD_ViewCappingDetails_NJ: {
-  Ceiling Cap: 8,
-  Floor Cap: -6
-}
-
-TD_ViewCappingDetails: {
-  Ceiling Cap: 15,
-  Floor Cap: -15
-}
-
-TD_ViewCappingDetails_VA: {
-  Ceiling Cap: 30,
-  Floor Cap: -30
-}
-
 TestData_OverideCappingDetails: {
   PremiumsAndCoveragesQuoteTab: {
     View Capping Details: {
