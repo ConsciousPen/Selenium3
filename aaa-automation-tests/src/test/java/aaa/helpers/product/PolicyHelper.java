@@ -1,17 +1,14 @@
 package aaa.helpers.product;
 
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import javax.annotation.Nonnull;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
+import aaa.main.pages.summary.PolicySummaryPage;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class PolicyHelper {
 

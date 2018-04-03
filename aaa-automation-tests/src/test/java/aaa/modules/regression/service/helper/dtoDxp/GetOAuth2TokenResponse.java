@@ -1,7 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Get OAuth 2 token response containing issued authentication token information that is sent back from PingFederate.

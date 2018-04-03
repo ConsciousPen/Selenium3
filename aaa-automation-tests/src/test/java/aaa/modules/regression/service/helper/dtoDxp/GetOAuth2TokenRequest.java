@@ -1,13 +1,11 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import aaa.helpers.config.CustomTestProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import toolkit.config.PropertyLoader;
-import toolkit.config.PropertyProvider;
-
-import javax.annotation.Nonnull;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import javax.annotation.Nonnull;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import aaa.helpers.config.CustomTestProperties;
+import toolkit.config.PropertyProvider;
 
 /**
  * Get OAuth2 token request sent to PingFederate to acquire new authentication token.

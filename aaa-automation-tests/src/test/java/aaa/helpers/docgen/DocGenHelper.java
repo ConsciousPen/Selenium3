@@ -1,17 +1,6 @@
 package aaa.helpers.docgen;
 
-import aaa.helpers.db.DbXmlHelper;
-import aaa.helpers.docgen.searchNodes.SearchBy;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.model.*;
-import aaa.main.enums.DocGenEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,8 +11,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.searchNodes.SearchBy;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.helpers.xml.XmlHelper;
+import aaa.helpers.xml.model.*;
+import aaa.main.enums.DocGenEnum;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";

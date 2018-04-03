@@ -1,12 +1,11 @@
 package aaa.helpers.jobs;
 
-import aaa.helpers.config.CustomTestProperties;
-import toolkit.config.PropertyProvider;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import aaa.helpers.config.CustomTestProperties;
+import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");

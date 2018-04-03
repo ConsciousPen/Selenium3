@@ -2,21 +2,20 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package com.exigen.ipb.etcsa.utils;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy;
 import com.exigen.istf.exec.browser.configuration.BrowserControllerConfig;
 import com.exigen.istf.exec.browser.configuration.BrowserPoolConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.utils.screenshots.impl.BasicScreenshotMaker;
 import toolkit.webdriver.BrowserController;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author ikisly
