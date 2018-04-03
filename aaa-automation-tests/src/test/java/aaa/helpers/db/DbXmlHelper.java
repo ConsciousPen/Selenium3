@@ -1,15 +1,16 @@
 package aaa.helpers.db;
 
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.main.enums.DocGenEnum;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang.text.StrSubstitutor;
+import toolkit.db.DBService;
+
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import org.apache.commons.lang.text.StrSubstitutor;
-import com.google.common.collect.ImmutableMap;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.main.enums.DocGenEnum;
-import toolkit.db.DBService;
 
 public class DbXmlHelper implements AaaDocGenEntityQueries {
 

@@ -1,13 +1,5 @@
 package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -15,8 +7,18 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenerationTemplate {
 

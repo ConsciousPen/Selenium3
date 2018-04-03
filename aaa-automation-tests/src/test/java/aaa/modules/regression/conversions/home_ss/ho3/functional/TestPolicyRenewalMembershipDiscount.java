@@ -1,12 +1,5 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -20,8 +13,20 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.Assertions;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author S. Jaraminas

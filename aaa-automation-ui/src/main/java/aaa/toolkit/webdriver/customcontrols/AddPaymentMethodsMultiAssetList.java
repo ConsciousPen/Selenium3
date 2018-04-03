@@ -1,6 +1,5 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.List;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
@@ -9,6 +8,8 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.util.List;
 
 public class AddPaymentMethodsMultiAssetList extends MultiAssetList {
 	public static Button buttonAddUpdateCreditCard = new Button(By.xpath("//a[@id='purchaseForm:addPaymentMethodBtn' or @id='updateForm:addPaymentMethodBtn' or @id='paymentForm:addPaymentMethodButton']"));

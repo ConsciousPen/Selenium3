@@ -1,11 +1,5 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,8 +13,16 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Tyrone Jemison

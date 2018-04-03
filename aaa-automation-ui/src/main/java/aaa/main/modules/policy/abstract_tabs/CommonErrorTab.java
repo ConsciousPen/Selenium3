@@ -1,7 +1,11 @@
 package aaa.main.modules.policy.abstract_tabs;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.SoftAssertions;
