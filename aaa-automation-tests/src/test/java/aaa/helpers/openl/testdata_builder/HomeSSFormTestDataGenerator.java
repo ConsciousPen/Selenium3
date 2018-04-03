@@ -11,10 +11,14 @@ import toolkit.exceptions.IstfException;
 public class HomeSSFormTestDataGenerator {
 	private static Map<String, String> selectedForms = new HashMap<>();
 	private static BiFunction<HomeSSOpenLForm, String, TestData> formHS0420DataFunction =
-			(openlForm, policyLevel) -> DataProviderFactory.dataOf(HomeSSMetaData.EndorsementTab.EndorsementDS0420.AMOUNT_OF_INSURANCE.getLabel(), openlForm.getCovPercentage() + "%");
+			(openlForm, policyLevel) -> DataProviderFactory.dataOf(
+					HomeSSMetaData.EndorsementTab.EndorsementDS0420.AMOUNT_OF_INSURANCE.getLabel(), openlForm.getCovPercentage() + "%"
+			);
 
 	private static BiFunction<HomeSSOpenLForm, String, TestData> formHS0495DataFunction =
-			(openlForm, policyLevel) -> DataProviderFactory.dataOf(HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), "$" + openlForm.getLimit().toString().split("\\.")[0]);
+			(openlForm, policyLevel) -> DataProviderFactory.dataOf(
+					HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), "$" + openlForm.getLimit().toString().split("\\.")[0]
+			);
 
 	//TODO: add functions for other forms...
 
