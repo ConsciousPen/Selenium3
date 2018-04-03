@@ -2,12 +2,7 @@ package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -15,11 +10,13 @@ import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -119,6 +116,15 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		return vehiclesTestDataList;
 	}
 
+	protected TestData getAssignmentTabData(AutoCaOpenLPolicy openLPolicy) {
+		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
+		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
+			TestData assignmentData = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
+			driverVehicleRelationshipTable.add(assignmentData);
+		}
+		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
+	}
+
 	protected TestData getPremiumAndCoveragesTabData(AutoCaOpenLPolicy openLPolicy) {
 		List<TestData> detailedVehicleCoveragesList = new ArrayList<>(openLPolicy.getVehicles().size());
 		Map<String, Object> policyCoveragesData = new HashMap<>();
@@ -156,8 +162,8 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType);
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
-		/*vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(),
-				getVehicleTabValueFromDb(vehicle.getCollSymbol(), vehicle.getCompSymbol(), vehicle.getModelYear(), vehicle.getVehType(), statCode));*/
+		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(),
+				getVehicleTabValueFromDb(vehicle.getCollSymbol(), vehicle.getCompSymbol(), vehicle.getModelYear(), vehicle instanceof AutoCaSelectOpenLVehicle, statCode));
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "OTHER");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
@@ -179,16 +185,6 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 			}
 		}
 
-		/*if (Boolean.TRUE.equals(vehicle.getAntiTheft())) {
-			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), "STD");
-			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_THEFT_RECOVERY_DEVICE.getLabel(), "Vehicle Recovery Device");
-		}*/
-
-		/*if (!"Trailer".equals(vehicleType) && !"Camper".equals(vehicleType)) {
-			vehicleInformation.put(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), vehicle.getAntiLock() ? "Rear only Standard" : "Not available");
-			vehicleInformation.put(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), 3000);
-		}*/
-
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.EXISTING_DAMEGE.getLabel(), "None");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.SALVAGED.getLabel(), "No");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel(), 10);
@@ -203,8 +199,11 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData());
 
+		vehicleInformation.putAll(getVehicleTabUsageData(vehicle));
 		return new SimpleDataProvider(vehicleInformation);
 	}
+
+	protected abstract Map<String, String> getVehicleTabUsageData(OpenLVehicle vehicle);
 
 	protected abstract String getVehicleTabType(OpenLVehicle vehicle);
 
@@ -216,7 +215,7 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 				.isPositive().isLessThan(maxAgeInclusive);
 
 		int minimalAgeFirstLicensed = 16;
-		int ageFirstLicensed = minAgeInclusive - tyde;
+		int ageFirstLicensed = Math.abs(minAgeInclusive - tyde);
 		if (ageFirstLicensed < minimalAgeFirstLicensed) {
 			minAgeInclusive += Math.abs(minAgeInclusive - ageFirstLicensed);
 			assertThat(minAgeInclusive)
@@ -244,5 +243,19 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 				AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceAndConvictionDate,
 				AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceAndConvictionDate,
 				AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), "Yes");
+	}
+
+	private Integer getVehicleTabValueFromDb(Integer collSymbol, Integer compSymbol, Integer modelYear, boolean isAutoSelect, String statCode) {
+		String msrpVersion = isAutoSelect ? "MSRP_2000_SELECT" : "MSRP_2000_CHOICE";
+		String getVinQuery = "select m.MSRPMIN, m.MSRPMAX from MSRPCOMPCOLLLOOKUP m where m.COLLSYMBOL=? and m.COMPSYMBOL=? and m.KEY in"
+				+ " (select c.KEY from MSRPCOMPCOLLCONTROL c where c.MSRPVERSION=?"
+				+ " and (? between c.VEHICLEYEARMIN and c.VEHICLEYEARMAX or (c.VEHICLEYEARMIN is null and c.VEHICLEYEARMAX is null))"
+				+ " and (c.LIABILITYSYMBOL=? or c.LIABILITYSYMBOL is null))";
+		Map<String, String> resultRow = DBService.get().getRow(getVinQuery, collSymbol, compSymbol, msrpVersion, modelYear, statCode);
+
+		assertThat(resultRow)
+				.as("Can't get MSRPMIN and MSRPMAX values from DB for collSymbol=%1$s, compSymbol=%2$s, modelYear=%3$s and biLiabilitySymbol=%4$s", collSymbol, compSymbol, modelYear, statCode)
+				.isNotEmpty();
+		return RandomUtils.nextInt(Integer.parseInt(resultRow.get("MSRPMIN")), Integer.parseInt(resultRow.get("MSRPMAX")));
 	}
 }
