@@ -111,7 +111,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * 1. Create TD to Hold Adjustments. Create Policy TD and adjust it.
      * 2. Grab Default GeneralTab TestData and Adjust it with new data, then add that to the overall test data.
      * 3. Create Customer and Policy as a user other than "L41" or "using Membership Override Option and NO membership number. Bind Policy.
-     * @runTime NOT RUN
+     * @runTime 1min
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
