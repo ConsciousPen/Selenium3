@@ -103,18 +103,22 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
 	}
 
-	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status) {
+	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
 		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
-		restRequestInfo.sessionId = "qweqwe";
+		restRequestInfo.sessionId = sessionId;
 		return runJsonRequestPostDxp(restRequestInfo);
 	}
 
-	static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
-		return runJsonRequestDeleteDxp(requestUrl, PolicyLockUnlockDto.class, status);
+	static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
+		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
+		restRequestInfo.responseType = PolicyLockUnlockDto.class;
+		restRequestInfo.status = status;
+		restRequestInfo.sessionId = sessionId;
+		return runJsonRequestDeleteDxp(restRequestInfo);
 	}
 
 	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
@@ -207,7 +211,7 @@ public class HelperCommon {
 	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
 		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
-		restRequestInfo.request = bodyRequest;
+		restRequestInfo.bodyRequest = bodyRequest;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status =  status;
 		return runJsonRequestPostDxp(restRequestInfo);
@@ -218,7 +222,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request));
+			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request.bodyRequest));
 			T responseObj = response.readEntity(request.responseType);
 			log.info(response.toString());
 			if (response.getStatus() != request.status) {
@@ -234,6 +238,11 @@ public class HelperCommon {
 				client.close();
 			}
 		}
+	}
+
+
+	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
+		return runJsonRequestDeleteDxp(url, responseType,Response.Status.OK.getStatusCode());
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
@@ -267,19 +276,27 @@ public class HelperCommon {
 		}
 	}
 
-	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
+	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
 		return runJsonRequestGetDxp(url, responseType, 200);
 	}
 
-	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
+	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status){
+		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestGetDxp(restRequestInfo);
+	}
+
+	private static <T> T runJsonRequestGetDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, url).get();
-			T result = response.readEntity(responseType);
+			response = createJsonRequest(client, request.url, request.sessionId).get();
+			T result = response.readEntity(request.responseType);
 			log.info(response.toString());
-			if (response.getStatus() != status) {
+			if (response.getStatus() != request.status) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}

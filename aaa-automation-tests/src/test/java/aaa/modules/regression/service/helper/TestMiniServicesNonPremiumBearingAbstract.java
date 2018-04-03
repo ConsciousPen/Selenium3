@@ -1523,7 +1523,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().close();
 
 		//Lock policy and check service response
-		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200);
+		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, "oid1");
 		assertSoftly(softly -> {
 			softly.assertThat(response.getPolicyNumber()).isEqualTo(policyNumber);
 			softly.assertThat(response.getStatus()).isEqualTo("Locked");
@@ -1538,7 +1538,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.buttonBackFromErrorPage.click();
 
 		//Unlock policy and check service response
-		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 200);
+		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 200, "oid1");
 		assertSoftly(softly -> {
 			softly.assertThat(response2.getPolicyNumber()).isEqualTo(policyNumber);
 			softly.assertThat(response2.getStatus()).isEqualTo("Unlocked");
@@ -1548,13 +1548,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		//Check if policy can be locked using lock service
-		PolicyLockUnlockDto response3 = HelperCommon.executePolicyLockService(policyNumber, 500);
+		PolicyLockUnlockDto response3 = HelperCommon.executePolicyLockService(policyNumber, 500, "oid1");
 		assertSoftly(softly -> {
 			softly.assertThat(response3.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response3.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 		//Check if policy can be unlocked using unlock service
-		PolicyLockUnlockDto response4 = HelperCommon.executePolicyUnlockService(policyNumber, 500);
+		PolicyLockUnlockDto response4 = HelperCommon.executePolicyUnlockService(policyNumber, 500, "oid1");
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);

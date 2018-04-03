@@ -4,7 +4,7 @@ public class RestRequestInfo<T> {
 
 	String url;
 	String sessionId;
-	RestBodyRequest request;
+	RestBodyRequest bodyRequest;
 	Class<T> responseType;
 	int status;
 }
