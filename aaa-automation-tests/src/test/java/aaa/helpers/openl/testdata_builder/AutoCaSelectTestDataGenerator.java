@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.OpenLVehicle;
-import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -42,23 +44,35 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected Map<String, String> getVehicleTabUsageData(OpenLVehicle vehicle) {
-		Map<String, String> usageData = new HashMap<>();
+	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
+		TestData vehicleInformation = super.getVehicleTabInformationData(vehicle);
 		String usage = getRandom("Commute (to/from work and school)", "Farm non-business(on premises)", "Business (small business non-commercial)", "Pleasure (recreational driving only)");
-
-		usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), usage);
+		vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), usage);
 		if ("Business (small business non-commercial)".equals(usage)) {
-			usageData.put(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes");
-			usageData.put(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
+			vehicleInformation
+					.adjust(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes")
+					.adjust(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
 		}
-		return usageData;
+		return vehicleInformation;
 	}
 
 	@Override
-	protected TestData getPremiumAndCoveragesTabData(AutoCaOpenLPolicy openLPolicy) {
+	protected TestData getPremiumAndCoveragesTabData(AutoCaSelectOpenLPolicy openLPolicy) {
 		TestData td = super.getPremiumAndCoveragesTabData(openLPolicy);
 		td.adjust(AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), String.valueOf(openLPolicy.isMultiCar()));
 
+		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
+			AutoCaSelectOpenLVehicle vehicle = openLPolicy.getVehicles().get(i);
+
+			if (Boolean.TRUE.equals(vehicle.getApplyFixedExpense())) {
+				assertThat(vehicle.getCoverages().stream().anyMatch(c -> "BI".equals(c.getCoverageCd()) && StringUtils.isNotBlank(c.getLimit())))
+						.as("If vehicle's openl field applyFixedExpense=TRUE then it should have at least one non-empty BI coverage").isTrue();
+
+				//TODO-dchubkov: Vehicles coverages test data should be ordered same as appropriate vehicles. Think about how to generate test data without sort order dependency
+				td.getTestDataList(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()).get(i)
+						.adjust(DetailedVehicleCoveragesRepeatAssetList.WAIVE_LIABILITY, "Yes");
+			}
+		}
 		return td;
 	}
 
@@ -124,22 +138,77 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		return statCodesMap.get(statCode);
 	}
 
-	boolean isRegularType(String statCode) {
+	private TestData getGeneralTabData(AutoCaSelectOpenLPolicy openLPolicy) {
+		TestData policyInformationData = DataProviderFactory.dataOf(
+				AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
+
+		TestData aaaProductOwnedData = DataProviderFactory.emptyData();
+
+		if (openLPolicy.getHome3or4() != null) {
+			switch (openLPolicy.getHome3or4()) {
+				case "HO-3":
+					aaaProductOwnedData.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
+					break;
+				case "HO-4":
+					aaaProductOwnedData.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "Yes");
+					break;
+				case "HO-6":
+					aaaProductOwnedData.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "Yes");
+					break;
+				case "None":
+					aaaProductOwnedData
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "No")
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "No")
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "No");
+					break;
+				default:
+					throw new IstfException("Unknown mapping for openl field home3or4=" + openLPolicy.getHome3or4());
+			}
+		}
+
+		if (openLPolicy.getLifemoto() != null) {
+			switch (openLPolicy.getHome3or4()) {
+				case "B":
+					aaaProductOwnedData
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), "Yes")
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "Yes");
+					break;
+				case "L":
+					aaaProductOwnedData
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), "No")
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "Yes");
+					break;
+				case "M":
+					aaaProductOwnedData
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), "Yes")
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "No");
+					break;
+				case "N":
+					aaaProductOwnedData
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), "No")
+							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "No");
+					break;
+				default:
+					throw new IstfException("Unknown mapping for openl field lifemoto=" + openLPolicy.getLifemoto());
+			}
+		}
+
+		return DataProviderFactory.dataOf(
+				AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData,
+				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductOwnedData);
+	}
+
+	private boolean isRegularType(String statCode) {
 		List<String> codes = Arrays.asList("B", "C", "D", "E", "H", "I", "J", "K", "L", "N", "O", "P", "Q", "R", "S", "U", "V", "W", "X", "Y", "Z");
 		return codes.contains(statCode);
 	}
 
-	boolean isAntiqueClassicType(String statCode) {
+	private boolean isAntiqueClassicType(String statCode) {
 		return "A".equals(statCode);
 	}
 
-	boolean isCamperType(String statCode) {
+	private boolean isCamperType(String statCode) {
 		List<String> codes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
 		return codes.contains(statCode);
-	}
-
-	private TestData getGeneralTabData(AutoCaSelectOpenLPolicy openLPolicy) {
-		TestData policyInformationData = DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
-		return DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 	}
 }

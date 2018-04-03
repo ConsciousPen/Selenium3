@@ -26,7 +26,7 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		super(state, ratingDataPattern);
 	}
 
-	protected List<TestData> getDriverTabData(AutoCaOpenLPolicy openLPolicy) {
+	protected List<TestData> getDriverTabData(P openLPolicy) {
 		List<TestData> driversTestDataList = new ArrayList<>(openLPolicy.getDrivers().size());
 		boolean isFirstDriver = true;
 		for (AutoCaOpenLDriver driver : openLPolicy.getDrivers()) {
@@ -96,7 +96,7 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		return driversTestDataList;
 	}
 
-	protected List<TestData> getVehicleTabData(AutoCaOpenLPolicy openLPolicy) {
+	protected List<TestData> getVehicleTabData(P openLPolicy) {
 		List<TestData> vehiclesTestDataList = new ArrayList<>(openLPolicy.getVehicles().size());
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			if (vehicle.getBiLiabilitySymbol() != null) {
@@ -116,7 +116,7 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		return vehiclesTestDataList;
 	}
 
-	protected TestData getAssignmentTabData(AutoCaOpenLPolicy openLPolicy) {
+	protected TestData getAssignmentTabData(P openLPolicy) {
 		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
 		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 			TestData assignmentData = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
@@ -125,7 +125,7 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
 	}
 
-	protected TestData getPremiumAndCoveragesTabData(AutoCaOpenLPolicy openLPolicy) {
+	protected TestData getPremiumAndCoveragesTabData(P openLPolicy) {
 		List<TestData> detailedVehicleCoveragesList = new ArrayList<>(openLPolicy.getVehicles().size());
 		Map<String, Object> policyCoveragesData = new HashMap<>();
 		Map<String, Object> detailedCoveragesData = new HashMap<>();
@@ -199,11 +199,8 @@ abstract class AutoCaTestDataGenerator<P extends AutoCaOpenLPolicy> extends Auto
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData());
 
-		vehicleInformation.putAll(getVehicleTabUsageData(vehicle));
 		return new SimpleDataProvider(vehicleInformation);
 	}
-
-	protected abstract Map<String, String> getVehicleTabUsageData(OpenLVehicle vehicle);
 
 	protected abstract String getVehicleTabType(OpenLVehicle vehicle);
 
