@@ -3,6 +3,7 @@ package aaa.helpers.openl.model.auto_ca.select;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -72,6 +73,7 @@ public class AutoCaSelectOpenLPolicy extends OpenLPolicy {
 		this.aaaMember = aaaMember;
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -110,6 +112,12 @@ public class AutoCaSelectOpenLPolicy extends OpenLPolicy {
 
 	public void setLifemoto(String lifemoto) {
 		this.lifemoto = lifemoto;
+	}
+
+	@Override
+	public Integer getTerm() {
+		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException(String.format("Getting term for %s is not implemented", this.getClass().getSimpleName()));
 	}
 
 	@Override

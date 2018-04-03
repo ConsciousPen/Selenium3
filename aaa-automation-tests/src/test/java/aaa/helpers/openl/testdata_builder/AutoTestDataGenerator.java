@@ -3,17 +3,15 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
@@ -23,8 +21,17 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
 
-	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
+	public AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
+	}
+
+	List<String> getPolicyLevelCoverageCDs() {
+		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
+		if (!getState().equals(Constants.States.OR)) {
+			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
+			policyLevelCoverage.add("UMPD");
+		}
+		return policyLevelCoverage;
 	}
 
 	String getDriverTabGender(String gender) {
@@ -37,18 +44,20 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		throw new IstfException("Unknown mapping for gender: " + gender);
 	}
 
-	String getDriverTabMartialStatus(String martialStatus) {
-		// Rating engine accepts S, M and W
-		switch (martialStatus) {
-			case "M":
-				return getRandom("Married", "Registered Domestic Partner");//, "Common Law", "Civil Union");
-			case "S":
-				return getRandom("Single", "Divorced", "Separated");
-			case "W":
-				return "Widowed";
-			default:
-				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
+	protected String getVehicleTabType(String statCode) {
+		if (isPrivatePassengerAutoType(statCode)) {
+			return "Private Passenger Auto";
 		}
+		if (isConversionVanType(statCode)) {
+			return "Conversion Van";
+		}
+		if (isMotorHomeType(statCode)) {
+			return "Motor Home";
+		}
+		if (isTrailerType(statCode)) {
+			return "Trailer";
+		}
+		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
 	}
 
 	String getDriverTabDateOfBirth(Integer driverAge, LocalDateTime policyEffectiveDate) {
@@ -111,22 +120,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			default:
 				throw new IstfException("Unknown trailer type for statCode: " + statCode);
 		}
-	}
-
-	String getVehicleTabType(String statCode) {
-		if (isPrivatePassengerAutoType(statCode)) {
-			return "Private Passenger Auto";
-		}
-		if (isConversionVanType(statCode)) {
-			return "Conversion Van";
-		}
-		if (isMotorHomeType(statCode)) {
-			return "Motor Home";
-		}
-		if (isTrailerType(statCode)) {
-			return "Trailer";
-		}
-		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
 	}
 
 	String getVehicleTabMotorHomeType(String statCode) {
@@ -194,45 +187,80 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
+	String getDriverTabMartialStatus(String martialStatus) {
+		// Rating engine accepts S, M and W
+		switch (martialStatus) {
+			case "J":
+				return "Domestic Partner"; // Auto CA Choice
+			case "M":
+				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+			case "S":
+				return getRandom("Single");
+			case "W":
+				return "Widowed";
+			default:
+				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
+		}
+	}
+
 	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
 		Map<String, String> coveragesMap = new HashMap<>();
 
 		coveragesMap.put("BI", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel());
 		coveragesMap.put("PD", AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel());
-		if (getState().equals(Constants.States.OR)) {
-			coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
-		} else {
-			coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		switch (getState()) {
+			case Constants.States.OR:
+			case Constants.States.CO:
+			case Constants.States.CT:
+			case Constants.States.IN:
+			case Constants.States.OK:
+			case Constants.States.WY:
+				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
+			case Constants.States.MT:
+				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_BODILY_INJURY.getLabel());
+				break;
+			default:
+				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
 		}
-		coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
-		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
-		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
-		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
-		coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 
 		if (getState().equals(Constants.States.PA)) {
 			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_EXPENSES.getLabel());
 		} else {
 			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel());
 		}
-		coveragesMap.put("PIP",AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel());
 
-		// PA state
+		coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
+		if (getState().equals(Constants.States.MT)) {
+			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
+		} else {
+			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		}
+		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("PIP", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel());
 		coveragesMap.put("ADBC", AutoSSMetaData.PremiumAndCoveragesTab.ACCIDENTAL_DEATH_BENEFITS.getLabel());
 		coveragesMap.put("IL", AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS_BENEFIT.getLabel());
 		coveragesMap.put("FUNERAL", AutoSSMetaData.PremiumAndCoveragesTab.FUNERAL_BENEFITS.getLabel());
 		coveragesMap.put("EMB", AutoSSMetaData.PremiumAndCoveragesTab.EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS.getLabel());
+		coveragesMap.put("UM/SUM", AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		coveragesMap.put("OBEL", AutoSSMetaData.PremiumAndCoveragesTab.OPTIONAL_BASIC_ECONOMIC_LOSS.getLabel());
+		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
+		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
+		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
 
-		//TODO-dchubkov: replace with correct coverage name key
-		coveragesMap.put("UIMPD", "UNKNOWN COVERAGE (DC)");
-		coveragesMap.put("UM/SUM", "UNKNOWN COVERAGE (NY)");
+		//AutoCa Choice
+		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 
 		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
 		return coveragesMap.get(coverageCD);
 	}
 
-	boolean isPolicyLevelCoverage(String coverageCD) {
-		return Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB").contains(coverageCD);
+	boolean isPolicyLevelCoverageCd(String coverageCd) {
+		return getPolicyLevelCoverageCDs().contains(coverageCd);
 	}
 
 	boolean isFirstPartyBenefitsComboCoverage(String coverageCD) {
@@ -257,7 +285,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "L":
 				return getRandom("Eleven Pay - Low Down", "Monthly - Low Down"); //TODO-dchubkov: to be verified
 			case "P":
-				return getGeneralTabTerm(term);
+				return getTerm(term);
 			case "Z":
 				return getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down");
 			default:
@@ -284,18 +312,19 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
 
 		int duration = Math.abs(Math.toIntExact(Duration.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime()).toDays()));
-		LocalDateTime expirationDate = policyEffectiveDate.plusDays(new Random().nextInt(duration));
+		LocalDateTime expirationDate = duration == 0 ? policyEffectiveDate : policyEffectiveDate.plusDays(new Random().nextInt(duration));
 
-		return DataProviderFactory.dataOf(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
+		return DataProviderFactory.dataOf(
+				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-	String getGeneralTabTerm(int term) {
+	String getTerm(int term) {
 		switch (term) {
 			case 12:
 				return "Annual";
 			case 6:
-				return "regex=Semi-[aA]nnual";
+				return "regex=Semi-[aA]nnual.*";
 			default:
 				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}
@@ -313,7 +342,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "N":
 				return "None";
 			case "FR":
-				return getRandom(getRangedDollarValue(15_000, 30_000), getRangedDollarValue(20_000, 40_000), getRangedDollarValue(25_000, 50_000), getRangedDollarValue(30_000, 60_000));
+				return getRandom(getRangedDollarValue(15_000, 30_000), getRangedDollarValue(20_000, 40_000), getRangedDollarValue(25_000, 50_000), getRangedDollarValue(50_000, 100_000));
 			case "50/XX":
 				return getRangedDollarValue(50_000, 100_000);
 			case "100/XX":
@@ -328,11 +357,59 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
+		if ("Y".equals(coverageLimit)) {
+			return AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage";
+		}
+		if ("N".equals(coverageLimit)) {
+			return "starts=No Coverage";
+		}
 		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
-		if (isPolicyLevelCoverage(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
+		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}
 		return cLimit.toString().replaceAll("\\.00", "");
+	}
+
+	String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
+		String coverageCd = coverage.getCoverageCd();
+		if ("SP EQUIP".equals(coverageCd)) {
+			return new Dollar(coverage.getLimit()).toString();
+		}
+
+		String limitOrDeductible;
+		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
+			limitOrDeductible = coverage.getDeductible();
+		} else {
+			limitOrDeductible = coverage.getLimit();
+		}
+
+		String[] limitRange = limitOrDeductible.split("/");
+		assertThat(limitRange.length).as("Unknown mapping for limit/deductible: %s", limitOrDeductible).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
+
+		if ("EMB".equals(coverageCd)) {
+			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
+		}
+
+		//for AutoCA Choice
+		if ("RENTAL".equals(coverageCd) || "TOWING".equals(coverageCd)) {
+			return "1".equals(limitRange[0]) ? "starts=Yes" : "starts=No Coverage";
+		}
+
+		StringBuilder returnLimit = new StringBuilder();
+		String formattedLimit = getFormattedCoverageLimit(limitRange[0], coverageCd);
+		if (!formattedLimit.startsWith(AdvancedComboBox.RANDOM_MARK) && !formattedLimit.startsWith("starts=")) {
+			returnLimit.append("starts=");
+		}
+		returnLimit.append(formattedLimit);
+		if (limitRange.length == 2) {
+			returnLimit.append("/");
+			if ("IL".equals(coverageCd)) {
+				returnLimit.append("month (").append(getFormattedCoverageLimit(limitRange[1], coverageCd)).append(" max)");
+			} else {
+				returnLimit.append(getFormattedCoverageLimit(limitRange[1], coverageCd));
+			}
+		}
+		return returnLimit.toString();
 	}
 
 	String getDbRestraintsCode(String openlAirbagCode) {

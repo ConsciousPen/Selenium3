@@ -15,7 +15,8 @@ public class StringCellType extends AbstractCellType<String> {
 		if (c == null) {
 			return null;
 		}
-		return new DataFormatter().formatCellValue(c).replace("\n", "").trim();
+
+		return DataFormatterHolder.formatter.formatCellValue(c).replace("\n", "").trim();
 	}
 
 	@Override
@@ -36,5 +37,9 @@ public class StringCellType extends AbstractCellType<String> {
 	@Override
 	public boolean hasValueInTextFormat(ExcelCell cell) {
 		return true;
+	}
+
+	private static class DataFormatterHolder {
+		private static final DataFormatter formatter = new DataFormatter();
 	}
 }

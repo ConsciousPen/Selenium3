@@ -20,11 +20,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
@@ -32,7 +34,6 @@ import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -59,8 +60,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private static final String BILLING_PAYMENT_METHOD_CARD = "AAAPaymentDetailsPCICreditCard";
 	private static final String BILLING_PAYMENT_METHOD_ACH = "AAAPaymentDetailsEFT";
 	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
-	private TestData tdBilling = testDataManager.billingAccount;
-	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
@@ -115,7 +114,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		refundProcessHelper.policyCreation();
+		policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		CustomAssert.enableSoftMode();
@@ -142,7 +141,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -172,7 +171,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "22";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate1, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -202,7 +201,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -234,7 +233,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		CustomAssert.enableSoftMode();
@@ -261,7 +260,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -291,7 +290,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -321,7 +320,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
@@ -350,7 +349,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		CustomAssert.enableSoftMode();
@@ -380,7 +379,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -414,7 +413,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -448,7 +447,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -483,7 +482,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
@@ -514,7 +513,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -546,7 +545,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -578,7 +577,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -610,7 +609,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		CustomAssert.enableSoftMode();
@@ -635,7 +634,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -663,7 +662,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -691,7 +690,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -719,7 +718,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		CustomAssert.enableSoftMode();
@@ -744,7 +743,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -772,7 +771,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -800,7 +799,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -828,7 +827,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "9.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -855,7 +854,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -882,7 +881,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -909,7 +908,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "9.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -936,7 +935,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -964,7 +963,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
@@ -995,7 +994,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "Check";
 
-		refundProcessHelper.policyCreation();
+		policyCreation();
 
 		CustomAssert.enableSoftMode();
 		refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
@@ -1013,7 +1012,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "contains=Credit Card";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
@@ -1036,7 +1035,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "contains=Debit Card";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
@@ -1057,7 +1056,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "contains=ACH";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
@@ -1068,9 +1067,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.assertAll();
 	}
 
-	// *
-	// * See test method for details
-
+	/**
+	 * See test method for details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
@@ -1078,10 +1077,10 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "Check";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1096,12 +1095,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "Credit Card";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
 
 		CustomAssert.enableSoftMode();
-		// TODO OSI: Refund with Check is created because the stubbed amount for VA
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -1117,12 +1115,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		String paymentMethod = "Debit Card";
 
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestDC);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestDC.cleanUp();
 		CustomAssert.disableSoftMode();
@@ -1140,12 +1138,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	public void pas7298_pendingAutomatedRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
 
 		String paymentMethod = "ACH";
-		String policyNumber = refundProcessHelper.policyCreation();
+		String policyNumber = policyCreation();
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
 		requestIdList.add(stubRequestACH);
 
 		CustomAssert.enableSoftMode();
-		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, 1);
+		refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
 
 		stubRequestACH.cleanUp();
 
@@ -1204,6 +1202,16 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		stubRequestACH.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	private String policyCreation() {
+		mainApp().open();
+		getCopiedPolicy();
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		log.info("policyNumber: {}", policyNumber);
+		return policyNumber;
 	}
 
 

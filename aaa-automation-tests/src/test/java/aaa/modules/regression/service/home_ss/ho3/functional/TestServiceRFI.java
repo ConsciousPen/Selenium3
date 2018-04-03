@@ -86,6 +86,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		//BUG PAS-10779 HSRFIXX is not generated on Issue anymore
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
+		Waiters.SLEEP(2000).go();//XML doesn't appear in DB at once
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
@@ -167,6 +168,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		//BUG PAS-10779 /HSRFIXX is not generated on Issue anymore
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
+		Waiters.SLEEP(2000).go();//XML doesn't appear in DB at once
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();

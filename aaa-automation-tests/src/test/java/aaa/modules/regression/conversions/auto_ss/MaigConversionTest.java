@@ -178,7 +178,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		BillingSummaryPage.openPolicy(1);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 		DriverActivityReportsTab daReportTab = new DriverActivityReportsTab();
 		if (daReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()) {

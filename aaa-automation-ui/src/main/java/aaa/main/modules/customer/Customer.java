@@ -6,18 +6,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
-
-import aaa.utils.EntityLogger;
-import aaa.utils.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;
-import aaa.main.metadata.CustomerMetaData.GeneralTab;
-import aaa.main.modules.customer.CustomerActions.*;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.views.DefaultView;
 import aaa.rest.customer.CustomerCoreRESTMethods;
+import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -41,7 +37,7 @@ public class Customer implements ICustomer {
             try {
                 createViaREST(td);
             } catch (IstfException e) {
-                log.info("REST customer creation failed: " + e);
+	            log.info("REST customer creation failed: {}", e);
                 createViaUI(td);
             }
         } else {
@@ -54,7 +50,7 @@ public class Customer implements ICustomer {
         MainPage.QuickSearch.buttonSearchPlus.click();
         SearchPage.buttonCreateCustomer.click();
         getDefaultView().fill(td);
-        log.info("Created " + EntityLogger.getEntityHeader(EntityType.CUSTOMER));
+	    log.info("Created {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
     }
 
     @Override
@@ -63,7 +59,7 @@ public class Customer implements ICustomer {
         try {
             CustomerCoreRESTMethods restCustomer = new CustomerCoreRESTMethods();
 
-            if (td.getTestData(GeneralTab.class.getSimpleName()).containsKey(GeneralTab.NON_INDIVIDUAL_TYPE.getLabel())) {
+	        if (td.getTestData(CustomerMetaData.GeneralTab.class.getSimpleName()).containsKey(CustomerMetaData.GeneralTab.NON_INDIVIDUAL_TYPE.getLabel())) {
                 response = restCustomer.postCustomersNonIndividual(td.resolveLinks());
             } else {
                 response = restCustomer.postCustomersIndividual(td.resolveLinks());
@@ -71,264 +67,264 @@ public class Customer implements ICustomer {
 
             JSONObject object = (JSONObject) JSONValue.parse(response.getResponse().readEntity(String.class));
             MainPage.QuickSearch.search(object.get("customerNumber").toString());
-            log.info("Created " + EntityLogger.getEntityHeader(EntityType.CUSTOMER));
-        } catch (Exception e) {
+	        log.info("Created {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
+        } catch (RuntimeException e) {
             throw new IstfException(e);
         }
     }
 
     @Override
-    public AddCommunication addCommunication() {
+    public CustomerActions.AddCommunication addCommunication() {
         return new CustomerActions.AddCommunication();
     }
 
     @Override
-    public RemoveCommunication removeCommunication() {
+    public CustomerActions.RemoveCommunication removeCommunication() {
         return new CustomerActions.RemoveCommunication();
     }
 
     @Override
-    public UpdateCommunication updateCommunication() {
+    public CustomerActions.UpdateCommunication updateCommunication() {
         return new CustomerActions.UpdateCommunication();
     }
 
     @Override
-    public AddCommunicationThread addCommunicationThread() {
+    public CustomerActions.AddCommunicationThread addCommunicationThread() {
         return new CustomerActions.AddCommunicationThread();
     }
 
     @Override
-    public DeleteCustomer deleteCustomer() {
+    public CustomerActions.DeleteCustomer deleteCustomer() {
         return new CustomerActions.DeleteCustomer();
     }
 
     @Override
-    public AddOpportunity addOpportunity() {
+    public CustomerActions.AddOpportunity addOpportunity() {
         return new CustomerActions.AddOpportunity();
     }
 
     @Override
-    public RemoveOpportunity removeOpportunity() {
+    public CustomerActions.RemoveOpportunity removeOpportunity() {
         return new CustomerActions.RemoveOpportunity();
     }
 
     @Override
-    public UpdateOpportunity updateOpportunity() {
+    public CustomerActions.UpdateOpportunity updateOpportunity() {
         return new CustomerActions.UpdateOpportunity();
     }
 
     @Override
-    public Update update() {
+    public CustomerActions.Update update() {
         return new CustomerActions.Update();
     }
 
     @Override
-    public RemoveRelationshipContact removeRelationshipContact() {
+    public CustomerActions.RemoveRelationshipContact removeRelationshipContact() {
         return new CustomerActions.RemoveRelationshipContact();
     }
 
     @Override
-    public AddRelationshipContact addRelationshipContact() {
+    public CustomerActions.AddRelationshipContact addRelationshipContact() {
         return new CustomerActions.AddRelationshipContact();
     }
 
     @Override
-    public UpdateRelationshipContact updateRelationshipContact() {
+    public CustomerActions.UpdateRelationshipContact updateRelationshipContact() {
         return new CustomerActions.UpdateRelationshipContact();
     }
 
     @Override
-    public ScheduledUpdate scheduledUpdate() {
+    public CustomerActions.ScheduledUpdate scheduledUpdate() {
         return new CustomerActions.ScheduledUpdate();
     }
 
     @Override
-    public Inquiry inquiry() {
+    public CustomerActions.Inquiry inquiry() {
         return new CustomerActions.Inquiry();
     }
 
     @Override
-    public DeletePendingUpdates deletePendingUpdates() {
+    public CustomerActions.DeletePendingUpdates deletePendingUpdates() {
         return new CustomerActions.DeletePendingUpdates();
     }
 
     @Override
-    public AddNewContactsDetails addNewContactsDetails() {
+    public CustomerActions.AddNewContactsDetails addNewContactsDetails() {
         return new CustomerActions.AddNewContactsDetails();
     }
 
     @Override
-    public RemoveNewContactsDetails removeNewContactsDetails() {
+    public CustomerActions.RemoveNewContactsDetails removeNewContactsDetails() {
         return new CustomerActions.RemoveNewContactsDetails();
     }
 
     @Override
-    public AddNewRelationshipContacts addNewRelationshipContacts() {
+    public CustomerActions.AddNewRelationshipContacts addNewRelationshipContacts() {
         return new CustomerActions.AddNewRelationshipContacts();
     }
 
     @Override
-    public RemoveNewRelationshipContacts removeNewRelationshipContacts() {
+    public CustomerActions.RemoveNewRelationshipContacts removeNewRelationshipContacts() {
         return new CustomerActions.RemoveNewRelationshipContacts();
     }
 
     @Override
-    public RemoveBusinessEntity removeBusinessEntity() {
+    public CustomerActions.RemoveBusinessEntity removeBusinessEntity() {
         return new CustomerActions.RemoveBusinessEntity();
     }
 
     @Override
-    public AddAgency addAgency() {
+    public CustomerActions.AddAgency addAgency() {
         return new CustomerActions.AddAgency();
     }
 
     @Override
-    public RemoveAgency removeAgency() {
+    public CustomerActions.RemoveAgency removeAgency() {
         return new CustomerActions.RemoveAgency();
     }
 
     @Override
-    public AddParticipant addParticipant() {
+    public CustomerActions.AddParticipant addParticipant() {
         return new CustomerActions.AddParticipant();
     }
 
     @Override
-    public RemoveParticipantEmployment removeParticipantEmployment() {
+    public CustomerActions.RemoveParticipantEmployment removeParticipantEmployment() {
         return new CustomerActions.RemoveParticipantEmployment();
     }
 
     @Override
-    public RemoveParticipantMembership removeParticipantMembership() {
+    public CustomerActions.RemoveParticipantMembership removeParticipantMembership() {
         return new CustomerActions.RemoveParticipantMembership();
     }
 
     @Override
-    public RemoveParticipantStudent removeParticipantStudent() {
+    public CustomerActions.RemoveParticipantStudent removeParticipantStudent() {
         return new CustomerActions.RemoveParticipantStudent();
     }
 
     @Override
-    public UpdateParticipantEmployment updateParticipantEmployment() {
+    public CustomerActions.UpdateParticipantEmployment updateParticipantEmployment() {
         return new CustomerActions.UpdateParticipantEmployment();
     }
 
     @Override
-    public UpdateParticipantMembership updateParticipantMembership() {
+    public CustomerActions.UpdateParticipantMembership updateParticipantMembership() {
         return new CustomerActions.UpdateParticipantMembership();
     }
 
     @Override
-    public UpdateParticipantStudent updateParticipantStudent() {
+    public CustomerActions.UpdateParticipantStudent updateParticipantStudent() {
         return new CustomerActions.UpdateParticipantStudent();
     }
 
     @Override
-    public AssociateExistingCustomer associateExistingCustomer() {
+    public CustomerActions.AssociateExistingCustomer associateExistingCustomer() {
         return new CustomerActions.AssociateExistingCustomer();
     }
 
     @Override
-    public RemoveNewProductDetails removeNewProductDetails() {
+    public CustomerActions.RemoveNewProductDetails removeNewProductDetails() {
         return new CustomerActions.RemoveNewProductDetails();
     }
 
     @Override
-    public Qualify qualify() {
+    public CustomerActions.Qualify qualify() {
         return new CustomerActions.Qualify();
     }
 
     @Override
-    public MakeInvalid makeInvalid() {
+    public CustomerActions.MakeInvalid makeInvalid() {
         return new CustomerActions.MakeInvalid();
     }
 
     @Override
-    public UndoInvalid undoInvalid() {
+    public CustomerActions.UndoInvalid undoInvalid() {
         return new CustomerActions.UndoInvalid();
     }
 
     @Override
-    public RemoveDivisions removeDivisions() {
+    public CustomerActions.RemoveDivisions removeDivisions() {
         return new CustomerActions.RemoveDivisions();
     }
 
     @Override
-    public ViewHistory viewHistory() {
+    public CustomerActions.ViewHistory viewHistory() {
         return new CustomerActions.ViewHistory();
     }
 
     @Override
-    public UpdateContactsDetails updateContactsDetails() {
+    public CustomerActions.UpdateContactsDetails updateContactsDetails() {
         return new CustomerActions.UpdateContactsDetails();
     }
 
     @Override
-    public AddAssociateQuoteOnOpportunity addAssociateQuoteOnOpportunity() {
+    public CustomerActions.AddAssociateQuoteOnOpportunity addAssociateQuoteOnOpportunity() {
         return new CustomerActions.AddAssociateQuoteOnOpportunity();
     }
 
     @Override
-    public RemoveAssociateQuoteOnOpportunity removeAssociateQuoteOnOpportunity() {
+    public CustomerActions.RemoveAssociateQuoteOnOpportunity removeAssociateQuoteOnOpportunity() {
         return new CustomerActions.RemoveAssociateQuoteOnOpportunity();
     }
 
     @Override
-    public AddAssociatePolicyOnOpportunity addAssociatePolicyOnOpportunity() {
+    public CustomerActions.AddAssociatePolicyOnOpportunity addAssociatePolicyOnOpportunity() {
         return new CustomerActions.AddAssociatePolicyOnOpportunity();
     }
 
     @Override
-    public RemoveAssociatePolicyOnOpportunity removeAssociatePolicyOnOpportunity() {
+    public CustomerActions.RemoveAssociatePolicyOnOpportunity removeAssociatePolicyOnOpportunity() {
         return new CustomerActions.RemoveAssociatePolicyOnOpportunity();
     }
 
     @Override
-    public StartNewQuoteInOpportunity startNewQuoteInOpportunity() {
+    public CustomerActions.StartNewQuoteInOpportunity startNewQuoteInOpportunity() {
         return new CustomerActions.StartNewQuoteInOpportunity();
     }
 
     @Override
-    public StartNewQuoteInOpportunityUpdate startNewQuoteInOpportunityUpdate() {
+    public CustomerActions.StartNewQuoteInOpportunityUpdate startNewQuoteInOpportunityUpdate() {
         return new CustomerActions.StartNewQuoteInOpportunityUpdate();
     }
 
     @Override
-    public StartNewQuoteInOpportunityPreview startNewQuoteInOpportunityPreview() {
+    public CustomerActions.StartNewQuoteInOpportunityPreview startNewQuoteInOpportunityPreview() {
         return new CustomerActions.StartNewQuoteInOpportunityPreview();
     }
 
     @Override
-    public AddAssociateCampaignOnOpportunity addAssociateCampaignOnOpportunity() {
+    public CustomerActions.AddAssociateCampaignOnOpportunity addAssociateCampaignOnOpportunity() {
         return new CustomerActions.AddAssociateCampaignOnOpportunity();
     }
 
     @Override
-    public RemoveAssociateCampaignOnOpportunity removeAssociateCampaignOnOpportunity() {
+    public CustomerActions.RemoveAssociateCampaignOnOpportunity removeAssociateCampaignOnOpportunity() {
         return new CustomerActions.RemoveAssociateCampaignOnOpportunity();
     }
 
     @Override
-    public RemoveGroup removeGroup() {
+    public CustomerActions.RemoveGroup removeGroup() {
         return new CustomerActions.RemoveGroup();
     }
 
     @Override
-    public AssociateDivisions associateDivisions() {
+    public CustomerActions.AssociateDivisions associateDivisions() {
         return new CustomerActions.AssociateDivisions();
     }
 
     @Override
-    public MergeCustomer mergeCustomer() {
-        return new MergeCustomer();
+    public CustomerActions.MergeCustomer mergeCustomer() {
+	    return new CustomerActions.MergeCustomer();
     }
 
     @Override
-    public AddCustomerAdditionalNames addCustomerAdditionalNames() {
-        return new AddCustomerAdditionalNames();
+    public CustomerActions.AddCustomerAdditionalNames addCustomerAdditionalNames() {
+	    return new CustomerActions.AddCustomerAdditionalNames();
     }
 
     @Override
-    public InitiateRenewalEntry initiateRenewalEntry() {
-        return new InitiateRenewalEntry();
+    public CustomerActions.InitiateRenewalEntry initiateRenewalEntry() {
+	    return new CustomerActions.InitiateRenewalEntry();
     }
 }

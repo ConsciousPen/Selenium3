@@ -220,18 +220,6 @@ PAS-10970:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
       messages: ["VehTyp"]
-INC0655981:
-  summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Miscellaneous"]
-PAS-10779:
-  summary: "HSRFIXX is not generated on Issue anymore"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI.*]
-      messages: ['No value present']
 PAS-11405:
   summary: "Regression: Auto & Home: CA: Can't change payment plan of renewal"
   reason: PROD
