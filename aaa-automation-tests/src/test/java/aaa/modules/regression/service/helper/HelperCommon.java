@@ -194,24 +194,20 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
+//******************************Start
 
-	protected static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
-		return runJsonRequestPostDxp(url, request, String.class);
+	protected static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
+		return runJsonRequestPostDxp(url, bodyRequest, String.class);
 	}
 
-	private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
-		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.url = url;
-		restRequestInfo.request = request;
-		restRequestInfo.responseType = responseType;
-		restRequestInfo.status =  Response.Status.OK.getStatusCode();
-		return runJsonRequestPostDxp(restRequestInfo);
+	private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+		return runJsonRequestPostDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
 	}
 
-	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
+	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
 		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
-		restRequestInfo.request = request;
+		restRequestInfo.request = bodyRequest;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status =  status;
 		return runJsonRequestPostDxp(restRequestInfo);
@@ -240,19 +236,23 @@ public class HelperCommon {
 		}
 	}
 
-	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
-		return runJsonRequestDeleteDxp(url, responseType, Response.Status.OK.getStatusCode());
+	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
+		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestDeleteDxp(restRequestInfo);
 	}
 
-	private static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
+	private static <T> T runJsonRequestDeleteDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, url).delete();
-			T responseObj = response.readEntity(responseType);
+			response = createJsonRequest(client, request.url, request.sessionId).delete();
+			T responseObj = response.readEntity(request.responseType);
 			log.info(response.toString());
-			if (response.getStatus() != status) {
+			if (response.getStatus() != request.status) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
 			}
