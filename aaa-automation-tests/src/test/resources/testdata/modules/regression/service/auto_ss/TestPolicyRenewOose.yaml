@@ -1,0 +1,53 @@
+# ---------- Test Data for renewal transaction ---------
+
+TestData_Renew: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_renewal',
+  DriverActivityReportsTab: {},
+}
+
+PremiumAndCoveragesTab_renewal: {
+  Payment Plan: Semi-Annual (Renewal),
+}
+
+# ------------ Test Data for endorsement 1 -----------
+
+TestData_endorsement_without_conflict: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_endorsement_without_conflict',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+PremiumAndCoveragesTab_endorsement_without_conflict: {
+  Bodily Injury Liability: 'contains=$250,000/$500,000',
+  #Comprehensive Deductible: 'contains=$750',
+  #Collision Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1100
+}
+
+# ------------ Test Data for endorsement 2 -----------
+
+TestData_endorsement_with_conflict: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_endorsement_with_conflict',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+PremiumAndCoveragesTab_endorsement_with_conflict: {
+  Payment Plan: Quarterly,
+}
+
