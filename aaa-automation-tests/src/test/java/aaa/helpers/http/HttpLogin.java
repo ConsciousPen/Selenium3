@@ -3,24 +3,19 @@ package aaa.helpers.http;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import aaa.helpers.http.impl.HttpAAARequestor;
-import aaa.helpers.http.impl.HttpConstants;
-import aaa.helpers.http.impl.HttpHelper;
-import aaa.helpers.http.impl.HttpQueryBuilder;
-import aaa.helpers.http.impl.HttpRequestor.HttpHeaders;
-import aaa.modules.BaseTest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.helpers.http.impl.*;
+import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 
 public class HttpLogin {
 
-	protected static Logger log = LoggerFactory.getLogger(HttpLogin.class);
 	private static final String PARAMS_FILENAME = "login.txt";
+	protected static Logger log = LoggerFactory.getLogger(HttpLogin.class);
 	private static String euUser = PropertyProvider.getProperty(TestProperties.EU_USER);
 	private static String adUser = PropertyProvider.getProperty(TestProperties.AD_USER);
 	private static String euPassword = PropertyProvider.getProperty(TestProperties.EU_PASSWORD);
@@ -45,10 +40,9 @@ public class HttpLogin {
 	private static HttpAAARequestor loginAd(String login, String password, String state) throws IOException {
 		HttpAAARequestor httpRequestor = new HttpAAARequestor();
 		httpRequestor.setDomain(HttpHelper.getAdDomain());
-		/*
-		 * System.setProperty("http.proxyHost", "localhost");
-		 * System.setProperty("http.proxyPort", "8888");
-		 */
+
+		/*System.setProperty("http.proxyHost", "localhost");
+		System.setProperty("http.proxyPort", "8888");*/
 
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
 		queryBuilder.readParamsFile(PARAMS_FILENAME);
@@ -59,20 +53,22 @@ public class HttpLogin {
 			throw new IstfException("HTTP ERROR: Impossible to open Login page or server is down. \n", e);
 		}
 
-		String sessionCookieAdmin = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_ADMIN, 2);
+		String sessionCookieAdmin = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_ADMIN, 2);
 		httpRequestor.setAdminSessionCookie(sessionCookieAdmin);
 
 		httpRequestor.sendGetRequest("/aaa-admin/flow?_flowId=ipb-entry-flow&_parentWindowId=");
-		String stubLocation = httpRequestor.getReponseHeader(HttpHeaders.LOCATION);
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
+		String stubLocation = httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION);
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
 
-		String sessionCookieStub = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB, 2);
-		if (StringUtils.isEmpty(HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB, 1))) {
+		String sessionCookieStub = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB, 2);
+		if (StringUtils.isEmpty(HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB, 1))) {
 			httpRequestor.setCookieStubHeaderName(HttpConstants.COOKIE_STUB2);
 		}
 		httpRequestor.setStubSessionCookie(sessionCookieStub);
-		
-		if (state == null) state = "UT";
+
+		if (state == null) {
+			state = "UT";
+		}
 
 		Map<String, String> mapping = new HashMap<String, String>();
 		mapping.put("username", login);
@@ -80,7 +76,7 @@ public class HttpLogin {
 		mapping.put("password", password);
 
 		httpRequestor.setDomain(stubLocation);
-		httpRequestor.sendPostRequest(stubLocation.split("\\?")[0]+"?", queryBuilder.buildQueryString(0, mapping));
+		httpRequestor.sendPostRequest(stubLocation.split("\\?")[0] + "?", queryBuilder.buildQueryString(0, mapping));
 
 		String token = HttpHelper.find(httpRequestor.getResponse(), HttpConstants.REGEX_OPEN_TOKEN);
 
@@ -91,27 +87,27 @@ public class HttpLogin {
 		httpRequestor.setDomain(HttpHelper.getAdDomain());
 		httpRequestor.sendPostRequest("/aaa-admin/do_auth", queryBuilder.buildQueryString(1, mapping));
 
-		String location = httpRequestor.getReponseHeader(HttpHeaders.LOCATION);
+		String location = httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION);
 		String sessionWindowId = "";
 		int counter = 0;
-		while (sessionWindowId.isEmpty() && counter<3) {
+		while (sessionWindowId.isEmpty() && counter < 3) {
 			counter++;
 			if (location.startsWith("flow")) {
 				location = "/aaa-admin/" + location;
 			}
 			httpRequestor.sendGetRequest(location);
 			try {
-				sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
+				sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
 			} catch (IOException e) {
 				log.error("Can't get windowId");
 			}
 		}
 		httpRequestor.setSessionWindowId(sessionWindowId);
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
 
 		httpRequestor.sendGetRequest(String.format("/aaa-admin/admin/flow?_flowId=ipb-entry-flow&_parentWindowId=%s", sessionWindowId));
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
 
 		return httpRequestor;
 	}
@@ -133,13 +129,13 @@ public class HttpLogin {
 			throw new IstfException("HTTP ERROR: Impossible to open Login page or server is down. \n", e);
 		}
 
-		String sessionCookieApp = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_APP);
+		String sessionCookieApp = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_APP);
 		httpRequestor.setAppSessionCookie(sessionCookieApp);
 
 		httpRequestor.sendGetRequest("/aaa-app/flow?_flowId=ipb-entry-flow&_parentWindowId=");
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
 
-		String sessionCookieStub = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB);
+		String sessionCookieStub = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB);
 		httpRequestor.setStubSessionCookie(sessionCookieStub);
 
 		Map<String, String> mapping = new HashMap<String, String>();
@@ -157,8 +153,8 @@ public class HttpLogin {
 
 		httpRequestor.sendPostRequest("/aaa-app/do_auth", queryBuilder.buildQueryString(1, mapping));
 
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
+		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));
 
 		return httpRequestor;
 	}

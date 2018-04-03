@@ -22,6 +22,8 @@ import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Cell;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -63,6 +65,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
 
 	public static ByT tableVehicleCoveragePremium = ByT.xpath("//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']");
+	public static ByT tableVehicleCoverageDetails = ByT.xpath("//table[@id='policyDataGatherForm:vehicle_detail_%s']");
 
 	public PremiumAndCoveragesTab() {
 		super(AutoSSMetaData.PremiumAndCoveragesTab.class);
@@ -174,8 +177,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public Dollar getPolicyLevelLiabilityCoveragesPremium() {
-		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
-		return policyLevelLiabilityCoveragesPremium;
+		return new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
 	}
 
 	@Override
@@ -210,17 +212,35 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public Dollar getVehicleCoveragePremiumByVehicle(int index) {
-		String xpathForVehicle = "//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']";
-		String xpathForVehicleFormatted = String.format(xpathForVehicle, index);
-		Table VehcilePremiumTable = new Table(By.xpath(xpathForVehicleFormatted));
-		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(VehcilePremiumTable.getRow(1).getCell(3).getValue());
-		return policyLevelLiabilityCoveragesPremium;
+		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
+		return new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
 	}
 
-	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
-		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
-		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
-		return policyLevelLiabilityCoveragesPremium;
+	public String getVehicleCoverageDetailsValueByVehicle(int index, String coverageName) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		String result;
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			result = cell.controls.comboBoxes.getFirst().getValue();
+		} else {
+			result = cell.getValue();
+		}
+		return result;
+	}
+
+	public void setVehicleCoverageDetailsValueByVehicle(int index, String coverageName, String value) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		cell.controls.comboBoxes.getFirst().setValueContains(value);
+	}
+
+	public String getVehicleCoverageDetailsTermPremiumByVehicle(int index, String coverageName) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(3);
+		return cell.getValue();
 	}
 
 	private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
