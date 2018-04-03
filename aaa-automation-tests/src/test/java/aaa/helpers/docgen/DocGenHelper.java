@@ -1,25 +1,29 @@
 package aaa.helpers.docgen;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
+
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -219,7 +223,6 @@ public class DocGenHelper {
 				.findFirst().orElseThrow(() -> new NoSuchFieldException("Tag " + tag + " not found."))
 				.getDataElementChoice().getTextField();
 	}
-
 	/**
 	 * Extracts list of documents from {@link DocumentPackage} model
 	 *
@@ -308,6 +311,10 @@ public class DocGenHelper {
 
 		//TODO: Change this to 'always cast to DocumentPackage' once all VDMS get aaaDocGenSerializer.callDCSInstant set to TRUE
 		//In the meantime, this hook will work fine
+		return getDocumentPackage(xmlDocData);
+	}
+
+	public static DocumentPackage getDocumentPackage(String xmlDocData) {
 		DocumentPackage documentPackage;
 		boolean callDCSInstantly = !xmlDocData.startsWith("<doc:CreateDocuments");
 		if (callDCSInstantly) {
@@ -318,6 +325,37 @@ public class DocGenHelper {
 			documentPackage = doc.getStandardDocumentRequest().getDocumentPackages().get(0);
 		}
 		return documentPackage;
+	}
+
+	/**
+	 * Get all document Document Packages
+	 * @param policyNumber policy number
+	 * @param eventName  AaaDocGenEntityQueries.EventNames
+	 * @return List<DocumentPackage>
+	 */
+	public static List<DocumentPackage> getAllDocumentPackages(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
+		List<Map<String, String>> allDocs = DbXmlHelper.getXmlsByPolicyNumber(policyNumber, eventName);
+		List<DocumentPackage> listOfDocumentPackages = new ArrayList<>();
+
+		for(Map<String, String> doc: allDocs) {
+			String xmlDoc = doc.get("DATA");
+			DocumentPackage documentPackage = getDocumentPackage(xmlDoc);
+			listOfDocumentPackages.add(documentPackage);
+		}
+		return listOfDocumentPackages;
+	}
+
+	/**
+	 * Get All Documents from Document Package List
+	 * @param allDocumentPackages getAllDocumentPackages()
+	 * @return List<Document>
+	 */
+	public static List<Document> getDocumentsFromDocumentPackagesList(List<DocumentPackage> allDocumentPackages) {
+		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
+		for( DocumentPackage documentPackage: allDocumentPackages){
+			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
+		}
+		return actualDocumentsListAfterFirstRenewal;
 	}
 
 	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
