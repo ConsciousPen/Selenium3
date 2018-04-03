@@ -22,12 +22,6 @@ InitiateRenewalEntryActionTab: {
   Renewal Policy Premium: 1500
 }
 
-# --------- View Capping Details----------
-TD_ViewCappingDetails: {
-  Ceiling Cap: 15,
-  Floor Cap: -15
-}
-
 TestData_OverideCappingDetails: {
   PremiumsAndCoveragesQuoteTab: {
     View Capping Details: {

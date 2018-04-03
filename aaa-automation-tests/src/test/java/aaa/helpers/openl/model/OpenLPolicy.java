@@ -1,8 +1,9 @@
 package aaa.helpers.openl.model;
 
+import java.time.LocalDateTime;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 
-public class OpenLPolicy {
+public abstract class OpenLPolicy {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
@@ -23,6 +24,10 @@ public class OpenLPolicy {
 	public void setPolicyNumber(String policyNumber) {
 		this.policyNumber = policyNumber;
 	}
+
+	public abstract Integer getTerm();
+
+	public abstract LocalDateTime getEffectiveDate();
 
 	@Override
 	public String toString() {

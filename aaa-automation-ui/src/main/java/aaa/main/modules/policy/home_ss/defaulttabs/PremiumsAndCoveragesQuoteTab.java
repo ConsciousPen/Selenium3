@@ -9,7 +9,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import toolkit.webdriver.controls.Button;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -30,8 +30,8 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 		super(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class);
 	}
 
-	public Button btnCalculatePremium() {
-		return getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), Button.class);
+	public JavaScriptButton btnCalculatePremium() {
+		return getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
 	}
 
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));

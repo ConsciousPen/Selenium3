@@ -1,20 +1,15 @@
 package aaa.modules.bct.billing_and_payments;
 
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
-import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.ChangePaymentPlanActionTab;
-import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.modules.bct.BackwardCompatibilityBaseTest;
 
 public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
@@ -54,10 +49,6 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
 				.verify.value(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
-
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).setAmount(new Dollar(3)).verify(1);
 	}
 
 	@Parameters({"state"})
@@ -71,18 +62,9 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 		SearchPage.openBilling(policyNumber);
 
-		billingAccount.changePaymentPlan().start();
-		ChangePaymentPlanActionTab tab = new ChangePaymentPlanActionTab();
-		tab.getAssetList().getAsset(BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
-		tab.buttonOk.click();
-		Page.dialogConfirmation.labelMessage.verify.contains("As you requested, we have changed your payment plan from Standard Monthly (Renewal) to Semi-Annual (Renewal) and your minimum due has changed. Your policy is set up on automatic payment and the new minimum due will be withdrawn from your account on or after your renewal date. An updated renewal statement will not be available. Do you agree to these changes?");
-		Page.dialogConfirmation.confirm();
+		billingAccount.changePaymentPlan().perform(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
 				.verify.value(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
-
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).setAmount(new Dollar(3)).verify(1);
 	}
 }

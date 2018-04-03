@@ -1,15 +1,5 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-import org.assertj.core.api.Assertions;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -22,6 +12,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.xml.model.Document;
+import aaa.helpers.xml.model.DocumentPackage;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -36,10 +27,21 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private static final String SELECT_POLICY_SOURCE_NUMBER = "select p.SOURCEPOLICYNUM from POLICYSUMMARY p Where p.Policynumber = '%s'";
@@ -58,15 +60,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	/**
 	 * @author Viktor Petrenko
-	 *
+	 * <p>
 	 * PAS-10668 CONTENT & TRIGGER (timeline): Pre-Renewal letter (mortgagee) PA DP3
 	 * PAS-6731 CONTENT & TRIGGER (timeline): Pre-Renewal letter (insured bill) PA DP3
-	 *
-	 * @scenario
-	 * 1. Initiate manual entry
+	 * @scenario 1. Initiate manual entry
 	 * 2. Shift time
 	 * 3. Run jobs to generate aaaPreRenewalNoticeAsyncJob
-	 *
 	 */
 	public String generatePreRenewalEvent(TestData testData, LocalDateTime renewalOfferEffectiveDate, LocalDateTime preRenewalGenDate) {
 		mainApp().open();
@@ -84,12 +83,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	/**
 	 * @author Viktor Petrenko
-	 *
+	 * <p>
 	 * PAS-2674 MAIG CONVERSION: test conversion renewal offer package generation and print sequence of end/notices (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
+	 * PAS-9651	Print Sequence: Conversion Renewal OFFER (PA & MD)
 	 *
-	 * @scenario
-	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify conversion specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
 	 * 4. Run renewalOfferGenerationPart2 and aaaBatchMarkerJob
@@ -100,7 +99,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	protected void verifyConversionFormsSequence(TestData testData) throws NoSuchFieldException {
 		// Specific conditions which will reflected in forms which will be verified later
-		boolean specificProductCondition = Arrays.asList("HomeSS","HomeSS_HO4", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
+		boolean specificProductCondition = Arrays.asList("HomeSS", "HomeSS_HO4", "HomeSS_HO6", "HomeSS_DP3").contains(getPolicyType().getShortName());
 		boolean mortgageePaymentPlanPresence = false;
 		if (!getPolicyType().getShortName().equals("PUP")) {
 			mortgageePaymentPlanPresence = testData.getTestData(new PremiumsAndCoveragesQuoteTab().getMetaKey()).getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()).contains("Mortgagee Bill");
@@ -123,7 +122,10 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+//https://csaaig.atlassian.net/browse/PAS-11474
+		List<DocumentPackage> allDocumentPackages = DocGenHelper.getAllDocumentPackages(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		List<Document> actualDocumentsListAfterFirstRenewal = getDocumentsFromListDocumentPackages(allDocumentPackages);
+
 		verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
 		// End PAS-2764 Scenario 1
 
@@ -168,20 +170,28 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas2674_verifyConversionRenewalPackageAbsence(forms, actualDocumentsAfterSecondRenewal);
 
 		// PAS-8777, PAS-8766
-		if(specificProductCondition){
-			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		if (specificProductCondition) {
+			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
 	}
 
+	private List<Document> getDocumentsFromListDocumentPackages(List<DocumentPackage> allDocumentPackages) {
+		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
+		for( DocumentPackage documentPackage: allDocumentPackages){
+			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
+		}
+		return actualDocumentsListAfterFirstRenewal;
+	}
+
 	/**
 	 * @author Viktor Petrenko
-	 *
+	 * <p>
 	 * PAS-9816 PAS-9816 MAIG CONVERSION: test conversion renewal billing package generation and print sequence (HO3,HO4,HO6,DP3,PUP)
 	 * PAS-9607	BFC for Conversion Renewal Offer and Billing Packages (HO3, HO4, HO6, DP3, PUP)
+	 * PAS-9650	Print Sequence: Conversion Renewal BILLING (PA & MD)
 	 *
-	 * @scenario
-	 * 1. Initiate manual entry on RENEW_GENERATE_OFFER
+	 * @scenario 1. Initiate manual entry on RENEW_GENERATE_OFFER
 	 * 2. Verify billing specific renewal offer packet was generated in right sequence
 	 * 3. Verify Policy Transaction Code
 	 * 4. set Up Trigger Home Banking Conversion Renewal
@@ -218,8 +228,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		billGeneration(renewalOfferEffectiveDate);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		pas9607_verifyPolicyTransactionCode("STMT", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 
+		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		pas9816_verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
 
@@ -227,7 +238,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(10)));
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(30)));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -255,8 +266,9 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		pas9816_verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
-		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isEqualTo(true);
+		String policyTransactionCode2 = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
+
+		assertThat(policyTransactionCode2.equals("STMT") || policyTransactionCode2.equals("0210")).isEqualTo(true);
 	}
 
 	public void pas9816_verifyBillingRenewalPackageAbsence(String policyNumber) {
@@ -279,7 +291,8 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 		// Remove renewal specific forms
 		List<String> getOnlyConversionSpecificForms = getOnlyRenewalSpecificForms(forms);
-
+		log.info("List of forms which are not expected on second renewal :" + getOnlyConversionSpecificForms);
+		log.info("List of forms on second renewal :" + listOfFormsAfterSecondRenewal);
 		assertThat(listOfFormsAfterSecondRenewal).doesNotContainAnyElementsOf(getOnlyConversionSpecificForms);
 	}
 
@@ -310,6 +323,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
 		mainApp().open();
+		// Set birthdate if NJ to generate Senior Discount
 		if (getState().equals(Constants.States.NJ)) {
 			createCustomerIndividual(getCustomerIndividualTD("DataGather", "TestData")
 					.adjust(TestData.makeKeyPath("GeneralTab", "Date of Birth"), TimeSetterUtil.getInstance().getCurrentTime().minusYears(65)
@@ -321,12 +335,23 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		// adjust with real policies if PUP )
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			testData = new PrefillTab().adjustWithRealPolicies(testData, getPrimaryPoliciesForPup());
+			// Workaround for prefill
+			/*Map<String,String> policies = new HashMap<>();
+			TestData tdHomeEntry = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "InitiateRenewalEntry", "TestData");
+			TestData tdHomeConversion = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "Conversion", "TestData");
+			customer.initiateRenewalEntry().perform(tdHomeEntry);
+			PolicyType.HOME_SS_HO3.get().getDefaultView().fill(tdHomeConversion);
+			String homePolicyNum = PolicySummaryPage.getPolicyNumber();
+			policies.put("Primary_HO3", homePolicyNum);
+			testData = new PrefillTab().adjustWithRealPolicies(testData, policies);
+
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());*/
 		}
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
 		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
 		if (!getPolicyType().equals(PolicyType.PUP)) {
-			testData.adjust(membershipFieldMetaKey, "4290072030989503");
+			testData.adjust(membershipFieldMetaKey, "4343433333333335");
 		}
 		policy.getDefaultView().fill(testData);
 
@@ -363,12 +388,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 	}
 
 	public void verifyFormSequence(List<String> expectedFormsOrder, List<Document> documentList) {
-		Assertions.assertThat(documentList).isNotEmpty().isNotNull();
+		assertThat(documentList).isNotEmpty().isNotNull();
 		assertSoftly(softly -> {
 			// Check that all documents where generated
-			List<String> allDocs = new ArrayList<>();
-			documentList.forEach(doc -> allDocs.add(doc.getTemplateId()));
-			assertThat(allDocs).containsAll(expectedFormsOrder);
+			List<String> collectedDocs = documentList.stream().map(Document::getTemplateId).collect(Collectors.toList());
+			log.info("Collected from xml list of documents  : " + collectedDocs.toString());
+			softly.assertThat(collectedDocs).containsAll(expectedFormsOrder);
 			// Get all docs +  sequence number
 			HashMap<Integer, String> actualDocuments = new HashMap<>();
 			documentList.forEach(doc -> actualDocuments.put(Integer.parseInt(doc.getSequence()), doc.getTemplateId()));
@@ -378,9 +403,12 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 			// Get documents order by sequence number
 			List<String> actualOrder = new ArrayList<>();
 			sortedKeys.forEach(sequenceId -> actualOrder.add(actualDocuments.get(sequenceId)));
+			log.info(actualOrder.toString());
 			// Get Intersection order
 			List<String> intersectionsWithActualList = actualOrder.stream().filter(expectedFormsOrder::contains).collect(Collectors.toList());
 			// Check sequence
+			log.info("Expected list of forms : " + expectedFormsOrder.toString());
+			log.info("Actual list of forms : " + intersectionsWithActualList.toString());
 			softly.assertThat(intersectionsWithActualList).isEqualTo(expectedFormsOrder);
 		});
 	}
@@ -394,56 +422,17 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	/* Data */
 	private List<String> getConversionSpecificGeneratedForms(boolean mortgageePaymentPlanPresence, boolean specificProductCondition) {
-
-		List<String> forms = new ArrayList<>();
-
-		switch (getPolicyType().getShortName()) {
-			case "HomeSS":
-				if (Constants.States.NJ.equals(getState())) {
-					forms = getHO3NJConversionSpecificForms();
-				} else {
-					forms = getHO3OtherStatesConversionSpecificForms();
-				}
-				break;
-			case "HomeSS_HO4":
-				if (Constants.States.NJ.equals(getState())) {
-					forms = getHO4NJConversionSpecificForms();
-				} else {
-					forms = getHO4OtherStatesConversionSpecificForms();
-				}
-				break;
-			case "HomeSS_HO6":
-				if (Constants.States.NJ.equals(getState())) {
-					forms = getHO6NJConversionSpecificForms();
-				} else {
-					forms = getHO6OtherStatesConversionSpecificForms();
-				}
-				break;
-			case "HomeSS_DP3":
-				if (Constants.States.NJ.equals(getState())) {
-					forms = getDP3NJConversionSpecificForms();
-				} else {
-					forms = getDP3OtherStatesConversionSpecificForms();
-				}
-				break;
-			case "PUP":
-				if (Constants.States.NJ.equals(getState())) {
-					forms = getPupNJConversionSpecificForms();
-				} else {
-					forms = getPupOtherStatesConversionSpecificForms();
-				}
-				break;
-		}
-
+		List<String> forms = new ArrayList<>(getTestSpecificTD("ConversionForms").getList("FormsList"));
 		//"HO3","H04","HO6","DP3" if test data has Mortgagee payment plan, swap first form in sequence to HSRNHODPXX
-		if(specificProductCondition && mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNMXX.getIdInXml());
+		if (specificProductCondition && mortgageePaymentPlanPresence) {
+			forms.set(0, DocGenEnum.Documents.HSRNMXX.getIdInXml());
 		}
 		//"HO3","H04","HO6","DP3" swap first form in sequence to HSRNMXX
-		else if(specificProductCondition && !mortgageePaymentPlanPresence){
-			forms.set(0,DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
+		else if (specificProductCondition && !mortgageePaymentPlanPresence) {
+			forms.set(0, DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 
+		log.info("List of forms we expect : {}", forms);
 		return forms;
 	}
 
@@ -453,126 +442,24 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				Arrays.asList(
 						DocGenEnum.Documents.HSTP.getIdInXml(),
 						DocGenEnum.Documents.AHPNXX.getIdInXml(),
+						DocGenEnum.Documents.AHAUXX.getIdInXml(),
 						DocGenEnum.Documents.HS02.getIdInXml(),
 						DocGenEnum.Documents.HS02_4.getIdInXml(),
 						DocGenEnum.Documents.HS02_6.getIdInXml(),
 						DocGenEnum.Documents.HSCSNA.getIdInXml(),
 						DocGenEnum.Documents.PS02.getIdInXml(),
-						DocGenEnum.Documents.DS02.getIdInXml()
+						DocGenEnum.Documents.DS02.getIdInXml(),
+						DocGenEnum.Documents.IL_09_10.getIdInXml(),
+						DocGenEnum.Documents.DSACCCMD.getIdInXml(),
+						DocGenEnum.Documents.HSAOCMDA.getIdInXml(),
+						DocGenEnum.Documents.HSSNMDA.getIdInXml(),
+						DocGenEnum.Documents.HSCRRMD.getIdInXml(),
+						DocGenEnum.Documents.HSSNMDB.getIdInXml(),
+						DocGenEnum.Documents.HSAOCMDB.getIdInXml(),
+						DocGenEnum.Documents.HSAOCMDC.getIdInXml(),
+						DocGenEnum.Documents.HSSNMDC.getIdInXml()
 				));
 		return getOnlyConversionSpecificForms;
-	}
-
-	private List<String> getHO3NJConversionSpecificForms() {
-		return Arrays.asList(
-				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.HSTP.getIdInXml(),
-				DocGenEnum.Documents.HS02.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml(),
-				DocGenEnum.Documents.HSCSNA.getIdInXml()
-		);
-	}
-
-	private List<String> getHO3OtherStatesConversionSpecificForms() {
-		return Arrays.asList(
-				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.HS02.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml()
-		);
-	}
-
-	private List<String> getHO4NJConversionSpecificForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getIdInXml(),
-				DocGenEnum.Documents.HSTP.getIdInXml(),
-				DocGenEnum.Documents.HS02_4.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(), //membership validation
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml() //multi policy discount
-				//todo add HSCSNB
-		);
-	}
-
-	private List<String> getHO4OtherStatesConversionSpecificForms() {
-		return Arrays.asList(
-				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.HS02_4.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(), //membership validation
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml() //multi policy discount
-		);
-	}
-
-	private List<String> getHO6NJConversionSpecificForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNHODPXX.getIdInXml(), // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.HSTP.getIdInXml(),
-				DocGenEnum.Documents.HS02_6.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml()
-		);
-	}
-
-	private List<String> getHO6OtherStatesConversionSpecificForms() {
-		return Arrays.asList(
-				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.HS02_6.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml()
-				//todo add HSCSNB
-		);
-	}
-
-	private List<String> getPupNJConversionSpecificForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNPUPXX.getIdInXml(),
-				DocGenEnum.Documents.HSTP.getIdInXml(),
-				DocGenEnum.Documents.PS02.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml()
-		);
-	}
-
-	private List<String> getPupOtherStatesConversionSpecificForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNPUPXX.getIdInXml(),
-				DocGenEnum.Documents.PS02.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml()
-		);
-	}
-
-	private List<String> getDP3NJConversionSpecificForms() {
-		return Arrays.asList(
-				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.HSTP.getIdInXml(),
-				DocGenEnum.Documents.DS02.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml()
-		);
-	}
-
-	private List<String> getDP3OtherStatesConversionSpecificForms() {
-		return Arrays.asList(
-				"stub", // will be replaced to HSRNHODPXX or HSRNMXX
-				DocGenEnum.Documents.DS02.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml(),
-				DocGenEnum.Documents.AHMVCNV.getIdInXml(),
-				DocGenEnum.Documents.HSMPDCNVXX.getIdInXml()
-		);
 	}
 
 	public TestData getTestDataWithAdditionalInterest(TestData policyTD) {

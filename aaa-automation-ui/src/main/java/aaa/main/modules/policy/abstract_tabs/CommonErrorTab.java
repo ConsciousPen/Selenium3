@@ -207,6 +207,9 @@ public abstract class CommonErrorTab extends Tab {
 	}
 
 	private boolean isMessagePresentInTableAndHintPopup(List<Pair<String, String>> actualTableAndHintErrorMessagePairs, String expectedMessage) {
+		if (actualTableAndHintErrorMessagePairs == null || actualTableAndHintErrorMessagePairs.size() == 0 || actualTableAndHintErrorMessagePairs.get(0) == null) {
+			return false;
+		}
 		int maxMessageLengthInTableWithoutDots = 77;
 		if (expectedMessage.length() > maxMessageLengthInTableWithoutDots) {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
@@ -218,7 +221,6 @@ public abstract class CommonErrorTab extends Tab {
 					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue()
 							.startsWith(expectedTruncatedMessage));
 		}
-
 		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().equals(expectedMessage) && actualMessagePair.getValue().equals(expectedMessage));
 	}
 

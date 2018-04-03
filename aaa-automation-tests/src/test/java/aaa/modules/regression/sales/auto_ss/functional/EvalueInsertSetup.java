@@ -26,11 +26,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointUpdate() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
-			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
-		} else {
-			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS, APP_HOST, APP_STUB_URL));
-		}
+
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
 	}
 
 	@Test(description = "setting Agent/Agency check against Zip to stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -158,11 +155,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
-			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
-		} else {
-			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
-		}
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
 	}
 
 	@Test(description = "Precondition updating pending refund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -189,6 +182,16 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void workaroundForJobsNBplus15plus30runNoChecksPAS_6162() {
 		if (!DBService.get().getValue("select id from ReportEntity where id in (2492384000)").isPresent()) {
 			DBService.get().executeUpdate("insert into ReportEntity (ID) values (2492384000)");
+		}
+	}
+
+	@Test(description = "Precondition updating Payperless Preferences Popup Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void preconditionsForMiniServicesAuthenticationInAws() {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)+"/as/token.oauth2"));
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientId", "cc_PAS"));
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientSecret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"));
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.grantType", "urn:pingidentity.com:oauth2:grant_type:validate_bearer"));
 		}
 	}
 }

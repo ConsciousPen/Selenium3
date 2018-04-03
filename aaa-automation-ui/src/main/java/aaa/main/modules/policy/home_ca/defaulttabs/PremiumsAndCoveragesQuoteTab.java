@@ -4,11 +4,12 @@
  */
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import org.openqa.selenium.By;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -32,8 +33,8 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
         super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
     }
 
-    public Button btnCalculatePremium() {
-        return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
+    public JavaScriptButton btnCalculatePremium() {
+        return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), JavaScriptButton.class);
     }
 
     @Override

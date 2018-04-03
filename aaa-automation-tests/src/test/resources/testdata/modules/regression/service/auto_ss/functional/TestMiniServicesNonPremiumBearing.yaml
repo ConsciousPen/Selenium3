@@ -20,3 +20,31 @@ VehicleTab_First: {
     VIN: WDCYC7BB0B6729451
 }
 
+TestData_AllDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
+Driver_one: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+  }
+
+Driver_two: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'John',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355298',
+    License Status: 'Licensed (US)'
+}
