@@ -154,16 +154,22 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
-	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
+	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate, String sessionId) {
+
 		AAAEndorseRequest request = new AAAEndorseRequest();
 		request.endorsementDate = endorsementDate;
 		request.endorsementReason = "OTHPB";
 		request.endorsementReasonOther = "Some reason why endorsement was done";
-		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_START_ENDPOINT, policyNumber));
+		final RestRequestInfo<AAAEndorseResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.bodyRequest = request;
+		restRequestInfo.sessionId = sessionId;
+		restRequestInfo.responseType = AAAEndorseResponse.class;
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENT_START_ENDPOINT, policyNumber));
+		restRequestInfo.status = Response.Status.CREATED.getStatusCode();
 		if (endorsementDate != null) {
-			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
+		return runJsonRequestPostDxp(restRequestInfo);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -198,7 +204,6 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
 		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
-//******************************Start
 
 	protected static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
 		return runJsonRequestPostDxp(url, bodyRequest, String.class);
@@ -239,7 +244,6 @@ public class HelperCommon {
 			}
 		}
 	}
-
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
 		return runJsonRequestDeleteDxp(url, responseType,Response.Status.OK.getStatusCode());
@@ -339,10 +343,6 @@ public class HelperCommon {
 				client.close();
 			}
 		}
-	}
-
-	private static Invocation.Builder createJsonRequest(Client client, String url) {
-		return createJsonRequest(client, url, null);
 	}
 
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {

@@ -329,9 +329,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas8784_endorsementValidateNotAllowedCustomer(PolicyType policyType) {
+		String sessionId = "oid1";
 		int numberOfDaysDelayBeforeDelete = 2;
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
-		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 		mainApp().open();
 		getCopiedPolicy();
@@ -339,7 +339,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		mainApp().close();
 
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertSoftly(softly ->
 				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
 		);
@@ -368,6 +368,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas8784_endorsementValidateStateSpecificConfigVersioning(PolicyType policyType) {
+		String sessionId = "oid1";
 		int numberOfDaysDelayBeforeDelete = 5;
 		int numberOfDaysForNewConfigVersion = 10;
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
@@ -379,7 +380,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().close();
 
 		//New Config Version testing for AZ = 0 days delay
-		AAAEndorseResponse responseNewConfigEffective = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse responseNewConfigEffective = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertSoftly(softly ->
 				softly.assertThat(responseNewConfigEffective.policyNumber).isEqualTo(policyNumber)
 		);
@@ -391,7 +392,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//shift time till different config becomes current for AZ = 5 days delay , delete old endorsement, add new endorsement
 		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysForNewConfigVersion + 1));
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertSoftly(softly ->
 				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
 		);
@@ -537,6 +538,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
+
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
 				+ "where 1=1\n"
@@ -606,6 +608,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
+		String sessionId = "oid1";
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -621,7 +624,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Start endorsement service call
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate, sessionId);
 		assertSoftly(softly ->
 				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
 		);
@@ -850,6 +853,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
+		String sessionId = "oid1";
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -864,7 +868,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().close();
 
 		//Create pended endorsement
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
 		//Add new vehicle
@@ -1181,6 +1185,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
+		String sessionId = "oid1";
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -1189,7 +1194,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Create a pended Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1562,6 +1567,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus() {
+		String sessionId = "oid1";
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1571,7 +1577,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		VehicleTab.buttonCancel.click();
 
 		//Create pended endorsement
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
 		//Start PAS-479
@@ -1665,11 +1671,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas9610_UpdateVehicleService() {
+		String sessionId = "oid1";
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		//Get OID from View vehicle
@@ -1749,6 +1756,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas508_BindServiceEndorsement() {
+		String sessionId = "oid1";
 		String authorizedBy = "Osi Testas Insured";
 
 		mainApp().open();
@@ -1759,7 +1767,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
 
 			//Create pended endorsement
-			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, null);
+			AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, null, sessionId);
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.executeEndorsementRate(policyNumber, 200);
@@ -1819,11 +1827,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas10227_ViewPremiumServiceForPendedEndorsement() {
+		String sessionId = "oid1";
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
 		//Create a pended Endorsement
-		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), sessionId);
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 		//add vehicle
