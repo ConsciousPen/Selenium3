@@ -4,7 +4,7 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.INSURANCE_SCORE
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.CUSTOMER_AGREEMENT;
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.ORDER_INSURANCE_SCORE;
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -51,19 +51,19 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         // Initiate Endorsement and verify Override Link
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
 
         // Navigate to Applicant tab and add another named insured
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        new ApplicantTab().fillTab(getTestSpecificTD("TestData"));
+        applicant.fillTab(getTestSpecificTD("TestData"));
 
         // Navigate to Reports tab; verify 'Reorder Report' radio and 'Override Score' link
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         reportTab.tblInsuranceScoreReport.getRow(2).getCell(ORDER_INSURANCE_SCORE.getLabel()).controls.radioGroups.get(1).setValue("Yes");
         reportTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
         reportTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
-        assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
+        assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
 
     }
 
@@ -90,11 +90,11 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
 
         policy.renew().perform(new SimpleDataProvider());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         applicant.getNamedInsuredAssetList().getAsset("First name", TextBox.class).setValue("Hello");
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst().isPresent()).isFalse();
+        assertThat(reportTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(false);
 
     }
 
@@ -109,7 +109,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), ReportsTab.class, true);
-        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isEnabled()).isTrue();
+        assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isEnabled();
         reportTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), PropertyInfoTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
