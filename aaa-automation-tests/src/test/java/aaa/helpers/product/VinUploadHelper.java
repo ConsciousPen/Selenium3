@@ -106,5 +106,6 @@ public class VinUploadHelper {
 		public String get() {
 			return type;
 		}
+
 	}
 }
