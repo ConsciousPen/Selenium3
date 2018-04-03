@@ -16,11 +16,13 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import net.sf.saxon.functions.DynamicContextAccessor;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 import java.math.BigInteger;
@@ -82,6 +84,69 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		});
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
+
+//
+//*************************JOHNS*************************
+//
+	protected void pas11659_CommonSteps(String vinNumber, String policyNumber, LocalDateTime policyExpirationDate) {
+		//1.Get Current Time for below comparison
+		LocalDateTime currentDate = DateTimeUtils.getCurrentDateTime();
+		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		moveTimeAndRunRenewJobs(policyExpirationDate);
+		//3. Retrieve the policy
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		//4. Set Renewal Date for below comparison
+		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+		//5. Initiate a new renewal version
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//  Validate vehicle information in VRD
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		//6. Verify VIN Data Refreshed or Not
+		if (currentDate.equals(renewalDate.minusDays(46))) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2007");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("UT_SS_R45");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt_R45");
+			});
+		} else if (currentDate.equals((renewalDate.minusDays(45)))) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R45");
+			});
+		} else if (currentDate.equals((renewalDate.minusDays(40)))) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2008");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R40");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R40");
+			});
+		} else if(currentDate.equals((renewalDate.minusDays(35)))) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2009");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R35");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R35");
+			});
+		} else if(currentDate.equals((renewalDate.minusDays(25)))) {
+			assertSoftly(softly -> {
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2010");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("UT_SS_R25");
+				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt_R25");
+			});
+		}
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+	//
+	//*************************JOHNS*************************
+	//
+
+
+
+
 
 	protected void pas527_533_2716_VehicleTabCommonChecks() {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
