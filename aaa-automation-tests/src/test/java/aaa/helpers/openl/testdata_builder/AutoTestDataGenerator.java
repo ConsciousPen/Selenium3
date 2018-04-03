@@ -3,12 +3,7 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -16,6 +11,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLCoverage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -28,6 +24,15 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
+	}
+
+	List<String> getPolicyLevelCoverageCDs() {
+		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
+		if (!getState().equals(Constants.States.OR)) {
+			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
+			policyLevelCoverage.add("UMPD");
+		}
+		return policyLevelCoverage;
 	}
 
 	protected String getVehicleTabType(String statCode) {
@@ -251,17 +256,14 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 
+		//AutoCa Select
+		coveragesMap.put("ETEC", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel());
+		//TODO-dchubkov: find out valid coverage name
+		coveragesMap.put("MAINT", "<UNKNOWN COVERAGE MAINT>");
+		coveragesMap.put("UIM", "<UNKNOWN COVERAGE UIM>");
+
 		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
 		return coveragesMap.get(coverageCD);
-	}
-
-	List<String> getPolicyLevelCoverageCDs() {
-		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
-		if (!getState().equals(Constants.States.OR)) {
-			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
-			policyLevelCoverage.add("UMPD");
-		}
-		return policyLevelCoverage;
 	}
 
 	boolean isPolicyLevelCoverageCd(String coverageCd) {
@@ -361,20 +363,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
-		if ("Y".equals(coverageLimit)) {
-			return AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage";
-		}
-		if ("N".equals(coverageLimit)) {
-			return "starts=No Coverage";
-		}
-		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
-		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
-			cLimit = cLimit.multiply(1000);
-		}
-		return cLimit.toString().replaceAll("\\.00", "");
-	}
-
 	String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
 		String coverageCd = coverage.getCoverageCd();
 		if ("SP EQUIP".equals(coverageCd)) {
@@ -382,8 +370,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 
 		String limitOrDeductible;
-		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
+		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || "MAINT".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
 			limitOrDeductible = coverage.getDeductible();
+		} else if ("ETEC".equals(coverageCd) && coverage instanceof AutoCaSelectOpenLCoverage) {
+			limitOrDeductible = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
 		} else {
 			limitOrDeductible = coverage.getLimit();
 		}
@@ -415,6 +405,20 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			}
 		}
 		return returnLimit.toString();
+	}
+
+	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
+		if ("Y".equals(coverageLimit)) {
+			return AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage";
+		}
+		if ("N".equals(coverageLimit)) {
+			return "starts=No Coverage";
+		}
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
+		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
+			cLimit = cLimit.multiply(1000);
+		}
+		return cLimit.toString().replaceAll("\\.00", "");
 	}
 
 	String getDbRestraintsCode(String openlAirbagCode) {

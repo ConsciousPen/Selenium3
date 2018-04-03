@@ -7,16 +7,14 @@ import java.util.List;
 import java.util.Map;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoCaSelectOpenLPolicy> {
 
@@ -35,11 +33,33 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 
 		TestData td = DataProviderFactory.dataOf(
+				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new AssignmentTab().getMetaKey(), getAssignmentTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
 		return TestDataHelper.merge(ratingDataPattern, td);
+	}
+
+	@Override
+	protected Map<String, String> getVehicleTabUsageData(OpenLVehicle vehicle) {
+		Map<String, String> usageData = new HashMap<>();
+		String usage = getRandom("Commute (to/from work and school)", "Farm non-business(on premises)", "Business (small business non-commercial)", "Pleasure (recreational driving only)");
+
+		usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), usage);
+		if ("Business (small business non-commercial)".equals(usage)) {
+			usageData.put(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes");
+			usageData.put(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
+		}
+		return usageData;
+	}
+
+	@Override
+	protected TestData getPremiumAndCoveragesTabData(AutoCaOpenLPolicy openLPolicy) {
+		TestData td = super.getPremiumAndCoveragesTabData(openLPolicy);
+		td.adjust(AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), String.valueOf(openLPolicy.isMultiCar()));
+
+		return td;
 	}
 
 	@Override
@@ -119,10 +139,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	private TestData getGeneralTabData(AutoCaSelectOpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
-	}
-
-	private TestData getAssignmentTabData(AutoCaSelectOpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
+		TestData policyInformationData = DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
+		return DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 	}
 }

@@ -1,24 +1,17 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -43,50 +36,36 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
-		AutoCaChoiceOpenLVehicle autoCaChoiceVehicle = (AutoCaChoiceOpenLVehicle) vehicle;
-		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
-		String value = String.valueOf(getVehicleTabValueFromDb(vehicle.getCollSymbol(), vehicle.getCompSymbol(), vehicle.getModelYear(), autoCaChoiceVehicle.getVehType(), statCode));
-
-		TestData vehicleInformation = super.getVehicleTabInformationData(vehicle);
-		vehicleInformation.adjust(AutoCaMetaData.VehicleTab.VALUE.getLabel(), value);
-		switch (autoCaChoiceVehicle.getVehicleUsageCd()) {
+	protected Map<String, String> getVehicleTabUsageData(OpenLVehicle vehicle) {
+		Map<String, String> usageData = new HashMap<>();
+		switch (((AutoCaChoiceOpenLVehicle) vehicle).getVehicleUsageCd()) {
 			case "WC":
-				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
+				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
 				break;
 			case "FM":
-				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm non-business(on premises)");
+				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm non-business(on premises)");
 				break;
 			case "FMB":
-				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm business (farm to market delivery)");
+				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm business (farm to market delivery)");
 				break;
 			case "BU":
-				vehicleInformation
-						.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Business (small business non-commercial)")
-						.adjust(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes")
-						.adjust(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
+				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Business (small business non-commercial)");
+				usageData.put(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes");
+				usageData.put(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
 				break;
 			case "P": // TODO-dchubkov: to be checked
 			case "PL":
-				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
+				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
 				break;
 			default:
-				throw new IstfException("Unknown mapping for vehicleUsageCd: " + autoCaChoiceVehicle.getVehicleUsageCd());
+				throw new IstfException("Unknown mapping for vehicleUsageCd: " + ((AutoCaChoiceOpenLVehicle) vehicle).getVehicleUsageCd());
 		}
-		return vehicleInformation;
+		return usageData;
 	}
 
 	@Override
 	protected String getVehicleTabType(OpenLVehicle vehicle) {
-		return ((AutoCaChoiceOpenLVehicle) vehicle).getVehType();
-	}
-
-	@Override
-	boolean isPolicyLevelCoverageCd(String coverageCd) {
-		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCd);
-	}
-
-	private String getVehicleType(String vehType) {
+		String vehType = ((AutoCaChoiceOpenLVehicle) vehicle).getVehType();
 		switch (vehType) {
 			case "M":
 				return "Motor Home";
@@ -97,6 +76,11 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			default:
 				throw new IstfException("Unknown vehicle type for vehType: " + vehType);
 		}
+	}
+
+	@Override
+	boolean isPolicyLevelCoverageCd(String coverageCd) {
+		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCd);
 	}
 
 	@Override
@@ -129,24 +113,5 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			default:
 				throw new IstfException(String.format("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode));
 		}
-	}
-
-	private TestData getAssignmentTabData(AutoCaChoiceOpenLPolicy openLPolicy) {
-		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
-		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
-			TestData assignmentData = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
-			driverVehicleRelationshipTable.add(assignmentData);
-		}
-		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
-	}
-
-	private Integer getVehicleTabValueFromDb(Integer collSymbol, Integer compSymbol, Integer modelYear, String vehType, String statCode) {
-		String getVinQuery = "select m.MSRPMIN, m.MSRPMAX from MSRPCOMPCOLLLOOKUP m where m.COLLSYMBOL=? and m.COMPSYMBOL=? and m.KEY in (select c.KEY from MSRPCOMPCOLLCONTROL c\n"
-				+ "   where c.MSRPVERSION = 'MSRP_2000_CHOICE'\n"
-				+ "   and (? between c.VEHICLEYEARMIN and c.VEHICLEYEARMAX or (c.VEHICLEYEARMIN is null and c.VEHICLEYEARMAX is null))\n"
-				+ "   and (c.VEHICLETYPE = ? or c.VEHICLETYPE is null)\n"
-				+ "   and (c.LIABILITYSYMBOL = ? or c.LIABILITYSYMBOL is null))";
-		Map<String, String> resultRow = DBService.get().getRow(getVinQuery, collSymbol, compSymbol, modelYear, vehType, statCode);
-		return RandomUtils.nextInt(Integer.parseInt(resultRow.get("MSRPMIN")), Integer.parseInt(resultRow.get("MSRPMAX")));
 	}
 }
