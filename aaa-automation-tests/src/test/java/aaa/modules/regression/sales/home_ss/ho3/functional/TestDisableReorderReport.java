@@ -19,7 +19,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
@@ -88,7 +87,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         mainApp().open();
         createPolicyVerifyOverrideLink();
 
-        policy.renew().perform(new SimpleDataProvider());
+        policy.renew().perform();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
