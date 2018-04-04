@@ -1,0 +1,19 @@
+
+######################### Override Insurance score
+
+RatingDetailReportsTab_ASD: {
+  RatingDetailReportsTab : '@RatingDetailReportsTab'
+}
+
+RatingDetailReportsTab: {
+  InsuranceScoreOverride: '@InsuranceScoreOverride_OverrideTo1'
+}
+
+InsuranceScoreOverride_OverrideTo1: {
+    Action: Override Score,
+    EditInsuranceScoreDialog: {
+    New Score: '1',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+  }
