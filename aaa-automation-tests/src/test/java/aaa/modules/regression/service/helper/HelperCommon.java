@@ -72,14 +72,13 @@ public class HelperCommon {
 		runJsonRequestPostDxp(requestUrl, request);
 	}
 
-	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
-		final RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.responseType = ValidateEndorsementResponse.class;
-		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+	static ValidateEndorsementResponse
+	executeEndorsementsValidate(String policyNumber, String endorsementDate) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
-			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
+			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		return runJsonRequestGetDxp(restRequestInfo);
+		return runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
 	}
 
 	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate, String sessionId) {

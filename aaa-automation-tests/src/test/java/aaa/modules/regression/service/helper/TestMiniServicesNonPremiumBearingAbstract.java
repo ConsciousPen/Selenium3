@@ -1519,8 +1519,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas9456_9455_PolicyLockUnlockServices() {
 
-		String sessionId_1 = "oid1";
-		String sessionId_2 = "oid2";
+		String sessionId1 = "oid1";
+		String sessionId2 = "oid2";
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		mainApp().open();
@@ -1531,22 +1531,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         mainApp().close();
 
 		//Lock policy id1 and check service response
-		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, sessionId_1);
+		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, sessionId1);
 		assertSoftly(softly -> {
 			softly.assertThat(response.getPolicyNumber()).isEqualTo(policyNumber);
 			softly.assertThat(response.getStatus()).isEqualTo("Locked");
 		});
 
 		//Hit start endorsement info service with Id1
-		ValidateEndorsementResponse endorsementInfoResp1 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId_1);
+		ValidateEndorsementResponse endorsementInfoResp1 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId1);
 		assertThat(endorsementInfoResp1.ruleSets.get(0).errors).isEmpty();
 
 		//Hit start endorsement info service with Id2
-		ValidateEndorsementResponse endorsementInfoResp2 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId_2);
+		ValidateEndorsementResponse endorsementInfoResp2 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId2);
 		assertThat(endorsementInfoResp2.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_4)).isTrue();
 
 		//Try to lock policy with id2
-		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId_2);
+		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
 			softly.assertThat(response1.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response1.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
@@ -1561,14 +1561,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.buttonBackFromErrorPage.click();
 
 		//Try unlock policy with id2
-		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 500, "oid2");
+		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
 			softly.assertThat(response2.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response2.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		//Unlock policy with id1
-		PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, 200, "oid1");
+		PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, 200, sessionId1);
 		assertSoftly(softly -> {
 			softly.assertThat(response3.getPolicyNumber()).isEqualTo(policyNumber);
 			softly.assertThat(response3.getStatus()).isEqualTo("Unlocked");
@@ -1578,14 +1578,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		//Check if policy can be locked using lock service
-		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, 500, "oid1");
+		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		//Check if policy can be unlocked using unlock service
-		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, 500, "oid1");
+		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
 			softly.assertThat(response5.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response5.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);

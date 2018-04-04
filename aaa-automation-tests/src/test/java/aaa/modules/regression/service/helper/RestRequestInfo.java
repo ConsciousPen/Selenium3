@@ -1,10 +1,12 @@
 package aaa.modules.regression.service.helper;
 
+import javax.ws.rs.core.Response;
+
 public class RestRequestInfo<T> {
 
-	String url;
-	String sessionId;
-	RestBodyRequest bodyRequest;
-	Class<T> responseType;
-	int status;
+	public String url;
+	public String sessionId;
+	public RestBodyRequest bodyRequest;
+	public Class<T> responseType;
+	public int status = Response.Status.OK.getStatusCode();
 }
