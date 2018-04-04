@@ -1856,6 +1856,33 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
+	protected void pas10227_ViewManageVehicleLevelCoverages() {
+		mainApp().open();
+		//createCustomerIndividual();
+		//String policyNumber = createPolicy(getPolicyTD());
+
+		String policyNumber= "VASS952918541";
+		SearchPage.openPolicy(policyNumber);
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+	//	printToLog(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2,  AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()));
+	//	printToLog(premiumAndCoveragesTab.getVehicleCoverageDetailsTermPremiumByVehicle(2,  AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()));
+
+	//	premiumAndCoveragesTab.cancel();
+
+	//	policy.dataGather().start();
+	//	NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		//premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(2,  AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "750");
+
+		String comprehensive_deductable_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		String collision_deductable_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel());
+		String full_safety_glass_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS.getLabel());
+		String towing_and_labor_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
+	//	String loan_lease_cov_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(3, AutoSSMetaData.PremiumAndCoveragesTab..getLabel());
+	}
+
 	private void endorsePolicyAddEvalue() {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
