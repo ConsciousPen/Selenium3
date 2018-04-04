@@ -94,39 +94,34 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		return DataProviderFactory.emptyData();
 	}
 	
-	private List<TestData> getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
-		List<TestData> dwellingTestDataList = new ArrayList<>(openLPolicy.getDwellings().size()); 
+	private TestData getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
+		TestData dwellingAddressData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + openLPolicy.getDwellings().get(0).getNumOfFamilies());
 		
-		for (HomeCaHO3OpenLDwelling dwelling: openLPolicy.getDwellings()) {
-			TestData dwellingAddressData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + dwelling.getNumOfFamilies());	
-			TestData ppcData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), dwelling.getPpcValue());
-			TestData wildfireScoreData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE.getLabel(), dwelling.getFirelineScore());	
-			
-			TestData propertyValueData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), coverageA, 
-					HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), coverageA.multiply(0.85),  
-					HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), "Mortgagee requirements");
-			
-			TestData constructionData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(dwelling.getAgeOfHome()).getYear(),
-					HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), dwelling.getConstructionType());
-			
-			TestData theftProtectiveDeviceData = getTheftProtectiveDevice(dwelling);
-			
-			dwellingTestDataList.add(DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
-					HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcData,
-					HomeCaMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), wildfireScoreData, 
-					HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
-					HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
-					HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData));
+		TestData ppcData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
+		//TestData wildfireScoreData = DataProviderFactory.dataOf(
+		//		HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE.getLabel(), openLPolicy.getDwellings().get(0).getFirelineScore());	
 		
-		}
-		return dwellingTestDataList;
+		TestData propertyValueData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), coverageA, 
+				HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), coverageA.multiply(0.85),  
+				HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), "Mortgagee requirements");
+		
+		TestData constructionData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getDwellings().get(0).getAgeOfHome()).getYear(),
+				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), openLPolicy.getDwellings().get(0).getConstructionType());
+		
+		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwellings().get(0));
+		
+		return DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
+				HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcData,
+				//HomeCaMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), wildfireScoreData, 
+				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
+				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
+				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData);
 	}
 	
 	private TestData getTheftProtectiveDevice(HomeCaHO3OpenLDwelling dwelling) {
@@ -153,9 +148,11 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		for (HomeCaHO3OpenLForm openLForm: openLPolicy.getForms()) {
 			String formCode = openLForm.getFormCode();
-			if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
-				TestData td = HomeCAFormTestDataGenerator.getFormTestData(openLForm);
-				endorsementData.adjust(td);
+			if (!formCode.equals("premium")) {
+				if (!endorsementData.containsKey(HomeCAFormTestDataGenerator.getFormMetaKey(formCode))) {
+					TestData td = HomeCAFormTestDataGenerator.getFormTestData(openLForm);
+					endorsementData.adjust(td);
+				}
 			}
 		}		
 		return endorsementData;

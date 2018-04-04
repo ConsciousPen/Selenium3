@@ -16,6 +16,10 @@ import toolkit.exceptions.IstfException;
 public class HomeCAFormTestDataGenerator {
 	private static List<String> includedForms = new ArrayList<>();
 	//TODO add included forms to list
+	static {
+		includedForms.add("HO-57"); 
+		includedForms.add("HO_90");
+	}
 	
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO29DataFunction =  (openlForm) -> DataProviderFactory.emptyData();
 	
@@ -49,6 +53,7 @@ public class HomeCAFormTestDataGenerator {
 			HomeCaMetaData.EndorsementTab.EndorsementHO43.IS_BUSINESS_CONDUCTED.getLabel(), false);
 	
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO44DataFunction = (openlForm) -> DataProviderFactory.emptyData();
+	private static Function<HomeCaHO3OpenLForm, TestData> formHO57DataFunction = (openlForm) -> DataProviderFactory.emptyData();
 	
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO70DataFunction =  (openlForm) -> DataProviderFactory.dataOf(
 			HomeCaMetaData.EndorsementTab.EndorsementHO70.NUMBER_OF_FAMILY_UNITS.getLabel(), openlForm.getNumOfFamilies(), 
@@ -93,6 +98,10 @@ public class HomeCAFormTestDataGenerator {
 		return getFormEnum(openLForm.getFormCode()).getTestData(openLForm);
 	}
 	
+	public static String getFormMetaKey(String formCode) {
+		return getFormEnum(formCode).getMetaKey();
+	}
+	
 	private static Forms getFormEnum(String formCode) {
 		return Arrays.stream(Forms.values()).filter(f -> f.getFormCode().equals(formCode)).findFirst().orElseThrow(() -> new IstfException("There is no Form enum with form code: " + formCode));
 	}
@@ -103,7 +112,8 @@ public class HomeCAFormTestDataGenerator {
 		HO40(HomeCaMetaData.EndorsementTab.HO_40.getLabel(), "HO-40", formHO40DataFunction),
 		HO42(HomeCaMetaData.EndorsementTab.HO_42.getLabel(), "HO-42", formHO42DataFunction), 
 		HO43(HomeCaMetaData.EndorsementTab.HO_43.getLabel(), "HO-43", formHO43DataFunction), 
-		HO44(HomeCaMetaData.EndorsementTab.HO_44.getLabel(), "HO-44", formHO44DataFunction), 
+		HO44(HomeCaMetaData.EndorsementTab.HO_44.getLabel(), "HO-44", formHO44DataFunction),
+		HO57(HomeCaMetaData.EndorsementTab.HO_57.getLabel(), "HO-57", formHO57DataFunction),
 		HO70(HomeCaMetaData.EndorsementTab.HO_70.getLabel(), "HO-70", formHO70DataFunction), 
 		HO71(HomeCaMetaData.EndorsementTab.HO_71.getLabel(), "HO-71", formHO71DataFunction), 
 		HO75(HomeCaMetaData.EndorsementTab.HO_75.getLabel(), "HO-75", formHO75DataFunction), 

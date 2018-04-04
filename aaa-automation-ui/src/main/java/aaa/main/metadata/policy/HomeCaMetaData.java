@@ -801,8 +801,8 @@ public final class HomeCaMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_51 = declare("HO-51",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO51.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_57 = declare("HO-57",
-		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO57.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_57 = declare("HO-57", HomeCAEndorsementsMultiAssetList.class, EndorsementHO57.class, By
+				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58 = declare("HO-58",
 		// HomeCAEndorsementsMultiAssetList.class, EndorsementHO58.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeCAEndorsementsMultiAssetList> HO_58C = declare("HO-58C",
@@ -1136,6 +1136,9 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class EndorsementHO90 extends MetaData {
+		}
+		
+		public static final class EndorsementHO57 extends MetaData {
 		}
 		
 		public static final class EndorsementHO61C extends MetaData {
