@@ -72,8 +72,7 @@ public class HelperCommon {
 		runJsonRequestPostDxp(requestUrl, request);
 	}
 
-	static ValidateEndorsementResponse
-	executeEndorsementsValidate(String policyNumber, String endorsementDate) {
+	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
