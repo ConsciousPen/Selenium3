@@ -86,11 +86,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return dateOfBirth.format(DateTimeUtils.MM_DD_YYYY);
 	}
 
-	String getDriverTabDateOfBirth(int ageFirstLicensed, int totalYearsDrivingExperience) {
-		LocalDateTime dateOfBirth = TimeSetterUtil.getInstance().getCurrentTime().minusYears(ageFirstLicensed + totalYearsDrivingExperience);
-		return dateOfBirth.format(DateTimeUtils.MM_DD_YYYY);
-	}
-
 	String getDriverTabLicenseType(boolean isForeignLicense) {
 		if (isForeignLicense) {
 			return "Foreign";
@@ -335,13 +330,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			default:
 				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}
-	}
-
-	String generalTabIsAdvanceShopping(boolean isAdvanceShopping) {
-		if (isAdvanceShopping) {
-			throw new IstfException("Unknown mapping for isAdvanceShopping = true");
-		}
-		return "No Discount";
 	}
 
 	String getGeneralTabPriorBILimit(String priorBILimit) {

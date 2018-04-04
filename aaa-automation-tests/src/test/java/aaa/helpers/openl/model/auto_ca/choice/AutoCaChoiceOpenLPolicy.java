@@ -9,7 +9,7 @@ import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
-public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy {
+public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenLDriver, AutoCaChoiceOpenLVehicle> {
 	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaChoiceOpenLDriver> drivers;
 

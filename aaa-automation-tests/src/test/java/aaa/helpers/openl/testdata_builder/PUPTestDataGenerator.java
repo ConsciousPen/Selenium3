@@ -14,14 +14,7 @@ import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.pup.defaulttabs.ClaimsTab;
-import aaa.main.modules.policy.pup.defaulttabs.EndorsementsTab;
-import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksOtherVehiclesTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
+import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
@@ -86,7 +79,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		TestData tdPUP = new TestDataManager().policy.get(PolicyType.PUP).getTestData("DataGather", "TestData_AZ");
 		TestData tdHO3 = new TestDataManager().policy.get(PolicyType.HOME_SS_HO3).getTestData("DataGather", "TestData_AZ");
 		TestData preFillTabTd = new PrefillTab().adjustWithRealPolicies(tdPUP, getPrimaryPolicyForPup(tdHO3));
-		return preFillTabTd;
+		return preFillTabTd.getTestData(new PrefillTab().getMetaKey());
 	}
 
 	private TestData getGeneralTabData() {

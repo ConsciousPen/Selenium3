@@ -255,6 +255,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> GOOD_DRIVER_DISCOUNT = declare("Good Driver Discount", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> NEW_DRIVER_COURSE_COMPLETED = declare("New Driver Course Completed", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> NEW_DRIVER_COURSE_COMPLETION_DATE = declare("New Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS = declare("Mature driver course completed within 36 months", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> MATURE_DRIVER_COURSE_COMPLETION_DATE = declare("Mature Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
@@ -446,7 +447,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> VEHICLE = declare("Vehicle", StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> PRIMARY_DRIVER = declare("Primary Driver", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> SYSTEM_RATED_DRIVER = declare("System Rated Driver", StaticElement.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> MANUALLY_RATED_DRIVER = declare("Manually Rated Driver", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<AdvancedComboBox> MANUALLY_RATED_DRIVER = declare("Manually Rated Driver", AdvancedComboBox.class, Waiters.AJAX);
 		}
 	}
 
@@ -548,7 +549,7 @@ public final class AutoCaMetaData {
 
 		public static final class DetailedVehicleCoverages extends MetaData {
 			public static final AssetDescriptor<ComboBox> COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", AdvancedComboBox.class);
 			public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE = declare("Collision Deductible", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMEGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBox.class);
@@ -557,8 +558,11 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class);
 			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class);
 
-			public static final AssetDescriptor<ComboBox> ENHANCED_TRASPORTATION_EXPENCE = declare("Enhanced Transportation Expense", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> ENHANCED_TRASPORTATION_EXPENCE = declare("Enhanced Transportation Expense", AdvancedComboBox.class);
 			public static final AssetDescriptor<ComboBox> ALL_RISK = declare("All Risk", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
+			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
+			public static final AssetDescriptor<ComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> RIDESHARING_COVERAGE = declare("Ridesharing Coverage", ComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
