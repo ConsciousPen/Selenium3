@@ -1,12 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.util.ArrayList;
-import java.util.List;
-//import java.util.HashMap;
-//import java.util.Map;
-
 import org.apache.commons.lang3.NotImplementedException;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TestDataHelper;
@@ -44,7 +38,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				new ReportsTab().getMetaKey(), getReportsTabData(openLPolicy),
 				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
-				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(),
+				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
 				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy));
 		
 		return TestDataHelper.merge(getRatingDataPattern(), td);
@@ -101,6 +95,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
+		//Wildfire returns from reports
 		//TestData wildfireScoreData = DataProviderFactory.dataOf(
 		//		HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE.getLabel(), openLPolicy.getDwellings().get(0).getFirelineScore());	
 		
@@ -115,12 +110,26 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwellings().get(0));
 		
+		TestData detachedStructures = DataProviderFactory.emptyData();
+		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().contains("HO-44")) {
+				detachedStructures = DataProviderFactory.dataOf(
+						HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
+						HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
+						HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "test", 
+						HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), "1000", 
+						HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), "index=1", 
+						HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
+			}
+		}
+		
 		return DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcData,
 				//HomeCaMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), wildfireScoreData, 
 				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
+				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructures, 
 				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData);
 	}
 	
@@ -158,86 +167,66 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		return endorsementData;
 	}
 	
-	private TestData getPersonalPropertyTabData() {
-		return null;
+	private TestData getPersonalPropertyTabData(HomeCaHO3OpenLPolicy openLPolicy) {
+		return DataProviderFactory.emptyData();
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		//Coverage A is disabled on Premiums & Coverges Quote tab
-		//Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covC = openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 
-		return DataProviderFactory.dataOf(
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC.toString().split("\\.")[0], 
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(covE.toString().split("\\.")[0]), 
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));
-		/*
-		Map<String, Object> premiumAndCoveragesTabTestData = new HashMap<>();
-		for(HomeCaOpenLCoverage coverage: openLPolicy.getCoverages()) {
-			switch (coverage.getCoverageCd()) {
-			case "CovA": 
-				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_A.getLabel(), coverage.getLimitAmount());
-				break;
-			case "CovC": 
-				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), coverage.getLimitAmount());
-				break; 
-			case "CovD": 
-				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), coverage.getLimitAmount());
-				break; 
-			case "CovE": 
-				premiumAndCoveragesTabTestData.put(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), coverage.getLimitAmount());
-				break;
-			default: 
-				break;
-			}
+		Dollar coverageC = new Dollar(covC);
+		Dollar coverageA = new Dollar(covA);
+		if (coverageC.lessThan(coverageA.multiply(0.75))) {
+			coverageC = coverageA.multiply(0.75);
 		}
-		return new SimpleDataProvider(premiumAndCoveragesTabTestData);
-		*/
+		
+		return DataProviderFactory.dataOf(
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), coverageC.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(covE).toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));
 	}
 	
 	private String getDeductibleValueByForm(HomeCaHO3OpenLPolicy openLPolicy) {
-		String deductible = "contains=" + new Dollar(100);		
+		String deductible = "index=1";
+		
 		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
-			switch (form.getFormCode()) {
-			case "HO-57": 
-				deductible = "contains=" + new Dollar(100); 
-				break;
-			case "HO-59": 
-				deductible = "contains=" + new Dollar(500);
-				break;
-			case "HO-60": 
-				deductible = "contains=" + new Dollar(1000); 
-				break;
-			case "HO-76": 
-				deductible = "contains=" + new Dollar(1500); 
-				break;
-			case "HO-77": 
-				deductible = "contains=" + new Dollar(2000);
-				break;
-			case "HO-78": 
-				deductible = "contains=" + new Dollar(2500);
-				break;
-			case "HO-79": 
-				deductible = "contains=" + new Dollar(3000);
-				break;
-			case "HO-80": 
-				deductible = "contains=" + new Dollar(4000);
-				break;
-			case "HO-81": 
-				deductible = "contains=" + new Dollar(5000);
-				break;
-			case "HO-82":
-				deductible = "contains=" + new Dollar(7500);
-				break;
-			case "HO-177": 
+			if (form.getFormCode().contains("HO-57")){
+				deductible = "contains=" + new Dollar(100).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-59")) {
+				deductible = "contains=" + new Dollar(500).toString().split("\\.")[0];
+			}
+			else if (form.getFormCode().contains("HO-60")) {
+				deductible = "contains=" + new Dollar(1000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-76")) {
+				deductible = "contains=" + new Dollar(1500).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-77")) {
+				deductible = "contains=" + new Dollar(2000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-78")) {
+				deductible = "contains=" + new Dollar(2500).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-79")) {
+				deductible = "contains=" + new Dollar(3000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-80")) {
+				deductible = "contains=" + new Dollar(4000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-81")) {
+				deductible = "contains=" + new Dollar(5000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-82")) {
+				deductible = "contains=" + new Dollar(7500).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-177")) {
 				deductible = "contains=Theft";
-				break;
-			default: 
-				deductible = "contains=" + new Dollar(100);
-				break; 
 			}
 		}
 		return deductible;
