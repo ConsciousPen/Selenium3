@@ -157,35 +157,17 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
-		//String className = "aaa.helpers.openl.testdata_builder.HomeSSFormTestDataGenerator";
-		//List<String> formList = new ArrayList<>();
-		TestData endorsementData = new SimpleDataProvider();
 
-		/*try {
-			Object obj = Class.forName(className).newInstance();
-			Method method;
-			for (int i = 0; i < openLPolicy.getForms().size(); i++) {
-				String formCode = openLPolicy.getForms().get(i).getFormCode();
-				if (!formList.contains(formCode)) {
-					formList.add(formCode);
-					// execute method
-					method = obj.getClass().getMethod("form" + formCode + "Data", HomeSSOpenLPolicy.class, String.class);
-					TestData td = (TestData) method.invoke(obj, openLPolicy, formCode);
-					endorsementData.adjust(td);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+			TestData endorsementData = new SimpleDataProvider();
 
-		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+	for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
 			String formCode = openLForm.getFormCode();
 			if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
-				TestData td = HomeSSFormTestDataGenerator.getFormTestData(openLForm, openLPolicy.getLevel());
+				TestData td = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 				endorsementData.adjust(td);
 			}
 		}
-
+		endorsementData.mask(new EndorsementTab().getMetaKey(), HomeSSMetaData.EndorsementTab.HS_04_90.getLabel()); //TODO
 		return endorsementData;
 	}
 
