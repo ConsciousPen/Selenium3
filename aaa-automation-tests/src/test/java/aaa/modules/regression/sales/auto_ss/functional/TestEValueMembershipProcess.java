@@ -213,7 +213,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//BUG PAS-11150 eValue doesnt become INACTIVE on NB+30 when Membership status is Pending
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "eValue and Membership Discounts Removed - Membership");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false);
 
@@ -255,7 +255,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(3, "eValue and Membership Discounts Removed - Membership");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false);
 
@@ -337,7 +337,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "Membership Discount Removed");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
@@ -380,7 +380,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(3, "Membership Discount Removed");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
@@ -714,7 +714,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
@@ -762,7 +762,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "eValue and Membership Discounts Removed - Membership, Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -810,7 +810,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(3, "eValue and Membership Discounts Removed - Membership, Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -858,7 +858,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
@@ -906,7 +906,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "eValue and Membership Discounts Removed - Membership, Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -954,7 +954,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(3, "eValue and Membership Discounts Removed - Membership, Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -1095,7 +1095,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(2, "eValue Discount Removed - Paperless");
 		//BUG Membership Discount infor printed in the doc
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7265 Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30
@@ -1137,7 +1137,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(3, "Membership Discount Removed");
 		lastTransactionHistoryMembershipDiscountCheck(false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
