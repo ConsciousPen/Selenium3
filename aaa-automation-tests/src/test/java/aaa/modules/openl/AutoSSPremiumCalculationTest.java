@@ -3,7 +3,6 @@ package aaa.modules.openl;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
@@ -46,7 +45,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		TestData quoteRatingData = ((AutoSSTestDataGenerator) tdGenerator).getRatingData(openLPolicy, isLegacyConvPolicy);
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-		return Tab.labelPolicyNumber.getValue();
+		return PremiumAndCoveragesTab.totalTermPremium.getValue();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

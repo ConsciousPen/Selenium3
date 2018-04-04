@@ -11,8 +11,9 @@ TestData_QuoteCreation: {
 
 TestData_QuoteUpdate: {
   DriverTab: [
-    {},
+    #{},
     {
+      Add Driver: Click,
       DriverSearchDialog: {},
       Driver Type: Available for Rating,
       'Rel. to First Named Insured': Spouse,
@@ -29,6 +30,7 @@ TestData_QuoteUpdate: {
       Filling Type: SR-22
     },
     {
+      Add Driver: Click,
       DriverSearchDialog: {},
       Driver Type: Excluded,
       Reason: "Insured Requested - never drives insured's car",
@@ -79,6 +81,12 @@ TestData_Purchase: {
   },
   ErrorTab: {
     ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    },
+    {
       Override: 'true',
       Approval: 'true',
       Duration: Life,
