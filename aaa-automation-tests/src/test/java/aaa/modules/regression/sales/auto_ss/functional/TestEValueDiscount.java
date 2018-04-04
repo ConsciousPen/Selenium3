@@ -1738,26 +1738,34 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public void eValueQuoteCreation() {
+		eValueQuoteCreation(true);
+	}
+
+	public void eValueQuoteCreation(boolean defaultEvalueQuote) {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData");
 		//Debug data
 		//String eValueKey = getPolicyType().getKey() + "_evalue_" + getState();
 		//EntitiesHolder.addNewEntity(eValueKey, "VASS952918562");
 
-		mainApp().open();
-		openDefaultPolicy(getPolicyType());
-		policy.policyCopy().perform(td);
-		policy.dataGather().start();
-		//TODO workaround for QC 44220 Failed to rate policy QAZSS953305611,1528211031,quote
-		//no error if general tab is opened before premium calculation
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		new RatingDetailReportsTab().fillTab(td).submitTab();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (defaultEvalueQuote) {
+			mainApp().open();
+			openDefaultPolicy(getPolicyType());
+			policy.policyCopy().perform(td);
+			policy.dataGather().start();
+			//TODO workaround for QC 44220 Failed to rate policy QAZSS953305611,1528211031,quote
+			//no error if general tab is opened before premium calculation
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+			new RatingDetailReportsTab().fillTab(td).submitTab();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
-		documentsAndBindTab.saveAndExit();
-		String eValueQuote = PolicySummaryPage.getPolicyNumber();
-		log.info("NEW EVALUE QUOTE", eValueQuote);
+			policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+			documentsAndBindTab.saveAndExit();
+			String eValueQuote = PolicySummaryPage.getPolicyNumber();
+			printToLog("NEW EVALUE QUOTE " + eValueQuote);
+		} else {
+			eValueQuoteCreationFromZero();
+		}
 	}
 
 	private String openDefaultPolicy(PolicyType policyType) {
@@ -1775,22 +1783,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			} else {
 				count = 1;
-
-				TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-				TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
-				TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
-				TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
-						.adjust("PolicyInformation", policyInformationSectionAdjusted)
-						.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
-
-				TestData eValuePolicyData = defaultTestData
-						.adjust("GeneralTab", generalTabAdjusted)
-						.resolveLinks();
-
-				mainApp().open();
-				createCustomerIndividual();
-
-				getPolicyType().get().createQuote(eValuePolicyData);
+				eValueQuoteCreationFromZero();
 				policyNumber = simplifiedQuoteIssue();
 				EntitiesHolder.addNewEntity(getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
 			}
@@ -1798,6 +1791,24 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		}
 		printToLog("DEFAULE EVALUE QUOTE WAS CREATED " + getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
 		return policyNumber;
+	}
+
+	public void eValueQuoteCreationFromZero() {
+		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
+		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
+		TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
+		TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
+				.adjust("PolicyInformation", policyInformationSectionAdjusted)
+				.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
+
+		TestData eValuePolicyData = defaultTestData
+				.adjust("GeneralTab", generalTabAdjusted)
+				.resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		getPolicyType().get().createQuote(eValuePolicyData);
 	}
 
 	public String simplifiedQuoteIssue() {
