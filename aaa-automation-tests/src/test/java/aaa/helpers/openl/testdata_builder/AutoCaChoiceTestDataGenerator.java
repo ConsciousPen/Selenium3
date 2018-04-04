@@ -1,8 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.OpenLVehicle;
@@ -36,31 +34,46 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected Map<String, String> getVehicleTabUsageData(OpenLVehicle vehicle) {
-		Map<String, String> usageData = new HashMap<>();
-		switch (((AutoCaChoiceOpenLVehicle) vehicle).getVehicleUsageCd()) {
+	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
+		TestData vehicleInformation = super.getVehicleTabInformationData(vehicle);
+		AutoCaChoiceOpenLVehicle choiceVehicle = (AutoCaChoiceOpenLVehicle) vehicle;
+
+		switch (choiceVehicle.getVehicleUsageCd()) {
 			case "WC":
-				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
+				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
 				break;
 			case "FM":
-				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm non-business(on premises)");
+				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm non-business(on premises)");
 				break;
 			case "FMB":
-				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm business (farm to market delivery)");
+				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Farm business (farm to market delivery)");
 				break;
 			case "BU":
-				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Business (small business non-commercial)");
-				usageData.put(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes");
-				usageData.put(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
+				vehicleInformation
+						.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Business (small business non-commercial)")
+						.adjust(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes")
+						.adjust(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
 				break;
 			case "P": // TODO-dchubkov: to be checked
 			case "PL":
-				usageData.put(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
+				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
 				break;
 			default:
-				throw new IstfException("Unknown mapping for vehicleUsageCd: " + ((AutoCaChoiceOpenLVehicle) vehicle).getVehicleUsageCd());
+				throw new IstfException("Unknown mapping for vehicleUsageCd: " + choiceVehicle.getVehicleUsageCd());
 		}
-		return usageData;
+
+		if (Boolean.TRUE.equals(choiceVehicle.getAntiTheft())) {
+			vehicleInformation
+					.adjust(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), "STD")
+					.adjust(AutoCaMetaData.VehicleTab.ANTI_THEFT_RECOVERY_DEVICE.getLabel(), "Vehicle Recovery Device");
+		}
+
+		if (!"Trailer".equals(getVehicleTabType(choiceVehicle)) && !"Camper".equals(getVehicleTabType(choiceVehicle))) {
+			vehicleInformation
+					.adjust(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), choiceVehicle.getAntiLock() ? "Rear only Standard" : "Not available")
+					.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "3000");
+		}
+		return vehicleInformation;
 	}
 
 	@Override

@@ -43,6 +43,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	// --
 	public PremiumAndCoveragesTab() {
 		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
+		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 	}
 
 	public static Dollar getPolicyTermPremium() {
