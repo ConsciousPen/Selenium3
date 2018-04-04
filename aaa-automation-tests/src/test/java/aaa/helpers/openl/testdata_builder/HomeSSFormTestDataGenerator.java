@@ -23,12 +23,13 @@ public class HomeSSFormTestDataGenerator {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0435DataFunction = (openLPolicy, policyLevel) -> {
 		List<Map<String, String>> tdList = new ArrayList<>();
-		int instance = 1;
+		int instanceNum = 1;
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS0435".equals(form.getFormCode())) {
 				Map<String, String> td = new HashMap<>();
-				td.put("Action", "Add");
-				td.put("Instance Number", String.format("%d", instance++));
+				if (instanceNum > 1) {
+				td.put("Action", "Add");}
+				td.put("Instance Number", String.format("%d", instanceNum++));
 				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0435.LOCATION_TYPE.getLabel(), form.getType());
 				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0435.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
 				tdList.add(td);
@@ -104,16 +105,25 @@ public class HomeSSFormTestDataGenerator {
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0490DataFunction = (openLPolicy, policyLevel) -> DataProviderFactory.emptyData();
 
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0492DataFunction = (openLPolicy, policyLevel) -> {
-		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0492".equals(c.getFormCode())).findFirst().get();
-		return DataProviderFactory.dataOf(
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "Street address 1",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_AS_A_DWELLING_OR_CAPABLE_OF_BEING_USED_AS_A_DWELLING.getLabel(), "No",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_TO_CONDUCT_ANY_BUSINESS_OR_TO_STORE_ANY_BUSINESS_PROPERTY.getLabel(), "No",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_RENTED_OR_HELD_FOR_RENTAL_TO_ANY_PERSON_WHO_IS_NOT_A_RESIDENT_OF_THE_HOUSEHOLD.getLabel(), "No"
-		);
+		List<Map<String, String>> tdList = new ArrayList<>();
+		int instanceNum = 1;
+		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
+			if ("HS0492".equals(form.getFormCode())) {
+				Map<String, String> td = new HashMap<>();
+				if (instanceNum >1){
+				td.put("Action", "Add");}
+				td.put("Instance Number", String.format("%d", instanceNum++));
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure");
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip());
+//				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "Street address 1");
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0]);
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_AS_A_DWELLING_OR_CAPABLE_OF_BEING_USED_AS_A_DWELLING.getLabel(), "No");
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_TO_CONDUCT_ANY_BUSINESS_OR_TO_STORE_ANY_BUSINESS_PROPERTY.getLabel(), "No");
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_RENTED_OR_HELD_FOR_RENTAL_TO_ANY_PERSON_WHO_IS_NOT_A_RESIDENT_OF_THE_HOUSEHOLD.getLabel(), "No");
+				tdList.add(td);
+			}
+		}
+		return DataProviderFactory.dataOf(HomeSSMetaData.EndorsementTab.HS_04_92.getLabel(), tdList);
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0495DataFunction = (openLPolicy, policyLevel) -> DataProviderFactory.dataOf(
