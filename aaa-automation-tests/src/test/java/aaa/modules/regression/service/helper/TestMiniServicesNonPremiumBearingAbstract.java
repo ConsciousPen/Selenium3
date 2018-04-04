@@ -1524,10 +1524,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		createCustomerIndividual();
-		getPolicyType().get().createPolicy(getPolicyTD());
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
         mainApp().close();
 
 		//Lock policy id1 and check service response
