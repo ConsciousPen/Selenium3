@@ -32,7 +32,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 	public void pas11338_AC1(PolicyType policyType, String paymentPlan) {
 		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
 		initiateEndorsementAndValidatePaymentPlanWithoutChanging(policyType, paymentPlan);
-		}
+	}
 
 	public void pas11338_AC2_AC3(PolicyType policyType, String paymentPlan) {
 		createPolicyWithSpecificPaymentPlan(policyType, paymentPlan);
@@ -46,7 +46,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);//TODO-mstrazds:update with both Low Down pay plans
+				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN);
 
 	}
 
@@ -61,7 +61,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN))
-				.hasValue(BillingConstants.PaymentPlan.PAY_IN_FULL); //TODO-mstrazds:Step 5 (correct payment plan)
+				.hasValue(BillingConstants.PaymentPlan.PAY_IN_FULL); //TODO:Step 5 - update pas11338_AC3_AC6* tests with correct payment plan for Renewal when clarified. (AC#6)
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
 				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);
 
@@ -123,7 +123,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(paymentPlan);//
 		premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.PAY_IN_FULL);
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.ELEVEN_PAY);//TODO-mstrazds:update with both Low Down pay plans
+				.contains(BillingConstants.PaymentPlan.ELEVEN_PAY, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN);
 
 		//Navigate to different Tab and back to Quote Tab
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -150,7 +150,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(BillingConstants.PaymentPlan.PAY_IN_FULL);
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.contains(BillingConstants.PaymentPlan.ELEVEN_PAY);//TODO-mstrazds:update with both Low Down pay plans
+				.contains(BillingConstants.PaymentPlan.ELEVEN_PAY, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN);
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.btnPurchase.click();
@@ -175,7 +175,7 @@ public class HelperTestPaymentPlanChangeOnEndorsement extends PolicyBaseTest {
 
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).hasValue(BillingConstants.PaymentPlan.PAY_IN_FULL);
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues())
-				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN);//TODO-mstrazds:update with both Low Down pay plans
+				.doesNotContain(BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN, BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN);
 
 		PremiumsAndCoveragesQuoteTab.buttonCancel.click();
 		PremiumsAndCoveragesQuoteTab.dialogCancelAction.buttonYes.click();

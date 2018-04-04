@@ -35,7 +35,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 	public void pas11338_AC1_monthlyLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Monthly Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_AC1(getPolicyType(), paymentPlan);
 	}
 
@@ -65,7 +65,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC2_AC3_monthlyLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Monthly Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_AC2_AC3(getPolicyType(), paymentPlan);
 	}
 
@@ -100,7 +100,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	 * 2. Create Home SS policy with 'Low Down' payment plan option
 	 * 3. Generate Renewal Image
 	 * 4. Retrieve Renewal Image in Data Gathering Mode
-	 * 5. Validate that "Payment plan" is changed to "Monthly" (AC#6)//TODO-mstrazds:clarify correct plan
+	 * 5. Validate that "Payment plan" is changed to "Monthly" (AC#6)//TODO: update pas11338_AC3_AC6* tests with correct payment plan for Renewal when clarified. (AC#6)
 	 * 6. Validate that 'Low Down' payment plan option is NOT available in dropdown (AC#3)
 	 * @details
 	 */
@@ -109,7 +109,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 
 	public void pas11338_AC3_AC6_Renewal_monthlyLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.PAY_IN_FULL;//TODO-mstrazds:change to 'Monthly Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_AC3_AC6_Renewal(getPolicyType(), paymentPlan, getTimePoints());
 	}
 
@@ -138,7 +138,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 
 	public void pas11338_AC4_monthlyLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Monthly Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_AC4(getPolicyType(), paymentPlan, getTimePoints());
 
 	}
@@ -159,7 +159,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 
 	public void pas11338_AC5_monthlyLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Monthly Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 		helper.pas11338_AC5(getPolicyType(), paymentPlan, getTimePoints());
 	}
 
@@ -180,7 +180,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 	public void pas11338_AC1_elevenPayLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Eleven Pay Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_AC1(getPolicyType(), paymentPlan);
 	}
 
@@ -210,7 +210,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 	public void pas11338_AC2_AC3_elevenPayLowDown(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Eleven Pay Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_AC2_AC3(getPolicyType(), paymentPlan);
 	}
 
@@ -245,7 +245,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	 * 2. Create Home SS policy with 'Low Down' payment plan option
 	 * 3. Generate Renewal Image
 	 * 4. Retrieve Renewal Image in Data Gathering Mode
-	 * 5. Validate that "Payment plan" is changed to "Monthly" (AC#6)//TODO-mstrazds:clarify correct plan
+	 * 5. Validate that "Payment plan" is changed to "Monthly" (AC#6)//TODO: update pas11338_AC3_AC6* tests with correct payment plan for Renewal when clarified. (AC#6)
 	 * 6. Validate that 'Low Down' payment plan option is NOT available in dropdown (AC#3)
 	 * @details
 	 */
@@ -254,7 +254,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 
 	public void pas11338_AC3_AC6_Renewal_elevenPayLowDow(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.PAY_IN_FULL;//TODO-mstrazds:change to 'Eleven Pay Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_AC3_AC6_Renewal(getPolicyType(), paymentPlan, getTimePoints());
 	}
 
@@ -283,7 +283,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 
 	public void pas11338_AC4_elevenPayLowDow(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Eleven Pay Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_AC4(getPolicyType(), paymentPlan, getTimePoints());
 
 	}
@@ -304,7 +304,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO6BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-11338")
 
 	public void pas11338_AC5_elevenPayLowDow(@Optional("") String state) {
-		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY;//TODO-mstrazds:change to 'Eleven Pay Low Down'
+		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
 		helper.pas11338_AC5(getPolicyType(), paymentPlan, getTimePoints());
 	}
 
