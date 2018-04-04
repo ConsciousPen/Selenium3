@@ -267,3 +267,10 @@ PAS-11662:
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
       messages: ["Internal rating engine error"]
+PAS-12248:
+  summary: "When doing rewrite of eValue policy, Commission Type has no eValue* values"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
+      messages: ["expected [eValue Renewal] but found [Renewal]"]

@@ -3,7 +3,6 @@ package aaa.modules.openl;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
@@ -26,7 +25,7 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesQuoteTab.class, false);
 		new PremiumAndCoveragesQuoteTab().fillTab(quoteRatingData);
-		return Tab.labelPolicyNumber.getValue();
+		return PremiumAndCoveragesQuoteTab.getPolicyTermPremium().toString();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})
