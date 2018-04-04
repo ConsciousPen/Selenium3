@@ -115,7 +115,7 @@ PublicProtectionClass: {
 Construction: {
     Year built: 2009,
     Square footage: 1,
-    Roof type: Laminate / Architectural,
+    Roof type: Slate,
     Roof shape: 'index=1',
     Construction type: 'index=1'
   }

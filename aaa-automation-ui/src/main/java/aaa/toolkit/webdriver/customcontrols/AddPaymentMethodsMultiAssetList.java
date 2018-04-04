@@ -13,7 +13,7 @@ import java.util.List;
 
 public class AddPaymentMethodsMultiAssetList extends MultiAssetList {
 	public static Button buttonAddUpdateCreditCard = new Button(By.xpath("//a[@id='purchaseForm:addPaymentMethodBtn' or @id='updateForm:addPaymentMethodBtn' or @id='paymentForm:addPaymentMethodButton']"));
-	public static Button buttonAddUpdatePaymentMethod = new Button(By.xpath("//input[@id='paymentMethodForm:pciSaveBtn' or @id='paymentMethodEFTForm:eftSaveBtn']"));
+	public static JavaScriptButton buttonAddUpdatePaymentMethod = new JavaScriptButton(By.xpath("//input[@id='paymentMethodForm:pciSaveBtn' or @id='paymentMethodEFTForm:eftSaveBtn']"));
 	private static Button buttonBack = new Button(By.id("primaryButtonsForm:backButton_footer"), Waiters.AJAX.then(Waiters.SLEEP(1000)).then(Waiters.AJAX));
 	public static Table tablePaymentMethods = new Table(By.id("paymentMethodListTable:paymentMethodDataTable"));
 
@@ -39,9 +39,7 @@ public class AddPaymentMethodsMultiAssetList extends MultiAssetList {
 
 	@Override
 	protected void addSection(int index, int size) {
-		if (size != 0) {
-			//ignored - there is no special control for adding section
-		}
+		//ignored - there is no special control for adding section
 	}
 
 	@Override

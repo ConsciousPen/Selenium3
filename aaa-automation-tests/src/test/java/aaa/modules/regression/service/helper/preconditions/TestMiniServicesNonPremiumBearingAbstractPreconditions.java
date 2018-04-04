@@ -4,13 +4,13 @@ public class TestMiniServicesNonPremiumBearingAbstractPreconditions {
 	public static final String ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_ADD_WY = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd,  EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "('BaseProductLookupValue', 'XXXX', 'FALSE', 'AAA_SS', 'WY', (select SYSDATE-10 from dual), (select SYSDATE-5 from dual),\n"
+			+ "('BaseProductLookupValue', 'XXXX', 'FALSE', 'AAA_SS', 'WY', (select to_char(to_date(SYSDATE-10, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-5, 'DD-MM-YYYY')) from dual),\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))";
 
 	public static final String ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_CHANGE_WY = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd,  EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "('BaseProductLookupValue', 'pciDebitCard', 'FALSE', 'AAA_SS', 'WY', (select SYSDATE-4 from dual), null,\n"
+			+ "('BaseProductLookupValue', 'pciDebitCard', 'FALSE', 'AAA_SS', 'WY', (select to_char(to_date(SYSDATE-4, 'DD-MM-YYYY')) from dual), null,\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))";
 
 	public static final String DELETE_ADDED_PAYMENT_METHOD_CONFIGS_WY = "delete lookupvalue\n"
@@ -21,13 +21,13 @@ public class TestMiniServicesNonPremiumBearingAbstractPreconditions {
 	public static final String ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_ADD_WY = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "('BaseProductLookupValue', 'XXXX', 'FALSE', 'AAA_SS', 'WY', (select SYSDATE-10 from dual), (select SYSDATE-5 from dual),\n"
+			+ "('BaseProductLookupValue', 'XXXX', 'FALSE', 'AAA_SS', 'WY', (select to_char(to_date(SYSDATE-10, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-5, 'DD-MM-YYYY')) from dual),\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentPlans'))";
 
 	public static final String ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_CHANGE_WY = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "('BaseProductLookupValue', 'annualSS', 'FALSE', 'AAA_SS', 'WY', (select SYSDATE-4 from dual), null,\n"
+			+ "('BaseProductLookupValue', 'annualSS', 'FALSE', 'AAA_SS', 'WY', (select to_char(to_date(SYSDATE-4, 'DD-MM-YYYY')) from dual), null,\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentPlans'))";
 
 	public static final String DELETE_ADDED_PAYMENT_PLANS_CONFIGS_WY = "delete lookupvalue\n"
@@ -38,7 +38,7 @@ public class TestMiniServicesNonPremiumBearingAbstractPreconditions {
 	public static final String INSERT_EFFECTIVE_DATE = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd,effective, lookuplist_id)\n"
 			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'EndorsementOutsideOfPAS', 'TRUE', 'AAA_SS', 'PA',(select SYSDATE+5 from dual),\n"
+			+ "('AAARolloutEligibilityLookupValue', 'EndorsementOutsideOfPAS', 'TRUE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE+5, 'DD-MM-YYYY')) from dual),\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	public static final String DELETE_INSERT_EFFECTIVE_DATE = "delete lookupvalue\n"

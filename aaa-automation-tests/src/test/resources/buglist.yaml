@@ -220,18 +220,6 @@ PAS-10970:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
       messages: ["VehTyp"]
-INC0655981:
-  summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Miscellaneous"]
-PAS-10779:
-  summary: "HSRFIXX is not generated on Issue anymore"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI.*]
-      messages: ['No value present']
 PAS-11405:
   summary: "Regression: Auto & Home: CA: Can't change payment plan of renewal"
   reason: PROD
@@ -261,3 +249,28 @@ PAS-11906:
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport.pas6827_disableReorderReportRenewal]
       messages: ["expected"]
+PAS-11445:
+  summary: "500 Error happens after click on submit manual entry button"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
+      messages: ["Errors: Error 500. Internal server error occurred"]
+PAS-11662:
+  summary: "Cannot rate PUP policy with effective date higher or equal to 2020-02-01n"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
+      messages: ["Internal rating engine error"]
+PAS-12248:
+  summary: "When doing rewrite of eValue policy, Commission Type has no eValue* values"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
+      messages: ["expected [eValue Renewal] but found [Renewal]"]

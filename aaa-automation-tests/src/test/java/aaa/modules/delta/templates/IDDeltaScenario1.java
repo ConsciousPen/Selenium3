@@ -1,7 +1,6 @@
 package aaa.modules.delta.templates;
 
 import java.util.ArrayList;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -9,14 +8,7 @@ import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
@@ -25,11 +17,11 @@ import toolkit.verification.CustomAssert;
 public class IDDeltaScenario1 extends BaseTest {
 	
 	protected IPolicy policy;
+	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
-	
-	public void TC_createQuote(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
+
+	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
 		
 		mainApp().open();
@@ -42,8 +34,8 @@ public class IDDeltaScenario1 extends BaseTest {
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA ID SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
-	
-	public void TC_verifyLOVsOfImmediatePriorCarrier() {
+
+	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -53,9 +45,9 @@ public class IDDeltaScenario1 extends BaseTest {
 		
 		GeneralTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();
-	}	
-	
-	public void TC_verifyErrorForZipCode83213() {
+	}
+
+	public void verifyErrorForZipCode83213() {
 		TestData td_zip83213 = getTestSpecificTD("TestData_ZipCode83213");
 		TestData td_zip83212 = getTestSpecificTD("TestData_ZipCode83212");
 		
@@ -99,9 +91,9 @@ public class IDDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();
 	}
-	
-	public void TC_purchasePolicy(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
+
+	public void purchasePolicy(TestData td, String scenarioPolicyType) {
+		//TestData td = getTestSpecificTD("TestData");
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -120,8 +112,8 @@ public class IDDeltaScenario1 extends BaseTest {
         
         log.info("DELTA ID SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
-	
-	public void TC_verifyODDPolicy() {
+
+	public void verifyODDPolicy() {
 		//TODO verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
 	}
 	

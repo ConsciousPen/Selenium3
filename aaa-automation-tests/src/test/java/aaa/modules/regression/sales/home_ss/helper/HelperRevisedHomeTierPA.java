@@ -254,7 +254,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         String policyNr = PolicySummaryPage.getPolicyNumber();
 
         // Endorse Policy
-        policyType.get().endorse().perform(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_Endorse"));
+        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("Endorsement"), "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
 
         // Check if policy tier is disabled
@@ -324,7 +324,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         String policyNr = PolicySummaryPage.getPolicyNumber();
 
         // Endorse Policy
-        policyType.get().endorse().perform(testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_Endorse"));
+        policyType.get().endorse().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3).getTestData("Endorsement"), "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
 
         // Check if policy tier is disabled

@@ -35,8 +35,7 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA_SELECT.getName());
-		QuoteSummaryPage.buttonAddNewQuote.click();
+		new QuoteSummaryPage().initiateQuote(PolicyType.AUTO_CA_SELECT);
 	}
 
 	@Override
@@ -45,14 +44,14 @@ public class AutoCaPolicy implements IPolicy {
 		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, true);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
-		log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
+		log.info("QUOTE CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 	}
 
 	@Override
 	public void createPolicy(TestData td) {
 		initiate();
 		getDefaultView().fill(td);
-		log.info("POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+		log.info("POLICY CREATED: {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class AutoCaPolicy implements IPolicy {
 		calculatePremium(td);
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 		new DriverActivityReportsTab().fillTab(td);
-	    //TODO workaround for PAS-10786
+		//TODO workaround for PAS-10786
 		//NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DriverActivityReportsTab().submitTab();
 		new DocumentsAndBindTab().fillTab(td).submitTab();
@@ -97,14 +96,14 @@ public class AutoCaPolicy implements IPolicy {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
-		log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+		log.info("Purchased Quote {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
 	public void copyPolicy(TestData td) {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
-		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+		log.info("Copy Policy {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
