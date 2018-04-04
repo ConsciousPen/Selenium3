@@ -66,6 +66,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public PremiumAndCoveragesTab() {
 		super(AutoSSMetaData.PremiumAndCoveragesTab.class);
+		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 	}
 
 	public static Dollar getPreEndorsementPremium() {
@@ -134,8 +135,8 @@ public class PremiumAndCoveragesTab extends Tab {
 	public List<TestData> getTermPremiumByVehicleData() {
 		List<TestData> testDataList = new ArrayList<>();
 		Map<String, Object> map = new LinkedHashMap<>();
-		List<String> keys = new ArrayList<String>();
-		List<String> _keys = new ArrayList<String>();
+		List<String> keys = new ArrayList<>();
+		List<String> _keys = new ArrayList<>();
 		_keys.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[2]")).getColumn(1).getValue());
 		_keys.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[3]")).getColumn(1).getValue());
 		_keys.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[4]")).getColumn(1).getValue());
@@ -208,7 +209,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		return this;
 	}
 
-	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
+	public Dollar getVehicleCoveragePremiumByVehicle(int index) {
 		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
 		return new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
 	}
@@ -260,7 +261,7 @@ public class PremiumAndCoveragesTab extends Tab {
 					continue; // empty column means absent vehicle
 				}
 
-				List<String> _values = new ArrayList<String>();
+				List<String> _values = new ArrayList<>();
 				_values.addAll(values);
 				_values.removeIf(s -> "No Coverage".equals(s));
 				_values.removeIf(s -> "Unstacked".equals(s));

@@ -3,13 +3,13 @@ package aaa.modules.openl;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLFile;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoCaSelectTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
@@ -24,7 +24,7 @@ public class AutoCaSelectPremiumCalculationTest extends OpenLRatingBaseTest<Auto
 
 	@Override
 	protected TestData getRatingDataPattern() {
-		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
+		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey(), new AssignmentTab().getMetaKey());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class AutoCaSelectPremiumCalculationTest extends OpenLRatingBaseTest<Auto
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-		return Tab.labelPolicyNumber.getValue();
+		return PremiumAndCoveragesTab.totalTermPremium.getValue();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

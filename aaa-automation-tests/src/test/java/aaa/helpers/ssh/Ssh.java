@@ -115,7 +115,11 @@ public class Ssh {
 			sftpChannel.cd("/");
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
-
+			if (list.size() == 0) {
+				closeSession();
+				log.info("SSH: No files to delete in '" + source + "'.");
+				return;
+			}
 			for (ChannelSftp.LsEntry file : list) {
 				if (!file.getAttrs().isDir()) {
 					sftpChannel.rm(file.getFilename());

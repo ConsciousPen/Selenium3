@@ -99,7 +99,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		// Verify that UW Points are the same
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -112,12 +112,76 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		// Verify that UW Points are the same
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
+		verifyLockedLimitsRenewalAndEndorsement();
+	}
+
+	/**
+	 *@author Dominykas Razgunas
+	 *@name PA Auto Policy - UI Changes to display locked UW Points. Endorsement.
+	 *@scenario
+	 * 1. Create Policy
+	 * 2. Initiate Endorsement
+	 * 3. Navigate to P&C View Rating Details.
+	 * 4. Check that all of the UW components are blank.
+	 *@details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
+
+		verifyAlgoDate();
+
+		// Create Policy
+		mainApp().open();
+		getCopiedPolicy();
+
+		// Initiate Endorsement and Navigate to P&C Page.
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+
+		// Verify that Total UW points are shown and other UW components are hidden
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		verifyLockedLimitsRenewalAndEndorsement();
+	}
+
+	/**
+	 *@author Dominykas Razgunas
+	 *@name PA Auto Policy - UI Changes to display locked UW Points. Renewal.
+	 *@scenario
+	 * 1. Create Policy
+	 * 2. Initiate Renewal
+	 * 3. Navigate to P&C View Rating Details.
+	 * 4. Check that all of the UW components are blank.
+	 *@details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
+
+		verifyAlgoDate();
+
+		// Create Policy
+		mainApp().open();
+		getCopiedPolicy();
+
+		// Initiate Renewal and Navigate to P&C Page.
+		policy.renew().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+
+		// Verify that Total UW points are shown and other UW components are hidden
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		verifyLockedLimitsRenewalAndEndorsement();
 	}
 
@@ -144,6 +208,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	}
 
 	private void verifyLockedLimitsRenewalAndEndorsement(){
+		//Verify that Total UW points are not blank
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).isNotEmpty();
+
 		// Verify that Insurance Score, YAFAF, YCF scores are not displayed.
 		pas9063FieldsRow1.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f)).isPresent());

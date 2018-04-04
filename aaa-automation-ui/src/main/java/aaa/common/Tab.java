@@ -23,6 +23,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
  * @category Static
  */
 public abstract class Tab {
+	public static final String COVERAGES_CONFIGURATION_NAME = "CoveragesAndPremium";
 
 	public static Button buttonOk = new Button(By.xpath("//input[@id='genericForm:ok' or (@value = 'OK' or @value = 'Ok') and contains (@id, '_footer')"
 			+ "and not(@class = 'hidden') and not(contains(@class, 'secondaryButton')) and not(contains(@style, 'none')) "
@@ -251,6 +252,7 @@ public abstract class Tab {
 		buttonSave.click();
 		return this;
 	}
+
 	public Tab createVersion() {
 		buttonCreateVersion.click();
 		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {

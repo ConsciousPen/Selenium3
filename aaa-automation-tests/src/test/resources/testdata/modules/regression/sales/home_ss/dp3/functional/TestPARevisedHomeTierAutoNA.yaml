@@ -58,12 +58,6 @@ PrefillTab_OH: {
   Order Prefill: click
 }
 
-#-----------------  TD for Endorsements --------------
-
-EndorsementActionTab: {
-    Endorsement Reason: index=1
-}
-
 #-----------------  TD for manually added auto policy --------------
 OtherActiveAAAPolicies1: {
     Other active AAA policies: "Yes",
