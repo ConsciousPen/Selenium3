@@ -102,12 +102,12 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		//hideHeader();
+		hideHeader();
 		super.fillTab(convertValue(td));
 		if (!td.getTestData(getMetaKey()).containsKey(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel())) {
 			calculatePremium();
 		}
-		//showHeader();
+		showHeader();
 		return this;
 	}
 
