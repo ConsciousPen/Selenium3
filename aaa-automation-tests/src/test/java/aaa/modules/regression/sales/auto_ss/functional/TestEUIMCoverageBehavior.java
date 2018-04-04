@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
+
+import aaa.main.pages.summary.PolicySummaryPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,7 +39,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
 
     /**
-     *@author Dominykas Razgunas, Josh Carpenter
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for NB
      *@scenario
      * 1. Create Customer.
@@ -47,7 +49,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -63,7 +65,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     /**
-     *@author Dominykas Razgunas, Josh Carpenter
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Endorsements
      *@scenario
      * 1. Create Customer
@@ -74,7 +76,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -87,14 +89,14 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
     }
 
     /**
-     *@author Dominykas Razgunas, Josh Carpenter
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Renewals
      *@scenario
      * 1. Create Customer.
@@ -106,7 +108,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -119,7 +121,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Renewal
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -151,7 +153,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedBodilyInjury.setValueByIndex(1);
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS11111);
         errorTab.submitTab();
 
@@ -161,11 +163,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedPropertyDamage.setValueByIndex(1);
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS22222);
         errorTab.submitTab();
         enhancedBodilyInjury.setValueByIndex(1);
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS11111);
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS22222);
         errorTab.submitTab();
@@ -177,13 +179,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
         //AC4 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(false);
         assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(true);
         assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");
-        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448
         String euimExpectedText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
@@ -200,6 +202,20 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
         assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+
+        //PAS11209
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        List<TestData> vehicleVRDTestData = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
+        assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(2,2)).isEqualTo("Bodily Injury Liability");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(3,2)).isEqualTo("Property Damage Liability");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(4,2)).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(5,2)).isEqualTo("Enhanced Uninsured Motorist Property Damage");
+
 
     }
 
