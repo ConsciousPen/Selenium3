@@ -5,7 +5,7 @@ import java.util.List;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class OpenLVehicle {
+public abstract class OpenLVehicle {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
@@ -23,6 +23,8 @@ public class OpenLVehicle {
 
 	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowIndex = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	protected List<OpenLAddress> address;
+
+	public abstract List<? extends AutoOpenLCoverage> getCoverages();
 
 	public Integer getNumber() {
 		return number;

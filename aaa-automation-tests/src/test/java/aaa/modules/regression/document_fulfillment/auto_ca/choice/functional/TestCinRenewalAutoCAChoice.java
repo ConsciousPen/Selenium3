@@ -10,13 +10,12 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestCinRenewalAutoCAChoice extends TestCinAbstractAutoCA{
+public class TestCinRenewalAutoCAChoice extends TestCinAbstractAutoCA {
     /**
      * Depends on ChoicePointMvrMockData mocksheet was updated with Applicant: First Name: MvrChargeable Last Name: Activity
      *
      * @name Test CIN Document generation (MVR activity exists)
-     * @scenario
-     * 1. Create Customer
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal  - add Driver which has chargeable MVR violation
@@ -41,8 +40,7 @@ public class TestCinRenewalAutoCAChoice extends TestCinAbstractAutoCA{
      * Depends on ChoicePointMvrMockData mocksheet was updated with Applicant: First Name: MvrChargeable Last Name: Activity
      *
      * @name Test CIN Document generation (MVR activity exists)
-     * @scenario
-     * 1. Create Customer
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal  - add Driver which has chargeable MVR violation

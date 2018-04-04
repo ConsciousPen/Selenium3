@@ -2,28 +2,20 @@ package aaa.modules.regression.document_fulfillment.auto_ca.select.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.model.Document;
-import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoCA;
-import org.junit.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA{
+public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA {
     /**
      * Depends on ChoicePointMvrMockData mocksheet was updated with Applicant: First Name: MvrChargeable Last Name: Activity
      *
      * @name Test CIN Document generation (MVR activity exists)
-     * @scenario
-     * 1. Create Customer
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal  - add Driver which has chargeable MVR violation
@@ -48,8 +40,7 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA{
      * Depends on ChoicePointMvrMockData mocksheet was updated with Applicant: First Name: MvrChargeable Last Name: Activity
      *
      * @name Test CIN Document generation (MVR activity exists)
-     * @scenario
-     * 1. Create Customer
+     * @scenario 1. Create Customer
      * 2. Create Policy
      * 3. Change time to R-35
      * 4. Create Renewal  - add Driver which has chargeable MVR violation

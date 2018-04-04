@@ -6,7 +6,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
-import org.junit.Assert;
+import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
 
 public class TestCinAbstractAutoCA extends TestCinAbstract {
@@ -40,8 +40,10 @@ public class TestCinAbstractAutoCA extends TestCinAbstract {
     protected void caNewBusinessMainFlow(TestData testData) {
         String policyNumber = createPolicy(testData);
         //wait for CIN specific form and a package itself to appear in the DB
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
         //ToDo: verify the order
     }
 

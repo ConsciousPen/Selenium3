@@ -88,7 +88,6 @@ public final class AutoCaPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getAsset(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
         public Workspace getView() {
@@ -97,23 +96,14 @@ public final class AutoCaPolicyActions {
         
         @Override
         public AbstractAction performAndFill(TestData td) {
-            start();
-	        //getView().fill(td);
+            perform();
 	        new DataGather().getView().fill(td);
-	        submit();
 	        return this;
         }
 
         @Override
         public AbstractAction submit() {
-	        // if (textBoxRenewalDate.isPresent() && textBoxRenewalDate.isVisible()) {
-	        //     return super.submit();
-	        //  }
-            if(Tab.buttonSaveAndExit.isVisible()) {
-                Tab.buttonSaveAndExit.click();
-            }
 	        return this;
-
         }
     }
 

@@ -50,9 +50,6 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 				profile.setPreference("browser.download.folderList", 2);
 				profile.setPreference("browser.download.manager.showWhenStarting", false);
 				profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/ms-excel");
-				profile.setPreference("webdriver.firefox.bin", "C:\\Common\\firefox\\bin\\firefox.exe");
-
-				System.setProperty("webdriver.firefox.bin","C:\\Common\\firefox\\bin\\firefox.exe");
 				desiredCapabilities.setCapability(FirefoxDriver.PROFILE, profile);
 			}
 		}

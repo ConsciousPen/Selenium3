@@ -8,6 +8,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,7 +16,8 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import static java.util.Arrays.asList;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
@@ -49,7 +51,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -76,8 +80,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
-        ;
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /*******************************
@@ -108,7 +113,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -135,7 +142,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
 
@@ -163,7 +172,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -190,7 +201,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -218,7 +231,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
     /**
@@ -246,7 +261,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
     /*******************************
@@ -281,7 +298,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -310,7 +329,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -339,7 +360,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -370,7 +393,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -399,7 +424,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -430,7 +457,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
     /**
@@ -459,7 +488,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
     /**
@@ -490,7 +521,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
     /*******************************
@@ -525,11 +558,14 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
         String policyNumber = createPolicy(policyTD);
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
 
         String atFaultAccidentFlag = retrieveElementValue(cinDocument, "DriverDetails", "AtFltAccYN");
-        assertNotNull(atFaultAccidentFlag, getPolicyErrorMessage("At fault flag is missing in the CIN document request", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
-        assertEquals("N", atFaultAccidentFlag, getPolicyErrorMessage("Failed to generate correct at fault flag for CIN document", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+            softly.assertThat(atFaultAccidentFlag).as(getPolicyErrorMessage("At fault flag is missing in the CIN document request", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+            softly.assertThat(atFaultAccidentFlag).as(getPolicyErrorMessage("Failed to generate correct at fault flag for CIN document", policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isEqualTo("N");
+        });
     }
 
     /**
@@ -561,7 +597,9 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNull();
+        });
     }
 
     @Override

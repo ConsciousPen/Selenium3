@@ -9,14 +9,11 @@ import aaa.helpers.xml.model.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.IPolicy;
-import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.junit.Assert;
+import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
 
 import java.time.LocalDateTime;
@@ -63,7 +60,7 @@ public abstract class TestCinAbstract extends BaseTest {
      * Perform a manual renewal on a policy specified by Policy Number with custom {@link TestData}
      *
      * @param policyNumber
-     * @param renewalTD {@link TestData}
+     * @param renewalTD    {@link TestData}
      */
     public void renewPolicy(String policyNumber, TestData renewalTD) {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -78,7 +75,9 @@ public abstract class TestCinAbstract extends BaseTest {
 
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
-        Assert.assertNotNull(getPolicyErrorMessage("CIN document failed to generate", renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     /**
@@ -94,7 +93,7 @@ public abstract class TestCinAbstract extends BaseTest {
      * @param policyTD
      * @return policyNumber
      */
-    protected String createPolicy (TestData policyTD) {
+    protected String createPolicy(TestData policyTD) {
         mainApp().open();
         createCustomerIndividual();
         super.createPolicy(policyTD);

@@ -8,6 +8,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -43,9 +44,11 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
 
         renewPolicy(policyNumber, renewalTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
     }
 
     /**
@@ -75,9 +78,11 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
 
         renewPolicy(policyNumber, renewalTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
     }
 
     /*******************************
@@ -116,9 +121,11 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
 
         renewPolicy(policyNumber, renewalTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
     }
 
     /**
@@ -149,9 +156,11 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
 
         renewPolicy(policyNumber, renewalTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
-        assertNotNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
     }
 
     /*******************************
@@ -188,9 +197,11 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
 
         renewPolicy(policyNumber, renewalTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, false);
 
-        assertNull(cinDocument, getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_REDUNDANT_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNull();
+        });
     }
 
     @Override

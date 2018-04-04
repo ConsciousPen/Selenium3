@@ -8,6 +8,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractHomeCA;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -41,7 +42,9 @@ public class TestCinNewBusinessHomeCAHO6 extends TestCinAbstractHomeCA {
         //wait for CIN specific form and a package itself to appear in the DB
         Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
-        Assert.assertNotNull(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE), cinDocument);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        });
     }
 
     @Override

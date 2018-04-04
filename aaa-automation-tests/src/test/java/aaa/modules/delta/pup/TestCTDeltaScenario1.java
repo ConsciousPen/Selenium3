@@ -71,13 +71,13 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC01_createQuote(@Optional("") String state) {
+	public void TC01_createQuote(@Optional("") String state) {		
 		mainApp().open();		
         createCustomerIndividual();
         TestData td = getTestSpecificTD("TestData");
-        td = policy.getDefaultView().getTab(PrefillTab.class).adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+        td = policy.getDefaultView().getTab(PrefillTab.class).adjustWithRealPolicies(td, getPrimaryPoliciesForPup());       
         createQuote(td);
-
+        
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA CT SC1: PUP Quote created with #" + quoteNumber);
 	}

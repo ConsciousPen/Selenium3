@@ -1258,8 +1258,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverOid).isNotNull();
 			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].relationshipType).isEqualTo("unassigned");
 		});
-
-		assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getAsset("Select Driver", ComboBox.class).setValue("index=1");
+		assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1).getCell("Select Driver").controls.comboBoxes.getFirst().setValue("index=1");
 		Tab.buttonTopSave.click();
 
 		List<TestData> assignmentOccasional = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
@@ -1820,7 +1819,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas10227_ViewPremiumServiceForPendedEndorsement() {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(getPolicyTD());
 
 		//Create a pended Endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
