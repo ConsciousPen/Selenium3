@@ -15,52 +15,44 @@ import toolkit.utils.TestInfo;
 
 public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract {
 
-	private static final ImmutableList<String> ALL_PAYMENT_PLANS = ImmutableList.of(
-			"Pay in Full",
-			"Semi-Annual",
-			"Quarterly",
-			"Eleven Pay Low Down",
-			"Eleven Pay Standard",
-			"Monthly Low Down",
-			"Mortgagee Bill");
-
-	private static final ImmutableList<String> RESTRICTED_PAYMENT_PLANS = ImmutableList.of(
-			"Pay in Full",
-			"Monthly",
-			"Mortgagee Bill");
-
-	private static final ImmutableList<String> UNRESTRICTED_PAYMENT_PLANS = ImmutableList.of(
-			"Semi-Annual",
-			"Eleven Pay Low Down",
-			"Eleven Pay Standard",
-			"Quarterly",
-			"Monthly Low Down");
-
-	private static final ImmutableList<String> PAYMENT_PLAN_HEADER = ImmutableList.of(
-			"Plan",
-			"Premium",
-			"Minimum Down Payment",
-			"Installment Payment (w/o fees)",
-			"# of Remaining Installments");
-
 	@Override
 	public List<String> getExpectedAllPaymentPlans() {
-		return ALL_PAYMENT_PLANS;
+		return ImmutableList.of(
+				"Pay in Full",
+				"Semi-Annual",
+				"Quarterly",
+				"Eleven Pay Low Down",
+				"Eleven Pay Standard",
+				"Monthly Low Down",
+				"Mortgagee Bill");
 	}
 
 	@Override
 	public List<String> getExpectedRestrictedPaymentPlans() {
-		return RESTRICTED_PAYMENT_PLANS;
+		return ImmutableList.of(
+				"Pay in Full",
+				"Monthly",
+				"Mortgagee Bill");
 	}
 
 	@Override
 	public List<String> getExpectedUnrestrictedPaymentPlans() {
-		return UNRESTRICTED_PAYMENT_PLANS;
+		return ImmutableList.of(
+				"Semi-Annual",
+				"Eleven Pay Low Down",
+				"Eleven Pay Standard",
+				"Quarterly",
+				"Monthly Low Down");
 	}
 
 	@Override
 	public List<String> getExpectedHeader() {
-		return PAYMENT_PLAN_HEADER;
+		return ImmutableList.of(
+				"Plan",
+				"Premium",
+				"Minimum Down Payment",
+				"Installment Payment (w/o fees)",
+				"# of Remaining Installments");
 	}
 
 	/**

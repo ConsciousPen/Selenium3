@@ -18,56 +18,46 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract {
 
-	private static final ImmutableList<String> ALL_PAYMENT_PLANS= ImmutableList.of(
-			"Annual",
-			"Semi-Annual",
-			"Quarterly",
-			"Eleven Pay - Standard",
-			"Eleven Pay - Zero Down",
-			"Eleven Pay - Low Down",
-			"Monthly - Zero Down",
-			"Monthly - Low Down");
-	private static final ImmutableList<String> RESTRICTED_PAYMENT_PLANS = ImmutableList.of(
-			"Annual",
-			"Monthly");
-	private static final ImmutableList<String> UNRESTRICTED_PAYMENT_PLANS = ImmutableList.of(
-			"Monthly - Zero Down",
-			"Monthly - Low Down",
-			"Semi-Annual",
-			"Quarterly",
-			"Eleven Pay - Standard",
-			"Eleven Pay - Zero Down",
-			"Eleven Pay - Low Down");
-	private static final ImmutableList<String> PAYMENT_PLAN_HEADER = ImmutableList.of(
-			"Plan",
-			"Premium",
-			"Minimum Down Payment",
-			"Installment Amount (w/o fees)",
-			"# of Remaining Installments");
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
-	}
-
 	@Override
 	public List<String> getExpectedAllPaymentPlans() {
-		return ALL_PAYMENT_PLANS;
+		return ImmutableList.of(
+				"Annual",
+				"Semi-Annual",
+				"Quarterly",
+				"Eleven Pay - Standard",
+				"Eleven Pay - Zero Down",
+				"Eleven Pay - Low Down",
+				"Monthly - Zero Down",
+				"Monthly - Low Down");
 	}
 
 	@Override
 	public List<String> getExpectedRestrictedPaymentPlans() {
-		return RESTRICTED_PAYMENT_PLANS;
+		return ImmutableList.of(
+				"Annual",
+				"Monthly");
 	}
 
 	@Override
 	public List<String> getExpectedUnrestrictedPaymentPlans() {
-		return UNRESTRICTED_PAYMENT_PLANS;
+		return ImmutableList.of(
+				"Monthly - Zero Down",
+				"Monthly - Low Down",
+				"Semi-Annual",
+				"Quarterly",
+				"Eleven Pay - Standard",
+				"Eleven Pay - Zero Down",
+				"Eleven Pay - Low Down");
 	}
 
 	@Override
 	public List<String> getExpectedHeader() {
-		return PAYMENT_PLAN_HEADER;
+		return ImmutableList.of(
+				"Plan",
+				"Premium",
+				"Minimum Down Payment",
+				"Installment Amount (w/o fees)",
+				"# of Remaining Installments");
 	}
 
 	@Override
@@ -295,6 +285,11 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD).adjust(minimumBIKey,minimumBITD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyRestrictedPaymentPlans();
+	}
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
 	}
 
 }
