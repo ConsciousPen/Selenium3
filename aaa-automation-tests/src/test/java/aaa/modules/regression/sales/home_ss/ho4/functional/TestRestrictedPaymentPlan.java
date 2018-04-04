@@ -2,9 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho4.functional;
 
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.google.common.collect.ImmutableList;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -12,6 +14,52 @@ import aaa.modules.regression.sales.template.functional.TestRestrictedPaymentPla
 import toolkit.utils.TestInfo;
 
 public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract {
+
+	private static final ImmutableList<String> ALL_PAYMENT_PLANS = ImmutableList.of(
+			"Pay in Full",
+			"Semi-Annual",
+			"Quarterly",
+			"Eleven Pay Low Down",
+			"Eleven Pay Standard",
+			"Monthly Low Down");
+
+	private static final ImmutableList<String> RESTRICTED_PAYMENT_PLANS = ImmutableList.of(
+			"Pay in Full",
+			"Monthly");
+
+	private static final ImmutableList<String> UNRESTRICTED_PAYMENT_PLANS = ImmutableList.of(
+			"Semi-Annual",
+			"Eleven Pay Low Down",
+			"Eleven Pay Standard",
+			"Quarterly",
+			"Monthly Low Down");
+
+	private static final ImmutableList<String> PAYMENT_PLAN_HEADER = ImmutableList.of(
+			"Plan",
+			"Premium",
+			"Minimum Down Payment",
+			"Installment Payment (w/o fees)",
+			"# of Remaining Installments");
+
+	@Override
+	public List<String> getExpectedAllPaymentPlans() {
+		return ALL_PAYMENT_PLANS;
+	}
+
+	@Override
+	public List<String> getExpectedRestrictedPaymentPlans() {
+		return RESTRICTED_PAYMENT_PLANS;
+	}
+
+	@Override
+	public List<String> getExpectedUnrestrictedPaymentPlans() {
+		return UNRESTRICTED_PAYMENT_PLANS;
+	}
+
+	@Override
+	public List<String> getExpectedHeader() {
+		return PAYMENT_PLAN_HEADER;
+	}
 
 	/**
 	 * @name Test Restricted Payment Plan For Home with Membership = Yes and no other restrictions

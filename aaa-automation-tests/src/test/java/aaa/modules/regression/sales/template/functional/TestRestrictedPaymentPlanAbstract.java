@@ -3,10 +3,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -17,43 +14,17 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
-public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
+public abstract class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
 
-    private static final int PAY_PLAN_POSITION = 0;
     private static final String MONTHLY_PAYMENT_PLAN = "Monthly";
-    private static final ImmutableList<String> ALL_PAYMENT_PLANS_HO4 = ImmutableList.of(
-            "Pay in Full",
-            "Semi-Annual",
-            "Quarterly",
-            "Eleven Pay Low Down",
-            "Eleven Pay Standard",
-            "Monthly Low Down");
-    private static final ImmutableList<String> ALL_PAYMENT_PLANS = ImmutableList.<String>builder()
-            .addAll(ALL_PAYMENT_PLANS_HO4)
-            .add("Mortgagee Bill")
-            .build();
-    private static final ImmutableList<String> RESTRICTED_PAYMENT_PLANS_HO4 = ImmutableList.of(
-            "Pay in Full",
-            "Monthly");
-    private static final ImmutableList<String> RESTRICTED_PAYMENT_PLANS = ImmutableList.<String>builder()
-            .addAll(RESTRICTED_PAYMENT_PLANS_HO4)
-            .add("Mortgagee Bill")
-            .build();
-    private static final ImmutableList<String> UNRESTRICTED_PAYMENT_PLANS = ImmutableList.of(
-            "Semi-Annual",
-            "Eleven Pay Low Down",
-            "Eleven Pay Standard",
-            "Quarterly",
-            "Monthly Low Down");
-    private static final ImmutableList<String> PAYMENT_PLAN_HEADER = ImmutableList.of(
-            "Plan",
-            "Premium",
-            "Minimum Down Payment",
-            "Installment Payment (w/o fees)",
-            "# of Remaining Installments");
+
+    protected abstract List<String> getExpectedAllPaymentPlans();
+    protected abstract List<String> getExpectedRestrictedPaymentPlans();
+    protected abstract List<String> getExpectedUnrestrictedPaymentPlans();
+    protected abstract List<String> getExpectedHeader();
 
     private static final String RESTRICTED_PAY_PLANS_MESSAGE = "The available pay plans for this quote are restricted to those shown above. The below options can be offered if the following condition is addressed: AAA Membership must be provided.\nAfter addressing the condition, recalculate premium to refresh the available pay plans.";
     private static final String INSTALLMENT_FEES_MESSAGE = "Installment Amount does not include transaction fees. View applicable fee schedule.";
@@ -172,19 +143,20 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         policy.getDefaultView().fillFromTo(getPolicyDefaultTD(), PropertyInfoTab.class, PremiumsAndCoveragesQuoteTab.class);
         PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
         verifyAllPayPlansAvailable();
-        Map<String, List<String>> paymentPlansBefore = getPaymentPlans(PremiumsAndCoveragesQuoteTab.tablePaymentPlans);
+        List<TestData> paymentPlansBefore = getTablePaymentPlans().getValue();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         applicantTab.fillTab(getTestSpecificTD("TestData_Pending"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
         verifyRestrictedAndUnrestrictedPaymentPlans();
-        Map<String, List<String>> paymentPlansRestricted = getPaymentPlans(PremiumsAndCoveragesQuoteTab.tablePaymentPlans);
-        paymentPlansRestricted.remove(MONTHLY_PAYMENT_PLAN);
-        Map<String, List<String>> paymentPlansUnrestricted = getPaymentPlans(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans);
+        List<TestData> paymentPlansRestricted = getTablePaymentPlans().getValue();
+        paymentPlansRestricted.removeIf(td->td.getValue("Plan").equals(MONTHLY_PAYMENT_PLAN));
+        List<TestData> paymentPlansUnrestricted = getTableUnrestrictedPaymentPlans().getValue();
+        assertThat(paymentPlansBefore).hasSize(paymentPlansRestricted.size() + paymentPlansUnrestricted.size());
         assertThat(paymentPlansBefore.size()).isEqualTo(paymentPlansRestricted.size() + paymentPlansUnrestricted.size());
-        assertRows(paymentPlansBefore, paymentPlansRestricted);
-        assertRows(paymentPlansBefore, paymentPlansUnrestricted);
+        assertThat(paymentPlansBefore).containsAll(paymentPlansRestricted);
+        assertThat(paymentPlansBefore).containsAll(paymentPlansUnrestricted);
     }
 
     /**
@@ -283,119 +255,75 @@ public class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
         verifyRestrictedPaymentPlans();
     }
 
-    private void assertRows(Map<String, List<String>> paymentPlansBefore, Map<String, List<String>> paymentPlansAfter) {
-        for (Map.Entry<String, List<String>> record: paymentPlansAfter.entrySet()){
-            List<String> rowBefore = paymentPlansBefore.get(record.getKey());
-            List<String> rowAfter = record.getValue();
-            assertThat(rowAfter).isEqualTo(rowBefore);
-        }
-    }
-
-    private Map<String, List<String>> getPaymentPlans(Table paymentPlansTable) {
-        Map<String, List<String>> result = new HashMap<>();
-        int rowCount = paymentPlansTable.getRowsCount();
-        for (int rowNum = 1; rowNum <= rowCount; rowNum++) {
-            List<String> row = paymentPlansTable.getRow(rowNum).getValue();
-            result.put(row.get(PAY_PLAN_POSITION), row);
-        }
-        return result;
-    }
-
-    private void verifyAllPayPlansAvailable(){
+    protected void verifyAllPayPlansAvailable(){
         //check that Payment plan drop down has all payment plans
-        ComboBox paymentPlan = new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN);
-        if ("HomeSS_HO4".equals(getPolicyType().getShortName())){
-            verifyPaymentPlansList(paymentPlan, ALL_PAYMENT_PLANS_HO4);
-        }
-        else {
-            verifyPaymentPlansList(paymentPlan, ALL_PAYMENT_PLANS);
-        }
-        PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
+        assertThat(getPaymentPlanComboBox()).hasSameElementsAs(getExpectedAllPaymentPlans());
+        clickPaymentPlanLink();
         //check that table for PaymentPlans has all payment plans
-        assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans).isPresent();
-        assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-        if ("HomeSS_HO4".equals(getPolicyType().getShortName())) {
-            assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(ALL_PAYMENT_PLANS_HO4.toArray(new String[0]));
-        }
-        else{
-            assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(ALL_PAYMENT_PLANS.toArray(new String[0]));
-        }
+        assertThat(getTablePaymentPlans()).isPresent();
+        assertThat(getTablePaymentPlans().getHeader().getValue()).isEqualTo(getExpectedHeader());
+        assertThat(getTablePaymentPlans().getColumn(1).getValue()).hasSameElementsAs(getExpectedAllPaymentPlans());
         //check that installment fees message is present
-        assertThat(PremiumsAndCoveragesQuoteTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
+        assertThat(getLabelInstallmentFees()).hasValue(INSTALLMENT_FEES_MESSAGE);
         //check that unrestricted payment plans table is absent
-        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans).isAbsent();
+        assertThat(getTableUnrestrictedPaymentPlans()).isAbsent();
     }
 
-    private void verifyRestrictedAndUnrestrictedPaymentPlans(){
+    protected void verifyRestrictedAndUnrestrictedPaymentPlans(){
         //check that Payment plan drop down has all payment plans
-        ComboBox paymentPlan = new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN);
-        if ("HomeSS_HO4".equals(getPolicyType().getShortName())) {
-            verifyPaymentPlansList(paymentPlan, RESTRICTED_PAYMENT_PLANS_HO4);
-        }
-        else{
-            verifyPaymentPlansList(paymentPlan, RESTRICTED_PAYMENT_PLANS);
-        }
-        PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
+        assertThat(getPaymentPlanComboBox()).hasSameElementsAs(getExpectedRestrictedPaymentPlans());
+        clickPaymentPlanLink();
         //check that first table for PaymentPlans has restricted payment plans
-        assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans).isPresent();
-        assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-        if ("HomeSS_HO4".equals(getPolicyType().getShortName())) {
-            assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(RESTRICTED_PAYMENT_PLANS_HO4.toArray(new String[0]));
-        }
-        else{
-            assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(RESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
-        }
+        assertThat(getTablePaymentPlans()).isPresent();
+        assertThat(getTablePaymentPlans().getHeader().getValue()).isEqualTo(getExpectedHeader());
+        assertThat(getTablePaymentPlans().getColumn(1).getValue()).hasSameElementsAs(getExpectedRestrictedPaymentPlans());
         //check that restricted payment plans message is present
-        assertThat(PremiumsAndCoveragesQuoteTab.labelPaymentPlanRestriction.getValue()).isEqualTo(RESTRICTED_PAY_PLANS_MESSAGE);
+        assertThat(getLabelPaymentPlanRestriction()).hasValue(RESTRICTED_PAY_PLANS_MESSAGE);
         //check that second table for PaymentPlans has unrestricted payment plans
-        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans).isPresent();
-        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(UNRESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
+        assertThat(getTableUnrestrictedPaymentPlans()).isPresent();
+        assertThat(getTableUnrestrictedPaymentPlans().getHeader().getValue()).isEqualTo(getExpectedHeader());
+        assertThat(getTableUnrestrictedPaymentPlans().getColumn(1).getValue()).hasSameElementsAs(getExpectedUnrestrictedPaymentPlans());
         //check that installment fees message is present
-        assertThat(PremiumsAndCoveragesQuoteTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
+        assertThat(getLabelInstallmentFees()).hasValue(INSTALLMENT_FEES_MESSAGE);
     }
 
-    private void verifyRestrictedPaymentPlans(){
+    protected void verifyRestrictedPaymentPlans(){
         //check that Payment plan drop down has all payment plans
-        ComboBox paymentPlan = new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN);
-        if ("HomeSS_HO4".equals(getPolicyType().getShortName())) {
-            verifyPaymentPlansList(paymentPlan, RESTRICTED_PAYMENT_PLANS_HO4);
-        }
-        else{
-            verifyPaymentPlansList(paymentPlan, RESTRICTED_PAYMENT_PLANS);
-        }
-        PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
+        assertThat(getPaymentPlanComboBox()).hasSameElementsAs(getExpectedRestrictedPaymentPlans());
+        clickPaymentPlanLink();
         //check that table for PaymentPlans has restricted payment plans
-        assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans).isPresent();
-        assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-        if ("HomeSS_HO4".equals(getPolicyType().getShortName())) {
-            assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(RESTRICTED_PAYMENT_PLANS_HO4.toArray(new String[0]));
-        }
-        else{
-            assertThat(PremiumsAndCoveragesQuoteTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(RESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
-        }
+        assertThat(getTablePaymentPlans()).isPresent();
+        assertThat(getTablePaymentPlans().getHeader().getValue()).isEqualTo(getExpectedHeader());
+        assertThat(getTablePaymentPlans().getColumn(1).getValue()).hasSameElementsAs(getExpectedRestrictedPaymentPlans());
         //check that installment fees message is present
-        assertThat(PremiumsAndCoveragesQuoteTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
+        assertThat(getLabelInstallmentFees()).hasValue(INSTALLMENT_FEES_MESSAGE);
         //check that unrestricted payment plans table is absent
-        assertThat(PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans).isAbsent();
+        assertThat(getTableUnrestrictedPaymentPlans()).isAbsent();
     }
 
-    private void verifyPaymentPlansList(ComboBox paymentPlan, ImmutableList<String> expectedPaymentPlans) {
-        List<String> actualPaymentPlan = paymentPlan.getAllValues();
-        actualPaymentPlan.remove(0);
-        assertThat(actualPaymentPlan.size()).as("Incorrect PaymentPlans amount in dropdown").isEqualTo(expectedPaymentPlans.size());
-        for (String expectedPaymentPlan : expectedPaymentPlans){
-            String foundPaymentPlan = checkPaymentPlan(actualPaymentPlan, expectedPaymentPlan);
-            assertThat(foundPaymentPlan).as("PayPlan %s isn't found", expectedPaymentPlan).isEqualTo(expectedPaymentPlan);
-        }
+    protected StaticElement getLabelInstallmentFees() {
+        return PremiumsAndCoveragesQuoteTab.labelInstallmentFees;
     }
 
-    private String checkPaymentPlan(List<String> actualPaymentPlan, String expectedPaymentPlan) {
-        for (String actualPaymentPlanValue : actualPaymentPlan) {
-            if (actualPaymentPlanValue.equals(expectedPaymentPlan)) {
-                return actualPaymentPlanValue;
-            }
-        }
-        return null;
+    protected Table getTableUnrestrictedPaymentPlans() {
+        return PremiumsAndCoveragesQuoteTab.tableUnrestrictedPaymentPlans;
     }
+
+    protected StaticElement getLabelPaymentPlanRestriction() {
+        return PremiumsAndCoveragesQuoteTab.labelPaymentPlanRestriction;
+    }
+    protected void clickPaymentPlanLink() {
+        PremiumsAndCoveragesQuoteTab.linkPaymentPlan.click();
+    }
+
+    protected Table getTablePaymentPlans() {
+        return PremiumsAndCoveragesQuoteTab.tablePaymentPlans;
+    }
+
+    protected List<String> getPaymentPlanComboBox() {
+        List<String> paymentPlanList = new PremiumsAndCoveragesQuoteTab().getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).getAllValues();
+        paymentPlanList.removeIf(""::equals);
+        return paymentPlanList;
+    }
+
 }

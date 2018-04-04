@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -9,13 +8,15 @@ import com.google.common.collect.ImmutableList;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.template.functional.TestRestrictedPaymentPlanAbstract;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Table;
 
-public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
+public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract {
 
 	private static final ImmutableList<String> ALL_PAYMENT_PLANS= ImmutableList.of(
 			"Annual",
@@ -43,11 +44,66 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 			"Minimum Down Payment",
 			"Installment Amount (w/o fees)",
 			"# of Remaining Installments");
-	private static final String RESTRICTED_PAY_PLANS_MESSAGE = "The available pay plans for this quote are restricted to those shown above. The below options can be offered if the following condition is addressed: AAA Membership must be provided.\nAfter addressing the condition, recalculate premium to refresh the available pay plans.";
-	private static final String INSTALLMENT_FEES_MESSAGE = "Installment Amount does not include transaction fees. View applicable fee schedule.";
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
+
+	@Override
+	public List<String> getExpectedAllPaymentPlans() {
+		return ALL_PAYMENT_PLANS;
+	}
+
+	@Override
+	public List<String> getExpectedRestrictedPaymentPlans() {
+		return RESTRICTED_PAYMENT_PLANS;
+	}
+
+	@Override
+	public List<String> getExpectedUnrestrictedPaymentPlans() {
+		return UNRESTRICTED_PAYMENT_PLANS;
+	}
+
+	@Override
+	public List<String> getExpectedHeader() {
+		return PAYMENT_PLAN_HEADER;
+	}
+
+	@Override
+	public List<String> getPaymentPlanComboBox() {
+		List<String> paymentPlanList = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).getAllValues();
+		paymentPlanList.removeIf(""::equals);
+		return paymentPlanList;
+	}
+
+	@Override
+	public Table getTablePaymentPlans() {
+		return PremiumAndCoveragesTab.tablePaymentPlans;
+	}
+
+	@Override
+	public StaticElement getLabelInstallmentFees() {
+		return PremiumAndCoveragesTab.labelInstallmentFees;
+	}
+
+	@Override
+	public Table getTableUnrestrictedPaymentPlans() {
+		return PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans;
+	}
+
+	@Override
+	public StaticElement getLabelPaymentPlanRestriction() {
+		return PremiumAndCoveragesTab.labelPaymentPlanRestriction;
+	}
+
+	@Override
+	public void clickPaymentPlanLink() {
+		PremiumAndCoveragesTab.linkPaymentPlan.click();
+	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Yes and no other restrictions
+	 * @name Test Restricted Payment Plan For Auto with Membership = Yes and no other restrictions
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Yes', don't add any other restrictions to payment plans.
@@ -68,7 +124,7 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Pending and no other restrictions
+	 * @name Test Restricted Payment Plan For Auto with Membership = Pending and no other restrictions
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Pending', don't add any other restrictions to payment plans.
@@ -85,14 +141,14 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-		TestData membershipTD = getTestSpecificTD("AAAProductOwned_Pending");
-		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipTD);
+		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
+		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyRestrictedAndUnrestrictedPaymentPlans();
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = No and no other restrictions
+	 * @name Test Restricted Payment Plan For Auto with Membership = No and no other restrictions
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'No', don't add any other restrictions to payment plans.
@@ -109,14 +165,14 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipNoKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-		TestData membershipTD = getTestSpecificTD("AAAProductOwned_No");
-		TestData td = getPolicyDefaultTD().adjust(membershipNoKey, membershipTD);
+		TestData membershipNoTD = getTestSpecificTD("AAAProductOwned_No");
+		TestData td = getPolicyDefaultTD().adjust(membershipNoKey, membershipNoTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyRestrictedPaymentPlans();
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Membership Override and no other restrictions
+	 * @name Test Restricted Payment Plan For Auto with Membership = Membership Override and no other restrictions
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Membership Override', don't add any other restrictions to payment plans.
@@ -132,15 +188,15 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipNoKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-		TestData membershipTD = getTestSpecificTD("AAAProductOwned_Override");
-		TestData td = getPolicyDefaultTD().adjust(membershipNoKey, membershipTD);
+		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		TestData membershipOverrideTD = getTestSpecificTD("AAAProductOwned_Override");
+		TestData td = getPolicyDefaultTD().adjust(membershipOverrideKey, membershipOverrideTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyAllPayPlansAvailable();
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Yes and prior BI restriction
+	 * @name Test Restricted Payment Plan For Auto with Membership = Yes and prior BI restriction
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Yes' and no Prior BI.
@@ -164,7 +220,7 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Membership Override and minimum BI (on P&C page) restriction
+	 * @name Test Restricted Payment Plan For Auto with Membership = Membership Override and minimum BI (on P&C page) restriction
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Membership Override' and minimum BI (on P&C page).
@@ -190,7 +246,7 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Membership Pending and no Prior BI restriction
+	 * @name Test Restricted Payment Plan For Auto with Membership = Membership Pending and no Prior BI restriction
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Membership Override' and no Prior BI.
@@ -216,7 +272,7 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @name Test Restricted Payment Plan For Home with Membership = Membership Pending and minimum BI (on P&C page) restriction
+	 * @name Test Restricted Payment Plan For Auto with Membership = Membership Pending and minimum BI (on P&C page) restriction
 	 * @scenario
 	 * 1. Initiate quote creation.
 	 * 2. Select Membership = 'Membership Pending' and minimum BI (on P&C page).
@@ -241,70 +297,4 @@ public class TestRestrictedPaymentPlan extends AutoSSBaseTest {
 		verifyRestrictedPaymentPlans();
 	}
 
-	private void verifyAllPayPlansAvailable(){
-		//check that Payment plan drop down has all payment plans
-		ComboBox paymentPlan = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN);
-		verifyPaymentPlansList(paymentPlan, ALL_PAYMENT_PLANS);
-		PremiumAndCoveragesTab.linkPaymentPlan.click();
-		//check that table for PaymentPlans has all payment plans
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans).isPresent();
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(ALL_PAYMENT_PLANS.toArray(new String[0]));
-		//check that installment fees message is present
-		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
-		//check that unrestricted payment plans table is absent
-		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans).isAbsent();
-	}
-
-	private void verifyRestrictedAndUnrestrictedPaymentPlans(){
-		//check that Payment plan drop down has all payment plans
-		ComboBox paymentPlan = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN);
-		verifyPaymentPlansList(paymentPlan, RESTRICTED_PAYMENT_PLANS);
-		PremiumAndCoveragesTab.linkPaymentPlan.click();
-		//check that first table for PaymentPlans has restricted payment plans
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans).isPresent();
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(RESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
-		//check that restricted payment plans message is present
-		assertThat(PremiumAndCoveragesTab.labelPaymentPlanRestriction.getValue()).isEqualTo(RESTRICTED_PAY_PLANS_MESSAGE);
-		//check that second table for PaymentPlans has unrestricted payment plans
-		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans).isPresent();
-		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(UNRESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
-		//check that installment fees message is present
-		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
-	}
-
-	private void verifyRestrictedPaymentPlans(){
-		//check that Payment plan drop down has all payment plans
-		ComboBox paymentPlan = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN);
-		verifyPaymentPlansList(paymentPlan, RESTRICTED_PAYMENT_PLANS);
-		PremiumAndCoveragesTab.linkPaymentPlan.click();
-		//check that table for PaymentPlans has restricted payment plans
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans).isPresent();
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getHeader().getValue()).isEqualTo(PAYMENT_PLAN_HEADER);
-		assertThat(PremiumAndCoveragesTab.tablePaymentPlans.getColumn(1).getValue()).containsExactlyInAnyOrder(RESTRICTED_PAYMENT_PLANS.toArray(new String[0]));
-		//check that installment fees message is present
-		assertThat(PremiumAndCoveragesTab.labelInstallmentFees.getValue()).isEqualTo(INSTALLMENT_FEES_MESSAGE);
-		//check that unrestricted payment plans table is absent
-		assertThat(PremiumAndCoveragesTab.tableUnrestrictedPaymentPlans).isAbsent();
-	}
-
-	private void verifyPaymentPlansList(ComboBox paymentPlan, ImmutableList<String> expectedPaymentPlans) {
-		List<String> actualPaymentPlan = paymentPlan.getAllValues();
-		assertThat(actualPaymentPlan.size()).as("Incorrect PaymentPlans amount in dropdown").isEqualTo(expectedPaymentPlans.size());
-		for (String expectedPaymentPlan : expectedPaymentPlans){
-			String foundPaymentPlan = checkPaymentPlan(actualPaymentPlan, expectedPaymentPlan);
-			assertThat(foundPaymentPlan).as("PayPlan %s isn't found", expectedPaymentPlan).isEqualTo(expectedPaymentPlan);
-		}
-	}
-
-	private String checkPaymentPlan(List<String> actualPaymentPlan, String expectedPaymentPlan) {
-		for (String actualPaymentPlanValue : actualPaymentPlan) {
-			if (actualPaymentPlanValue.equals(expectedPaymentPlan)) {
-				return actualPaymentPlanValue;
-			}
-		}
-		return null;
-	}
 }
