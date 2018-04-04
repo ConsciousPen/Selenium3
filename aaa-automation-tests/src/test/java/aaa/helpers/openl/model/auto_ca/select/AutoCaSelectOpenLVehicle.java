@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
@@ -12,6 +13,10 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 
 	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLDriver> primaryDriver;
+
+	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
+	@ExcelTableColumnElement(name = "umbiLiabilitySymbol")
+	private String umLiabilitySymbol;
 
 	private Boolean aaaMembership;
 	private Boolean applyFixedExpense;
@@ -24,6 +29,9 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	private Boolean oemCoverage;
 	private Boolean rideShareCov;
 	private Integer vehicleAge;
+	private Boolean manuallyAssignedDriver; // TODO-dchubkov: double check type, column in test is empty
+	private Boolean manuallyAssignedUndesignatedDriverInd;
+	private String optionalCoverages; // TODO-dchubkov: double check type, column in test is empty
 
 	public List<AutoCaSelectOpenLDriver> getPrimaryDriver() {
 		return new ArrayList<>(primaryDriver);
@@ -121,6 +129,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.vehicleAge = vehicleAge;
 	}
 
+	@Override
 	public List<AutoCaSelectOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
@@ -129,11 +138,47 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
+	@SuppressWarnings("RedundantMethodOverride")
+	@Override
+	public void setMpLiabilitySymbol(String mpLiabilitySymbol) {
+		this.mpLiabilitySymbol = mpLiabilitySymbol;
+	}
+
+	@Override
+	public String getUmLiabilitySymbol() {
+		return umLiabilitySymbol;
+	}
+
+	public Boolean isManuallyAssignedDriver() {
+		return manuallyAssignedDriver;
+	}
+
+	public void setManuallyAssignedDriver(Boolean manuallyAssignedDriver) {
+		this.manuallyAssignedDriver = manuallyAssignedDriver;
+	}
+
+	public Boolean istManuallyAssignedUndesignatedDriverInd() {
+		return manuallyAssignedUndesignatedDriverInd;
+	}
+
+	public void setManuallyAssignedUndesignatedDriverInd(Boolean manuallyAssignedUndesignatedDriverInd) {
+		this.manuallyAssignedUndesignatedDriverInd = manuallyAssignedUndesignatedDriverInd;
+	}
+
+	public String getOptionalCoverages() {
+		return optionalCoverages;
+	}
+
+	public void setOptionalCoverages(String optionalCoverages) {
+		this.optionalCoverages = optionalCoverages;
+	}
+
 	@Override
 	public String toString() {
 		return "AutoCaSelectOpenLVehicle{" +
-				"primaryDriver=" + primaryDriver +
-				", coverages=" + coverages +
+				"coverages=" + coverages +
+				", primaryDriver=" + primaryDriver +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", aaaMembership=" + aaaMembership +
 				", applyFixedExpense=" + applyFixedExpense +
 				", commuteBand='" + commuteBand + '\'' +
@@ -145,6 +190,9 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 				", oemCoverage=" + oemCoverage +
 				", rideShareCov=" + rideShareCov +
 				", vehicleAge=" + vehicleAge +
+				", manuallyAssignedDriver=" + manuallyAssignedDriver +
+				", manuallyAssignedUndesignatedDriverInd=" + manuallyAssignedUndesignatedDriverInd +
+				", optionalCoverages='" + optionalCoverages + '\'' +
 				", number=" + number +
 				", annualMileage=" + annualMileage +
 				", collSymbol=" + collSymbol +
@@ -152,6 +200,11 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
 				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

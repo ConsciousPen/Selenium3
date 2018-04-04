@@ -48,7 +48,7 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void search(TestData tdSearch) {
-		log.info("Searching with criteria: " + tdSearch);
+		log.info("Searching with criteria: {}", tdSearch);
 		//TODO-dchubkov: call search dialog instead?
 		if (!buttonSearch.isPresent()) {
 			MainPage.QuickSearch.buttonSearchPlus.click();
@@ -88,6 +88,10 @@ public class SearchPage extends MainPage {
 
 	public static void openBilling(String policyNum) {
 		search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+	}
+
+	public static void openCustomer(String customerNum) {
+		search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
 	}
 
 	public static void clear() {

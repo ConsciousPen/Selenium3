@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,7 +17,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 
@@ -69,14 +68,14 @@ public class TestRemoveDistantDriverDiscount extends AutoSSBaseTest {
 		purchaseTab.submitTab();
 
 		// Endorse Policy and Remove the eligibility for DSD
-		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Months"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		DriverTab.viewDriver(2);
 		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DISTANT_STUDENT).setValue("No");
 
 		// Calculate Premium and check that there is no Discount applied
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)).doesNotHaveValue("Distant Student Discount(Angel FromEarth)");
 

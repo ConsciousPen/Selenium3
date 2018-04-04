@@ -2,17 +2,14 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
 import org.eclipse.jetty.util.ConcurrentHashSet;
-import org.testng.annotations.*;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,12 +19,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPolicyLockPreConditions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
@@ -79,7 +76,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         new DriverTab().fillTab(testData);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        new PremiumAndCoveragesTab().calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
         //Verify that values of NAF and AIP are locked and not changed in VRD. Verify that CC values is increased (was not locked)
@@ -134,7 +131,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
         new RatingDetailReportsTab().fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
 
         //Bind the endorsement
-        PremiumAndCoveragesTab.calculatePremium();
+        new PremiumAndCoveragesTab().calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
 
@@ -143,7 +140,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
         //Navigate to the View Rating Details screen of the P&C Page
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        new PremiumAndCoveragesTab().calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
         //Verify that values of ASD tier are locked and not changed in VRD
@@ -197,7 +194,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
         new RatingDetailReportsTab().fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
 
         //Bind the endorsement
-        PremiumAndCoveragesTab.calculatePremium();
+        new PremiumAndCoveragesTab().calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
 
@@ -206,7 +203,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
         //Navigate to the View Rating Details screen of the P&C Page
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.calculatePremium();
+        new PremiumAndCoveragesTab().calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
         //Verify that values of ASD tier are locked and not changed in VRD

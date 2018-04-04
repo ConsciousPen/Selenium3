@@ -1,5 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import aaa.common.Tab;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.RadioGroup;
@@ -15,6 +16,9 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
  * Also sections on UI starts from 1 index therefore index is incremented in overridden getSection() and sectionExists() methods.
  */
 public class DetailedVehicleCoveragesRepeatAssetList extends RepeatAssetList {
+	public static final String WAIVE_LIABILITY = "Waive Liability";
+	public static final String VEHICLE_COVERAGE = "Vehicle Coverage";
+
 	private static final ByT VEHICLE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s");
 	private static final ByT WAIVE_LIABILITY_COMMON_LOCATOR = ByT.id("policyDataGatherForm:waive_Liability_%1$s");
 	private static final ByT VEHICLE_COVERAGE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:subtotalVehiclePremium_%1$s");
@@ -37,12 +41,13 @@ public class DetailedVehicleCoveragesRepeatAssetList extends RepeatAssetList {
 		sectionIndex++; //sections on UI starts from 1
 		AssetList al = super.getSection(sectionIndex);
 		RadioGroup waiveLiability = new RadioGroup(WAIVE_LIABILITY_COMMON_LOCATOR.format(sectionIndex));
-		waiveLiability.setName("Waive Liability");
+		waiveLiability.setName(WAIVE_LIABILITY);
 		al.addAsset(waiveLiability);
 
 		StaticElement vehicleCoverage = new StaticElement(VEHICLE_COVERAGE_COMMON_LOCATOR.format(sectionIndex));
-		vehicleCoverage.setName("Vehicle Coverage");
+		vehicleCoverage.setName(VEHICLE_COVERAGE);
 		al.addAsset(vehicleCoverage);
+		al.applyConfiguration(Tab.COVERAGES_CONFIGURATION_NAME);
 
 		return al;
 	}
