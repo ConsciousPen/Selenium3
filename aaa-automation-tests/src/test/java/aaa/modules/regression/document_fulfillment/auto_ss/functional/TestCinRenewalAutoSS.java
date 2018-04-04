@@ -8,6 +8,7 @@ import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoSS;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -16,7 +17,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import static java.util.Arrays.asList;
-import static org.testng.Assert.*;
 
 public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     /**
@@ -67,7 +67,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinCLUE(@Optional("AZ") String state) {
-        assertFalse(asList("MD", "CO").contains(state), "Test does not support this state: " + state);
+        Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
@@ -107,7 +107,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testNewDriverBetterScore(@Optional("AZ") String state) {
-        assertFalse(asList("MD", "CO").contains(state), "Test does not support this state: " + state);
+        Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
@@ -144,7 +144,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     @Parameters({STATE_PARAM})
     public void testReorderBetterScore(@Optional("AZ") String state) {
-        assertFalse(asList("MD", "CO").contains(state), "Test does not support this state: " + state);
+        Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
