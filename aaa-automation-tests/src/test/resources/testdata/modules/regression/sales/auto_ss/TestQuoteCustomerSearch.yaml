@@ -12,6 +12,7 @@ GeneralTabData: {
 DriverTabData: {
   DriverTab: {
     Occupation: Self-Employed,
+    Marital Status: Married,
     Age First Licensed: 18,
     License Type: 'Licensed (US)',
     License Number: 400064773,

@@ -72,6 +72,7 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRollBack"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewOose"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyReinstatementWithLapse"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeclineByCompany"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeclineByCustomer"/>

@@ -11,6 +11,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLCoverage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
@@ -21,7 +22,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
 
-	public AutoTestDataGenerator(String state, TestData ratingDataPattern) {
+	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
 	}
 
@@ -32,16 +33,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			policyLevelCoverage.add("UMPD");
 		}
 		return policyLevelCoverage;
-	}
-
-	String getDriverTabGender(String gender) {
-		if ("F".equals(gender)) {
-			return "Female";
-		}
-		if ("M".equals(gender)) {
-			return "Male";
-		}
-		throw new IstfException("Unknown mapping for gender: " + gender);
 	}
 
 	protected String getVehicleTabType(String statCode) {
@@ -58,6 +49,32 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			return "Trailer";
 		}
 		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
+	}
+
+	String getDriverTabGender(String gender) {
+		if ("F".equals(gender)) {
+			return "Female";
+		}
+		if ("M".equals(gender)) {
+			return "Male";
+		}
+		throw new IstfException("Unknown mapping for gender: " + gender);
+	}
+
+	String getDriverTabMartialStatus(String martialStatus) {
+		// Rating engine accepts S, M and W
+		switch (martialStatus) {
+			case "J":
+				return "Domestic Partner"; // Auto CA Choice
+			case "M":
+				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+			case "S":
+				return getRandom("Single");
+			case "W":
+				return "Widowed";
+			default:
+				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
+		}
 	}
 
 	String getDriverTabDateOfBirth(Integer driverAge, LocalDateTime policyEffectiveDate) {
@@ -187,22 +204,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getDriverTabMartialStatus(String martialStatus) {
-		// Rating engine accepts S, M and W
-		switch (martialStatus) {
-			case "J":
-				return "Domestic Partner"; // Auto CA Choice
-			case "M":
-				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
-			case "S":
-				return getRandom("Single");
-			case "W":
-				return "Widowed";
-			default:
-				throw new IstfException("Unknown mapping for martialStatus or not acceptable by rating engine: " + martialStatus);
-		}
-	}
-
 	String getPremiumAndCoveragesTabCoverageName(String coverageCD) {
 		Map<String, String> coveragesMap = new HashMap<>();
 
@@ -254,6 +255,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+
+		//AutoCa Select
+		coveragesMap.put("ETEC", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel());
+		//TODO-dchubkov: find out valid coverage name
+		coveragesMap.put("MAINT", "<UNKNOWN COVERAGE MAINT>");
+		coveragesMap.put("UIM", "<UNKNOWN COVERAGE UIM>");
 
 		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
 		return coveragesMap.get(coverageCD);
@@ -356,20 +363,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
-		if ("Y".equals(coverageLimit)) {
-			return AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage";
-		}
-		if ("N".equals(coverageLimit)) {
-			return "starts=No Coverage";
-		}
-		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
-		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
-			cLimit = cLimit.multiply(1000);
-		}
-		return cLimit.toString().replaceAll("\\.00", "");
-	}
-
 	String getPremiumAndCoveragesTabLimitOrDeductible(AutoOpenLCoverage coverage) {
 		String coverageCd = coverage.getCoverageCd();
 		if ("SP EQUIP".equals(coverageCd)) {
@@ -377,8 +370,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 
 		String limitOrDeductible;
-		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
+		if ("COMP".equals(coverageCd) || "COLL".equals(coverageCd) || "MAINT".equals(coverageCd) || getState().equals(Constants.States.NY) && "PIP".equals(coverageCd)) {
 			limitOrDeductible = coverage.getDeductible();
+		} else if ("ETEC".equals(coverageCd) && coverage instanceof AutoCaSelectOpenLCoverage) {
+			limitOrDeductible = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
 		} else {
 			limitOrDeductible = coverage.getLimit();
 		}
@@ -410,6 +405,20 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			}
 		}
 		return returnLimit.toString();
+	}
+
+	String getFormattedCoverageLimit(String coverageLimit, String coverageCD) {
+		if ("Y".equals(coverageLimit)) {
+			return AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage";
+		}
+		if ("N".equals(coverageLimit)) {
+			return "starts=No Coverage";
+		}
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
+		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
+			cLimit = cLimit.multiply(1000);
+		}
+		return cLimit.toString().replaceAll("\\.00", "");
 	}
 
 	String getDbRestraintsCode(String openlAirbagCode) {

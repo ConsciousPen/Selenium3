@@ -18,8 +18,8 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 	private String vehicleUsageCd;
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelTableColumnElement(name = "umbiLiabilitySymbol") //TODO-dchubkov: possible mistake in file, to be investigated
-	protected String umLiabilitySymbol;
+	@ExcelTableColumnElement(name = "umbiLiabilitySymbol")
+	private String umLiabilitySymbol;
 
 	public String getVehType() {
 		return vehType;
@@ -37,6 +37,7 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 		this.vehicleUsageCd = vehicleUsageCd;
 	}
 
+	@Override
 	public List<AutoOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
 	}
