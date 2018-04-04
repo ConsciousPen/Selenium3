@@ -1,9 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -24,7 +21,22 @@ public class HomeSSFormTestDataGenerator {
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0420DataFunction = (openLPolicy, policyLevel) -> DataProviderFactory.dataOf(
 			HomeSSMetaData.EndorsementTab.EndorsementDS0420.AMOUNT_OF_INSURANCE.getLabel(), openLPolicy.getForms().stream().filter(c -> "HS0420".equals(c.getFormCode())).findFirst().get().getCovPercentage() + "%");
 
-	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0435DataFunction = (openLPolicy, policyLevel) -> DataProviderFactory.emptyData();
+	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0435DataFunction = (openLPolicy, policyLevel) -> {
+		List<Map<String, String>> tdList = new ArrayList<>();
+		int instance = 1;
+		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
+			if ("HS0435".equals(form.getFormCode())) {
+				Map<String, String> td = new HashMap<>();
+				td.put("Action", "Add");
+				td.put("Instance Number", String.format("%d", instance++));
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0435.LOCATION_TYPE.getLabel(), form.getType());
+				td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0435.COVERAGE_LIMIT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+				tdList.add(td);
+			}
+
+		}
+		return DataProviderFactory.dataOf(HomeSSMetaData.EndorsementTab.HS_04_35.getLabel(), tdList);
+	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0436DataFunction = (openLPolicy, policyLevel) -> {
 		// TODO clarify Coverage limit
@@ -110,7 +122,7 @@ public class HomeSSFormTestDataGenerator {
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0934DataFunction = (openLPolicy, policyLevel) -> DataProviderFactory.emptyData();
 
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS0965DataFunction = (openLPolicy, policyLevel) -> DataProviderFactory.dataOf(
-			HomeSSMetaData.EndorsementTab.EndorsementHS0965.COVERAGE_LIMIT.getLabel(), "$"+openLPolicy.getForms().stream().filter(c -> "HS0965".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]);
+			HomeSSMetaData.EndorsementTab.EndorsementHS0965.COVERAGE_LIMIT.getLabel(), "$" + openLPolicy.getForms().stream().filter(c -> "HS0965".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]);
 
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS2464DataFunction = (openLPolicy, policyLevel) -> {
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS2464".equals(c.getFormCode())).findFirst().get();
@@ -123,8 +135,8 @@ public class HomeSSFormTestDataGenerator {
 	private static BiFunction<HomeSSOpenLPolicy, String, TestData> formHS2472DataFunction = (openLPolicy, policyLevel) -> {
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS2472".equals(c.getFormCode())).findFirst().get();
 		return DataProviderFactory.dataOf(
-			HomeSSMetaData.EndorsementTab.EndorsementHS2472.DESCRIPTION_OF_THE_NATURE_OF_THE_FARMING.getLabel(), "Description",
-				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATED_AT_THE_RESIDENCE_PREMISES.getLabel(), "On the Residence Premises".equals(form.getType())? "Yes":"No",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2472.DESCRIPTION_OF_THE_NATURE_OF_THE_FARMING.getLabel(), "Description",
+				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATED_AT_THE_RESIDENCE_PREMISES.getLabel(), "On the Residence Premises".equals(form.getType()) ? "Yes" : "No",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_INCOME_DERIVED_FROM_THE_FARMING_A_PRIMARY_SOURCE_OF_INCOME.getLabel(), "No",
 				HomeSSMetaData.EndorsementTab.EndorsementHS2472.IS_THE_FARMING_LOCATION_USED_FOR_RACING_PURPOSES.getLabel(), "No"
 		);

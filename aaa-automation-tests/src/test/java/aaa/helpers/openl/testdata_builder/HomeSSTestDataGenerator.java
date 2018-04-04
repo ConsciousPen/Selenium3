@@ -1,6 +1,7 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.Arrays;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -35,10 +36,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabData(openLPolicy),
 				new ProductOfferingTab().getMetaKey(), getProductOfferingTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
+				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
 				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy)
 		);
 
-		return TestDataHelper.merge(getRatingDataPattern(), td);
+		return TestDataHelper.merge(getRatingDataPattern().mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel())), td);
 	}
 
 	@Override
@@ -67,23 +69,42 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().get(0).isCurrAAAMember())
 		);
 
-		int streetNumber = RandomUtils.nextInt(100, 1000);
-		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
+//		int streetNumber = RandomUtils.nextInt(100, 1000);
+//		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 		TestData dwellingAddressData = DataProviderFactory.dataOf(
-				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
-				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), streetNumber + " " + streetName,
-				HomeSSMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName)
+				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip()
+//				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), streetNumber + " " + streetName,
+//				HomeSSMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", streetNumber, "Street Name", streetName)
 		);
 
-		//		TestData otherActiveAAAPoliciesData = DataProviderFactory.dataOf(
-		//				HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), "No"
-		//		);
+		TestData otherActiveAAAPoliciesData = DataProviderFactory.emptyData();
+		if ((Boolean.TRUE).equals(openLPolicy.getPolicyDiscountInformation().get(0).isAutoPolicyInd())) {
+			otherActiveAAAPoliciesData = DataProviderFactory.dataOf(
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), "Yes",
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN.getLabel(), "click",
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(), DataProviderFactory.emptyData(),
+					HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL.getLabel(), DataProviderFactory.dataOf(
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TYPE.getLabel(), "Auto",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.AUTO_POLICY_STATE.getLabel(), openLPolicy.getPolicyAddress().get(0).getState(),
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.COMPANION_AUTO_PENDING_WITH_DISCOUNT.getLabel(), "No",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_NUMBER.getLabel(), "123456789",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TIER.getLabel(),"G"	,	//TODO
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.AUTO_POLICY_BI_LIMIT.getLabel(), "index=1",
+							HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.AUTO_INSURANCE_PERSISTENCY.getLabel(), openLPolicy.getPolicyDiscountInformation().get(0).getAutoInsPersistency()
+					)
+			);
+		}
+
+		TestData activeUnderlyingPoliciesAutoData = DataProviderFactory.dataOf(
+
+		);
 
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), Arrays.asList(namedInsuredData),
 				HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), aaaMembershipData,
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData
-				//				HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), otherActiveAAAPoliciesData
+				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
+				HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), otherActiveAAAPoliciesData
 		);
 	}
 
@@ -98,15 +119,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 
 		TestData publicProtectionClassData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_DEPARTMENT_TYPE.getLabel(), "index=2",    //ToDo
-				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getProtectionClass(),
-				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.DISTANCE_TO_FIRE_HYDRANT.getLabel(), "index=1",    //ToDo
-				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.FIRE_PROTECTION_AREA.getLabel(), "7"    //ToDo
+				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getProtectionClass()
 		);
 
-		String coverageALimit = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit();
 		TestData propertyValueData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), coverageALimit
+				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit()
 		);
 
 		TestData constructionData = DataProviderFactory.dataOf(
@@ -158,9 +175,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
 
-			TestData endorsementData = new SimpleDataProvider();
+		TestData endorsementData = new SimpleDataProvider();
 
-	for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
 			String formCode = openLForm.getFormCode();
 			if (!endorsementData.containsKey(HomeSSFormTestDataGenerator.getFormMetaKey(formCode))) {
 				TestData td = HomeSSFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
@@ -169,6 +186,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 		endorsementData.mask(new EndorsementTab().getMetaKey(), HomeSSMetaData.EndorsementTab.HS_04_90.getLabel()); //TODO
 		return endorsementData;
+	}
+
+	private TestData getPersonalPropertyTabData(HomeSSOpenLPolicy openLPolicy) {
+		return DataProviderFactory.emptyData();
 	}
 
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -185,5 +206,4 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0]
 		);
 	}
-
 }
