@@ -5,11 +5,9 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-
-	<test name="Preconditions" preserve-order="true">
-	   <classes>
-			<class name="aaa.modules.preconditions.DocGenPreconditions"/>
-   		</classes>
-	</test>
-
+    <test name="Preconditions" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.preconditions.DocGenPreconditions"/>
+        </classes>
+    </test>
 </suite>
