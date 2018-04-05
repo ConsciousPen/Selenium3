@@ -46,7 +46,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
@@ -73,7 +73,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
@@ -105,7 +105,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
