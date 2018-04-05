@@ -217,7 +217,7 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(url, bodyRequest, String.class);
 	}
 
-	private static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPostDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
 	}
 
