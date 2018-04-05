@@ -535,31 +535,63 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-35)
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
-	 * 0. Retrieve active policy with (VIN matched)
-	 * 1. Move time to R-46, create a renewal versiosn with new vin data in DB, and verify refresh does NOT occur
-	 * 2. Move time to R-45, create a renewal version and verify Vin Data Does Refresh
-	 * 3. Move time to R-35, create a renewal version with new vin data in DB, and verify Vin Data Refresh.
-	 * 4. Then Propose the R-35 Renewal Version
-	 * 5. Move time to R-25, create a renewal version with new vin data in DB, and verify Vin Data does NOT Refresh
+	 * 0. Retrieve active policy with no vn match
+	 * 2. Move time to R-46, create a renewal version and verify Vin Data Does NOT Refresh
 	 * @details
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
-	public void pas11659_AutomatedRenewal_Refresh_Scenarios(@Optional("") String state) {
+	public void pas11659_Renewal_VersionR45(@Optional("") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
 		String configExcelName = vinMethods.getControlTableFile();
 		String uploadExcelR45 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R45.get());
-		String uploadExcelR40 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R40.get());
-		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R35.get());
-		String uploadExcelR25 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R25.get());
 
+		//1. Create a policy with VIN matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		//Get the policy expiration date
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		//2. Upload Updated VIN Data for utilized VIN
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadControlTable(configExcelName);
+		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
 		/*
-		 * Automated Renewal at R-46
+		 * Automated Renewal R-46
+		 */
+		//3. Move to R-46 and generate  renewal image (in data gather status). Retrieve policy and verify VIN data did NOT refresh
+		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(46));
+
+	}
+
+
+	/**
+	 * @author Chris Johns
+	 * <p>
+	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-35)
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Retrieve active policy with no vn match
+	 * 2. Move time to R-40, create a renewal version and verify Vin Data Does Refresh
+
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
+	public void pas11659_Renewal_VersionR40(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+		String configExcelName = vinMethods.getControlTableFile();
+		String uploadExcelR40 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R40.get());
+		/*
+		 * Automated Renewal at R-40
 		 */
 		//1. Create a policy with VIN matched data and save the expiration data
 		String policyNumber = createPreconds(testData);
@@ -568,51 +600,98 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadControlTable(configExcelName);
-		uploadToVINTableTab.uploadVinTable(uploadExcelR45);
+		uploadToVINTableTab.uploadVinTable(uploadExcelR40);
 		//2. Move to R-46 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data did NOT refresh
-
-		//		DEFECT - Refresh occurs at R-46
-		// pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(46));
-		/*
-		 * Automated Renewal R-45
-		 */
-		//1. Move to R-45 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(45));
 		/*
 		 * Automated Renewal R-40
 		 */
-		//1. Upload Updated VIN Data for utilized VIN
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(uploadExcelR40);
-		//2. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
+		//1. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
 		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(40));
-		/*
-		 * Automated Renewal R-35
-		 */
-		//1. Upload Updated VIN Data for utilized VIN
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
-		//2. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(35));
-		/*
-		 * Automated Renewal R-25
-		 */
-		//1. Upload Updated VIN Data for utilized VIN
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(uploadExcelR25);
-		//2. Move to R-40 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data did NOT refresh
-		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(25));
 
 	}
 
 
+	/**
+	 * @author Chris Johns
+	 * <p>
+	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-35)
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Retrieve active policy with no vn match
+	 * 2. Move time to R-35, create a renewal version and verify Vin Data Does Refresh
+
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
+	public void pas11659_Renewal_VersionR35(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+		String configExcelName = vinMethods.getControlTableFile();
+		String uploadExcelR35 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R35.get());
+		/*
+		 * Automated Renewal at R-35
+		 */
+		//1. Create a policy with VIN matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		//2. Upload Updated VIN Data for utilized VIN
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadControlTable(configExcelName);
+		uploadToVINTableTab.uploadVinTable(uploadExcelR35);
+		/*
+		 * Automated Renewal R-35
+		 */
+		//1. Move to R-35 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
+		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(35));
+
+	}
 
 
+	/**
+	 * @author Chris Johns
+	 * <p>
+	 * PAS-11659 Renewal Refresh: address scenario when refreshed version is not made "current" (renewal refresh only between R-45 and R-25)
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Retrieve active policy with no vn match
+	 * 2. Move time to R-25, create a renewal version and verify Vin Data Does Refresh
 
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11659")
+	public void pas11659_Renewal_VersionR25(@Optional("") String state) {
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN);
+		String configExcelName = vinMethods.getControlTableFile();
+		String uploadExcelR25 = vinMethods.getSpecificUploadFile(VinUploadHelper.UploadFilesTypes.R25.get());
+		/*
+		 * Automated Renewal at R-25
+		 */
+		//1. Create a policy with VIN matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		//2. Upload Updated VIN Data for utilized VIN
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadControlTable(configExcelName);
+		uploadToVINTableTab.uploadVinTable(uploadExcelR25);
+		/*
+		 * Automated Renewal R-25
+		 */
+		//1. Move to R-25 and generate automated renewal image (in data gather status). Retrieve policy and verify VIN data DID refresh
+		pas11659_CommonSteps(NEW_VIN, policyNumber, policyExpirationDate.minusDays(25));
+
+	}
 
 
 

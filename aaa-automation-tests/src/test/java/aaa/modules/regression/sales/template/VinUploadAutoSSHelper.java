@@ -89,13 +89,14 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 //*************************JOHNS*************************
 //
 	protected void pas11659_CommonSteps(String vinNumber, String policyNumber, LocalDateTime timeShiftedDate) {
-		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		//1. Move time to renewal time point and
 		moveTimeAndRunRenewJobs(timeShiftedDate);
 		//3. Retrieve the policy
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		//4. Set Renewal Date for below comparison
+		//3. Get Renewal Date for below comparison
 		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+
 		//5. Initiate a new renewal version
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
@@ -103,46 +104,26 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		//6. Verify VIN Data Refreshed or Not
-//		if (currentDate.equals(renewalDate.minusDays(46))) {
-//			assertSoftly(softly -> {
-//				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2007");
-//				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("UT_SS_R45");
-//				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt_R45");
-//			});
-//		}
-		switch timeShiftedDate(){
-			case renewalDate.minusDays(45) {
+		switch (timeShiftedDate.toString()) {
+			case renewalDate.minusDays(46).toString():
+			case renewalDate.minusDays(25).toString(): {
+				assertSoftly(softly -> {
+					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2007");
+					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("UT_SS_R45");
+					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt_R45");
+					});
+				break;
 			}
-			case renewalDate.minusDays(40) {
+			case renewalDate.minusDays(45):
+			case renewalDate.minusDays(40):
+			case renewalDate.minusDays(35): {
+				assertSoftly(softly -> {
+					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
+					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");
+					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R45");
+					});
+				break;
 			}
-
-			}
-		}
-		if (timeShiftedDate.equals(renewalDate.minusDays(45))) {
-			assertSoftly(softly -> {
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R45");
-			});
-		} else if (timeShiftedDate.equals(renewalDate.minusDays(40))) {
-			assertSoftly(softly -> {
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2008");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R40");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R40");
-			});
-		} else if(timeShiftedDate.equals(renewalDate.minusDays(35))) {
-			assertSoftly(softly -> {
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2009");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R35");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R35");
-			});
-		} else if(timeShiftedDate.equals(renewalDate.minusDays(25))) {
-			assertSoftly(softly -> {
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2010");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("UT_SS_R25");
-				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt_R25");
-			});
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
