@@ -759,8 +759,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
-		pas10227_ViewManageVehicleLevelCoverages();
+		pas10227_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
+
 
 
 	@Override

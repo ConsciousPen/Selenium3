@@ -135,6 +135,10 @@ public class HelperCommon {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
+	static Coverage[] viewCoverageInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, Coverage[].class);
+	}
 
 	static PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_ENDORSEMENT, policyNumber));

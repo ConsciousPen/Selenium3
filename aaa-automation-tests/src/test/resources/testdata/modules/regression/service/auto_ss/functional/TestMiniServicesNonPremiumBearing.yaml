@@ -2,6 +2,16 @@ TestData_AllVehicles: {
     VehicleTab: ['@VehicleTab_First', '@VehicleTab_Other'],
 }
 
+TestData_AllVehiclesMegha: {
+    VehicleTab: ['@VehicleTab_First', '@VehicleTab_2018'],
+}
+
+VehicleTab_First: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
 VehicleTab_Other: {
     Usage: Pleasure,
     VIN: 2GNWGPFG9B2222222,
@@ -14,10 +24,14 @@ VehicleTab_Other: {
     'Stated Amount': '10000',
 }
 
-VehicleTab_First: {
+VehicleTab_2018: {
     Add Vehicle: Click,
     Usage: Pleasure,
-    VIN: WDCYC7BB0B6729451
+    VIN: 1FM5K8D86JGA29926,
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
 }
 
 TestData_AllDrivers: {

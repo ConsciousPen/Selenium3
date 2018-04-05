@@ -1856,31 +1856,52 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas10227_ViewManageVehicleLevelCoverages() {
+	protected void pas10227_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
 		//createCustomerIndividual();
-		//String policyNumber = createPolicy(getPolicyTD());
 
-		String policyNumber= "VASS952918541";
+		VehicleTab vehicleTab = new VehicleTab();
+		//PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		//TestData td = getPolicyTD("DataGather", "TestData");
+		//TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesMegha").getTestDataList("VehicleTab")).resolveLinks();
+		//policyType.get().createPolicy(testData);
+
+		//String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+
+		String policyNumber= "VASS952918546";
 		SearchPage.openPolicy(policyNumber);
 
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+
+		SearchPage.openPolicy(policyNumber);
+
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
-	//	printToLog(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2,  AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()));
-	//	printToLog(premiumAndCoveragesTab.getVehicleCoverageDetailsTermPremiumByVehicle(2,  AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()));
-
-	//	premiumAndCoveragesTab.cancel();
-
-	//	policy.dataGather().start();
-	//	NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		//premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(2,  AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "750");
 
 		String comprehensive_deductable_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel());
 		String collision_deductable_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel());
 		String full_safety_glass_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS.getLabel());
+		String transportation_expense_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TRANSPORTATION_EXPENSE.getLabel());
 		String towing_and_labor_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
-	//	String loan_lease_cov_veh1 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(3, AutoSSMetaData.PremiumAndCoveragesTab..getLabel());
+
+		String comprehensive_deductable_veh2 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel());
+		String collision_deductable_veh2 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel());
+		String full_safety_glass_veh2 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS.getLabel());
+		String loan_lease_cov_veh2 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.AUTO_LOAN_LEASE_COVERAGE.getLabel());
+		String transportation_expense_veh2 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.TRANSPORTATION_EXPENSE.getLabel());
+		String towing_and_labor_veh2 = premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
+
+		premiumAndCoveragesTab.saveAndExit();
+
+		Coverage[] coverageResponse = HelperCommon.viewCoverageInfo(policyNumber);
+		assertSoftly(softly -> {
+
+		});
+
+
 	}
 
 	private void endorsePolicyAddEvalue() {
