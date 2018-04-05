@@ -8,10 +8,10 @@ import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public abstract class HomeCaOpenLFile<P extends HomeCaOpenLPolicy> extends OpenLFile<P> {
 	@ExcelTransient
-	protected static final int SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER = 3;
+	public static final int SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER = 4;
 
 	@ExcelTransient
-	protected static final String SCHEDULED_PROPERTY_ITEM_SHEET_NAME = "Batch- ScheduledPropertyItem";
+	public static final String SCHEDULED_PROPERTY_ITEM_SHEET_NAME = "Batch- ScheduledPropertyItem";
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
