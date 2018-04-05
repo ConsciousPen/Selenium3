@@ -17,3 +17,12 @@ InsuranceScoreOverride_OverrideTo1: {
     Save: 'click'
   }
   }
+
+
+############################################  TestData_Authorized
+
+TestData_Authorized: {
+DocumentsAndBindTab: {
+Authorized By: 'Me'
+}
+}
