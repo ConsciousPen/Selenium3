@@ -7,8 +7,8 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 	private Integer deductible;
 	private String formClass;
 	private Boolean hasCorporalPunishmentSurcharge;
-	private Integer numOfFamilies;
-	private Integer scheduledPropertyItems;
+	private Integer numOfFamilies;	
+	private Integer scheduledPropertyItems;	
 	private String territoryCode;
 	private String type;
 

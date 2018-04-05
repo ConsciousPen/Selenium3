@@ -72,6 +72,9 @@ public class HomeCAFormTestDataGenerator {
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO59DataFunction = (openlForm) -> DataProviderFactory.emptyData();
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO60DataFunction = (openlForm) -> DataProviderFactory.emptyData();
 	
+	private static Function<HomeCaHO3OpenLForm, TestData> formHO61DataFunction = (openlForm) -> DataProviderFactory.emptyData();
+	private static Function<HomeCaHO3OpenLForm, TestData> formHO61CDataFunction = (openlForm) -> DataProviderFactory.emptyData();
+	
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO70DataFunction =  (openlForm) -> DataProviderFactory.dataOf(
 			HomeCaMetaData.EndorsementTab.EndorsementHO70.NUMBER_OF_FAMILY_UNITS.getLabel(), openlForm.getNumOfFamilies(), 
 			HomeCaMetaData.EndorsementTab.EndorsementHO70.ZIP_CODE.getLabel(), "90255", 
@@ -143,6 +146,8 @@ public class HomeCAFormTestDataGenerator {
 		HO57(HomeCaMetaData.EndorsementTab.HO_57.getLabel(), "HO-57", formHO57DataFunction),
 		HO59(HomeCaMetaData.EndorsementTab.HO_59.getLabel(), "HO-59", formHO59DataFunction),
 		HO60(HomeCaMetaData.EndorsementTab.HO_60.getLabel(), "HO-60", formHO60DataFunction),
+		HO61(HomeCaMetaData.EndorsementTab.HO_61.getLabel(), "HO-61", formHO61DataFunction),
+		HO61C(HomeCaMetaData.EndorsementTab.HO_61C.getLabel(), "HO-61C", formHO61CDataFunction),
 		HO70(HomeCaMetaData.EndorsementTab.HO_70.getLabel(), "HO-70", formHO70DataFunction), 
 		HO71(HomeCaMetaData.EndorsementTab.HO_71.getLabel(), "HO-71", formHO71DataFunction), 
 		HO75(HomeCaMetaData.EndorsementTab.HO_75.getLabel(), "HO-75", formHO75DataFunction), 

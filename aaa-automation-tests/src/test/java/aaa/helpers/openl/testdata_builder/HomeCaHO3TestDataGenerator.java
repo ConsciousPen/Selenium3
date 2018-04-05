@@ -4,6 +4,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
 //import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
@@ -38,8 +39,13 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				new ReportsTab().getMetaKey(), getReportsTabData(openLPolicy),
 				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
-				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
 				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy));
+		
+		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().contains("HO-61")||form.getFormCode().contains("HO-61C")) {
+				td.adjust(DataProviderFactory.dataOf(new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy)));
+			}
+		}
 		
 		return TestDataHelper.merge(getRatingDataPattern(), td);
 	}
@@ -168,7 +174,26 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	}
 	
 	private TestData getPersonalPropertyTabData(HomeCaHO3OpenLPolicy openLPolicy) {
+		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().contains("HO-61")) {
+				form.getScheduledPropertyItems();
+				HomeCaOpenLScheduledPropertyItem propertyItem;
+				
+				
+			}
+		}
+
 		return DataProviderFactory.emptyData();
+	}
+	
+	private void getPersonalPropertyData (HomeCaHO3OpenLForm openLForm) {
+		HomeCaOpenLScheduledPropertyItem propertyItem;
+		switch (openLForm.getScheduledPropertyItems()){
+		case 1: 
+		//	TestData golfEquipment = DataProviderFactory.dataOf(
+		//			HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), propertyItem.getLimit());
+			
+		} 
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
@@ -178,14 +203,15 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 
+		/*
 		Dollar coverageC = new Dollar(covC);
 		Dollar coverageA = new Dollar(covA);
 		if (coverageC.lessThan(coverageA.multiply(0.75))) {
 			coverageC = coverageA.multiply(0.75);
-		}
+		}*/
 		
 		return DataProviderFactory.dataOf(
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), coverageC.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC.toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(covE).toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));
