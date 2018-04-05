@@ -12,7 +12,7 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	private Integer age;
-	private Integer deductible;
+	private Double deductible;
 	private String formClass;
 	private Boolean hasCorporalPunishmentSurcharge;
 	private Integer numOfFamilies;
@@ -27,11 +27,11 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 		this.age = age;
 	}
 
-	public Integer getDeductible() {
+	public Double getDeductible() {
 		return deductible;
 	}
 
-	public void setDeductible(Integer deductible) {
+	public void setDeductible(Double deductible) {
 		this.deductible = deductible;
 	}
 
