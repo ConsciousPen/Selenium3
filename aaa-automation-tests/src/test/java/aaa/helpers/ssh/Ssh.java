@@ -111,9 +111,9 @@ public class Ssh {
 		source = parseFileName(source);
 
 		try {
-			closeSession();
+			closeSession(); //added to avoid hanging during file removal
 			openSftpChannel();
-			//sftpChannel.cd("/");
+			//sftpChannel.cd("/"); //replaced with closing session above
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 			if (list.size() == 0) {
