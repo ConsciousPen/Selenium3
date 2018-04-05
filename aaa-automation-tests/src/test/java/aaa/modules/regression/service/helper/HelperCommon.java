@@ -93,7 +93,6 @@ public class HelperCommon {
 	}
 
 	public static VehicleUpdateResponseDto updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
-
 		String requestUrl = urlBuilderDxp(String.format(DXP_UPDATE_VEHICLE_ENDPOINT, policyNumber, oid));
 		return runJsonRequestPatchDxp(requestUrl, request, VehicleUpdateResponseDto.class);
 	}
@@ -284,7 +283,6 @@ public class HelperCommon {
 			}
 			if (client != null) {
 				client.close();
-
 			}
 		}
 	}
