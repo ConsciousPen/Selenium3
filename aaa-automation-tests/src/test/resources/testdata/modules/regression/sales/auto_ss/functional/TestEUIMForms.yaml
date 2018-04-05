@@ -14,6 +14,6 @@ PremiumAndCoveragesTab_NB: {
 PremiumAndCoveragesTab_Conv: {
   Payment Plan: 'Annual (Renewal)',
   Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Enhanced UIM: click,
+  Enhanced UIM: true,
   Comprehensive Deductible: 'contains=$750'
 }
