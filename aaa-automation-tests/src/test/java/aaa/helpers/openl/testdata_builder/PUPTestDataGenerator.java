@@ -136,7 +136,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		}
 
 		return DataProviderFactory.dataOf(
-				/*HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionData,*/
 				HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), recreationalEquipment
 		);
 	}
@@ -169,14 +168,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getGeneralTabData(PUPOpenLPolicy openLPolicy) {
-		TestData dwellingAddressData = DataProviderFactory.dataOf(
-				PersonalUmbrellaMetaData.GeneralTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().get(0).getAddress().get(0).getZipCode()
-		);
-
-		return DataProviderFactory.dataOf(
-				PersonalUmbrellaMetaData.GeneralTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData
-		);
-
+		return DataProviderFactory.emptyData();
 	}
 
 	private TestData getUnderlyingRisksPropertyData(PUPOpenLPolicy openLPolicy) {
