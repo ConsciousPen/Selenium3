@@ -96,7 +96,11 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		SearchPage.openPolicy(policyNumber);
 		//3. Get Renewal Date for below comparison
 		LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
-
+		String R46 = (renewalDate.minusDays(46).toString());
+		String R45 = renewalDate.minusDays(45).toString();
+		String R40 = renewalDate.minusDays(40).toString();
+		String R35 = renewalDate.minusDays(35).toString();
+		String R25 = (renewalDate.minusDays(25).toString());
 		//5. Initiate a new renewal version
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
@@ -105,25 +109,23 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		switch (timeShiftedDate.toString()) {
-			case renewalDate.minusDays(46).toString():
-			case renewalDate.minusDays(25).toString(): {
+			case R46:
+			case R25:
 				assertSoftly(softly -> {
 					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isNotEqualTo("2007");
 					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isNotEqualTo("UT_SS_R45");
 					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isNotEqualTo("Gt_R45");
-					});
+				});
 				break;
-			}
-			case renewalDate.minusDays(45):
-			case renewalDate.minusDays(40):
-			case renewalDate.minusDays(35): {
+			case R35:
+			case R40:
+			case R45:
 				assertSoftly(softly -> {
 					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2007");
 					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("UT_SS_R45");
 					softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt_R45");
-					});
+				});
 				break;
-			}
 		}
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
