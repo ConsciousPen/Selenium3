@@ -12,7 +12,7 @@ public class HomeCaHO3OpenLFile extends HomeCaOpenLFile<HomeCaHO3OpenLPolicy> {
 	static final int FORM_HEADER_ROW_NUMBER = 4;
 
 	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-	protected List<HomeCaHO3OpenLPolicy> policies;
+	private List<HomeCaHO3OpenLPolicy> policies;
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
@@ -24,7 +24,7 @@ public class HomeCaHO3OpenLFile extends HomeCaOpenLFile<HomeCaHO3OpenLPolicy> {
 
 	@ExcelTransient
 	@ExcelTableElement(sheetName = SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowIndex = SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
-	protected List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
+	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	public List<HomeCaHO3OpenLForm> getForms() {
 		return new ArrayList<>(forms);

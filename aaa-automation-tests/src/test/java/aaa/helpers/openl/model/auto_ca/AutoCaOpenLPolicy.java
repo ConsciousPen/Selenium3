@@ -4,7 +4,7 @@ import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
 
-public abstract class AutoCaOpenLPolicy extends OpenLPolicy {
+public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends OpenLVehicle> extends OpenLPolicy {
 	protected Boolean multiCar;
 	protected String nanoPolicyType;
 
@@ -16,9 +16,9 @@ public abstract class AutoCaOpenLPolicy extends OpenLPolicy {
 		this.nanoPolicyType = nanoPolicyType;
 	}
 
-	public abstract List<? extends AutoCaOpenLDriver> getDrivers();
+	public abstract List<D> getDrivers();
 
-	public abstract List<? extends OpenLVehicle> getVehicles();
+	public abstract List<V> getVehicles();
 
 	public void setMultiCar(Boolean multiCar) {
 		this.multiCar = multiCar;

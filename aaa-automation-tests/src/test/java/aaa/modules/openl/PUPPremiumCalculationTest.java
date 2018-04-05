@@ -9,6 +9,7 @@ import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.PUPTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import toolkit.datax.TestData;
 
@@ -17,6 +18,11 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.PUP;
+	}
+
+	@Override
+	protected TestData getRatingDataPattern() {
+		return super.getRatingDataPattern().mask(new PrefillTab().getMetaKey());
 	}
 
 	@Override

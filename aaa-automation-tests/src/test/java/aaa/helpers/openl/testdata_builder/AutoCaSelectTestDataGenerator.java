@@ -1,24 +1,28 @@
 package aaa.helpers.openl.testdata_builder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
-public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoCaSelectOpenLPolicy> {
+public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoCaSelectOpenLDriver, AutoCaSelectOpenLVehicle, AutoCaSelectOpenLPolicy> {
 
 	public AutoCaSelectTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -44,16 +48,139 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
-		TestData vehicleInformation = super.getVehicleTabInformationData(vehicle);
-		String usage = getRandom("Commute (to/from work and school)", "Farm non-business(on premises)", "Business (small business non-commercial)", "Pleasure (recreational driving only)");
+	protected TestData getDriverTabInformationData(AutoCaSelectOpenLDriver openLDriver, boolean isFirstDriver, LocalDateTime policyEffectiveDate) {
+		TestData driverData = super.getDriverTabInformationData(openLDriver, isFirstDriver, policyEffectiveDate);
+		assertThat(openLDriver.getYaf()).as("\"yaf\" openl field should have maximum 7 Years activity (accidents) free").isLessThanOrEqualTo(7);
+
+		if (Boolean.TRUE.equals(openLDriver.isNewDriver())) {
+			LocalDateTime driversDateOfBirth = TimeSetterUtil.getInstance().parse(driverData.getValue(AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), DateTimeUtils.MM_DD_YYYY);
+			LocalDateTime newDriverCourseCompletionMinDate = driversDateOfBirth.plusYears(16);
+			LocalDateTime newDriverCourseCompletionMaxDate = driversDateOfBirth.plusYears(19).isBefore(policyEffectiveDate) ? driversDateOfBirth.plusYears(19) : policyEffectiveDate;
+			assertThat(newDriverCourseCompletionMinDate).as("Calculated minimum allowable New Driver Course Completion Date should be less than maximum one").isBefore(newDriverCourseCompletionMaxDate);
+			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate, newDriverCourseCompletionMaxDate).toDays()));
+			LocalDateTime newDriverCourseCompletionDate = duration == 0 ? newDriverCourseCompletionMinDate : newDriverCourseCompletionMinDate.plusDays(new Random().nextInt(duration));
+
+			driverData
+					.adjust(AutoCaMetaData.DriverTab.DRIVER_TYPE.getLabel(), "Available for Rating")
+					.adjust(AutoCaMetaData.DriverTab.NEW_DRIVER_COURSE_COMPLETED.getLabel(), "Yes")
+					.adjust(AutoCaMetaData.DriverTab.NEW_DRIVER_COURSE_COMPLETION_DATE.getLabel(), newDriverCourseCompletionDate.format(DateTimeUtils.MM_DD_YYYY));
+		}
+
+		return driverData;
+	}
+
+	@Override
+	protected List<TestData> getDriverTabActivityInformationData(AutoCaSelectOpenLDriver openLDriver, LocalDateTime policyEffectiveDate) {
+		List<TestData> activityInformationList = new ArrayList<>();
+		switch (openLDriver.getDsr()) {
+			//TODO-dchubkov: implement logic to add incidents with any violation points number
+			case 3:
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, openLDriver.getYaf()));
+				break;
+			case 4:
+				activityInformationList.add(get4ViolationPointsActivityInformationData(policyEffectiveDate, false, openLDriver.getYaf()));
+				break;
+			case 13:
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, openLDriver.getYaf()));
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, openLDriver.getYaf()));
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, openLDriver.getYaf()));
+				activityInformationList.add(get4ViolationPointsActivityInformationData(policyEffectiveDate, false, openLDriver.getYaf()));
+				break;
+			default:
+				throw new IstfException(String.format("Unknown mapping for dsr=%s value", openLDriver.getDsr()));
+		}
+		return activityInformationList;
+	}
+
+	@Override
+	protected int getDriverAge(AutoCaSelectOpenLDriver openLDriver) {
+		int driverAge;
+		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
+			assertThat(openLDriver.isNewDriver()).as("Driver's \"newDriver\" field should not be TRUE if field \"matureDriver\" is also TRUE").isFalse();
+			driverAge = getRandomAge(50, 80, openLDriver.getTyde());
+		} else {
+			if (Boolean.TRUE.equals(openLDriver.isNewDriver())) {
+				assertThat(openLDriver.getMaritalStatus()).as("Unable to generate driver's test data for newDriver=true if marital status is not single").isEqualTo("S");
+				driverAge = getRandomAge(16, 25, openLDriver.getTyde());
+			} else {
+				driverAge = getRandomAge(26, 49, openLDriver.getTyde());
+			}
+		}
+		return driverAge;
+	}
+
+	@Override
+	protected TestData getVehicleTabInformationData(AutoCaSelectOpenLVehicle openLVehicle) {
+		TestData vehicleInformation = super.getVehicleTabInformationData(openLVehicle);
+		//TODO-dchubkov: implement test data generation for optionalCoverages field (postponed since all tests have empty values)
+		assertThat(openLVehicle.getOptionalCoverages()).as("Test data generation for non-empty optionalCoverages field is not implemented").isNullOrEmpty();
+
+		String statCode = getStatCode(openLVehicle);
+		String usage;
+		String milesToWorkOrSchool = null;
+
+		switch (openLVehicle.getCommuteBand()) {
+			case "3":
+				usage = "Business (small business non-commercial)";
+				break;
+			case "6":
+				usage = "Business (small business non-commercial)";
+				List<String> allowedStatCodes = Arrays.asList("R", "O", "U", "W");
+				assertThat(statCode).as("Invalid stat code \"%$1s\" for commuteBand=%$2s; for this commuteBand only %$3s stat codes are allowed", statCode, openLVehicle.getCommuteBand(), allowedStatCodes)
+						.isIn(allowedStatCodes);
+				break;
+			case "8":
+				usage = "Farm business (farm to market delivery)";
+				break;
+			case "A":
+				if ("A".equals(statCode) || "M".equals(statCode) || "T".equals(statCode)) {
+					usage = "Business (small business non-commercial)";
+				} else {
+					usage = "Pleasure (recreational driving only)";
+				}
+				break;
+			case "B":
+				usage = "Commute (to/from work and school)";
+				milesToWorkOrSchool = String.valueOf(RandomUtils.nextInt(1, 20));
+				break;
+			case "C":
+				usage = "Commute (to/from work and school)";
+				milesToWorkOrSchool = String.valueOf(RandomUtils.nextInt(20, 100));
+				break;
+			case "Z":
+				usage = "Farm non-business(on premises)";
+				break;
+			default:
+				throw new IstfException("Unknown mapping for openl field commuteBand=" + openLVehicle.getCommuteBand());
+
+		}
+
 		vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), usage);
 		if ("Business (small business non-commercial)".equals(usage)) {
 			vehicleInformation
 					.adjust(AutoCaMetaData.VehicleTab.IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS.getLabel(), "Yes")
 					.adjust(AutoCaMetaData.VehicleTab.BUSINESS_USE_DESCRIPTION.getLabel(), "some business use description $<rx:\\d{3}>");
 		}
-		return vehicleInformation;
+		if (milesToWorkOrSchool != null) {
+			vehicleInformation.adjust(AutoCaMetaData.VehicleTab.MILES_ONE_WAY_TO_WORK_OR_SCHOOL.getLabel(), milesToWorkOrSchool);
+		}
+
+		Map<String, String> ownershipData = new HashMap<>();
+		String type = null;
+		if (Boolean.TRUE.equals(openLVehicle.isGapCoverage() && Boolean.TRUE.equals(openLVehicle.isNewCarProtection()))) {
+			type = "Financed";
+		} else if (Boolean.TRUE.equals(openLVehicle.isNewCarProtection())) {
+			type = getRandom("Owned", "Financed");
+		} else if (Boolean.TRUE.equals(openLVehicle.isGapCoverage())) {
+			type = getRandom("Leased", "Financed");
+		}
+
+		ownershipData.put(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), type);
+		if (!"Owned".equals(type)) {
+			ownershipData.put(AutoCaMetaData.VehicleTab.Ownership.FIRST_NAME.getLabel(), "BANK OF AMERICA");
+		}
+
+		return vehicleInformation.adjust(AutoCaMetaData.VehicleTab.OWNERSHIP.getLabel(), new SimpleDataProvider(ownershipData));
 	}
 
 	@Override
@@ -61,17 +188,31 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		TestData td = super.getPremiumAndCoveragesTabData(openLPolicy);
 		td.adjust(AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), String.valueOf(openLPolicy.isMultiCar()));
 
+		//TODO-dchubkov: Vehicles coverages test data should be ordered same as appropriate vehicles. Think about how to generate test data without sort order dependency
 		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 			AutoCaSelectOpenLVehicle vehicle = openLPolicy.getVehicles().get(i);
+			TestData vehicleCoverage = td.getTestDataList(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()).get(i);
 
-			if (Boolean.TRUE.equals(vehicle.getApplyFixedExpense())) {
+			if (Boolean.TRUE.equals(vehicle.isApplyFixedExpense())) {
 				assertThat(vehicle.getCoverages().stream().anyMatch(c -> "BI".equals(c.getCoverageCd()) && StringUtils.isNotBlank(c.getLimit())))
 						.as("If vehicle's openl field applyFixedExpense=TRUE then it should have at least one non-empty BI coverage").isTrue();
 
-				//TODO-dchubkov: Vehicles coverages test data should be ordered same as appropriate vehicles. Think about how to generate test data without sort order dependency
-				td.getTestDataList(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()).get(i)
-						.adjust(DetailedVehicleCoveragesRepeatAssetList.WAIVE_LIABILITY, "Yes");
+				vehicleCoverage.adjust(DetailedVehicleCoveragesRepeatAssetList.WAIVE_LIABILITY, "Yes");
 			}
+
+			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel(), getAnyCoverage(vehicle.isEte()));
+			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getAnyCoverage(vehicle.isFullGlassCoverage()));
+			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel(), getAnyCoverage(vehicle.isGapCoverage()));
+			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS.getLabel(), getAnyCoverage(vehicle.isOemCoverage()));
+			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RIDESHARING_COVERAGE.getLabel(), getAnyCoverage(vehicle.isRideShareCov()));
+
+			if (Boolean.TRUE.equals(vehicle.isNewCarProtection())) {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.PURCHASE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+			} else {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), "starts=No Coverage");
+			}
+
 		}
 		return td;
 	}
@@ -87,8 +228,8 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected String getVehicleTabType(OpenLVehicle vehicle) {
-		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
+	protected String getVehicleTabType(AutoCaSelectOpenLVehicle openLVehicle) {
+		String statCode = getStatCode(openLVehicle);
 		if (isRegularType(statCode)) {
 			return "Regular";
 		}
@@ -138,6 +279,42 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		return statCodesMap.get(statCode);
 	}
 
+	private TestData getAssignmentTabData(AutoCaSelectOpenLPolicy openLPolicy) {
+		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
+		for (AutoCaSelectOpenLVehicle vehicle : openLPolicy.getVehicles()) {
+			assertThat(vehicle.getPrimaryDriver()).as("Vehicle's \"primaryDriver\" field should be not empty and have only one assigned driver").isNotNull().hasSize(1);
+			assertThat(vehicle.getPrimaryDriver().get(0).getType()).as("Vehicle's primary driver should have type=P").isEqualTo("P");
+
+			String driverId = vehicle.getPrimaryDriver().get(0).getId();
+			String primaryDriver = driverId.startsWith("Dr1") ? "contains=Smith" : driverId + DRIVER_FN_POSTFIX + " " + driverId + DRIVER_LN_POSTFIX;
+			String manuallyRatedDriver = "";
+
+			if (CollectionUtils.isNotEmpty(vehicle.getPrimaryDriver())) {
+
+				//assertThat(vehicle.getManuallyAssignedDriver()).as("Vehicle's \"manuallyAssignedDriver\" field should be empty if \"primaryDriver\" is set").isNullOrEmpty();
+			}
+
+			if (CollectionUtils.isNotEmpty(vehicle.getManuallyAssignedDriver())) {
+				assertThat(vehicle.getManuallyAssignedDriver()).as("Vehicle's \"manuallyAssignedDriver\" field should have only one assigned driver").hasSize(1);
+				assertThat(vehicle.getManuallyAssignedDriver().get(0).getType()).as("Vehicle's manually assigned driver should have type=U or type=O").isIn("U", "O");
+				assertThat(vehicle.istManuallyAssignedUndesignatedDriverInd()).as("Vehicle's \"manuallyAssignedUndesignatedDriverInd\" should be TRUE if \"manuallyAssignedDriver\" is not empty").isTrue();
+
+				if ("U".equals(vehicle.getManuallyAssignedDriver().get(0).getType())) {
+					manuallyRatedDriver = "Undesignated";
+				} else { // O is other (just driver which is not mentioned in Primary Driver combobox)
+					manuallyRatedDriver = AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=|Undesignated|" + primaryDriver.replace("contains=", "");
+				}
+			}
+
+			TestData assignmentData = DataProviderFactory.dataOf(
+					AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), primaryDriver,
+					AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.MANUALLY_RATED_DRIVER.getLabel(), manuallyRatedDriver);
+			driverVehicleRelationshipTable.add(assignmentData);
+		}
+
+		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
+	}
+
 	private TestData getGeneralTabData(AutoCaSelectOpenLPolicy openLPolicy) {
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
@@ -167,7 +344,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 
 		if (openLPolicy.getLifemoto() != null) {
-			switch (openLPolicy.getHome3or4()) {
+			switch (openLPolicy.getLifemoto()) {
 				case "B":
 					aaaProductOwnedData
 							.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), "Yes")
@@ -211,4 +388,9 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		List<String> codes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
 		return codes.contains(statCode);
 	}
+
+	private String getAnyCoverage(Boolean coverageValue) {
+		return Boolean.TRUE.equals(coverageValue) ? AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage" : "starts=No Coverage";
+	}
+
 }
