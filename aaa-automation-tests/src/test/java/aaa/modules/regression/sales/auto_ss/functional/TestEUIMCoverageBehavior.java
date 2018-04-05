@@ -152,7 +152,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS11111);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.submitTab();
 
         //AC2 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
@@ -162,12 +162,12 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedPropertyDamage.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS22222);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.submitTab();
         enhancedBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS11111);
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS22222);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.submitTab();
 
         //AC2 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
