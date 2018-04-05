@@ -4,11 +4,13 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -44,6 +46,7 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -1320,11 +1323,39 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		PolicySummaryPage.buttonTransactionHistory.click();
 		CustomAssert.assertEquals(PolicySummaryPage.tableTransactionHistory.getRowsCount(), rowCount);
 		if (null != value) {
-			if (!PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue().equals(value)) {
-				//TODO update once functionality is implemented
-				PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue().equals(value);
-			}
+			String valueShort = value.substring(1, 20);
+			PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").verify.value(valueShort);
 		}
+	}
+
+	/**
+	 * test to check GetHintValue not working
+	 */
+	@Test
+	public void getHintValue() {
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "CAAC952918545");
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		PolicySummaryPage.buttonTransactionHistory.click();
+
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").click();
+		StaticElement aaa = new StaticElement(By.xpath("//span[@id='historyForm:body_historyTable:0:j_id5:content']"));
+		assertThat(aaa.getWebElement().getText()).isEqualTo("Email Updated - External System");
+
+		String cellLocator2 = "//span[@id='historyForm:body_historyTable:0:reasonDisplayValue']";
+		String hintLocator = "/../span/span/span/span";
+
+/*		WebDriver driver = BrowserController.get().driver();
+		Actions action = new Actions(driver);
+		action.moveToElement(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getWebElement()).build().perform();
+		//PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getWebElement().findElement(By.id("historyForm:body_historyTable:0:j_id5:content"));
+		//PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").click();
+		//StaticElement aaa1 = new StaticElement(By.xpath("//span[@id='historyForm:body_historyTable:0:j_id5:content']"));
+		StaticElement aaa2 = new StaticElement(By.id("historyForm:body_historyTable:0:j_id5:content"));
+		aaa2.getWebElement().getText();*/
+
+		Tab.buttonCancel.click();
 	}
 
 	private void lastTransactionHistoryExit() {
