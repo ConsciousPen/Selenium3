@@ -9,13 +9,19 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import toolkit.datax.TestData;
@@ -27,7 +33,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private FormsTab formsTab = new FormsTab();
     private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
-    private final String formId = DocGenEnum.Documents.AAEUIMMD.getId();
+    private final String formId = DocGenEnum.Documents.AAEUIMMD.getId().substring(0, DocGenEnum.Documents.AAEUIMMD.getId().indexOf(" "));
     private final String formDesc = DocGenEnum.Documents.AAEUIMMD.getName();
 
     /**
@@ -54,6 +60,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
         TestData tdEUIM = getPolicyTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_NB"));
 
         verifyAlgoDate();
+
         mainApp().open();
         createCustomerIndividual();
 
@@ -86,6 +93,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
         TestData tdEUIM = getConversionPolicyDefaultTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_Conv"));
 
         verifyAlgoDate();
+
         mainApp().open();
         createCustomerIndividual();
 
@@ -112,19 +120,23 @@ public class TestEUIMForms extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11509")
     public void pas11509_testEUIMMDFormEndorsement(@Optional("MD") String state) {
 
-        TestData tdEUIM = getPolicyTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_NB"));
-
         verifyAlgoDate();
+
         mainApp().open();
         createCustomerIndividual();
 
+        // Create policy with Standard UIM coverage
         createPolicy();
+
+        //Perform mid-term endorsement and switch to EUIM coverage
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
+
+        verifyGoddPage();
 
     }
 
@@ -147,8 +159,28 @@ public class TestEUIMForms extends AutoSSBaseTest {
     public void pas11509_testEUIMMDFormRenewal(@Optional("MD") String state) {
 
         verifyAlgoDate();
+
         mainApp().open();
         createCustomerIndividual();
+
+        // Create policy with Standard UIM coverage
+        String policy = createPolicy();
+
+        // Create Renewal
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(63));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+        // Open renewal and switch UIM coverage to EUIM
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policy);
+        PolicySummaryPage.buttonRenewals.click();
+        new AutoSSPolicyActions.DataGather().start();
+        premiumAndCoveragesTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+
+        verifyGoddPage();
 
     }
 
