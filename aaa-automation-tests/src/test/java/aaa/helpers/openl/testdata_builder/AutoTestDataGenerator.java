@@ -21,6 +21,7 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
+	protected static int maxIncidentFreeInMonthsToAffectRating = 33;
 
 	AutoTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -253,9 +254,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		//AutoCa Select
 		coveragesMap.put("ETEC", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel());
-		//TODO-dchubkov: find out valid coverage name
-		coveragesMap.put("MAINT", "<UNKNOWN COVERAGE MAINT>");
-		coveragesMap.put("UIM", "<UNKNOWN COVERAGE UIM>");
+		coveragesMap.put("MAINT", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ALL_RISK.getLabel()); // rating name is ALLRISK
+		coveragesMap.put("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()); // rating name is UIMBI
 
 		assertThat(coveragesMap).as("Unknown mapping for coverageCD: " + coverageCD).containsKey(coverageCD);
 		return coveragesMap.get(coverageCD);
@@ -402,11 +402,26 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if ("N".equals(coverageLimit)) {
 			return "starts=No Coverage";
 		}
-		Dollar cLimit = new Dollar(coverageLimit.replace("Y", ""));
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", "").replace("F", ""));
 		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}
-		return cLimit.toString().replaceAll("\\.00", "");
+
+		String formattedCoverageLimit = cLimit.toString().replaceAll("\\.00", "");
+		if ("APIP".equals(coverageCD)) {
+			// Additional PIP coverage is just a String which does not have separating commas after thousandth
+			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
+		}
+
+		if (getState().equals(Constants.States.MD) && "PIP".equals(coverageCD)) {
+			if (coverageLimit.endsWith("F")) {
+				formattedCoverageLimit = formattedCoverageLimit + " Full";
+			}
+			if (coverageLimit.endsWith("G")) {
+				formattedCoverageLimit = formattedCoverageLimit + " Guest";
+			}
+		}
+		return formattedCoverageLimit;
 	}
 
 	String getDbRestraintsCode(String openlAirbagCode) {

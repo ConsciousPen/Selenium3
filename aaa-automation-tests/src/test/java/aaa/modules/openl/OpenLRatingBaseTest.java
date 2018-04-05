@@ -1,5 +1,6 @@
 package aaa.modules.openl;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.util.*;
@@ -25,6 +26,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.entity.area.ExcelRow;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
@@ -89,16 +91,20 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			} else if (getPolicyType().equals(PolicyType.PUP)) {
 				policySheetName = PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 			}
-			// Find policies table with only needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
-			((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
+			// Find policies table and exclude not needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
+			ExcelTable policiesTable = ((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
+			policiesTable.getRows().stream().filter(r -> !policyNumbers.contains(r.getIntValue(OpenLFile.PRIMARY_KEY_COLUMN_NAME))).forEach(ExcelRow::exclude);
 		}
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
 		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
-		List<P> openLPoliciesList = CollectionUtils.isEmpty(policyNumbers)
-				? openLFile.getPolicies()
-				: openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
-
+		List<P> openLPoliciesList;
+		if (CollectionUtils.isEmpty(policyNumbers)) {
+			openLPoliciesList = openLFile.getPolicies();
+		} else {
+			openLPoliciesList = openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
+			assertThat(openLPoliciesList).as("Found policy objects amount is not equal to number of policies to be tested. Probably excel file has missed tests").hasSameSizeAs(policyNumbers);
+		}
 		Map<P, Dollar> openLPoliciesAndExpectedPremiumsMap = new LinkedHashMap<>(openLPoliciesList.size());
 
 		String testsSheetName = OpenLFile.TESTS_SHEET_NAME;
@@ -108,7 +114,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			policyColumnName = "p";
 		}
 
-		ExcelTable testsTable = openLFileManager.getSheet(testsSheetName).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER, new HashSet<>(policyNumbers));
+		ExcelTable testsTable = openLFileManager.getSheet(testsSheetName).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER);
 		Dollar expectedPremium;
 		for (P openLPolicy : openLPoliciesList) {
 			TableRow row = testsTable.getRow(policyColumnName, openLPolicy.getNumber());

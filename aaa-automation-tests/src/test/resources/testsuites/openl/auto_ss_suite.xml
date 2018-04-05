@@ -43,6 +43,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [MD] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="MD"/>
+        <parameter name="fileName" value="MDTests-ACAIC-20170922.xls"/>
+        <parameter name="policyNumbers" value="208, 209"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
 
     <test name="AutoSS [MT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MT"/>
@@ -52,7 +60,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-
+    <test name="AutoSS [NY] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="NY"/>
+        <parameter name="fileName" value="NYTests-20171101_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 7"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="OR"/>
         <parameter name="fileName" value="ORTests-20170915.xls"/>

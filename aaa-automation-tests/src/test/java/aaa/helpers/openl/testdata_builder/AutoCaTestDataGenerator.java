@@ -49,7 +49,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 				AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), isFirstDriver ? null : openLDriver.getId() + DRIVER_LN_POSTFIX,
 				AutoCaMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(openLDriver.getGender()),
 				AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), getDriverTabMartialStatus(openLDriver.getMaritalStatus()),
-				AutoCaMetaData.DriverTab.OCCUPATION.getLabel(), "regex=.*\\S.*",
+				AutoCaMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
 				AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driverAge - openLDriver.getTyde(),
 				AutoCaMetaData.DriverTab.PERMIT_BEFORE_LICENSE.getLabel(), "No",
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel(), getState(),
@@ -57,8 +57,8 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 				AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driverAge, policyEffectiveDate),
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(openLDriver.isMatureDriver()) : null,
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(openLDriver.isMatureDriver())
-						? policyEffectiveDate.minusDays(new Random().nextInt(33 * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
-				AutoCaMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), driverAge <= 25 ? "regex=.*\\S.*" : null);
+						? policyEffectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
+				AutoCaMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), driverAge <= 25 ? AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|" : null);
 
 		List<TestData> activityInformationList = new ArrayList<>();
 		if (openLDriver.getDsr() != null && openLDriver.getDsr() > 0) {
@@ -203,21 +203,21 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 	protected TestData get4ViolationPointsActivityInformationData(LocalDateTime effectiveDate, Boolean hasDriverTrainingDiscount, Integer totalYearsAaccidentsFree) {
 		String incidentType = Boolean.TRUE.equals(hasDriverTrainingDiscount) ? "10-yr Major Violation" : "Major Violation";
-		return getActivityInformationData(effectiveDate, incidentType, "regex=.*\\S.*", totalYearsAaccidentsFree);
+		return getActivityInformationData(effectiveDate, incidentType, AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|", totalYearsAaccidentsFree);
 	}
 
 	protected TestData getActivityInformationData(LocalDateTime effectiveDate, String type, String description, Integer totalYearsAaccidentsFree) {
 		// Incident should be not older than 33 month from effective date to affect premium;
-		int maximumMonthsFromEffDateToAffectRating = 33;
+		int maxIncidentFreeInMonth = maxIncidentFreeInMonthsToAffectRating;
 
 		if (totalYearsAaccidentsFree != null) {
-			assertThat(totalYearsAaccidentsFree * 12).as("totalYearsAaccidentsFree argument (or \"yaf\" field) in months should not be more than %s to affect rating", maximumMonthsFromEffDateToAffectRating)
-					.isLessThanOrEqualTo(maximumMonthsFromEffDateToAffectRating);
+			assertThat(totalYearsAaccidentsFree * 12).as("totalYearsAaccidentsFree argument (or \"yaf\" field) in months should not be more than %s to affect rating", maxIncidentFreeInMonth)
+					.isLessThanOrEqualTo(maxIncidentFreeInMonth);
 			effectiveDate = effectiveDate.minusYears(totalYearsAaccidentsFree);
-			maximumMonthsFromEffDateToAffectRating = maximumMonthsFromEffDateToAffectRating - totalYearsAaccidentsFree * 12;
+			maxIncidentFreeInMonth = maxIncidentFreeInMonth - totalYearsAaccidentsFree * 12;
 		}
 
-		String occurrenceAndConvictionDate = effectiveDate.minusDays(new Random().nextInt(maximumMonthsFromEffDateToAffectRating * 28)).format(DateTimeUtils.MM_DD_YYYY);
+		String occurrenceAndConvictionDate = effectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonth * 28)).format(DateTimeUtils.MM_DD_YYYY);
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
 				AutoCaMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,

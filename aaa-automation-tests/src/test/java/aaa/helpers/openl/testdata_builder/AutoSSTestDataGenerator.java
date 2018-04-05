@@ -80,15 +80,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				new DriverTab().getMetaKey(), driversTestDataList,
 				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
-				new AssignmentTab().getMetaKey(), getAssignmentTabData(driversTestDataList),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
+
+		if (getState().equals(Constants.States.UT) || getState().equals(Constants.States.NY) || getState().equals(Constants.States.VA)) {
+			td.adjust(new AssignmentTab().getMetaKey(), getAssignmentTabData(driversTestDataList));
+		}
+
 		td = TestDataHelper.merge(ratingDataPattern, td);
 
 		if (isLegacyConvPolicy) {
 			TestData policyInformationTd = td.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
 					.mask(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.LEAD_SOURCE.getLabel());
-			td.adjust(TestData.makeKeyPath("GeneralTab", "PolicyInformation"), policyInformationTd);
+			td.adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel()), policyInformationTd);
 			td.getTestDataList(new DriverTab().getMetaKey()).forEach(driverData -> driverData.adjust(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), getState()));
 		}
 		return td;
@@ -145,8 +149,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		//TODO-dchubkov: all CT and ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but is's missed. To be investigated...
 		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().get(0).getCarrierCode()) && !getState().equals(Constants.States.CT) && !getState().equals(Constants.States.ID)) {
-			currentCarrierInformationData.adjust(
-					AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), openLPolicy.getCappingDetails().get(0).getCarrierCode());
+			//TODO-dchubkov: add common method for replacing values from excel?
+			String carrierCode = openLPolicy.getCappingDetails().get(0).getCarrierCode().trim().replaceAll("\u00A0", "");
+			currentCarrierInformationData.adjust(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 		}
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
@@ -197,7 +202,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
 					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
-					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), "regex=.*\\S.*",
+					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
 
@@ -205,8 +210,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				driverData.adjust(VEHICLE_ASSIGNED_ID_TESTDATA_KEY, driver.getVehicleAssignedId()); // for searching valid vehicle for driver assignment, should be masked in result test data
 			}
 
-			if (isFirstDriver && Constants.States.AZ.equals(getState())) {
-				driverData.adjust(AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), "regex=.*\\S.*");
+			if (isFirstDriver && (Constants.States.AZ.equals(getState()) || Constants.States.MD.equals(getState()))) {
+				driverData.adjust(AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
 			}
 
 			if (!isFirstDriver) {
@@ -270,7 +275,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "Comprehensive Claim",
 						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Comprehensive Claim",
 						// Incident should be not older than 33 month from effective date to affect premium;
-						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusDays(new Random().nextInt(33 * 28))
+						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28))
 								.format(DateTimeUtils.MM_DD_YYYY),
 						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
 
@@ -281,9 +286,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			while (nafAccidents != null && nafAccidents > 0) {
 				TestData activityInformationData = DataProviderFactory.dataOf(
 						AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), getRandom("At-Fault Accident", "Principally At-Fault Accident"),
-						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "regex=.*\\S.*",
+						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
 						// Incident should be not older than 33 month from effective date to affect premium
-						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusMonths(new Random().nextInt(33 * 28))
+						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28))
 								.format(DateTimeUtils.MM_DD_YYYY),
 						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(100, 900));
 
@@ -297,7 +302,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet) {
-				activityInformationList.add(getActivityInformationData(false, openLPolicy.getEffectiveDate(), openLPolicy.getYearsAtFaultAccidentFree()));
+				activityInformationList.add(getActivityInformationData(false, openLPolicy.getEffectiveDate(), openLPolicy.getYearsIncidentFree()));
 				isAccidentFreeSet = true;
 			}
 
@@ -325,9 +330,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(),
 					getRandom("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation"));
 		}
-		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "regex=.*\\S.*");
+		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
 		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
-		if (!atFaultAccident && getState().equals(Constants.States.PA)) {
+		if (!atFaultAccident && (getState().equals(Constants.States.PA) || getState().equals(Constants.States.NY))) {
 			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 		}
 		return new SimpleDataProvider(activityInformationData);
@@ -393,10 +398,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getAssignmentTabData(List<TestData> driversTestDataList) {
-		if (!getState().equals(Constants.States.NY)) {
-			return DataProviderFactory.emptyData();
-		}
-
 		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(driversTestDataList.size());
 		for (TestData driverData : driversTestDataList) {
 			String assignedDriver;
@@ -525,13 +526,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), vehicle.getCollSymbol() * 1000);
-			if (getState().equals(Constants.States.NY) && vehicle.isABS() != null) {
-				//TODO-dchubkov: add for NOT trailers only or add appropriate assertion
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.DAYTIME_RUNNING_LAMPS.getLabel(), getYesOrNo(vehicle.isDaytimeRunning()));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), getYesOrNo(vehicle.isABS()));
+			if (getState().equals(Constants.States.NY) && Boolean.TRUE.equals(vehicle.isABS())) {
+				assertThat(isTrailerType(statCode)).as("isABS=TRUE is valid only for non-Trailer vehicles types ").isFalse();
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.DAYTIME_RUNNING_LAMPS.getLabel(), "Yes");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), "Yes");
 			}
 			if (isTrailerOrMotorHomeType(vehicle.getUsage())) {
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), "regex=.*\\S.*");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
 
@@ -545,10 +546,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					vehicleInformation.put(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), getVehicleTabMotorHomeType(statCode));
 				}
 			} else {
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "regex=.*\\S.*");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), "regex=.*\\S.*");
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
