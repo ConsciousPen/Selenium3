@@ -1,0 +1,19 @@
+# P&C tab with EUIM coverage in MD for NB
+
+PremiumAndCoveragesTab_NB: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Enhanced UIM: true,
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500'
+}
+
+# P&C tab with EUIM Coverage in MD for conversions
+
+PremiumAndCoveragesTab_Conv: {
+  Payment Plan: 'Annual (Renewal)',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Enhanced UIM: click,
+  Comprehensive Deductible: 'contains=$750'
+}
