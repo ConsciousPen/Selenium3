@@ -889,6 +889,14 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
+		// Don't move, should be before HS0436
+		public static final class EndorsementHS0454 extends MetaData {
+			public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER = declare(
+					"Include coverage for earthquake loss to exterior masonry veneer?", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> REGION = declare("Region", TextBox.class, Waiters.AJAX);
+		}
+
 		public static final class EndorsementHS0436 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> LOCATION_TYPE = declare("Location type", ComboBox.class, Waiters.AJAX);
@@ -934,13 +942,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementHS0454 extends MetaData {
-			public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> INCLUDE_COVERAGE_FOR_EARTHQUAKE_LOSS_TO_EXTERIOR_MASONRY_VENEER = declare(
-					"Include coverage for earthquake loss to exterior masonry veneer?", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> REGION = declare("Region", TextBox.class, Waiters.AJAX);
-		}
-
 		public static final class EndorsementHS0455 extends MetaData {}
 
 		public static final class EndorsementHS0459 extends MetaData {
@@ -957,7 +958,9 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_E_LIMIT = declare("Coverage E limit", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementHS0461 extends MetaData {}
+		public static final class EndorsementHS0461 extends MetaData {
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
+		}
 
 		public static final class EndorsementHS0465 extends MetaData {
 			public static final AssetDescriptor<ComboBox> MONEY_AND_BANK_NOTES = declare("Money and bank notes", ComboBox.class, Waiters.AJAX);
