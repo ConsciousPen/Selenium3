@@ -452,14 +452,15 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * - Run AAA_REFUND_GENERATION_ASYNC_JOB
 	 * *@details
 	 */
-	public void unissuedAutomatedRefundGeneration(String policyNumber, Map<String, String> refund, boolean withAllocation) {
+	public void unissuedAutomatedRefundGeneration(String policyNumber, LocalDateTime refundTimePoint, Map<String, String> refund, boolean withAllocation) {
 		if (!withAllocation) {
 			Dollar totalDue = BillingSummaryPage.getTotalDue();
 			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(refund.get(AMOUNT))));
 		} else {
 			performPaymentWithAllocation(refund);
 		}
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+		TimeSetterUtil.getInstance().nextPhase(refundTimePoint);
+		//TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

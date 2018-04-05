@@ -5,6 +5,7 @@ import static aaa.modules.regression.sales.auto_ss.functional.preconditions.Eval
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
 	private HelperWireMockLastPaymentMethod helperWireMockLastPaymentMethod = new HelperWireMockLastPaymentMethod();
-	
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
@@ -222,13 +223,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.assertAll();
 	}
 
-
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1939", "PAS-7231"})
 	public void pas7231_AutomatedRefundUnissuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -237,7 +237,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, PAYMENT_METHOD_CHECK, refund, true, 0);
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "AutomatedRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
@@ -255,7 +255,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1939", "PAS-7231"})
 	public void pas7231_AutomatedRefundUnissuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -266,7 +267,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_CREDIT_CARD, refund, false, 0);
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
@@ -285,7 +286,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1939", "PAS-7231"})
 	public void pas7231_AutomatedRefundUnissuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -296,7 +298,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_DEBIT_CARD, refund, false, 0);
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
@@ -315,7 +317,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1936", "PAS-7231"})
 	public void pas7063_AutomatedRefundUnissuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -325,7 +328,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.enableSoftMode();
 
 		// PAS-7063, PAS-7858, PAS-453
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 		refundProcessHelper.unissuedRefundVerification(billingAccountNumber, MESSAGE_ACH, refund, false, 0);
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "AutomatedRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
@@ -477,7 +480,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -485,9 +489,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		requestIdList.add(stubRequestCC);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		// PAS-453, PAS-6144
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
@@ -508,7 +512,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -516,9 +521,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		// PAS-453, PAS-6144
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
@@ -540,7 +545,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -548,9 +554,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
-		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		CustomAssert.enableSoftMode();
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		// PAS-453, PAS-6144
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
@@ -572,7 +578,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -582,7 +589,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		// PAS-453, PAS-6144
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
@@ -713,7 +720,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-4251")
 	public void pas4251_AutomatedRefundUnissuedIssuedProcessedCheck(@org.testng.annotations.Optional("VA") String state) {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -721,7 +729,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
@@ -738,7 +746,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-6144")
 	public void pas6144_AutomatedRefundUnissuedIssuedProcessedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -748,7 +757,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
@@ -766,7 +775,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-6144")
 	public void pas6144_AutomatedRefundUnissuedIssuedProcessedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -776,7 +786,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
@@ -794,7 +804,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-6144")
 	public void pas6144_AutomatedRefundUnissuedIssuedProcessedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -804,7 +815,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, false);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, false);
 
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
@@ -903,7 +914,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-456")
 	public void pas456_AutomatedRefundVoidedWithAllocationCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "9.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -913,7 +925,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
 		CustomAssert.enableSoftMode();
 
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, true);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
 
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
@@ -930,7 +942,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-456")
 	public void pas456_AutomatedRefundVoidedWithAllocationDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -940,9 +953,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
 
 		CustomAssert.enableSoftMode();
-
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, true);
-
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
 		// PAS-456
@@ -958,7 +969,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-456")
 	public void pas456_AutomatedRefundVoidedWithAllocationACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
+		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Automated Refund", new Dollar(refundAmount), "Approved");
 		String policyNumber = policyCreation();
@@ -968,8 +980,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
 
 		CustomAssert.enableSoftMode();
-
-		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refund, true);
+		refundProcessHelper.unissuedAutomatedRefundGeneration(policyNumber, refundTimePoint, refund, true);
 
 		refundProcessHelper.issuedAutomatedRefundGeneration(policyNumber);
 
@@ -1020,8 +1031,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
-
-
 
 	// *
 	// * See test method for details
@@ -1125,8 +1134,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		CustomAssert.assertAll();
 	}
 
-
-
 	// *
 	// * See test method for details
 
@@ -1216,6 +1223,5 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		}
 		requestIdList.clear();
 	}
-
 
 }
