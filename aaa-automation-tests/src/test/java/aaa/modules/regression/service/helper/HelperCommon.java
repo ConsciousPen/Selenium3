@@ -20,6 +20,7 @@ import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
@@ -91,12 +92,11 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
-	public static Vehicle updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
+	public static VehicleUpdateResponseDto updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
 
 		String requestUrl = urlBuilderDxp(String.format(DXP_UPDATE_VEHICLE_ENDPOINT, policyNumber, oid));
-		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class);
+		return runJsonRequestPatchDxp(requestUrl, request, VehicleUpdateResponseDto.class);
 	}
-
 
 	public static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
@@ -249,6 +249,42 @@ public class HelperCommon {
 			}
 			if (client != null) {
 				client.close();
+			}
+		}
+	}
+
+	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType) {
+		return runJsonRequestPatchDxp(url, request, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient()
+					.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
+					.register(JacksonJsonProvider.class);
+			WebTarget target = client.target(url);
+
+			response = target
+					.request()
+					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+					.method("PATCH", Entity.json(request));
+			T responseObj = response.readEntity(responseType);
+			log.info(response.toString());
+			if (response.getStatus() != status) {
+				//handle error
+				throw new IstfException(response.readEntity(String.class));
+			}
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+
 			}
 		}
 	}
