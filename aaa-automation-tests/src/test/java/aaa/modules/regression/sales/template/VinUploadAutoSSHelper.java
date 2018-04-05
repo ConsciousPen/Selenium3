@@ -101,6 +101,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		String R40 = renewalDate.minusDays(40).toString();
 		String R35 = renewalDate.minusDays(35).toString();
 		String R25 = (renewalDate.minusDays(25).toString());
+		String timeShiftedString = (timeShiftedDate.toString());
 		//5. Initiate a new renewal version
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
@@ -108,7 +109,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		switch (timeShiftedDate.toString()) {
+		switch (timeShiftedString) {
 			case R46:
 			case R25:
 				assertSoftly(softly -> {
