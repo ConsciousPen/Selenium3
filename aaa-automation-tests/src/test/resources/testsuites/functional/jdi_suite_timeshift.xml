@@ -123,7 +123,7 @@
         </classes>
     </test>
 
-    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership" parallel="methods" thread-count="1024">
+    <test name="membership_eValueVA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -158,13 +158,24 @@
             </class>
         </classes>
     </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending" parallel="methods" thread-count="1024">
+    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC" parallel="methods" thread-count="1024">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="retrieveMembershipSummaryEndpointCheck"/>
                     <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueStateOK" parallel="methods" thread-count="1024">
+        <parameter name="state" value="OK"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="preconditionsClearFolders"/>
+                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
                 </methods>
             </class>
         </classes>

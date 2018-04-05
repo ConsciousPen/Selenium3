@@ -16,7 +16,7 @@ import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class PersonalPropertyMultiAssetList extends MultiAssetList {
-	private final By siblingLocator = new ByChained(locator, By.xpath(".//preceding-sibling::div[1]"));
+	private final By siblingLocator = new ByChained(locator, By.xpath(".//preceding-sibling::span[1]"));
 
 	private Link linkExpandOrCollapseSection = new Link(new ByChained(siblingLocator, By.xpath(".//a[contains(@name, '_expand') or contains(@name, '_collapse')]")), Waiters.AJAX);
 	private TextBox totalLimit = new TextBox(new ByChained(siblingLocator, By.xpath(".//input[contains(@id, 'limitAmount')]")), Waiters.AJAX);

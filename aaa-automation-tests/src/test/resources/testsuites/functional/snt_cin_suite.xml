@@ -1,0 +1,131 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SnT Functional Test Suite - CIN" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <test name="Auto CA AHAUXX generation" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.functional.TestCinNewBusinessAutoCASelect">
+                <methods>
+                    <include name="testCinNewBusinessMVR"/>
+                    <include name="testCinNewBusinessCLUE"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.functional.TestCinRenewalAutoCASelect">
+                <methods>
+                    <include name="testCinRenewalCLUE"/>
+                    <include name="testCinRenewalMVR"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestCinNewBusinessAutoCAChoice">
+                <methods>
+                    <include name="testCinNewBusiness"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestCinRenewalAutoCAChoice">
+                <methods>
+                    <include name="testCinRenewalCLUE"/>
+                    <include name="testCinRenewalMVR"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Home CA AHAUXX generation" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3">
+                <methods>
+                    <include name="testCinNewBusinessProperty"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ca.ho4.functional.TestCinNewBusinessHomeCAHO4">
+                <methods>
+                    <include name="testCinNewBusinessProperty"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ca.ho6.functional.TestCinNewBusinessHomeCAHO6">
+                <methods>
+                    <include name="testCinNewBusinessProperty"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ca.dp3.functional.TestCinNewBusinessHomeCADP3">
+                <methods>
+                    <include name="testCinNewBusinessProperty"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Home SS AHAUXX generation" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestCinNewBusinessHomeHO3">
+                <methods>
+                    <include name="testCluePropertyChargeableDriver"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestCinRenewalHomeHO3">
+                <methods>
+                    <include name="testCluePropertyChargeableDriver"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4">
+                <methods>
+                    <include name="testCluePropertyChargeableDriver"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestCinNewBusinessHomeHO6">
+                <methods>
+                    <include name="testCluePropertyChargeableDriver"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestCinNewBusinessHomeDP3">
+                <methods>
+                    <include name="testCluePropertyChargeableDriver"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Auto SS AHAUXX generation" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinNewBusinessAutoSS">
+                <methods>
+                    <include name="testCinNewBusinessMVR"/>
+                    <include name="testCinNewBusinessCLUE"/>
+                    <include name="testInsuranceScoreNotInBestBand"/>
+                    <include name="testInsuranceScoreInBestBand"/>
+                    <include name="testInsuranceScoreNoHit"/>
+                    <include name="testInsuranceScoreNoScore"/>
+                    <include name="testInsuranceScoreOverrideUp"/>
+                    <include name="testInsuranceScoreOverrideDown"/>
+                    <include name="testPriorBILimitNoPriorCarrier"/>
+                    <include name="testPriorBILimitPrefillNone"/>
+                    <include name="testPriorBILimitNone"/>
+                    <include name="testPriorBILimitPrefillLessThan500k"/>
+                    <include name="testPriorBILimitLessThan500k"/>
+                    <include name="testPriorBILimitPrefill500k"/>
+                    <include name="testPriorBILimit500k"/>
+                    <include name="testPriorBILimitPrefillMoreThan500k"/>
+                </methods>
+            </class>
+
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinRenewalAutoSS">
+                <methods>
+                    <include name="testCinMVR"/>
+                    <include name="testCinCLUE"/>
+                    <include name="testNewDriverBetterScore"/>
+                    <include name="testReorderBetterScore"/>
+                    <include name="testPriorBILimitNoPriorCarrier"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
