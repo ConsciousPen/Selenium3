@@ -8,13 +8,25 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.*;
+import aaa.toolkit.webdriver.customcontrols.AddAutoViolationsClaimsMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.AdditionalPoliciesMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.DoubleTextBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -460,7 +472,9 @@ public final class PersonalUmbrellaMetaData {
 	}
 	
 	public static final class ClaimsTab extends MetaData {
-		public static final AssetDescriptor<MultiInstanceAfterAssetList> AUTO_VIOLATIONS_CLAIMS = declare("AutoViolationsClaims", MultiInstanceAfterAssetList.class, AutoViolationsClaims.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupDrivingRecord' or @id='policyDataGatherForm:componentView_PupDrivingRecordMVO']"));
+		public static final AssetDescriptor<AddAutoViolationsClaimsMultiAssetList> AUTO_VIOLATIONS_CLAIMS =
+				declare("AutoViolationsClaims", AddAutoViolationsClaimsMultiAssetList.class, AutoViolationsClaims.class, By
+						.xpath(".//div[@id='policyDataGatherForm:componentView_PupDrivingRecord' or @id='policyDataGatherForm:componentView_PupDrivingRecordMVO']"));
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> PROPERTY_CLAIMS = declare("PropertyClaims", MultiInstanceAfterAssetList.class, PropertyClaims.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAHOLossInfo']"));
 		
 		public static final class AutoViolationsClaims extends MetaData {
