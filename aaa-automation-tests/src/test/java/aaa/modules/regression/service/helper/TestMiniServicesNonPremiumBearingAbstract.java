@@ -63,6 +63,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private static final String START_ENDORSEMENT_INFO_ERROR_5 = "The requested entity is currently locked by other user";
 	private static final String START_ENDORSEMENT_INFO_ERROR_6 = "Could not acquire a new lock: the requested entity is currently locked";
 	private static final String START_ENDORSEMENT_INFO_ERROR_7 = "State does not allow endorsements";
+	private static final String sessionId1 = "oid1";
+	private static final String sessionId2 = "oid2";
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
@@ -331,7 +333,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	protected void pas8784_endorsementValidateNotAllowedCustomer(PolicyType policyType) {
 		int numberOfDaysDelayBeforeDelete = 2;
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
-		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 		mainApp().open();
 		getCopiedPolicy();
@@ -537,6 +538,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas8275_vinValidateCheck(PolicyType policyType) {
+
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
 				+ "where 1=1\n"
@@ -1517,46 +1519,72 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas9456_9455_PolicyLockUnlockServices() {
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		mainApp().close();
+        mainApp().close();
 
-		//Lock policy and check service response
-		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200);
+		//Lock policy id1 and check service response
+		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, sessionId1);
 		assertSoftly(softly -> {
 			softly.assertThat(response.getPolicyNumber()).isEqualTo(policyNumber);
 			softly.assertThat(response.getStatus()).isEqualTo("Locked");
 		});
 
+		//Hit start endorsement info service with Id1
+		ValidateEndorsementResponse endorsementInfoResp1 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId1);
+		assertThat(endorsementInfoResp1.ruleSets.get(0).errors).isEmpty();
+
+		//Hit start endorsement info service with Id2
+		ValidateEndorsementResponse endorsementInfoResp2 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId2);
+		assertThat(endorsementInfoResp2.ruleSets.get(0).errors.toString().contains(START_ENDORSEMENT_INFO_ERROR_4)).isTrue();
+
+		//Try to lock policy with id2
+		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId2);
+		assertSoftly(softly -> {
+			softly.assertThat(response1.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response1.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+		});
+
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE,policyNumber);
 		policy.endorse().start();
 
 		//Check if policy was locked in PAS
 		assertThat(errorTab.tableBaseErrors.getRow(1).getCell("Description").getValue()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_6);
 		PolicySummaryPage.buttonBackFromErrorPage.click();
 
-		//Unlock policy and check service response
-		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 200);
+		//Try unlock policy with id2
+		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response2.getPolicyNumber()).isEqualTo(policyNumber);
-			softly.assertThat(response2.getStatus()).isEqualTo("Unlocked");
+			softly.assertThat(response2.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response2.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+		});
+
+		//Unlock policy with id1
+		PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, 200, sessionId1);
+		assertSoftly(softly -> {
+			softly.assertThat(response3.getPolicyNumber()).isEqualTo(policyNumber);
+			softly.assertThat(response3.getStatus()).isEqualTo("Unlocked");
 		});
 
 		//Start do endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		//Check if policy can be locked using lock service
-		PolicyLockUnlockDto response3 = HelperCommon.executePolicyLockService(policyNumber, 500);
-		assertSoftly(softly -> {
-			softly.assertThat(response3.getErrorCode()).isEqualTo("300");
-			softly.assertThat(response3.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
-		});
-		//Check if policy can be unlocked using unlock service
-		PolicyLockUnlockDto response4 = HelperCommon.executePolicyUnlockService(policyNumber, 500);
+		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
 			softly.assertThat(response4.getErrorCode()).isEqualTo("300");
 			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+		});
+
+		//Check if policy can be unlocked using unlock service
+		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId1);
+		assertSoftly(softly -> {
+			softly.assertThat(response5.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response5.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 	}
 
