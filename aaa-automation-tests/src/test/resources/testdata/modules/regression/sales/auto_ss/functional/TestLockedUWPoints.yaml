@@ -26,3 +26,41 @@ DocumentsAndBindTab: {
 Authorized By: 'Me'
 }
 }
+
+
+########################## TestData Driver Tab
+
+TestData_DriverTab: {
+  DriverTab: {
+    ActivityInformation: [
+      {
+        Type: 'At-Fault Accident',
+        Description: 'index=1',
+        Occurrence Date: $<today-15d>,
+        Loss Payment Amount: 12000
+      },
+      {
+        Type: 'Comprehensive Claim',
+        Description: 'index=1',
+        Occurrence Date: $<today-10d>,
+        Loss Payment Amount: 12000
+      },
+      {
+        Type: 'Non-Fault Accident',
+        Description: 'index=1',
+        Occurrence Date: $<today-5d>
+      },
+      {
+        Type: 'Non-Fault Accident',
+        Description: 'index=1',
+        Occurrence Date: $<today-2d>
+      },
+      {
+        Type: 'Major Violation',
+        Description: 'index=1',
+        Occurrence Date: $<today-30d>,
+        Conviction Date: $<today-1d>
+      }
+      ]
+    }
+  }
