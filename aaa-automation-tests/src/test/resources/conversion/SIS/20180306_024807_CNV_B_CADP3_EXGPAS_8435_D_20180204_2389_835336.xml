@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005345</agencyLocation>
+		<agentCd>70683727</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-04-03T00:00:00</effective>
+		<expiration>2019-04-03T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 835336</preConversionPolicyNumber>
+		<preConversionPolicyPremium>3152</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 835336</sourcePolicyNum>
+		<subProducerCd>70683727</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>Modesto</dwellAddressCity>
+			<dwellAddressLine1>3404 AGUA CT</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95350</dwellAddressZip>
+			<expirationDate>2018-05-05T00:00:00</expirationDate>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>2095290502</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>JOHAL</insurerName>
+			<policyNumber>4290058126508410</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>true</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1952-06-10T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>HARBANS</firstName>
+			<lastName>JOHAL</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>3404 AGUA CT</addressLine1>
+				<city>Modesto</city>
+				<dateOfBirth>1952-06-10T00:00:00</dateOfBirth>
+				<expirationDt>2018-04-05T00:00:00</expirationDt>
+				<firstName>HARBANS</firstName>
+				<lastName>JOHAL</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2018-02-04T00:00:00</orderDate>
+				<postalCode>95350</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>3404 AGUA CT</addressLine1>
+				<city>Modesto</city>
+				<countryCd>US</countryCd>
+				<postalCode>95350</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1952-06-16T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>NACHATTRO</firstName>
+			<lastName>JOHAL</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>3404 AGUA CT</addressLine1>
+				<city>Modesto</city>
+				<dateOfBirth>1952-06-16T00:00:00</dateOfBirth>
+				<expirationDt>2018-04-05T00:00:00</expirationDt>
+				<firstName>NACHATTRO</firstName>
+				<lastName>JOHAL</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2018-02-04T00:00:00</orderDate>
+				<postalCode>95350</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>3404 AGUA CT</addressLine1>
+				<city>Modesto</city>
+				<countryCd>US</countryCd>
+				<postalCode>95350</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2005-03-21T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>13</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>Modesto</dwellAddressCity>
+			<dwellAddressLine1>3404 AGUA CT</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95350</dwellAddressZip>
+			<expirationDate>2018-05-05T00:00:00</expirationDate>
+			<isoReplacementCost>528541</isoReplacementCost>
+			<livingArea>3039</livingArea>
+			<numberOfFamilies>3</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Concrete Tile</roofType>
+			<status>Valid</status>
+			<yearBuilt>1986</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>JOHAL</lastName>
+			<membershipNumber>4290058126508410</membershipNumber>
+			<memberSince>1980-01-01T00:00:00</memberSince>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<receiptDate>2018-02-04T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>Modesto</dwellAddressCity>
+			<dwellAddressLine1>3404 AGUA CT</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95350</dwellAddressZip>
+			<expirationDate>2018-04-05T00:00:00</expirationDate>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>11POAAP</documentCd>
+			<documentText>Proof of active AAA auto policy</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>2</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>1</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>3404 AGUA CT</addressLine1>
+			<city>Modesto</city>
+			<countryCd>US</countryCd>
+			<county>STANISLAUS</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>3</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95350</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>2</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2005</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>528541</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>26427</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>26428</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>105709</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>5000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Other</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>528541</isoReplacementCost>
+				<livingArea>3039</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>528541</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Concrete Tile</roofType>
+				<yearBuilt>1986</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>1001-93-9253</aaaHoClaimNo>
+				<addressLine1>3404 AGUA CT</addressLine1>
+				<catLoss>false</catLoss>
+				<city>Modesto</city>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<lossAmount>5689</lossAmount>
+				<lossDate>2017-02-22T00:00:00</lossDate>
+				<lossTypeCd>12</lossTypeCd>
+				<policyNumber>835336</policyNumber>
+				<postalCode>95350</postalCode>
+				<rentalClaim>true</rentalClaim>
+				<state>CA</state>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>65165121476191998</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>ATLANTA</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 621530</mortagageeAddressLine1>
+				<name>WELLS FARGO BANK NA ISAOA</name>
+				<postalCode>30362-0000</postalCode>
+				<rank>1</rank>
+				<stateProvCd>GA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>1</fireStationDistRange>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>3404 AGUA CT</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>Modesto</city>
+					<countryCd>US</countryCd>
+					<county>Stanislaus</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>95350</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>4201 KEEPSAKE CT</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>MODESTO</city>
+				<countryCd>US</countryCd>
+				<county>Stanislaus</county>
+				<postalCode>95356</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>UPDATED DWELLING...</title>
+		<updatedOn>2009-02-24T00:00:00</updatedOn>
+		<userText>PER AGENT NEED TO ADJUST DWELLING COV UPDATED INFO ISO IN WORKDESK</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CC EFT PYMT 1258.00</title>
+		<updatedOn>2012-04-03T00:00:00</updatedOn>
+		<userText>Sales Rep Number  0    Receipt Number  PA3356594 District Office Number  91     Receipt Date and Time  04/03/2012 12:19 PM M Payment Summary Description Amount Western United Insurance Home/Condo Installment Payment #835336 HARBANS Total Paid    $1,258.00 Payment Method Credit Card Credit Card Type Visa Credit Card Number XXXXXXXXXXXX7817 ---------------------------------------------------------------------------</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2015-04-29T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PH END CHG COV...</title>
+		<updatedOn>2012-03-23T00:00:00</updatedOn>
+		<userText>PER AGENT SUSIE CHANGED COVERAGE A 360 IN WORKDESK LRAMIREZ</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>BILLING INQUIRY</title>
+		<updatedOn>2016-04-04T00:00:00</updatedOn>
+		<userText>3:41 PM 4/4/2016 Insured: NATALIA MILES AAA MODESTO / DP3-835336 Whats up? PAYMENT -LAPSED Policy#: Zip: Email: What I Did: ADV AGT AMNT TO RENEW POL</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>ADD MTG</title>
+		<updatedOn>2015-04-29T00:00:00</updatedOn>
+		<userText>PER AGENT HERB, ADD WELLS FARGO AS MTG FAXED AND EMAILED: 678-459-9219 PETER.VARGAS@GOAAA.COM</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>**VOID RFND CK#129013/OS BAL**</title>
+		<updatedOn>2009-04-06T00:00:00</updatedOn>
+		<userText>$38.00</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2012-03-23T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - CHANGED COVERAGE A</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CC PAYMENT</title>
+		<updatedOn>2009-11-06T00:00:00</updatedOn>
+		<userText>Congratulation| Your transaction has completed successfully. Here is your transaction details: Confirmation #: BYMEA-6V8S0-R9K Sale Date: 11/6/2009 11:53:55 AM Amount:   $407.00 Payment Type: Monthly Policy #: DP3 835336 Agent #: 8021</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CHANGE DED PER AGENT</title>
+		<updatedOn>2013-02-15T00:00:00</updatedOn>
+		<userText>TO 2500</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>***CALL LOG***</title>
+		<updatedOn>2010-03-22T00:00:00</updatedOn>
+		<userText>AGENT PETER (MODESTO) CALLED FOR DED CHG QUT.</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2009-02-24T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - UPDATE DWELLING COVERAGE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2014-02-06T00:00:00</updatedOn>
+		<userText>COV A CORRECTION</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>COV A CORRECTION</title>
+		<updatedOn>2014-02-06T00:00:00</updatedOn>
+		<userText>COV A CORRECTION - 448400</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>PHN END COVG CHNG</title>
+		<updatedOn>2014-02-18T00:00:00</updatedOn>
+		<userText>PER AGENT JESSICA/MODESTO DO LOWER DEDUCTIBLE TO 1,OOO CONFIRMED NO LOSSES/CLAIMS EFFECT 2 19 14 PER AGENT FENCE ADDED APPROX $2K VALUE...CONFIRMED THIS WOULD BE COVERED UNDER OTHER STRUCTURES.</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2013-02-15T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - COVERAGE CHANGE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2014-02-18T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - COVERAGE CHANGE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2006-01-26T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2006-09-01T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>MEMBERSHIP VALIDATED</title>
+		<updatedOn>2006-11-16T00:00:00</updatedOn>
+		<userText>MEMBERSHIP VALIDATED</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2007-01-25T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-06-03T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-09-03T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-12-02T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2008-01-27T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-06-01T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-09-01T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2008-12-02T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2008-12-28T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2008-12-30T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-01-25T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-02-25T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2009-03-26T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-06-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2009-10-08T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Lapsed Notice</title>
+		<updatedOn>2009-10-31T00:00:00</updatedOn>
+		<userText>Policy Lapsed Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2009-11-08T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Cancellation Notice</title>
+		<updatedOn>2010-01-10T00:00:00</updatedOn>
+		<userText>Policy Cancellation Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Reinstate Notice</title>
+		<updatedOn>2010-01-24T00:00:00</updatedOn>
+		<userText>Policy Reinstate Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2010-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-09-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-02-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-03-25T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-03-26T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-03-26T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>INQ ABT COVERAGES.</title>
+		<updatedOn>2012-04-04T00:00:00</updatedOn>
+		<userText>INQ ABT COVERAGES.</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-02-07T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-02-18T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-02-18T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-06-13T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-09-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-12-15T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-02-09T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-02-09T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-02-18T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-02-19T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-02-19T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-02-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-04-29T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-02-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2016-12-14T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2017-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2017-02-07T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+</Policy>

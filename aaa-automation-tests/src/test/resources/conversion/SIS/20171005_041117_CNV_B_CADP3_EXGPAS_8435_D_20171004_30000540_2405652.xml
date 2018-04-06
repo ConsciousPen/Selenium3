@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005345</agencyLocation>
+		<agentCd>70683727</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-12-29T00:00:00</effective>
+		<expiration>2018-12-29T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 2405652_abc</preConversionPolicyNumber>
+		<preConversionPolicyPremium>654</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 2405652_abc</sourcePolicyNum>
+		<subProducerCd>70683727</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>Oakland</dwellAddressCity>
+			<dwellAddressLine1>2531/2533 E 15TH ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94601</dwellAddressZip>
+			<expirationDate>2018-01-02T00:00:00</expirationDate>
+			<orderDate>2017-10-04T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9256310367</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>5106310367</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>CLAYMORE</insurerName>
+			<policyNumber>4290058760843610</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1953-12-31T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>JAMES</firstName>
+			<lastName>CLAYMORE</lastName>
+			<middleName>G</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>2531/2533 E 15TH ST</addressLine1>
+				<city>Oakland</city>
+				<dateOfBirth>1953-12-31T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-03T00:00:00</expirationDt>
+				<firstName>JAMES</firstName>
+				<lastName>CLAYMORE</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-04T00:00:00</orderDate>
+				<postalCode>94601</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>2531/2533 E 15TH ST</addressLine1>
+				<city>Oakland</city>
+				<countryCd>US</countryCd>
+				<postalCode>94601</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ANN</firstName>
+			<lastName>CLAYMORE</lastName>
+			<middleName>M</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>2531/2533 E 15TH ST</addressLine1>
+				<city>Oakland</city>
+				<dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-03T00:00:00</expirationDt>
+				<firstName>ANN</firstName>
+				<lastName>CLAYMORE</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-04T00:00:00</orderDate>
+				<postalCode>94601</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>2531/2533 E 15TH ST</addressLine1>
+				<city>Oakland</city>
+				<countryCd>US</countryCd>
+				<postalCode>94601</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2006-12-29T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>11</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>Oakland</dwellAddressCity>
+			<dwellAddressLine1>2531/2533 E 15TH ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94601</dwellAddressZip>
+			<expirationDate>2018-01-02T00:00:00</expirationDate>
+			<isoReplacementCost>264664</isoReplacementCost>
+			<livingArea>1137</livingArea>
+			<numberOfFamilies>2</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-10-04T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Builtup Tar &amp; Gravel</roofType>
+			<status>Valid</status>
+			<yearBuilt>1939</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>CLAYMORE</lastName>
+			<membershipNumber>4290058760843610</membershipNumber>
+			<memberSince>1984-01-01T00:00:00</memberSince>
+			<orderDate>2017-10-04T00:00:00</orderDate>
+			<receiptDate>2017-10-04T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>Oakland</dwellAddressCity>
+			<dwellAddressLine1>2531/2533 E 15TH ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94601</dwellAddressZip>
+			<expirationDate>2017-12-03T00:00:00</expirationDate>
+			<orderDate>2017-10-04T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>AHAPXX</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>9POPRR</documentCd>
+			<documentText>Proof of plumbing, electrical, heating/cooling system and roof renovations</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>2</aaaDwellingUsage>
+			<aaaFirelineScore>30</aaaFirelineScore>
+			<aaanumberofResidents>1</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>2531/2533 E 15TH ST</addressLine1>
+			<city>Oakland</city>
+			<countryCd>US</countryCd>
+			<county>ALAMEDA</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>2</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94601</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>2</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2007</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>264664</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>26466</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>13234</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>52933</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOBuildingImprovementsInfo state="Created">
+				<electricalPercentComplete>100</electricalPercentComplete>
+				<electricalRenovationMonth>0</electricalRenovationMonth>
+				<electricalRenovationType>Total_Circuit_Or_Romex</electricalRenovationType>
+				<electricalRenovationYear>1939</electricalRenovationYear>
+				<heatingOrCoolingPercentComplete>100</heatingOrCoolingPercentComplete>
+				<heatingOrCoolingRenovationMonth>0</heatingOrCoolingRenovationMonth>
+				<heatingOrCoolingRenovationType>Forced_Air</heatingOrCoolingRenovationType>
+				<heatingOrCoolingRenovationYear>1939</heatingOrCoolingRenovationYear>
+				<plumbingPercentComplete>100</plumbingPercentComplete>
+				<plumbingRenovationMonth>0</plumbingRenovationMonth>
+				<plumbingRenovationType>Total_Copper</plumbingRenovationType>
+				<plumbingRenovationYear>1939</plumbingRenovationYear>
+				<roofPercentComplete>100</roofPercentComplete>
+				<roofRenovationMonth>0</roofRenovationMonth>
+				<roofRenovationType>Total_Replace</roofRenovationType>
+				<roofRenovationYear>2000</roofRenovationYear>
+			</AAAHOBuildingImprovementsInfo>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Raised</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>264664</isoReplacementCost>
+				<livingArea>1137</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>264664</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Builtup Tar &amp; Gravel</roofType>
+				<yearBuilt>1939</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>5</fireStationDistRange>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>2531/2533 E 15TH ST</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>Oakland</city>
+					<countryCd>US</countryCd>
+					<county>Alameda</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>94601</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>150 HAZELWOOD PL</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>MORAGA</city>
+				<countryCd>US</countryCd>
+				<county>Contra Costa</county>
+				<postalCode>94556</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>NOTES FRM AGT....</title>
+		<updatedOn>2007-02-28T00:00:00</updatedOn>
+		<userText>1300 Clay st. Ste. 169 Oakland, 94612 510 645-4650 x 13 510 832-1095 fax policy 2376677 to reflect a duplex and adjust cov. "A" to $224,322 per upd ated ISO.  Also, since policy 2376677 was represented as a 4plex, and paid in full there should be a credit to that account.  Please apply that credit to the new policy 2405652. Thnx. Frank Whitson CSAA Oakland District Office</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>BACK DATE TO 12/29/06...</title>
+		<updatedOn>2007-02-28T00:00:00</updatedOn>
+		<userText>ENTER MAN PREMS, MAKE CHANGES ON OLD POLICY EFF 12/29/06</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2013-03-18T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - CHANGED ADDRESS</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>**ADJ $450.00 CR</title>
+		<updatedOn>2007-03-01T00:00:00</updatedOn>
+		<userText>FROM DP3 2376677 PER KELLY</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>MONEY FRM CPU?.....</title>
+		<updatedOn>2007-02-28T00:00:00</updatedOn>
+		<userText>Please transfer refund amount from endorsed policy 2376677 to new business policy 2405652. Insured James Claymore. Thanks, Kelly Robbins Property Underwriter III AAA Insurance ph(949)474-2359 fax(800)880-2594 email krobbins@westernunited.com</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-03-01T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2007-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2008-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2009-01-04T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-03-08T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2009-06-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-03-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-06-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2010-09-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2010-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-03-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-06-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2011-09-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2011-11-06T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-11-06T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2012-01-03T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-03-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-06-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2012-09-09T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-11-04T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2013-01-03T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-03-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-03-18T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2013-06-09T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-11-04T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-03-09T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-06-08T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2014-09-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-11-04T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-11-04T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-11-04T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-11-06T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-11-06T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2017-01-03T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-03-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-06-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2017-09-07T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted.</title>
+		<updatedOn>2017-10-05T02:40:12</updatedOn>
+		<userText>DOB is blank/invalid in the legacy system and it has been defaulted to 01/01/1998.</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Fireline score defaulted.</title>
+		<updatedOn>2017-10-05T02:40:12</updatedOn>
+		<userText>Fireline score defaulted to '30'  since it's not available in SIS but required for PAS.</userText>
+	</userNote>
+</Policy>

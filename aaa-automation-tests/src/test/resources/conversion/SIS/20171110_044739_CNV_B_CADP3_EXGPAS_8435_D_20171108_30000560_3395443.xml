@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+    <AAAHOPolicy state="Created">
+        <agencyCd>500001005</agencyCd>
+        <agencyLocation>500005300</agencyLocation>
+        <agentCd>7004285</agentCd>
+        <agentGeneralNumber>003</agentGeneralNumber>
+        <countryCd>US</countryCd>
+        <doNotRenewInd>false</doNotRenewInd>
+        <effective>2018-02-01T00:00:00</effective>
+        <expiration>2019-02-01T00:00:00</expiration>
+        <imported>CONV</imported>
+        <importedFrom>SIS</importedFrom>
+        <isAdditionalPolicy>true</isAdditionalPolicy>
+        <isAdditionalProppolicy>true</isAdditionalProppolicy>
+        <leadSourceCd>25</leadSourceCd>
+        <officeType>AZ Club Agent</officeType>
+        <policyFormCd>DP3</policyFormCd>
+        <preConversionPolicyNumber>DP3 3395443</preConversionPolicyNumber>
+        <preConversionPolicyPremium>866</preConversionPolicyPremium>
+        <producerCd>500001005</producerCd>
+        <productCd>AAA_HO_CA</productCd>
+        <riskStateCd>CA</riskStateCd>
+        <sourcePolicyNum>DP3 3395443</sourcePolicyNum>
+        <subProducerCd>7004285</subProducerCd>
+        <tollNumberCd>1111111111</tollNumberCd>
+        <underwriterCd>ACAIC</underwriterCd>
+        <AAACeaDetailsComponent state="Created">
+            <acceptCeaOffer>false</acceptCeaOffer>
+        </AAACeaDetailsComponent>
+        <AAAFirelineReportComponent state="Created">
+            <dwellAddressCity>ANTIOCH</dwellAddressCity>
+            <dwellAddressLine1>1410 VIERA AVE</dwellAddressLine1>
+            <dwellAddressLine2># 4 #3, #4, #5</dwellAddressLine2>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94509-6871</dwellAddressZip>
+            <expirationDate>2018-02-06T00:00:00</expirationDate>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <status>Valid</status>
+        </AAAFirelineReportComponent>
+        <AAAHOCommunicationInfo state="Created">
+            <phoneNumber>9252502022</phoneNumber>
+            <preferredContact>homePhone</preferredContact>
+            <workPhone>9257573100</workPhone>
+        </AAAHOCommunicationInfo>
+        <AAAHOMembership state="Created">
+            <insurerCd>Yes</insurerCd>
+            <insurerName>MACIA</insurerName>
+            <policyNumber>4290058820321312</policyNumber>
+        </AAAHOMembership>
+        <AAAHOMortgageeExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOMortgageeExists>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1962-05-19T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>KENNETH</firstName>
+            <lastName>MACIA</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <principalRoleCd>policyHolder</principalRoleCd>
+            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>1410 VIERA AVE</addressLine1>
+                <addressLine2># 4 #3, #4, #5</addressLine2>
+                <city>ANTIOCH</city>
+                <dateOfBirth>1962-05-19T00:00:00</dateOfBirth>
+                <expirationDt>2018-01-07T00:00:00</expirationDt>
+                <firstName>KENNETH</firstName>
+                <lastName>MACIA</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-11-08T00:00:00</orderDate>
+                <postalCode>94509-6871</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>1410 VIERA AVE</addressLine1>
+                <addressLine2># 4 #3, #4, #5</addressLine2>
+                <city>ANTIOCH</city>
+                <countryCd>US</countryCd>
+                <postalCode>94509-6871</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>true</aaaPolicyActive>
+            <addressLine1>15 E 8TH ST</addressLine1>
+            <city>ANTIOCH</city>
+            <effective>2017-02-03T00:00:00</effective>
+            <expiration>2018-02-03T00:00:00</expiration>
+            <policyNumber>DP32836734</policyNumber>
+            <postalCode>94509</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>2009</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>true</aaaPolicyActive>
+            <addressLine1>13 E 8TH ST</addressLine1>
+            <city>ANTIOCH</city>
+            <effective>2017-02-03T00:00:00</effective>
+            <expiration>2018-02-03T00:00:00</expiration>
+            <policyNumber>DP32836736</policyNumber>
+            <postalCode>94509</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>2009</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>true</aaaPolicyActive>
+            <addressLine1>1410 VIERA AVE</addressLine1>
+            <addressLine2>#1 #2</addressLine2>
+            <city>ANTIOCH</city>
+            <effective>2017-02-01T00:00:00</effective>
+            <expiration>2018-02-01T00:00:00</expiration>
+            <policyNumber>DP33395470</policyNumber>
+            <postalCode>94509</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>2012</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>true</aaaPolicyActive>
+            <addressLine1>19 E 8TH ST</addressLine1>
+            <city>ANTIOCH</city>
+            <effective>2017-06-27T00:00:00</effective>
+            <expiration>2018-06-27T00:00:00</expiration>
+            <policyNumber>DP32911720</policyNumber>
+            <postalCode>94509</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>2008</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>false</aaaPolicyActive>
+            <addressLine1>9 E 8TH ST</addressLine1>
+            <city>ANTIOCH</city>
+            <effective>2017-10-01T00:00:00</effective>
+            <expiration>2018-10-01T00:00:00</expiration>
+            <policyNumber>DP33691361</policyNumber>
+            <postalCode>94509</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>2008</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>true</aaaPolicyActive>
+            <addressLine1>1400 VIERA AVE</addressLine1>
+            <city>ANTIOCH</city>
+            <effective>2017-05-07T00:00:00</effective>
+            <expiration>2018-05-07T00:00:00</expiration>
+            <policyNumber>DP33891938</policyNumber>
+            <postalCode>94509</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>2015</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorPolicyComponent state="Created">
+            <coverageE>500000</coverageE>
+            <deductible>1000</deductible>
+            <dwellingUsage>Primary</dwellingUsage>
+            <occupancyType>Tenant</occupancyType>
+            <policyEffectiveDate>2017-02-03T00:00:00</policyEffectiveDate>
+            <policyNumber>DP32836734</policyNumber>
+            <productCd>DP3</productCd>
+            <status>inForce</status>
+        </AAAHOOtherOrPriorPolicyComponent>
+        <AAAHOOtherOrPriorPolicyComponent state="Created">
+            <coverageE>500000</coverageE>
+            <deductible>1000</deductible>
+            <dwellingUsage>Primary</dwellingUsage>
+            <occupancyType>Tenant</occupancyType>
+            <policyEffectiveDate>2017-02-03T00:00:00</policyEffectiveDate>
+            <policyNumber>DP32836736</policyNumber>
+            <productCd>DP3</productCd>
+            <status>inForce</status>
+        </AAAHOOtherOrPriorPolicyComponent>
+        <AAAHOOtherOrPriorPolicyComponent state="Created">
+            <coverageE>500000</coverageE>
+            <deductible>1000</deductible>
+            <dwellingUsage>Primary</dwellingUsage>
+            <occupancyType>Tenant</occupancyType>
+            <policyEffectiveDate>2017-02-01T00:00:00</policyEffectiveDate>
+            <policyNumber>DP33395470</policyNumber>
+            <productCd>DP3</productCd>
+            <status>inForce</status>
+        </AAAHOOtherOrPriorPolicyComponent>
+        <AAAHOOtherOrPriorPolicyComponent state="Created">
+            <coverageE>500000</coverageE>
+            <deductible>1000</deductible>
+            <dwellingUsage>Primary</dwellingUsage>
+            <occupancyType>Tenant</occupancyType>
+            <policyEffectiveDate>2017-06-27T00:00:00</policyEffectiveDate>
+            <policyNumber>DP32911720</policyNumber>
+            <productCd>DP3</productCd>
+            <status>inForce</status>
+        </AAAHOOtherOrPriorPolicyComponent>
+        <AAAHOOtherOrPriorPolicyComponent state="Created">
+            <coverageE>500000</coverageE>
+            <deductible>1000</deductible>
+            <dwellingUsage>Primary</dwellingUsage>
+            <occupancyType>Tenant</occupancyType>
+            <policyEffectiveDate>2017-05-07T00:00:00</policyEffectiveDate>
+            <policyNumber>DP33891938</policyNumber>
+            <productCd>DP3</productCd>
+            <status>inForce</status>
+        </AAAHOOtherOrPriorPolicyComponent>
+        <AAAHOPaymentOption state="Created">
+            <billToAtRenewal>Insured</billToAtRenewal>
+            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+            <recurringPayment>false</recurringPayment>
+        </AAAHOPaymentOption>
+        <AAAHOPolicyPriorCarrier state="Created">
+            <baseDate>2012-02-01T00:00:00</baseDate>
+            <carrierCd>1</carrierCd>
+            <noOfYearsWithHO>6</noOfYearsWithHO>
+            <policyType>DP3</policyType>
+        </AAAHOPolicyPriorCarrier>
+        <AAAHOPreDwellingAddrExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOPreDwellingAddrExists>
+        <AAAIso360ReportComponent state="Created">
+            <constructionTypeCd>Frame</constructionTypeCd>
+            <dwellAddressCity>ANTIOCH</dwellAddressCity>
+            <dwellAddressLine1>1410 VIERA AVE</dwellAddressLine1>
+            <dwellAddressLine2># 4 #3, #4, #5</dwellAddressLine2>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94509-6871</dwellAddressZip>
+            <expirationDate>2018-02-06T00:00:00</expirationDate>
+            <isoReplacementCost>357161</isoReplacementCost>
+            <livingArea>2038</livingArea>
+            <numberOfFamilies>3</numberOfFamilies>
+            <numberOfStories>2</numberOfStories>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <roofShape>Complex/Custom</roofShape>
+            <roofType>Asphalt / Fiberglass</roofType>
+            <status>Valid</status>
+            <yearBuilt>1952</yearBuilt>
+        </AAAIso360ReportComponent>
+        <AAAMembershipOrder state="Created">
+            <lastName>MACIA</lastName>
+            <membershipNumber>4290058820321312</membershipNumber>
+            <memberSince>2012-01-01T00:00:00</memberSince>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <receiptDate>2017-11-08T00:00:00</receiptDate>
+            <status>Active</status>
+        </AAAMembershipOrder>
+        <AAAPolicyPrintingInfoComponent state="Created">
+            <suppressPrint>PD</suppressPrint>
+        </AAAPolicyPrintingInfoComponent>
+        <AAAPpcReportComponent state="Created">
+            <dwellAddressCity>ANTIOCH</dwellAddressCity>
+            <dwellAddressLine1>1410 VIERA AVE</dwellAddressLine1>
+            <dwellAddressLine2># 4 #3, #4, #5</dwellAddressLine2>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94509-6871</dwellAddressZip>
+            <expirationDate>2018-01-07T00:00:00</expirationDate>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <ppcValue>1</ppcValue>
+            <status>Valid</status>
+        </AAAPpcReportComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>1POSOA</documentCd>
+            <documentText>Signed policy application</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>616530</documentCd>
+            <documentText>California Residential Property Insurance Disclosure</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>CEAOD</documentCd>
+            <documentText>CEA Offer Declination</documentText>
+        </AAASupportingDocComponent>
+        <AAAUnderwritingQuestionaireComponent state="Created">
+            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+            <DwellLocatedInd>false</DwellLocatedInd>
+            <EmployeesResidentsInd>false</EmployeesResidentsInd>
+            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+            <GasWaterInGarageInd>false</GasWaterInGarageInd>
+            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+        </AAAUnderwritingQuestionaireComponent>
+        <Commissions state="Created">
+            <commissionTypeCd>R</commissionTypeCd>
+        </Commissions>
+        <DL0104EndorsementForm state="Created"/>
+        <DL2402EndorsementForm state="Created"/>
+        <DL2411EndorsementForm state="Created"/>
+        <DL2433EndorsementForm state="Created"/>
+        <DL2482EndorsementForm state="Created"/>
+        <DP0422EndorsementForm state="Created">
+            <coverageLimit>10000</coverageLimit>
+        </DP0422EndorsementForm>
+        <DP0475EndorsementForm state="Created"/>
+        <DW0420EndorsementForm state="Created">
+            <coverageLimit>50</coverageLimit>
+        </DW0420EndorsementForm>
+        <AAADwellEntityComponent state="Created">
+            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+            <aaaDwellingUsage>1</aaaDwellingUsage>
+            <aaaFirelineScore>0</aaaFirelineScore>
+            <aaanumberofResidents>2</aaanumberofResidents>
+            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+            <addressLine1>1410 VIERA AVE</addressLine1>
+            <addressLine2># 4 #3, #4, #5</addressLine2>
+            <city>ANTIOCH</city>
+            <countryCd>US</countryCd>
+            <county>CONTRA COSTA</county>
+            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+            <firelineMatchType>Address</firelineMatchType>
+            <numberOfFamilies>3</numberOfFamilies>
+            <overrideInspectionInd>true</overrideInspectionInd>
+            <placementOrMatchType>Address</placementOrMatchType>
+            <postalCode>94509-6871</postalCode>
+            <propMgrOccupation>2</propMgrOccupation>
+            <protectionClassCd>1</protectionClassCd>
+            <spaTubType>None</spaTubType>
+            <stateProvCd>CA</stateProvCd>
+            <swimPoolType>None</swimPoolType>
+            <trampolineType>None</trampolineType>
+            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+            <woodStoveInd>false</woodStoveInd>
+            <yearFirstRented>2012</yearFirstRented>
+            <AAACoverageA state="Created">
+                <coverageCd>CovA</coverageCd>
+                <limitAmount>357161</limitAmount>
+            </AAACoverageA>
+            <AAACoverageB state="Created">
+                <coverageCd>CovB</coverageCd>
+                <limitAmount>17858</limitAmount>
+            </AAACoverageB>
+            <AAACoverageC state="Created">
+                <coverageCd>CovC</coverageCd>
+                <limitAmount>17859</limitAmount>
+            </AAACoverageC>
+            <AAACoverageD state="Created">
+                <coverageCd>CovD</coverageCd>
+                <limitAmount>71433</limitAmount>
+            </AAACoverageD>
+            <AAACoverageE state="Created">
+                <coverageCd>CovE</coverageCd>
+                <limitAmount>500000</limitAmount>
+            </AAACoverageE>
+            <AAACoverageF state="Created">
+                <coverageCd>CovF</coverageCd>
+                <limitAmount>5000</limitAmount>
+            </AAACoverageF>
+            <AAAHOConstructionInfo state="Created">
+                <aaaFoundationType>Raised</aaaFoundationType>
+                <constructionTypeCd>Frame</constructionTypeCd>
+                <isoReplacementCost>357161</isoReplacementCost>
+                <livingArea>2038</livingArea>
+                <masonryVeneer>false</masonryVeneer>
+                <numberOfStories>2</numberOfStories>
+                <replacementCost>357161</replacementCost>
+                <roofShape>Complex/Custom</roofShape>
+                <roofType>Asphalt / Fiberglass</roofType>
+                <yearBuilt>1952</yearBuilt>
+            </AAAHOConstructionInfo>
+            <AAAPpcDetailsInfo state="Created">
+                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+                <fireDepartmentType>T</fireDepartmentType>
+                <fireDistrict>On File Conversion</fireDistrict>
+                <fireStationDistRange>5</fireStationDistRange>
+                <ppcValue>1</ppcValue>
+            </AAAPpcDetailsInfo>
+            <AAAPropertyDeductible state="Created">
+                <coverageCd>DEDUCTIBLE</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAAPropertyDeductible>
+            <PreconfigLocation state="Created">
+                <AAAHODwellAddress state="Created">
+                    <addressLine1>1410 VIERA AVE</addressLine1>
+                    <addressLine2># 4 #3, #4, #5</addressLine2>
+                    <addressValidatedInd>Yes</addressValidatedInd>
+                    <city>ANTIOCH</city>
+                    <countryCd>US</countryCd>
+                    <county>Contra Costa</county>
+                    <poBoxInd>false</poBoxInd>
+                    <postalCode>94509-6871</postalCode>
+                    <stateProvCd>CA</stateProvCd>
+                </AAAHODwellAddress>
+            </PreconfigLocation>
+        </AAADwellEntityComponent>
+        <PreconfigPersonInfo state="Created">
+            <AAAHOMailingAddressComponent state="Created">
+                <addressLine1>3295 LOS PRADOS ST</addressLine1>
+                <addressValidatedInd>Yes</addressValidatedInd>
+                <city>SAN MATEO</city>
+                <countryCd>US</countryCd>
+                <county>San Mateo</county>
+                <postalCode>94403</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAHOMailingAddressComponent>
+        </PreconfigPersonInfo>
+    </AAAHOPolicy>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>uw conditions cancellation</title>
+        <updatedOn>2012-03-15T00:00:00</updatedOn>
+        <userText>Sent conditions letter that boarded up window needs to be replaced. Remedy date 3/15/12. No proof of repairs rec'd yet so sending cancel letter on 3/21/12. Cancellation eff 4/21/12. Notified agent.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>uw cancellation extended</title>
+        <updatedOn>2012-04-20T00:00:00</updatedOn>
+        <userText>Rec'd partial proof of repairs from insd, extending cancel date out until 4/30/12.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>do not reinstate prior to call</title>
+        <updatedOn>2012-03-20T00:00:00</updatedOn>
+        <userText>Do not reinstate prior to calling uw 866-814-5222</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2014-01-07T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - CORRECT UNIT NUMBER</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>PH AGENT END CORRECT UNIT#</title>
+        <updatedOn>2014-01-07T00:00:00</updatedOn>
+        <userText>ALENA CORRECT UNITED NUMBER 3,4,5</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Conversion: Title/Header info is blank in Legacy system</title>
+        <updatedOn>2012-02-02T00:00:00</updatedOn>
+        <userText>*** Backyard Access *** If necessary, contact me at (925) 250-2022 No special instructions</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>DECLINE - AZ,CA,CT,MT,NV</title>
+        <updatedOn>2012-03-20T00:00:00</updatedOn>
+        <userText>XX04NV 04/08DP3 -003395443003-8344  -         010000000I01 ********** DECLINE NOTICE ********** March 21, 2012 KENNETH MACIA 3295 LOS PRADOS ST SAN MATEO  CA  94403 POLICY NUMBER: DP3 -003395443 CSAA/8344/VILLEGAS 380 W. MACARTHUR BLVD. OAKLAND  CA  94609 003-8344  - Uprate due to:  CLUE:     MVR:     Neither: Dear KENNETH MACIA Thank you for choosing AAA Insurance for your insurance needs. We regret to inform you that based on our company guidelines, you do not qualify for rental property insurance with us. Your policy will be cancelled effective 4/21/12, due to the following: Broken windows need to be replaced. At AAA Insurance, we strive to keep insurance affordable for all of our policyholders. This goal can only be accomplished by closely managing the risk associated with the policies we insure. You have certain rights to see the personal information we maintain about you and to correct, if necessary, that information. For a more complete explanation of your rights, please write to us at the address provided above. If you have any questions, please call (800) 207-3618 and one of our customer service representatives will be glad to assist you. Your AAA Insurance Team</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>PAYMENT</title>
+        <updatedOn>2014-08-02T00:00:00</updatedOn>
+        <userText>Sales Rep Number  0    Receipt Number  18948516 District Office Number  500     Receipt Date and Time  08/02/2014 04:43 PM Payment Summary Description Amount Dwelling Fire Installment Payment #3395443 KENNETH  MACIA  $219.50 Total Paid    $219.50 Payment Method e-Check Routing Number XXXXX2882 Account Number XXXXXXXXXXXXX7785 ---------------------------------------------------------------------------</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2014-08-02T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - CHANGED ADDRESS</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>cc pmt</title>
+        <updatedOn>2014-11-18T00:00:00</updatedOn>
+        <userText>--------------------------------------------------------------------------- P A Y M E N T  R E C E I P T Customer Copy --------------------------------------------------------------------------- Sales Rep Number  0    Receipt Number  22482549 District Office Number  92     Receipt Date and Time  11/18/2014 11:17 AM M</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2015-11-24T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - updated membership</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>PH END - CORRECTED ADDRESS</title>
+        <updatedOn>2014-08-02T00:00:00</updatedOn>
+        <userText>PER OI REMOVED AN EXTRA 4</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>CC PAYMENT</title>
+        <updatedOn>2014-05-21T00:00:00</updatedOn>
+        <userText>Sales Rep Number  0    Receipt Number  16645019 District Office Number  92     Receipt Date and Time  05/21/2014 04:42 PM M Payment Summary Description Amount Dwelling Fire Installment Payment #3395443 KENNETH  MACIA  $219.50 Total Paid    $219.50 Payment Method e-Check Routing Number XXXXX2882 Account Number XXXXXXXXXXXXX7785 ---------------------------------------------------------------------------</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>ISSUED BY BLAZE</title>
+        <updatedOn>2012-02-02T00:00:00</updatedOn>
+        <userText>ISSUED BY BLAZE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-02-02T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>MISC DOC RECVD - NO ACTION</title>
+        <updatedOn>2012-03-12T00:00:00</updatedOn>
+        <userText>MISC DOC RECVD - NO ACTION</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Cancellation Notice</title>
+        <updatedOn>2012-03-20T00:00:00</updatedOn>
+        <userText>Policy Cancellation Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>UW EMAIL RECVD IN WD</title>
+        <updatedOn>2012-04-20T00:00:00</updatedOn>
+        <userText>UW EMAIL RECVD IN WD</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Reinstate Notice</title>
+        <updatedOn>2012-04-22T00:00:00</updatedOn>
+        <userText>Policy Reinstate Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2012-04-22T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Cancellation Notice</title>
+        <updatedOn>2012-05-17T00:00:00</updatedOn>
+        <userText>Policy Cancellation Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Reinstate Notice</title>
+        <updatedOn>2012-06-05T00:00:00</updatedOn>
+        <userText>Policy Reinstate Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2012-07-12T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2013-04-11T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2013-07-14T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2013-10-13T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-01-07T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-01-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-01-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Expiration Notice</title>
+        <updatedOn>2014-02-06T00:00:00</updatedOn>
+        <userText>Policy Expiration Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2014-04-13T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Cancellation Notice</title>
+        <updatedOn>2014-05-08T00:00:00</updatedOn>
+        <userText>Policy Cancellation Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Reinstate Notice</title>
+        <updatedOn>2014-05-21T00:00:00</updatedOn>
+        <userText>Policy Reinstate Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2014-07-13T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-08-03T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2014-10-12T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Cancellation Notice</title>
+        <updatedOn>2014-11-06T00:00:00</updatedOn>
+        <userText>Policy Cancellation Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Reinstate Notice</title>
+        <updatedOn>2014-11-18T00:00:00</updatedOn>
+        <userText>Policy Reinstate Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Free Form Underwriting Letter</title>
+        <updatedOn>2015-11-15T00:00:00</updatedOn>
+        <userText>Free Form Underwriting Letter</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2016-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2016-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+</Policy>

@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+    <AAAHOPolicy state="Created">
+        <agencyCd>500001005</agencyCd>
+        <agencyLocation>500005342</agencyLocation>
+        <agentCd>56539408</agentCd>
+        <agentGeneralNumber>003</agentGeneralNumber>
+        <countryCd>US</countryCd>
+        <doNotRenewInd>false</doNotRenewInd>
+        <effective>2018-02-01T00:00:00</effective>
+        <expiration>2019-02-01T00:00:00</expiration>
+        <imported>CONV</imported>
+        <importedFrom>SIS</importedFrom>
+        <isAdditionalPolicy>false</isAdditionalPolicy>
+        <isAdditionalProppolicy>false</isAdditionalProppolicy>
+        <leadSourceCd>25</leadSourceCd>
+        <officeType>AZ Club Agent</officeType>
+        <policyFormCd>DP3</policyFormCd>
+        <preConversionPolicyNumber>DP3 2381780</preConversionPolicyNumber>
+        <preConversionPolicyPremium>682</preConversionPolicyPremium>
+        <producerCd>500001005</producerCd>
+        <productCd>AAA_HO_CA</productCd>
+        <riskStateCd>CA</riskStateCd>
+        <sourcePolicyNum>DP3 2381780</sourcePolicyNum>
+        <subProducerCd>56539408</subProducerCd>
+        <tollNumberCd>1111111111</tollNumberCd>
+        <underwriterCd>ACAIC</underwriterCd>
+        <AAACeaDetailsComponent state="Created">
+            <acceptCeaOffer>false</acceptCeaOffer>
+        </AAACeaDetailsComponent>
+        <AAAFirelineReportComponent state="Created">
+            <dwellAddressCity>El Sobrante</dwellAddressCity>
+            <dwellAddressLine1>120 RENFREW CT</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94803</dwellAddressZip>
+            <expirationDate>2018-02-06T00:00:00</expirationDate>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <status>Valid</status>
+        </AAAFirelineReportComponent>
+        <AAAHOCommunicationInfo state="Created">
+            <phoneNumber>9253708336</phoneNumber>
+            <preferredContact>homePhone</preferredContact>
+        </AAAHOCommunicationInfo>
+        <AAAHOMembership state="Created">
+            <insurerCd>Yes</insurerCd>
+            <insurerName>NEBOUT</insurerName>
+            <policyNumber>4290052179700610</policyNumber>
+        </AAAHOMembership>
+        <AAAHOMortgageeExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOMortgageeExists>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1934-11-07T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>PIERRE</firstName>
+            <lastName>NEBOUT</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <principalRoleCd>policyHolder</principalRoleCd>
+            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>120 RENFREW CT</addressLine1>
+                <city>El Sobrante</city>
+                <dateOfBirth>1934-11-07T00:00:00</dateOfBirth>
+                <expirationDt>2018-01-07T00:00:00</expirationDt>
+                <firstName>PIERRE</firstName>
+                <lastName>NEBOUT</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-11-08T00:00:00</orderDate>
+                <postalCode>94803</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>120 RENFREW CT</addressLine1>
+                <city>El Sobrante</city>
+                <countryCd>US</countryCd>
+                <postalCode>94803</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1942-01-23T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>JEANNETTE</firstName>
+            <lastName>NEBOUT</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>120 RENFREW CT</addressLine1>
+                <city>El Sobrante</city>
+                <dateOfBirth>1942-01-23T00:00:00</dateOfBirth>
+                <expirationDt>2018-01-07T00:00:00</expirationDt>
+                <firstName>JEANNETTE</firstName>
+                <lastName>NEBOUT</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-11-08T00:00:00</orderDate>
+                <postalCode>94803</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>120 RENFREW CT</addressLine1>
+                <city>El Sobrante</city>
+                <countryCd>US</countryCd>
+                <postalCode>94803</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHOPaymentOption state="Created">
+            <billToAtRenewal>Insured</billToAtRenewal>
+            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+            <recurringPayment>false</recurringPayment>
+        </AAAHOPaymentOption>
+        <AAAHOPolicyPriorCarrier state="Created">
+            <baseDate>2007-02-01T00:00:00</baseDate>
+            <carrierCd>1</carrierCd>
+            <noOfYearsWithHO>11</noOfYearsWithHO>
+            <policyType>DP3</policyType>
+        </AAAHOPolicyPriorCarrier>
+        <AAAHOPreDwellingAddrExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOPreDwellingAddrExists>
+        <AAAIso360ReportComponent state="Created">
+            <constructionTypeCd>Frame</constructionTypeCd>
+            <dwellAddressCity>El Sobrante</dwellAddressCity>
+            <dwellAddressLine1>120 RENFREW CT</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94803</dwellAddressZip>
+            <expirationDate>2018-02-06T00:00:00</expirationDate>
+            <isoReplacementCost>350785</isoReplacementCost>
+            <livingArea>1495</livingArea>
+            <numberOfFamilies>1</numberOfFamilies>
+            <numberOfStories>1</numberOfStories>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <roofShape>Complex/Custom</roofShape>
+            <roofType>Asphalt / Fiberglass</roofType>
+            <status>Valid</status>
+            <yearBuilt>1957</yearBuilt>
+        </AAAIso360ReportComponent>
+        <AAAMembershipOrder state="Created">
+            <lastName>NEBOUT</lastName>
+            <membershipNumber>4290052179700610</membershipNumber>
+            <memberSince>1976-01-01T00:00:00</memberSince>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <receiptDate>2017-11-08T00:00:00</receiptDate>
+            <status>Active</status>
+        </AAAMembershipOrder>
+        <AAAPolicyPrintingInfoComponent state="Created">
+            <suppressPrint>PD</suppressPrint>
+        </AAAPolicyPrintingInfoComponent>
+        <AAAPpcReportComponent state="Created">
+            <dwellAddressCity>El Sobrante</dwellAddressCity>
+            <dwellAddressLine1>120 RENFREW CT</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94803</dwellAddressZip>
+            <expirationDate>2018-01-07T00:00:00</expirationDate>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <ppcValue>3</ppcValue>
+            <status>Valid</status>
+        </AAAPpcReportComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>1POSOA</documentCd>
+            <documentText>Signed policy application</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>616530</documentCd>
+            <documentText>California Residential Property Insurance Disclosure</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>CEAOD</documentCd>
+            <documentText>CEA Offer Declination</documentText>
+        </AAASupportingDocComponent>
+        <AAAUnderwritingQuestionaireComponent state="Created">
+            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+            <DwellLocatedInd>false</DwellLocatedInd>
+            <EmployeesResidentsInd>false</EmployeesResidentsInd>
+            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+            <GasWaterInGarageInd>false</GasWaterInGarageInd>
+            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+        </AAAUnderwritingQuestionaireComponent>
+        <Commissions state="Created">
+            <commissionTypeCd>R</commissionTypeCd>
+        </Commissions>
+        <DL0104EndorsementForm state="Created"/>
+        <DL2402EndorsementForm state="Created"/>
+        <DL2411EndorsementForm state="Created"/>
+        <DL2433EndorsementForm state="Created"/>
+        <DL2482EndorsementForm state="Created"/>
+        <DP0422EndorsementForm state="Created">
+            <coverageLimit>10000</coverageLimit>
+        </DP0422EndorsementForm>
+        <DP0475EndorsementForm state="Created"/>
+        <DP0495EndorsementForm state="Created">
+            <coverageLimit>5000</coverageLimit>
+            <deductible>1000</deductible>
+        </DP0495EndorsementForm>
+        <DW0420EndorsementForm state="Created">
+            <coverageLimit>50</coverageLimit>
+        </DW0420EndorsementForm>
+        <AAADwellEntityComponent state="Created">
+            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+            <aaaDwellingUsage>2</aaaDwellingUsage>
+            <aaaFirelineScore>2</aaaFirelineScore>
+            <aaanumberofResidents>1</aaanumberofResidents>
+            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+            <addressLine1>120 RENFREW CT</addressLine1>
+            <city>El Sobrante</city>
+            <countryCd>US</countryCd>
+            <county>CONTRA COSTA</county>
+            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+            <firelineMatchType>Address</firelineMatchType>
+            <numberOfFamilies>1</numberOfFamilies>
+            <overrideInspectionInd>true</overrideInspectionInd>
+            <placementOrMatchType>Address</placementOrMatchType>
+            <postalCode>94803</postalCode>
+            <propMgrOccupation>3</propMgrOccupation>
+            <protectionClassCd>3</protectionClassCd>
+            <spaTubType>None</spaTubType>
+            <stateProvCd>CA</stateProvCd>
+            <swimPoolType>None</swimPoolType>
+            <trampolineType>None</trampolineType>
+            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+            <woodStoveInd>false</woodStoveInd>
+            <yearFirstRented>2002</yearFirstRented>
+            <AAACoverageA state="Created">
+                <coverageCd>CovA</coverageCd>
+                <limitAmount>350785</limitAmount>
+            </AAACoverageA>
+            <AAACoverageB state="Created">
+                <coverageCd>CovB</coverageCd>
+                <limitAmount>35079</limitAmount>
+            </AAACoverageB>
+            <AAACoverageC state="Created">
+                <coverageCd>CovC</coverageCd>
+                <limitAmount>17540</limitAmount>
+            </AAACoverageC>
+            <AAACoverageD state="Created">
+                <coverageCd>CovD</coverageCd>
+                <limitAmount>70157</limitAmount>
+            </AAACoverageD>
+            <AAACoverageE state="Created">
+                <coverageCd>CovE</coverageCd>
+                <limitAmount>500000</limitAmount>
+            </AAACoverageE>
+            <AAACoverageF state="Created">
+                <coverageCd>CovF</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAACoverageF>
+            <AAAHOBuildingImprovementsInfo state="Created">
+                <roofPercentComplete>100</roofPercentComplete>
+                <roofRenovationMonth>0</roofRenovationMonth>
+                <roofRenovationType>Total_Replace</roofRenovationType>
+                <roofRenovationYear>2000</roofRenovationYear>
+            </AAAHOBuildingImprovementsInfo>
+            <AAAHOConstructionInfo state="Created">
+                <aaaFoundationType>Slab</aaaFoundationType>
+                <constructionTypeCd>Frame</constructionTypeCd>
+                <isoReplacementCost>350785</isoReplacementCost>
+                <livingArea>1495</livingArea>
+                <masonryVeneer>false</masonryVeneer>
+                <numberOfStories>1</numberOfStories>
+                <replacementCost>350785</replacementCost>
+                <roofShape>Complex/Custom</roofShape>
+                <roofType>Asphalt / Fiberglass</roofType>
+                <yearBuilt>1957</yearBuilt>
+            </AAAHOConstructionInfo>
+            <AAAPpcDetailsInfo state="Created">
+                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+                <fireDepartmentType>T</fireDepartmentType>
+                <fireDistrict>On File Conversion</fireDistrict>
+                <fireStationDistRange>1</fireStationDistRange>
+                <ppcValue>3</ppcValue>
+            </AAAPpcDetailsInfo>
+            <AAAPropertyDeductible state="Created">
+                <coverageCd>DEDUCTIBLE</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAAPropertyDeductible>
+            <PreconfigLocation state="Created">
+                <AAAHODwellAddress state="Created">
+                    <addressLine1>120 RENFREW CT</addressLine1>
+                    <addressValidatedInd>Yes</addressValidatedInd>
+                    <city>El Sobrante</city>
+                    <countryCd>US</countryCd>
+                    <county>Contra Costa</county>
+                    <poBoxInd>false</poBoxInd>
+                    <postalCode>94803</postalCode>
+                    <stateProvCd>CA</stateProvCd>
+                </AAAHODwellAddress>
+            </PreconfigLocation>
+        </AAADwellEntityComponent>
+        <PreconfigPersonInfo state="Created">
+            <AAAHOMailingAddressComponent state="Created">
+                <addressLine1>120 ALHAMBRA HILLS DR</addressLine1>
+                <addressValidatedInd>Yes</addressValidatedInd>
+                <city>MARTINEZ</city>
+                <countryCd>US</countryCd>
+                <county>Contra Costa</county>
+                <postalCode>94553</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAHOMailingAddressComponent>
+        </PreconfigPersonInfo>
+    </AAAHOPolicy>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>*** TRXF $882.25/CRDT ***</title>
+        <updatedOn>2007-04-24T00:00:00</updatedOn>
+        <userText>FROM DP3 2381777 PER TERI ZELINA</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>PAYMENT</title>
+        <updatedOn>2013-02-11T00:00:00</updatedOn>
+        <userText>PAYMENT OVER PHONE JEANNETE NEBOUT RECIEPT NO.PA4260290</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2007-04-11T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2007-12-09T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2008-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2009-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2010-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2011-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Expiration Notice</title>
+        <updatedOn>2013-02-06T00:00:00</updatedOn>
+        <userText>Policy Expiration Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2016-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2016-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+</Policy>

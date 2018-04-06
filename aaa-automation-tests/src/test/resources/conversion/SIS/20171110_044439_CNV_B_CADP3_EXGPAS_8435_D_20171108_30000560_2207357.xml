@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+    <AAAHOPolicy state="Created">
+        <agencyCd>500001005</agencyCd>
+        <agencyLocation>500001005</agencyLocation>
+        <agentCd>500005456</agentCd>
+        <agentGeneralNumber>003</agentGeneralNumber>
+        <countryCd>US</countryCd>
+        <doNotRenewInd>false</doNotRenewInd>
+        <effective>2018-01-31T00:00:00</effective>
+        <expiration>2019-01-31T00:00:00</expiration>
+        <imported>CONV</imported>
+        <importedFrom>SIS</importedFrom>
+        <isAdditionalPolicy>false</isAdditionalPolicy>
+        <isAdditionalProppolicy>false</isAdditionalProppolicy>
+        <leadSourceCd>25</leadSourceCd>
+        <officeType>AZ Club Agent</officeType>
+        <policyFormCd>DP3</policyFormCd>
+        <preConversionPolicyNumber>DP3 2207357</preConversionPolicyNumber>
+        <preConversionPolicyPremium>744</preConversionPolicyPremium>
+        <producerCd>500001005</producerCd>
+        <productCd>AAA_HO_CA</productCd>
+        <riskStateCd>CA</riskStateCd>
+        <sourcePolicyNum>DP3 2207357</sourcePolicyNum>
+        <subProducerCd>500005456</subProducerCd>
+        <tollNumberCd>1111111111</tollNumberCd>
+        <underwriterCd>ACAIC</underwriterCd>
+        <AAACeaDetailsComponent state="Created">
+            <acceptCeaOffer>false</acceptCeaOffer>
+        </AAACeaDetailsComponent>
+        <AAAFirelineReportComponent state="Created">
+            <dwellAddressCity>Valencia</dwellAddressCity>
+            <dwellAddressLine1>24240 KIRBY CT</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>91354</dwellAddressZip>
+            <expirationDate>2018-02-06T00:00:00</expirationDate>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <status>Valid</status>
+        </AAAFirelineReportComponent>
+        <AAAHOCommunicationInfo state="Created">
+            <phoneNumber>6619659112</phoneNumber>
+            <preferredContact>homePhone</preferredContact>
+        </AAAHOCommunicationInfo>
+        <AAAHOMembership state="Created">
+            <insurerCd>Yes</insurerCd>
+            <insurerName>THOMPSON</insurerName>
+            <policyNumber>4290051162656916</policyNumber>
+        </AAAHOMembership>
+        <AAAHOMortgageeExists state="Created">
+            <yesNoAnswer>true</yesNoAnswer>
+        </AAAHOMortgageeExists>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1972-09-25T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>NIKAULE</firstName>
+            <lastName>THOMPSON</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <principalRoleCd>policyHolder</principalRoleCd>
+            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>24240 KIRBY CT</addressLine1>
+                <city>Valencia</city>
+                <dateOfBirth>1972-09-25T00:00:00</dateOfBirth>
+                <expirationDt>2018-01-07T00:00:00</expirationDt>
+                <firstName>NIKAULE</firstName>
+                <lastName>THOMPSON</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-11-08T00:00:00</orderDate>
+                <postalCode>91354</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>24240 KIRBY CT</addressLine1>
+                <city>Valencia</city>
+                <countryCd>US</countryCd>
+                <postalCode>91354</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1971-03-08T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>TYRONE</firstName>
+            <lastName>THOMPSON</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>24240 KIRBY CT</addressLine1>
+                <city>Valencia</city>
+                <dateOfBirth>1971-03-08T00:00:00</dateOfBirth>
+                <expirationDt>2018-01-07T00:00:00</expirationDt>
+                <firstName>TYRONE</firstName>
+                <lastName>THOMPSON</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-11-08T00:00:00</orderDate>
+                <postalCode>91354</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>24240 KIRBY CT</addressLine1>
+                <city>Valencia</city>
+                <countryCd>US</countryCd>
+                <postalCode>91354</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHOPaymentOption state="Created">
+            <billToAtRenewal>Mortgagee</billToAtRenewal>
+            <paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+            <paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+            <recurringPayment>false</recurringPayment>
+        </AAAHOPaymentOption>
+        <AAAHOPolicyPriorCarrier state="Created">
+            <baseDate>2006-01-31T00:00:00</baseDate>
+            <carrierCd>1</carrierCd>
+            <noOfYearsWithHO>12</noOfYearsWithHO>
+            <policyType>DP3</policyType>
+        </AAAHOPolicyPriorCarrier>
+        <AAAHOPreDwellingAddrExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOPreDwellingAddrExists>
+        <AAAIso360ReportComponent state="Created">
+            <constructionTypeCd>Frame</constructionTypeCd>
+            <dwellAddressCity>Valencia</dwellAddressCity>
+            <dwellAddressLine1>24240 KIRBY CT</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>91354</dwellAddressZip>
+            <expirationDate>2018-02-06T00:00:00</expirationDate>
+            <isoReplacementCost>396042</isoReplacementCost>
+            <livingArea>2434</livingArea>
+            <numberOfFamilies>1</numberOfFamilies>
+            <numberOfStories>2</numberOfStories>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <roofShape>Complex/Custom</roofShape>
+            <roofType>Concrete Tile</roofType>
+            <status>Valid</status>
+            <yearBuilt>1999</yearBuilt>
+        </AAAIso360ReportComponent>
+        <AAAMembershipOrder state="Created">
+            <lastName>THOMPSON</lastName>
+            <membershipNumber>4290051162656916</membershipNumber>
+            <memberSince>2009-01-01T00:00:00</memberSince>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <receiptDate>2017-11-08T00:00:00</receiptDate>
+            <status>Active</status>
+        </AAAMembershipOrder>
+        <AAAPolicyPrintingInfoComponent state="Created">
+            <suppressPrint>PD</suppressPrint>
+        </AAAPolicyPrintingInfoComponent>
+        <AAAPpcReportComponent state="Created">
+            <dwellAddressCity>Valencia</dwellAddressCity>
+            <dwellAddressLine1>24240 KIRBY CT</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>91354</dwellAddressZip>
+            <expirationDate>2018-01-07T00:00:00</expirationDate>
+            <orderDate>2017-11-08T00:00:00</orderDate>
+            <ppcValue>6</ppcValue>
+            <status>Valid</status>
+        </AAAPpcReportComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>true</docReceivedInd>
+            <documentCd>1POCFA</documentCd>
+            <documentText>Proof of central fire alarm</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>1POSOA</documentCd>
+            <documentText>Signed policy application</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>true</docReceivedInd>
+            <documentCd>2POCTA</documentCd>
+            <documentText>Proof of central theft alarm</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>616530</documentCd>
+            <documentText>California Residential Property Insurance Disclosure</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>CEAOD</documentCd>
+            <documentText>CEA Offer Declination</documentText>
+        </AAASupportingDocComponent>
+        <AAAUnderwritingQuestionaireComponent state="Created">
+            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+            <DwellLocatedInd>false</DwellLocatedInd>
+            <EmployeesResidentsInd>false</EmployeesResidentsInd>
+            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+            <GasWaterInGarageInd>false</GasWaterInGarageInd>
+            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+        </AAAUnderwritingQuestionaireComponent>
+        <Commissions state="Created">
+            <commissionTypeCd>R</commissionTypeCd>
+        </Commissions>
+        <DL0104EndorsementForm state="Created"/>
+        <DL2402EndorsementForm state="Created"/>
+        <DL2411EndorsementForm state="Created"/>
+        <DL2433EndorsementForm state="Created"/>
+        <DL2482EndorsementForm state="Created"/>
+        <DP0422EndorsementForm state="Created">
+            <coverageLimit>10000</coverageLimit>
+        </DP0422EndorsementForm>
+        <DW0420EndorsementForm state="Created">
+            <coverageLimit>50</coverageLimit>
+        </DW0420EndorsementForm>
+        <AAADwellEntityComponent state="Created">
+            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+            <aaaDwellingUsage>2</aaaDwellingUsage>
+            <aaaFirelineScore>0</aaaFirelineScore>
+            <aaanumberofResidents>1</aaanumberofResidents>
+            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+            <addressLine1>24240 KIRBY CT</addressLine1>
+            <centralAlarmInd>true</centralAlarmInd>
+            <centralFireAlarmInd>true</centralFireAlarmInd>
+            <city>Valencia</city>
+            <countryCd>US</countryCd>
+            <county>LOS ANGELES</county>
+            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+            <firelineMatchType>Address</firelineMatchType>
+            <fullResidentialSprinklersInd>true</fullResidentialSprinklersInd>
+            <numberOfFamilies>1</numberOfFamilies>
+            <overrideInspectionInd>true</overrideInspectionInd>
+            <placementOrMatchType>Address</placementOrMatchType>
+            <postalCode>91354</postalCode>
+            <propMgrOccupation>1</propMgrOccupation>
+            <protectionClassCd>6</protectionClassCd>
+            <spaTubType>None</spaTubType>
+            <stateProvCd>CA</stateProvCd>
+            <swimPoolType>None</swimPoolType>
+            <trampolineType>None</trampolineType>
+            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+            <woodStoveInd>false</woodStoveInd>
+            <yearFirstRented>2004</yearFirstRented>
+            <AAACoverageA state="Created">
+                <coverageCd>CovA</coverageCd>
+                <limitAmount>396042</limitAmount>
+            </AAACoverageA>
+            <AAACoverageB state="Created">
+                <coverageCd>CovB</coverageCd>
+                <limitAmount>39604</limitAmount>
+            </AAACoverageB>
+            <AAACoverageC state="Created">
+                <coverageCd>CovC</coverageCd>
+                <limitAmount>19803</limitAmount>
+            </AAACoverageC>
+            <AAACoverageD state="Created">
+                <coverageCd>CovD</coverageCd>
+                <limitAmount>79209</limitAmount>
+            </AAACoverageD>
+            <AAACoverageE state="Created">
+                <coverageCd>CovE</coverageCd>
+                <limitAmount>1000000</limitAmount>
+            </AAACoverageE>
+            <AAACoverageF state="Created">
+                <coverageCd>CovF</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAACoverageF>
+            <AAAHOConstructionInfo state="Created">
+                <aaaFoundationType>Slab</aaaFoundationType>
+                <constructionTypeCd>Frame</constructionTypeCd>
+                <isoReplacementCost>396042</isoReplacementCost>
+                <livingArea>2434</livingArea>
+                <masonryVeneer>false</masonryVeneer>
+                <numberOfStories>2</numberOfStories>
+                <replacementCost>396042</replacementCost>
+                <roofShape>Complex/Custom</roofShape>
+                <roofType>Concrete Tile</roofType>
+                <yearBuilt>1999</yearBuilt>
+            </AAAHOConstructionInfo>
+            <AAAHOMortgageeInfo state="Created">
+                <accountNumber>3355078603</accountNumber>
+                <addressValidatedInd>Yes</addressValidatedInd>
+                <city>AMELIA</city>
+                <countryCd>US</countryCd>
+                <mortagageeAddressLine1>PO BOX 717</mortagageeAddressLine1>
+                <name>QUICKEN LOANS INC ISAOA</name>
+                <postalCode>45102-0000</postalCode>
+                <rank>1</rank>
+                <stateProvCd>OH</stateProvCd>
+                <useLegalMortgagee>false</useLegalMortgagee>
+            </AAAHOMortgageeInfo>
+            <AAAPpcDetailsInfo state="Created">
+                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+                <fireDepartmentType>T</fireDepartmentType>
+                <fireDistrict>On File Conversion</fireDistrict>
+                <fireStationDistRange>5</fireStationDistRange>
+                <ppcValue>6</ppcValue>
+            </AAAPpcDetailsInfo>
+            <AAAPropertyDeductible state="Created">
+                <coverageCd>DEDUCTIBLE</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAAPropertyDeductible>
+            <PreconfigLocation state="Created">
+                <AAAHODwellAddress state="Created">
+                    <addressLine1>24240 KIRBY CT</addressLine1>
+                    <addressValidatedInd>Yes</addressValidatedInd>
+                    <city>Valencia</city>
+                    <countryCd>US</countryCd>
+                    <county>Los Angeles</county>
+                    <poBoxInd>false</poBoxInd>
+                    <postalCode>91354</postalCode>
+                    <stateProvCd>CA</stateProvCd>
+                </AAAHODwellAddress>
+            </PreconfigLocation>
+        </AAADwellEntityComponent>
+        <HO438BFUNSEndorsementForm state="Created"/>
+        <PreconfigPersonInfo state="Created">
+            <AAAHOMailingAddressComponent state="Created">
+                <addressLine1>2517 BEAUFORT DR</addressLine1>
+                <addressValidatedInd>Yes</addressValidatedInd>
+                <city>MODESTO</city>
+                <countryCd>US</countryCd>
+                <county>Stanislaus</county>
+                <postalCode>95355</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAHOMailingAddressComponent>
+        </PreconfigPersonInfo>
+    </AAAHOPolicy>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>CORRECTED MTG CLAUSE...</title>
+        <updatedOn>2011-01-13T00:00:00</updatedOn>
+        <userText>PER AUGUST AT LENDER'S REQ</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>**ACCOUNT BREAKDOWN**</title>
+        <updatedOn>2010-04-02T00:00:00</updatedOn>
+        <userText>ACCOUNT BREAKDOWN 2008 - 09 &amp; 2009 - 10 MAILED TO INSURED PER MICHELLE GILBERT SEE WORKDESK</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2011-11-15T00:00:00</updatedOn>
+        <userText>AMENDED POLICY-UPDATED MEMBERSHIP INFORMATION</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2006-12-13T00:00:00</updatedOn>
+        <userText>AMENDED POLICY CORRECTED MORTGAGEE ADDRESS</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2006-05-10T00:00:00</updatedOn>
+        <userText>AMEND POLICY - CHANGE MORTGAGEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2010-02-26T00:00:00</updatedOn>
+        <userText>AMEND POLICY - UPDATE INSUREDS NAME</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>EMAILED CPU...</title>
+        <updatedOn>2010-03-29T00:00:00</updatedOn>
+        <userText>PER OI NIKAULE THOMPSON EMAILED CPU TO REQUEST AN ACCOUNT BREAKDOWN BE MAILED TO THE INSURED FOR 2008-2009 AND 2009-2010</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2010-11-15T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - UPDATED MEMBERSHIP INFORMATION</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>CORR. MORT. ADDRESS...</title>
+        <updatedOn>2006-12-13T00:00:00</updatedOn>
+        <userText>COUNTRYWIDE VAN NUYS TO FT WORTH.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>WHEN PAYMENT POSTS......</title>
+        <updatedOn>2006-04-05T00:00:00</updatedOn>
+        <userText>REINSTATE WITHOUT LAPSE. MTG DID NOT PAY AS INTENDED</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2007-03-06T00:00:00</updatedOn>
+        <userText>AMENDED POLICY- CHANGE TO INSURED BILLED</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2015-12-22T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>RETURNED MAIL...</title>
+        <updatedOn>2006-12-14T00:00:00</updatedOn>
+        <userText>MORTGAGEE ADDRESS UPDATED</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>** TR $514.00/CRDT</title>
+        <updatedOn>2009-01-26T00:00:00</updatedOn>
+        <userText>FROM AKW 310354</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>CHNG BILL TO.....</title>
+        <updatedOn>2007-03-06T00:00:00</updatedOn>
+        <userText>INSURED PER LENDER, IN WORK DESK.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2011-01-13T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - CORRECTED MORTGAGE INFORMATION</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>UPDATE LAST NAME...</title>
+        <updatedOn>2010-02-26T00:00:00</updatedOn>
+        <userText>PER OI NIKAULE UPDATE LAST NAME TO THOMPSON</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2012-11-28T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2015-02-12T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>ADDRESS VERIFIED W USPS</title>
+        <updatedOn>2006-02-07T00:00:00</updatedOn>
+        <userText>24240 KIRBY CT VALENCIA CA  91354-1841</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>POLICY INQ</title>
+        <updatedOn>2016-05-05T00:00:00</updatedOn>
+        <userText>SPOKE WIHT MOLLY FROM QUICKEN LOANS INQ ABOUT COVERAGES.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2016-05-25T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2015-12-29T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>DEC PAGE REQ</title>
+        <updatedOn>2013-09-13T00:00:00</updatedOn>
+        <userText>PER ALISION REP IN SELECT CALLED TO REQ EOI/DEC PAGE FOR OI</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>MTG</title>
+        <updatedOn>2016-05-09T00:00:00</updatedOn>
+        <userText>MTG CALLED TO VERIFY COVERAGE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>fiu note...</title>
+        <updatedOn>2006-03-30T00:00:00</updatedOn>
+        <userText>Please review the included and respond as needed. Policy Number: DP3-2207357 Member Name: Nikaule Moore Effective Date: 1/31/2006 Misty Adams Note: Please remove alarm discount. Docs not provided. Thanks Thanks Misty Adams</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2006-04-07T00:00:00</updatedOn>
+        <userText>AMEND POLICY - AMEND MORTGAGE CLAUSE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>PER CHRISTINE CHANGE MORTGAGE</title>
+        <updatedOn>2006-04-07T00:00:00</updatedOn>
+        <userText>Please fax an evidence to 1925600989.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>WU03CA HO Req for Info No Cnx</title>
+        <updatedOn>2006-06-10T00:00:00</updatedOn>
+        <userText>WU03CA 01/94DP3 -002207357003-8930  -         010000000I01 REQUEST FOR INFORMATION NO CANCEL LETTER -- FILL REQ'D FIELDS June 12, 2006 NIKAULE MOORE 2517 BEAUFORT DR MODESTO  CA  95355 POLICY NUMBER: DP3 -002207357 CSAA/930/VALVERDE 9700 W. TARON STREET ELK GROVE  CA  95757 003-8930  - Dear NIKAULE MOORE Thank you for choosing AAA Fire and Casualty Insurance Company. for your homeowners insurance needs.  We have received returned mail from Countrywide home loans.  Please contact your mortgage company to obtain the correct mortgagee clause. You may fax this information to 1-800-880-2594 or mail it directly to the address given above.  If you have any questions about this notice, please contact one of our customer service representatives at (800) 207-3618 or your sales representative. Thank you for your business, Patrick D. Ross Manager, Property Department AAA Fire and Casualty Insurance Company.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2015-01-07T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2012-11-15T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>REQ DEC</title>
+        <updatedOn>2013-09-13T00:00:00</updatedOn>
+        <userText>PER OI NIKAULE FAXED COPIES OF 2012-2013 AND 2013-2014 DEC PAGES AND EOI TO MORTGAGEE ¢FAX:9373246551! LOAN # 0600743660</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2014-09-09T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>POL INQ</title>
+        <updatedOn>2014-09-08T00:00:00</updatedOn>
+        <userText>PER GEORGE W/ RE-FI MORTGAGEE VERIFIED THIS POL# STILL FOR THIS ADDRESS &amp; OI WANTED DEC &amp; BILLING INFO ADV NOT ON POL CAN SEND REQ TO HAVE POL UPDTD &amp; INFO SENT TO HIM HE OPTED TO SEND FAX</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>QUICKEN LOANS</title>
+        <updatedOn>2016-05-02T00:00:00</updatedOn>
+        <userText>PER OI NIKAULE THOMPSON, QUICKEN LOANS IS ALLOWED TO GET ANY INFORMATION OF F OF THIS POLICY. THEY ARE NOT ALLOWED TO MAKE CHANGES, BUT ARE ALLOWED TO GET ANY INFORMATION NECCESARY. EFF 05/02/2016</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>NOEMAIL@CSAA.COM</title>
+        <updatedOn>2016-05-02T00:00:00</updatedOn>
+        <userText>NOEMAIL@CSAA.COM</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>MTG CALL</title>
+        <updatedOn>2016-06-06T00:00:00</updatedOn>
+        <userText>MELANIE CALLED FROM QUICKEN LOANS TO CONFIRM COVG/PREMIUM. CONFIRMED THAT WE HAVE THIS AS TENANT OCCUPIED.</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Endorse</title>
+        <updatedOn>2013-01-28T00:00:00</updatedOn>
+        <userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Scheduled Invoice</title>
+        <updatedOn>2006-02-17T00:00:00</updatedOn>
+        <userText>Scheduled Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>CC BXYPH-5NGEZY5 $495.0</title>
+        <updatedOn>2006-04-05T00:00:00</updatedOn>
+        <userText>CC BXYPH-5NGEZY5 $495.0</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>MEMBERSHIP VALIDATED</title>
+        <updatedOn>2006-11-03T00:00:00</updatedOn>
+        <userText>MEMBERSHIP VALIDATED</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2006-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2006-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2006-12-14T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2006-12-14T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2007-12-09T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2008-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2009-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Free Form Underwriting Letter</title>
+        <updatedOn>2010-11-14T00:00:00</updatedOn>
+        <userText>Free Form Underwriting Letter</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2010-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-01-14T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-01-14T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Free Form Underwriting Letter</title>
+        <updatedOn>2011-11-14T00:00:00</updatedOn>
+        <userText>Free Form Underwriting Letter</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2011-12-07T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-11-15T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-11-28T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2012-12-09T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Reminder</title>
+        <updatedOn>2013-01-21T00:00:00</updatedOn>
+        <userText>Renewal Reminder</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2013-01-28T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Expiration Notice</title>
+        <updatedOn>2013-02-05T00:00:00</updatedOn>
+        <userText>Policy Expiration Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>NTHOMPSON@SAVEMART.COM</title>
+        <updatedOn>2013-09-13T00:00:00</updatedOn>
+        <userText>NTHOMPSON@SAVEMART.COM</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2013-12-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Reminder</title>
+        <updatedOn>2014-01-21T00:00:00</updatedOn>
+        <userText>Renewal Reminder</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-09-09T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-12-07T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>UPDATED LP PER PAPER REQ</title>
+        <updatedOn>2015-01-07T00:00:00</updatedOn>
+        <userText>UPDATED LP PER PAPER REQ</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-01-07T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-01-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-01-08T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-01-08T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Reminder</title>
+        <updatedOn>2015-01-21T00:00:00</updatedOn>
+        <userText>Renewal Reminder</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-02-12T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-12-07T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>CHANGED TO ESCROWED</title>
+        <updatedOn>2015-12-22T00:00:00</updatedOn>
+        <userText>CHANGED TO ESCROWED</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-12-23T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-12-29T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-30T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-12-30T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-12-30T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Reminder</title>
+        <updatedOn>2016-01-21T00:00:00</updatedOn>
+        <userText>Renewal Reminder</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2016-05-25T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2016-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2016-12-07T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2016-12-07T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+</Policy>

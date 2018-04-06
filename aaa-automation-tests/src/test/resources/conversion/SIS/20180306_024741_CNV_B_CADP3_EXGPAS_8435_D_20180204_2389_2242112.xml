@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005345</agencyLocation>
+		<agentCd>70683727</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<countryCd>US</countryCd>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-04-03T00:00:00</effective>
+		<expiration>2019-04-03T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>SIS</importedFrom>
+		<isAdditionalPolicy>false</isAdditionalPolicy>
+		<isAdditionalProppolicy>false</isAdditionalProppolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>DP3</policyFormCd>
+		<preConversionPolicyNumber>DP3 2242112</preConversionPolicyNumber>
+		<preConversionPolicyPremium>591</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>DP3 2242112</sourcePolicyNum>
+		<subProducerCd>70683727</subProducerCd>
+		<tollNumberCd>1111111111</tollNumberCd>
+		<underwriterCd>ACAIC</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>Lincoln</dwellAddressCity>
+			<dwellAddressLine1>193 J ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95648</dwellAddressZip>
+			<expirationDate>2018-05-05T00:00:00</expirationDate>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>9166451389</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>Yes</insurerCd>
+			<insurerName>ANGLADA</insurerName>
+			<policyNumber>4290057274813010</policyNumber>
+		</AAAHOMembership>
+		<AAAHOMortgageeExists state="Created">
+			<yesNoAnswer>true</yesNoAnswer>
+		</AAAHOMortgageeExists>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1946-10-23T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ELSIE</firstName>
+			<lastName>ANGLADA</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>193 J ST</addressLine1>
+				<city>Lincoln</city>
+				<dateOfBirth>1946-10-23T00:00:00</dateOfBirth>
+				<expirationDt>2018-04-05T00:00:00</expirationDt>
+				<firstName>ELSIE</firstName>
+				<lastName>ANGLADA</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2018-02-04T00:00:00</orderDate>
+				<postalCode>95648</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>193 J ST</addressLine1>
+				<city>Lincoln</city>
+				<countryCd>US</countryCd>
+				<postalCode>95648</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1994-12-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>MIGUEL</firstName>
+			<lastName>ANGLADA</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Spouse</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>193 J ST</addressLine1>
+				<city>Lincoln</city>
+				<dateOfBirth>1994-12-01T00:00:00</dateOfBirth>
+				<expirationDt>2018-04-05T00:00:00</expirationDt>
+				<firstName>MIGUEL</firstName>
+				<lastName>ANGLADA</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2018-02-04T00:00:00</orderDate>
+				<postalCode>95648</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>193 J ST</addressLine1>
+				<city>Lincoln</city>
+				<countryCd>US</countryCd>
+				<postalCode>95648</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Mortgagee</billToAtRenewal>
+			<paymentPlanAtRenewal>mortgageeHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>mortgageeHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2006-04-03T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>12</noOfYearsWithHO>
+			<policyType>DP3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>Lincoln</dwellAddressCity>
+			<dwellAddressLine1>193 J ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95648</dwellAddressZip>
+			<expirationDate>2018-05-05T00:00:00</expirationDate>
+			<isoReplacementCost>171880</isoReplacementCost>
+			<livingArea>765</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Asphalt / Fiberglass</roofType>
+			<status>Valid</status>
+			<yearBuilt>1949</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAMembershipOrder state="Created">
+			<lastName>ANGLADA</lastName>
+			<membershipNumber>4290057274813010</membershipNumber>
+			<memberSince>1975-01-01T00:00:00</memberSince>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<receiptDate>2018-02-04T00:00:00</receiptDate>
+			<status>Active</status>
+		</AAAMembershipOrder>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>Lincoln</dwellAddressCity>
+			<dwellAddressLine1>193 J ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95648</dwellAddressZip>
+			<expirationDate>2018-04-05T00:00:00</expirationDate>
+			<orderDate>2018-02-04T00:00:00</orderDate>
+			<ppcValue>5</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+			<RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+			<WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<DL0104EndorsementForm state="Created"/>
+		<DL2402EndorsementForm state="Created"/>
+		<DL2411EndorsementForm state="Created"/>
+		<DL2433EndorsementForm state="Created"/>
+		<DL2482EndorsementForm state="Created"/>
+		<DP0422EndorsementForm state="Created">
+			<coverageLimit>10000</coverageLimit>
+		</DP0422EndorsementForm>
+		<DP0475EndorsementForm state="Created"/>
+		<DW0420EndorsementForm state="Created">
+			<coverageLimit>50</coverageLimit>
+		</DW0420EndorsementForm>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>2</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>1</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>193 J ST</addressLine1>
+			<city>Lincoln</city>
+			<countryCd>US</countryCd>
+			<county>PLACER</county>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95648</postalCode>
+			<propMgrOccupation>3</propMgrOccupation>
+			<protectionClassCd>5</protectionClassCd>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<yearFirstRented>2006</yearFirstRented>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>171880</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>17188</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>8594</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>34376</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>1000000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>5000</limitAmount>
+			</AAACoverageF>
+			<AAAHOBuildingImprovementsInfo state="Created">
+				<roofPercentComplete>100</roofPercentComplete>
+				<roofRenovationMonth>0</roofRenovationMonth>
+				<roofRenovationType>Total_Replace</roofRenovationType>
+				<roofRenovationYear>2000</roofRenovationYear>
+			</AAAHOBuildingImprovementsInfo>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Other</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>171880</isoReplacementCost>
+				<livingArea>765</livingArea>
+				<masonryVeneer>false</masonryVeneer>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>171880</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>1949</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>8015883344</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>FLORENCE</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO B0X 100515</mortagageeAddressLine1>
+				<name>WELLS FARGO BANK, NA #936</name>
+				<postalCode>29502-0000</postalCode>
+				<rank>1</rank>
+				<stateProvCd>SC</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAHOMortgageeInfo state="Created">
+				<accountNumber>0000000000</accountNumber>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>SACRAMENTO</city>
+				<countryCd>US</countryCd>
+				<mortagageeAddressLine1>PO BOX 15247</mortagageeAddressLine1>
+				<name>RIVER CITY BANK</name>
+				<postalCode>95851-0000</postalCode>
+				<rank>2</rank>
+				<stateProvCd>CA</stateProvCd>
+				<useLegalMortgagee>false</useLegalMortgagee>
+			</AAAHOMortgageeInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>On File Conversion</fireDistrict>
+				<fireStationDistRange>1</fireStationDistRange>
+				<ppcValue>5</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>193 J ST</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>Lincoln</city>
+					<countryCd>US</countryCd>
+					<county>Placer</county>
+					<poBoxInd>false</poBoxInd>
+					<postalCode>95648</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO438BFUNSEndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>PO BOX 491</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>LINCOLN</city>
+				<countryCd>US</countryCd>
+				<county>Placer</county>
+				<postalCode>95648</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2007-02-12T00:00:00</updatedOn>
+		<userText>AMEND POLICY - CHANGE MORTGAGEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2007-01-11T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED MORTGAGEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>***CALL LOG***</title>
+		<updatedOn>2010-03-26T00:00:00</updatedOn>
+		<userText>VER RENEWAL</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CC RE POLICY INFO</title>
+		<updatedOn>2011-03-25T00:00:00</updatedOn>
+		<userText>EASTER LESSOR ON CAL RE RENEWAL INFO ADVSD SAME RENEW AMOUNT AND COVERAGES ADVSD DD 4.3.11</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>ADD LP</title>
+		<updatedOn>2016-01-08T00:00:00</updatedOn>
+		<userText>AGENT DIANE CALLED TO ADD A SECOND LP COMPANY EFF 010916</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>VERIFICATION</title>
+		<updatedOn>2015-03-25T00:00:00</updatedOn>
+		<userText>IESHA - WELLS FARGO</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2016-06-15T00:00:00</updatedOn>
+		<userText>UPDATE MORTGAGE CLAUSE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2007-03-01T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - CHANGED MORTGAGEE PER LENDERS REQUEST</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>12/16/07 INV NOT SENT...</title>
+		<updatedOn>2007-12-17T00:00:00</updatedOn>
+		<userText>EMAIL TO CPU TO WAIVE $5</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>***WAIVE $5.00 /INST. FEE</title>
+		<updatedOn>2007-12-18T00:00:00</updatedOn>
+		<userText>PER EUNICE SHERMAN</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>RENWAL VERIFICATION</title>
+		<updatedOn>2016-04-12T00:00:00</updatedOn>
+		<userText>PER OI SHANICE W/ WELLS FARGO CALLED TO CONFIRM RENEWAL INFORMATION SENT TO OVERNIGHT PAYMENT ADDRESS</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>BILLING INQUIRY</title>
+		<updatedOn>2016-04-01T00:00:00</updatedOn>
+		<userText>OI ELSIE WANTED TO KNOW IF WE HAVE RECIEVED PAYMENT.  ADVISED WE HAVE NOT. SHE SAID THEY HAVE SENT PAYMENT ON 3/25/16</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>ELSIE ANGLADA</title>
+		<updatedOn>2016-04-12T00:00:00</updatedOn>
+		<userText>TO CHECK ABOUT PAYMENT   INFORM PAYMENT NOT RECEIVED WE GO BY ENVELOPE POST OFFICE MARK... OI WILL CHYECK ON MTG COMPANY ABOUT THE PAYMENT</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2016-01-08T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - ADDED OR CHANGED LOSS PAYEE</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>OI INQ BILLING</title>
+		<updatedOn>2016-04-18T00:00:00</updatedOn>
+		<userText>OI INQ IF PAYMENT HAS BEEN RCVD</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>**UPDATE MORTGAGE CLAUSE**</title>
+		<updatedOn>2016-06-15T00:00:00</updatedOn>
+		<userText>UPDATE MORTGAGE CLAUSE - PER US MAIL</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Endorse</title>
+		<updatedOn>2015-03-24T00:00:00</updatedOn>
+		<userText>AMENDED POLICY - CORRECTED BILL TO</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CORRECTED BILL TO</title>
+		<updatedOn>2015-03-24T00:00:00</updatedOn>
+		<userText>CORRECTED BILL TO Y EFF RENEWAL</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>RENEWAL INFO</title>
+		<updatedOn>2013-03-26T00:00:00</updatedOn>
+		<userText>MORT CALLED TO VERIFY RENEWAL INFO</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2006-04-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>MEMBERSHIP VALIDATED</title>
+		<updatedOn>2006-11-21T00:00:00</updatedOn>
+		<userText>MEMBERSHIP VALIDATED</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2007-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>CHG MORT PER MORT</title>
+		<updatedOn>2007-02-12T00:00:00</updatedOn>
+		<userText>CHG MORT PER MORT</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2007-02-13T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Scheduled Invoice</title>
+		<updatedOn>2007-12-16T00:00:00</updatedOn>
+		<userText>Scheduled Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2008-02-10T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2009-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2009-04-08T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2010-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2011-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2012-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2012-02-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2013-02-07T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2013-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2014-02-09T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2014-02-09T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-02-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-03-25T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2015-03-25T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2015-03-25T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-01-10T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2016-02-08T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-02-08T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Reminder</title>
+		<updatedOn>2016-03-24T00:00:00</updatedOn>
+		<userText>Renewal Reminder</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>ELSIEANGLADA@GMAIL.COM</title>
+		<updatedOn>2016-04-01T00:00:00</updatedOn>
+		<userText>ELSIEANGLADA@GMAIL.COM</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Expiration Notice</title>
+		<updatedOn>2016-04-10T00:00:00</updatedOn>
+		<userText>Policy Expiration Notice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2016-06-15T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2017-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Renewal Invoice</title>
+		<updatedOn>2017-02-07T00:00:00</updatedOn>
+		<userText>Renewal Invoice</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Policy Declaration Page</title>
+		<updatedOn>2017-02-07T00:00:00</updatedOn>
+		<userText>Policy Declaration Page</userText>
+	</userNote>
+</Policy>
