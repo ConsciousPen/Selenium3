@@ -20,21 +20,19 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.billing.DisbursementEngineHelper;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -49,7 +47,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class RefundProcessHelper extends PolicyBilling {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String REFUND_GENERATION_FOLDER = "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
 	private static final String REFUND_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + REFUND_GENERATION_FOLDER;
 	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
@@ -62,11 +59,13 @@ public class RefundProcessHelper extends PolicyBilling {
 	private static final Optional<Boolean> NOT_VALIDATE_PAYEENAME = Optional.empty();
 	private static final Optional<Boolean> NOT_VALIDATE_TRANSACTIONID = Optional.empty();
 
-	@Override
+	//OSI: the class is shared between products. There should be no single PolicyType defined
+/*	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
-	}
+		return PolicyType.HOME_SS_HO3;
+	}*/
 
+	@SuppressWarnings("Unchecked")
 	public void refundDebug(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState, String refundAmount,
 			String email, String refundEligible)
 			throws IOException {
@@ -136,6 +135,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		CustomAssert.assertEquals(neededLine.geteRefundEligible(), refundEligible);
 	}
 
+	@SuppressWarnings("Unchecked")
 	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
 			String refundAmount, String email, String refundEligible)
 			throws IOException {
@@ -258,23 +258,24 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * Note: for the test to work LastPaymentMethod needs to be configured for the payments to be > threshold
 	 * @details
 	 */
-	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod) {
+	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, TimePoints getTimePoints) {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDue1 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
-		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		LocalDateTime refundDate = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-12336 Automated refunds are not generated
 		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
 		approvedRefundVoid();
 
 		Dollar totalDue2 = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
-		LocalDateTime refundDate2 = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
+		LocalDateTime refundDate2 = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate2);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
@@ -451,14 +452,15 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * - Run AAA_REFUND_GENERATION_ASYNC_JOB
 	 * *@details
 	 */
-	public void unissuedAutomatedRefundGeneration(String policyNumber, Map<String, String> refund, boolean withAllocation) {
+	public void unissuedAutomatedRefundGeneration(String policyNumber, LocalDateTime refundTimePoint, Map<String, String> refund, boolean withAllocation) {
 		if (!withAllocation) {
 			Dollar totalDue = BillingSummaryPage.getTotalDue();
 			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(new Dollar(refund.get(AMOUNT))));
 		} else {
 			performPaymentWithAllocation(refund);
 		}
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+		TimeSetterUtil.getInstance().nextPhase(refundTimePoint);
+		//TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -680,17 +682,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		//PAS-1462 end
 	}
 
-	public String policyCreation() {
-		mainApp().open();
-		createCustomerIndividual();
-		/*getPolicyType().get().createPolicy(getPolicyTD());*/
-		getCopiedPolicy();
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		log.info("policyNumber: {}", policyNumber);
-		return policyNumber;
-	}
 
 	public Map<String, String> getRefundMap(String refundDate, String type, String subtypeReason, Dollar amount, String status) {
 		return ImmutableMap.of(TRANSACTION_DATE, refundDate,

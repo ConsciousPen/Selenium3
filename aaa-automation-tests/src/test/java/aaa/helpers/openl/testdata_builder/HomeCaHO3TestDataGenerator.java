@@ -1,9 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TestDataHelper;
+//import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
 //import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
@@ -38,8 +42,13 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				new ReportsTab().getMetaKey(), getReportsTabData(openLPolicy),
 				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
-				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
 				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy));
+		
+		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().contains("HO-61")) {
+				td.adjust(DataProviderFactory.dataOf(new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy)));
+			}
+		}
 		
 		return TestDataHelper.merge(getRatingDataPattern(), td);
 	}
@@ -90,12 +99,31 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	
 	private TestData getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
-		TestData dwellingAddressData = DataProviderFactory.dataOf(
-				HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + openLPolicy.getDwellings().get(0).getNumOfFamilies());
 		
+		boolean isHO44 = false; 
+		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().equals("HO-44")) {
+				isHO44 = true;	
+			}
+		}
+		
+		TestData dwellingAddressData;
+		if (isHO44) {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), 
+					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-44".equals(n.getFormCode())).findFirst().get().getNumOfFamilies().toString(), 
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), 
+					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-44".equals(n.getFormCode())).findFirst().get().getTerritoryCode()); 			
+		}
+		else {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains="+openLPolicy.getDwellings().get(0).getNumOfFamilies().toString());
+		}	
+	
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
-		//Wildfire returns from reports
+		
+		//Wildfire score should be returned from reports, UI field is disabled
 		//TestData wildfireScoreData = DataProviderFactory.dataOf(
 		//		HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE.getLabel(), openLPolicy.getDwellings().get(0).getFirelineScore());	
 		
@@ -110,18 +138,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwellings().get(0));
 		
-		TestData detachedStructures = DataProviderFactory.emptyData();
-		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
-			if (form.getFormCode().contains("HO-44")) {
-				detachedStructures = DataProviderFactory.dataOf(
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "test", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), "1000", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), "index=1", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
-			}
-		}
+		List<TestData> detachedStructuresDataList = getDetachedStructuresData(openLPolicy);
 		
 		return DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
@@ -129,27 +146,72 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				//HomeCaMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), wildfireScoreData, 
 				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
-				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructures, 
+				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructuresDataList, 
 				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData);
 	}
 	
 	private TestData getTheftProtectiveDevice(HomeCaHO3OpenLDwelling dwelling) {
-		TestData theftProtectiveDeviceData;
 		switch (dwelling.getBurglarAlarmType()) {
 		case "Central": 
-			theftProtectiveDeviceData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			break; 
+			return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), Boolean.TRUE); 
 		case "Local": 
-			theftProtectiveDeviceData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			break;
+			return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
 		case "None": 
-			theftProtectiveDeviceData = DataProviderFactory.emptyData();
-			break;
+			return DataProviderFactory.emptyData();
 		default: 
-			theftProtectiveDeviceData = DataProviderFactory.emptyData();
-			break;
+			return DataProviderFactory.emptyData();
 		}
-		return theftProtectiveDeviceData;
+	}
+	
+	private List<TestData> getDetachedStructuresData(HomeCaHO3OpenLPolicy openLPolicy) {
+		List<TestData> detachedStructuresDataList = new ArrayList<>();
+		TestData detachedStructures = DataProviderFactory.emptyData();
+		Integer dsCounter = 0;
+		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (dsCounter.equals(0)) {
+				if (form.getFormCode().equals("HO-40")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf(
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), new Dollar(form.getFormLimit()).toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies().toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
+					detachedStructuresDataList.add(detachedStructures);
+				}
+				else if (form.getFormCode().equals("HO-48")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf(
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "No", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), form.getFormLimit().toString());
+					detachedStructuresDataList.add(detachedStructures);
+				}
+			}
+			else {
+				if (form.getFormCode().equals("HO-40")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf( 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), form.getFormLimit().toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies().toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
+					detachedStructuresDataList.add(detachedStructures);
+				}
+				else if (form.getFormCode().equals("HO-48")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf( 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "No", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), form.getFormLimit().toString());
+					detachedStructuresDataList.add(detachedStructures);
+				}
+			}	
+		}
+		return detachedStructuresDataList;
 	}
 	
 	private TestData getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
@@ -168,24 +230,101 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	}
 	
 	private TestData getPersonalPropertyTabData(HomeCaHO3OpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
+		TestData personalPropertyTabTestData = DataProviderFactory.emptyData();
+		for(HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().equals("HO-61")) {
+				personalPropertyTabTestData = getPersonalPropertyDataForHO61(form);						
+			}
+			else if (form.getFormCode().equals("HO-61C")) {
+				personalPropertyTabTestData = getPersonalPropertyDataForHO61C(form);	
+			}
+		}
+
+		return personalPropertyTabTestData;
+	}
+	
+	private TestData getPersonalPropertyDataForHO61 (HomeCaHO3OpenLForm openLForm) {
+		switch (openLForm.getScheduledPropertyItems().get(0).getPropertyType()){
+		case "Golf Equipment": 
+			TestData golfEquipmentData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.GolfEquipment.DESCRIPTION.getLabel(), "test", 
+					HomeCaMetaData.PersonalPropertyTab.GolfEquipment.LEFT_OR_RIGHT_HANDED_CLUB.getLabel(), "index=1");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.GOLF_EQUIPMENT.getLabel(), golfEquipmentData);
+		case "Silverware": 
+			TestData silverwareData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.Silverware.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.Silverware.DESCRIPTION.getLabel(), "test", 
+					HomeCaMetaData.PersonalPropertyTab.Silverware.SET_OR_INDIVIDUAL_PIECE.getLabel(), "index=1");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.SILVERWARE.getLabel(), silverwareData);
+		case "Jewelry": 
+			TestData jewerlyData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.Jewelry.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.Jewelry.JEWELRY_CATEGORY.getLabel(), "index=1", 
+					HomeCaMetaData.PersonalPropertyTab.Jewelry.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.JEWELRY.getLabel(), jewerlyData); 
+		case "Furs":
+			TestData fursData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.Furs.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FURS.getLabel(), fursData);
+		case "Cameras": 
+			TestData camerasData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.Cameras.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.Cameras.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.CAMERAS.getLabel(), camerasData);
+		case "Stamps":
+			TestData stampsData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.PostageStamps.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.PostageStamps.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.POSTAGE_STAMPS.getLabel(), stampsData);
+		case "Coins":
+			TestData coinsData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.Coins.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.Coins.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.COINS.getLabel(), coinsData);
+		case "Musical Instruments":
+			TestData musicalInstrumentsData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.MusicalInstruments.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.MUSICAL_INSTRUMENTS.getLabel(), musicalInstrumentsData);
+		case "Fine Art":
+			TestData fineArtData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PersonalPropertyTab.FineArts.LIMIT_OF_LIABILITY.getLabel(), openLForm.getScheduledPropertyItems().get(0).getLimit().toString(), 
+					HomeCaMetaData.PersonalPropertyTab.FineArts.DESCRIPTION.getLabel(), "test");
+			return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.FINE_ARTS.getLabel(), fineArtData);
+		default: 
+			return DataProviderFactory.emptyData();
+		} 
+	}
+	
+	private TestData getPersonalPropertyDataForHO61C (HomeCaHO3OpenLForm openLForm) {
+		TestData boatsData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PersonalPropertyTab.Boats.BOAT_TYPE.getLabel(), openLForm.getType(), 
+				HomeCaMetaData.PersonalPropertyTab.Boats.YEAR.getLabel(), "2015", 
+				HomeCaMetaData.PersonalPropertyTab.Boats.HORSEPOWER.getLabel(), "50", 
+				HomeCaMetaData.PersonalPropertyTab.Boats.LENGTH_INCHES.getLabel(), "300", 
+				HomeCaMetaData.PersonalPropertyTab.Boats.DEDUCTIBLE.getLabel(), new Dollar(openLForm.getDeductible()).toString().split("\\.")[0], 
+				HomeCaMetaData.PersonalPropertyTab.Boats.AMOUNT_OF_INSURANCE.getLabel(), "500");
+		return DataProviderFactory.dataOf(HomeCaMetaData.PersonalPropertyTab.BOATS.getLabel(), boatsData);
 	}
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		//Coverage A is disabled on Premiums & Coverges Quote tab
-		Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		//Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covC = openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 
+		/*
 		Dollar coverageC = new Dollar(covC);
 		Dollar coverageA = new Dollar(covA);
 		if (coverageC.lessThan(coverageA.multiply(0.75))) {
 			coverageC = coverageA.multiply(0.75);
-		}
+		}*/
 		
 		return DataProviderFactory.dataOf(
-				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), coverageC.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC.toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(covE).toString().split("\\.")[0], 
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));

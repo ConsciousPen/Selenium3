@@ -166,13 +166,15 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 
 		Map<String, String> ownershipData = new HashMap<>();
-		String type = null;
+		String type;
 		if (Boolean.TRUE.equals(openLVehicle.isGapCoverage() && Boolean.TRUE.equals(openLVehicle.isNewCarProtection()))) {
 			type = "Financed";
 		} else if (Boolean.TRUE.equals(openLVehicle.isNewCarProtection())) {
 			type = getRandom("Owned", "Financed");
 		} else if (Boolean.TRUE.equals(openLVehicle.isGapCoverage())) {
 			type = getRandom("Leased", "Financed");
+		} else {
+			type = "Owned";
 		}
 
 		ownershipData.put(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), type);
@@ -188,29 +190,45 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		TestData td = super.getPremiumAndCoveragesTabData(openLPolicy);
 		td.adjust(AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), String.valueOf(openLPolicy.isMultiCar()));
 
+		boolean isApplyFixedExpenseSet = false;
 		//TODO-dchubkov: Vehicles coverages test data should be ordered same as appropriate vehicles. Think about how to generate test data without sort order dependency
 		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 			AutoCaSelectOpenLVehicle vehicle = openLPolicy.getVehicles().get(i);
 			TestData vehicleCoverage = td.getTestDataList(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()).get(i);
 
 			if (Boolean.TRUE.equals(vehicle.isApplyFixedExpense())) {
+				assertThat(isApplyFixedExpenseSet).as("applyFixedExpense=TRUE is allowed only for one vehicle").isFalse();
 				assertThat(vehicle.getCoverages().stream().anyMatch(c -> "BI".equals(c.getCoverageCd()) && StringUtils.isNotBlank(c.getLimit())))
 						.as("If vehicle's openl field applyFixedExpense=TRUE then it should have at least one non-empty BI coverage").isTrue();
 
-				vehicleCoverage.adjust(DetailedVehicleCoveragesRepeatAssetList.WAIVE_LIABILITY, "Yes");
+				vehicleCoverage.adjust(DetailedVehicleCoveragesRepeatAssetList.WAIVE_LIABILITY, "No");
+				isApplyFixedExpenseSet = true;
 			}
 
-			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel(), getAnyCoverage(vehicle.isEte()));
-			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getAnyCoverage(vehicle.isFullGlassCoverage()));
-			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel(), getAnyCoverage(vehicle.isGapCoverage()));
-			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS.getLabel(), getAnyCoverage(vehicle.isOemCoverage()));
-			vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RIDESHARING_COVERAGE.getLabel(), getAnyCoverage(vehicle.isRideShareCov()));
+			// Should be automatically set after covering ETEC coverage
+			/*if (Boolean.TRUE.equals(vehicle.isEte())) {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
+			}*/
+
+			if (Boolean.TRUE.equals(vehicle.isFullGlassCoverage())) {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
+			}
+
+			if (Boolean.TRUE.equals(vehicle.isOemCoverage())) {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
+			}
+
+			if (Boolean.TRUE.equals(vehicle.isRideShareCov())) {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.RIDESHARING_COVERAGE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
+			}
+
+			if (Boolean.TRUE.equals(vehicle.isGapCoverage())) {
+				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.VEHICLE_LOAN_OR_LEASE_PROTECTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
+			}
 
 			if (Boolean.TRUE.equals(vehicle.isNewCarProtection())) {
 				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage");
 				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.PURCHASE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
-			} else {
-				vehicleCoverage.adjust(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(), "starts=No Coverage");
 			}
 
 		}
@@ -289,11 +307,6 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			String primaryDriver = driverId.startsWith("Dr1") ? "contains=Smith" : driverId + DRIVER_FN_POSTFIX + " " + driverId + DRIVER_LN_POSTFIX;
 			String manuallyRatedDriver = "";
 
-			if (CollectionUtils.isNotEmpty(vehicle.getPrimaryDriver())) {
-
-				//assertThat(vehicle.getManuallyAssignedDriver()).as("Vehicle's \"manuallyAssignedDriver\" field should be empty if \"primaryDriver\" is set").isNullOrEmpty();
-			}
-
 			if (CollectionUtils.isNotEmpty(vehicle.getManuallyAssignedDriver())) {
 				assertThat(vehicle.getManuallyAssignedDriver()).as("Vehicle's \"manuallyAssignedDriver\" field should have only one assigned driver").hasSize(1);
 				assertThat(vehicle.getManuallyAssignedDriver().get(0).getType()).as("Vehicle's manually assigned driver should have type=U or type=O").isIn("U", "O");
@@ -316,11 +329,13 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	private TestData getGeneralTabData(AutoCaSelectOpenLPolicy openLPolicy) {
+		LocalDateTime baseDate = LocalDateTime.of(openLPolicy.getBaseYear(), openLPolicy.getEffectiveDate().getMonth(), openLPolicy.getEffectiveDate().getDayOfMonth(), 0, 0);
+		TestData namedInsuredInformationData = DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), baseDate.format(DateTimeUtils.MM_DD_YYYY));
+
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 
 		TestData aaaProductOwnedData = DataProviderFactory.emptyData();
-
 		if (openLPolicy.getHome3or4() != null) {
 			switch (openLPolicy.getHome3or4()) {
 				case "HO-3":
@@ -371,8 +386,9 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 
 		return DataProviderFactory.dataOf(
-				AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData,
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductOwnedData);
+				AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), namedInsuredInformationData,
+				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductOwnedData,
+				AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 	}
 
 	private boolean isRegularType(String statCode) {
@@ -388,9 +404,4 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		List<String> codes = Arrays.asList("RQ", "RT", "FW", "UT", "PC", "HT", "PT");
 		return codes.contains(statCode);
 	}
-
-	private String getAnyCoverage(Boolean coverageValue) {
-		return Boolean.TRUE.equals(coverageValue) ? AdvancedComboBox.RANDOM_EXCEPT_CONTAINS_MARK + "=No Coverage" : "starts=No Coverage";
-	}
-
 }

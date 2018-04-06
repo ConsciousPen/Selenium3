@@ -238,7 +238,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> AGE = declare("Age", TextBox.class);
 		public static final AssetDescriptor<ComboBox> GENDER = declare("Gender", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> OCCUPATION = declare("Occupation", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> OCCUPATION = declare("Occupation", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> PERMIT_BEFORE_LICENSE = declare("Permit Before License", RadioGroup.class);
@@ -252,7 +252,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> EMPLOYEE_BENEFIT_TYPE = declare("Employee Benefit Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> EMPLOYEE_ID = declare("Employee ID", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> ADB_COVERAGE = declare("ADB Coverage", RadioGroup.class);
-		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", AdvancedComboBox.class);
 		public static final AssetDescriptor<RadioGroup> GOOD_DRIVER_DISCOUNT = declare("Good Driver Discount", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> NEW_DRIVER_COURSE_COMPLETED = declare("New Driver Course Completed", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> NEW_DRIVER_COURSE_COMPLETION_DATE = declare("New Driver Course Completion Date", TextBox.class);
@@ -271,7 +271,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class);
-			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> DESCRIPTION = declare("Description", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> SUSPENSION_DATE = declare("Suspension Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class);
 			public static final AssetDescriptor<TextBox> ACCIDENT_POINTS = declare("Accident Points", TextBox.class);

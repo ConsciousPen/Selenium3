@@ -12,8 +12,9 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	private Integer age;
-	private Integer deductible;
+	private Double deductible;
 	private String formClass;
+	private Double formLimit;
 	private Boolean hasCorporalPunishmentSurcharge;
 	private Integer numOfFamilies;
 	private String territoryCode;
@@ -27,11 +28,11 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 		this.age = age;
 	}
 
-	public Integer getDeductible() {
+	public Double getDeductible() {
 		return deductible;
 	}
 
-	public void setDeductible(Integer deductible) {
+	public void setDeductible(Double deductible) {
 		this.deductible = deductible;
 	}
 
@@ -43,6 +44,14 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 		this.formClass = formClass;
 	}
 
+	public Double getFormLimit() {
+		return formLimit;
+	}
+
+	public void setFormLimit(Double limit) {
+		this.formLimit = limit;
+	}
+	
 	public Boolean getHasCorporalPunishmentSurcharge() {
 		return hasCorporalPunishmentSurcharge;
 	}
@@ -94,7 +103,7 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 				", numOfFamilies=" + numOfFamilies +
 				", territoryCode='" + territoryCode + '\'' +
 				", type='" + type + '\'' +
-				", limit=" + limit +
+				", formLimit=" + formLimit +
 				", applyDiscounts=" + applyDiscounts +
 				", hasSupportingForm=" + hasSupportingForm +
 				", number=" + number +
