@@ -183,7 +183,7 @@
     </test>
 
     <test name="Test Override PUP policies with relaxed coverage limits">
-        <parameter name="state" value="PA"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits"/>
         </classes>
