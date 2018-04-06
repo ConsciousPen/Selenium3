@@ -48,6 +48,6 @@ public class UploadToVINTableTab extends DefaultTab {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
 		buttonUpload.click();
-		//Removed the checks tht were here because they can be found in the stand alone test "pas6203_VinAndControlTablesUpload"
+		//Removed the checks that were here because they can be found in the stand alone test "pas6203_VinAndControlTablesUpload"
 	}
 }
