@@ -1354,8 +1354,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String valueShort = "";
 		if (!StringUtils.isEmpty(value)) {
 			valueShort = value.substring(0, 20);
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
 		}
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+
 		String transactionHistoryQuery = "select TXREASONTEXT \n"
 				+ "from PolicyTransaction \n"
 				+ "where POLICYID in \n"
