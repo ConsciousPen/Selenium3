@@ -97,18 +97,17 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
 	private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
 	private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
-	private static final String PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE = "Has not maintained continuous insurance coverage and bodily injury limits";
 
 	private static final String PAPERLESS_PREFERENCES_NOT_ENROLLED_1 =
 			"In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
 	private static final String PAPERLESS_PREFERENCES_NOT_ENROLLED_2 = "The customer must choose to Opt In to Paperless Billing and Policy Documents ...";
 
-	private static final List<String> PRE_QUALIFICATIONS = Arrays.asList(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
 	private static final List<String> NOT_PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_8, MESSAGE_BULLET_9, MESSAGE_BULLET_7);
 	private static final List<String> MEMBERSHIP_FALSE_YES = Arrays.asList(MESSAGE_BULLET_4, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
-	private static final List<String> CURRENT_BI_FALSE_YES = Arrays.asList(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE, MESSAGE_BULLET_1_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
-	private static final List<String> PAY_PLAN_FALSE_YES = Arrays.asList(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE, MESSAGE_BULLET_4_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
-	private static final List<String> PAPERLESS_AND_PRIOR_INS_FALSE_YES = Arrays.asList(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10);
+	private static final List<String> CURRENT_BI_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_1_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> PAY_PLAN_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> PAPERLESS_AND_PRIOR_INS_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10);
 	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
 
 	private static List<String> requestIdList = new LinkedList<>();
@@ -1626,7 +1625,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Check if eValue was removed by system
 		assertThat("Customer acknowledges that removing recurring payments will cause the eValue to be removed.".equals(Page.dialogConfirmation.labelMessage.getValue())).isTrue();
 		Page.dialogConfirmation.buttonYes.click();
-		checkIfEvalueWasRemovedBySystem(true);
+		checkIfEvalueWasRemovedBySystem(policyNumber,true);
 
 		//Check if pended endorsement was deleted by system
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
@@ -1840,9 +1839,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
 	}
 
-	private void checkIfEvalueWasRemovedBySystem(Boolean removed) {
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-		PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
+	private void checkIfEvalueWasRemovedBySystem(String policyNumber, Boolean removed) {
+		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 		assertThat("eValue Removed - ACH...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(removed);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -1940,11 +1938,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public void eValueQuoteCreation() {
+		eValueQuoteCreation(true);
+	}
+
+	public void eValueQuoteCreation(boolean defaultEvalueQuote) {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData");
 		//Debug data
 		//String eValueKey = getPolicyType().getKey() + "_evalue_" + getState();
 		//EntitiesHolder.addNewEntity(eValueKey, "VASS952918562");
 
+		if (defaultEvalueQuote) {
 		mainApp().open();
 		String policyNumber = openDefaultPolicy(getPolicyType());
 		policy.policyCopy().perform(td);
@@ -1958,7 +1961,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 		documentsAndBindTab.saveAndExit();
-		log.info("policyNum: {}", policyNumber);
+			String eValueQuote = PolicySummaryPage.getPolicyNumber();
+			printToLog("NEW EVALUE QUOTE " + eValueQuote);
+		} else {
+			eValueQuoteCreationFromZero();
+	}
+
 	}
 
 	private String openDefaultPolicy(PolicyType policyType) {
@@ -1976,32 +1984,32 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			} else {
 				count = 1;
-				createCustomerIndividual();
-
-				//if (!EntitiesHolder.getEntities().containsKey(getPolicyType().getKey() + "_evalue_" + getState())) {
-				TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-				TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
-				TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
-				TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
-						.adjust("PolicyInformation", policyInformationSectionAdjusted)
-						.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
-
-				TestData eValuePolicyData = defaultTestData
-						.adjust("GeneralTab", generalTabAdjusted)
-						.resolveLinks();
-
-				mainApp().open();
-				createCustomerIndividual();
-
-				getPolicyType().get().createQuote(eValuePolicyData);
+				eValueQuoteCreationFromZero();
 				policyNumber = simplifiedQuoteIssue();
 				EntitiesHolder.addNewEntity(getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
-				printToLog("EVALUE QUOTE WAS CREATED " + getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
-
 			}
 			policyCount.put(eValueKey, count);
 		}
+		printToLog("DEFAULE EVALUE QUOTE WAS CREATED " + getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
 		return policyNumber;
+	}
+
+	public void eValueQuoteCreationFromZero() {
+		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
+		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
+		TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
+		TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
+				.adjust("PolicyInformation", policyInformationSectionAdjusted)
+				.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
+
+		TestData eValuePolicyData = defaultTestData
+				.adjust("GeneralTab", generalTabAdjusted)
+				.resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		getPolicyType().get().createQuote(eValuePolicyData);
 	}
 
 	public String simplifiedQuoteIssue() {
