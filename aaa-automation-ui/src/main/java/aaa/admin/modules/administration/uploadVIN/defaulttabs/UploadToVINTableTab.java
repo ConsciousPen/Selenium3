@@ -48,26 +48,6 @@ public class UploadToVINTableTab extends DefaultTab {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
 		buttonUpload.click();
-		//Removed the 'wait' that was here and replaced with a page refresh
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-
-		//added a 'wait' here because the loading animation on the page was causing the upload verification to fail. This wait allows the animation to complete.
-		//Added more time
-//		long timeout = System.currentTimeMillis() + (220 * 1000);
-//		while (timeout > System.currentTimeMillis() && !labelUploadSuccessful.getValue().contains("Rows added")){
-//			try {
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e) {
-//				System.out.println("wait issue");
-//			}
-//		}
-//
-//		if (labelUploadSuccessful.getValue().contains("Rows added")) {
-//			// check successfull
-//			log.info("File {} was uploaded successfully", fileName);
-//		}
-//		else {
-//			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
-//		}
+		//Removed the checks tht were here because they can be found in the stand alone test "pas6203_VinAndControlTablesUpload"
 	}
 }
