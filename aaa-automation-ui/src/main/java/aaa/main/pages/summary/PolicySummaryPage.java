@@ -51,7 +51,7 @@ public class PolicySummaryPage extends SummaryPage {
 
 	public static ComboBox comboboxPolicyTerm = new ComboBox(By.id("historyForm:transactionsFilter"));
 
-	public static Table tableTransactionHistory = new Table(By.xpath("//table[@id='historyForm:body_historyTable' or @id='quoteVersionHistoryForm:body_historyTable']"));
+	public static Table tableTransactionHistory = new Table(By.xpath("//table[@id='historyForm:body_historyTable' or @id='quoteVersionHistoryForm:body_historyTable']")).applyConfiguration("CustomHint");
 	public static Table tableReinsuranceStatus = new Table(By.id("productConsolidatedViewForm:body_scolumn_CLReinsuranceConsolidatedView"));
 	public static Table tableEndorsements = new Table(By.id("endorsementForm:endorsementList"));
 	public static Table tableRenewals = new Table(By.id("renewalForm:renewals_list_table"));
