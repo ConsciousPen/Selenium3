@@ -8,7 +8,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.*;
-import toolkit.config.PropertyProvider;
 
 @SuppressWarnings("unchecked")
 public class Ssh {
@@ -338,10 +337,7 @@ public class Ssh {
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
-				session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
-				if (Boolean.parseBoolean(PropertyProvider.getProperty("scrum.envs.ssh", "false"))) {
-					session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
-				}
+				session.setConfig("PreferredAuthentications", "password");
 				session.connect();
 				log.info("SSH: Started SSH Session for " + session.getHost() + " host");
 			} catch (JSchException e) {
