@@ -20,6 +20,7 @@ public class HomeCAFormTestDataGenerator {
 		includedForms.add("HO-29");
 		includedForms.add("HO-40");
 		includedForms.add("HO-44");
+		includedForms.add("HO-48");
 		// --- Deductible forms ----
 		includedForms.add("HO-57"); 
 		includedForms.add("HO-59");
@@ -67,6 +68,7 @@ public class HomeCAFormTestDataGenerator {
 			HomeCaMetaData.EndorsementTab.EndorsementHO43.IS_BUSINESS_CONDUCTED.getLabel(), false);
 	
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO44DataFunction = (openlForm) -> DataProviderFactory.emptyData();
+	private static Function<HomeCaHO3OpenLForm, TestData> formHO48DataFunction = (openlForm) -> DataProviderFactory.emptyData();
 	
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO57DataFunction = (openlForm) -> DataProviderFactory.emptyData();
 	private static Function<HomeCaHO3OpenLForm, TestData> formHO59DataFunction = (openlForm) -> DataProviderFactory.emptyData();
@@ -143,6 +145,7 @@ public class HomeCAFormTestDataGenerator {
 		HO42(HomeCaMetaData.EndorsementTab.HO_42.getLabel(), "HO-42", formHO42DataFunction), 
 		HO43(HomeCaMetaData.EndorsementTab.HO_43.getLabel(), "HO-43", formHO43DataFunction), 
 		HO44(HomeCaMetaData.EndorsementTab.HO_44.getLabel(), "HO-44", formHO44DataFunction),
+		HO48(HomeCaMetaData.EndorsementTab.HO_48.getLabel(), "HO-48", formHO48DataFunction),
 		HO57(HomeCaMetaData.EndorsementTab.HO_57.getLabel(), "HO-57", formHO57DataFunction),
 		HO59(HomeCaMetaData.EndorsementTab.HO_59.getLabel(), "HO-59", formHO59DataFunction),
 		HO60(HomeCaMetaData.EndorsementTab.HO_60.getLabel(), "HO-60", formHO60DataFunction),

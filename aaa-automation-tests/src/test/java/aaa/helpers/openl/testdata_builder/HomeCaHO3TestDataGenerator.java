@@ -1,10 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
+//import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
 //import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
@@ -96,12 +99,31 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	
 	private TestData getPropertyInfoTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		Dollar coverageA = new Dollar(openLPolicy.getCovALimit());
-		TestData dwellingAddressData = DataProviderFactory.dataOf(
-				HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains=" + openLPolicy.getDwellings().get(0).getNumOfFamilies());
 		
+		boolean isHO44 = false; 
+		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().equals("HO-44")) {
+				isHO44 = true;	
+			}
+		}
+		
+		TestData dwellingAddressData;
+		if (isHO44) {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), 
+					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-44".equals(n.getFormCode())).findFirst().get().getNumOfFamilies().toString(), 
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.SECTION_II_TERRITORY.getLabel(), 
+					"contains=" + openLPolicy.getForms().stream().filter(n -> "HO-44".equals(n.getFormCode())).findFirst().get().getTerritoryCode()); 			
+		}
+		else {
+			dwellingAddressData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS.getLabel(), "contains="+openLPolicy.getDwellings().get(0).getNumOfFamilies().toString());
+		}	
+	
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
-		//Wildfire returns from reports
+		
+		//Wildfire score should be returned from reports, UI field is disabled
 		//TestData wildfireScoreData = DataProviderFactory.dataOf(
 		//		HomeCaMetaData.PropertyInfoTab.FireReport.WILDFIRE_SCORE.getLabel(), openLPolicy.getDwellings().get(0).getFirelineScore());	
 		
@@ -116,18 +138,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwellings().get(0));
 		
-		TestData detachedStructures = DataProviderFactory.emptyData();
-		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
-			if (form.getFormCode().contains("HO-44")) {
-				detachedStructures = DataProviderFactory.dataOf(
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "test", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), "1000", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), "index=1", 
-						HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
-			}
-		}
+		List<TestData> detachedStructuresDataList = getDetachedStructuresData(openLPolicy);
 		
 		return DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
@@ -135,27 +146,72 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				//HomeCaMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), wildfireScoreData, 
 				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
-				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructures, 
+				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructuresDataList, 
 				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData);
 	}
 	
 	private TestData getTheftProtectiveDevice(HomeCaHO3OpenLDwelling dwelling) {
-		TestData theftProtectiveDeviceData;
 		switch (dwelling.getBurglarAlarmType()) {
 		case "Central": 
-			theftProtectiveDeviceData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			break; 
+			return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.CENTRAL_THEFT_ALARM.getLabel(), Boolean.TRUE); 
 		case "Local": 
-			theftProtectiveDeviceData = DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
-			break;
+			return DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.TheftProtectiveTPDD.LOCAL_THEFT_ALARM.getLabel(), Boolean.TRUE);
 		case "None": 
-			theftProtectiveDeviceData = DataProviderFactory.emptyData();
-			break;
+			return DataProviderFactory.emptyData();
 		default: 
-			theftProtectiveDeviceData = DataProviderFactory.emptyData();
-			break;
+			return DataProviderFactory.emptyData();
 		}
-		return theftProtectiveDeviceData;
+	}
+	
+	private List<TestData> getDetachedStructuresData(HomeCaHO3OpenLPolicy openLPolicy) {
+		List<TestData> detachedStructuresDataList = new ArrayList<>();
+		TestData detachedStructures = DataProviderFactory.emptyData();
+		Integer dsCounter = 0;
+		for (HomeCaHO3OpenLForm form: openLPolicy.getForms()) {
+			if (dsCounter.equals(0)) {
+				if (form.getFormCode().equals("HO-40")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf(
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), new Dollar(form.getFormLimit()).toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies().toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
+					detachedStructuresDataList.add(detachedStructures);
+				}
+				else if (form.getFormCode().equals("HO-48")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf(
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "No", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), form.getFormLimit().toString());
+					detachedStructuresDataList.add(detachedStructures);
+				}
+			}
+			else {
+				if (form.getFormCode().equals("HO-40")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf( 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "Yes", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), form.getFormLimit().toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_FAMILY_UNITS.getLabel(), form.getNumOfFamilies().toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.NUMBER_OF_OCCUPANTS.getLabel(), "index=2");
+					detachedStructuresDataList.add(detachedStructures);
+				}
+				else if (form.getFormCode().equals("HO-48")) {
+					dsCounter++;
+					detachedStructures = DataProviderFactory.dataOf( 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.RENTED_TO_OTHERS.getLabel(), "No", 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.DESCRIPTION.getLabel(), "Description" + dsCounter.toString(), 
+							HomeCaMetaData.PropertyInfoTab.DetachedStructures.LIMIT_OF_LIABILITY.getLabel(), form.getFormLimit().toString());
+					detachedStructuresDataList.add(detachedStructures);
+				}
+			}	
+		}
+		return detachedStructuresDataList;
 	}
 	
 	private TestData getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
@@ -255,7 +311,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	
 	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		//Coverage A is disabled on Premiums & Coverges Quote tab
-		Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		//Double covA = openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covC = openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
 		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();

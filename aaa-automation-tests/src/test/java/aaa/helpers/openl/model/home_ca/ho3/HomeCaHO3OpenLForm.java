@@ -14,6 +14,7 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 	private Integer age;
 	private Double deductible;
 	private String formClass;
+	private Double formLimit;
 	private Boolean hasCorporalPunishmentSurcharge;
 	private Integer numOfFamilies;
 	private String territoryCode;
@@ -43,6 +44,14 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 		this.formClass = formClass;
 	}
 
+	public Double getFormLimit() {
+		return formLimit;
+	}
+
+	public void setFormLimit(Double limit) {
+		this.formLimit = limit;
+	}
+	
 	public Boolean getHasCorporalPunishmentSurcharge() {
 		return hasCorporalPunishmentSurcharge;
 	}
@@ -94,7 +103,7 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 				", numOfFamilies=" + numOfFamilies +
 				", territoryCode='" + territoryCode + '\'' +
 				", type='" + type + '\'' +
-				", limit=" + limit +
+				", formLimit=" + formLimit +
 				", applyDiscounts=" + applyDiscounts +
 				", hasSupportingForm=" + hasSupportingForm +
 				", number=" + number +
