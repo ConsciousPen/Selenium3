@@ -6,11 +6,13 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+
 import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -1524,7 +1526,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-        mainApp().close();
+		mainApp().close();
 
 		//Lock policy id1 and check service response
 		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, sessionId1);
@@ -1549,7 +1551,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE,policyNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.endorse().start();
 
 		//Check if policy was locked in PAS
@@ -1695,7 +1697,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		mainApp().open();
 		createCustomerIndividual();
-        TestData td = getPolicyTD("DataGather", "TestData");
+		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_Vehicle").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -1725,7 +1727,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		});
 
-	    // Perform endorsement
+		// Perform endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
@@ -1737,7 +1739,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
 		assertThat(addVehicleResponse.oid).isNotEmpty();
 
-     	Vehicle[] viewVehicleEndorsementResponse= HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 		assertSoftly(softly -> {
 
 			softly.assertThat(viewVehicleEndorsementResponse[0].oid).isNotNull();
