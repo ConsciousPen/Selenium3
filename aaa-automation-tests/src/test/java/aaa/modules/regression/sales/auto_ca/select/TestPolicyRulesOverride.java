@@ -84,7 +84,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		checkRuleIsPresent("Life", "Temporary Issue");
 
 		//create renewal and check overridden for life rule
-		policy.createRenewal(DataProviderFactory.emptyData());
+		policy.renew().performAndExit();
 
 		PolicySummaryPage.buttonRenewals.click();
 		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Update Rules Override");
