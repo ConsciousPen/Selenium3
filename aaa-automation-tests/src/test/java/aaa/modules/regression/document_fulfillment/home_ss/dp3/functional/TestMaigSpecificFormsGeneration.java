@@ -15,6 +15,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
@@ -157,9 +158,13 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-10666"})
 	public void pas10666_PreRenewalLetterGenerationNegativeScenario(@Optional("PA") String state){
 		String policyNumber = generatePreRenewalEvent(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, wrongPreRenewalGenDate);
-
-		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
+		List<Document> docs = new ArrayList<>();
+		try {
+			docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
+		}catch (Exception e){
+		}
 		assertThat(docs.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSPRNMXX.getIdInXml());
+
 	}
 
 	@Parameters({STATE_PARAM})
