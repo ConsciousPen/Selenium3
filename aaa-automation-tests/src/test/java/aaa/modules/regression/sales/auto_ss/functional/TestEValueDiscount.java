@@ -64,8 +64,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 	private static Map<String, Integer> policyCount = new HashMap<>();
@@ -97,6 +95,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
 	private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
 	private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
+	private static final String PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE = "Has not maintained continuous insurance coverage and bodily injury limits";
 
 	private static final String PAPERLESS_PREFERENCES_NOT_ENROLLED_1 =
 			"In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
@@ -1610,7 +1609,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		updateBillingAccountActionTab.save();
 
 		//Check If eValue wasn't removed
-		checkIfEvalueWasRemovedBySystem(false);
+		checkIfEvalueWasRemovedBySystem(policyNumber,false);
 		//PAS-238 End
 
 		//LogOut is needed because policy is lock
