@@ -4,8 +4,9 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -63,9 +64,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
-	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) +"/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
+	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 	private static Map<String, Integer> policyCount = new HashMap<>();
 
@@ -96,6 +95,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
 	private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
 	private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
+	private static final String PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE = "Has not maintained continuous insurance coverage and bodily injury limits";
 
 	private static final String PAPERLESS_PREFERENCES_NOT_ENROLLED_1 =
 			"In order to successfully bind with eValue discount,the customer must be enrolled into paperless preferences for Billing and Policy documents.";
@@ -1609,7 +1609,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		updateBillingAccountActionTab.save();
 
 		//Check If eValue wasn't removed
-		checkIfEvalueWasRemovedBySystem(false);
+		checkIfEvalueWasRemovedBySystem(policyNumber,false);
 		//PAS-238 End
 
 		//LogOut is needed because policy is lock
@@ -1624,13 +1624,211 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Check if eValue was removed by system
 		assertThat("Customer acknowledges that removing recurring payments will cause the eValue to be removed.".equals(Page.dialogConfirmation.labelMessage.getValue())).isTrue();
 		Page.dialogConfirmation.buttonYes.click();
-		checkIfEvalueWasRemovedBySystem(true);
+		checkIfEvalueWasRemovedBySystem(policyNumber,true);
 
 		//Check if pended endorsement was deleted by system
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 		PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		//PAS-336 END
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	public void pas12294_PriorCarrierWithLapsePriorCarrierRequired(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		pas12294_eValueLapseCheck(true);
+		simplifiedQuoteIssue();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		pas12294_eValueLapseCheck(true);
+		simplifiedPendedEndorsementIssue();
+
+		eValueEnabledForRenewal();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	public void pas12294_PriorCarrierWithLapsePriorCarrierNotRequired(@Optional("OR") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		pas12294_eValueLapseCheck(false);
+		simplifiedQuoteIssue();
+	}
+
+	private void pas12294_eValueLapseCheck(boolean isPriorCarrierRequired) {
+		int daysBeforeToday;
+		if(isPriorCarrierRequired){
+			daysBeforeToday=0;
+		} else {
+			daysBeforeToday=3;
+		}
+		LocalDateTime policyEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysBeforeToday);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		if (generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).isEnabled()) {
+			generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(policyEffectiveDate.format(DateTimeUtils.MM_DD_YYYY));
+		}
+
+		lapseDaysRequirementsMet(policyEffectiveDate, 3,"No");
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isNotEqualTo("N");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		if(isPriorCarrierRequired) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(policyEffectiveDate.minusDays(4).format(DateTimeUtils.MM_DD_YYYY));
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled(false);
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
+			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1)).valueContains(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+		} else{
+			lapseDaysRequirementsMet(policyEffectiveDate, 4,"Yes");
+		}
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value")).hasValue("N");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	private void lapseDaysRequirementsMet(LocalDateTime policyEffectiveDate, int daysLapsed, String expectedValue) {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(policyEffectiveDate.minusDays(daysLapsed).format(DateTimeUtils.MM_DD_YYYY));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled();
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue(expectedValue);//if it was reset
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).doesNotContain(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		pas12294_PriorCarrierLessThanSixMonthsCheck(true);
+		simplifiedQuoteIssue();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		pas12294_PriorCarrierLessThanSixMonthsCheck(true);
+		simplifiedPendedEndorsementIssue();
+
+		eValueEnabledForRenewal();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired(@Optional("OR") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		pas12294_PriorCarrierLessThanSixMonthsCheck(false);
+		simplifiedQuoteIssue();
+	}
+
+	private void pas12294_PriorCarrierLessThanSixMonthsCheck(boolean isPriorCarrierRequired) {
+		int daysBeforeToday;
+		if(isPriorCarrierRequired){
+			daysBeforeToday=0;
+		} else {
+			daysBeforeToday=3;
+		}
+		LocalDateTime policyEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysBeforeToday);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		if (generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).isEnabled()) {
+			generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(policyEffectiveDate.format(DateTimeUtils.MM_DD_YYYY));
+		}
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(policyEffectiveDate.minusDays(daysBeforeToday).format(DateTimeUtils.MM_DD_YYYY));
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(policyEffectiveDate.minusDays(daysBeforeToday).minusMonths(6).format(DateTimeUtils.MM_DD_YYYY));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled();
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).getValue()).isEqualTo("No");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).doesNotContain(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isNotEqualTo("N");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		if(isPriorCarrierRequired) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(policyEffectiveDate.minusDays(daysBeforeToday).format(DateTimeUtils.MM_DD_YYYY));
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(policyEffectiveDate.minusDays(daysBeforeToday).minusMonths(6).plusDays(1).format(DateTimeUtils.MM_DD_YYYY));
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled(false);
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).getValue()).isEqualTo("No");
+			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).contains(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+		}else{
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(policyEffectiveDate.minusDays(daysBeforeToday).format(DateTimeUtils.MM_DD_YYYY));
+			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(policyEffectiveDate.minusDays(daysBeforeToday).minusMonths(6).plusDays(1).format(DateTimeUtils.MM_DD_YYYY));
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled();
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
+			assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).doesNotContain(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+		}
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isEqualTo("N");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	public void pas12294_PriorCarrierNone(@Optional("VA") String state) {
+		eValueQuoteCreation();
+
+		policy.dataGather().start();
+		pas12294_PriorCarrierNoneCheck();
+		simplifiedQuoteIssue();
+	}
+
+	private void pas12294_PriorCarrierNoneCheck() {
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("None");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).isEnabled()).isFalse();
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).getValue()).isEqualTo("No");
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).contains(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isEqualTo("N");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).isEnabled()).isFalse();
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).getValue()).isEqualTo("No");
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).contains(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isEqualTo("N");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	private void eValueEnabledForRenewal() {
+		policy.renew().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).isEnabled()).isTrue();
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).getValue()).isEqualTo("No");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).doesNotContain(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
 	}
 
 	private void updateBillingAccountAddNewCard(TestData cardData, String cardType) {
@@ -1640,9 +1838,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
 	}
 
-	private void checkIfEvalueWasRemovedBySystem(Boolean removed) {
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-		PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
+	private void checkIfEvalueWasRemovedBySystem(String policyNumber, Boolean removed) {
+		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 		assertThat("eValue Removed - ACH...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(removed);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -1740,11 +1937,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public void eValueQuoteCreation() {
+		eValueQuoteCreation(true);
+	}
+
+	public void eValueQuoteCreation(boolean defaultEvalueQuote) {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData");
 		//Debug data
 		//String eValueKey = getPolicyType().getKey() + "_evalue_" + getState();
 		//EntitiesHolder.addNewEntity(eValueKey, "VASS952918562");
 
+		if (defaultEvalueQuote) {
 		mainApp().open();
 		String policyNumber = openDefaultPolicy(getPolicyType());
 		policy.policyCopy().perform(td);
@@ -1758,9 +1960,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.getDefaultView().fillFromTo(getPolicyTD(), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 		documentsAndBindTab.saveAndExit();
-		log.info("policyNum: {}", policyNumber);
+			String eValueQuote = PolicySummaryPage.getPolicyNumber();
+			printToLog("NEW EVALUE QUOTE " + eValueQuote);
+		} else {
+			eValueQuoteCreationFromZero();
 	}
 
+	}
 
 	private String openDefaultPolicy(PolicyType policyType) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
@@ -1777,32 +1983,32 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			} else {
 				count = 1;
-				createCustomerIndividual();
-
-				//if (!EntitiesHolder.getEntities().containsKey(getPolicyType().getKey() + "_evalue_" + getState())) {
-				TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-				TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
-				TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
-				TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
-						.adjust("PolicyInformation", policyInformationSectionAdjusted)
-						.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
-
-				TestData eValuePolicyData = defaultTestData
-						.adjust("GeneralTab", generalTabAdjusted)
-						.resolveLinks();
-
-				mainApp().open();
-				createCustomerIndividual();
-
-				getPolicyType().get().createQuote(eValuePolicyData);
+				eValueQuoteCreationFromZero();
 				policyNumber = simplifiedQuoteIssue();
 				EntitiesHolder.addNewEntity(getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
-				printToLog("EVALUE QUOTE WAS CREATED "+getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
-
 			}
 			policyCount.put(eValueKey, count);
 		}
+		printToLog("DEFAULE EVALUE QUOTE WAS CREATED " + getPolicyType().getKey() + "_evalue_" + getState(), policyNumber);
 		return policyNumber;
+	}
+
+	public void eValueQuoteCreationFromZero() {
+		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
+		TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
+		TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
+		TestData generalTabAdjusted = defaultTestData.getTestData("GeneralTab")
+				.adjust("PolicyInformation", policyInformationSectionAdjusted)
+				.adjust("CurrentCarrierInformation", currentCarrierSectionTestSpecific);
+
+		TestData eValuePolicyData = defaultTestData
+				.adjust("GeneralTab", generalTabAdjusted)
+				.resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		getPolicyType().get().createQuote(eValuePolicyData);
 	}
 
 	public String simplifiedQuoteIssue() {
