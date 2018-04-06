@@ -88,10 +88,7 @@ public class VinUploadHelper {
 	public enum UploadFilesTypes {
 		UPDATED_VIN("Updated"),
 		ADDED_VIN("Added"),
-		R45("R45"),
-		R40("R40"),
-		R35("R35"),
-		R25("R25");
+		R45("R45");
 
 		private String type;
 
