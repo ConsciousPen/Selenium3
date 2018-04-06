@@ -561,19 +561,22 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Policy lock unlock functionality using services
+	 * @name Policy lock unlock functionality using services / sessionId.
 	 * @scenario
 	 * 1. Create active policy.
-	 * 2. Hit lock service. Check service status.
-	 * 3. Go to policy in PAS.
-	 * 4. Start do endorsement.
-	 * 5. Check if policy is locked.
-	 * 6. Hit Unlock service. Check service status.
-	 * 7. Open policy in PAS again.
-	 * 8. Start do endorsement.
-	 * 9. Check if policy is unlocked.
-	 * 10. Try to lock policy using lock service. Check service status.
-	 * 11. Try to unlock policy using unlock service. Check service status.
+	 * 2. Hit lock service with sessionId1. Check service status.
+	 * 3. Hit start endorsement info service with sessionId1.
+	 * 4. Hit stat endorsement info service with sessionId2. Check error.
+	 * 5. Try to lock policy with sessionId2. Check error.
+	 * 6. Go to policy in PAS.
+	 * 7. Start do endorsement.
+	 * 8. Check if policy is locked.
+	 * 9. Hit Unlock service with sessionId2. Check error.
+	 * 10. Hit Unlock service with sessionId1. Check service status.
+	 * 11. Open policy in PAS again.
+	 * 12.  Start do endorsement.
+	 * 13. Check if policy is unlocked.
+	 * 14. Try to lock policy using lock service. Check service status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
