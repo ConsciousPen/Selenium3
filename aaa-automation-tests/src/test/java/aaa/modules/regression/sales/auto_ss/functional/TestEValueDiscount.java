@@ -1002,8 +1002,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1))
-				.isFalse();
+		assertThat(PremiumAndCoveragesTab.eValuePaperlessWarning.getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1)).isFalse();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 
 		new PremiumAndCoveragesTab().calculatePremium();
@@ -1021,7 +1020,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1))
+		assertThat(PremiumAndCoveragesTab.eValuePaperlessWarning.getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1))
 				.isTrue();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
@@ -1042,8 +1041,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1))
-				.isFalse();
+		assertThat(PremiumAndCoveragesTab.eValuePaperlessWarning.getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1)).isFalse();
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.EVALUE_ACKNOWLEDGEMENT).setValue("Physically Signed");
@@ -1300,12 +1298,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		if ("DC".equals(state)) {
 			//Check if error message is displayed, when response from API is OPT_OUT. (state==DC)
-			assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1))
-					.isTrue();
+			assertThat(PremiumAndCoveragesTab.eValuePaperlessWarning.getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1)).isTrue();
 		} else {
 			//Check if error message is not displayed, when response from API is OPT_IN
-			assertThat(premiumAndCoveragesTab.getAssetList().getWarning(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel()).getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1))
-					.isFalse();
+			assertThat(PremiumAndCoveragesTab.eValuePaperlessWarning.getValue().contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_1)).isFalse();
 		}
 	}
 
