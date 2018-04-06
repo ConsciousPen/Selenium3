@@ -712,8 +712,8 @@ public final class HomeSSMetaData {
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_42 = declare("HS 04 42", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0442.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_43 = declare("HS 04 43", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0443.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_43 = declare("HS 04 43", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0443.class,
+		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_50 = declare("HS 04 50", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0450.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_52 = declare("HS 04 52", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0452.class,
@@ -734,8 +734,8 @@ public final class HomeSSMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_77 = declare("HS 04 77", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0477.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_90 = declare("HS 04 90", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0490.class,
-		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_90 = declare("HS 04 90", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0490.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_92 = declare("HS 04 92", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0492.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_04_93 = declare("HS 04 93", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0493.class,
@@ -766,12 +766,12 @@ public final class HomeSSMetaData {
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_30 = declare("HS 09 30", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0930.class,
 		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_31 = declare("HS 09 31", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0931.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_31 = declare("HS 09 31", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0931.class,
+		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_32 = declare("HS 09 32", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0932.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		 public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_34 = declare("HS 09 34", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0934.class,
-		 By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_34 = declare("HS 09 34", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0934.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_37 = declare("HS 09 37", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0937.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_65 = declare("HS 09 65", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0965.class, By
@@ -927,6 +927,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> SUNTANNING_OR_PROFESSIONAL_EXERCISE_EQUIPMENT = declare("Suntanning or professional exercise equipment", RadioGroup.class, Waiters.AJAX);
 		}
 
+		public static final class EndorsementHS0443 extends MetaData {}
+
 		public static final class EndorsementHS0450 extends MetaData {
 			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_RESIDENCE = declare("Description of residence", TextBox.class, Waiters.AJAX);
@@ -939,10 +941,12 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS0453 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class);
 		}
 
-		public static final class EndorsementHS0455 extends MetaData {}
+		public static final class EndorsementHS0455 extends MetaData {
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class);
+		}
 
 		public static final class EndorsementHS0459 extends MetaData {
 			public static final AssetDescriptor<TextBox> NAME_OF_RELATIVE = declare("Name of relative", TextBox.class, Waiters.AJAX);
@@ -976,7 +980,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementHS0490 extends MetaData {}
+		public static final class EndorsementHS0490 extends MetaData {
+		}
 
 		public static final class EndorsementHS0492 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_STRUCTURE = declare("Description of Structure", TextBox.class, Waiters.AJAX);
@@ -1039,10 +1044,11 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS0926 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
 		}
 
-		public static final class EndorsementHS0934 extends MetaData {}
+		public static final class EndorsementHS0934 extends MetaData {
+		}
 
 		public static final class EndorsementHS0937 extends MetaData {
 			public static final AssetDescriptor<TextBox> DESCRIPTION_OF_STRUCTURE = declare("Description of structure", TextBox.class, Waiters.AJAX);
@@ -1212,6 +1218,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> SECTION_I_DESCRIPTION_OF_STRUCTURE = declare("Section I description of structure", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> SECTION_II_COVERAGES_E_AND_F_COMBINED = declare("Section II coverages E and F combined", ComboBox.class, Waiters.AJAX);
 		}
+
+		public static final class EndorsementHS0931 extends MetaData {}
 
 		public static final class EndorsementHS0932 extends MetaData {
 			public static final AssetDescriptor<ComboBox> PROPERTY_COVERAGE_LIMIT = declare("Property Coverage Limit", ComboBox.class, Waiters.AJAX);
@@ -1430,8 +1438,8 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> MANUAL_CAPPING_FACTOR = declare("Manual Capping Factor (%)", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> CAPPING_OVERRIDE_REASON = declare("Capping Override Reason", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> BUTTON_TO_PREMIUM_AND_COVERAGES = declare("Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingReturnTo"));
-			public static final AssetDescriptor<Button> BUTTON_CALCULATE  = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
-			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES  = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
+			public static final AssetDescriptor<Button> BUTTON_CALCULATE = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
+			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
 					false, By.id("cappingDetailsPopupPanel:cappingSave"));
 		}
 	}
