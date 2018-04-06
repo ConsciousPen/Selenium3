@@ -212,6 +212,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.IN:
 			case Constants.States.OK:
 			case Constants.States.WY:
+			case Constants.States.MD:
+			case Constants.States.DE:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				break;
 			case Constants.States.MT:
@@ -222,13 +224,22 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 		}
 
+		//TODO-dchubkov: to be found out...
+		coveragesMap.put("UMBI-Verbal", "UNKNOWN UMBI-Verbal coverage for NJ state");
+		coveragesMap.put("BI-Verbal", "UNKNOWN BI-Verbal coverage for NJ state");
+
 		if (getState().equals(Constants.States.PA)) {
 			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_EXPENSES.getLabel());
 		} else {
 			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel());
 		}
 
-		coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+		if (getState().equals(Constants.States.MD)) {
+			coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT.getLabel());
+		} else {
+			coveragesMap.put("SP EQUIP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+		}
+
 		coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
 		if (getState().equals(Constants.States.MT)) {
@@ -277,22 +288,46 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
+		StringBuilder paymentPlan = new StringBuilder("regex=^");
 		switch (paymentPlanType) {
 			case "A":
-				return "Quarterly";
+				paymentPlan.append("Quarterly");
+				break;
 			case "B":
-				return "Eleven Pay - Standard";
+				paymentPlan.append("Eleven Pay - Standard");
+				break;
 			case "C":
-				return "Semi-Annual";
+				paymentPlan.append("Semi-[aA]nnual");
+				break;
 			case "L":
-				return getRandom("Eleven Pay - Low Down", "Monthly - Low Down"); //TODO-dchubkov: to be verified
+				paymentPlan.append(getRandom("Eleven Pay - Low Down", "Monthly - Low Down"));
+				break;
 			case "P":
-				return getTerm(term);
+				return getPremiumAndCoveragesPaymentPlan(term);
 			case "Z":
-				return getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down");
+				paymentPlan.append(getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down"));
+				break;
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
 		}
+		paymentPlan.append("(\\s*\\(Renewal\\))?$");
+		return paymentPlan.toString();
+	}
+
+	String getPremiumAndCoveragesPaymentPlan(int term) {
+		StringBuilder paymentPlan = new StringBuilder("regex=^");
+		switch (term) {
+			case 12:
+				paymentPlan.append("Annual");
+				break;
+			case 6:
+				paymentPlan.append("Semi-[aA]nnual");
+				break;
+			default:
+				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
+		}
+		paymentPlan.append("(\\s*\\(Renewal\\))?$");
+		return paymentPlan.toString();
 	}
 
 	String getPremiumAndCoveragesFullSafetyGlass(String glassDeductible) {
@@ -319,17 +354,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
-	}
-
-	String getTerm(int term) {
-		switch (term) {
-			case 12:
-				return "Annual";
-			case 6:
-				return "regex=Semi-[aA]nnual.*";
-			default:
-				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
-		}
 	}
 
 	String getGeneralTabPriorBILimit(String priorBILimit) {
