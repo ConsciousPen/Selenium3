@@ -1,11 +1,19 @@
 package aaa.modules.regression.sales.template;
 
+import static aaa.helpers.db.queries.MsrpQueries.*;
+import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.db.queries.MsrpQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.VinUploadHelper;
@@ -15,25 +23,13 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import net.sf.saxon.functions.DynamicContextAccessor;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static aaa.helpers.db.queries.MsrpQueries.*;
-import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class VinUploadAutoSSHelper extends PolicyBaseTest{
 	protected static VehicleTab vehicleTab = new VehicleTab();
@@ -164,7 +160,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		searchForPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 	}
 
 	protected void findAndRateQuote(TestData testData, String quoteNumber) {
@@ -306,7 +302,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest{
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION, 20150101, getState(), "MSRP_2000"));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
-		BigInteger getUniqId = MsrpQueries.getAvailableIdFromVehicleDataVinControl();
+		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
 
 		DBService.get().executeUpdate(String.format(INSERT_VEHICLEREFDATAVINCONTROL_VERSION,
 				getUniqId, "AAA_SS", null, getState(), "SYMBOL_2000", 20150102, 20500102, AUTO_SS_MOTORHOME_VEH_MSRP_VERSION));

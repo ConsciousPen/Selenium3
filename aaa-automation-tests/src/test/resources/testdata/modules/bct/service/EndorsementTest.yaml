@@ -21,6 +21,18 @@ TestDataInquiryAutoSS: {
   DocumentsAndBindTab: {},
 }
 
+TestDataInquiryAutoSS_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
 TestDataEndorseAutoSS: {
   EndorsementActionTab: {
     Endorsement Date: $<today>,

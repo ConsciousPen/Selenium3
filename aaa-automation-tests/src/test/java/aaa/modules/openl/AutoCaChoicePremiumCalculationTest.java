@@ -9,12 +9,30 @@ import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoCaChoiceTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import toolkit.datax.TestData;
 
 public class AutoCaChoicePremiumCalculationTest extends OpenLRatingBaseTest<AutoCaChoiceOpenLPolicy> {
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_CHOICE;
+	}
+
+	@Override
+	protected TestData getRatingDataPattern() {
+		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
+	}
+
+	@Override
+	protected String createAndRateQuote(TestDataGenerator<AutoCaChoiceOpenLPolicy> tdGenerator, AutoCaChoiceOpenLPolicy openLPolicy) {
+		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
+		return PremiumAndCoveragesTab.totalTermPremium.getValue();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

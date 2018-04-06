@@ -100,7 +100,6 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		docgenActionTab.verify.documentsEnabled(false, 
 				Documents.AA41CA,
 				Documents.AA52CA,
-				Documents.AA53CA,
 				Documents.CAU01,
 				Documents.CAU04,
 				Documents.CAU08,

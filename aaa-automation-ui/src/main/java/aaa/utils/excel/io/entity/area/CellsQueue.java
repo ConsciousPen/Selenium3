@@ -3,14 +3,7 @@ package aaa.utils.excel.io.entity.area;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import aaa.utils.excel.io.ExcelManager;
@@ -194,7 +187,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		if (cell.isDate(formatters)) {
 			return Objects.equals(cell.getDateValue(formatters), expectedValue);
 		}
-		return Objects.equals(cell.getValue(), expectedValue);
+		return cell.getCellTypes().stream().anyMatch(cellType -> Objects.equals(cell.getValue(cellType), expectedValue));
 	}
 
 	public CellsQueue<CELL> registerCellType(CellType<?>... cellTypes) {
