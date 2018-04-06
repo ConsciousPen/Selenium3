@@ -1691,6 +1691,84 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 	}
 
+	protected void pas10449_ViewVehicleServiceCheckOrderOfVehicle(PolicyType policyType, String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+        TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_Vehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//hit view vehicle service to get Vehicle order
+		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(viewVehicleResponse[0].oid);
+			softly.assertThat(viewVehicleResponse[0].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[0].vehTypeCd).isEqualTo("PPA");
+			softly.assertThat(viewVehicleResponse[0].vehIdentificationNo).isEqualTo("1GAZG1FG7D1145543");
+
+			softly.assertThat(viewVehicleResponse[1].oid);
+			softly.assertThat(viewVehicleResponse[1].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[1].vehTypeCd).isEqualTo("PPA");
+			softly.assertThat(viewVehicleResponse[1].vehIdentificationNo).isEqualTo("WDCYC7BB0B6729451");
+
+			softly.assertThat(viewVehicleResponse[2].oid);
+			softly.assertThat(viewVehicleResponse[2].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[2].vehTypeCd).isEqualTo("Motor");
+			softly.assertThat(viewVehicleResponse[2].vehIdentificationNo).isEqualTo("5B4MP67G123353230");
+
+			softly.assertThat(viewVehicleResponse[3].oid);
+			softly.assertThat(viewVehicleResponse[3].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[3].vehTypeCd).isEqualTo("Conversion");
+			softly.assertThat(viewVehicleResponse[3].vehIdentificationNo).isEqualTo("5FNRL5H64GB087983");
+
+		});
+
+	    // Perform endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		SearchPage.openPolicy(policyNumber);
+
+		//Add new vehicle to have pending vehicle
+		String purchaseDate = "2013-02-22";
+		String vin2 = "1HGFA16526L081415";
+		Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertThat(addVehicleResponse.oid).isNotEmpty();
+
+     	Vehicle[] viewVehicleEndorsementResponse= HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		assertSoftly(softly -> {
+
+			softly.assertThat(viewVehicleEndorsementResponse[0].oid).isNotNull();
+			softly.assertThat(viewVehicleEndorsementResponse[0].vehicleStatus).isEqualTo("pending");
+			softly.assertThat(viewVehicleEndorsementResponse[0].vehTypeCd).isEqualTo("PPA");
+			softly.assertThat(viewVehicleEndorsementResponse[0].vehIdentificationNo).isEqualTo("1HGFA16526L081415");
+
+			softly.assertThat(viewVehicleResponse[0].oid);
+			softly.assertThat(viewVehicleResponse[0].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[0].vehTypeCd).isEqualTo("PPA");
+			softly.assertThat(viewVehicleResponse[0].vehIdentificationNo).isEqualTo("1GAZG1FG7D1145543");
+
+			softly.assertThat(viewVehicleResponse[1].oid);
+			softly.assertThat(viewVehicleResponse[1].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[1].vehTypeCd).isEqualTo("PPA");
+			softly.assertThat(viewVehicleResponse[1].vehIdentificationNo).isEqualTo("WDCYC7BB0B6729451");
+
+			softly.assertThat(viewVehicleResponse[2].oid);
+			softly.assertThat(viewVehicleResponse[2].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[2].vehTypeCd).isEqualTo("Motor");
+			softly.assertThat(viewVehicleResponse[2].vehIdentificationNo).isEqualTo("5B4MP67G123353230");
+
+			softly.assertThat(viewVehicleResponse[3].oid);
+			softly.assertThat(viewVehicleResponse[3].vehicleStatus).isEqualTo("active");
+			softly.assertThat(viewVehicleResponse[3].vehTypeCd).isEqualTo("Conversion");
+			softly.assertThat(viewVehicleResponse[3].vehIdentificationNo).isEqualTo("5FNRL5H64GB087983");
+
+		});
+
+	}
+
 	protected void pas9610_UpdateVehicleService() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();

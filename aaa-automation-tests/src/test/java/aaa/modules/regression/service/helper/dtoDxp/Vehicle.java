@@ -54,7 +54,8 @@ public class Vehicle implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean registeredOwner;
 
-
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String vehTypeCd;
 
 	public String getModelYear() {
 		return modelYear;
@@ -111,5 +112,9 @@ public class Vehicle implements RestBodyRequest {
 	public void setVehicleStatus(String vehicleStatus) {
 		this.vehicleStatus = vehicleStatus;
 	}
+
+	public String getVehTypeCd() { return vehTypeCd; }
+
+	public void setVehTypeCd(String vehTypeCd) {this.vehTypeCd = vehTypeCd; }
 
 }
