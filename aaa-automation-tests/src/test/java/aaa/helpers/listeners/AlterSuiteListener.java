@@ -76,7 +76,7 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		xmlTest.setExcludedGroups(test.getExcludedGroups());
 		xmlTest.setParallel(test.getParallel());
 		xmlTest.setThreadCount(test.getThreadCount());
-		Map<String, String> parameters = Maps.newHashMap();
+		Map<String, String> parameters = Maps.newHashMap(test.getLocalParameters());
 		parameters.put("state", state);
 		xmlTest.setParameters(parameters);
 		return xmlTest;
