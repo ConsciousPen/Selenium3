@@ -281,3 +281,10 @@ PAS-12257:
     - tests: [
     aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
       messages: ["Cannot set value of ComboBox"]
+PAS-12369:
+  summary: "Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation.pas3786_validateMembership]
+      messages: ["Column Code was not found in the table"]
