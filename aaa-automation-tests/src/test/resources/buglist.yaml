@@ -288,3 +288,10 @@ PAS-12369:
     - tests: [
     aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation.pas3786_validateMembership]
       messages: ["Column Code was not found in the table"]
+PAS-12224:
+  summary: "Pending or Inactive membership is not removed on NB+30"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride.pas6313_Validate_Membership_Override_NB15NB30_Negative]
+      messages: ["Expected value <Membership Pending"]
