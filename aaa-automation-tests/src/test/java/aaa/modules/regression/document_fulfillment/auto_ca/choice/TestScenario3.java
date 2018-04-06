@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -13,7 +14,7 @@ import aaa.modules.policy.AutoCaChoiceBaseTest;
 public class TestScenario3 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH61XX(String state) throws Exception {
+	public void testAH61XX(@Optional("CA") String state) throws Exception {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_SubstantialIncrease"));
@@ -24,7 +25,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH62XX(String state) throws Exception {
+	public void testAH62XX(@Optional("CA") String state) throws Exception {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
