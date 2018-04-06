@@ -61,12 +61,16 @@ TestData_QuoteUpdate: {
     }
   },
   PremiumAndCoveragesTab: {
+    DetailedVehicleCoverages: [
+    {
     Collision Deductible Waiver: 'contains=$500',
     Rental Reimbursement: 'contains=Yes',
     Towing and Labor Coverage: 'contains=Yes',
     Special Equipment Coverage: '$3,000.00',
     Special Equipment Description: special camera
-  },
+    }
+  ]
+  }
 }
 
 TestData_Purchase: {
@@ -81,12 +85,6 @@ TestData_Purchase: {
   },
   ErrorTab: {
     ErrorsOverride: [{
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
-    },
-    {
       Override: 'true',
       Approval: 'true',
       Duration: Life,
