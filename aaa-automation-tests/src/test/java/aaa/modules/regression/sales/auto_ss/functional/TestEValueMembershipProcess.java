@@ -127,7 +127,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 	}
 
-	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void preconditionsClearFolders() throws SftpException, JSchException {
 		printToLog("Clear membership folders started");
 		SSHController sshControllerRemote = new SSHController(
@@ -138,15 +138,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
 
-		boolean clearExgPasArchiveFolder = true;
-		if (clearExgPasArchiveFolder) {
-			if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive")) {
-				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
-			}
-			if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive")) {
-				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
-			}
-		}
 		if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
 			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		}
@@ -1284,7 +1275,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 			}
 		}
-		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
