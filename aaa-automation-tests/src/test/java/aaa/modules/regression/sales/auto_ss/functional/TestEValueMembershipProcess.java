@@ -4,16 +4,22 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -31,6 +37,7 @@ import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
@@ -41,9 +48,11 @@ import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueM
 import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
+import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -118,18 +127,17 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 	}
 
-	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
-	public void preconditionsClearFolders() {
+	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public void preconditionsClearFolders() throws SftpException, JSchException {
 		printToLog("Clear membership folders started");
-		boolean clearExgPasArchiveFolder = true;
-		if (clearExgPasArchiveFolder) {
-			if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive")) {
-				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
-			}
-			if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive")) {
-				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
-			}
-		}
+		SSHController sshControllerRemote = new SSHController(
+				PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
+				PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
+				PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
+
+		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
+		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
+
 		if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
 			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		}
@@ -162,7 +170,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -170,7 +178,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(false, "already activated by previous job");
-		transactionHistoryRecordCountCheck(1, "");
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -204,7 +212,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no records created");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -213,7 +221,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//BUG PAS-11150 eValue doesnt become INACTIVE on NB+30 when Membership status is Pending
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue and Membership Discounts Removed - Membership");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false);
 
@@ -247,7 +255,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
-		transactionHistoryRecordCountCheck(2, null);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -255,7 +263,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(policyNumber, 3, "eValue and Membership Discounts Removed - Membership");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false);
 
@@ -289,14 +297,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(false, "already processed by previous job");
-		transactionHistoryRecordCountCheck(1, "");
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 
@@ -330,14 +338,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
@@ -372,7 +380,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(2, null);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -380,7 +388,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
@@ -706,7 +714,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -714,13 +722,28 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
 		deleteSinglePaperlessPreferenceRequest(requestId);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	@Parameters({"state"})
+	@Test()
+	@TestInfo()
+	public void dummy(@Optional("VA") String state) {
+
+		String policyNumber = "VASS952918544";
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Discount Removed - Paperless");
+
+		String policyNumber2 = "VASS952918546";
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber2);
+		transactionHistoryRecordCountCheck(policyNumber2, 1, "");
 	}
 
 	/**
@@ -754,7 +777,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -762,7 +785,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue and Membership Discounts Removed - Membership, Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -802,7 +825,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(2, null);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -810,7 +833,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(policyNumber, 3, "eValue and Membership Discounts Removed - Membership, Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -850,7 +873,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -858,7 +881,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false);
 
@@ -898,7 +921,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -906,7 +929,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed; eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -946,7 +969,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(2, null);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -954,7 +977,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed; eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -992,7 +1015,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 		deleteSinglePaperlessPreferenceRequest(requestId1);
 
@@ -1002,7 +1025,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(1, "");
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 		deleteSinglePaperlessPreferenceRequest(requestId2);
@@ -1042,7 +1065,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -1050,7 +1073,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(false, "no record created");
-		transactionHistoryRecordCountCheck(1, "");
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false);
 		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false);
 		deleteSinglePaperlessPreferenceRequest(requestId2);
@@ -1087,7 +1110,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "PENDING");
 		membershipLogicActivitiesAndNotesCheck(false, "no changes");
-		transactionHistoryRecordCountCheck(1, null);
+		transactionHistoryRecordCountCheck(policyNumber, 1, "");
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch);
 
 		jobsNBplus15plus30runNoChecks();
@@ -1095,7 +1118,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(2, "");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Discount Removed - Paperless");
 		//BUG Membership Discount infor printed in the doc
 		latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch);
 		//BUG PAS-7265 Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30
@@ -1131,13 +1154,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
-		transactionHistoryRecordCountCheck(2, null);
+		transactionHistoryRecordCountCheck(policyNumber, 2, "");
 		lastTransactionHistoryMembershipDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed");
 		lastTransactionHistoryMembershipDiscountCheck(false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
@@ -1252,7 +1275,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 			}
 		}
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
@@ -1272,21 +1295,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		if (clearExgPasArchiveFolder) {
-			if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive")) {
-				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
-			}
-			if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive")) {
-				RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
-			}
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
+			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
 		Waiters.SLEEP(5000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
 		Waiters.SLEEP(5000).go();
-		if (RemoteHelper.isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
-		}
+		RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
@@ -1316,15 +1333,71 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 	}
 
-	private void transactionHistoryRecordCountCheck(int rowCount, String value) {
+	private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value) {
 		PolicySummaryPage.buttonTransactionHistory.click();
 		CustomAssert.assertEquals(PolicySummaryPage.tableTransactionHistory.getRowsCount(), rowCount);
-		if (null != value) {
-			if (!PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue().equals(value)) {
-				//TODO update once functionality is implemented
-				PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue().equals(value);
-			}
+		String valueShort = "";
+		if (!StringUtils.isEmpty(value)) {
+			valueShort = value.substring(0, 20);
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
 		}
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+
+		String transactionHistoryQuery = "select TXREASONTEXT \n"
+				+ "from PolicyTransaction \n"
+				+ "where POLICYID in \n"
+				+ "    (select id from \n"
+				+ "        (select id from POLICYSUMMARY \n"
+				+ "        where POLICYNUMBER = '%s'\n"
+				+ "        order by id desc)\n"
+				+ "where rownum=1)";
+		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+	}
+
+	/**
+	 * test to check GetHintValue not working
+	 */
+	@Test
+	public void getHintValue() {
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS952918544");
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		PolicySummaryPage.buttonTransactionHistory.click();
+
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").click();
+		StaticElement aaa = new StaticElement(By.xpath("//span[@id='historyForm:body_historyTable:0:j_id5:content']"));
+		assertThat(aaa.getWebElement().getText()).isEqualTo("Email Updated - External System");
+
+		String cellLocator2 = "//span[@id='historyForm:body_historyTable:0:reasonDisplayValue']";
+		String hintLocator = "/../span/span/span/span";
+
+		Tab.buttonCancel.click();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void getHint(@Optional("VA") String state) {
+		mainApp().open();
+		SearchPage.openPolicy("VASS952918544");
+		PolicySummaryPage.buttonTransactionHistory.click();
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).isNotEqualTo("eValue Discount Removed - Paperless");
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void getWarning(@Optional("VA") String state) {
+		mainApp().open();
+		SearchPage.openQuote("QVASS952918545");
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab driverTab = new DriverTab();
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED).setValue("01");
+		assertThat(driverTab.getAssetList().getWarning(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED).getValue()).contains("Age First Licensed must be 14 or greater");
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DATE_OF_BIRTH).setValue("01/01/2022");
+		assertThat(driverTab.getAssetList().getWarning(AutoSSMetaData.DriverTab.DATE_OF_BIRTH).getValue()).contains("The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and ");
 	}
 
 	private void lastTransactionHistoryExit() {

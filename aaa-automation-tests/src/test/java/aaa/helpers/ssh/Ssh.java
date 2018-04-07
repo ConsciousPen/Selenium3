@@ -111,9 +111,8 @@ public class Ssh {
 		source = parseFileName(source);
 
 		try {
-			closeSession(); //added to avoid hanging during file removal
 			openSftpChannel();
-			//sftpChannel.cd("/"); //replaced with closing session above
+			sftpChannel.cd("/");
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 			if (list.size() == 0) {
@@ -126,7 +125,6 @@ public class Ssh {
 					sftpChannel.rm(file.getFilename());
 				}
 			}
-			closeSession();
 			log.info("SSH: Files were removed from the folder '" + source + "'.");
 		} catch (Exception e) {
 			throw new RuntimeException("SSH: Error deleting files from folder '" + source + "'", e);
@@ -338,10 +336,7 @@ public class Ssh {
 
 				session.setPassword(password);
 				session.setConfig("StrictHostKeyChecking", "no");
-				session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
-				if (Boolean.parseBoolean(PropertyProvider.getProperty("scrum.envs.ssh", "false"))) {
-					session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
-				}
+				session.setConfig("PreferredAuthentications", "password");
 				session.connect();
 				log.info("SSH: Started SSH Session for " + session.getHost() + " host");
 			} catch (JSchException e) {
