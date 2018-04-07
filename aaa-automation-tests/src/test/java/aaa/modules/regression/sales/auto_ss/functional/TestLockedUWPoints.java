@@ -17,18 +17,27 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestLockedUWPoints extends AutoSSBaseTest {
 
+	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
+	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+	private MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
 
 	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
 	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
@@ -98,8 +107,16 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
+		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
+
+		// Override insurance score
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		// Verify that UW Points are the same
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -107,17 +124,83 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		verifyLockedLimitsRenewalAndEndorsement();
 
-		// Save and Exit Endorsement. Renew Policy and Navigate to P&C Page.
+		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Authorized"));
+		documentsAndBindTab.submitTab();
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.calculatePremium();
 
 		// Verify that UW Points are the same
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
+		verifyLockedLimitsRenewalAndEndorsement();
+	}
+
+	/**
+	 *@author Dominykas Razgunas
+	 *@name PA Auto Policy - UI Changes to display locked UW Points. Endorsement.
+	 *@scenario
+	 * 1. Create Policy
+	 * 2. Initiate Endorsement
+	 * 3. Navigate to P&C View Rating Details.
+	 * 4. Check that all of the UW components are blank.
+	 *@details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
+
+		verifyAlgoDate();
+
+		// Create Policy
+		mainApp().open();
+		getCopiedPolicy();
+
+		// Initiate Endorsement and Navigate to P&C Page.
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+
+		// Verify that Total UW points are shown and other UW components are hidden
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		verifyLockedLimitsRenewalAndEndorsement();
+	}
+
+	/**
+	 *@author Dominykas Razgunas
+	 *@name PA Auto Policy - UI Changes to display locked UW Points. Renewal.
+	 *@scenario
+	 * 1. Create Policy
+	 * 2. Initiate Renewal
+	 * 3. Navigate to P&C View Rating Details.
+	 * 4. Check that all of the UW components are blank.
+	 *@details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
+
+		verifyAlgoDate();
+
+		// Create Policy
+		mainApp().open();
+		getCopiedPolicy();
+
+		// Initiate Renewal and Navigate to P&C Page.
+		policy.renew().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+
+		// Verify that Total UW points are shown and other UW components are hidden
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		verifyLockedLimitsRenewalAndEndorsement();
 	}
 
@@ -144,6 +227,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	}
 
 	private void verifyLockedLimitsRenewalAndEndorsement(){
+		//Verify that Total UW points are not blank
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).isNotEmpty();
+
 		// Verify that Insurance Score, YAFAF, YCF scores are not displayed.
 		pas9063FieldsRow1.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, f)).isPresent());

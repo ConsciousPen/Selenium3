@@ -267,3 +267,31 @@ PAS-11662:
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
       messages: ["Internal rating engine error"]
+PAS-12248:
+  summary: "When doing rewrite of eValue policy, Commission Type has no eValue* values"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
+      messages: ["expected [eValue Renewal] but found [Renewal]"]
+PAS-12257:
+  summary: "Conversion: XML import failed for PUP FoxPro, HDES and SIS DP3: Unmarshalling error, Invalid content was found starting with element 'category'"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForConversion]
+      messages: ["Cannot set value of ComboBox"]
+PAS-12369:
+  summary: "Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation.pas3786_validateMembership]
+      messages: ["Column Code was not found in the table"]
+PAS-12224:
+  summary: "Pending or Inactive membership is not removed on NB+30"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride.pas6313_Validate_Membership_Override_NB15NB30_Negative]
+      messages: ["Expected value <Membership Pending"]

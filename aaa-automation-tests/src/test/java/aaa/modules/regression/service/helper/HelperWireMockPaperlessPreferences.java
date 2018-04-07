@@ -57,8 +57,6 @@ public class HelperWireMockPaperlessPreferences {
 		}
 	}
 
-
-
 	@Test
 	public void createPaperlessPreferencesRequestIdTest() {
 		String requestId = setPaperlessPreferencesToValue("QVASS926232047", HelperWireMockPaperlessPreferences.PaperlessPreferencesJsonFileEnum.PAPERLESS_OPT_IN_PENDING.get());

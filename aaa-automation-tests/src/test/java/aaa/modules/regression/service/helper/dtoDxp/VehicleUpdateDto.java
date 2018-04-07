@@ -1,7 +1,6 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import aaa.modules.regression.service.helper.RestBodyRequest;
 
 /**
@@ -29,7 +28,5 @@ public class VehicleUpdateDto  implements RestBodyRequest {
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean registeredOwner;
-
-
 
 }

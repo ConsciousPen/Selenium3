@@ -6,7 +6,6 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
@@ -36,6 +35,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	private Boolean permittedOccupancyInd;
 	private Integer rentalUnitsCount;
 	private String signature;
+	private Integer term;
 
 	public List<PUPOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
@@ -192,8 +192,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public Integer getTerm() {
-		//TODO-dchubkov: to be implemented
-		throw new NotImplementedException(String.format("Getting term for %s is not implemented", this.getClass().getSimpleName()));
+		return term != null ? term : 12;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
 	}
 
 	@Override

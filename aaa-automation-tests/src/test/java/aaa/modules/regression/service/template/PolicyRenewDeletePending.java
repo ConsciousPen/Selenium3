@@ -2,12 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
-
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
-
 
 /**
  * @author Xiaolan Ge
@@ -22,23 +19,17 @@ import toolkit.datax.impl.SimpleDataProvider;
  */
 public abstract class PolicyRenewDeletePending extends PolicyBaseTest {
 
+	public void testPolicyRenewDeletePending() {
+		mainApp().open();
 
-    public void testPolicyRenewDeletePending() {
-        mainApp().open();
+		getCopiedPolicy();
 
-        getCopiedPolicy();
+		log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		policy.renew().performAndExit();
 
-        log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        if (getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)){
-	    	 policy.renew().perform(new SimpleDataProvider());
-	     }	     
-	     else {
-	    	  policy.renew().performAndExit(new SimpleDataProvider());
-	     }
-        
-        PolicySummaryPage.buttonRenewals.click();
+		PolicySummaryPage.buttonRenewals.click();
 
-        policy.deletePendingRenwals().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonRenewals.verify.enabled(false);
-    }
+		policy.deletePendingRenwals().perform(new SimpleDataProvider());
+		PolicySummaryPage.buttonRenewals.verify.enabled(false);
+	}
 }

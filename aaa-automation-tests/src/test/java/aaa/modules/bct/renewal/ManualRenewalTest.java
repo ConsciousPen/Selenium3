@@ -21,7 +21,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 		IPolicy policy = PolicyType.AUTO_SS.get();
 
 		SearchPage.openPolicy(policyNumber);
-		policy.renew().perform(new SimpleDataProvider());
+		policy.renew().performAndExit();
 
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();

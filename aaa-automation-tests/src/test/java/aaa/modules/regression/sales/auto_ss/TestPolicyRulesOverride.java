@@ -20,7 +20,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -86,7 +85,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		checkRuleIsPresent("Life", "Temporary Issue");
 
 		//create renewal and check overridden for life rule
-		policy.createRenewal(DataProviderFactory.emptyData());
+		policy.renew().performAndExit();
 
 		PolicySummaryPage.buttonRenewals.click();
 		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Update Rules Override");

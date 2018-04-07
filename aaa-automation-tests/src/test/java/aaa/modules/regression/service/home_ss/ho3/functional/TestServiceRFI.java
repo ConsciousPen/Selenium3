@@ -14,6 +14,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
@@ -32,7 +33,6 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestServiceRFI extends HomeSSHO3BaseTest {
 
@@ -86,9 +86,9 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		//BUG PAS-10779 HSRFIXX is not generated on Issue anymore
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
-		Waiters.SLEEP(2000).go();//XML doesn't appear in DB at once
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));//XML doesn't appear in DB at once
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "OldHoModrnDiscYN", "Y");
@@ -168,9 +168,9 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		//BUG PAS-10779 /HSRFIXX is not generated on Issue anymore
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
-		Waiters.SLEEP(2000).go();//XML doesn't appear in DB at once
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));//XML doesn't appear in DB at once
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "NewHoModrnDiscYN", "Y");

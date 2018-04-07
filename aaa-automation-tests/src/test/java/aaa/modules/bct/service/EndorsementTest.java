@@ -85,7 +85,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		new GeneralTab().fillTab(td);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
 	}
 
@@ -232,7 +232,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView()
 				.fillFromTo(getTestSpecificTD("TestDataEndorseAutoCA"), aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, false);
 		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
-		aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.calculatePremium();
+		new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab().calculatePremium();
 		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
 	}
 
@@ -258,7 +258,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.dataGather().getView()
 				.fillFromTo(getTestSpecificTD("TestDataEndorseAutoCA"), aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, false);
 		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
-		aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.calculatePremium();
+		new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab().calculatePremium();
 		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
 	}
 

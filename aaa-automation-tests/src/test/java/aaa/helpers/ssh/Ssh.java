@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.*;
+import toolkit.config.PropertyProvider;
 
 @SuppressWarnings("unchecked")
 public class Ssh {
@@ -110,9 +111,8 @@ public class Ssh {
 		source = parseFileName(source);
 
 		try {
-			closeSession();
 			openSftpChannel();
-			//sftpChannel.cd("/");
+			sftpChannel.cd("/");
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 			if (list.size() == 0) {
@@ -125,7 +125,6 @@ public class Ssh {
 					sftpChannel.rm(file.getFilename());
 				}
 			}
-			closeSession();
 			log.info("SSH: Files were removed from the folder '" + source + "'.");
 		} catch (Exception e) {
 			throw new RuntimeException("SSH: Error deleting files from folder '" + source + "'", e);

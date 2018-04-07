@@ -108,7 +108,8 @@ TestData_Endorsement1: {
       Employee Benefit Type: Surviving spouse,
       ADB Coverage: 'Yes'
     },
-    {
+    {   
+      Add Driver: Click,
       DriverSearchDialog: {},
       Driver Type: Available for Rating,
       'Rel. to First Named Insured': Other,
@@ -136,6 +137,7 @@ TestData_Endorsement1: {
   VehicleTab: [
     {},
     {
+      Add Vehicle: Click,
       Type: Trailer,
       VIN: 1GNWGPFG8B6548266,
       Make: OTHER,
