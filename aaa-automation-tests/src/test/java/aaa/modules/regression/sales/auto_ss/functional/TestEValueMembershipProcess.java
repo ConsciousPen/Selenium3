@@ -938,7 +938,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue and Membership Discounts Removed - Membership, Paperless");
+		transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed; eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
@@ -986,7 +986,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "INACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "INACTIVE");
-		transactionHistoryRecordCountCheck(policyNumber, 3, "eValue and Membership Discounts Removed - Membership, Paperless");
+		transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed; eValue Discount Removed - Paperless");
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch);
 		checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false);
 
