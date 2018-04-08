@@ -88,7 +88,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
-		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));//XML doesn't appear in DB at once
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 10));//XML doesn't appear in DB at once
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "OldHoModrnDiscYN", "Y");
@@ -170,7 +170,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
-		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));//XML doesn't appear in DB at once
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 10));//XML doesn't appear in DB at once
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "NewHoModrnDiscYN", "Y");
