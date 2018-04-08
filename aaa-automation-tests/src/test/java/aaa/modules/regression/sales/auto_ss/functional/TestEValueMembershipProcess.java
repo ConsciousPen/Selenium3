@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -52,7 +51,6 @@ import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -70,6 +68,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	private SSHController sshControllerRemote = new SSHController(
+			PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
+			PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
+			PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
 
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
@@ -130,10 +132,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void preconditionsClearFolders() throws SftpException, JSchException {
 		printToLog("Clear membership folders started");
-		SSHController sshControllerRemote = new SSHController(
-				PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
-				PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
-				PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
 
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
 		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
@@ -731,21 +729,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.assertAll();
 	}
 
-	@Parameters({"state"})
-	@Test()
-	@TestInfo()
-	public void dummy(@Optional("VA") String state) {
-
-		String policyNumber = "VASS952918544";
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Discount Removed - Paperless");
-
-		String policyNumber2 = "VASS952918546";
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber2);
-		transactionHistoryRecordCountCheck(policyNumber2, 1, "");
-	}
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is required for eValue
@@ -1208,7 +1191,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		return policyNumber;
 	}
 
-	private void membershipEligibilityEndorsementCreation(String membershipStatus) {
+	void membershipEligibilityEndorsementCreation(String membershipStatus) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		setMembershipAndRate(membershipStatus, true);
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -1220,9 +1203,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
-			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()) {
+			//BUG PAS-11150 Membership isn't removed on NB+30 when Membership status is Pending
+/*			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()) {
 				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
-			}
+			}*/
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
 		} else if ("Cancelled".equals(membershipStatus)) {
 			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
@@ -1295,15 +1279,27 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		if (clearExgPasArchiveFolder) {
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
-			RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
+			//RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
+			//RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
+			try {
+				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
+				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
+			} catch (JSchException | SftpException e) {
+				e.printStackTrace();
+			}
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
 		Waiters.SLEEP(5000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
 		Waiters.SLEEP(5000).go();
-		RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		//RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		try {
+			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound" + "/*.*"));
+		} catch (JSchException | SftpException e) {
+			e.printStackTrace();
+		}
+
 		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
@@ -1355,26 +1351,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	/**
-	 * test to check GetHintValue not working
+	 * Check if getHintValue works
+	 * @param state
 	 */
-	@Test
-	public void getHintValue() {
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS952918544");
-
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.buttonTransactionHistory.click();
-
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").click();
-		StaticElement aaa = new StaticElement(By.xpath("//span[@id='historyForm:body_historyTable:0:j_id5:content']"));
-		assertThat(aaa.getWebElement().getText()).isEqualTo("Email Updated - External System");
-
-		String cellLocator2 = "//span[@id='historyForm:body_historyTable:0:reasonDisplayValue']";
-		String hintLocator = "/../span/span/span/span";
-
-		Tab.buttonCancel.click();
-	}
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
@@ -1385,6 +1364,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).isNotEqualTo("eValue Discount Removed - Paperless");
 	}
 
+	/**
+	 * Check if getWarning works
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
