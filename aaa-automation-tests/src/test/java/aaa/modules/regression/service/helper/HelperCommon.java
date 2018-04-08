@@ -2,7 +2,6 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
-import java.util.Map;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -21,7 +20,6 @@ import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -234,7 +232,7 @@ public class HelperCommon {
 			T responseObj = response.readEntity(request.responseType);
 			if (response.getStatus() != request.status) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("POST json request failed");
 			}
 			return responseObj;
 		} finally {
@@ -269,7 +267,7 @@ public class HelperCommon {
 			log.info(response.toString());
 			if (response.getStatus() != status) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("POST?PATCH? json response failed");
 			}
 			return responseObj;
 		} finally {
@@ -304,7 +302,7 @@ public class HelperCommon {
 			log.info(response.toString());
 			if (response.getStatus() != request.status) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("DELETE json request failed");
 			}
 			return responseObj;
 		} finally {
@@ -339,7 +337,7 @@ public class HelperCommon {
 			log.info(response.toString());
 			if (response.getStatus() != request.status) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("GET json request failed");
 			}
 
 			return result;
@@ -369,7 +367,7 @@ public class HelperCommon {
 			log.info(response.toString());
 			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("GET json request failed");
 			}
 			return result;
 		} finally {
@@ -404,10 +402,9 @@ public class HelperCommon {
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
 					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
-			Waiters.SLEEP(5000).go();
-			log.info("delay of 5 seconds");
-			final Map result = response.readEntity(Map.class);
-			log.info(result.toString());
+
+			final HashMap result = response.readEntity(HashMap.class);
+
 			return result.get("access_token").toString();
 		} finally {
 			if (response != null) {
