@@ -21,6 +21,7 @@ import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -403,7 +404,10 @@ public class HelperCommon {
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
 					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
+			Waiters.SLEEP(5000).go();
+			log.info("delay of 5 seconds");
 			final Map result = response.readEntity(Map.class);
+			log.info(result.toString());
 			return result.get("access_token").toString();
 		} finally {
 			if (response != null) {
