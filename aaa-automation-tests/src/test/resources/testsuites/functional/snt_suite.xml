@@ -206,10 +206,9 @@
                 <methods>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
                 </methods>
             </class>
         </classes>
@@ -222,9 +221,8 @@
                 <methods>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
                 </methods>
             </class>
@@ -238,10 +236,9 @@
                 <methods>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipNoAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
                 </methods>
             </class>
         </classes>
@@ -254,10 +251,9 @@
                 <methods>
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
                     <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPendingAutoNo"/>
                     <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
-                    <include name="pas11367_restrictionPaymentPlansMembershipOverrideAutoNo"/>
-                    <include name="pas10894_restrictionPaymentPlansMembershipYesAutoNo"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipYes"/>
+                    <include name="pas10894_restrictionPaymentPlansMembershipNo"/>
                 </methods>
             </class>
         </classes>

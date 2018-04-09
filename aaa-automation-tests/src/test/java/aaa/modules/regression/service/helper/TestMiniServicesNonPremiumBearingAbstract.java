@@ -1524,7 +1524,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-        mainApp().close();
+		mainApp().close();
 
 		//Lock policy id1 and check service response
 		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, sessionId1);
@@ -1549,7 +1549,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE,policyNumber);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.endorse().start();
 
 		//Check if policy was locked in PAS
