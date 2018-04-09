@@ -11,6 +11,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+
+import aaa.helpers.TestDataManager;
+import aaa.main.modules.customer.CustomerType;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -737,6 +740,57 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response2[1].vehIdentificationNo).isEqualTo(vehIdentificationNo3);
 		});
 	}
+	//------------------------
+	//jovita
+	protected void pas11932_viewDriversInfo(PolicyType policyType, String state){
+
+		mainApp().open();
+		createCustomerIndividual();
+
+
+		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_ThreeDrivers").getTestDataList("DriverTab")).resolveLinks();
+
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Drivers info from testData
+		String firstName1 = firstNameFull.substring(0, firstNameFull.length()-5);
+		String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
+
+		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
+		String middleName2 = td.getTestDataList("DriverTab").get(1).getValue("Middle Name");
+		String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
+		String sufix2 = td.getTestDataList("DriverTab").get(1).getValue("Suffix");
+
+		String firstName3 = td.getTestDataList("DriverTab").get(2).getValue("First Name");
+		String middleName3 = td.getTestDataList("DriverTab").get(2).getValue("Middle Name");
+		String lastName3 = td.getTestDataList("DriverTab").get(2).getValue("Last Name");
+		String sufix3 = td.getTestDataList("DriverTab").get(2).getValue("Suffix");
+
+		//		policy.policyInquiry().start();
+		//		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		//		String firstName1 = DriverTab.getInquiryAssetList().getStaticElement(NAMED_INSURED.getLabel()).getValue();
+		//		String lastName1 = driverTab.getInquiryAssetList().getStaticElement(LAST_NAME.getLabel()).getValue();
+		//		VehicleTab.tableVehicleList.selectRow(2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+	//------------------------
 
 	protected void pas8273_CheckIfNanoPolicyNotReturningVehicle(PolicyType policyType, String state) {
 
