@@ -165,14 +165,13 @@ public class Ssh {
 		try {
 			openSftpChannel();
 			String[] folders = destination.split("/");
-			folders = Arrays.copyOf(folders, folders.length-1);
+			folders = Arrays.copyOf(folders, folders.length - 1);
 			sftpChannel.cd("/");
 			for (String folder : folders) {
 				if (folder.length() > 0) {
 					try {
 						sftpChannel.cd(folder);
-					}
-					catch (SftpException e) {
+					} catch (SftpException e) {
 						sftpChannel.mkdir(folder);
 						sftpChannel.cd(folder);
 					}

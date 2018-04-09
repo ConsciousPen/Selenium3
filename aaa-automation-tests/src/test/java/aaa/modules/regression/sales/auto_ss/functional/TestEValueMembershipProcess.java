@@ -1280,7 +1280,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	//@Test
-	private void jobsNBplus15plus30runNoChecks() {
+	public static void jobsNBplus15plus30runNoChecks() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
