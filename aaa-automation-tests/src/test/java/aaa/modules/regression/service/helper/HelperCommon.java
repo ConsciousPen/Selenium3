@@ -134,12 +134,12 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 	}
 
-	static Vehicle[] executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
+	static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
-		Vehicle[] vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle[].class, 201);
+		Vehicle vehicle = runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 		return vehicle;
 	}
 
