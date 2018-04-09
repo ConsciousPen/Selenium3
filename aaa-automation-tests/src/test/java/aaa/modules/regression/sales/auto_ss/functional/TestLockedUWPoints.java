@@ -145,7 +145,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 *@name PA Auto Policy - UI Changes to display locked UW Points. Endorsement.
 	 *@scenario
 	 * 1. Create Policy
-	 * 2. Initiate Endorsement
+	 * 2. Change system date for the renewal
+	 * 3. Issue Renewal
+	 * 4. Initiate Endorsement
 	 * 3. Navigate to P&C View Rating Details.
 	 * 4. Check that all of the UW components are blank.
 	 *@details
@@ -166,7 +168,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Change Time to renew policy and have and issued renewal
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
-		// Initiate Renewal and Navigate to P&C Page.
+		// Issue Renewal
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.renew().start();
