@@ -13,6 +13,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -24,6 +25,7 @@ import toolkit.webdriver.controls.CheckBox;
 
 public class TestEUIMForms extends AutoSSBaseTest {
 
+    private GenerateOnDemandDocumentActionTab generateOnDemandDocumentActionTab = new GenerateOnDemandDocumentActionTab();
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private FormsTab formsTab = new FormsTab();
     private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
@@ -189,9 +191,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
     }
 
     private void verifyGoddPage() {
-        policy.quoteDocGen();
-
-        //TODO Verify form is able to be generated on GoDD page
+        policy.policyDocGen().start();
+        generateOnDemandDocumentActionTab.verify.documentsEnabled(DocGenEnum.Documents.AAEUIMMD);
     }
 
     private void switchToEUIMAndBind() {
