@@ -873,9 +873,17 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String purchaseDate = "2012-02-21";
 		String vin2 = "ZFFCW56A830133118";
 
-		Vehicle response1 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-		assertSoftly(softly ->
-				softly.assertThat(response1.oid).isNotEmpty()
+		Vehicle[] response1 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertSoftly(softly ->{
+			softly.assertThat(response1[0].modelYear).isEqualTo("2003");
+			softly.assertThat(response1[0].manufacturer).isEqualTo("FERRARI");
+			softly.assertThat(response1[0].series).isEqualTo("ENZO");
+			softly.assertThat(response1[0].model).isEqualTo("ENZO");
+			softly.assertThat(response1[0].bodyStyle).isEqualTo("COUPE");
+			softly.assertThat(response1[0].vehIdentificationNo).isEqualTo(vin2);
+			//softly.assertThat(response1[0].).isNotEmpty();
+
+				}
 		);
 
 		mainApp().open();
@@ -1493,8 +1501,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
 		String vin2 = "1HGFA16526L081415";
-		Vehicle response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-		assertThat(response2.oid).isNotEmpty();
+		Vehicle[] response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
 
 		//View vehicles status
 		Vehicle[] response3 = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
