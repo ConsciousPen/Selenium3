@@ -212,7 +212,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public void calculatePremium() {
 		if (!btnCalculatePremium().isPresent()) {
-			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		}
 		btnCalculatePremium().click();
 	}
