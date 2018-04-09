@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
+import java.util.Map;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -403,7 +404,7 @@ public class HelperCommon {
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
 					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
 
-			final HashMap result = response.readEntity(HashMap.class);
+			final Map result = response.readEntity(HashMap.class);
 
 			return result.get("access_token").toString();
 		} finally {
