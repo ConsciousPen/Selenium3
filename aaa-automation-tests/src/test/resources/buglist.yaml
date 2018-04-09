@@ -295,3 +295,10 @@ PAS-12224:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride.pas6313_Validate_Membership_Override_NB15NB30_Negative]
       messages: ["Expected value <Membership Pending"]
+BUG-10001:
+  summary: "VDMs frequently fail prefilling address"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.*]
+      messages: ["Cannot set value of AssetList {PrefillTab: By.xpath: //div[@id='contentWrapper']} to '{Validate Address=click, Validate Address Dialog={}, Order Prefill=click}'"]

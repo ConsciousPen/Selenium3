@@ -451,7 +451,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_ADD_WY);
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_METHODS_CONFIG_PAY_PLAN_CHANGE_WY);
 
-			mainApp().open();
 			String lookupName2 = "AAAeValueQualifyingPaymentMethods";
 			String productCd = "AAA_SS";
 			String riskStateCd = "WY";
@@ -492,7 +491,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_ADD_WY);
 			DBService.get().executeUpdate(ADD_NEW_PAYMENT_PLAN_CONFIG_PAY_PLAN_CHANGE_WY);
 
-			mainApp().open();
 			String lookupName1 = "AAAeValueQualifyingPaymentPlans";
 			String productCd = "AAA_SS";
 			String riskStateCd = "WY";
