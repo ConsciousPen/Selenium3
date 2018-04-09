@@ -165,7 +165,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		}
 
 		return DataProviderFactory.dataOf(
-				AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getTerm(openLPolicy.getTerm()),
+				AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getTerm()),
 				AutoCaMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
 				AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),
 				AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList)

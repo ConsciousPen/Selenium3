@@ -63,7 +63,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
 						policyObject.getNumber(), policyAndExpectedPremium.getValue(), openLFileName);
 
-				//TODO-dchubkov: add assertion that policy effective date is not too old (ask about valid policy age requirement)
+				//TODO-dchubkov: add assertion that Effective date cannot be more than ? months/years prior to current date (each product/state has it's own value)
 				if (policyObject.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
 					TimeSetterUtil.getInstance().nextPhase(policyObject.getEffectiveDate());
 					mainApp().reopen();
