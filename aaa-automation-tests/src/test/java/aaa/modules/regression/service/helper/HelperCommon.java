@@ -2,30 +2,26 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import java.util.Map;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.xerces.impl.dv.util.Base64;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
+import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-
-import javax.ws.rs.client.*;
-import java.util.Map;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -40,12 +36,12 @@ public class HelperCommon {
 	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
-	private static final String DXP_UPDATE_VEHICLE_ENDPOINT="/api/v1/policies/%s/endorsement/vehicles/%s";
+	private static final String DXP_UPDATE_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s";
 	private static final String DXP_ENDORSEMENT_BIND_ENDPOINT = "/api/v1/policies/%s/endorsement/bind";
 	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
-	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT="/api/v1/policies/%s/endorsement/assignments";
-	private static final String DXP_VIEW_PREMIUM_POLICY ="/api/v1/policies/%s/premiums";
-	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT="/api/v1/policies/%s/endorsement/premiums";
+	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT = "/api/v1/policies/%s/endorsement/assignments";
+	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
+	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -225,7 +221,7 @@ public class HelperCommon {
 		restRequestInfo.url = url;
 		restRequestInfo.bodyRequest = bodyRequest;
 		restRequestInfo.responseType = responseType;
-		restRequestInfo.status =  status;
+		restRequestInfo.status = status;
 		return runJsonRequestPostDxp(restRequestInfo);
 	}
 
@@ -236,7 +232,6 @@ public class HelperCommon {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request.bodyRequest));
 			T responseObj = response.readEntity(request.responseType);
-			log.info(response.toString());
 			if (response.getStatus() != request.status) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
@@ -288,7 +283,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType) {
-		return runJsonRequestDeleteDxp(url, responseType,Response.Status.OK.getStatusCode());
+		return runJsonRequestDeleteDxp(url, responseType, Response.Status.OK.getStatusCode());
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
@@ -326,7 +321,7 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(url, responseType, 200);
 	}
 
-	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status){
+	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
 		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
@@ -389,9 +384,9 @@ public class HelperCommon {
 
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-		if(BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
+		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
 			final String token = getBearerToken();
-			if(StringUtils.isNotEmpty(token)) {
+			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 			}
 		}
@@ -409,7 +404,10 @@ public class HelperCommon {
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
 					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
+			Waiters.SLEEP(5000).go();
+			log.info("delay of 5 seconds");
 			final Map result = response.readEntity(Map.class);
+			log.info(result.toString());
 			return result.get("access_token").toString();
 		} finally {
 			if (response != null) {
