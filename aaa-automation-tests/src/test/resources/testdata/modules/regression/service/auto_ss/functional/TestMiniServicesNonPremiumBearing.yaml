@@ -3,7 +3,7 @@ TestData_AllVehicles: {
 }
 
 TestData_Vehicle: {
-    VehicleTab: ['@VehicleTab_First','@VehicleTab_Second','@VehicleTab_Van','@VehicleTab_Motor_Home'],
+    VehicleTab: ['@VehicleTab_First','@VehicleTab_Van','@VehicleTab_Second','@VehicleTab_Motor_Home'],
 }
 
 VehicleTab_Other: {
