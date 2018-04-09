@@ -6,11 +6,18 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import com.google.common.collect.Lists;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -1702,26 +1709,34 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//hit view vehicle service to get Vehicle order
 		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
+
+		List<Vehicle> sortedVehicles = Arrays.asList(viewVehicleResponse);
+
+		sortedVehicles.sort(new Vehicle.VehicleComparator());
+
 		assertSoftly(softly -> {
-			softly.assertThat(viewVehicleResponse[0].oid);
-			softly.assertThat(viewVehicleResponse[0].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[0].vehTypeCd).isEqualTo("PPA");
-			softly.assertThat(viewVehicleResponse[0].vehIdentificationNo).isEqualTo("1GAZG1FG7D1145543");
 
-			softly.assertThat(viewVehicleResponse[1].oid);
-			softly.assertThat(viewVehicleResponse[1].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[1].vehTypeCd).isEqualTo("PPA");
-			softly.assertThat(viewVehicleResponse[1].vehIdentificationNo).isEqualTo("WDCYC7BB0B6729451");
+			assertThat(viewVehicleResponse).containsAll(sortedVehicles);
 
-			softly.assertThat(viewVehicleResponse[2].oid);
-			softly.assertThat(viewVehicleResponse[2].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[2].vehTypeCd).isEqualTo("Motor");
-			softly.assertThat(viewVehicleResponse[2].vehIdentificationNo).isEqualTo("5B4MP67G123353230");
+			Vehicle vehicle1 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GAZG1FG7D1145543".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle1).isNotNull();
+			softly.assertThat(vehicle1.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle1.vehTypeCd).isEqualTo("PPA");
 
-			softly.assertThat(viewVehicleResponse[3].oid);
-			softly.assertThat(viewVehicleResponse[3].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[3].vehTypeCd).isEqualTo("Conversion");
-			softly.assertThat(viewVehicleResponse[3].vehIdentificationNo).isEqualTo("5FNRL5H64GB087983");
+			Vehicle vehicle2 = Arrays.stream(viewVehicleResponse).filter(veh -> "WDCYC7BB0B6729451".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle2).isNotNull();
+			softly.assertThat(vehicle2.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle2.vehTypeCd).isEqualTo("PPA");
+
+			Vehicle vehicle3 = Arrays.stream(viewVehicleResponse).filter(veh -> "5B4MP67G123353230".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle3).isNotNull();
+			softly.assertThat(vehicle3.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle3.vehTypeCd).isEqualTo("Motor");
+
+			Vehicle vehicle4 = Arrays.stream(viewVehicleResponse).filter(veh -> "5FNRL5H64GB087983".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle4).isNotNull();
+			softly.assertThat(vehicle4.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle4.vehTypeCd).isEqualTo("Conversion");
 
 		});
 
@@ -1738,34 +1753,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(addVehicleResponse.oid).isNotEmpty();
 
 		Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-		assertSoftly(softly -> {
+		List<Vehicle> sortedVehicles1 = Arrays.asList(viewVehicleEndorsementResponse);
+		sortedVehicles1.sort(new Vehicle.VehicleComparator());
+		assertSoftly(softly ->
 
-			softly.assertThat(viewVehicleEndorsementResponse[0].oid).isNotNull();
-			softly.assertThat(viewVehicleEndorsementResponse[0].vehicleStatus).isEqualTo("pending");
-			softly.assertThat(viewVehicleEndorsementResponse[0].vehTypeCd).isEqualTo("PPA");
-			softly.assertThat(viewVehicleEndorsementResponse[0].vehIdentificationNo).isEqualTo("1HGFA16526L081415");
+				assertThat(viewVehicleEndorsementResponse).containsAll(sortedVehicles1)
 
-			softly.assertThat(viewVehicleResponse[0].oid);
-			softly.assertThat(viewVehicleResponse[0].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[0].vehTypeCd).isEqualTo("PPA");
-			softly.assertThat(viewVehicleResponse[0].vehIdentificationNo).isEqualTo("1GAZG1FG7D1145543");
-
-			softly.assertThat(viewVehicleResponse[1].oid);
-			softly.assertThat(viewVehicleResponse[1].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[1].vehTypeCd).isEqualTo("PPA");
-			softly.assertThat(viewVehicleResponse[1].vehIdentificationNo).isEqualTo("WDCYC7BB0B6729451");
-
-			softly.assertThat(viewVehicleResponse[2].oid);
-			softly.assertThat(viewVehicleResponse[2].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[2].vehTypeCd).isEqualTo("Motor");
-			softly.assertThat(viewVehicleResponse[2].vehIdentificationNo).isEqualTo("5B4MP67G123353230");
-
-			softly.assertThat(viewVehicleResponse[3].oid);
-			softly.assertThat(viewVehicleResponse[3].vehicleStatus).isEqualTo("active");
-			softly.assertThat(viewVehicleResponse[3].vehTypeCd).isEqualTo("Conversion");
-			softly.assertThat(viewVehicleResponse[3].vehIdentificationNo).isEqualTo("5FNRL5H64GB087983");
-
-		});
+		);
 
 	}
 
