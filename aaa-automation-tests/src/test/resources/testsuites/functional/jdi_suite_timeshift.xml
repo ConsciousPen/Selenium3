@@ -25,6 +25,7 @@
             </class>
         </classes>
     </test>
+
     <test name="VA Auto SS Refunds Credit Card" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -191,6 +192,7 @@
             </class>
         </classes>
     </test>
+
     <test name="HO Pending Refunds ACH MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
@@ -213,6 +215,8 @@
             </class>
         </classes>
     </test>
+
+
     <test name="PUP pas7039_newDataElementsDeceasedIndicator VA" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>
         <classes>
@@ -246,6 +250,7 @@
             </class>
         </classes>
     </test>
+
     <test name="Auto Pending Refunds ACH MD" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>

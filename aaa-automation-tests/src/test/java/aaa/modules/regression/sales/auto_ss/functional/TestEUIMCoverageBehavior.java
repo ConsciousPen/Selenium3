@@ -40,9 +40,9 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for NB
      *@scenario
-     * 1. Create Customer.
-     * 2. Initiate Auto SS MD Quote after 07/01/2018.
-     * 3. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage().
+     * 1. Create Customer
+     * 2. Initiate Auto SS MD Quote after 07/01/2018
+     * 3. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
      *@details
      */
     @Parameters({"state"})
@@ -67,14 +67,14 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Endorsements
      *@scenario
      * 1. Create Customer
-     * 2. Create Auto SS MD Policy after 07/01/2018.
-     * 3. Endorse Policy and Navigate to P&C View Rating Details.
-     * 4. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage().
+     * 2. Create Auto SS MD Policy after 07/01/2018
+     * 3. Endorse Policy and Navigate to P&C View Rating Details
+     * 4. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
      *@details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -97,16 +97,16 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Renewals
      *@scenario
-     * 1. Create Customer.
-     * 2. Create Auto SS MD Policy after 07/01/2018.
-     * 3. Initiate Renewal.
-     * 4. Navigate to P&C.
-     * 5. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage().
+     * 1. Create Customer
+     * 2. Create Auto SS MD Policy after 07/01/2018
+     * 3. Initiate Renewal
+     * 4. Navigate to P&C
+     * 5. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
      *@details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
         verifyAlgoDate();
@@ -125,6 +125,35 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyEnhancedUIMCoverage();
     }
 
+    /**
+     *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
+     *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for Conversions
+     *@scenario
+     * 1. Create Customer
+     * 2. Initiate Auto SS MD Conversion Policy after 07/01/2018
+     * 3. Fill up to P&C Tab
+     * 4. Verify all conditions in Verify Behavior of EUIM/BI and EUIM/PD fields - verifyEnhancedUIMCoverage()
+     *@details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    public void pas11200_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
+
+        verifyAlgoDate();
+
+        // Create customer
+        mainApp().open();
+        createCustomerIndividual();
+
+        // Initiate Conversion and fill up to P & C Tab
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+        policy.getDefaultView().fillUpTo(getConversionPolicyDefaultTD(), PremiumAndCoveragesTab.class);
+
+        // Verify Behavior of EUIM/BI and EUIM/PD fields
+        verifyEnhancedUIMCoverage();
+    }
+
     //TODO remove verify algo date after 2018-07-01
     private void verifyAlgoDate() {
         LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JULY, 1, 0, 0);
@@ -134,8 +163,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     private void verifyEnhancedUIMCoverage() {
-        propertyDamage.setValueByIndex(1);
-        bodilyInjury.setValueByIndex(1);
+        propertyDamage.setValueByIndex(0);
+        bodilyInjury.setValueByIndex(0);
 
         //AC1,AC2 PAS-11200. for Quotes and Policies created on or after 2018/07/01 EUIM should be present.
         //AC1 PAS-11620. EUIM BI and PD limits are defaulted to BI/PD limits.
@@ -148,35 +177,34 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
         bodilyInjury.setValueByIndex(2);
         assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
-
-        //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
-        enhancedBodilyInjury.setValueByIndex(1);
-        premiumAndCoveragesTab.calculatePremium();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
-        errorTab.submitTab();
-
-        //AC2 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
-        bodilyInjury.setValueByIndex(3);
+        propertyDamage.setValueByIndex(4);
+        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        bodilyInjury.setValueByIndex(4);
         assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
-        //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
+        //AC3 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
+        enhancedBodilyInjury.setValueByIndex(1);
+        premiumAndCoveragesTab.calculatePremium();
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
+        errorTab.cancel();
+
+        //AC3 PAS-11620. Rating Error if EUIM PD limits do not match PD limits.
+        bodilyInjury.setValueByIndex(3);
         enhancedPropertyDamage.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
-        errorTab.submitTab();
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
+        errorTab.cancel();
+
+        //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         enhancedBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
-        errorTab.submitTab();
-
-        //AC2 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
-        propertyDamage.setValueByIndex(3);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
-        bodilyInjury.setValueByIndex(2);
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        errorTab.cancel();
 
         //AC4 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
+        propertyDamage.setValueByIndex(3);
+        bodilyInjury.setValueByIndex(2);
         premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(false);
         assertThat(PremiumAndCoveragesTab.getActualPremium().toString()).isEqualTo("$0.00");

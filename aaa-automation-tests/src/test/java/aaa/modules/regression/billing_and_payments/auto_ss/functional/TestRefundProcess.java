@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -21,13 +21,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
@@ -1213,16 +1211,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	private String policyCreation() {
 		mainApp().open();
-		getCopiedPolicy();
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}
 
-
-	@AfterClass(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	private void deleteMultipleLastPaymentRequests() {
 		for (HelperWireMockStub wireMockStubObject : requestIdList) {
 			wireMockStubObject.cleanUp();
