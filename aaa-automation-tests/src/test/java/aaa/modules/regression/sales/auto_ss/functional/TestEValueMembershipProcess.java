@@ -36,7 +36,6 @@ import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
@@ -1279,8 +1278,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		if (clearExgPasArchiveFolder) {
-			//RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive");
-			//RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive");
 			try {
 				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
 				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
@@ -1293,7 +1290,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		Waiters.SLEEP(5000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
 		Waiters.SLEEP(5000).go();
-		//RemoteHelper.clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		try {
 			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound" + "/*.*"));
 		} catch (JSchException | SftpException e) {
@@ -1348,39 +1344,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				+ "        order by id desc)\n"
 				+ "where rownum=1)";
 		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
-	}
-
-	/**
-	 * Check if getHintValue works
-	 * @param state
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void getHint(@Optional("VA") String state) {
-		mainApp().open();
-		SearchPage.openPolicy("VASS952918544");
-		PolicySummaryPage.buttonTransactionHistory.click();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).isNotEqualTo("eValue Discount Removed - Paperless");
-	}
-
-	/**
-	 * Check if getWarning works
-	 * @param state
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
-	public void getWarning(@Optional("VA") String state) {
-		mainApp().open();
-		SearchPage.openQuote("QVASS952918545");
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		DriverTab driverTab = new DriverTab();
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED).setValue("01");
-		assertThat(driverTab.getAssetList().getWarning(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED).getValue()).contains("Age First Licensed must be 14 or greater");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DATE_OF_BIRTH).setValue("01/01/2022");
-		assertThat(driverTab.getAssetList().getWarning(AutoSSMetaData.DriverTab.DATE_OF_BIRTH).getValue()).contains("The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and ");
 	}
 
 	private void lastTransactionHistoryExit() {
