@@ -267,6 +267,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-12336 Automated refunds are not generated
 		CustomAssert.assertTrue("Refund".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()));
 		approvedRefundVoid();
 

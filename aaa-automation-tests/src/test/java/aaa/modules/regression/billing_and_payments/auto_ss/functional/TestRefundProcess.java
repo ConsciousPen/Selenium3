@@ -1223,4 +1223,5 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		}
 		requestIdList.clear();
 	}
+
 }
