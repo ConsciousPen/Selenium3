@@ -204,11 +204,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
         AutoSSForms.AutoSSPolicyFormsController policyForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.POLICY_FORMS);
         assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2).getValue()).isEqualTo(formDesc);
-        assertThat(policyForms.getRemoveLink(formId)).isEnabled();
-        formsTab.saveAndExit();
-
-        //PAS-11509 AC1
-
+        assertThat(policyForms.getRemoveLink(formId)).isPresent(false);
         formsTab.saveAndExit();
 
     }
@@ -216,6 +212,6 @@ public class TestEUIMForms extends AutoSSBaseTest {
     private void verifyGoddPage() {
         policy.quoteDocGen();
 
-        //TODO Verify form is able to generated from GoDD page
+        //TODO Verify form is able to be generated on GoDD page
     }
 }
