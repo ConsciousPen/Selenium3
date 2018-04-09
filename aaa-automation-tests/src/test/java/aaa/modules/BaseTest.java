@@ -364,6 +364,22 @@ public class BaseTest {
 		return policies;
 	}
 
+	/**
+	 * Create Conversion Policy using default TestData
+	 *
+	 * @return policy number
+	 */
+	protected String createConversionPolicy() {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		TestData tdPolicy = getConversionPolicyDefaultTD();
+		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
+		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
+		log.info("Policy Creation Started...");
+		getPolicyType().get().getDefaultView().fill(tdPolicy);
+		String policyNumber = PolicySummaryPage.linkPolicy.getValue();
+		return policyNumber;
+	}
+
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerIndividual, fileName, tdName);
 	}
@@ -384,6 +400,9 @@ public class BaseTest {
 	}
 
 	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td==null) {
+			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+		}
 		if (td.containsKey(getStateTestDataName(tdName))) {
 			td = td.getTestData(getStateTestDataName(tdName));
 			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));

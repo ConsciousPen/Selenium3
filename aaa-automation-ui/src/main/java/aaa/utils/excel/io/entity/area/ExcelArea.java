@@ -1,14 +1,7 @@
 package aaa.utils.excel.io.entity.area;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -41,8 +34,12 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
 		this.sheet = sheet;
-		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? new HashSet<>(columnsIndexesOnSheet) : getColumnsIndexes(sheet);
-		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? new HashSet<>(rowsIndexesOnSheet) : getRowsIndexes(sheet);
+		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
+				? new LinkedHashSet<>(columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+				: getColumnsIndexes(sheet);
+		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet)
+				? new LinkedHashSet<>(rowsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+				: getRowsIndexes(sheet);
 		this.excelManager = excelManager;
 		this.cellTypes = new HashSet<>(cellTypes);
 		this.considerRowsOnComparison = true;
@@ -142,10 +139,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		ExcelArea<?, ?, ?> otherArea = (ExcelArea<?, ?, ?>) other;
 		conditions.add(Objects.equals(getPoiSheet().getSheetName(), otherArea.getPoiSheet().getSheetName()));
 		conditions.add(Objects.equals(getCellTypes(), otherArea.getCellTypes()));
-		if (this.considerRowsOnComparison) {
+		if (isRowsComparisonRuleSet() && otherArea.isRowsComparisonRuleSet()) {
 			conditions.add(Objects.equals(getRowsIndexes(), otherArea.getRowsIndexes()));
 		}
-		if (this.considerColumnsOnComparison) {
+		if (isColumnsComparisonRuleSet() && otherArea.isColumnsComparisonRuleSet()) {
 			conditions.add(Objects.equals(getColumnsIndexes(), otherArea.getColumnsIndexes()));
 		}
 
@@ -185,10 +182,22 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this;
 	}
 
-	public ExcelArea<CELL, ROW, COLUMN> setComparisonRules(boolean considerRowsOnComparison, boolean considerColumnsOnComparison) {
+	public ExcelArea<CELL, ROW, COLUMN> considerRowsOnComparison(boolean considerRowsOnComparison) {
 		this.considerRowsOnComparison = considerRowsOnComparison;
+		return this;
+	}
+
+	public ExcelArea<CELL, ROW, COLUMN> considerColumnsOnComparison(boolean considerColumnsOnComparison) {
 		this.considerColumnsOnComparison = considerColumnsOnComparison;
 		return this;
+	}
+
+	public boolean isRowsComparisonRuleSet() {
+		return this.considerRowsOnComparison;
+	}
+
+	public boolean isColumnsComparisonRuleSet() {
+		return this.considerColumnsOnComparison;
 	}
 
 	public CELL getFirstColumnCell(int rowIndex) {
@@ -406,10 +415,10 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 				maxCellsNumber = row.getLastCellNum();
 			}
 		}
-		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toSet());
+		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	private Set<Integer> getRowsIndexes(Sheet sheet) {
-		return IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toSet());
+		return IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 }

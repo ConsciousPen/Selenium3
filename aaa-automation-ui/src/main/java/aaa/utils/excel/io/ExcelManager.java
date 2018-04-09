@@ -112,8 +112,8 @@ public class ExcelManager {
 	}
 
 	public ExcelSheet getSheet(String sheetName) {
-		assertThat(hasSheet(sheetName)).as("There is no sheet with \"%1$s\" name in \"%2$s\" file", sheetName, getFile()).isTrue();
-		return getSheets().stream().filter(s -> s.getSheetName().equals(sheetName)).findFirst().get();
+		return getSheets().stream().filter(s -> s.getSheetName().equals(sheetName)).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no sheet with \"%1$s\" name in \"%2$s\" file", sheetName, getFile())));
 	}
 
 	public ExcelManager registerCellType(CellType<?>... cellTypes) {

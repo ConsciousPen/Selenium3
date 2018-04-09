@@ -128,6 +128,14 @@ public class TimePoints {
 		return getTimepoint(date, TimepointsList.PRERENEWAL_LETTER, true);
 	}
 
+	public LocalDateTime getMortgageeBillFirstRenewalReminder(LocalDateTime date)  {
+		return getTimepoint(date, TimepointsList.MORTGAGEE_BILL_FIRST_RENEW_REMINDER_NOTICE, true);
+	}
+
+	public LocalDateTime getMortgageeBillFinalExpirationNotice(LocalDateTime date)  {
+		return getTimepoint(date, TimepointsList.MORTGAGEE_BILL_FINAL_EXP_NOTICE, true);
+	}
+
 	public LocalDateTime getUpdatePolicyStatusDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.UPDATE_POLICY_STATUS, true);
 	}
@@ -201,7 +209,13 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date, PolicyType policyType, String state) {
-		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
+		// updated according to https://csaaig.atlassian.net/browse/PAS-10214
+		//return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true); 
+		if (PolicyType.AUTO_SS.equals(policyType)) {
+			return getTimepoint(getCancellationTransactionDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
+		} else {
+			return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
+		}
 	}
 
 	public LocalDateTime getPayLapsedRenewShort(LocalDateTime date) {
@@ -281,6 +295,8 @@ public class TimePoints {
 		RENEW_GENERATE_PREVIEW("Renew generate preview"), //
 		RENEW_GENERATE_OFFER("Renew generate offer"), //
 		PRERENEWAL_LETTER("Pre-renewal letter"), //
+		MORTGAGEE_BILL_FIRST_RENEW_REMINDER_NOTICE("Mortgagee Bill First Renewal"), //
+		MORTGAGEE_BILL_FINAL_EXP_NOTICE("Mortgagee Bill Final Exp"), //
 		BILL_GENERATION("Bill generation"), //
 		OFFCYCLE_BILL_GENERATION("Offcycle bill generation"), //
 		BILL_PAYMENT("Bill payment"), //

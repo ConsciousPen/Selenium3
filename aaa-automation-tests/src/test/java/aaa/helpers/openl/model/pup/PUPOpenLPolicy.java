@@ -2,10 +2,7 @@ package aaa.helpers.openl.model.pup;
 
 import static aaa.helpers.openl.model.OpenLFile.COVERAGE_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_COVERAGE_SHEET_NAME;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_RISK_ITEM_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_RISK_ITEM_SHEET_NAME;
+import static aaa.helpers.openl.model.pup.PUPOpenLFile.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +35,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	private Boolean permittedOccupancyInd;
 	private Integer rentalUnitsCount;
 	private String signature;
+	private Integer term;
 
 	public List<PUPOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
@@ -95,6 +93,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		this.dropDownInd = dropDownInd;
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -189,6 +188,15 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	@Override
+	public Integer getTerm() {
+		return term != null ? term : 12;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
 	}
 
 	@Override

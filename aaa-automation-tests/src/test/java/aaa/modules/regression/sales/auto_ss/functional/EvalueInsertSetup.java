@@ -26,6 +26,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointUpdate() {
+
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
 	}
 
@@ -39,7 +40,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
 	}
 
-	@Test(description = "Precondition for AHDRXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	//AHDRXX is not currently turned on for all states and products
+	@Test(enabled = false, description = "Precondition for AHDRXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void ahdrxxConfigCheckUpdate() {
 		List<String> configForStatesLimits = Arrays.asList(
 				"VA"
@@ -51,7 +53,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		}
 	}
 
-	@Test(description = "Precondition for AHDEXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	//AHDRXX is not currently turned on for all states and products
+	@Test(enabled = false, description = "Precondition for AHDEXX form generation", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void ahdexxConfigCheckUpdate() {
 		List<String> configForStatesLimits = Arrays.asList(
 				"VA"
@@ -65,7 +68,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for eValue related Document Generation, different endpoint than Master or PAS13", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueDocGenStubEndpointInsert() {
-		if (!PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH).isEmpty() && !Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			log.info("not a scrum env");
 			DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
 			DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
@@ -116,7 +119,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
 
-	@Test(description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	@Test(enabled = false, description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);
 	}
@@ -152,7 +155,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {
-		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
 	}
 
 	@Test(description = "Precondition updating pending refund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -179,6 +182,16 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void workaroundForJobsNBplus15plus30runNoChecksPAS_6162() {
 		if (!DBService.get().getValue("select id from ReportEntity where id in (2492384000)").isPresent()) {
 			DBService.get().executeUpdate("insert into ReportEntity (ID) values (2492384000)");
+		}
+	}
+
+	@Test(description = "Precondition updating Payperless Preferences Popup Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void preconditionsForMiniServicesAuthenticationInAws() {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)+"/as/token.oauth2"));
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientId", "cc_PAS"));
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientSecret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"));
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.grantType", "urn:pingidentity.com:oauth2:grant_type:validate_bearer"));
 		}
 	}
 }

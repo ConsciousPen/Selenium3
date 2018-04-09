@@ -128,7 +128,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		new DriverTab().fillTab(testData).submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		new PremiumAndCoveragesTab().btnCalculatePremium().click();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 		new DriverActivityReportsTab().getAssetList().getAsset(VALIDATE_DRIVING_HISTORY.getLabel(), Button.class).click();

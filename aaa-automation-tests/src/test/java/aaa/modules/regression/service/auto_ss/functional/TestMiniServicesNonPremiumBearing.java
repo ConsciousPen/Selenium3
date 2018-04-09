@@ -20,10 +20,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
@@ -65,7 +65,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas1441_emailChangeOutOfPas(@Optional("VA") String state) {
 
 		CustomAssert.enableSoftMode();
-		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
+		pas1441_emailChangeOutOfPasTestBody();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -84,7 +84,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
 	public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("VA") String state) {
 
-		pas6560_endorsementValidateAllowedNoEffectiveDate(getPolicyType());
+		pas6560_endorsementValidateAllowedNoEffectiveDate();
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568"})
 	public void pas6560_endorsementValidateAllowed(@Optional("VA") String state) {
 
-		pas6560_endorsementValidateAllowed(getPolicyType());
+		pas6560_endorsementValidateAllowed();
 	}
 
 	/**
@@ -504,7 +504,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForActiveRenewal(@Optional("VA") String state) {
 
-		pas9716_policySummaryForActiveRenewal(getPolicyType(), state);
+		pas9716_policySummaryForActiveRenewalBody(state);
 	}
 
 	/**
@@ -561,26 +561,29 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Policy lock unlock functionality using services
+	 * @name Policy lock unlock functionality using services / sessionId.
 	 * @scenario
 	 * 1. Create active policy.
-	 * 2. Hit lock service. Check service status.
-	 * 3. Go to policy in PAS.
-	 * 4. Start do endorsement.
-	 * 5. Check if policy is locked.
-	 * 6. Hit Unlock service. Check service status.
-	 * 7. Open policy in PAS again.
-	 * 8. Start do endorsement.
-	 * 9. Check if policy is unlocked.
-	 * 10. Try to lock policy using lock service. Check service status.
-	 * 11. Try to unlock policy using unlock service. Check service status.
+	 * 2. Hit lock service with sessionId1. Check service status.
+	 * 3. Hit start endorsement info service with sessionId1.
+	 * 4. Hit stat endorsement info service with sessionId2. Check error.
+	 * 5. Try to lock policy with sessionId2. Check error.
+	 * 6. Go to policy in PAS.
+	 * 7. Start do endorsement.
+	 * 8. Check if policy is locked.
+	 * 9. Hit Unlock service with sessionId2. Check error.
+	 * 10. Hit Unlock service with sessionId1. Check service status.
+	 * 11. Open policy in PAS again.
+	 * 12.  Start do endorsement.
+	 * 13. Check if policy is unlocked.
+	 * 14. Try to lock policy using lock service. Check service status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455", "PAS-10825"})
 	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
 
-		pas9456_9455_PolicyLockUnlockServices(getPolicyType());
+		pas9456_9455_PolicyLockUnlockServices();
 	}
 
 	/**
@@ -617,24 +620,139 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name Check Vehicle status using view vehicle service
+	 * @name Check Vehicle status using view vehicle service/ check endorsement rate service
 	 * @scenario
 	 * 1. Create active policy with one vehicle.
 	 * 2. Create Endorsement using dxp server.
-	 * 3. Hit the view vehicle service.
-	 * 4. Check the vehicles status.
-	 * 5. Go to in policy view and bind pended endorsement.
-	 * 6. Hit the view vehicle service again.
-	 * 7. Check if Pended vehicle status was changed.
+	 * 3. Hit rate endorsement service.
+	 * 4. Check premium amount in service and UI, check the endorsement status.
+	 * 5. Add new vehicle.
+	 * 6. Hit the view vehicle service.
+	 * 7. Check the vehicles status.
+	 * 8. Edit endorsement, add usage for new vehicle. Save it.
+	 * 9. Hit rating service.
+	 * 10. Check if premium amount from ui and from service is the same. Check endorsement status again.
+	 * 11. Bind pended endorsement.
+	 * 12. Hit the view vehicle service again.
+	 * 13. Check if Pended vehicle status was changed.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
 	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
 
-		pas9490_ViewVehicleServiceCheckVehiclesStatus(getPolicyType());
+		pas9490_ViewVehicleServiceCheckVehiclesStatus();
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Verify update vehicle service
+	 * @scenario
+	 * 1. Create active policy with one vehicle.
+	 * 2. hit view vehicle service.
+	 * 3. get OID from view vehicle service.
+	 * 4. hit update vehicle service.
+	 * 5. verify on Pas ui that vehicle updated with the provided information
+	 * 6. hit view vehicle service again to verify vehicle information is updated.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9610"})
+	public void pas9610_UpdateVehicleService(@Optional("VA") String state) {
+
+		pas9610_UpdateVehicleService();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy with 2 driver and 2 vehicle
+	 * Create pended endorsement using DXP
+	 * For 2 driver and 1 vehicle check primary response
+	 * Add vehicle Using DXP
+	 * Hit driver assignement service to verify unassigned response
+	 * Pas go to assign page and save
+	 * Hit driver assignement service to verify unassigned response
+	 * Verify Occasional Satatus
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
+	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
+
+		pas10484_ViewDriverAssignmentService(getPolicyType());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Bind Manually created endorsement
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Create an endorsement manually
+	 * 3. Rate endorsement manually
+	 * 4. Bind endorsement using service
+	 * 5. Check number of document records generated in aaaDocGenEntity
+	 * 6. Check Authorized By was set correctly
+	 * 7. Create and Issue one more endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
+	public void pas508_BindManualEndorsement(@Optional("VA") String state) {
+
+		pas508_BindManualEndorsement();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Bind Manually created endorsement
+	 * @scenario
+	 * 1. Create active policy
+	 * 2. Create an endorsement through service
+	 * 3. Rate endorsement through service
+	 * 4. Bind endorsement using service
+	 * 5. Check number of document records generated in aaaDocGenEntity
+	 * 6. Check Authorized By was set correctly
+	 * 7. Create and Issue one more endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-508"})
+	public void pas508_BindServiceEndorsement(@Optional("VA") String state) {
+
+		pas508_BindServiceEndorsement();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * Get actual and term premium from pas
+	 * Run view Premium service
+	 * Match both premium
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	public void pas10227_ViewPremiumServicePolicy(@Optional("VA") String state) {
+
+		pas10227_ViewPremiumServiceForPolicy();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy
+	 * create a pended endorsment
+	 * add vehicle
+	 * rate policy
+	 * hit view premium service
+	 * Validate premium with pas
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
+	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
+
+		pas10227_ViewPremiumServiceForPendedEndorsement();
+	}
 
 	@Override
 	protected String getGeneralTab() {
@@ -677,7 +795,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	@Override
-	protected AssetDescriptor<Button> getCalculatePremium() {
+	protected AssetDescriptor<JavaScriptButton> getCalculatePremium() {
 		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
 	}
 

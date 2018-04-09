@@ -2,34 +2,31 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.HashMap;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import java.util.Map;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.base.app.Application;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon {
-	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
-			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
-
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
 	private static final String DXP_CONTACT_INFO_UPDATE_ENDPOINT = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_ENDORSEMENTS_VALIDATE_ENDPOINT = "/api/v1/policies/%s/start-endorsement-info";
-	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vehicles/%s/vin-info";
+	private static final String DXP_VIN_VALIDATE_ENDPOINT = "/api/v1/policies/%s/vin-info/%s";
 	private static final String DXP_ENDORSEMENT_START_ENDPOINT = "/api/v1/policies/%s/endorsement";
 	private static final String DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_VIEW_VEHICLES_ENDPOINT = "/api/v1/policies/%s/vehicles";
@@ -37,79 +34,104 @@ public class HelperCommon {
 	private static final String DXP_VIEW_POLICY_ENDPOINT = "/api/v1/policies/%s";
 	private static final String DXP_ADD_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles";
 	private static final String DXP_LOOKUP_NAME_ENDPOINT = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
-	private static final String RATING_URL_TEMPLATE = "http://"+ PropertyProvider.getProperty(CustomTestProperties.APP_HOST)+":9089/aaa-rating-engine-app/REST/ws/home-ca";
-	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 	private static final String DXP_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
+	private static final String DXP_UPDATE_VEHICLE_ENDPOINT = "/api/v1/policies/%s/endorsement/vehicles/%s";
+	private static final String DXP_ENDORSEMENT_BIND_ENDPOINT = "/api/v1/policies/%s/endorsement/bind";
+	private static final String DXP_ENDORSEMENT_RATE_ENDPOINT = "/api/v1/policies/%s/endorsement/rate";
+	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT = "/api/v1/policies/%s/endorsement/assignments";
+	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
+	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
+	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
+	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
-		return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
+			return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+		}
+		return PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME) + endpointUrlPart;
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
 		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.ADMIN_PORT) + endpointUrlPart;
 	}
 
-	public static <T> RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
+	public static RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
 		String requestUrl = urlBuilderAdmin(ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT) + policyNumber + "/" + date;
-		RfiDocumentResponse[] result = runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
-		return result;
+		return runJsonRequestGetAdmin(requestUrl, RfiDocumentResponse[].class);
 	}
 
-	static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
-			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
-		} else {
-			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
-			request.email = emailAddressChanged;
-			request.authorizedBy = authorizedBy;
-			String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
-			runJsonRequestPostDxp(requestUrl, request);
-		}
+	public static void executeContactInfoRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
+		UpdateContactInfoRequest request = new UpdateContactInfoRequest();
+		request.email = emailAddressChanged;
+		request.authorizedBy = authorizedBy;
+		String requestUrl = urlBuilderDxp(String.format(DXP_CONTACT_INFO_UPDATE_ENDPOINT, policyNumber));
+		runJsonRequestPostDxp(requestUrl, request);
 	}
 
-	static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
+	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		ValidateEndorsementResponse validateEndorsementResponse = runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
-		return validateEndorsementResponse;
+		return runJsonRequestGetDxp(requestUrl, ValidateEndorsementResponse.class);
 	}
 
-	static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
+	public static ValidateEndorsementResponse executeEndorsementsValidate(String policyNumber, String endorsementDate, String sessionId) {
+		final RestRequestInfo<ValidateEndorsementResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.responseType = ValidateEndorsementResponse.class;
+		restRequestInfo.sessionId = sessionId;
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		if (endorsementDate != null) {
+			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
+		}
+		return runJsonRequestGetDxp(restRequestInfo);
+	}
+
+	public static VehicleUpdateResponseDto updateVehicle(String policyNumber, String oid, VehicleUpdateDto request) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_UPDATE_VEHICLE_ENDPOINT, policyNumber, oid));
+		return runJsonRequestPatchDxp(requestUrl, request, VehicleUpdateResponseDto.class);
+	}
+
+	public static AAAVehicleVinInfoRestResponseWrapper executeVinValidate(String policyNumber, String vin, String endorsementDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIN_VALIDATE_ENDPOINT, policyNumber, vin));
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAVehicleVinInfoRestResponseWrapper validateVinResponse = runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
-		return validateVinResponse;
+		return runJsonRequestGetDxp(requestUrl, AAAVehicleVinInfoRestResponseWrapper.class);
 	}
 
-	static ErrorResponseDto validateEndorsementResponseError(String policyNumber, String endorsementDate, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+	public static ErrorResponseDto validateEndorsementResponseError(String policyNumber, String endorsementDate, int status) {
+		final RestRequestInfo<ErrorResponseDto> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_ENDORSEMENTS_VALIDATE_ENDPOINT, policyNumber));
+		restRequestInfo.status = status;
+		restRequestInfo.responseType = ErrorResponseDto.class;
 		if (endorsementDate != null) {
-			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
+			restRequestInfo.url = restRequestInfo.url + "?endorsementDate=" + endorsementDate;
 		}
-		ErrorResponseDto validateEndorsementResponseError = runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
-		return validateEndorsementResponseError;
+		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
-	static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
-		PolicyLockUnlockDto validatePolicyLockStatus = runJsonRequestPostDxp(requestUrl, null, PolicyLockUnlockDto.class, status);
-		return validatePolicyLockStatus;
+	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
+		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
+		restRequestInfo.responseType = PolicyLockUnlockDto.class;
+		restRequestInfo.status = status;
+		restRequestInfo.sessionId = sessionId;
+		return runJsonRequestPostDxp(restRequestInfo);
 	}
 
-	static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
-		PolicyLockUnlockDto validatePolicyUnlockStatus = runJsonRequestDeleteDxp(requestUrl, PolicyLockUnlockDto.class, status);
-		return validatePolicyUnlockStatus;
+	public static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
+		final RestRequestInfo<PolicyLockUnlockDto> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_LOCK_UNLOCK_SERVICES, policyNumber));
+		restRequestInfo.responseType = PolicyLockUnlockDto.class;
+		restRequestInfo.status = status;
+		restRequestInfo.sessionId = sessionId;
+		return runJsonRequestDeleteDxp(restRequestInfo);
 	}
 
-	static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
+	public static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
-		Vehicle[] validateVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
-		return validateVehicleResponse;
+		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 	}
 
 	static Vehicle[] executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
@@ -121,13 +143,27 @@ public class HelperCommon {
 		return vehicle;
 	}
 
-	static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
+	public static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_VEHICLES_ENDPOINT, policyNumber));
-		Vehicle[] validateEndorsementVehicleResponse = runJsonRequestGetDxp(requestUrl, Vehicle[].class);
-		return validateEndorsementVehicleResponse;
+		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 	}
 
-	static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
+	public static DriverAssignmentDto[] pendedEndorsementDriverAssignmentInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
+	}
+
+	public static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
+	}
+
+	public static PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_ENDORSEMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
+	}
+
+	public static AAAEndorseResponse executeEndorseStart(String policyNumber, String endorsementDate) {
 		AAAEndorseRequest request = new AAAEndorseRequest();
 		request.endorsementDate = endorsementDate;
 		request.endorsementReason = "OTHPB";
@@ -136,11 +172,11 @@ public class HelperCommon {
 		if (endorsementDate != null) {
 			requestUrl = requestUrl + "?endorsementDate=" + endorsementDate;
 		}
-		AAAEndorseResponse aaaEndorseResponse = runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
-		return aaaEndorseResponse;
+		return runJsonRequestPostDxp(requestUrl, request, AAAEndorseResponse.class, Response.Status.CREATED.getStatusCode());
 	}
 
-	static PolicySummary executeViewPolicyRenewalSummary(String policyNumber, String term, int code) {
+	@SuppressWarnings("unchecked")
+	public static PolicySummary executeViewPolicyRenewalSummary(String policyNumber, String term, int code) {
 		String endPoint;
 		if ("policy".equals(term)) {
 			endPoint = DXP_VIEW_POLICY_ENDPOINT;
@@ -148,62 +184,92 @@ public class HelperCommon {
 			endPoint = DXP_VIEW_RENEWAL_ENDPOINT;
 		}
 		String requestUrl = urlBuilderDxp(String.format(endPoint, policyNumber));
-		PolicySummary policySummaryResponse = runJsonRequestGetDxp(requestUrl, PolicySummary.class, code);
-		return policySummaryResponse;
+		return runJsonRequestGetDxp(requestUrl, PolicySummary.class, code);
 	}
 
-	static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
+	@SuppressWarnings("unchecked")
+	public static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUP_NAME_ENDPOINT, lookupName, productCd, riskStateCd));
 		if (effectiveDate != null) {
 			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
 		}
-		HashMap <String, String> validateLookupResponse  = runJsonRequestGetDxp(requestUrl, HashMap.class );
-		return validateLookupResponse;
+		return runJsonRequestGetDxp(requestUrl, HashMap.class);
 	}
 
-	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
-		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
-		Application.open(swaggerUiUrl);
-		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
-
-		Waiters.SLEEP(2000).go();
-		SwaggerUiTab.policyV1Endorsements.click();
-		SwaggerUiTab.policyV1EndorsementsPost.click();
-
-		SwaggerUiTab.policyNumber.setValue(policyNumber);
-		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \"" + emailAddress + "\",\n"
-				+ "  \"authorizedBy\": \"" + authorizedBy + "\"}");
-		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
-		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
-		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
-		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
+	public static String executeEndorsementBind(String policyNumber, String authorizedBy, int status) {
+		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
+		request.authorizedBy = authorizedBy;
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_BIND_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
 	}
 
-	protected static String runJsonRequestPostDxp(String url, RestBodyRequest request) {
-		return runJsonRequestPostDxp(url, request, String.class);
+	public static PolicyPremiumInfo[] executeEndorsementRate(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
 	}
 
-	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType) {
-		return runJsonRequestPostDxp(url, request, responseType, Response.Status.OK.getStatusCode());
+	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
+		return runJsonRequestPostDxp(url, bodyRequest, String.class);
 	}
 
-	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
+	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+		return runJsonRequestPostDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.bodyRequest = bodyRequest;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestPostDxp(restRequestInfo);
+	}
+
+	public static <T> T runJsonRequestPostDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			response = createJsonRequest(client, request.url, request.sessionId).post(Entity.json(request.bodyRequest));
+			T responseObj = response.readEntity(request.responseType);
+			if (response.getStatus() != request.status) {
+				//handle error
+				throw new IstfException("POST json request failed");
+			}
+			return responseObj;
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType) {
+		return runJsonRequestPatchDxp(url, request, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient()
+					.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
+					.register(JacksonJsonProvider.class);
 			WebTarget target = client.target(url);
 
 			response = target
 					.request()
 					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.post(Entity.json(request));
+					.method("PATCH", Entity.json(request));
 			T responseObj = response.readEntity(responseType);
 			log.info(response.toString());
 			if (response.getStatus() != status) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("POST?PATCH? json response failed");
 			}
 			return responseObj;
 		} finally {
@@ -221,22 +287,24 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, int status) {
+		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestDeleteDxp(restRequestInfo);
+	}
+
+	public static <T> T runJsonRequestDeleteDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.delete();
-			T responseObj = response.readEntity(responseType);
+			response = createJsonRequest(client, request.url, request.sessionId).delete();
+			T responseObj = response.readEntity(request.responseType);
 			log.info(response.toString());
-			if (response.getStatus() != status) {
+			if (response.getStatus() != request.status) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("DELETE json request failed");
 			}
 			return responseObj;
 		} finally {
@@ -249,29 +317,30 @@ public class HelperCommon {
 		}
 	}
 
-	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
-		T result = runJsonRequestGetDxp(url, responseType, 200);
-		return result;
+	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
+		return runJsonRequestGetDxp(url, responseType, 200);
 	}
 
-	private static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
+	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType, int status) {
+		final RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestGetDxp(restRequestInfo);
+	}
+
+	public static <T> T runJsonRequestGetDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("admin:admin".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.get();
-			T result = response.readEntity(responseType);
+			response = createJsonRequest(client, request.url, request.sessionId).get();
+			T result = response.readEntity(request.responseType);
 			log.info(response.toString());
-				if (response.getStatus() != status) {
-					//handle error
-					throw new IstfException(response.readEntity(String.class));
-				}
+			if (response.getStatus() != request.status) {
+				//handle error
+				throw new IstfException("GET json request failed");
+			}
 
 			return result;
 		} finally {
@@ -300,7 +369,7 @@ public class HelperCommon {
 			log.info(response.toString());
 			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 				//handle error
-				throw new IstfException(response.readEntity(String.class));
+				throw new IstfException("GET json request failed");
 			}
 			return result;
 		} finally {
@@ -313,4 +382,55 @@ public class HelperCommon {
 		}
 	}
 
+	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
+		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
+			final String token = getBearerToken();
+			if (StringUtils.isNotEmpty(token)) {
+				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+			}
+		}
+		return builder.header(APPLICATION_CONTEXT_HEADER, createApplicationContext(sessionId));
+	}
+
+	private static String getBearerToken() {
+		Client client = null;
+		Response response = null;
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)
+					+ PropertyProvider.getProperty(CustomTestProperties.PING_HOST));
+			response = target
+					.request()
+					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
+					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
+
+			final Map result = response.readEntity(HashMap.class);
+
+			return result.get("access_token").toString();
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+	private static String createApplicationContext(String sessionId) {
+		try {
+			final ApplicationContext applicationContext = new ApplicationContext();
+			applicationContext.address = "AutomationTest";
+			applicationContext.application = "AutomationTest";
+			applicationContext.correlationId = Guid.GUID.newGuid().toString();
+			applicationContext.subSystem = "AutomationTest";
+			applicationContext.transactionType = "AutomationTest";
+			applicationContext.userId = "MyPolicy";
+			applicationContext.sessionId = sessionId;
+			return DEFAULT_OBJECT_MAPPER.writeValueAsString(applicationContext);
+		} catch (JsonProcessingException e) {
+			throw new IstfException("Failed to create application context");
+		}
+	}
 }

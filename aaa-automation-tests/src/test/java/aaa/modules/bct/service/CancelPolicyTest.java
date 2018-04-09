@@ -31,7 +31,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		deletePendingTransaction(policy);
 		policy.cancel().perform(getTestSpecificTD("Cancellation_005"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
@@ -57,7 +57,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		deletePendingTransaction(policy);
 		policy.cancel().perform(getTestSpecificTD("Cancellation_009"));
 
 		// Check if Status is updated to Policy Cancelled in the UI
@@ -83,7 +83,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		Dollar totalDue = BillingSummaryPage.getTotalDue().add(new Dollar(1));
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		BillingSummaryPage.openPolicy(1);
 

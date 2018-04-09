@@ -1,11 +1,9 @@
 package aaa.helpers.openl.model.auto_ca.select;
 
-import aaa.helpers.openl.model.OpenLDriver;
+import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 
-public class AutoCaSelectOpenLDriver extends OpenLDriver {
+public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 	private Boolean drivesync;
-	private Boolean goodDriver;
-	private Boolean matureDriver;
 	private Boolean newDriver;
 	private String type;
 	private Integer yaf;
@@ -16,22 +14,6 @@ public class AutoCaSelectOpenLDriver extends OpenLDriver {
 
 	public void setDrivesync(Boolean drivesync) {
 		this.drivesync = drivesync;
-	}
-
-	public Boolean getGoodDriver() {
-		return goodDriver;
-	}
-
-	public void setGoodDriver(Boolean goodDriver) {
-		this.goodDriver = goodDriver;
-	}
-
-	public Boolean getMatureDriver() {
-		return matureDriver;
-	}
-
-	public void setMatureDriver(Boolean matureDriver) {
-		this.matureDriver = matureDriver;
 	}
 
 	public Boolean getNewDriver() {

@@ -11,8 +11,9 @@ TestData_QuoteCreation: {
 
 TestData_QuoteUpdate: {
   DriverTab: [
-    {},
+    #{},
     {
+      Add Driver: Click,
       DriverSearchDialog: {},
       Driver Type: Available for Rating,
       'Rel. to First Named Insured': Spouse,
@@ -29,6 +30,7 @@ TestData_QuoteUpdate: {
       Filling Type: SR-22
     },
     {
+      Add Driver: Click,
       DriverSearchDialog: {},
       Driver Type: Excluded,
       Reason: "Insured Requested - never drives insured's car",
@@ -59,12 +61,16 @@ TestData_QuoteUpdate: {
     }
   },
   PremiumAndCoveragesTab: {
+    DetailedVehicleCoverages: [
+    {
     Collision Deductible Waiver: 'contains=$500',
     Rental Reimbursement: 'contains=Yes',
     Towing and Labor Coverage: 'contains=Yes',
     Special Equipment Coverage: '$3,000.00',
     Special Equipment Description: special camera
-  },
+    }
+  ]
+  }
 }
 
 TestData_Purchase: {

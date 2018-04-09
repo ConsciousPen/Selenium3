@@ -4,11 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**

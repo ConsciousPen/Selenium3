@@ -192,6 +192,7 @@ public final class DocGenEnum {
 		DS0926("DS 09 26", ""),
 		DS0929("DS 09 29", "Fungi, Wet or Dry Rot, or Bacteria"),
 		DS0934("DS 09 34", ""),
+		DSACCCMD("DSACCCMD", "DSACCCMD"),
 		DS11("Application for Rental Property Insurance"),
 		DS2482("DS 24 82", ""),
 		DSIQXX("Rental Property Insurance Quote page"),
@@ -206,8 +207,10 @@ public final class DocGenEnum {
 		HS02("Owners Policy Declaration"),
 		HS02_4("HS02", "HS02_4", "Renters Policy Declarations"),
 		HS02_6("HS02", "HS02_6", "Condominium Owners Policy Declarations"),
+		HS0312("HS 03 12", "Windstorm or Hail Deductible"),
 		HS0420("HS 04 20", "HS 04 20 Endorsement"),
 		HS0435("HS 04 35", "Loss Assessment Coverage Endorsement"),
+		HS0454("HS 04 54", "Earthquake"),
 		HS0455("HS 04 55", "Identity Fraud Expense endorsement"),
 		HS0465("HS 04 65", "Coverage C Increased Special Limits of Liability endorsement"),
 		HS0477("HS 04 77", "Building Code Upgrade endorsement"),
@@ -223,6 +226,7 @@ public final class DocGenEnum {
 		HS0934("HS 09 34", "Rebuild to Green endorsement"),
 		HS0965("HS 09 65", "Jewelry, watches, furs, precious and semiprecious stones Theft Limit endorsement"),
 		HS0988("HS 09 88", "Additional Insured - Special Event"),
+		HS2473("HS 24 73", "Farmers Personal Liability"),
 		HS11("Application for Homeowners Insurance"),
 		HS11_4("HS11", "HS11_4", "Application for Renters Insurance"),
 		HS11_6("HS11", "HS11_6", "Application for Condominium Owners Insurance"),
@@ -248,6 +252,8 @@ public final class DocGenEnum {
 		HSRNMXX("Renewal Cover Letter (Mortgagee)"),
 		HSRNPUPXX("Renewal Cover Letter PUP"),
 		HSRNHODPXX("Renewal Cover Letter"),
+		HSRRXX("Mortgagee Bill First Renewal Reminder"),
+		HSRR2XX("Mortgagee Bill Final Expiration Notice"),
 		HSRNHBXX("HSRNHBXX","Renewal Reminder (Home Banking)"),
 		HSRNHBPUP("HSRNHBPUP","Renewal Reminder (Home Banking PUP)"),
 		HSRFIXX("Request for Information"),
@@ -269,6 +275,18 @@ public final class DocGenEnum {
 		HSU09XX("HSU09XX", "HSU09", "Uprate"),
 		HSVAAD("Policy holder Advisory Notice"),
 		HSMPDCNVXX("Multi-policy Discount Letter"),
+		HSAOCMDA("Maryland Statement of Additional Optional Coverages (Homeowner's)"),
+		HSSNMDA("Annual Summary of Maryland Homeowner’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
+		HSCRRMD("Important Notice Regarding Cancellation or Refusal to Renew"),
+		HSAOCMDB("Maryland Statement of Additional Optional Coverages (Renter's)"),
+		HSAOCMDC("Maryland Statement of Additional Optional Coverages (Condominium Owner's)"),
+		HSSNMDC("Annual Summary of Maryland Condominium Owner’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
+		HSSNMDB("Annual Summary of Maryland Renter’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
+		IL_09_10("IL 09 10","IL 09 10","Pennsylvania Notice"),
+		HSSCCOA("HSSCCOA", "Summary of Coverage"),
+		HSSCCOB("HSSCCOB", "Summary of Coverage"),
+		HSSCCOC("HSSCCOC", "Summary of Coverage"),
+		HSSCCOD("HSSCCOD", "Summary of Coverage"),
 		PS02("Personal Umbrella Policy Declarations"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
@@ -462,20 +480,20 @@ public final class DocGenEnum {
 	}
 
 	public static class DataElementChoiceTag {
-		public final static String TEXTFIELD = "TextField";
-		public final static String DATETIMEFIELD = "DateTimeField";
+		public static final String TEXTFIELD = "TextField";
+		public static final String DATETIMEFIELD = "DateTimeField";
 	}
 
 	public static class XmlnsNamespaces {
-		public final static String DOC_PREFIX = "doc";
-		public final static String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
-		public final static String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
+		public static final String DOC_PREFIX = "doc";
+		public static final String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
+		public static final String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
 
-		public final static String AAAN_PREFIX = "aaan";
-		public final static String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
+		public static final String AAAN_PREFIX = "aaan";
+		public static final String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
 
-		public final static String XSI_PREFIX = "xsi";
-		public final static String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+		public static final String XSI_PREFIX = "xsi";
+		public static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 	}
 
 	public enum XmlnsDbFormat {

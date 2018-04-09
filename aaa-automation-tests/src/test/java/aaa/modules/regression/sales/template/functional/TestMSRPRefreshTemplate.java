@@ -203,7 +203,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Values from VIN comp and coll symbol in excel sheet
@@ -268,7 +268,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		return DataProviderFactory.emptyData()
 				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Motor Home")
 				.adjust(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2018")
-				.adjust(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "index=1")
+				.adjust(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "OTHER")
 				.adjust(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel(), "Other Make")
 				.adjust(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Other Model")
 				.adjust(AutoCaMetaData.VehicleTab.OTHER_SERIES.getLabel(), "OTHER SERIES")

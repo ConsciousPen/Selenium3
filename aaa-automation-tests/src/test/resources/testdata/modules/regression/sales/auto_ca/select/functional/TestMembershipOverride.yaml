@@ -1,0 +1,64 @@
+TestData_Endorsement: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  MembershipTab: '@MembershipTab',
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}
+}
+
+MembershipTab: {
+  Order Report: click,
+}
+
+GeneralTab: {
+  AAAProductOwned: '@AAAProductOwned'
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Membership Override',
+#  Override Type: 'Term', #this is default, so no point to select it
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned_Yes: {
+  Current AAA Member: 'Yes',
+#  Override Type: 'Term',
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned_Override_NoDate: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+#  Membership Number: ,
+#  Last name: 'fddsf'
+}
+
+AAAProductOwned_MSNo: {
+  Current AAA Member: 'No',
+  Override Type: ,
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned_MS_Active: {
+  Current AAA Member: 'Yes',
+#  Override Type: ,
+  Membership Number: 9436258506738011,
+  Member Last Name: 'Test'
+}
+
+AAAProductOwned_MS_Override_Term: {
+  Current AAA Member: 'Membership Override',
+#  Override Type: 'Term', #this is default, so no point to selecting it
+#  Membership Number: 9436258506738011,
+#  Last name: 'fddsf' #remove
+}
+
+AAAProductOwned_MS_Override_Life: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Life'
+}

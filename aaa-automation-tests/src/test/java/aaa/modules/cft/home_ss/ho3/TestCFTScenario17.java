@@ -23,13 +23,13 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  * Check Down Payment
  */
 public class TestCFTScenario17 extends ControlledFinancialBaseTest {
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario17(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptTotalDuePlusOverpaymentOnBillGenDate(new Dollar(600));
-		issuedRefundOnStartDatePlus25(new Dollar(600));
+		automatedRefundOnStartDatePlus25(new Dollar(600));
 		verifyPolicyExpiredOnUpdatePolicyStatusDate();
 	}
 

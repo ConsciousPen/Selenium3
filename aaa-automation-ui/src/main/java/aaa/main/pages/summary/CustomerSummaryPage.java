@@ -17,7 +17,7 @@ public class CustomerSummaryPage extends SummaryPage {
     public static StaticElement labelCustomerAddress = new StaticElement(By.xpath("//span[@id='custInfoForm:address' or @id='oppInfoForm:address']"));
     public static StaticElement labelCustomerPhone = new StaticElement(By.xpath("//span[contains(@id,'phone')]"));
     public static StaticElement labelCustomerLeadSource = new StaticElement(By.id("custInfoForm:source"));
-    public static StaticElement labelCustomerDOB = new StaticElement(By.id("custInfoForm:dob"));
+    public static StaticElement labelCustomerDOB = new StaticElement(By.id("custInfoForm:birthdate"));
     public static StaticElement labelCustomerLeadStatus = new StaticElement(By.id("custInfoForm:status"));
     public static StaticElement lableCustomerType = new StaticElement(By.id("custInfoForm:customerType"));
     public static StaticElement labelMembershipInformationExpanded = new StaticElement(By.id("crmForm:participantHeaderContentExpandedMembershipInfo_0"));

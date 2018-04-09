@@ -11,7 +11,10 @@ import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
+import aaa.main.modules.policy.IPolicy;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
 
@@ -99,5 +102,12 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		log.info("Policies found by '" + queryName + "' query: " + policies);
 
 		return policies;
+	}
+
+	protected void deletePendingTransaction(IPolicy policy) {
+		if (PolicySummaryPage.buttonPendedEndorsement.isEnabled()) {
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.deletePendedTransaction().perform(new SimpleDataProvider());
+		}
 	}
 }

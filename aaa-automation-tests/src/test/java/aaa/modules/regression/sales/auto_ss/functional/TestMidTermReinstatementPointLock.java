@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
@@ -42,7 +41,7 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9687")
 	public void pas9687_MidTermReinstatementPointsLocked(@Optional("NJ") String state) {
 
@@ -55,7 +54,6 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		policy.initiate();
 
 		//Calculate premium and open view rating details
-
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
@@ -63,35 +61,29 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		String reinstatementHistory = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue();
 
 		// Issue Policy and cancel it
-
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policy.cancel().perform(getTestSpecificTD("TestData_Cancellation"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		//Change system date to get policy reinstated with lapse
-
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		//Reinstate policy
-
-		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstatement"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
 		//Endorse policy and check reinstatementHistory score
-
-		policy.endorse().perform(getTestSpecificTD("TestData_Endorse"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		//Check that the saved value is the same during mid term endorsement even after reinstatement was made
+		//Check that the saved value is the same during mid term endorsement even after reinstatement was made. Change time back to current day.
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue()).isEqualTo(reinstatementHistory);
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
 	}
 }

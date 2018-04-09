@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import aaa.utils.excel.io.ExcelManager;
@@ -102,28 +104,33 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		return getTable(row.getIndex(), null, ignoreCase, headerColumnsNames);
 	}
 
-	public ExcelTable getTable(int headerRowIndex, String... headerColumnsNames) {
-		return getTable(headerRowIndex, null, false, headerColumnsNames);
+	public ExcelTable getTable(int headerRowIndexOnSheet, String... headerColumnsNames) {
+		return getTable(headerRowIndexOnSheet, null, headerColumnsNames);
+	}
+
+	public ExcelTable getTable(int headerRowIndexOnSheet, Set<Integer> rowsIndexesInTable, String... headerColumnsNames) {
+		return getTable(headerRowIndexOnSheet, rowsIndexesInTable, false, headerColumnsNames);
 	}
 
 	/**
-	 *  Get ExcelTable object on current sheet with provided {@code headerColumnsNames} header columns found in {@code headerRowIndex} row number.
+	 *  Get ExcelTable object on current sheet with provided {@code headerColumnsNames} header columns found in {@code headerRowIndexOnSheet} row number.
 	 *
-	 * @param headerRowIndex Table's header row number on current sheet. Index starts from 1
-	 * @param rowsIndexes rows indexes on current sheet to be used as table rows. If null then all rows from header row up to first row with all empty {@code headerColumnsNames} will be used as tables' rows
-	 * @param ignoreCase if true then ignore header column names while searching header columns indexes within {@code headerRowIndex} row
-	 * @param headerColumnsNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndex} will be used as column names
+	 * @param headerRowIndexOnSheet Table's header row number on current sheet. Index starts from 1
+	 * @param rowsIndexesInTable rows indexes in table to be used as table rows. If null then all rows from header row up to first row with all empty {@code headerColumnsNames} will be used as tables' rows
+	 * @param ignoreCase if true then ignore header column names while searching header columns indexes within {@code headerRowIndexOnSheet} row
+	 * @param headerColumnsNames header column names of needed ExcelTable. If array is empty then all columns from {@code headerRowIndexOnSheet} will be used as column names
 	 * @return {@link ExcelTable} object representation of found excel table
 	 */
-	public ExcelTable getTable(int headerRowIndex, Set<Integer> rowsIndexes, boolean ignoreCase, String... headerColumnsNames) {
-		assertThat(headerRowIndex).as("Header row number should be greater than 0").isPositive();
-		SheetRow headerRow = getRow(headerRowIndex);
+	public ExcelTable getTable(int headerRowIndexOnSheet, Set<Integer> rowsIndexesInTable, boolean ignoreCase, String... headerColumnsNames) {
+		assertThat(headerRowIndexOnSheet).as("Header row number should be greater than 0").isPositive();
+		SheetRow headerRow = getRow(headerRowIndexOnSheet);
 		assertThat(headerRow.isEmpty()).as("Header row should not be empty").isFalse();
-		Set<Integer> columnsIndexes = null;
+		Set<Integer> columnsIndexesOnSheet = null;
+		Set<Integer> rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesInTable) ? rowsIndexesInTable.stream().map(r -> r + headerRowIndexOnSheet).collect(Collectors.toSet()) : null;
 
 		if (ArrayUtils.isNotEmpty(headerColumnsNames)) {
 			Set<String> missedHeaderColumnsNames = new HashSet<>(Arrays.asList(headerColumnsNames));
-			columnsIndexes = new HashSet<>();
+			columnsIndexesOnSheet = new HashSet<>();
 			for (SheetCell cell : headerRow) {
 				String cellValue = cell.getStringValue();
 				if (cellValue == null) {
@@ -132,20 +139,22 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 
 				Predicate<String> cellValueEqualsToHeaderName = ignoreCase ? cellValue::equalsIgnoreCase : cellValue::equals;
 				if (missedHeaderColumnsNames.removeIf(cellValueEqualsToHeaderName)) {
-					columnsIndexes.add(cell.getColumnIndex());
+					columnsIndexesOnSheet.add(cell.getColumnIndex());
 				}
 			}
 
 			if (!missedHeaderColumnsNames.isEmpty()) {
-				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s on sheet \"%3$s\"", missedHeaderColumnsNames, headerRowIndex, getSheetName()));
+				throw new IstfException(String.format("There are missed header columns %1$s in row number %2$s on sheet \"%3$s\"", missedHeaderColumnsNames, headerRowIndexOnSheet, getSheetName()));
 			}
 		}
 
-		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexes, rowsIndexes, this, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow.getPoiRow(), columnsIndexesOnSheet, rowsIndexesOnSheet, this, getCellTypes());
+		t.considerRowsOnComparison(isRowsComparisonRuleSet());
+		t.considerColumnsOnComparison(isColumnsComparisonRuleSet());
 		return addTable(t).getTable(t);
 	}
 
 	ExcelTable getTable(ExcelTable table) {
-		return this.tables.stream().filter(t -> t.equals(table)).findFirst().orElseThrow(() -> new IstfException("Table element does not exist in internal tables collection"));
+		return this.tables.stream().filter(t -> t.equals(table)).findFirst().orElseThrow(() -> new IstfException("Internal tables collection does not contain: " + table));
 	}
 }

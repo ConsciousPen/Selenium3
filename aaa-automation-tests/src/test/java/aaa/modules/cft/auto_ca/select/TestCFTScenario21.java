@@ -24,7 +24,7 @@ import toolkit.utils.TestInfo;
  */
 public class TestCFTScenario21 extends ControlledFinancialBaseTest {
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario21(@Optional(StringUtils.EMPTY) String state) {
@@ -34,7 +34,7 @@ public class TestCFTScenario21 extends ControlledFinancialBaseTest {
 		generateRenewalOfferBill();
 		verifyRenewCustomerDecline();
 		acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(new Dollar(400));
-		issuedRefundOnRefundDate();
+		issueAutomatedRefundOnRefundDate();
 		verifyEscheatmentOnExpDatePlus25Plus13Months();
 	}
 

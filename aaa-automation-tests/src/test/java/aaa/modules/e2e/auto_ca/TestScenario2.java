@@ -44,8 +44,9 @@ public class TestScenario2 extends Scenario2 {
 			payEighthBill();
 			generateNinthBill();
 			payNinthBill();
+			renewalImageGeneration(); // from 01.03 (after February)
 			generateTenthBill();
-			renewalImageGeneration();
+			//renewalImageGeneration(); // February fall into period from R-81 to R
 			payTenthBill();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();

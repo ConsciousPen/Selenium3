@@ -51,14 +51,17 @@ public class TestScenario2 extends Scenario2 {
 				renewalImageGeneration();
 				generateTenthBill();
 			} else {
+				if (getState().equals(Constants.States.KY)) {
+					renewalPreviewGeneration(); // from 01.03
+				}
 				generateTenthBill();
 				if (!getState().equals(Constants.States.KY)) {
 					renewalImageGeneration();
 				}
 			}
-			if (getState().equals(Constants.States.KY)) {
-				renewalPreviewGeneration();
-			}
+			//if (getState().equals(Constants.States.KY)) {
+			//	renewalPreviewGeneration(); // February fall into period from R-80 to R
+			//}
 			payTenthBill();
 			if (!getState().equals(Constants.States.KY)) {
 				renewalPreviewGeneration();
