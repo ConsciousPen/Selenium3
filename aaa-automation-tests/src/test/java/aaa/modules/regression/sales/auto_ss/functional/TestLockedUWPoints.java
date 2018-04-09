@@ -17,7 +17,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -109,6 +108,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
 
 		// Override insurance score
@@ -161,6 +161,19 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Create Policy
 		mainApp().open();
 		getCopiedPolicy();
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		// Change Time to renew policy and have and issued renewal
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+		// Initiate Renewal and Navigate to P&C Page.
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.renew().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.submitTab();
 
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
