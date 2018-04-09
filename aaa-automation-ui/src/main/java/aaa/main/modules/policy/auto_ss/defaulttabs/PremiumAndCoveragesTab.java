@@ -57,6 +57,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
 	public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
+	public static StaticElement eValuePaperlessWarning = new StaticElement(By.id("policyDataGatherForm:eMemberDetails_electronicMemberDetailsEntity_electronicMemberOpt_error"));
     public static StaticElement enhancedUIMHelpText = new StaticElement(By.id("policyDataGatherForm:policy_vehicle_detail_coverage:2:Coveragecd"));
     public static StaticElement enhancedUIMBIHelpText = new StaticElement(By.id("policyDataGatherForm:policy_vehicle_detail_coverage:3:Coveragecd"));
     public static StaticElement enhancedUIMPDHelpText = new StaticElement(By.id("policyDataGatherForm:policy_vehicle_detail_coverage:4:Coveragecd"));
