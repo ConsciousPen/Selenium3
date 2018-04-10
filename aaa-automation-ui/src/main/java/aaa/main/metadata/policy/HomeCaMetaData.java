@@ -1179,7 +1179,7 @@ public final class HomeCaMetaData {
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> GOLF_EQUIPMENT = declare("Golf equipment", PersonalPropertyMultiAssetList.class, GolfEquipment.class, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyGolfItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> JEWELRY = declare("Jewelry", PersonalPropertyMultiAssetList.class, Jewelry.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItem']"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItemHO3HO4']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> MUSICAL_INSTRUMENTS = declare("Musical instruments", PersonalPropertyMultiAssetList.class, MusicalInstruments.class, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> POSTAGE_STAMPS = declare("Postage stamps", PersonalPropertyMultiAssetList.class, PostageStamps.class, By
