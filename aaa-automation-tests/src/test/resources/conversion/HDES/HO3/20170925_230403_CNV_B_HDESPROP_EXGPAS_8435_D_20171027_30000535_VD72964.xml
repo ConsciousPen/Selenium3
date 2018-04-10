@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005391</agencyLocation>
+    <agentCd>80884684</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2017-12-15T00:00:00</effective>
+    <expiration>2018-12-15T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO3</policyFormCd>
+    <preConversionPolicyNumber>VD72964</preConversionPolicyNumber>
+    <preConversionPolicyPremium>2457</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>VD72964</sourcePolicyNum>
+    <subProducerCd>80884684</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>FONTANA</dwellAddressCity>
+      <dwellAddressLine1>15007 GRAYS PEAK AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>92336</dwellAddressZip>
+      <expirationDate>2018-01-25T00:00:00</expirationDate>
+      <orderDate>2017-10-27T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>5592171619</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>No</insurerCd>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1960-07-14T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>JERRY</firstName>
+      <lastName>MARKIN</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>15007 GRAYS PEAK AVE</addressLine1>
+        <city>FONTANA</city>
+        <dateOfBirth>1960-07-14T00:00:00</dateOfBirth>
+        <expirationDt>2017-12-26T00:00:00</expirationDt>
+        <firstName>JERRY</firstName>
+        <lastName>MARKIN</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-10-27T00:00:00</orderDate>
+        <postalCode>92336</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>15007 GRAYS PEAK AVE</addressLine1>
+        <city>FONTANA</city>
+        <countryCd>US</countryCd>
+        <postalCode>92336</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ANGELIQUE</firstName>
+      <lastName>SCHAUM</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>15007 GRAYS PEAK AVE</addressLine1>
+        <city>FONTANA</city>
+        <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+        <expirationDt>2017-12-26T00:00:00</expirationDt>
+        <firstName>ANGELIQUE</firstName>
+        <lastName>SCHAUM</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-10-27T00:00:00</orderDate>
+        <postalCode>92336</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>15007 GRAYS PEAK AVE</addressLine1>
+        <city>FONTANA</city>
+        <countryCd>US</countryCd>
+        <postalCode>92336</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2008-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>9</noOfYearsWithHO>
+      <policyType>HO3</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>FONTANA</dwellAddressCity>
+      <dwellAddressLine1>15007 GRAYS PEAK AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>92336</dwellAddressZip>
+      <expirationDate>2017-12-26T00:00:00</expirationDate>
+      <isoReplacementCost>674500</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>1</numberOfStories>
+      <orderDate>2017-10-27T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Other</roofType>
+      <status>Valid</status>
+      <yearBuilt>2001</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>FONTANA</dwellAddressCity>
+      <dwellAddressLine1>15007 GRAYS PEAK AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>92336</dwellAddressZip>
+      <expirationDate>2017-12-26T00:00:00</expirationDate>
+      <orderDate>2017-10-27T00:00:00</orderDate>
+      <ppcValue>5</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>true</docReceivedInd>
+      <documentCd>1POCFA</documentCd>
+      <documentText>Proof of central fire alarm</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>true</docReceivedInd>
+      <documentCd>2POCTA</documentCd>
+      <documentText>Proof of central theft alarm</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>2</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+      <addressLine1>15007 GRAYS PEAK AVE</addressLine1>
+      <centralAlarmInd>true</centralAlarmInd>
+      <centralFireAlarmInd>true</centralFireAlarmInd>
+      <city>FONTANA</city>
+      <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+      <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+      <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+      <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+      <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+      <firelineMatchType>Address</firelineMatchType>
+      <numberOfFamilies>1</numberOfFamilies>
+      <overrideInspectionInd>true</overrideInspectionInd>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>92336</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>674500</limitAmount>
+      </AAACoverageA>
+      <AAACoverageB state="Created">
+        <coverageCd>CovB</coverageCd>
+        <limitAmount>67450</limitAmount>
+      </AAACoverageB>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>506100</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>269900</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>500000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <aaaFoundationType>Slab</aaaFoundationType>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>674500</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <replacementCost>674500</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Other</roofType>
+        <yearBuilt>2001</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAHOLossInfo state="Created">
+        <aaaClaim>true</aaaClaim>
+        <aaaHoClaimNo>01VD72964</aaaHoClaimNo>
+        <catLoss>false</catLoss>
+        <claimCategory>3</claimCategory>
+        <incidentSource>Internal Claims</incidentSource>
+        <includeToRatingInd>true</includeToRatingInd>
+        <lossAmount>19352</lossAmount>
+        <lossDate>2013-11-25T00:00:00</lossDate>
+        <lossTypeCd>2</lossTypeCd>
+        <statusOfClaim>2</statusOfClaim>
+      </AAAHOLossInfo>
+      <AAAHOLossInfo state="Created">
+        <aaaClaim>true</aaaClaim>
+        <aaaHoClaimNo>1001401742</aaaHoClaimNo>
+        <catLoss>false</catLoss>
+        <claimCategory>3</claimCategory>
+        <incidentSource>Internal Claims</incidentSource>
+        <includeToRatingInd>true</includeToRatingInd>
+        <lossAmount>0</lossAmount>
+        <lossDate>2016-04-02T00:00:00</lossDate>
+        <lossTypeCd>2</lossTypeCd>
+        <statusOfClaim>2</statusOfClaim>
+      </AAAHOLossInfo>
+      <AAAHOLossInfo state="Created">
+        <aaaClaim>true</aaaClaim>
+        <aaaHoClaimNo>1001576371</aaaHoClaimNo>
+        <catLoss>false</catLoss>
+        <claimCategory>3</claimCategory>
+        <incidentSource>Internal Claims</incidentSource>
+        <includeToRatingInd>true</includeToRatingInd>
+        <lossAmount>0</lossAmount>
+        <lossDate>2016-07-19T00:00:00</lossDate>
+        <lossTypeCd>2</lossTypeCd>
+        <statusOfClaim>2</statusOfClaim>
+      </AAAHOLossInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>SAN BERNARDINO CO FD WEST</fireDistrict>
+        <oldPpcValue>5</oldPpcValue>
+        <ppcValue>5</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>15007 GRAYS PEAK AVE</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>FONTANA</city>
+          <county>San Bernardino</county>
+          <postalCode>92336</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO28EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO60EndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-10-27T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 15007 GRAYS PEAK AVE  FONTANA CA 92336 to 15007 GRAYS PEAK AVE  FONTANA CA 92336</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Date of birth defaulted</title>
+    <updatedOn>2017-10-27T00:00:00</updatedOn>
+    <userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+  </userNote>
+</Policy>

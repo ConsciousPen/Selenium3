@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005378</agencyLocation>
+    <agentCd>46880774</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2018-01-30T00:00:00</effective>
+    <expiration>2019-01-30T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO3</policyFormCd>
+    <preConversionPolicyNumber>1830280</preConversionPolicyNumber>
+    <preConversionPolicyPremium>1491</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>1830280</sourcePolicyNum>
+    <subProducerCd>46880774</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <HO438BFUNSEndorsementForm state="Created"/>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+      <dwellAddressLine1>1431 MORAGA ST</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94122</dwellAddressZip>
+      <expirationDate>2018-03-08T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>4156616287</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+      <workPhone>4154337500</workPhone>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>No</insurerCd>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1929-12-15T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>JOE</firstName>
+      <lastName>TAY</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>1431 MORAGA ST</addressLine1>
+        <city>SAN FRANCISCO</city>
+        <dateOfBirth>1929-12-15T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>JOE</firstName>
+        <lastName>TAY</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>94122</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>1431 MORAGA ST</addressLine1>
+        <city>SAN FRANCISCO</city>
+        <countryCd>US</countryCd>
+        <postalCode>94122</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1901-01-01T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>PUI-CHEE-TAY</firstName>
+      <lastName>TAY</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>1431 MORAGA ST</addressLine1>
+        <city>SAN FRANCISCO</city>
+        <dateOfBirth>1901-01-01T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>PUI-CHEE-TAY</firstName>
+        <lastName>TAY</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>94122</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>1431 MORAGA ST</addressLine1>
+        <city>SAN FRANCISCO</city>
+        <countryCd>US</countryCd>
+        <postalCode>94122</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>1983-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>35</noOfYearsWithHO>
+      <policyType>HO3</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+      <dwellAddressLine1>1431 MORAGA ST</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94122</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <isoReplacementCost>549600</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>2</numberOfStories>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Other</roofType>
+      <status>Valid</status>
+      <yearBuilt>1953</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+      <dwellAddressLine1>1431 MORAGA ST</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94122</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <ppcValue>1</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+      <addressLine1>1431 MORAGA ST</addressLine1>
+      <city>SAN FRANCISCO</city>
+      <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+      <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+      <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+      <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+      <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+      <firelineMatchType>Address</firelineMatchType>
+      <localAlarmInd>true</localAlarmInd>
+      <localFireAlarmInd>true</localFireAlarmInd>
+      <numberOfFamilies>1</numberOfFamilies>
+      <overrideInspectionInd>true</overrideInspectionInd>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>94122</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>549600</limitAmount>
+      </AAACoverageA>
+      <AAACoverageB state="Created">
+        <coverageCd>CovB</coverageCd>
+        <limitAmount>54960</limitAmount>
+      </AAACoverageB>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>412300</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>219900</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>500000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <aaaFoundationType>Raised</aaaFoundationType>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>549600</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>2</numberOfStories>
+        <replacementCost>549600</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Other</roofType>
+        <yearBuilt>1953</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAHOMortgageeInfo state="Created">
+        <accountNumber>7145114679</accountNumber>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>SPRINGFIELD</city>
+        <mortagageeAddressLine1>PO BOX 6723</mortagageeAddressLine1>
+        <name>OCWEN LOAN SERVICING LLC, ISAOA</name>
+        <postalCode>45501</postalCode>
+        <rank>1</rank>
+        <stateProvCd>OH</stateProvCd>
+        <useLegalMortgagee>false</useLegalMortgagee>
+      </AAAHOMortgageeInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>SAN FRANCISCO</fireDistrict>
+        <oldPpcValue>1</oldPpcValue>
+        <ppcValue>1</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>1431 MORAGA ST</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>SAN FRANCISCO</city>
+          <county>San Francisco</county>
+          <postalCode>94122</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO28EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO60EndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1431 MORAGA ST  SAN FRANCISCO CA 94122 to 1431 MORAGA ST  SAN FRANCISCO CA 94122</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Date of birth defaulted</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+  </userNote>
+</Policy>

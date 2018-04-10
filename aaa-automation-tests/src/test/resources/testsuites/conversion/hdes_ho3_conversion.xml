@@ -1,0 +1,560 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="HDES HO3 Conversion Test" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <test name="HDES HO3 Conversion Test 1" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170808_045542_CNV_B_HDESPROP_EXGPAS_8435_D_20170908_30000506_XE65055 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 2" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170816_055517_CNV_B_HDESPROP_EXGPAS_8435_D_20171222_30000510_GM40097 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 3" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170816_230901_CNV_B_HDESPROP_EXGPAS_8435_D_20170915_30000512_XE81664.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 4" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170906_090828_CNV_B_HDESPROP_EXGPAS_8435_D_20171006_30000523_6674030.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 5" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170906_090828_CNV_B_HDESPROP_EXGPAS_8435_D_20171006_30000523_GL92994.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 6" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170906_090828_CNV_B_HDESPROP_EXGPAS_8435_D_20171006_30000523_HJ31175 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 7" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170906_090828_CNV_B_HDESPROP_EXGPAS_8435_D_20171006_30000523_HU43203.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 8" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170918_220208_CNV_B_HDESPROP_EXGPAS_8435_D_20171020_30000529_HJ62493.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 9" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170925_230403_CNV_B_HDESPROP_EXGPAS_8435_D_20171027_30000535_4633152.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 10" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20170925_230403_CNV_B_HDESPROP_EXGPAS_8435_D_20171027_30000535_VD72964.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 11" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171018_133457_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000546_HK05425 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 12" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171018_222025_CNV_B_HDESPROP_EXGPAS_8435_D_20171110_30000827_GC68235.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 13" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171018_222025_CNV_B_HDESPROP_EXGPAS_8435_D_20171110_30000827_VP77232.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 14" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_0880666.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 15" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_7158967.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 16" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_VE52931.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 17" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_WH81046 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 18" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_WH81046.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 19" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_WW65057 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 20" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171103_053104_CNV_B_HDESPROP_EXGPAS_8435_D_20171117_30000841_WW65057.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 21" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171106_032557_CNV_B_HDESPROP_EXGPAS_8435_D_20171124_30000554_4305280 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 22" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171114_024231_CNV_B_HDESPROP_EXGPAS_8435_D_20171218_30000562_0922807.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 23" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171114_024231_CNV_B_HDESPROP_EXGPAS_8435_D_20171218_30000562_2710903 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 24" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171114_024231_CNV_B_HDESPROP_EXGPAS_8435_D_20171218_30000562_GD57905.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 25" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171114_024231_CNV_B_HDESPROP_EXGPAS_8435_D_20171218_30000562_GN58654 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 26" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171114_024231_CNV_B_HDESPROP_EXGPAS_8435_D_20171218_30000562_VF01767.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 27" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171114_024231_CNV_B_HDESPROP_EXGPAS_8435_D_20171218_30000562_WX19805.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 28" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_0950592 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 29" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_2025302.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 30" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_2352110 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 31" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_2586592 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 32" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_2592491.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 33" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_3603362.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 34" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_5383195 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 35" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_5383195.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 36" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_5770037.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 37" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_7742661.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 38" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_9003088 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 39" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_9080268 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 40" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_9504275.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 41" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_GD21844 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 42" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_GD36305.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 43" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_GD50066 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 44" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_GD58895.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 45" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_GN06257.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 46" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_GN44852.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 47" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_HK43327.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 48" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_HK52260 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 49" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_VE49598 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 50" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_VE58896.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 51" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_VE87598 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 52" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_VT45955.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 53" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_VT46250.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 54" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_WL20179.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 55" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_WL45705.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 56" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_WL47271.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 57" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_WX04351.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 58" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XF86733.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 59" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XF93127 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 60" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XF93127.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 61" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XH27394 (2).xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 62" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XH29390.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 63" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XH36072.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 64" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XT27670.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 65" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20171115_031634_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_30000564_XT89217.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 66" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20180130_234947_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_2377_1830280.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 67" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20180130_234947_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_2377_3722295.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 68" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20180130_234947_CNV_B_HDESPROP_EXGPAS_8435_D_20171208_2377_GD16638.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+
+    <test name="HDES HO3 Conversion Test 69" parallel="methods" thread-count="200">
+        <parameter name="state" value="CA"/>
+        <parameter name="file" value="20180202_051102_CNV_B_HDESPROP_EXGPAS_8435_D_20171204_2378_2060002.xml"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesConversionTest"/>
+        </classes>
+    </test>
+</suite>

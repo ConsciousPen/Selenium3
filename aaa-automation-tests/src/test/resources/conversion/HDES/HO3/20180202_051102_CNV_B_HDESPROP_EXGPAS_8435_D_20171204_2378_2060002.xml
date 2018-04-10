@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005401</agencyLocation>
+		<agentCd>500006726</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-01-25T00:00:00</effective>
+		<expiration>2019-01-25T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO3</policyFormCd>
+		<preConversionPolicyNumber>2060002</preConversionPolicyNumber>
+		<preConversionPolicyPremium>1321</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>2060002</sourcePolicyNum>
+		<subProducerCd>500006726</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+			<dwellAddressLine1>722 BALBOA ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94118</dwellAddressZip>
+			<expirationDate>2018-03-04T00:00:00</expirationDate>
+			<orderDate>2017-12-04T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>4157519006</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>4155951414</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>No</insurerCd>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1922-07-23T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>VLADIMAR</firstName>
+			<lastName>MIRONOV</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>722 BALBOA ST</addressLine1>
+				<city>SAN FRANCISCO</city>
+				<dateOfBirth>1922-07-23T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-02T00:00:00</expirationDt>
+				<firstName>VLADIMAR</firstName>
+				<lastName>MIRONOV</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-04T00:00:00</orderDate>
+				<postalCode>94118</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>722 BALBOA ST</addressLine1>
+				<city>SAN FRANCISCO</city>
+				<countryCd>US</countryCd>
+				<postalCode>94118</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1901-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>VERA</firstName>
+			<lastName>MIRONOV</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>722 BALBOA ST</addressLine1>
+				<city>SAN FRANCISCO</city>
+				<dateOfBirth>1901-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-02T00:00:00</expirationDt>
+				<firstName>VERA</firstName>
+				<lastName>MIRONOV</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-04T00:00:00</orderDate>
+				<postalCode>94118</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>722 BALBOA ST</addressLine1>
+				<city>SAN FRANCISCO</city>
+				<countryCd>US</countryCd>
+				<postalCode>94118</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>1984-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>34</noOfYearsWithHO>
+			<policyType>HO3</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+			<dwellAddressLine1>722 BALBOA ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94118</dwellAddressZip>
+			<expirationDate>2018-02-02T00:00:00</expirationDate>
+			<isoReplacementCost>574000</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>3+</numberOfStories>
+			<orderDate>2017-12-04T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Asphalt / Fiberglass</roofType>
+			<status>Valid</status>
+			<yearBuilt>1915</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+			<dwellAddressLine1>722 BALBOA ST</dwellAddressLine1>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94118</dwellAddressZip>
+			<expirationDate>2018-02-02T00:00:00</expirationDate>
+			<orderDate>2017-12-04T00:00:00</orderDate>
+			<ppcValue>1</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>true</docReceivedInd>
+			<documentCd>9POPRR</documentCd>
+			<documentText>Proof of plumbing, electrical, heating/cooling system and roof renovations</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+			<addressLine1>722 BALBOA ST</addressLine1>
+			<city>SAN FRANCISCO</city>
+			<crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+			<dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+			<dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+			<dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+			<dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<overrideInspectionInd>true</overrideInspectionInd>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94118</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>574000</limitAmount>
+			</AAACoverageA>
+			<AAACoverageB state="Created">
+				<coverageCd>CovB</coverageCd>
+				<limitAmount>57400</limitAmount>
+			</AAACoverageB>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>430600</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>229800</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>300000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOBuildingImprovementsInfo state="Created">
+				<electricalPercentComplete>100</electricalPercentComplete>
+				<electricalRenovationMonth>0</electricalRenovationMonth>
+				<electricalRenovationType>Total_Circuit_Or_Romex</electricalRenovationType>
+				<electricalRenovationYear>1915</electricalRenovationYear>
+				<heatingOrCoolingPercentComplete>100</heatingOrCoolingPercentComplete>
+				<heatingOrCoolingRenovationMonth>0</heatingOrCoolingRenovationMonth>
+				<heatingOrCoolingRenovationType>Forced_Air</heatingOrCoolingRenovationType>
+				<heatingOrCoolingRenovationYear>1915</heatingOrCoolingRenovationYear>
+				<plumbingPercentComplete>100</plumbingPercentComplete>
+				<plumbingRenovationMonth>0</plumbingRenovationMonth>
+				<plumbingRenovationType>Total_Copper</plumbingRenovationType>
+				<plumbingRenovationYear>1915</plumbingRenovationYear>
+				<roofPercentComplete>100</roofPercentComplete>
+				<roofRenovationMonth>0</roofRenovationMonth>
+				<roofRenovationType>Total_Replace</roofRenovationType>
+				<roofRenovationYear>1915</roofRenovationYear>
+			</AAAHOBuildingImprovementsInfo>
+			<AAAHOConstructionInfo state="Created">
+				<aaaFoundationType>Raised</aaaFoundationType>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>574000</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>3+</numberOfStories>
+				<replacementCost>574000</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Asphalt / Fiberglass</roofType>
+				<yearBuilt>1915</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>SAN FRANCISCO</fireDistrict>
+				<oldPpcValue>1</oldPpcValue>
+				<ppcValue>1</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>5000</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>722 BALBOA ST</addressLine1>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>SAN FRANCISCO</city>
+					<county>San Francisco</county>
+					<postalCode>94118</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO81EndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-04T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 722 BALBOA ST  SAN FRANCISCO CA 94118 to 722 BALBOA ST  SAN FRANCISCO CA 94118</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-12-04T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+</Policy>
