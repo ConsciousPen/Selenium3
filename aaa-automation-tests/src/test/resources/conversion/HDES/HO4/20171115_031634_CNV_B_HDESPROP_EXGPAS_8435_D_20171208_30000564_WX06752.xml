@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005363</agencyLocation>
+    <agentCd>9588229</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <CaliforniaVeterans>false</CaliforniaVeterans>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2018-02-01T00:00:00</effective>
+    <expiration>2019-02-01T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO4</policyFormCd>
+    <preConversionPolicyNumber>WX06752</preConversionPolicyNumber>
+    <preConversionPolicyPremium>147</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>WX06752</sourcePolicyNum>
+    <subProducerCd>9588229</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>SANTA ROSA</dwellAddressCity>
+      <dwellAddressLine1>5220 PRESSLEY RD</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95404</dwellAddressZip>
+      <expirationDate>2018-03-08T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>4153975061</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+      <workPhone>7076643145</workPhone>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>No</insurerCd>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1950-03-09T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>MARC</firstName>
+      <lastName>JACOBSON</lastName>
+      <middleName>THOMAS</middleName>
+      <occupationDesc>Unknown</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>5220 PRESSLEY RD</addressLine1>
+        <city>SANTA ROSA</city>
+        <dateOfBirth>1950-03-09T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>MARC</firstName>
+        <lastName>JACOBSON</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>95404</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>5220 PRESSLEY RD</addressLine1>
+        <city>SANTA ROSA</city>
+        <countryCd>US</countryCd>
+        <postalCode>95404</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1967-07-20T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>TERRI</firstName>
+      <lastName>MCCRACKEN</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>5220 PRESSLEY RD</addressLine1>
+        <city>SANTA ROSA</city>
+        <dateOfBirth>1967-07-20T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>TERRI</firstName>
+        <lastName>MCCRACKEN</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>95404</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>5220 PRESSLEY RD</addressLine1>
+        <city>SANTA ROSA</city>
+        <countryCd>US</countryCd>
+        <postalCode>95404</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2012-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>6</noOfYearsWithHO>
+      <policyType>HO4</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>SANTA ROSA</dwellAddressCity>
+      <dwellAddressLine1>5220 PRESSLEY RD</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95404</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <ppcValue>1</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>2</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>5220 PRESSLEY RD</addressLine1>
+      <city>SANTA ROSA</city>
+      <numberOfFamilies>2</numberOfFamilies>
+      <postalCode>95404</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>18600</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>4200</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>500000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <personalPropertyValue>18600</personalPropertyValue>
+        <roofType>Other</roofType>
+        <yearBuilt>1970</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>SANTA ROSA</fireDistrict>
+        <oldPpcValue>1</oldPpcValue>
+        <ppcValue>1</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>250</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>5220 PRESSLEY RD</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>SANTA ROSA</city>
+          <county>Sonoma</county>
+          <postalCode>95404</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO29EndorsementForm state="Created"/>
+    <HO58EndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+    <PreconfigPersonInfo state="Created">
+      <AAAHOMailingAddressComponent state="Created">
+        <addressLine1>1710 KEARNY ST</addressLine1>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>SAN FRANCISCO</city>
+        <countryCd>US</countryCd>
+        <county>San Francisco</county>
+        <postalCode>94133</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAHOMailingAddressComponent>
+    </PreconfigPersonInfo>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Dwelling address validated and standardized</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 5220 PRESSLEY RD  SANTA ROSA CA 95404 to 5220 PRESSLEY RD  SANTA ROSA CA 95404</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1710 KEARNY ST  SAN FRANCISCO CA 94133 to 1710 KEARNY ST  SAN FRANCISCO CA 94133</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: date of birth caused premium variance</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>HDES was applying or not applying a Senior or Mature Policyholder Discount in error.  According to the date of birth, the Senior or Mature Policyholder Discount has been correctly applied or removed in PAS.</userText>
+  </userNote>
+</Policy>

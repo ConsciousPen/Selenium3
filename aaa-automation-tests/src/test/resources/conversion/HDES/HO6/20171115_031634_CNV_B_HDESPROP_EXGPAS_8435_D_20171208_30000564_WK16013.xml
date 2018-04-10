@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005378</agencyLocation>
+    <agentCd>46880774</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2018-01-27T00:00:00</effective>
+    <expiration>2019-01-27T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <isAdditionalPolicy>true</isAdditionalPolicy>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO6</policyFormCd>
+    <preConversionPolicyNumber>WK16013</preConversionPolicyNumber>
+    <preConversionPolicyPremium>2380</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>WK16013</sourcePolicyNum>
+    <subProducerCd>46880774</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <HO438BFUNSEndorsementForm state="Created"/>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+      <dwellAddressLine1>1958 VALLEJO ST</dwellAddressLine1>
+      <dwellAddressLine2>APT 11</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94123</dwellAddressZip>
+      <expirationDate>2018-03-08T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>4156402326</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+      <workPhone>4156402326</workPhone>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>DAYON</insurerName>
+      <policyNumber>4290051144478421</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1967-04-22T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ALEXANDRE</firstName>
+      <lastName>DAYON</lastName>
+      <middleName>M</middleName>
+      <occupationDesc>Upper_Management_Executive</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>1958 VALLEJO ST</addressLine1>
+        <addressLine2>APT 11</addressLine2>
+        <city>SAN FRANCISCO</city>
+        <dateOfBirth>1967-04-22T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>ALEXANDRE</firstName>
+        <lastName>DAYON</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>94123</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>1958 VALLEJO ST</addressLine1>
+        <addressLine2>APT 11</addressLine2>
+        <city>SAN FRANCISCO</city>
+        <countryCd>US</countryCd>
+        <postalCode>94123</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1967-08-07T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>MARIANNE</firstName>
+      <lastName>DAYON</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>1958 VALLEJO ST</addressLine1>
+        <addressLine2>APT 11</addressLine2>
+        <city>SAN FRANCISCO</city>
+        <dateOfBirth>1967-08-07T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-06T00:00:00</expirationDt>
+        <firstName>MARIANNE</firstName>
+        <lastName>DAYON</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-08T00:00:00</orderDate>
+        <postalCode>94123</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>1958 VALLEJO ST</addressLine1>
+        <addressLine2>APT 11</addressLine2>
+        <city>SAN FRANCISCO</city>
+        <countryCd>US</countryCd>
+        <postalCode>94123</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOOtherOrPriorPolicyComponent state="Created">
+      <autoBILimit>$500,000/$500,000</autoBILimit>
+      <autoPolicyPending>false</autoPolicyPending>
+      <policyEffectiveDate>2016-09-18T00:00:00</policyEffectiveDate>
+      <policyNumber>CAAS102078733</policyNumber>
+      <productCd>Auto</productCd>
+      <stateCd>CA</stateCd>
+    </AAAHOOtherOrPriorPolicyComponent>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2014-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>4</noOfYearsWithHO>
+      <policyType>HO6</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+      <dwellAddressLine1>1958 VALLEJO ST</dwellAddressLine1>
+      <dwellAddressLine2>APT 11</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94123</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <isoReplacementCost>1393000</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>1</numberOfStories>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Builtup Tar &amp; Gravel</roofType>
+      <status>Valid</status>
+      <yearBuilt>1927</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAMembershipOrder state="Created">
+      <lastName>DAYON</lastName>
+      <membershipNumber>4290051144478421</membershipNumber>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <receiptDate>2017-12-08T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>SAN FRANCISCO</dwellAddressCity>
+      <dwellAddressLine1>1958 VALLEJO ST</dwellAddressLine1>
+      <dwellAddressLine2>APT 11</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94123</dwellAddressZip>
+      <expirationDate>2018-02-06T00:00:00</expirationDate>
+      <orderDate>2017-12-08T00:00:00</orderDate>
+      <ppcValue>1</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>true</docReceivedInd>
+      <documentCd>1POCFA</documentCd>
+      <documentText>Proof of central fire alarm</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>true</docReceivedInd>
+      <documentCd>2POCTA</documentCd>
+      <documentText>Proof of central theft alarm</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>true</docReceivedInd>
+      <documentCd>9POPRR</documentCd>
+      <documentText>Proof of plumbing, electrical, heating/cooling system and roof renovations</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>1958 VALLEJO ST</addressLine1>
+      <addressLine2>APT 11</addressLine2>
+      <centralAlarmInd>true</centralAlarmInd>
+      <centralFireAlarmInd>true</centralFireAlarmInd>
+      <city>SAN FRANCISCO</city>
+      <firelineMatchType>Address</firelineMatchType>
+      <numberOfFamilies>1</numberOfFamilies>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>94123</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>1393000</limitAmount>
+      </AAACoverageA>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>114100</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>22900</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>1000000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>5000</limitAmount>
+      </AAACoverageF>
+      <AAAHOBuildingImprovementsInfo state="Created">
+        <electricalPercentComplete>100</electricalPercentComplete>
+        <electricalRenovationMonth>0</electricalRenovationMonth>
+        <electricalRenovationType>Total_Circuit_Or_Romex</electricalRenovationType>
+        <electricalRenovationYear>1927</electricalRenovationYear>
+        <heatingOrCoolingPercentComplete>100</heatingOrCoolingPercentComplete>
+        <heatingOrCoolingRenovationMonth>0</heatingOrCoolingRenovationMonth>
+        <heatingOrCoolingRenovationType>Forced_Air</heatingOrCoolingRenovationType>
+        <heatingOrCoolingRenovationYear>1927</heatingOrCoolingRenovationYear>
+        <plumbingPercentComplete>100</plumbingPercentComplete>
+        <plumbingRenovationMonth>0</plumbingRenovationMonth>
+        <plumbingRenovationType>Total_Copper</plumbingRenovationType>
+        <plumbingRenovationYear>1927</plumbingRenovationYear>
+        <roofPercentComplete>100</roofPercentComplete>
+        <roofRenovationMonth>0</roofRenovationMonth>
+        <roofRenovationType>Total_Replace</roofRenovationType>
+        <roofRenovationYear>1927</roofRenovationYear>
+      </AAAHOBuildingImprovementsInfo>
+      <AAAHOConstructionInfo state="Created">
+        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>1393000</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <replacementCost>1393000</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Builtup Tar &amp; Gravel</roofType>
+        <yearBuilt>1927</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAHOMortgageeInfo state="Created">
+        <accountNumber>225180294</accountNumber>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>SAN ANTONIO</city>
+        <mortagageeAddressLine1>PO BOX 790869</mortagageeAddressLine1>
+        <name>FIRST REPUBLIC BANK, ISAOA</name>
+        <postalCode>78279</postalCode>
+        <rank>1</rank>
+        <stateProvCd>TX</stateProvCd>
+        <useLegalMortgagee>false</useLegalMortgagee>
+      </AAAHOMortgageeInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>SAN FRANCISCO</fireDistrict>
+        <oldPpcValue>1</oldPpcValue>
+        <ppcValue>1</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>1958 VALLEJO ST</addressLine1>
+          <addressLine2>APT 11</addressLine2>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>SAN FRANCISCO</city>
+          <county>San Francisco</county>
+          <postalCode>94123</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO0496EndorsementForm state="Created"/>
+    <HW0915EndorsementForm state="Created"/>
+    <HO210CEndorsementFormHO6 state="Created">
+      <coverageLimit>7500</coverageLimit>
+    </HO210CEndorsementFormHO6>
+    <HO28EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO60CEndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+    <HW0104EndorsementForm state="Created"/>
+    <HW0495EndorsementForm state="Created">
+      <coverageLimit>10000</coverageLimit>
+      <deductible>1000</deductible>
+    </HW0495EndorsementForm>
+    <HW2482EndorsementForm state="Created"/>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1958 VALLEJO ST #11  SAN FRANCISCO CA 94123 to 1958 VALLEJO ST APT 11 SAN FRANCISCO CA 94123</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: date of birth caused premium variance</title>
+    <updatedOn>2017-12-08T00:00:00</updatedOn>
+    <userText>HDES was applying or not applying a Senior or Mature Policyholder Discount in error.  According to the date of birth, the Senior or Mature Policyholder Discount has been correctly applied or removed in PAS.</userText>
+  </userNote>
+</Policy>

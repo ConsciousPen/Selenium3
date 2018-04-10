@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" version="1" name="AAA_HO_CA">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2017-11-26T00:00:00</effective>
+		<expiration>2018-11-26T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WH578481998</preConversionPolicyNumber>
+		<preConversionPolicyPremium>256</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WH57848</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<acceptCeaOffer>false</acceptCeaOffer>
+			<policyType>BASIC</policyType>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>SANTA ROSA</dwellAddressCity>
+			<dwellAddressLine1>966 BORDEN VILLA DR</dwellAddressLine1>
+			<dwellAddressLine2>APT 201</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95401</dwellAddressZip>
+			<expirationDate>2018-01-04T00:00:00</expirationDate>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>4152612186</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>4152648728</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>No</insurerCd>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1948-08-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ANTHONY</firstName>
+			<lastName>BLASS</lastName>
+			<occupationDesc>Retired</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>966 BORDEN VILLA DR</addressLine1>
+				<addressLine2>APT 201</addressLine2>
+				<city>SANTA ROSA</city>
+				<dateOfBirth>1948-08-01T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-05T00:00:00</expirationDt>
+				<firstName>ANTHONY</firstName>
+				<lastName>BLASS</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-06T00:00:00</orderDate>
+				<postalCode>95401</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>966 BORDEN VILLA DR</addressLine1>
+				<addressLine2>APT 201</addressLine2>
+				<city>SANTA ROSA</city>
+				<countryCd>US</countryCd>
+				<postalCode>95401</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1901-01-01T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>TAMARRA</firstName>
+			<lastName>BLASS</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>966 BORDEN VILLA DR</addressLine1>
+				<addressLine2>APT 201</addressLine2>
+				<city>SANTA ROSA</city>
+				<dateOfBirth>1901-01-01T00:00:00</dateOfBirth>
+				<expirationDt>2017-12-05T00:00:00</expirationDt>
+				<firstName>TAMARRA</firstName>
+				<lastName>BLASS</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-10-06T00:00:00</orderDate>
+				<postalCode>95401</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>966 BORDEN VILLA DR</addressLine1>
+				<addressLine2>APT 201</addressLine2>
+				<city>SANTA ROSA</city>
+				<countryCd>US</countryCd>
+				<postalCode>95401</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2015-12-12T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS100350584</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<autoBILimit>$500,000/$500,000</autoBILimit>
+			<autoPolicyPending>false</autoPolicyPending>
+			<policyEffectiveDate>2016-05-14T00:00:00</policyEffectiveDate>
+			<policyNumber>CAAS203067111</policyNumber>
+			<productCd>Auto</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2012-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>5</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>SANTA ROSA</dwellAddressCity>
+			<dwellAddressLine1>966 BORDEN VILLA DR</dwellAddressLine1>
+			<dwellAddressLine2>APT 201</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95401</dwellAddressZip>
+			<expirationDate>2017-12-05T00:00:00</expirationDate>
+			<isoReplacementCost>60300</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Wood shingle/Wood shake</roofType>
+			<status>Valid</status>
+			<yearBuilt>1970</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>SANTA ROSA</dwellAddressCity>
+			<dwellAddressLine1>966 BORDEN VILLA DR</dwellAddressLine1>
+			<dwellAddressLine2>APT 201</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>95401</dwellAddressZip>
+			<expirationDate>2017-12-05T00:00:00</expirationDate>
+			<orderDate>2017-10-06T00:00:00</orderDate>
+			<ppcValue>1</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>CEAOD</documentCd>
+			<documentText>CEA Offer Declination</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>966 BORDEN VILLA DR</addressLine1>
+			<addressLine2>APT 201</addressLine2>
+			<city>SANTA ROSA</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>95401</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>60300</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>29700</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>18000</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>60300</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>60300</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Wood shingle/Wood shake</roofType>
+				<yearBuilt>1970</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>SANTA ROSA</fireDistrict>
+				<oldPpcValue>1</oldPpcValue>
+				<ppcValue>1</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>2500</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>966 BORDEN VILLA DR</addressLine1>
+					<addressLine2>APT 201</addressLine2>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>SANTA ROSA</city>
+					<county>Sonoma</county>
+					<postalCode>95401</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO70EndorsementForm state="Created">
+			<address1>966 BORDEN VILLA DR</address1>
+			<address2>APT 201</address2>
+			<city>SANTA ROSA</city>
+			<familyNum>1</familyNum>
+			<state>CA</state>
+			<territory>0</territory>
+			<zip>95401</zip>
+		</HO70EndorsementForm>
+		<HO78CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW2482EndorsementForm state="Created"/>
+	</AAAHOPolicy>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-10-06T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 966 BORDEN VILLA DR #201  SANTA ROSA CA 95401 to 966 BORDEN VILLA DR APT 201 SANTA ROSA CA 95401</userText>
+	</userNote>
+	<userNote>
+		<category>Other</category>
+		<confidential>false</confidential>
+		<title>Conversion: Date of birth defaulted</title>
+		<updatedOn>2017-10-06T00:00:00</updatedOn>
+		<userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+	</userNote>
+</Policy>

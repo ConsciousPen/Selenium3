@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+  <AAAHOPolicy state="Created">
+    <agencyCd>0094</agencyCd>
+    <agentCd>500020662</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <CaliforniaVeterans>false</CaliforniaVeterans>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2018-01-05T00:00:00</effective>
+    <expiration>2019-01-05T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>CC</officeType>
+    <policyFormCd>HO4</policyFormCd>
+    <preConversionPolicyNumber>GM83121</preConversionPolicyNumber>
+    <preConversionPolicyPremium>160</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <salesChannelType>2513</salesChannelType>
+    <sourcePolicyNum>GM83121</sourcePolicyNum>
+    <subProducerCd>500005456</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>SANTA ROSA</dwellAddressCity>
+      <dwellAddressLine1>2034 AUGUSTAN AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95404</dwellAddressZip>
+      <expirationDate>2018-02-15T00:00:00</expirationDate>
+      <orderDate>2017-11-17T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>7075696474</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>PARISI</insurerName>
+      <policyNumber>4290057252265914</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1961-10-05T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ANGELO</firstName>
+      <lastName>PARISI</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>2034 AUGUSTAN AVE</addressLine1>
+        <city>SANTA ROSA</city>
+        <expirationDt>2018-01-16T00:00:00</expirationDt>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-11-17T00:00:00</orderDate>
+        <postalCode>95404</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>2034 AUGUSTAN AVE</addressLine1>
+        <city>SANTA ROSA</city>
+        <countryCd>US</countryCd>
+        <postalCode>95404</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ERICA</firstName>
+      <lastName>PARISI</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>2034 AUGUSTAN AVE</addressLine1>
+        <city>SANTA ROSA</city>
+        <expirationDt>2018-01-16T00:00:00</expirationDt>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-11-17T00:00:00</orderDate>
+        <postalCode>95404</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>2034 AUGUSTAN AVE</addressLine1>
+        <city>SANTA ROSA</city>
+        <countryCd>US</countryCd>
+        <postalCode>95404</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2016-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>2</noOfYearsWithHO>
+      <policyType>HO4</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAMembershipOrder state="Created">
+      <lastName>PARISI</lastName>
+      <membershipNumber>4290057252265914</membershipNumber>
+      <orderDate>2017-11-17T00:00:00</orderDate>
+      <receiptDate>2017-11-17T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>SANTA ROSA</dwellAddressCity>
+      <dwellAddressLine1>2034 AUGUSTAN AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95404</dwellAddressZip>
+      <expirationDate>2018-01-16T00:00:00</expirationDate>
+      <orderDate>2017-11-17T00:00:00</orderDate>
+      <ppcValue>3</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>2034 AUGUSTAN AVE</addressLine1>
+      <city>SANTA ROSA</city>
+      <numberOfFamilies>1</numberOfFamilies>
+      <postalCode>95404</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>26800</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>5400</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>300000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <personalPropertyValue>26800</personalPropertyValue>
+        <roofType>Other</roofType>
+        <yearBuilt>1941</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAHOLossInfo state="Created">
+        <aaaClaim>false</aaaClaim>
+        <catLoss>false</catLoss>
+        <incidentSource>AGENT</incidentSource>
+        <includeToRatingInd>true</includeToRatingInd>
+        <lossAmount>450000</lossAmount>
+        <lossDate>2015-09-13T00:00:00</lossDate>
+        <lossTypeCd>1</lossTypeCd>
+        <statusOfClaim>1</statusOfClaim>
+      </AAAHOLossInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>BENNETT VALLEY FD</fireDistrict>
+        <oldPpcValue>3</oldPpcValue>
+        <ppcValue>3</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>500</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>2034 AUGUSTAN AVE</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>SANTA ROSA</city>
+          <county>Sonoma</county>
+          <postalCode>95404</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO29EndorsementForm state="Created"/>
+    <HO59EndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+    <PreconfigPersonInfo state="Created">
+      <AAAHOMailingAddressComponent state="Created">
+        <addressLine1>PO BOX 82</addressLine1>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>KENWOOD</city>
+        <countryCd>US</countryCd>
+        <county>Sonoma</county>
+        <postalCode>95452</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAHOMailingAddressComponent>
+    </PreconfigPersonInfo>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Dwelling address validated and standardized</title>
+    <updatedOn>2017-11-17T00:00:00</updatedOn>
+    <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 2034 AUGUSTAN AVE  SANTA ROSA CA 95404 to 2034 AUGUSTAN AVE  SANTA ROSA CA 95404</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-11-17T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from PO BOX 82  KENWOOD CA 95452 to PO BOX 82  KENWOOD CA 95452</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Date of birth defaulted</title>
+    <updatedOn>2017-11-17T00:00:00</updatedOn>
+    <userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+  </userNote>
+</Policy>

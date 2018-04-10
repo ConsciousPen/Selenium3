@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005343</agencyLocation>
+    <agentCd>500015482</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2018-02-11T00:00:00</effective>
+    <expiration>2019-02-11T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <isAdditionalPolicy>true</isAdditionalPolicy>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO6</policyFormCd>
+    <preConversionPolicyNumber>WK19876</preConversionPolicyNumber>
+    <preConversionPolicyPremium>1240</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>WK19876</sourcePolicyNum>
+    <subProducerCd>500015482</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <HO438BFUNSEndorsementForm state="Created"/>
+    <AAACeaDetailsComponent state="Created">
+      <aaaCeaEffectiveDt>2017-02-11T00:00:00</aaaCeaEffectiveDt>
+      <acceptCeaOffer>true</acceptCeaOffer>
+      <bctCeaPolicyNumber>On-File Conversion</bctCeaPolicyNumber>
+      <policyNumber>On-File Conversion</policyNumber>
+      <policyType>BASIC</policyType>
+      <status>bound</status>
+      <AAACeaCoverageA state="Created">
+        <coverageCd>CeaCovA</coverageCd>
+        <limitAmount>209100</limitAmount>
+      </AAACeaCoverageA>
+      <AAACeaCoverageC state="Created">
+        <coverageCd>CeaCovC</coverageCd>
+        <limitAmount>5000</limitAmount>
+      </AAACeaCoverageC>
+      <AAACeaCoverageD state="Created">
+        <coverageCd>CeaCovD</coverageCd>
+        <limitAmount>1500</limitAmount>
+      </AAACeaCoverageD>
+      <AAACeaCoverageE state="Created">
+        <coverageCd>CeaCovE</coverageCd>
+        <limitAmount>0</limitAmount>
+      </AAACeaCoverageE>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>OAKLAND</dwellAddressCity>
+      <dwellAddressLine1>49 GRAEAGLE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94605</dwellAddressZip>
+      <expirationDate>2018-03-18T00:00:00</expirationDate>
+      <orderDate>2017-12-18T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>5108782234</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+      <workPhone>5108782234</workPhone>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>WHALEY</insurerName>
+      <policyNumber>4290058570273614</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1947-08-13T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>PATRICIA</firstName>
+      <lastName>WHALEY</lastName>
+      <occupationDesc>Other</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>49 GRAEAGLE</addressLine1>
+        <city>OAKLAND</city>
+        <dateOfBirth>1947-08-13T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-16T00:00:00</expirationDt>
+        <firstName>PATRICIA</firstName>
+        <lastName>WHALEY</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-18T00:00:00</orderDate>
+        <postalCode>94605</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>49 GRAEAGLE</addressLine1>
+        <city>OAKLAND</city>
+        <countryCd>US</countryCd>
+        <postalCode>94605</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1947-12-31T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>MITCHELL</firstName>
+      <lastName>KLEIN</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>49 GRAEAGLE</addressLine1>
+        <city>OAKLAND</city>
+        <dateOfBirth>1947-12-31T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-16T00:00:00</expirationDt>
+        <firstName>MITCHELL</firstName>
+        <lastName>KLEIN</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-18T00:00:00</orderDate>
+        <postalCode>94605</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>49 GRAEAGLE</addressLine1>
+        <city>OAKLAND</city>
+        <countryCd>US</countryCd>
+        <postalCode>94605</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOOtherOrPriorPolicyComponent state="Created">
+      <coverageE>800000</coverageE>
+      <deductible>1500</deductible>
+      <dwellingUsage>Primary</dwellingUsage>
+      <occupancyType>Owner occupied</occupancyType>
+      <productCd>CEA</productCd>
+      <stateCd>CA</stateCd>
+    </AAAHOOtherOrPriorPolicyComponent>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2014-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>4</noOfYearsWithHO>
+      <policyType>HO6</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>OAKLAND</dwellAddressCity>
+      <dwellAddressLine1>49 GRAEAGLE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94605</dwellAddressZip>
+      <expirationDate>2018-02-16T00:00:00</expirationDate>
+      <isoReplacementCost>209100</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>1</numberOfStories>
+      <orderDate>2017-12-18T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Asphalt / Fiberglass</roofType>
+      <status>Valid</status>
+      <yearBuilt>1979</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAMembershipOrder state="Created">
+      <lastName>WHALEY</lastName>
+      <membershipNumber>4290058570273614</membershipNumber>
+      <orderDate>2017-12-18T00:00:00</orderDate>
+      <receiptDate>2017-12-18T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>OAKLAND</dwellAddressCity>
+      <dwellAddressLine1>49 GRAEAGLE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>94605</dwellAddressZip>
+      <expirationDate>2018-02-16T00:00:00</expirationDate>
+      <orderDate>2017-12-18T00:00:00</orderDate>
+      <ppcValue>2</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>true</docReceivedInd>
+      <documentCd>12RFIS</documentCd>
+      <documentText>Appraisals/sales receipts for scheduled personal property items</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>4</aaaFirelineScore>
+      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>49 GRAEAGLE</addressLine1>
+      <city>OAKLAND</city>
+      <firelineMatchType>Address</firelineMatchType>
+      <localAlarmInd>true</localAlarmInd>
+      <localFireAlarmInd>true</localFireAlarmInd>
+      <numberOfFamilies>1</numberOfFamilies>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>94605</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>209100</limitAmount>
+      </AAACoverageA>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>114100</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>60000</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>800000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>5000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>209100</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <replacementCost>209100</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Asphalt / Fiberglass</roofType>
+        <yearBuilt>1979</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAHOMortgageeInfo state="Created">
+        <accountNumber>1606006482</accountNumber>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>REDWOOD CITY</city>
+        <mortagageeAddressLine1>303 TWIN DOLPHIN DR</mortagageeAddressLine1>
+        <name>PROVIDENT CREDIT UNION, ISAOA</name>
+        <postalCode>94065</postalCode>
+        <rank>1</rank>
+        <stateProvCd>CA</stateProvCd>
+        <useLegalMortgagee>false</useLegalMortgagee>
+      </AAAHOMortgageeInfo>
+      <AAAHOMortgageeInfo state="Created">
+        <accountNumber>10936997</accountNumber>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>SIOUX CITY</city>
+        <mortagageeAddressLine1>PO BOX 2489</mortagageeAddressLine1>
+        <name>PENTAGON FEDERAL CU, ISAOA/ATIMA</name>
+        <postalCode>51106</postalCode>
+        <rank>2</rank>
+        <stateProvCd>IA</stateProvCd>
+        <useLegalMortgagee>false</useLegalMortgagee>
+      </AAAHOMortgageeInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>OAKLAND</fireDistrict>
+        <oldPpcValue>2</oldPpcValue>
+        <ppcValue>2</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>1500</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>49 GRAEAGLE</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>OAKLAND</city>
+          <county>Alameda</county>
+          <postalCode>94605</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO0496EndorsementForm state="Created"/>
+    <HW0915EndorsementForm state="Created"/>
+    <HO28EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO76CEndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+    <HW0104EndorsementForm state="Created"/>
+    <HW0435EndorsementForm state="Created">
+      <address1>49 GRAEAGLE</address1>
+      <city>OAKLAND</city>
+      <coverageLimit>50000</coverageLimit>
+      <location>ResidencePremises</location>
+      <otherStructureDescription>ResidencePremises</otherStructureDescription>
+      <state>CA</state>
+      <zip>94605</zip>
+    </HW0435EndorsementForm>
+    <HW0461EndorsementForm state="Created">
+      <ScheduledPropertyCoverageJewelryHO6 state="Created">
+        <ScheduledPropertyJewelryItemHO6 state="Created">
+          <amount>3555</amount>
+          <description>Total items = 2</description>
+        </ScheduledPropertyJewelryItemHO6>
+      </ScheduledPropertyCoverageJewelryHO6>
+    </HW0461EndorsementForm>
+    <HW2482EndorsementForm state="Created"/>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-18T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 49 GRAEAGLE  OAKLAND CA 94605 to 49 GRAEAGLE  OAKLAND CA 94605</userText>
+  </userNote>
+</Policy>
