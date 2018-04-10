@@ -23,4 +23,24 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab"/>
         </classes>
     </test>
+    <test name="PAS-6235: Notice of Non-Renewal Letter - Pennsylvania (PA)" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+            <methods>
+                <include name="pas8405_noticeOfNonRenewalLetterHS65PA" />
+            </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+            <methods>
+                 <include name="pas8405_noticeOfNonRenewalLetterHS65PA" />
+            </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+            <methods>
+                <include name="pas8405_noticeOfNonRenewalLetterHS65PA" />
+            </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
