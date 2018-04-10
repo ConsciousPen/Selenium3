@@ -33,24 +33,77 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssertions;
 
 public class MaigConversionTest extends AutoSSBaseTest {
 
-	@Parameters({"state", "xmlfile"})
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest1(@Optional("VA") String state, @Optional("1.xml") String xmlfile) {
-		CustomAssertions.assertThat(true).isFalse();
-		maigConversion("1.xml", null);
+	public void maigConversionTest1(@Optional("VA") String state, ITestContext context) {
+		maigConversion("1.xml", context);
 	}
 
-	@Parameters({"state", "xmlfile"})
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest2(@Optional("DE") String state, ITestContext context) {
+		maigConversion("2.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest3(@Optional("PA") String state, ITestContext context) {
+		maigConversion("3.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest4(@Optional("MD") String state, ITestContext context) {
+		maigConversion("4.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest5(@Optional("NJ") String state, ITestContext context) {
+		maigConversion("5.xml", context);
+	}
+
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest_customerDeclined5(@Optional("NJ") String state, @Optional("1.xml") String xmlfile) {
-		CustomAssertions.assertThat(true).isFalse();
-		maigConversion_customerDeclined("5.xml", null);
+	public void maigConversionTest_customerDeclined1(@Optional("VA") String state, ITestContext context) {
+		maigConversion_customerDeclined("1.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest_customerDeclined2(@Optional("DE") String state, ITestContext context) {
+		maigConversion_customerDeclined("2.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest_customerDeclined3(@Optional("PA") String state, ITestContext context) {
+		maigConversion_customerDeclined("3.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest_customerDeclined4(@Optional("MD") String state, ITestContext context) {
+		maigConversion_customerDeclined("4.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
+	public void maigConversionTest_customerDeclined5(@Optional("NJ") String state, ITestContext context) {
+		maigConversion_customerDeclined("5.xml", context);
 	}
 
 	public void maigConversion(String file, ITestContext context) {
