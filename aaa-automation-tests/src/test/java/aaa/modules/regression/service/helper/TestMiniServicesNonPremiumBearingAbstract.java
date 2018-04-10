@@ -1,20 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -62,19 +47,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
