@@ -221,13 +221,6 @@
             </class>
         </classes>
     </test>
-    <test name="TestSeniorDiscount" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
-        </classes>
-    </test>
     <test name="TestContactInformation" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
