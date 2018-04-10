@@ -36,11 +36,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private ComboBox enhancedBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox enhancedPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE);
 
-    private final String descEUIMBI = "Enhanced Uninsured/Underinsured Motorist Bodily Injury";
-    private final String descEUIMPD = "Enhanced Uninsured Motorist Property Damage";
-    private final String descUIMBI = "Uninsured/Underinsured Motorist Bodily Injury";
-    private final String descUIMPD = "Uninsured Motorist Property Damage";
-
     /**
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for NB
@@ -210,12 +205,18 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         bodilyInjury.setValueByIndex(2);
         premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(false);
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", descUIMBI).getCell("Term Premium").getValue()).isEqualTo("$0.00");
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", descUIMPD).getCell("Term Premium").getValue()).isEqualTo("$0.00");
+        String labelEUIMBI = "Uninsured/Underinsured  Motorist Bodily Injury";
+        String labelEUIMPD = "Uninsured Motorist Property Damage";
+        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Uninsured/Underinsured  Motorist Bodily Injury")
+                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
+        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Uninsured Motorist Property Damage")
+                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
         premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(true);
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", descEUIMBI).getCell("Term Premium").getValue()).isEqualTo("$0.00");
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", descEUIMPD).getCell("Term Premium").getValue()).isEqualTo("$0.00");
+        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Enhanced Uninsured/Underinsured  Motorist Bodily Injury")
+                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
+        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Enhanced Uninsured Motorist Property Damage")
+                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
         premiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448. Validate Help text when moused over EUIM, EUIMPD and EUIMBI
@@ -231,21 +232,21 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
         List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
-        assertThat(totalTermPremiumTD.get(0).getKeys()).contains(descEUIMBI);
-        assertThat(totalTermPremiumTD.get(0).getKeys()).contains(descEUIMPD);
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
 
         // AC1 PAS-11209. Display EUIM UIPD/UIMBI in VRD page.
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         List<TestData> vehicleVRDTestData = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-        assertThat(vehicleVRDTestData.get(0).getKeys()).contains(descEUIMBI);
-        assertThat(vehicleVRDTestData.get(0).getKeys()).contains(descEUIMPD);
+        assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(2,2)).isEqualTo("Bodily Injury Liability");
         assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(3,2)).isEqualTo("Property Damage Liability");
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(4,2)).isEqualTo(descEUIMBI);
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(5,2)).isEqualTo(descEUIMPD);
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(4,2)).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(5,2)).isEqualTo("Enhanced Uninsured Motorist Property Damage");
     }
 }
