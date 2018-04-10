@@ -38,6 +38,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	private Boolean permittedOccupancyInd;
 	private Integer rentalUnitsCount;
 	private String signature;
+	private Integer term;
 
 	public List<PUPOpenLCoverage> getCoverages() {
 		return new ArrayList<>(coverages);
@@ -95,6 +96,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		this.dropDownInd = dropDownInd;
 	}
 
+	@Override
 	public LocalDateTime getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -189,6 +191,15 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	@Override
+	public Integer getTerm() {
+		return term != null ? term : 12;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
 	}
 
 	@Override

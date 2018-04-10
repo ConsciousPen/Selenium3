@@ -2,10 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import java.util.Arrays;
+import java.util.List;
+import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
@@ -15,15 +17,13 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Abstract tab class.
  *
  * @category Static
  */
 public abstract class Tab {
+	public static final String COVERAGES_CONFIGURATION_NAME = "CoveragesAndPremium";
 
 	public static Button buttonOk = new Button(By.xpath("//input[@id='genericForm:ok' or (@value = 'OK' or @value = 'Ok') and contains (@id, '_footer')"
 			+ "and not(@class = 'hidden') and not(contains(@class, 'secondaryButton')) and not(contains(@style, 'none')) "
@@ -52,7 +52,7 @@ public abstract class Tab {
 
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
-	public static StaticElement labelPolicyNumber = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[2]//span"));
+	public static StaticElement labelPolicyNumber = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Policy #') or contains(text(), 'Quote #')]//span"));
 	public static StaticElement labelPolicyNumberForPup = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[3]//span"));
 
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
@@ -251,6 +251,7 @@ public abstract class Tab {
 		buttonSave.click();
 		return this;
 	}
+
 	public Tab createVersion() {
 		buttonCreateVersion.click();
 		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {

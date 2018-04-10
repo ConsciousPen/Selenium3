@@ -7,7 +7,7 @@ public class OpenLForm {
 	protected Integer number;
 
 	protected String formCode;
-	protected Integer limit;
+	protected Double limit;
 
 	public Integer getNumber() {
 		return number;
@@ -25,11 +25,11 @@ public class OpenLForm {
 		this.formCode = formCode;
 	}
 
-	public Integer getLimit() {
+	public Double getLimit() {
 		return limit;
 	}
 
-	public void setLimit(Integer limit) {
+	public void setLimit(Double limit) {
 		this.limit = limit;
 	}
 

@@ -5,7 +5,6 @@ import static aaa.helpers.openl.model.OpenLFile.ADDRESS_SHEET_NAME;
 import static aaa.helpers.openl.model.OpenLFile.CONSTRUCTION_INFO_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.CONSTRUCTION_INFO_SHEET_NAME;
 import static aaa.helpers.openl.model.OpenLFile.COVERAGE_DEDUCTIBLE_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.COVERAGE_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.COVERAGE_SHEET_NAME;
 import static aaa.helpers.openl.model.OpenLFile.DISCOUNT_INFORMATION_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.DISCOUNT_INFORMATION_SHEET_NAME;
@@ -13,7 +12,6 @@ import static aaa.helpers.openl.model.OpenLFile.DWELLING_RATING_INFO_HEADER_ROW_
 import static aaa.helpers.openl.model.OpenLFile.DWELLING_RATING_INFO_SHEET_NAME;
 import static aaa.helpers.openl.model.OpenLFile.FORM_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.LOSS_INFORMATION_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.LOSS_INFORMATION_SHEET_NAME;
 import static aaa.helpers.openl.model.OpenLFile.NAMED_INSURED_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.NAMED_INSURED_SHEET_NAME;
@@ -22,7 +20,6 @@ import static aaa.helpers.openl.model.OpenLFile.RISK_METER_DATA_SHEET_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
@@ -30,9 +27,9 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<OpenLCappingDetails> cappingDetails;
+	private List<HomeSSOpneLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = HomeSSOpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLCoverage> coverages;
 
 	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
@@ -44,7 +41,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = CONSTRUCTION_INFO_SHEET_NAME, headerRowIndex = CONSTRUCTION_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLConstructionInfo> policyConstructionInfo;
 
-	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowIndex = HomeSSOpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverageDeductible> policyCoverageDeductible;
 
 	@ExcelTableElement(sheetName = DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
@@ -53,7 +50,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@ExcelTableElement(sheetName = DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
 
-	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = LOSS_INFORMATION_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = HomeSSOpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLLossInformation> policyLossInformation;
 
 	@ExcelTableElement(sheetName = NAMED_INSURED_SHEET_NAME, headerRowIndex = NAMED_INSURED_HEADER_ROW_NUMBER)
@@ -75,11 +72,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	private String chamberOfCommerce; // NJ specific ?
 	private String profession; // OK specific ?
 
-	public List<OpenLCappingDetails> getCappingDetails() {
+	public List<HomeSSOpneLCappingDetails> getCappingDetails() {
 		return new ArrayList<>(cappingDetails);
 	}
 
-	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
+	public void setCappingDetails(List<HomeSSOpneLCappingDetails> cappingDetails) {
 		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
@@ -163,14 +160,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		this.riskMeterData = new ArrayList<>(riskMeterData);
 	}
 
-	public LocalDateTime getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	public Boolean getVariationRequest() {
 		return isVariationRequest;
 	}
@@ -228,6 +217,15 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public LocalDateTime getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDateTime effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
+
+	@Override
 	public String getPolicyNumber() {
 		return policyNumber;
 	}
@@ -235,6 +233,13 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public void setPolicyNumber(String policyNumber) {
 		this.policyNumber = policyNumber;
+	}
+
+	@Override
+	public Integer getTerm() {
+		Integer term = getCappingDetails().get(0).getTerm();
+		//TODO-dchubkov: to be verified whether 12 is OK for default term or not
+		return term != null ? term : 12;
 	}
 
 	@Override

@@ -26,11 +26,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointUpdate() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
-			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
-		} else {
-			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS, APP_HOST, APP_STUB_URL));
-		}
+
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
 	}
 
 	@Test(description = "setting Agent/Agency check against Zip to stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -158,11 +155,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
-			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
-		} else {
-			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
-		}
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
 	}
 
 	@Test(description = "Precondition updating pending refund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

@@ -2,7 +2,6 @@ package aaa.helpers.openl.model.home_ca.ho6;
 
 import static aaa.helpers.openl.model.OpenLFile.DWELLING_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.DWELLING_SHEET_NAME;
-import static aaa.helpers.openl.model.OpenLFile.FORM_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.FORM_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy {
 	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaHO6OpenLDwelling> dwelling;
 
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
+	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO6OpenLFile.FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLForm> forms;
 
 	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
