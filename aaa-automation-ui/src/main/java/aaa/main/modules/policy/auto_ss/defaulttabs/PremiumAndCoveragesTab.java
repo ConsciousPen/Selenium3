@@ -46,8 +46,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
-	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.xpath("//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']"));
-	public static Table tablePolicyLevelLiabilityCoveragesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
+	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
 	public static Table tableEValueMessages = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
 
@@ -184,12 +183,8 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public Dollar getPolicyLevelLiabilityCoveragesPremium() {
-		return new Dollar(tablePolicyLevelLiabilityCoveragesSummary.getRow(1).getCell(3).getValue());
+		return new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
 	}
-
-	public Table getPolicyLevelLiabilityCoveragesTable() {
-	    return tablePolicyLevelLiabilityCoverages;
-    }
 
 	@Override
 	public Tab fillTab(TestData td) {
