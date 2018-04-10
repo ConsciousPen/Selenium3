@@ -984,8 +984,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin2 = "ZFFCW56A830133118";
 
 		Vehicle response1 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-		assertSoftly(softly ->
-				softly.assertThat(response1.oid).isNotEmpty()
+		assertSoftly(softly -> {
+					softly.assertThat(response1.modelYear).isEqualTo("2003");
+					softly.assertThat(response1.manufacturer).isEqualTo("FERRARI");
+					softly.assertThat(response1.series).isEqualTo("ENZO");
+					softly.assertThat(response1.model).isEqualTo("ENZO");
+					softly.assertThat(response1.bodyStyle).isEqualTo("COUPE");
+			        softly.assertThat(response1.oid).isNotNull();
+					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
+					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
+				}
 		);
 
 		mainApp().open();
@@ -1799,6 +1807,71 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 				softly.assertThat(response4[1].vehicleStatus).isEqualTo("active");
 			});
 		}
+	}
+
+	protected void pas10449_ViewVehicleServiceCheckOrderOfVehicle(PolicyType policyType, String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_Vehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//hit view vehicle service to get Vehicle order
+		Vehicle[] viewVehicleResponse = HelperCommon.executeVehicleInfoValidate(policyNumber);
+
+		List<Vehicle> sortedVehicles = Arrays.asList(viewVehicleResponse);
+
+		sortedVehicles.sort(new Vehicle.VehicleComparator());
+
+		assertSoftly(softly -> {
+
+			assertThat(viewVehicleResponse).containsAll(sortedVehicles);
+
+			Vehicle vehicle1 = Arrays.stream(viewVehicleResponse).filter(veh -> "1GAZG1FG7D1145543".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle1).isNotNull();
+			softly.assertThat(vehicle1.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle1.vehTypeCd).isEqualTo("PPA");
+
+			Vehicle vehicle2 = Arrays.stream(viewVehicleResponse).filter(veh -> "WDCYC7BB0B6729451".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle2).isNotNull();
+			softly.assertThat(vehicle2.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle2.vehTypeCd).isEqualTo("PPA");
+
+			Vehicle vehicle3 = Arrays.stream(viewVehicleResponse).filter(veh -> "5B4MP67G123353230".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle3).isNotNull();
+			softly.assertThat(vehicle3.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle3.vehTypeCd).isEqualTo("Motor");
+
+			Vehicle vehicle4 = Arrays.stream(viewVehicleResponse).filter(veh -> "5FNRL5H64GB087983".equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			softly.assertThat(vehicle4).isNotNull();
+			softly.assertThat(vehicle4.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicle4.vehTypeCd).isEqualTo("Conversion");
+
+		});
+
+		// Perform endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		SearchPage.openPolicy(policyNumber);
+
+		//Add new vehicle to have pending vehicle
+		String purchaseDate = "2013-02-22";
+		String vin2 = "1HGFA16526L081415";
+		Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertThat(addVehicleResponse.oid).isNotEmpty();
+
+		Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		List<Vehicle> sortedVehicles1 = Arrays.asList(viewVehicleEndorsementResponse);
+		sortedVehicles1.sort(new Vehicle.VehicleComparator());
+		assertSoftly(softly ->
+
+				assertThat(viewVehicleEndorsementResponse).containsAll(sortedVehicles1)
+
+		);
+
 	}
 
 	protected void pas9610_UpdateVehicleService() {

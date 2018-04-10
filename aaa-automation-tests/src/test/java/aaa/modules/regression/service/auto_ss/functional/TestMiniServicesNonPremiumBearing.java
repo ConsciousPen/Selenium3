@@ -336,8 +336,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Check if only active Vehicles are allowed using DXP
-	 * @scenario
-	 * 1. Create policy with two vehicles.
+	 * @scenario 1. Create policy with two vehicles.
 	 * 2. Check if the same vehicles are displayed in dxp server.
 	 * 3. Initiate endorsement, and change VIN for one of the vehicles. Don't bind.
 	 * 4. Check if the new vehicle, which wad added during endorsement is not displayed in dxp server.
@@ -374,8 +373,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Check dxp server if Nano policy not returning any information about vehicle.
-	 * @scenario
-	 * 1. Create Nano policy.
+	 * @scenario 1. Create Nano policy.
 	 * 2. Check dxp server, any info should not be displayed about vehicle.
 	 */
 	@Parameters({"state"})
@@ -391,10 +389,10 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * @name Check dxp server To add vehicle.
 	 * Create a Policy
 	 * Create a pended endorsement
-	 *  Hit "add-vehicle" dxp server.
-	 *  Pass Pearches date and VIN to the service
-	 *  Go to pas open pended endorsement and go to vehicle tab
-	 *  Check the new vehicle is added with the vin number.
+	 * Hit "add-vehicle" dxp server.
+	 * Pass Pearches date and VIN to the service
+	 * Go to pas open pended endorsement and go to vehicle tab
+	 * Check the new vehicle is added with the vin number.
 	 * @scenario
 	 */
 	@Parameters({"state"})
@@ -408,8 +406,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Future policy
-	 * @scenario
-	 * 1. Create Future Policy.
+	 * @scenario 1. Create Future Policy.
 	 * 2. Hit "start endorsement info" dxp server.
 	 * 3. Check error message.
 	 * 4. Start renew action.
@@ -427,8 +424,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Megha Gubbala
 	 * @name Check Start Endorsement info server response for allow endorsements
-	 * @scenario
-	 * 1. Create active policy for NJ.
+	 * @scenario 1. Create active policy for NJ.
 	 * 2. Hit dxp start-endorsement-info.
 	 * 3. Verify the response State does not allow endorsements.
 	 * 4. Hit "start endorsement info" dxp server.
@@ -450,8 +446,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Cancel Policy
-	 * @scenario
-	 * 1. Create active policy.
+	 * @scenario 1. Create active policy.
 	 * 2. Cancel policy.
 	 * 3. Verify Policy status is 'Policy Cancelled'.
 	 * 4. Hit "start endorsement info" dxp server.
@@ -472,8 +467,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Start Endorsement info server response for Expired Policy
-	 * @scenario
-	 * 1. Create active policy.
+	 * @scenario 1. Create active policy.
 	 * 2. Change time to the policy expiration date +2d
 	 * 3. Run policyUpdate job
 	 * 4. Check if policy is expired.
@@ -491,8 +485,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Policy Details service for Pending and Active policies
-	 * @scenario
-	 * 1. Create pending policy
+	 * @scenario 1. Create pending policy
 	 * 2. Check policy details
 	 * 3. Change date, run policyStatusUpdate
 	 * 4. Check policy details
@@ -508,8 +501,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Policy Details service for Active renewal
-	 * @scenario
-	 * 1. Create active policy
+	 * @scenario 1. Create active policy
 	 * 2. Run Renewal Part1
 	 * 3. Check policy and renewal details
 	 * 4. Run Renewal Part2
@@ -529,8 +521,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Policy Details service for Lapsed renewal
-	 * @scenario
-	 * 1. Create active policy
+	 * @scenario 1. Create active policy
 	 * 2. Run Renewal Part1
 	 * 3. Check policy and renewal details
 	 * 4. Run Renewal Part2
@@ -553,8 +544,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Conversion policy details
-	 * @scenario
-	 * 1. Create manual conversion policy
+	 * @scenario 1. Create manual conversion policy
 	 * 2. Check stub policy and renewal details
 	 * 4. Run Renewal Part2
 	 * 5. Check stub policy and renewal details
@@ -581,8 +571,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Policy lock unlock functionality using services / sessionId.
-	 * @scenario
-	 * 1. Create active policy.
+	 * @scenario 1. Create active policy.
 	 * 2. Hit lock service with sessionId1. Check service status.
 	 * 3. Hit start endorsement info service with sessionId1.
 	 * 4. Hit stat endorsement info service with sessionId2. Check error.
@@ -608,8 +597,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Retrieve lookup data service - Payment Methods
-	 * @scenario
-	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * @scenario 1. Add State Specific configurations for specific dates, which changes Default configuration's values
 	 * 2. Add State Specific configurations for specific dates, which adds new values to it
 	 * 3. Retrieve lookup values for the mentioned dates, check value
 	 */
@@ -624,8 +612,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Retrieve lookup data service - Payment Plans
-	 * @scenario
-	 * 1. Add State Specific configurations for specific dates, which changes Default configuration's values
+	 * @scenario 1. Add State Specific configurations for specific dates, which changes Default configuration's values
 	 * 2. Add State Specific configurations for specific dates, which adds new values to it
 	 * 3. Retrieve lookup values for the mentioned dates, check value
 	 */
@@ -640,8 +627,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Check Vehicle status using view vehicle service/ check endorsement rate service
-	 * @scenario
-	 * 1. Create active policy with one vehicle.
+	 * @scenario 1. Create active policy with one vehicle.
 	 * 2. Create Endorsement using dxp server.
 	 * 3. Hit rate endorsement service.
 	 * 4. Check premium amount in service and UI, check the endorsement status.
@@ -665,9 +651,27 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	/**
 	 * @author Megha Gubbala
+	 * @name Check Vehicle vehicle service
+	 * @scenario 1.Create a policy with 4 vehicles (1.PPA 2.PPA 3. Conversion Van 4. Trailer )
+	 * 2.hit view vehicle service
+	 * 3.get a response in right sequence
+	 * 4.perform endorsement
+	 * 5.add new vehicle (that will be pending)
+	 * 6.hit view vehicle service
+	 * 7.validate response shows pending vehicle first.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10449"})
+	public void pas10449_ViewVehicleServiceOrderOfVehicle(@Optional("VA") String state) {
+
+		pas10449_ViewVehicleServiceCheckOrderOfVehicle(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Megha Gubbala
 	 * @name Verify update vehicle service
-	 * @scenario
-	 * 1. Create active policy with one vehicle.
+	 * @scenario 1. Create active policy with one vehicle.
 	 * 2. hit view vehicle service.
 	 * 3. get OID from view vehicle service.
 	 * 4. hit update vehicle service.
@@ -704,8 +708,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Bind Manually created endorsement
-	 * @scenario
-	 * 1. Create active policy
+	 * @scenario 1. Create active policy
 	 * 2. Create an endorsement manually
 	 * 3. Rate endorsement manually
 	 * 4. Bind endorsement using service
@@ -724,8 +727,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Bind Manually created endorsement
-	 * @scenario
-	 * 1. Create active policy
+	 * @scenario 1. Create active policy
 	 * 2. Create an endorsement through service
 	 * 3. Rate endorsement through service
 	 * 4. Bind endorsement using service

@@ -30,7 +30,7 @@ public class JavaScriptButton extends Button {
 	public void click() {
 		log.debug("Clicking control " + this);
 		ensureVisible();
-		Waiters.SLEEP(500).go();
+		Waiters.SLEEP(1000).go();
 		ElementHighlighter.highlight(this);
 //		BrowserController.get().executeScript("arguments[0].click();", getWebElement());
 		getWebElement().click();
