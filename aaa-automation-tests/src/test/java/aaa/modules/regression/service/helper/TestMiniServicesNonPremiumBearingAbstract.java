@@ -859,7 +859,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		VehicleTab vehicleTab = new VehicleTab();
-
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -875,8 +874,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin2 = "ZFFCW56A830133118";
 
 		Vehicle response1 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-		assertSoftly(softly ->
-				softly.assertThat(response1.oid).isNotEmpty()
+		assertSoftly(softly -> {
+					softly.assertThat(response1.modelYear).isEqualTo("2003");
+					softly.assertThat(response1.manufacturer).isEqualTo("FERRARI");
+					softly.assertThat(response1.series).isEqualTo("ENZO");
+					softly.assertThat(response1.model).isEqualTo("ENZO");
+					softly.assertThat(response1.bodyStyle).isEqualTo("COUPE");
+			        softly.assertThat(response1.oid).isNotNull();
+					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
+					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
+				}
 		);
 
 		mainApp().open();
