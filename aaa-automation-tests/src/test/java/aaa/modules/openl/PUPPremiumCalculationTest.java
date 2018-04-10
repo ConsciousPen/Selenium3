@@ -1,8 +1,5 @@
 package aaa.modules.openl;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
@@ -11,6 +8,10 @@ import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 
 public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy> {
@@ -22,7 +23,7 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 
 	@Override
 	protected TestData getRatingDataPattern() {
-		return super.getRatingDataPattern().mask(new PrefillTab().getMetaKey());
+		return super.getRatingDataPattern().mask(new PrefillTab().getMetaKey(), new UnderlyingRisksAutoTab().getMetaKey());
 	}
 
 	@Override
