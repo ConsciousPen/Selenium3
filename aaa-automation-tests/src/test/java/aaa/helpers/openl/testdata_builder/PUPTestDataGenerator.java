@@ -68,13 +68,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				type = PolicyType.HOME_SS_HO3;
 			}
 			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
-			if (EntitiesHolder.isEntityPresent(key)) {
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			} else {
-				type.get().createPolicy(td);
-				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			}
+			type.get().createPolicy(td);
+			EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+			returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			//open Customer that was created in test
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
@@ -177,7 +173,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			businessOrFarmingData.add(new SimpleDataProvider(getBusinessOrFarmingData(businessOrFarmingData, "HS 24 72 - Incidental Farming Personal Liability Coverage")));
 		}
 
-		if (Boolean.TRUE.equals(openLPolicy.getIncidentalFarmingInd())) {
+		if (Boolean.TRUE.equals(openLPolicy.getPermittedOccupancyInd())) {
 			businessOrFarmingData.add(new SimpleDataProvider(getBusinessOrFarmingData(businessOrFarmingData, "HS 04 42 - Permitted Incidental Business Occupancies - Residence Premises")));
 		}
 
@@ -219,7 +215,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfMotorhomes = openLPolicy.getRiskItems().stream().filter(c -> "Motorhome".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 		int numOfMotorcycles = openLPolicy.getRiskItems().stream().filter(c -> "Motorcycle".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
-		//int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
+		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 		//int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 
 		int numOfSeniorDriver = openLPolicy.getNumOfSeniorOps();
@@ -301,6 +297,31 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 					antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PD_LIMITS.getLabel(), "100000");
 				}
 				tdAutomobiles.add(new SimpleDataProvider(antiqueCar));
+			}
+		}
+
+		if (numOfAddlAuto > 0) {
+			for (int i = 0; i < numOfAddlAuto + 2; i++) {
+				Map<String, Object> addlAuto = new HashMap<>();
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CAR_TYPE.getLabel(), "Private Passenger Auto");
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.YEAR.getLabel(), RandomUtils.nextInt(1999, 2017));
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MAKE.getLabel(), getRandom("BENTLEY", "AUDI", "BMW"));
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MODEL.getLabel(), "regex=.*\\S.*");
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.STATE.getLabel(), getState());
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER.getLabel(), "regex=.*\\S.*");
+				if (tdAutomobiles.size() < 1) {
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
+					if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
+						addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
+
+					} else {
+						addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "500000"));
+					}
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PD_LIMITS.getLabel(), "100000");
+				}
+				tdAutomobiles.add(new SimpleDataProvider(addlAuto));
 			}
 		}
 
