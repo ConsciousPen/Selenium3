@@ -8,6 +8,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -205,18 +206,10 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         bodilyInjury.setValueByIndex(2);
         premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(false);
-        String labelEUIMBI = "Uninsured/Underinsured  Motorist Bodily Injury";
-        String labelEUIMPD = "Uninsured Motorist Property Damage";
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Uninsured/Underinsured  Motorist Bodily Injury")
-                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Uninsured Motorist Property Damage")
-                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
+        new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
         premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(true);
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Enhanced Uninsured/Underinsured  Motorist Bodily Injury")
-                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
-        assertThat(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesTable().getRowContains("Description", "Enhanced Uninsured Motorist Property Damage")
-                .getCell("Term Premium").getValue()).isEqualTo("$0.00");
+        new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
         premiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448. Validate Help text when moused over EUIM, EUIMPD and EUIMBI
