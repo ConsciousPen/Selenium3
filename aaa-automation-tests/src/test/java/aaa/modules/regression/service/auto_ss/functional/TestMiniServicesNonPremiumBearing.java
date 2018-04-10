@@ -644,7 +644,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
-	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("AZ") String state) {
+	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
 
 		pas9490_ViewVehicleServiceCheckVehiclesStatus();
 	}
