@@ -232,6 +232,7 @@ public final class DocGenEnum {
 		HS11_4("HS11", "HS11_4", "Application for Renters Insurance"),
 		HS11_6("HS11", "HS11_6", "Application for Condominium Owners Insurance"),
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
+		HS65PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		HSAUDVA("Virginia Adverse Action Underwriting Decision Notice"),
 		HSCSNA("Homeowners Insurance"),
 		HSCSND("Rental Property Insurance"),
