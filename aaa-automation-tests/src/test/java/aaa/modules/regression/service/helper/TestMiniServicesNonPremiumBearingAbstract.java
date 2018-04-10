@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,6 +10,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,6 +75,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	private ErrorTab errorTab = new ErrorTab();
 	private AssignmentTab assignmentTab = new AssignmentTab();
 	private VehicleTab vehicleTab = new VehicleTab();
+	private DriverTab driverTab = new DriverTab();
 
 	protected abstract String getGeneralTab();
 
@@ -740,13 +743,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(response2[1].vehIdentificationNo).isEqualTo(vehIdentificationNo3);
 		});
 	}
-	//------------------------
-	//jovita
+
 	protected void pas11932_viewDriversInfo(PolicyType policyType, String state){
 
 		mainApp().open();
 		createCustomerIndividual();
-
 
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
@@ -763,34 +764,91 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
 		String middleName2 = td.getTestDataList("DriverTab").get(1).getValue("Middle Name");
 		String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
-		String sufix2 = td.getTestDataList("DriverTab").get(1).getValue("Suffix");
+		String suffix2 = td.getTestDataList("DriverTab").get(1).getValue("Suffix");
 
 		String firstName3 = td.getTestDataList("DriverTab").get(2).getValue("First Name");
 		String middleName3 = td.getTestDataList("DriverTab").get(2).getValue("Middle Name");
 		String lastName3 = td.getTestDataList("DriverTab").get(2).getValue("Last Name");
-		String sufix3 = td.getTestDataList("DriverTab").get(2).getValue("Suffix");
+		String suffix3 = td.getTestDataList("DriverTab").get(2).getValue("Suffix");
 
-		//		policy.policyInquiry().start();
-		//		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		//Hit service for the first time
+		DriversDto[] response = HelperCommon.executeViewDrivers(policyNumber);
+		DriversDto driverSt = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+		DriversDto driverNd = Arrays.stream(response).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+		DriversDto driverRd = Arrays.stream(response).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
 
-		//		String firstName1 = DriverTab.getInquiryAssetList().getStaticElement(NAMED_INSURED.getLabel()).getValue();
-		//		String lastName1 = driverTab.getInquiryAssetList().getStaticElement(LAST_NAME.getLabel()).getValue();
-		//		VehicleTab.tableVehicleList.selectRow(2);
+		assertSoftly(softly -> {
+			softly.assertThat(driverSt).isNotNull();
+			softly.assertThat(driverSt.getLastName()).isEqualTo(lastName1);
+			softly.assertThat(driverSt.getOid()).isNotEmpty();
 
+			softly.assertThat(driverNd).isNotNull();
+			softly.assertThat(driverNd.getMiddleName()).isEqualTo(middleName2);
+			softly.assertThat(driverNd.getLastName()).isEqualTo(lastName2);
+			softly.assertThat(driverNd.getSuffix()).isEqualTo(suffix2);
+			softly.assertThat(driverNd.getOid()).isNotEmpty();
 
+			softly.assertThat(driverRd).isNotNull();
+			softly.assertThat(driverRd.getMiddleName()).isEqualTo(middleName3);
+			softly.assertThat(driverRd.getLastName()).isEqualTo(lastName3);
+			softly.assertThat(driverRd.getSuffix()).isEqualTo(suffix3);
+			softly.assertThat(driverRd.getOid()).isNotEmpty();
+		});
 
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.removeRow(3);
+		DriverTab.tableDriverList.selectRow(2);
+		driverTab.getAssetList().getAsset(MIDDLE_NAME).setValue("Kevin");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
 
+		//Check dxp service with pending endorsement
+		DriversDto[] response2 = HelperCommon.executeViewDrivers(policyNumber);
+		DriversDto driverSt2 = Arrays.stream(response2).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+		DriversDto driverNd2 = Arrays.stream(response2).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+		DriversDto driverRd2 = Arrays.stream(response2).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
 
+		assertSoftly(softly -> {
+			softly.assertThat(driverNd2).isNotNull();
+			softly.assertThat(driverSt2.getLastName()).isEqualTo(lastName1);
+			softly.assertThat(driverSt2.getOid()).isNotEmpty();
 
+			softly.assertThat(driverNd2).isNotNull();
+			softly.assertThat(driverNd2.getMiddleName()).isEqualTo(middleName2);
+			softly.assertThat(driverNd2.getLastName()).isEqualTo(lastName2);
+			softly.assertThat(driverNd2.getSuffix()).isEqualTo(suffix2);
+			softly.assertThat(driverNd2.getOid()).isNotEmpty();
 
+			softly.assertThat(driverNd2).isNotNull();
+			softly.assertThat(driverRd2.getMiddleName()).isEqualTo(middleName3);
+			softly.assertThat(driverRd2.getLastName()).isEqualTo(lastName3);
+			softly.assertThat(driverRd2.getSuffix()).isEqualTo(suffix3);
+			softly.assertThat(driverRd2.getOid()).isNotEmpty();
+		});
 
+		//Issue pended endorsement
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
+		//Check dxp service if endorsement changes were applied
+		DriversDto[] response3 = HelperCommon.executeViewDrivers(policyNumber);
+		DriversDto driverSt3 = Arrays.stream(response3).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+		DriversDto driverNd3 = Arrays.stream(response3).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
 
+		assertSoftly(softly -> {
+			softly.assertThat(driverNd3).isNotNull();
+			softly.assertThat(driverSt3.getLastName()).isEqualTo(lastName1);
+			softly.assertThat(driverSt3.getOid()).isNotEmpty();
 
-
-
+			softly.assertThat(driverNd3).isNotNull();
+			softly.assertThat(driverNd3.getMiddleName()).isEqualTo("Kevin");
+			softly.assertThat(driverNd3.getLastName()).isEqualTo(lastName2);
+			softly.assertThat(driverNd3.getSuffix()).isEqualTo(suffix2);
+			softly.assertThat(driverNd3.getOid()).isNotEmpty();
+		});
 	}
-	//------------------------
 
 	protected void pas8273_CheckIfNanoPolicyNotReturningVehicle(PolicyType policyType, String state) {
 
