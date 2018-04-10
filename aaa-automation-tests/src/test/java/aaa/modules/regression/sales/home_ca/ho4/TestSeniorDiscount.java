@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho4.functional;
+package aaa.modules.regression.sales.home_ca.ho4;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -38,7 +38,7 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 	 * check age calculation in the middle
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-3717", "PAS-3712"})
 	public void pas3717_SeniorDiscountsAgeAndDwellingUsage(@Optional("CA") String state) {
 		int seniorDiscountApplicabilityAgeYears = 65;
