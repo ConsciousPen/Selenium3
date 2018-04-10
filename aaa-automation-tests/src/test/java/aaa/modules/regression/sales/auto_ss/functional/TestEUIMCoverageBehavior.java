@@ -212,16 +212,16 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         premiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448. Validate Help text when moused over EUIM, EUIMPD and EUIMBI
-//        String euimExpectedText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
-//                + "Insured has the option to choose EUIM coverage in place of UM coverage.  Coverage applies to both EUIMBI and EUIMPD.";
-//        String euimBIExpectedText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured in an accident and the driver "
-//                + "who is legally liable does not have insurance or has insufficient limits of liability insurance. Please see policy contract and EUIM endorsement.";
-//        String euimPDExpectedText = "Pays up to the specified limit the insured is legally entitled to recover or waives the collision deductible to cover damages resulting from an accident "
-//                + "with an uninsured motor vehicle. Please see policy contract and EUIM endorsement.";
-//        assertThat(PremiumAndCoveragesTab.enhancedUIMHelpText.getAttribute("title")).isEqualTo(euimExpectedText);
-//        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("title")).isEqualTo(euimBIExpectedText);
-//        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("title")).isEqualTo(euimPDExpectedText);
-//
+        String euimExpectedText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
+                + "Insured has the option to choose EUIM coverage in place of UM coverage. Coverage applies to both EUIMBI and EUIMPD.";
+        String euimBIExpectedText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured in an accident and the driver "
+                + "who is legally liable does not have insurance or has insufficient limits of liability insurance. Please see policy contract and EUIM endorsement.";
+        String euimPDExpectedText = "Pays up to the specified limit the insured is legally entitled to recover or waives the collision deductible to cover damages resulting from an accident "
+                + "with an uninsured motor vehicle. Please see policy contract and EUIM endorsement.";
+        assertThat(PremiumAndCoveragesTab.enhancedUIMHelpText.getAttribute("innerText")).contains(euimExpectedText);
+        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("innerText")).contains(euimBIExpectedText);
+        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("innerText")).contains(euimPDExpectedText);
+
 //        //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
 //        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
 //        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
