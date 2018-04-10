@@ -43,6 +43,7 @@ public class HelperCommon {
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT = "/api/v1/policies/%s/endorsement/assignments";
 	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
 	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
+	private static final String DXP_VIEW_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -136,7 +137,12 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
 	}
 
-	static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
+	public static DriversDto[] executeViewDrivers(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_DRIVERS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+	}
+
+	public static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
