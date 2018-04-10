@@ -221,13 +221,6 @@
             </class>
         </classes>
     </test>
-    <test name="TestSeniorDiscount" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
-        </classes>
-    </test>
     <test name="TestContactInformation" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
@@ -333,7 +326,7 @@
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>
@@ -408,6 +401,7 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
+                    <include name= "pas10449_ViewVehicleServiceOrderOfVehicle"/>
                 </methods>
             </class>
         </classes>
