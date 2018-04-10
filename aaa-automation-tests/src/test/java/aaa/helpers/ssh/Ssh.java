@@ -118,7 +118,7 @@ public class Ssh {
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
 
 			if (list.size() == 0) {
-				closeSession();
+				//closeSession();
 				log.info("SSH: No files to delete in '" + source + "'.");
 				return;
 			}

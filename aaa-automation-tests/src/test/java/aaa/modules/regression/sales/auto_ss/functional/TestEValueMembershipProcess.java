@@ -1130,14 +1130,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//implementEmailCheck from Admin Log?
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
-		transactionHistoryRecordCountCheck(2, null);
+		//TODO Question to Maris
+		//membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
+		transactionHistoryRecordCountCheck(1, null);
 		lastTransactionHistoryMembershipDiscountCheck(true);
 
 		jobsNBplus15plus30runNoChecks();
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		transactionHistoryRecordCountCheck(3, "");
+		transactionHistoryRecordCountCheck(2, "");
 		lastTransactionHistoryMembershipDiscountCheck(false);
 		checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false);
 
