@@ -16,10 +16,15 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.CustomerMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
@@ -28,6 +33,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestLockedUWPoints extends AutoSSBaseTest {
 
@@ -36,6 +42,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+	private ErrorTab errorTab = new ErrorTab();
 	private MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
 
 	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
@@ -63,7 +70,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	*/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
@@ -122,7 +129,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		verifyLockedLimitsRenewalAndEndorsement();
+		// Endorsement for NB which is initiated should show behave the same as NB
+		verifyLockedLimitsNB();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -154,7 +162,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
@@ -199,7 +207,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
 
@@ -218,6 +226,55 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		verifyLockedLimitsRenewalAndEndorsement();
 	}
+
+	/**
+	 *@author Dominykas Razgunas
+	 *@name PA Auto Policy - UI Changes to display locked UW Points. Conversion.
+	 *@scenario
+	 * 1. Initiate Conversion Policy
+	 * 2. Navigate to P&C page calculate premium
+	 * 3. Check that all of the UW components are have scores and Save Total UW score.
+	 *@details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
+
+		verifyAlgoDate();
+
+		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+
+		mainApp().open();
+		createCustomerIndividual();
+
+		TestData tdPolicy = getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(),
+				AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
+				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PENNSYLVANIA_NOTICE_TO_NAMED_INSURED_REGARDING_TORT_OPTIONS.getLabel()), "Physically Signed");
+
+		TestData tdManualConversionInitiation = getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
+				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), today);
+
+		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
+		policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
+
+		// Save Locked UW Points value. Verify VRD Page for NB
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		verifyLockedLimitsNB();
+
+		// Issue Policy
+		premiumAndCoveragesTab.submitTab();
+		policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+		documentsAndBindTab.submitTab();
+		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+		errorTab.override();
+		documentsAndBindTab.submitTab();
+	}
+
+
+
+
 
 	//TODO remove verify algo date after 2018-06-20
 	private void verifyAlgoDate() {
