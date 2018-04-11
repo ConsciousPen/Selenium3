@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -46,6 +47,11 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     private PurchaseTab purchaseTabAuto = new PurchaseTab();
 
+    @BeforeClass
+    public void verifyAlgoDate() {
+        TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+    }
+
     /**
      * @author Dominykas Razgunas
      * @name Test PUP VRD Auto tier and Underlying risks Auto tier with underlying Auto policy
@@ -79,8 +85,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
         String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
         Map<String, String> policies = new HashMap<>();
-
-        verifyAlgoDate();
 
         // Create Customer
         mainApp().open();
@@ -160,8 +164,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
         Map<String, String> policies = new HashMap<>();
 
-        verifyAlgoDate();
-
         // Create Customer
         mainApp().open();
         createCustomerIndividual();
@@ -232,8 +234,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
         String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
         Map<String, String> policies = new HashMap<>();
-
-        verifyAlgoDate();
 
         // Create Customer
         mainApp().open();
@@ -324,11 +324,5 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         purchaseTab.submitTab();
     }
 
-    //TODO remove verify algo date after 2018-06-01
-    private void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
 }
-}
+
