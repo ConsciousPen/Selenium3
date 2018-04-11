@@ -9,8 +9,8 @@
 
     <test name="PUP [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
-        <parameter name="fileName" value="AZTests-20170920.xls"/>
-        <parameter name="policyNumbers" value="41"/>
+        <parameter name="fileName" value="AZTests-20170920_one_address.xls"/>
+        <parameter name="policyNumbers" value="41,139"/>
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
