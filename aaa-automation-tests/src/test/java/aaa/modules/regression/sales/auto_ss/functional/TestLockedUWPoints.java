@@ -82,7 +82,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
 		verifyAlgoDate();
@@ -209,7 +209,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
 		verifyAlgoDate();
@@ -316,17 +316,20 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
+		// Will be removed after algo date
 		verifyAlgoDate();
 
+		// get time for min due payments
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime();
 
 		mainApp().open();
 		createCustomerIndividual();
 
+		// Get Testdata for initiating and issuing conversion policy
 		TestData tdPolicy = getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(),
 				AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PENNSYLVANIA_NOTICE_TO_NAMED_INSURED_REGARDING_TORT_OPTIONS.getLabel()), "Physically Signed");
@@ -334,6 +337,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		TestData tdManualConversionInitiation = getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
 				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), today);
 
+		// Initiate conversion and fill policy up to P&C tab
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
 		policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
 
