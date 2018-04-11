@@ -36,8 +36,6 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
 
 public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 
@@ -176,8 +174,8 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		verifyPaymentDeclinedTransactionPresent(paymentAmountPlain);
 		verifyPaymentTransactionBecameDeclined(paymentAmount);
 		BillingSummaryPage.linkUpdateBillingAccount.click();
-		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY.getLabel(), CheckBox.class)).hasValue(false);
-		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION.getLabel(), ComboBox.class)).hasValue("");
+		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
+		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION)).hasValue("");
 		UpdateBillingAccountActionTab.buttonSave.click();
 
 		SearchPage.openPolicy(policyNumber);
@@ -198,15 +196,6 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	private void generateFileForRecurringPaymentResponseJob(String policyNumber, String billingAccount, String paymentAmountPlain, String err) {
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccount)).get();
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
-		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454"})
-	public void createFile(@Optional("VA") String state) {
-		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile("VASS952918558", "84.33", "100101116", "ERR");
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
 	}

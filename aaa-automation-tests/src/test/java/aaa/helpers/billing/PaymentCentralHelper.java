@@ -23,19 +23,7 @@ public class PaymentCentralHelper {
 	private static final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");
 
 	/**
-	 * This method is used for prepare disbursement engine file with data specified by input parameters.
-	 *
-	 * transactionNumber - transaction number
-	 * refundMethod  - 'R' for automated refund , 'M' for manual refund
-	 * paymentType - 'CHCK' - check, 'EFT' - eft, 'CRDC' - credit/debit card
-	 * policyNumber - policy number
-	 * productType - product type Auto = PA, Home = HO, PUP = PU
-	 * refundAmount - refund amount
-	 * accountLast4 - last 4 numbers
-	 * checkNumber - check number
-	 * accountType - MASTR, VISA, AMEX, DISC, CHKG, SAVG
-	 * cardSubType - Debit, Credit
-	 * refundStatus - SUCC - success, ERR - for error
+	 * This method is used to prepare file for aaaPaymentCentralRejectFeedAsyncJob
 	 */
 	public synchronized File createFile(String policyNumber, String agmtAmount, String paymentReferenceId) {
 
