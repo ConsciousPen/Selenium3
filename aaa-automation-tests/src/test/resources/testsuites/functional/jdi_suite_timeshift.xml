@@ -280,6 +280,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX">
                 <methods>
+                    <include name="precondJobAdding"/>
                     <include name="pas7454_eValueRemovedAutopayNsfDeclinePaymentCentralReject"/>
                     <include name="pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse"/>
                 </methods>
