@@ -27,13 +27,9 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
 public class TestDisableReorderReport extends HomeSSHO3BaseTest {
+
     private ReportsTab reportTab = new ReportsTab();
     private ApplicantTab applicant = new ApplicantTab();
-
-    @BeforeClass
-    public void verifyAlgoDate() {
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
-    }
 
     /**
      * @author Igor Garkusha
@@ -50,6 +46,8 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6795")
     public void pas6795_disableReorderReportEndorsement(@Optional("PA") String state) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         mainApp().open();
         createPolicyVerifyOverrideLink();
@@ -89,6 +87,8 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6827")
     public void pas6827_disableReorderReportRenewal(@Optional("PA") String state) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         mainApp().open();
         createPolicyVerifyOverrideLink();

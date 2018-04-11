@@ -47,11 +47,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     private PurchaseTab purchaseTabAuto = new PurchaseTab();
 
-    @BeforeClass
-    public void verifyAlgoDate() {
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
-    }
-
     /**
      * @author Dominykas Razgunas
      * @name Test PUP VRD Auto tier and Underlying risks Auto tier with underlying Auto policy
@@ -76,6 +71,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397, PAS-10391")
     public void pas10397_testPupInfoSectionViewRatingDetails(@Optional("PA") String state) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeTier.add("N/A");
@@ -160,6 +157,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397")
     public void pas10397_testPupInfoSectionViewRatingDetailsNoAuto(@Optional("PA") String state) {
 
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
 
         Map<String, String> policies = new HashMap<>();
@@ -226,6 +225,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397, PAS-10391")
     public void pas10397_testPupInfoSectionViewRatingDetailsNonPAAuto(@Optional("PA") String state) {
+
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_AZ")
                 .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("PrefillTab_AZ"))
