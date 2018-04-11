@@ -39,7 +39,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private ComboBox enhancedBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox enhancedPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE);
 
-
     /**
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      *@name MD Auto Enhanced Uninsured/Underinsured Coverage Behavior for NB
@@ -165,6 +164,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     private void verifyEnhancedUIMCoverage() {
+
+        // Prepare to check AC1 PAS-11200.
         propertyDamage.setValueByIndex(0);
         bodilyInjury.setValueByIndex(0);
         uninsuredBodilyInjury.setValueByIndex(1);
