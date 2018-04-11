@@ -53,7 +53,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        TimeSetterUtil.getInstance().verifyAlgoDate(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create the customer
         mainApp().open();
@@ -93,7 +93,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
                 .adjust(PrefillTab.class.getSimpleName(), testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_PrefillTab_OH"));
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        TimeSetterUtil.getInstance().verifyAlgoDate(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Create the customer
         mainApp().open();
@@ -140,7 +140,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         rangeAutoTier.add("N/A");
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        TimeSetterUtil.getInstance().verifyAlgoDate(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         mainApp().open();
         createCustomerIndividual();
@@ -208,7 +208,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6829_TestPrivelegeToEditCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        TimeSetterUtil.getInstance().verifyAlgoDate(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
@@ -278,7 +278,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6829_TestPrivelegeToEditManualCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        TimeSetterUtil.getInstance().verifyAlgoDate(algoDate);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();

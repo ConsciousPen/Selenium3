@@ -56,7 +56,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	@BeforeClass
 	public void verifyAlgoDate() {
-		TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
+		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 	}
 
 	/**

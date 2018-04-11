@@ -167,7 +167,7 @@ public class TimeSetterUtil {
      * Used to compare the current date/time to a given date/time and verify the date is on or after this date
      * @param algoEffectiveDate LocalDateTime that is needed to be on or after
      */
-    public void verifyAlgoDate(LocalDateTime algoEffectiveDate) {
+    public void confirmDateIsAfter(LocalDateTime algoEffectiveDate) {
         if (getCurrentTime().isBefore(algoEffectiveDate)) {
             nextPhase(algoEffectiveDate);
         }
