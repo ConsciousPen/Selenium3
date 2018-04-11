@@ -219,7 +219,7 @@ public abstract class CommonErrorTab extends Tab {
 							.startsWith(expectedTruncatedMessage));
 		}
 
-		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().equals(expectedMessage) && actualMessagePair.getValue().equals(expectedMessage));
+		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().startsWith(expectedMessage) && actualMessagePair.getValue().startsWith(expectedMessage));
 	}
 
 	public class Verify {

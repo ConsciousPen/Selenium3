@@ -26,7 +26,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
-import aaa.utils.excel.io.entity.area.ExcelRow;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
@@ -93,7 +92,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			}
 			// Find policies table and exclude not needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
 			ExcelTable policiesTable = ((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
-			policiesTable.getRows().stream().filter(r -> !policyNumbers.contains(r.getIntValue(OpenLFile.PRIMARY_KEY_COLUMN_NAME))).forEach(ExcelRow::exclude);
+			Integer[] rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).toArray(Integer[]::new);
+			policiesTable.excludeRows(rowsToExclude);
 		}
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();

@@ -68,13 +68,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 				type = PolicyType.HOME_SS_HO3;
 			}
 			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
-			if (EntitiesHolder.isEntityPresent(key)) {
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			} else {
-				type.get().createPolicy(td);
-				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			}
+			type.get().createPolicy(td);
+			EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+			returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			//open Customer that was created in test
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
@@ -120,14 +116,12 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			if (Boolean.TRUE.equals(getSlideInd(openLPolicy) && Boolean.FALSE.equals(getDivingBoardInd(openLPolicy)))) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with slide only");
 			}
-			if (Boolean.FALSE.equals(getSlideInd(openLPolicy) && Boolean.TRUE.equals(getDivingBoardInd(openLPolicy)))) {
+			if (Boolean.TRUE.equals(getDivingBoardInd(openLPolicy) && Boolean.FALSE.equals(getSlideInd(openLPolicy)))) {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with diving board only");
 			} else {
 				recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SWIMMING_POOL.getLabel(), "Restricted access with no accessories");
 			}
-			recreationalEquipment.adjust(HomeSSMetaData.PropertyInfoTab.RecreationalEquipment.SPA_HOT_TUB.getLabel(), "Restricted access");
 		}
-
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.RECREATIONAL_EQUIPMENT.getLabel(), recreationalEquipment
 		);
@@ -177,7 +171,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			businessOrFarmingData.add(new SimpleDataProvider(getBusinessOrFarmingData(businessOrFarmingData, "HS 24 72 - Incidental Farming Personal Liability Coverage")));
 		}
 
-		if (Boolean.TRUE.equals(openLPolicy.getIncidentalFarmingInd())) {
+		if (Boolean.TRUE.equals(openLPolicy.getPermittedOccupancyInd())) {
 			businessOrFarmingData.add(new SimpleDataProvider(getBusinessOrFarmingData(businessOrFarmingData, "HS 04 42 - Permitted Incidental Business Occupancies - Residence Premises")));
 		}
 
@@ -219,8 +213,8 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfMotorhomes = openLPolicy.getRiskItems().stream().filter(c -> "Motorhome".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 		int numOfMotorcycles = openLPolicy.getRiskItems().stream().filter(c -> "Motorcycle".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
-		//int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
-		//int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
+		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
+		int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 
 		int numOfSeniorDriver = openLPolicy.getNumOfSeniorOps();
 		int numOfYouthDriver = openLPolicy.getNumOfYouthfulOps();
@@ -304,6 +298,38 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			}
 		}
 
+		if (numOfAddlAuto > 0 || numOfAutoCredit > 0) {
+			int numOfAutoToAdd = 0;
+			if (numOfAddlAuto > 2) {
+				numOfAutoToAdd = numOfAddlAuto + 2;
+			}
+			if (numOfAutoCredit > 0) {
+				numOfAutoToAdd = 2 - numOfAutoCredit;
+			}
+			for (int i = 0; i < numOfAutoToAdd; i++) {
+				Map<String, Object> addlAuto = new HashMap<>();
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CAR_TYPE.getLabel(), "Private Passenger Auto");
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.YEAR.getLabel(), RandomUtils.nextInt(1999, 2017));
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MAKE.getLabel(), getRandom("BENTLEY", "AUDI", "BMW"));
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MODEL.getLabel(), "regex=.*\\S.*");
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.STATE.getLabel(), getState());
+				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.CURRENT_CARRIER.getLabel(), "regex=.*\\S.*");
+				if (tdAutomobiles.size() < 1) {
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
+					if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
+						addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
+
+					} else {
+						addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "500000"));
+					}
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PD_LIMITS.getLabel(), "100000");
+				}
+				tdAutomobiles.add(new SimpleDataProvider(addlAuto));
+			}
+		}
+
 		return DataProviderFactory.dataOf(
 				PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.DRIVERS.getLabel(), tdDrivers,
 				PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel(), tdAutomobiles,
@@ -322,6 +348,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		int numOfWaterCraftV = openLPolicy.getRiskItems().stream().filter(c -> "V".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
 		int numOfWaterCraftVI = openLPolicy.getRiskItems().stream().filter(c -> "VI".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
 		int numOfWaterCraftPERS = openLPolicy.getRiskItems().stream().filter(c -> "PERS".equals(c.getRiskItemCategoryCd())).findFirst().get().getRiskItemCount();
+		int numOfAtv = openLPolicy.getRiskItems().stream().filter(c -> "ATV".equals(c.getRiskItemCd())).findFirst().get().getRiskItemCount();
 
 		if (numOfWaterCraftI > 0) {
 			String[] listOfWatercraftIFieldValues = {"Inboard Powerboat", "14-25 ft", "0-100 hp"};
@@ -373,6 +400,21 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 					waterCraftPERS.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.ADD_WATERCRAFT.getLabel(), "Yes");
 				}
 				tdWaterCrafts.add(new SimpleDataProvider(waterCraftPERS));
+			}
+		}
+
+		if (numOfAtv > 0) {
+			for (int i = 0; i < numOfAtv; i++) {
+				Map<String, Object> atv = new HashMap<>();
+				atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.TYPE.getLabel(), "ATV");
+				atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.YEAR.getLabel(), RandomUtils.nextInt(1999, 2017));
+				atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.MAKE.getLabel(), "BMW");
+				atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.MODEL.getLabel(), "Test Model");
+				atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.CURRENT_CARRIER.getLabel(), "regex=.*\\S.*");
+				if (tdRecreationVehicles.size() < 1) {
+					atv.put(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle.ADD_RECREATIONAL_VEHICLE.getLabel(), "Yes");
+				}
+				tdRecreationVehicles.add(new SimpleDataProvider(atv));
 			}
 		}
 
