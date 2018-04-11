@@ -1,4 +1,4 @@
-package com.eisgroup.aaa.policy.services.dto;
+package aaa.modules.regression.service.helper.dtoDxp;
 
 import io.swagger.annotations.ApiModelProperty;
 

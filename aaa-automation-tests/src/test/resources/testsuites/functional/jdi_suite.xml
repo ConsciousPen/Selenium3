@@ -408,7 +408,8 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
-                    <include name= "pas10449_ViewVehicleServiceOrderOfVehicle"/>
+                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
+                    <include name="pas11741_ManageVehicleLevelCoverages"/>
                 </methods>
             </class>
         </classes>

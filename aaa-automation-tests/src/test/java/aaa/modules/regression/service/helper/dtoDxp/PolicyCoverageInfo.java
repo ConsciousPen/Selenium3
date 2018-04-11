@@ -1,6 +1,5 @@
-package com.eisgroup.aaa.policy.services.dto;
+package aaa.modules.regression.service.helper.dtoDxp;
 
-import core.services.ApiDTO;
 
 import java.util.List;
 
@@ -9,7 +8,7 @@ import java.util.List;
  * an array of vehicles and their coverages.
  * Created by gszdome on 3/26/2018.
  */
-public class PolicyCoverageInfo implements ApiDTO {
+public class PolicyCoverageInfo{
 
     public List<Coverage> policyCoverages;
     public List<VehicleCoverageInfo> vehicleLevelCoverages;

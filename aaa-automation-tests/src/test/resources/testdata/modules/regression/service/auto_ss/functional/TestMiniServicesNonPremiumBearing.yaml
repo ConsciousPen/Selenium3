@@ -6,8 +6,8 @@ TestData_Vehicle: {
     VehicleTab: ['@VehicleTab_First','@VehicleTab_Van','@VehicleTab_Second','@VehicleTab_Motor_Home'],
 }
 
-TestData_AllVehiclesMegha: {
-    VehicleTab: ['@VehicleTab_First', '@VehicleTab_2018'],
+TestData_AllVehiclesCoverage: {
+    VehicleTab: ['@VehicleTab_2018'],
 }
 
 VehicleTab_First: {
