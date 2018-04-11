@@ -72,7 +72,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateFirstBillOneDayBefore() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -88,7 +88,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void payFirstBillOneDayBefore() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
