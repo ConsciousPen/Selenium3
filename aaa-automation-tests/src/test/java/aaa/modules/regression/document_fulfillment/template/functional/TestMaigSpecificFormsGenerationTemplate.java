@@ -287,7 +287,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		List<String> forms = new ArrayList<>(Arrays.asList("stub",DocGenEnum.Documents.DS65PA.getIdInXml(),DocGenEnum.Documents.DS65PA.getIdInXml()));
 
 		if(isMortgageePaymentPlanPresence(testData)){
-			forms.set(0, DocGenEnum.Documents.HSRNMXX.getIdInXml());
+			forms.set(0, DocGenEnum.Documents.HSPRNMXX.getIdInXml());
 		}
 		else{
 			forms.set(0, DocGenEnum.Documents.HSPRNXX.getIdInXml());
