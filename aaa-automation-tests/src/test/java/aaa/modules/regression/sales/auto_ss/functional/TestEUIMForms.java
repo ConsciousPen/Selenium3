@@ -14,7 +14,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -50,19 +49,20 @@ public class TestEUIMForms extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11302, PAS-11509")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11302")
     public void pas11302_testEUIMMDFormNB(@Optional("MD") String state) {
 
         TestData tdEUIM = getPolicyTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_NB"));
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         mainApp().open();
         createCustomerIndividual();
 
         policy.initiate();
-        verifyForms(tdEUIM);
-        verifyGoddPage();
+        policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
+        verifyForms();
+
     }
 
     /**
@@ -83,19 +83,19 @@ public class TestEUIMForms extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11302, PAS-11509")
+    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11302")
     public void pas11302_testEUIMMDFormConversion(@Optional("MD") String state) {
 
         TestData tdEUIM = getConversionPolicyDefaultTD().adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_Conv"));
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         mainApp().open();
         createCustomerIndividual();
 
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-        verifyForms(tdEUIM);
-        verifyGoddPage();
+        policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
+        verifyForms();
 
     }
 
@@ -113,22 +113,21 @@ public class TestEUIMForms extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11509")
-    public void pas11509_testEUIMMDFormEndorsement(@Optional("MD") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11302")
+    public void pas11302_testEUIMMDFormEndorsement(@Optional("MD") String state) {
 
-        verifyAlgoDate();
-
-        mainApp().open();
-        createCustomerIndividual();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Create policy with Standard UIM coverage
+        mainApp().open();
+        createCustomerIndividual();
         createPolicy();
 
         //Perform mid-term endorsement and switch to EUIM coverage
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
-        switchToEUIMAndBind();
+        switchToEUIMCoverage();
 
-        verifyGoddPage();
+        verifyForms();
 
     }
 
@@ -147,10 +146,10 @@ public class TestEUIMForms extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11509")
-    public void pas11509_testEUIMMDFormRenewal(@Optional("MD") String state) {
+    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11302")
+    public void pas11302_testEUIMMDFormRenewal(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Create policy with Standard UIM coverage
         mainApp().open();
@@ -159,24 +158,15 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
         // Create renewal and switch to EUIM coverage
         policy.renew().perform();
-        switchToEUIMAndBind();
+        switchToEUIMCoverage();
 
-        verifyGoddPage();
+        verifyForms();
 
     }
 
-    //TODO remove verify algo date after 2018-07-01
-    private void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JULY, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
-    }
-
-    private void verifyForms(TestData td) {
+    private void verifyForms() {
 
         //PAS-11302 AC1
-        policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
         TestData formsData = premiumAndCoveragesTab.getFormsData();
         assertThat(formsData.getKeys()).contains(formId);
         assertThat(formsData.getValue(formId)).isEqualTo("$0.00");
@@ -186,20 +176,21 @@ public class TestEUIMForms extends AutoSSBaseTest {
         AutoSSForms.AutoSSPolicyFormsController policyForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.POLICY_FORMS);
         assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2).getValue()).isEqualTo(formDesc);
         assertThat(policyForms.getRemoveLink(formId)).isPresent(false);
-        formsTab.saveAndExit();
 
     }
 
+    private void switchToEUIMCoverage() {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        enhancedUIM.setValue(true);
+        premiumAndCoveragesTab.calculatePremium();
+
+    }
+
+    //TODO May not be needed but verifies GoDD page contains EUIMMD form
     private void verifyGoddPage() {
         policy.policyDocGen().start();
         generateOnDemandDocumentActionTab.verify.documentsEnabled(DocGenEnum.Documents.AAEUIMMD);
     }
 
-    private void switchToEUIMAndBind() {
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        enhancedUIM.setValue(true);
-        premiumAndCoveragesTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-    }
+
 }
