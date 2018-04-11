@@ -34,6 +34,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private ComboBox bodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
     private ComboBox propertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY);
     private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
+    private ComboBox uninsuredBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
+    private ComboBox uninsuredPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE);
     private ComboBox enhancedBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox enhancedPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE);
 
@@ -51,7 +53,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -78,7 +80,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -109,7 +111,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Create customer & policy
         mainApp().open();
@@ -139,7 +141,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Create customer
         mainApp().open();
@@ -153,17 +155,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyEnhancedUIMCoverage();
     }
 
-    //TODO remove verify algo date after 2018-07-01
-    private void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JULY, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
-    }
-
     private void verifyEnhancedUIMCoverage() {
+
+        // Prepare to check AC1 PAS-11200.
         propertyDamage.setValueByIndex(0);
         bodilyInjury.setValueByIndex(0);
+        uninsuredBodilyInjury.setValueByIndex(1);
+        uninsuredPropertyDamage.setValueByIndex(1);
 
         //AC1,AC2 PAS-11200. for Quotes and Policies created on or after 2018/07/01 EUIM should be present.
         //AC1 PAS-11620. EUIM BI and PD limits are defaulted to BI/PD limits.
