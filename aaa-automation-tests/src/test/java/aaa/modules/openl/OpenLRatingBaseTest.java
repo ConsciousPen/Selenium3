@@ -52,27 +52,26 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, TestDataGenerator<P> tdGenerator, List<Integer> policyNumbers) {
 		//TODO-dchubkov: assert that date in openLFileName is valid
-		Map<P, Dollar> openLPoliciesAndPremiumsMap = getOpenLPoliciesAndExpectedPremiums(openLFileName, openLFileModelClass, policyNumbers);
+		List<P> openLPolicies = getOpenLPolicies(openLFileName, openLFileModelClass, policyNumbers);
 
 		mainApp().open();
 		String customerNumber = createCustomerIndividual();
 		assertSoftly(softly -> {
-			for (Map.Entry<P, Dollar> policyAndExpectedPremium : openLPoliciesAndPremiumsMap.entrySet()) {
-				P policyObject = policyAndExpectedPremium.getKey();
+			for (P openLPolicy : openLPolicies) {
 				log.info("Premium calculation verification initiated for test with policy number {} and expected premium {} from {} OpenL file",
-						policyObject.getNumber(), policyAndExpectedPremium.getValue(), openLFileName);
+						openLPolicy.getNumber(), openLPolicy.getExpectedPremium(), openLFileName);
 
 				//TODO-dchubkov: add assertion that Effective date cannot be more than ? months/years prior to current date (each product/state has it's own value)
-				if (policyObject.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
-					TimeSetterUtil.getInstance().nextPhase(policyObject.getEffectiveDate());
+				if (openLPolicy.getEffectiveDate().isAfter(TimeSetterUtil.getInstance().getCurrentTime())) {
+					TimeSetterUtil.getInstance().nextPhase(openLPolicy.getEffectiveDate());
 					mainApp().reopen();
 					SearchPage.openCustomer(customerNumber);
 				}
 
-				String expectedPremium = policyAndExpectedPremium.getValue().toString();
-				String actualPremium = createAndRateQuote(tdGenerator, policyObject);
+				String actualPremium = createAndRateQuote(tdGenerator, openLPolicy);
+				String expectedPremium = openLPolicy.getExpectedPremium().toString();
 				softly.assertThat(actualPremium).as("Total premium is not equal to expected one").isEqualTo(expectedPremium);
-				log.info("Premium calculation verification for quote #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(expectedPremium) ? "passed" : "failed");
+				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(expectedPremium) ? "passed" : "failed");
 				Tab.buttonSaveAndExit.click();
 			}
 		});
@@ -80,7 +79,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 	protected abstract String createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 
-	protected <O extends OpenLFile<P>> Map<P, Dollar> getOpenLPoliciesAndExpectedPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
+	protected <O extends OpenLFile<P>> List<P> getOpenLPolicies(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));
 
 		if (CollectionUtils.isNotEmpty(policyNumbers)) {
@@ -105,7 +104,6 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			openLPoliciesList = openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 			assertThat(openLPoliciesList).as("Found policy objects amount is not equal to number of policies to be tested. Probably excel file has missed tests").hasSameSizeAs(policyNumbers);
 		}
-		Map<P, Dollar> openLPoliciesAndExpectedPremiumsMap = new LinkedHashMap<>(openLPoliciesList.size());
 
 		String testsSheetName = OpenLFile.TESTS_SHEET_NAME;
 		String policyColumnName = "policy";
@@ -126,15 +124,13 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 					expectedPremium = expectedPremium.divide(2);
 				}
 			}
-			openLPoliciesAndExpectedPremiumsMap.put(openLPolicy, expectedPremium);
+			openLPolicy.setExpectedPremium(expectedPremium);
 		}
 		openLFileManager.close();
 
-		//Sort map by policies effective dates for further valid time shifts
-		openLPoliciesAndExpectedPremiumsMap = openLPoliciesAndExpectedPremiumsMap.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(OpenLPolicy::getEffectiveDate)))
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-
-		return openLPoliciesAndExpectedPremiumsMap;
+		//Sort policies list by effective date for further valid time shifts
+		openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toCollection(LinkedList::new));
+		return openLPoliciesList;
 	}
 
 	protected List<Integer> getPolicyNumbers(String policies) {

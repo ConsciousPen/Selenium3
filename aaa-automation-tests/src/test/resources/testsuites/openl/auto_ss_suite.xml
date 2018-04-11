@@ -6,6 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
     <parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>
+
     <test name="AutoSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="AZ"/>
         <parameter name="fileName" value="AZTests-20171101.xls"/>
@@ -47,11 +48,10 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!-- TO BE FIXED...
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MD"/>
         <parameter name="fileName" value="MDTests-ACAIC-20170922.xls"/>
-        <parameter name="policyNumbers" value="208, 209"/>
+        <parameter name="policyNumbers" value="208, 215"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -64,7 +64,7 @@
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="AutoSS [MT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MT"/>
         <parameter name="fileName" value="MTTests-20171201.xls"/>

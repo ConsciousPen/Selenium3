@@ -83,6 +83,16 @@ public class HomeCaOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public Double getTermCappingFactor() {
+		return null;
+	}
+
+	@Override
+	public String getUnderwriterCode() {
+		return null;
+	}
+
+	@Override
 	public String toString() {
 		return "HomeCaOpenLPolicy{" +
 				"claimPoints=" + claimPoints +

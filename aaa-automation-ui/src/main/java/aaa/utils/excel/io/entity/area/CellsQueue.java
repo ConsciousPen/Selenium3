@@ -112,7 +112,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return this.cellsIndexesOnSheet;
 	}
 
-	public ExcelArea<CELL, ?, ?> getArea() {
+	protected ExcelArea<CELL, ?, ?> getArea() {
 		return this.excelArea;
 	}
 
