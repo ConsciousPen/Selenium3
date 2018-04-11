@@ -1,12 +1,10 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import aaa.modules.regression.service.helper.RestBodyRequest;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ComparisonChain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.util.Assert;
 
 import java.util.Comparator;
 

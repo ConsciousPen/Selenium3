@@ -336,6 +336,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas10484_ViewDriverAssignment"/>
+                    <include name="pas11932_viewDrivers"/>
                 </methods>
             </class>
         </classes>
