@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -182,7 +183,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		return new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
 	}
 
-	public static PropertyQuoteTab.RatingDetailsTable tableCappedPolicyPremium = new PropertyQuoteTab.RatingDetailsTable
+	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable
 			("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 
 	@Override
