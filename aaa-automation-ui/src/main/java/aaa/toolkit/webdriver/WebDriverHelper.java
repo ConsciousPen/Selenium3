@@ -76,7 +76,6 @@ public class WebDriverHelper {
 			handles.remove(primaryHandle);
 			for (String handle : handles) {
 				driver.switchTo().window(handle).close();
-				driver.close();
 			}
 			driver.switchTo().defaultContent();
 		}
