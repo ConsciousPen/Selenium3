@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -85,10 +86,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
-		verifyAlgoDate();
-
 		// Get Reinstatement with lapse date.
 		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 
 		TestData testData = getPolicyTD();
 
@@ -212,7 +212,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
-		verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 
 		// Create Policy
 		mainApp().open();
@@ -267,7 +267,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
 
-		verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 
 		// Create Policy
 		mainApp().open();
@@ -319,8 +319,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
-		// Will be removed after algo date
-		verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 
 		// get time for min due payments
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
@@ -430,15 +429,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 		verifyLockedLimitsRenewalAndEndorsement();
-	}
-
-
-	//TODO remove verify algo date after 2018-06-20
-	private void verifyAlgoDate() {
-		LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 20, 0, 0);
-		if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-			TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-		}
 	}
 
 	private void verifyLockedLimitsNB(){
