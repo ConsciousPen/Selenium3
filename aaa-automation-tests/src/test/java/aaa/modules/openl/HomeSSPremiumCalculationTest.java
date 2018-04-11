@@ -2,6 +2,7 @@ package aaa.modules.openl;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
@@ -13,6 +14,7 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
@@ -44,13 +46,23 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 		if (openLPolicy.getForms().stream().filter(c -> "HS0904".equals(c.getFormCode())).findFirst().isPresent()) {
 			premiumsAndCoveragesQuoteTab.submitTab();
-			TestData policyIssueTd = getPolicyTD().ksam(new MortgageesTab().getMetaKey(), new UnderwritingAndApprovalTab().getMetaKey(), new DocumentsTab().getMetaKey(), new BindTab().getMetaKey(), new PurchaseTab().getMetaKey());
-			policy.getDefaultView().fillUpTo(policyIssueTd, PurchaseTab.class, false);
+			TestData policyIssueData = ((HomeSSTestDataGenerator)tdGenerator).getPolicyIssueData(openLPolicy, getPolicyTD());
+
+			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class,false);
+			ErrorTab errorTab = new ErrorTab();
+			if (errorTab.isVisible()) {
+				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
+				errorTab.override();
+				new BindTab().submitTab();
+			}
+			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD().getTestData(PurchaseTab.class.getSimpleName())));
+
 			TestData endorsementData = ((HomeSSTestDataGenerator)tdGenerator).getEndorsementData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 			}
-			policy.endorse().perform(endorsementData);
+			policy.endorse().performAndFill(endorsementData);
+			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		}
 
 		Dollar finalTestPremium = PremiumsAndCoveragesQuoteTab.getPolicyDwellingPremium();
