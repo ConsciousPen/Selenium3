@@ -103,6 +103,9 @@
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
                     <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
+                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierNone"/>
                     <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
                 </methods>
             </class>
@@ -127,6 +130,8 @@
                     <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
                     <include name="pas233_eValueTerritoryChannelDependency"/>
+                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierNotRequired"/>
+                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired"/>
                 </methods>
             </class>
         </classes>
@@ -328,7 +333,7 @@
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>
@@ -403,6 +408,7 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
+                    <include name= "pas10449_ViewVehicleServiceOrderOfVehicle"/>
                 </methods>
             </class>
         </classes>

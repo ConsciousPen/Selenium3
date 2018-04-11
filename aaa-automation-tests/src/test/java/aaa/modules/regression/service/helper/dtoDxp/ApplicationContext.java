@@ -11,4 +11,5 @@ public class ApplicationContext {
     public String subSystem;
     public String address;
     public String correlationId;
+    public String sessionId;
 }

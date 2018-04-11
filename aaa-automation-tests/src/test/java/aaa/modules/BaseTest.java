@@ -364,6 +364,22 @@ public class BaseTest {
 		return policies;
 	}
 
+	/**
+	 * Create Conversion Policy using default TestData
+	 *
+	 * @return policy number
+	 */
+	protected String createConversionPolicy() {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		TestData tdPolicy = getConversionPolicyDefaultTD();
+		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
+		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
+		log.info("Policy Creation Started...");
+		getPolicyType().get().getDefaultView().fill(tdPolicy);
+		String policyNumber = PolicySummaryPage.linkPolicy.getValue();
+		return policyNumber;
+	}
+
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerIndividual, fileName, tdName);
 	}

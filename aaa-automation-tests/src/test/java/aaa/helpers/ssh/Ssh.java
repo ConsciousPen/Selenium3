@@ -116,8 +116,9 @@ public class Ssh {
 			//sftpChannel.cd("/"); //replaced with closing session above
 			sftpChannel.cd(source);
 			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
+
 			if (list.size() == 0) {
-				closeSession();
+				//closeSession();
 				log.info("SSH: No files to delete in '" + source + "'.");
 				return;
 			}
@@ -126,7 +127,6 @@ public class Ssh {
 					sftpChannel.rm(file.getFilename());
 				}
 			}
-			closeSession();
 			log.info("SSH: Files were removed from the folder '" + source + "'.");
 		} catch (Exception e) {
 			throw new RuntimeException("SSH: Error deleting files from folder '" + source + "'", e);
