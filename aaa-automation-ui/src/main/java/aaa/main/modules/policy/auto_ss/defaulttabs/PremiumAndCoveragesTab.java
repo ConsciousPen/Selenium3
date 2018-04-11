@@ -58,9 +58,9 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
 	public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 	public static StaticElement eValuePaperlessWarning = new StaticElement(By.id("policyDataGatherForm:eMemberDetails_electronicMemberDetailsEntity_electronicMemberOpt_error"));
-    public static StaticElement enhancedUIMHelpText = new StaticElement(By.id("policyDataGatherForm:policy_vehicle_detail_coverage:2:Coveragecd"));
-    public static StaticElement enhancedUIMBIHelpText = new StaticElement(By.id("policyDataGatherForm:policy_vehicle_detail_coverage:3:Coveragecd"));
-    public static StaticElement enhancedUIMPDHelpText = new StaticElement(By.id("policyDataGatherForm:policy_vehicle_detail_coverage:4:Coveragecd"));
+    public static StaticElement enhancedUIMHelpText = new StaticElement(By.xpath(".//label[@id='policyDataGatherForm:policy_vehicle_detail_coverage:2:Coveragecd']/following-sibling::div//span"));
+    public static StaticElement enhancedUIMBIHelpText = new StaticElement(By.xpath(".//label[@id='policyDataGatherForm:policy_vehicle_detail_coverage:3:Coveragecd']/following-sibling::div//span"));
+    public static StaticElement enhancedUIMPDHelpText = new StaticElement(By.xpath(".//label[@id='policyDataGatherForm:policy_vehicle_detail_coverage:4:Coveragecd']/following-sibling::div//span"));
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
 	public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
