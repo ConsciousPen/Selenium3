@@ -382,7 +382,6 @@
             <class name="aaa.modules.regression.service.home_ca.dp3.functional.TestRatingServices"/>
         </classes>
     </test>
-
     <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
