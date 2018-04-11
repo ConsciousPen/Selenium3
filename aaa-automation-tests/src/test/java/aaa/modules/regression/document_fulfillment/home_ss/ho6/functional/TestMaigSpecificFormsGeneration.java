@@ -30,7 +30,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacket(@Optional("MD") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getSpecificTestData()));
+		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getSpecificFormsTestData()));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacketMortgagee(@Optional("NJ") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithMortgageeData(getTestDataWithAdditionalInterest(getSpecificTestData())));
+		verifyConversionFormsSequence(adjustWithMortgageeData(getTestDataWithAdditionalInterest(getSpecificFormsTestData())));
 	}
 
 	/**

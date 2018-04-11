@@ -544,7 +544,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		return policyTD.adjust(new MortgageesTab().getMetaKey(), testDataMortgagee).adjust(new PremiumsAndCoveragesQuoteTab().getMetaKey(), testDataPremiumTabWithMortgageePaymentPlan);
 	}
 
-	public TestData getSpecificTestData() {
+	public TestData getSpecificFormsTestData() {
 		TestData testData;
 		if (getState().equalsIgnoreCase(Constants.States.MD)) {
 			// enable HSWSBMD
