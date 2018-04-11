@@ -1,15 +1,8 @@
 package aaa.utils.excel.io.entity.area;
 
+import static java.util.stream.Collectors.collectingAndThen;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,6 +12,9 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
@@ -26,30 +22,33 @@ import aaa.utils.excel.io.entity.iterator.RowIterator;
 import toolkit.exceptions.IstfException;
 
 public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CELL>, COLUMN extends ExcelColumn<CELL>> implements Writable, Iterable<ROW> {
-	private Sheet sheet;
-	private Set<Integer> columnsIndexesOnSheet;
-	private Set<Integer> rowsIndexesOnSheet;
-	private ExcelManager excelManager;
-	private Set<CellType<?>> cellTypes;
+	private final Sheet sheet;
+	private final ExcelManager excelManager;
+
+	private List<Integer> columnsIndexesOnSheet;
+	private List<Integer> rowsIndexesOnSheet;
+	private List<CellType<?>> cellTypes;
+
 	private boolean considerRowsOnComparison;
 	private boolean considerColumnsOnComparison;
-	private Map<Integer, ROW> areaIndexesAndRowsMap;
-	private Map<Integer, COLUMN> areaIndexesAndColumnsMap;
 
-	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexes, Set<Integer> rowsIndexes, ExcelManager excelManager) {
+	private ImmutableSortedMap<Integer, ROW> areaIndexesAndRowsMap;
+	private ImmutableSortedMap<Integer, COLUMN> areaIndexesAndColumnsMap;
+
+	protected ExcelArea(Sheet sheet, List<Integer> columnsIndexes, List<Integer> rowsIndexes, ExcelManager excelManager) {
 		this(sheet, columnsIndexes, rowsIndexes, excelManager, excelManager.getCellTypes());
 	}
 
-	protected ExcelArea(Sheet sheet, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelManager excelManager, Set<CellType<?>> cellTypes) {
+	protected ExcelArea(Sheet sheet, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, ExcelManager excelManager, List<CellType<?>> cellTypes) {
 		this.sheet = sheet;
 		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
-				? new LinkedHashSet<>(columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+				? columnsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ImmutableList::copyOf))
 				: getColumnsIndexes(sheet);
 		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet)
-				? new LinkedHashSet<>(rowsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new)))
+				? rowsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ImmutableList::copyOf))
 				: getRowsIndexes(sheet);
 		this.excelManager = excelManager;
-		this.cellTypes = new HashSet<>(cellTypes);
+		this.cellTypes = ImmutableList.copyOf(cellTypes);
 		this.considerRowsOnComparison = true;
 		this.considerColumnsOnComparison = true;
 	}
@@ -63,15 +62,16 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public List<Integer> getColumnsIndexes() {
-		return new ArrayList<>(getAreaIndexesAndColumnsMap().keySet());
+		return getAreaIndexesAndColumnsMap().keySet().asList();
 	}
 
 	public List<Integer> getRowsIndexes() {
-		return new ArrayList<>(getAreaIndexesAndRowsMap().keySet());
+		return getAreaIndexesAndRowsMap().keySet().asList();
 	}
 
-	public Set<CellType<?>> getCellTypes() {
-		return new HashSet<>(this.cellTypes);
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<CellType<?>> getCellTypes() {
+		return this.cellTypes;
 	}
 
 	public int getRowsNumber() {
@@ -109,23 +109,33 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public List<ROW> getRows() {
-		return new ArrayList<>(getAreaIndexesAndRowsMap().values());
+		return getAreaIndexesAndRowsMap().values().asList();
 	}
 
 	public List<COLUMN> getColumns() {
-		return new ArrayList<>(getAreaIndexesAndColumnsMap().values());
+		return getAreaIndexesAndColumnsMap().values().asList();
 	}
 
 	public boolean isEmpty() {
 		return getRowsNumber() == 0 || getRows().stream().allMatch(ROW::isEmpty);
 	}
 
-	protected List<Integer> getColumnsIndexesOnSheet() {
-		return new ArrayList<>(this.columnsIndexesOnSheet);
+	public boolean isRowsComparisonRuleSet() {
+		return this.considerRowsOnComparison;
 	}
 
-	protected List<Integer> getRowsIndexesOnSheet() {
-		return new ArrayList<>(this.rowsIndexesOnSheet);
+	public boolean isColumnsComparisonRuleSet() {
+		return this.considerColumnsOnComparison;
+	}
+
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<Integer> getColumnsIndexesOnSheet() {
+		return this.columnsIndexesOnSheet;
+	}
+
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<Integer> getRowsIndexesOnSheet() {
+		return this.rowsIndexesOnSheet;
 	}
 
 	@Override
@@ -185,7 +195,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> registerCellType(CellType<?>... cellTypes) {
-		this.cellTypes.addAll(Arrays.asList(cellTypes));
+		this.cellTypes = ImmutableSet.<CellType<?>>builder().addAll(getCellTypes()).add(cellTypes).build().asList();
 		getRows().forEach(r -> r.registerCellType(cellTypes));
 		return this;
 	}
@@ -198,14 +208,6 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	public ExcelArea<CELL, ROW, COLUMN> considerColumnsOnComparison(boolean considerColumnsOnComparison) {
 		this.considerColumnsOnComparison = considerColumnsOnComparison;
 		return this;
-	}
-
-	public boolean isRowsComparisonRuleSet() {
-		return this.considerRowsOnComparison;
-	}
-
-	public boolean isColumnsComparisonRuleSet() {
-		return this.considerColumnsOnComparison;
 	}
 
 	public CELL getFirstColumnCell(int rowIndex) {
@@ -329,26 +331,36 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes) {
-		assertThat(columnsIndexes).as("Can't exclude columns with indexes %s", Arrays.asList(columnsIndexes)).allMatch(this::hasColumn);
-		for (Integer columnIndex : columnsIndexes) {
-			for (ExcelRow<CELL> row : this) {
-				row.removeCellsIndexes(columnIndex);
-			}
-			this.columnsIndexesOnSheet.remove(getColumn(columnIndex).getIndexOnSheet());
-			getAreaIndexesAndColumnsMap().remove(columnIndex);
+		List<Integer> columnsIndexesToExclude = Arrays.asList(columnsIndexes);
+		assertThat(columnsIndexes).as("Can't exclude columns with indexes %s", columnsIndexesToExclude).allMatch(this::hasColumn);
+		List<Integer> newColumnsIndexesOnSheet = new ArrayList<>(this.columnsIndexesOnSheet);
+		ImmutableSortedMap.Builder<Integer, COLUMN> areaIndexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
+
+		getRows().forEach(r -> r.removeCellsIndexes(columnsIndexes));
+		for (Integer columnIndex : columnsIndexesToExclude) {
+			newColumnsIndexesOnSheet.remove(new Integer(getColumn(columnIndex).getIndexOnSheet()));
 		}
+		getColumns().stream().filter(c -> newColumnsIndexesOnSheet.contains(c.getIndexOnSheet())).forEach(c -> areaIndexesAndColumnsBuilder.put(c.getIndex(), c));
+
+		this.columnsIndexesOnSheet = ImmutableList.copyOf(newColumnsIndexesOnSheet);
+		this.areaIndexesAndColumnsMap = areaIndexesAndColumnsBuilder.build();
 		return this;
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeRows(Integer... rowsIndexes) {
-		assertThat(rowsIndexes).as("Can't exclude rows with indexes %s", Arrays.asList(rowsIndexes)).allMatch(this::hasRow);
-		for (Integer rowIndex : rowsIndexes) {
-			for (ExcelColumn<CELL> column : getColumns()) {
-				column.removeCellsIndexes(rowIndex);
-			}
-			this.rowsIndexesOnSheet.remove(getRow(rowIndex).getIndexOnSheet());
-			getAreaIndexesAndRowsMap().remove(rowIndex);
+		List<Integer> rowsIndexesToExclude = Arrays.asList(rowsIndexes);
+		assertThat(rowsIndexes).as("Can't exclude rows with indexes %s", rowsIndexesToExclude).allMatch(this::hasRow);
+		List<Integer> newRowsIndexesOnSheet = new ArrayList<>(this.rowsIndexesOnSheet);
+		ImmutableSortedMap.Builder<Integer, ROW> areaIndexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
+
+		getColumns().forEach(c -> c.removeCellsIndexes(rowsIndexes));
+		for (Integer rowIndex : rowsIndexesToExclude) {
+			newRowsIndexesOnSheet.remove(new Integer(getRow(rowIndex).getIndexOnSheet()));
 		}
+		getRows().stream().filter(r -> newRowsIndexesOnSheet.contains(r.getIndexOnSheet())).forEach(r -> areaIndexesAndRowsBuilder.put(r.getIndex(), r));
+
+		this.rowsIndexesOnSheet = ImmutableList.copyOf(newRowsIndexesOnSheet);
+		this.areaIndexesAndRowsMap = areaIndexesAndRowsBuilder.build();
 		return this;
 	}
 
@@ -387,7 +399,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	public ExcelArea<CELL, ROW, COLUMN> deleteRows(Integer... rowsIndexes) {
 		int rowsShifts = 0;
-		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
+		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toCollection(LinkedHashSet::new));
 		Sheet sheet = getPoiSheet();
 		for (int index : uniqueSortedRowIndexes) {
 			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s in %2$s", index, this).isTrue();
@@ -398,35 +410,37 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this;
 	}
 
-	protected abstract Map<Integer, ROW> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes);
+	protected abstract ImmutableSortedMap<Integer, ROW> gatherAreaIndexesAndRowsMap(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes);
 
-	protected abstract Map<Integer, COLUMN> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes);
+	protected abstract ImmutableSortedMap<Integer, COLUMN> gatherAreaIndexesAndColumnsMap(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes);
 
-	private Map<Integer, COLUMN> getAreaIndexesAndColumnsMap() {
+	private ImmutableSortedMap<Integer, COLUMN> getAreaIndexesAndColumnsMap() {
 		if (this.areaIndexesAndColumnsMap == null) {
 			this.areaIndexesAndColumnsMap = gatherAreaIndexesAndColumnsMap(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes);
 		}
 		return this.areaIndexesAndColumnsMap;
 	}
 
-	private Map<Integer, ROW> getAreaIndexesAndRowsMap() {
+	private ImmutableSortedMap<Integer, ROW> getAreaIndexesAndRowsMap() {
 		if (this.areaIndexesAndRowsMap == null) {
 			this.areaIndexesAndRowsMap = gatherAreaIndexesAndRowsMap(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes);
 		}
 		return this.areaIndexesAndRowsMap;
 	}
 
-	private Set<Integer> getColumnsIndexes(Sheet sheet) {
+	private ImmutableList<Integer> getColumnsIndexes(Sheet sheet) {
 		int maxCellsNumber = 1;
 		for (Row row : sheet) {
 			if (row.getLastCellNum() > maxCellsNumber) {
 				maxCellsNumber = row.getLastCellNum();
 			}
 		}
-		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toCollection(LinkedHashSet::new));
+		List<Integer> columnsIndexes = IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toCollection(LinkedList::new));
+		return ImmutableList.copyOf(columnsIndexes);
 	}
 
-	private Set<Integer> getRowsIndexes(Sheet sheet) {
-		return IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toCollection(LinkedHashSet::new));
+	private ImmutableList<Integer> getRowsIndexes(Sheet sheet) {
+		List<Integer> rowsIndexes = IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toCollection(LinkedList::new));
+		return ImmutableList.copyOf(rowsIndexes);
 	}
 }

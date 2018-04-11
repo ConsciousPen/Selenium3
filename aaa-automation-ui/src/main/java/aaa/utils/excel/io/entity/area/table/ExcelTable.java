@@ -1,51 +1,40 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelArea;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 
 public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
-	private Row headerRow;
-	private ExcelSheet excelSheet;
+	private final Row headerRow;
+	private final ExcelSheet excelSheet;
+
 	private TableHeader header;
 
 	public ExcelTable(Row headerRow, ExcelSheet sheet) {
 		this(headerRow, sheet, sheet.getCellTypes());
 	}
 
-	public ExcelTable(Row headerRow, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+	public ExcelTable(Row headerRow, ExcelSheet sheet, List<CellType<?>> cellTypes) {
 		this(headerRow, null, sheet, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
+	public ExcelTable(Row headerRow, List<Integer> columnsIndexesOnSheet, ExcelSheet sheet, List<CellType<?>> cellTypes) {
 		this(headerRow, columnsIndexesOnSheet, null, sheet, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Set<Integer> columnsIndexesOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, Set<CellType<?>> cellTypes) {
+	public ExcelTable(Row headerRow, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, ExcelSheet excelSheet, List<CellType<?>> cellTypes) {
 		super(excelSheet.getPoiSheet(),
-				CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
-						? columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new))
-						: getHeaderColumnsIndexes(headerRow),
-				CollectionUtils.isNotEmpty(rowsIndexesOnSheet)
-						? rowsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new))
-						: getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
+				CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow),
+				CollectionUtils.isNotEmpty(rowsIndexesOnSheet) ? rowsIndexesOnSheet : getTableRowsIndexes(headerRow, columnsIndexesOnSheet),
 				excelSheet.getExcelManager(), cellTypes);
 		this.headerRow = headerRow;
 		this.excelSheet = excelSheet;
@@ -53,7 +42,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public TableHeader getHeader() {
 		if (this.header == null) {
-			this.header = new TableHeader(this.headerRow, new HashSet<>(getColumnsIndexesOnSheet()), this);
+			this.header = new TableHeader(this.headerRow, getColumnsIndexesOnSheet(), this);
 		}
 		return this.header;
 	}
@@ -79,36 +68,70 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	public List<String> getColumnsNames() {
-		return new ArrayList<>(getHeader().getColumnsNames());
+		return getHeader().getColumnsNames();
+	}
+
+	private static List<Integer> getHeaderColumnsIndexes(Row headerRow) {
+		List<Integer> columnsIndexes = new LinkedList<>();
+		for (Cell cell : headerRow) {
+			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING && StringUtils.isNotBlank(cell.getStringCellValue())) {
+				columnsIndexes.add(cell.getColumnIndex() + 1);
+			}
+		}
+
+		assertThat(columnsIndexes)
+				.as("There are no non-empty String columns in header row number %1$s on sheet \"%1$s\"", headerRow.getRowNum() + 1, headerRow.getSheet().getSheetName())
+				.isNotEmpty();
+		return columnsIndexes;
+	}
+
+	private static List<Integer> getTableRowsIndexes(Row headerRow, List<Integer> columnsIndexesOnSheet) {
+		List<Integer> rIndexes = new LinkedList<>();
+		List<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet) ? columnsIndexesOnSheet : getHeaderColumnsIndexes(headerRow);
+
+		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= headerRow.getSheet().getLastRowNum(); rowIndex++) {
+			if (isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {
+				break;
+			}
+			rIndexes.add(rowIndex + 1);
+		}
+		return rIndexes;
+	}
+
+	private static boolean isRowEmpty(Row row, Collection<Integer> cellsIndexes) {
+		if (row == null || row.getLastCellNum() <= 0) {
+			return true;
+		}
+		for (Cell cell : row) {
+			if (cellsIndexes.contains(cell.getColumnIndex() + 1) && cell != null && cell.getCellTypeEnum() != org.apache.poi.ss.usermodel.CellType.BLANK) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
-	public List<Integer> getColumnsIndexesOnSheet() {
-		return super.getColumnsIndexesOnSheet();
-	}
-
-	@Override
-	protected Map<Integer, TableRow> gatherAreaIndexesAndRowsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
-		Map<Integer, TableRow> tableIndexesAndRowsMap = new LinkedHashMap<>(rowsIndexesOnSheet.size());
+	protected ImmutableSortedMap<Integer, TableRow> gatherAreaIndexesAndRowsMap(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		ImmutableSortedMap.Builder<Integer, TableRow> indexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
 		int rowIndexInTable = 1;
 		for (Integer sheetRowIndex : rowsIndexesOnSheet) {
 			TableRow row = new TableRow(getSheet().getPoiSheet().getRow(sheetRowIndex - 1), rowIndexInTable, sheetRowIndex, columnsIndexesOnSheet, this, cellTypes);
-			tableIndexesAndRowsMap.put(rowIndexInTable, row);
+			indexesAndRowsBuilder.put(rowIndexInTable, row);
 			rowIndexInTable++;
 		}
-		return tableIndexesAndRowsMap;
+		return indexesAndRowsBuilder.build();
 	}
 
 	@Override
-	protected Map<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(Set<Integer> rowsIndexesOnSheet, Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
-		Map<Integer, TableColumn> tableIndexesAndColumnsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
+	protected ImmutableSortedMap<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		ImmutableSortedMap.Builder<Integer, TableColumn> indexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
 		int columnIndexInTable = 1;
 		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
 			TableColumn column = new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes);
-			tableIndexesAndColumnsMap.put(columnIndexInTable, column);
+			indexesAndColumnsBuilder.put(columnIndexInTable, column);
 			columnIndexInTable++;
 		}
-		return tableIndexesAndColumnsMap;
+		return indexesAndColumnsBuilder.build();
 	}
 
 	@Override
@@ -125,7 +148,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	@Override
 	public ExcelTable deleteRows(Integer... rowsIndexes) {
 		int rowsShifts = 0;
-		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toSet());
+		Set<Integer> uniqueSortedRowIndexes = Arrays.stream(rowsIndexes).sorted().collect(Collectors.toCollection(LinkedHashSet::new));
 		for (int index : uniqueSortedRowIndexes) {
 			assertThat(hasRow(index - rowsShifts)).as("There is no row number %1$s in table %2$s", index, this).isTrue();
 			ListIterator<Integer> rowsIterator = new ArrayList<>(getRowsIndexes()).listIterator(index - rowsShifts);
@@ -146,46 +169,6 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		super.excludeColumns(columnsIndexes);
 		getHeader().removeCellsIndexes(columnsIndexes);
 		return this;
-	}
-
-	private static boolean isRowEmpty(Row row, Collection<Integer> cellsIndexes) {
-		if (row == null || row.getLastCellNum() <= 0) {
-			return true;
-		}
-		for (Cell cell : row) {
-			if (cellsIndexes.contains(cell.getColumnIndex() + 1) && cell != null && cell.getCellTypeEnum() != org.apache.poi.ss.usermodel.CellType.BLANK) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static Set<Integer> getHeaderColumnsIndexes(Row headerRow) {
-		Set<Integer> columnsIndexes = new LinkedHashSet<>();
-		for (Cell cell : headerRow) {
-			if (cell != null && cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.STRING && StringUtils.isNotBlank(cell.getStringCellValue())) {
-				columnsIndexes.add(cell.getColumnIndex() + 1);
-			}
-		}
-		assertThat(columnsIndexes)
-				.as("There are no non-empty String columns in header row number %1$s on sheet \"%1$s\"", headerRow.getRowNum() + 1, headerRow.getSheet().getSheetName())
-				.isNotEmpty();
-		return columnsIndexes;
-	}
-
-	private static Set<Integer> getTableRowsIndexes(Row headerRow, Set<Integer> columnsIndexesOnSheet) {
-		Set<Integer> rIndexes = new LinkedHashSet<>();
-		Set<Integer> cIndexes = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
-				? columnsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new))
-				: getHeaderColumnsIndexes(headerRow);
-
-		for (int rowIndex = headerRow.getRowNum() + 1; rowIndex <= headerRow.getSheet().getLastRowNum(); rowIndex++) {
-			if (isRowEmpty(headerRow.getSheet().getRow(rowIndex), cIndexes)) {
-				break;
-			}
-			rIndexes.add(rowIndex + 1);
-		}
-		return rIndexes;
 	}
 
 	public ExcelTable excludeColumns(String... headerColumnNames) {
@@ -230,8 +213,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	public List<TableRow> getRows(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
-		List<TableRow> foundRows = getRows();
-		foundRows = foundRows.stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).collect(Collectors.toList());
+		List<TableRow> foundRows = getRows().stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).collect(Collectors.toList());
 		assertThat(foundRows).as("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName).isNotEmpty();
 		return foundRows;
 	}

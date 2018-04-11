@@ -1,17 +1,15 @@
 package aaa.utils.excel.io.entity.area;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 
 public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CELL> {
-	protected ExcelColumn(int columnIndexInArea, int columnIndexOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
+	protected ExcelColumn(int columnIndexInArea, int columnIndexOnSheet, List<Integer> rowsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
 		this(columnIndexInArea, columnIndexOnSheet, rowsIndexesOnSheet, excelArea, excelArea.getCellTypes());
 	}
 
-	protected ExcelColumn(int columnIndexInArea, int columnIndexOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
+	protected ExcelColumn(int columnIndexInArea, int columnIndexOnSheet, List<Integer> rowsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, List<CellType<?>> cellTypes) {
 		super(columnIndexInArea, columnIndexOnSheet, rowsIndexesOnSheet, excelArea, cellTypes);
 	}
 
@@ -45,13 +43,13 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 	}
 
 	@Override
-	protected Map<Integer, CELL> gatherQueueIndexesAndCellsMap(Set<Integer> rowsIndexesOnSheet, Set<CellType<?>> cellTypes) {
-		Map<Integer, CELL> rowsIndexesAndCellsMap = new LinkedHashMap<>(rowsIndexesOnSheet.size());
+	protected ImmutableSortedMap<Integer, CELL> gatherQueueIndexesAndCellsMap(List<Integer> rowsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		ImmutableSortedMap.Builder<Integer, CELL> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
 		List<? extends ExcelRow<CELL>> areaRows = getArea().getRows();
 		for (ExcelRow<CELL> row : areaRows) {
-			rowsIndexesAndCellsMap.put(row.getIndex(), row.getCell(getIndex()));
+			queueIndexesAndCellsBuilder.put(row.getIndex(), row.getCell(getIndex()));
 		}
-		return rowsIndexesAndCellsMap;
+		return queueIndexesAndCellsBuilder.build();
 	}
 
 	@Override
