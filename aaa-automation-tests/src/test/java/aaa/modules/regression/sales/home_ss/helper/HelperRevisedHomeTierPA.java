@@ -51,7 +51,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData");
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         // Create the customer
         mainApp().open();
@@ -91,7 +91,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
                 .adjust(PrefillTab.class.getSimpleName(), testDataManager.getDefault(TestPARevisedHomeTierAutoNA.class).getTestData("TestData_PrefillTab_OH"));
 
         // TODO This can be removed after 5/28/18 (effective date requirement for new rating algo)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         // Create the customer
         mainApp().open();
@@ -138,7 +138,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
         rangeAutoTier.add("N/A");
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         mainApp().open();
         createCustomerIndividual();
@@ -206,7 +206,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6829_TestPrivelegeToEditCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
@@ -276,7 +276,7 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
     public void pas6829_TestPrivelegeToEditManualCompanionAutoTier(PolicyType policyType) {
 
         // TODO This needs to be removed after 5/28/18 (new algo implementation)
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().verifyAlgoDate(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
 
         // Log in with default User with privilege to edit policy tier
         mainApp().open();
@@ -351,12 +351,6 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
                 .adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()), tdOtherActive);
     }
 
-    public void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
-    }
 
     private void loginA30(){
         TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
