@@ -53,7 +53,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -80,7 +80,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Initiate Policy, calculate premium
         mainApp().open();
@@ -111,7 +111,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Create customer & policy
         mainApp().open();
@@ -141,7 +141,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11200_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
-        verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
         // Create customer
         mainApp().open();
@@ -153,14 +153,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
-    }
-
-    //TODO remove verify algo date after 2018-07-01
-    private void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JULY, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
     }
 
     private void verifyEnhancedUIMCoverage() {
