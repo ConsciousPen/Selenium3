@@ -141,6 +141,16 @@
             </class>
         </classes>
     </test>
+    <test name="ViewDrivers VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas11932_viewDrivers"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="PolicySummaryService CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>

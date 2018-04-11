@@ -72,6 +72,10 @@ TestData_AllDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
 }
 
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three'],
+}
+
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
@@ -86,13 +90,34 @@ Driver_two: {
    "Policy #": '123456789',
     Rel. to First Named Insured: Child,
     First Name: 'John',
+    Middle Name: 'Sam',
     Last Name: 'Smith',
     Date of Birth: '12/12/1980',
     Gender: 'Male',
+    Suffix: 'II',
     Marital Status: Married,
     Occupation: 'index=1',
     License Type: 'Licensed (US)',
     Age First Licensed: '18',
     License Number: 'T60355298',
+    License Status: 'Licensed (US)'
+}
+
+Driver_three: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456788',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
     License Status: 'Licensed (US)'
 }

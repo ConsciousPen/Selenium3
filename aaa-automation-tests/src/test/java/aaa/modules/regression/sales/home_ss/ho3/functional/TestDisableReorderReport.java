@@ -5,9 +5,13 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreR
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.ORDER_INSURANCE_SCORE;
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.time.Month;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -17,13 +21,13 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
 public class TestDisableReorderReport extends HomeSSHO3BaseTest {
+
     private ReportsTab reportTab = new ReportsTab();
     private ApplicantTab applicant = new ApplicantTab();
 
@@ -43,7 +47,8 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6795")
     public void pas6795_disableReorderReportEndorsement(@Optional("PA") String state) {
 
-        new HelperRevisedHomeTierPA().verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+
         mainApp().open();
         createPolicyVerifyOverrideLink();
 
@@ -83,7 +88,8 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6827")
     public void pas6827_disableReorderReportRenewal(@Optional("PA") String state) {
 
-        new HelperRevisedHomeTierPA().verifyAlgoDate();
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+
         mainApp().open();
         createPolicyVerifyOverrideLink();
 
