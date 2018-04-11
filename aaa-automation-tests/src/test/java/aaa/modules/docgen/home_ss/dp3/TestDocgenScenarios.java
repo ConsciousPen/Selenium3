@@ -245,6 +245,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.HSRFIXX
 		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.AHRCTXX,
 				DocGenEnum.Documents.HSEIXX,
@@ -467,6 +468,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.HSRFIXX,
 				DocGenEnum.Documents.HSU01XX,
