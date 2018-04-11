@@ -44,6 +44,7 @@ public class HelperCommon {
 	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
 	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
 	private static final String DXP_VIEW_DRIVERS = "/api/v1/policies/%s/drivers";
+	private static final String DXP_ENDORSEMENT_VIEW_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -139,6 +140,11 @@ public class HelperCommon {
 
 	public static DriversDto[] executeViewDrivers(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_DRIVERS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+	}
+
+	public static DriversDto[] executeEndorsementViewDrivers(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_VIEW_DRIVERS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
 	}
 

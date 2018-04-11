@@ -94,6 +94,8 @@ Driver_three: {
     DriverSearchDialog: {},
    "Policy #": '123456788',
     Rel. to First Named Insured: Child,
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
     First Name: 'Laura',
     Middle Name: 'Sara',
     Last Name: 'Smith',

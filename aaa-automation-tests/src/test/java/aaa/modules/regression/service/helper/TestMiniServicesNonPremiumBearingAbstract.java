@@ -748,7 +748,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		mainApp().open();
 		createCustomerIndividual();
-
+		String notAvailableForRating = "nafr";
+		String availableForRating = "afr";
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -786,12 +787,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverNd.getMiddleName()).isEqualTo(middleName2);
 			softly.assertThat(driverNd.getLastName()).isEqualTo(lastName2);
 			softly.assertThat(driverNd.getSuffix()).isEqualTo(suffix2);
+			softly.assertThat(driverNd.getDriverType()).isEqualTo(availableForRating);
 			softly.assertThat(driverNd.getOid()).isNotEmpty();
 
 			softly.assertThat(driverRd).isNotNull();
 			softly.assertThat(driverRd.getMiddleName()).isEqualTo(middleName3);
 			softly.assertThat(driverRd.getLastName()).isEqualTo(lastName3);
 			softly.assertThat(driverRd.getSuffix()).isEqualTo(suffix3);
+			softly.assertThat(driverRd.getDriverType()).isEqualTo(notAvailableForRating);
 			softly.assertThat(driverRd.getOid()).isNotEmpty();
 		});
 
@@ -811,8 +814,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		DriversDto driverRd2 = Arrays.stream(response2).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
 
 		assertSoftly(softly -> {
-			softly.assertThat(driverNd2).isNotNull();
+			softly.assertThat(driverSt2).isNotNull();
 			softly.assertThat(driverSt2.getLastName()).isEqualTo(lastName1);
+			softly.assertThat(driverSt2.getDriverType()).isEqualTo(availableForRating);
 			softly.assertThat(driverSt2.getOid()).isNotEmpty();
 
 			softly.assertThat(driverNd2).isNotNull();
@@ -821,25 +825,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverNd2.getSuffix()).isEqualTo(suffix2);
 			softly.assertThat(driverNd2.getOid()).isNotEmpty();
 
-			softly.assertThat(driverNd2).isNotNull();
+			softly.assertThat(driverRd2).isNotNull();
 			softly.assertThat(driverRd2.getMiddleName()).isEqualTo(middleName3);
 			softly.assertThat(driverRd2.getLastName()).isEqualTo(lastName3);
 			softly.assertThat(driverRd2.getSuffix()).isEqualTo(suffix3);
 			softly.assertThat(driverRd2.getOid()).isNotEmpty();
 		});
 
-		//Issue pended endorsement
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
-
-		//Check dxp service if endorsement changes were applied
-		DriversDto[] response3 = HelperCommon.executeViewDrivers(policyNumber);
+		//Check dxp service what we have in endorsement
+		DriversDto[] response3 = HelperCommon.executeEndorsementViewDrivers(policyNumber);
 		DriversDto driverSt3 = Arrays.stream(response3).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
 		DriversDto driverNd3 = Arrays.stream(response3).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
 
 		assertSoftly(softly -> {
-			softly.assertThat(driverNd3).isNotNull();
+			softly.assertThat(driverSt3).isNotNull();
 			softly.assertThat(driverSt3.getLastName()).isEqualTo(lastName1);
+			softly.assertThat(driverSt3.getDriverType()).isEqualTo(availableForRating);
 			softly.assertThat(driverSt3.getOid()).isNotEmpty();
 
 			softly.assertThat(driverNd3).isNotNull();
@@ -847,6 +848,28 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverNd3.getLastName()).isEqualTo(lastName2);
 			softly.assertThat(driverNd3.getSuffix()).isEqualTo(suffix2);
 			softly.assertThat(driverNd3.getOid()).isNotEmpty();
+		});
+
+		//Issue pended endorsement
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+		//Check dxp service if endorsement changes were applied
+		DriversDto[] response4 = HelperCommon.executeViewDrivers(policyNumber);
+		DriversDto driverSt4 = Arrays.stream(response4).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+		DriversDto driverNd4 = Arrays.stream(response4).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+
+		assertSoftly(softly -> {
+			softly.assertThat(driverSt4).isNotNull();
+			softly.assertThat(driverSt4.getLastName()).isEqualTo(lastName1);
+			softly.assertThat(driverSt4.getDriverType()).isEqualTo(availableForRating);
+			softly.assertThat(driverSt4.getOid()).isNotEmpty();
+
+			softly.assertThat(driverNd4).isNotNull();
+			softly.assertThat(driverNd4.getMiddleName()).isEqualTo("Kevin");
+			softly.assertThat(driverNd4.getLastName()).isEqualTo(lastName2);
+			softly.assertThat(driverNd4.getSuffix()).isEqualTo(suffix2);
+			softly.assertThat(driverNd4.getOid()).isNotEmpty();
 		});
 	}
 

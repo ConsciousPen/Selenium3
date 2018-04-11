@@ -22,6 +22,9 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Middle Name", example ="Jacob")
 	public String middleName;
 
+	@ApiModelProperty(value = "Driver Type", example ="afr")
+	public String driverType;
+
 	@ApiModelProperty(value = "Suffix", example ="III")
 	public String suffix;
 
@@ -55,6 +58,14 @@ public class DriversDto implements RestBodyRequest {
 
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	public String getDriverType() {
+		return driverType;
+	}
+
+	public void setDriverType(String driverType) {
+		this.driverType = driverType;
 	}
 
 	public String getOid() {
