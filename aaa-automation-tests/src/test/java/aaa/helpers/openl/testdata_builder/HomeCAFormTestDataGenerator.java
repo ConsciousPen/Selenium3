@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 //import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
@@ -51,10 +53,10 @@ public class HomeCAFormTestDataGenerator {
 	
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO210DataFunction =  (openLPolicy) -> {
 		List<TestData> tdList = new ArrayList<>();
+		Dollar coverageLimit = new Dollar(openLPolicy.getForms().stream().filter(c -> "HO-210".equals(c.getFormCode())).findFirst().get().getLimit());
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
-				HomeCaMetaData.EndorsementTab.EndorsementHO210.COVERAGE_LIMIT.getLabel(), 
-				openLPolicy.getForms().stream().filter(c -> "HO-210".equals(c.getFormCode())).findFirst().get().getLimit().toString().split("\\.")[0]));
+				HomeCaMetaData.EndorsementTab.EndorsementHO210.COVERAGE_LIMIT.getLabel(), coverageLimit.toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -65,12 +67,12 @@ public class HomeCAFormTestDataGenerator {
 				"Action", "Add",
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.OFFICE_TYPE.getLabel(), "index=1", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO42.DESCRIPTION_OF_BUSINESS_EQUIPMENT.getLabel(), "test", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), false, 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), false, 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), false, 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), false, 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), false, 
-				HomeCaMetaData.EndorsementTab.EndorsementHO42.IS_BUSINESS_CONDUCTED_OR_IS_THERE_EQUIPMENT_STORED.getLabel(), false));
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_EQUIPMENT_OVER_50_000.getLabel(), "No", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK.getLabel(), "No", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.EMPLOYEES_WORKING_ON_THE_PREMISES.getLabel(), "No", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS.getLabel(), "No", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS.getLabel(), "No", 
+				HomeCaMetaData.EndorsementTab.EndorsementHO42.IS_BUSINESS_CONDUCTED_OR_IS_THERE_EQUIPMENT_STORED.getLabel(), "No"));
 		return tdList;
 	};
 	
@@ -87,12 +89,12 @@ public class HomeCAFormTestDataGenerator {
 						HomeCaMetaData.EndorsementTab.EndorsementHO43.STATE.getLabel(), "CA",
 						HomeCaMetaData.EndorsementTab.EndorsementHO43.ZIP_CODE.getLabel(), "90255", 
 						HomeCaMetaData.EndorsementTab.EndorsementHO43.SECTION_II_TERRITORY.getLabel(), "contains=" + form.getTerritoryCode(), 
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.BUSSINESS_EQUIPMENT_OVER_$5000.getLabel(), false, 
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.FOOT_TRAFIC_EXCEEDING_2_CUSTOMERS.getLabel(), false, 
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.EMPLOYEES_WORKING_ON_PREMISES.getLabel(), false, 
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.BUSSINESS_INVOLVING_HAZZARDOUS_SITUATIONS.getLabel(), false, 
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.BUSSINESS_INVOLVING_THE_MANUFACTORING.getLabel(), false, 
-						HomeCaMetaData.EndorsementTab.EndorsementHO43.IS_BUSINESS_CONDUCTED.getLabel(), false));
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.BUSSINESS_EQUIPMENT_OVER_$5000.getLabel(), "No", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.FOOT_TRAFIC_EXCEEDING_2_CUSTOMERS.getLabel(), "No", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.EMPLOYEES_WORKING_ON_PREMISES.getLabel(), "No", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.BUSSINESS_INVOLVING_HAZZARDOUS_SITUATIONS.getLabel(), "No", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.BUSSINESS_INVOLVING_THE_MANUFACTORING.getLabel(), "No", 
+						HomeCaMetaData.EndorsementTab.EndorsementHO43.IS_BUSINESS_CONDUCTED.getLabel(), "No"));
 				instanceNum++;
 			}
 		}
@@ -177,7 +179,7 @@ public class HomeCAFormTestDataGenerator {
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.NAME_OF_BUSINESS.getLabel(), "Test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.DESCRIPTION_OF_BUSINESS.getLabel(), "test", 
 				HomeCaMetaData.EndorsementTab.EndorsementHO71.CLASSIFICATION_OCCUPATION.getLabel(), "index=2", 
-				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), false));
+				HomeCaMetaData.EndorsementTab.EndorsementHO71.IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS.getLabel(), "No"));
 		return tdList;
 	}; 
 	
