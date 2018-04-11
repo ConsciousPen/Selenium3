@@ -281,7 +281,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 
 	 */
 	protected void verifyPreRenewalFormsSequence(TestData testData,LocalDateTime renewalOfferEffectiveDate,LocalDateTime preRenewalGenerationDate) throws NoSuchFieldException {
-		String policyNumber = "PAD3109000002";//generatePreRenewalEvent(testData,renewalOfferEffectiveDate, preRenewalGenerationDate);
+		String policyNumber = generatePreRenewalEvent(testData,renewalOfferEffectiveDate, preRenewalGenerationDate);
 
 		List<Document> docs = DocGenHelper.getDocumentsList(policyNumber,PRE_RENEWAL);
 		List<String> forms = new ArrayList<>(Arrays.asList("stub",DocGenEnum.Documents.DS65PA.getIdInXml(),DocGenEnum.Documents.DS65PA.getIdInXml()));

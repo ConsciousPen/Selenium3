@@ -176,8 +176,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9114"})
 	public void pas9114_PreRenewalPrintSequence(@Optional("PA") String state) throws NoSuchFieldException {
-		TestData testData = getConversionPolicyDefaultTD();
-		verifyPreRenewalFormsSequence(testData,renewalOfferEffectiveDate, preRenewalGenerationDate);
+		verifyPreRenewalFormsSequence(getConversionPolicyDefaultTD(),renewalOfferEffectiveDate, preRenewalGenerationDate);
 
 	}
 
@@ -192,8 +191,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9114"})
 	public void pas9114_PreRenewalPrintSequenceMortgagee(@Optional("PA") String state) throws NoSuchFieldException {
-		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
-		verifyPreRenewalFormsSequence(testData,renewalOfferEffectiveDate, preRenewalGenerationDate);
+		verifyPreRenewalFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD()),renewalOfferEffectiveDate, preRenewalGenerationDate);
 	}
 
 
