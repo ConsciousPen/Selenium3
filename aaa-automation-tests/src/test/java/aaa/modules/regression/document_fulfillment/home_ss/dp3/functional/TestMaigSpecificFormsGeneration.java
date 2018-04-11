@@ -47,8 +47,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacket(@Optional("MD") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD())
-				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
+		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getSpecificTestData()));
 	}
 
 	/**
@@ -66,8 +65,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacketMortgagee(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithMortgageeData(getConversionPolicyDefaultTD())
-				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
+		verifyConversionFormsSequence(adjustWithMortgageeData(getSpecificTestData()));
 	}
 
 	/**
@@ -167,20 +165,34 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 
 	}
 
+	/**
+	 * PAS-9114 Print Sequence: Conversion PRE Renewal (DP3 - PA)
+	 * @author Viktor Petrenko
+	 * @throws NoSuchFieldException
+	 *
+	 * Verify print sequence for PRE RENEWAL EVENT without mortgagee
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9114"})
 	public void pas9114_PreRenewalPrintSequence(@Optional("PA") String state) throws NoSuchFieldException {
-		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
+		TestData testData = getConversionPolicyDefaultTD();
 		verifyPreRenewalFormsSequence(testData,renewalOfferEffectiveDate, preRenewalGenerationDate);
 
 	}
 
+	/**
+	 * PAS-9114 Print Sequence: Conversion PRE Renewal (DP3 - PA)
+	 * @author Viktor Petrenko
+	 * @throws NoSuchFieldException
+	 *
+	 * Verify print sequence for PRE RENEWAL EVENT mortgagee
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9114"})
 	public void pas9114_PreRenewalPrintSequenceMortgagee(@Optional("PA") String state) throws NoSuchFieldException {
-		TestData testData = getConversionPolicyDefaultTD();
+		TestData testData = adjustWithMortgageeData(getConversionPolicyDefaultTD());
 		verifyPreRenewalFormsSequence(testData,renewalOfferEffectiveDate, preRenewalGenerationDate);
 	}
 
