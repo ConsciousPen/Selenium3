@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.RandomUtils;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
@@ -11,6 +13,7 @@ import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -85,10 +88,23 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				//HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), "111 Test street", 
 				//HomeCaMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "Los Angeles County");
 		
-		TestData otherActiveAAAPolicies = DataProviderFactory.dataOf(
-				HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), getYesOrNo(openLPolicy.getHasMultiPolicyDiscount()));
-		if (openLPolicy.getHasMultiPolicyDiscount()) {
-			//TODO add adjust	
+		TestData otherActiveAAAPolicies = DataProviderFactory.emptyData();
+		if (Boolean.TRUE.equals(openLPolicy.getHasMultiPolicyDiscount())) {
+			otherActiveAAAPolicies = DataProviderFactory.dataOf(
+					HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), "Yes", 
+					HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.ADD_BTN.getLabel(), "click", 
+					HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel(), DataProviderFactory.emptyData(), 
+					HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL.getLabel(), DataProviderFactory.dataOf(
+							HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_TYPE.getLabel(), "HO3", 
+							HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.POLICY_NUMBER.getLabel(), "345345345", 
+							HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.COVERAGE_E.getLabel(), "1000", 
+							HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.DEDUCTIBLE.getLabel(), "1000", 
+							HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.DWELLING_USAGE.getLabel(), "Primary", 
+							HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.OCCUPANCY_TYPE.getLabel(), "Owner occupied"));
+		}
+		else {
+			otherActiveAAAPolicies = DataProviderFactory.dataOf(
+					HomeCaMetaData.ApplicantTab.OtherActiveAAAPolicies.OTHER_ACTIVE_AAA_POLICIES.getLabel(), getYesOrNo(openLPolicy.getHasMultiPolicyDiscount()));
 		}
 		
 		return DataProviderFactory.dataOf(
@@ -145,7 +161,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		List<TestData> detachedStructuresDataList = getDetachedStructuresData(openLPolicy);
 
-		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getClaimPoints());
+		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getExpClaimPoints(), openLPolicy.getClaimPoints());
 		
 		return DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
@@ -220,37 +236,59 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		return detachedStructuresDataList;
 	}
 	
-	private List<TestData> getClaimsHistoryData(HomeCaHO3OpenLPolicy openLPolicy, Integer claimPoints) {
+	private List<TestData> getClaimsHistoryData(HomeCaHO3OpenLPolicy openLPolicy, Integer AaaClaimPoints, Integer notAaaClaimPoints) {
 		List<TestData> claimsDataList = new ArrayList<>();
 		TestData claim = DataProviderFactory.emptyData(); 
-		if (claimPoints.equals(0)) {
+		
+		int aaaPoints = AaaClaimPoints.intValue();
+		int notAaaPoints = notAaaClaimPoints.intValue();
+		int totalPoints = aaaPoints + notAaaPoints;
+		boolean isFirstClaim = true;
+		
+		if (totalPoints == 0) {
 			claimsDataList.add(claim); 
 		}
-		else {
-			for (int i = 0; i < claimPoints; i++) {	
-				if (i == 0) {
-					claim = DataProviderFactory.dataOf(
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), openLPolicy.getEffectiveDate().minusYears(1).format(DateTimeUtils.MM_DD_YYYY), 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), "regex=.*\\S.*", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), "10000", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Open",
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS.getLabel(), "No"); 
-				}
-				else {
-					claim = DataProviderFactory.dataOf(
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), openLPolicy.getEffectiveDate().minusYears(1).format(DateTimeUtils.MM_DD_YYYY), 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), "regex=.*\\S.*", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), "10000", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Open",
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes", 
-							HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS.getLabel(), "No"); 
-				}		
+		
+		if (notAaaPoints != 0) {
+			for (int i = 0; i < notAaaPoints; i++) {
+				claim = addClaimData(openLPolicy, isFirstClaim);
+				isFirstClaim = false;
 				claimsDataList.add(claim);
 			}
 		}
-		return claimsDataList; 
+		
+		if (aaaPoints != 0) {
+			for (int j = 0; j < aaaPoints; j++) {
+				claim = addClaimData(openLPolicy, isFirstClaim); 
+				claim.adjust(DataProviderFactory.dataOf(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM.getLabel(), "Yes"));
+				isFirstClaim = false; 
+				claimsDataList.add(claim);
+			}
+		}
+
+		return claimsDataList;
+	}
+	
+	private TestData addClaimData(HomeCaHO3OpenLPolicy openLPolicy, boolean isFirstClaim) {
+		TestData claimData = DataProviderFactory.emptyData(); 
+		if (isFirstClaim) {
+			claimData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes", 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), 
+								openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(1, 3)).format(DateTimeUtils.MM_DD_YYYY), 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK, 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), RandomUtils.nextInt(10000, 20000), 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Open"); 
+		}
+		else {
+			claimData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), 
+								openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(1, 3)).format(DateTimeUtils.MM_DD_YYYY), 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK, 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), RandomUtils.nextInt(10000, 20000), 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS.getLabel(), "Open");
+		}
+		return claimData;
 	}
 	
 	private TestData getEndorsementTabData(HomeCaHO3OpenLPolicy openLPolicy) {
