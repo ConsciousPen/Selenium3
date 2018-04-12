@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 /**
  * @author - Tyrone C Jemison
- * @description - This class is used for parsing a XML to get a value using the associate tag name. Contains method for value validation. Can be used to parse SoapMessages if converted to XMLs.
+ * @description - This class is used for parsing an XML to get a value using the associate tag name.
+ * Contains method for value validation.
+ * Can be used to parse SoapMessages if Messages are first converted to XML File using [src/test/java/aaa/helpers/soap/SoapClient.java]
  */
 public class xmlParser
 {

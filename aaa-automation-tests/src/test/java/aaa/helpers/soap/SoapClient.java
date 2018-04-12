@@ -20,6 +20,11 @@ import java.nio.charset.Charset;
 import static javax.xml.soap.SOAPMessage.*;
 import static scala.collection.concurrent.RestartException.getMessage;
 
+/**
+ * @author - Tyrone C Jemison
+ * @description - This class is used to create connections and send/receive messages via Soap.
+ * Process - InputFile_XML to Raw_XML to SoapMessage(Request). Request sent. Response Received. SoapMessage(Response) to Raw_XML to OutputFile_XML
+ */
 public class SoapClient {
 
     public static SOAPMessage callSoapWebService(SOAPMessage soapRequest, String _soapEndpointURL, String _soapAction) {
