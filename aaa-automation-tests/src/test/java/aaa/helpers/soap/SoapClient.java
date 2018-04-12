@@ -1,7 +1,6 @@
 package aaa.helpers.soap;
 
 import org.w3c.dom.Document;
-import akka.testkit.TestActor;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -16,9 +15,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import java.io.*;
 import java.nio.charset.Charset;
-
-import static javax.xml.soap.SOAPMessage.*;
-import static scala.collection.concurrent.RestartException.getMessage;
 
 /**
  * @author - Tyrone C Jemison
