@@ -36,8 +36,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-//import toolkit.verification.CustomAssert;
 import toolkit.verification.CustomAssertions;
+
+//import toolkit.verification.CustomAssert;
 
 public class Scenario12 extends ScenarioBaseTest {
 	
@@ -374,7 +375,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void payRenewalBill(){
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate.plusHours(1));
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

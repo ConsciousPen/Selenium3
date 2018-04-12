@@ -25,6 +25,16 @@ public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends O
 	}
 
 	@Override
+	public Double getTermCappingFactor() {
+		return null;
+	}
+
+	@Override
+	public String getUnderwriterCode() {
+		return null;
+	}
+
+	@Override
 	public String toString() {
 		return "AutoCaOpenLPolicy{" +
 				"multiCar=" + multiCar +

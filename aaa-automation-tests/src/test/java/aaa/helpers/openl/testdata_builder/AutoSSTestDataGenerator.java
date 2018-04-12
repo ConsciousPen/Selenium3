@@ -16,9 +16,7 @@ import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
-import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurcharge;
@@ -30,7 +28,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPolicy> {
-	public static final String LEGACY_CONV_PROGRAM_CODE = "LegacyConv";
 	private static final String VEHICLE_ASSIGNED_ID_TESTDATA_KEY = "vehicleAssignedId";
 
 	public AutoSSTestDataGenerator(String state, TestData ratingDataPattern) {
@@ -96,22 +93,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			td.getTestDataList(new DriverTab().getMetaKey()).forEach(driverData -> driverData.adjust(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), getState()));
 		}
 		return td;
-	}
-
-	public TestData getRenewalEntryData(AutoSSOpenLPolicy openLPolicy) {
-		List<String> maigSourceSystemStates = Arrays.asList(Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA);
-
-		TestData initiateRenewalEntryActionData = DataProviderFactory.dataOf(
-				CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_POLICY_NUMBER.getLabel(), "$<rx:\\d{10}>",
-				CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_SOURCE_SYSTEM.getLabel(), maigSourceSystemStates.contains(getState()) ? "MAIG" : "SIS",
-				CustomerMetaData.InitiateRenewalEntryActionTab.RISK_STATE.getLabel(), getState(),
-				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-				CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().get(0).getPlcyInceptionDate().format(DateTimeUtils.MM_DD_YYYY),
-				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel(), "4000",
-				CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TERM.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getCappingDetails().get(0).getTerm()),
-				CustomerMetaData.InitiateRenewalEntryActionTab.PROGRAM_CODE.getLabel(), LEGACY_CONV_PROGRAM_CODE,
-				CustomerMetaData.InitiateRenewalEntryActionTab.ENROLLED_IN_AUTOPAY.getLabel(), "No");
-		return DataProviderFactory.dataOf(new InitiateRenewalEntryActionTab().getMetaKey(), initiateRenewalEntryActionData);
 	}
 
 	private TestData getPrefillTabData() {
@@ -202,7 +183,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
 					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
-					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|Student",
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
 
@@ -304,7 +285,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			if (!activityInformationList.isEmpty()) {
 				driverData.adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), activityInformationList);
-				if (Constants.States.MD.equals(getState())) {
+				if ("WUIC".equals(openLPolicy.getUnderwriterCode())) {
 					driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
 					if (Boolean.TRUE.equals(driver.isCleanDriver())) {
 						driverData.adjust(AutoSSMetaData.DriverTab.REASON.getLabel(), "some clean driver renewal reason $<rx:\\d{3}>");

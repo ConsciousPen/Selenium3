@@ -204,6 +204,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		Map<String, String> coveragesMap = new HashMap<>();
 
 		coveragesMap.put("BI", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel());
+		coveragesMap.put("BI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel());
 		coveragesMap.put("PD", AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel());
 		switch (getState()) {
 			case Constants.States.OR:
@@ -215,18 +216,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.MD:
 			case Constants.States.DE:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				break;
 			case Constants.States.MT:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_BODILY_INJURY.getLabel());
+				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_BODILY_INJURY.getLabel());
 				break;
 			default:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				break;
 		}
-
-		//TODO-dchubkov: to be found out...
-		coveragesMap.put("UMBI-Verbal", "UNKNOWN UMBI-Verbal coverage for NJ state");
-		coveragesMap.put("BI-Verbal", "UNKNOWN BI-Verbal coverage for NJ state");
 
 		if (getState().equals(Constants.States.PA)) {
 			coveragesMap.put("MP", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_EXPENSES.getLabel());
@@ -309,22 +309,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
-		}
-		paymentPlan.append("(\\s*\\(Renewal\\))?$");
-		return paymentPlan.toString();
-	}
-
-	String getPremiumAndCoveragesPaymentPlan(int term) {
-		StringBuilder paymentPlan = new StringBuilder("regex=^");
-		switch (term) {
-			case 12:
-				paymentPlan.append("Annual");
-				break;
-			case 6:
-				paymentPlan.append("Semi-[aA]nnual");
-				break;
-			default:
-				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}
 		paymentPlan.append("(\\s*\\(Renewal\\))?$");
 		return paymentPlan.toString();
