@@ -18,13 +18,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
-import aaa.main.enums.BillingConstants.BillsAndStatementsType;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
-import aaa.main.enums.BillingConstants.PolicyFlag;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
@@ -171,7 +165,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void generateSecondBill() {
 		LocalDateTime genDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(genDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

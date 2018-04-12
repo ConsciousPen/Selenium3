@@ -2,6 +2,23 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import org.apache.commons.lang.StringUtils;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -27,14 +44,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import aaa.modules.regression.service.helper.HelperWireMockPaperlessPreferences;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
-import org.apache.commons.lang.StringUtils;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
@@ -44,17 +53,6 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestEValueMembershipProcessPreConditions {
 
@@ -1265,8 +1263,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	//@Test
-	public static void jobsNBplus15plus30runNoChecks() {
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+	static void jobsNBplus15plus30runNoChecks() {
+		jobsNBplus15plus30runNoChecks(DateTimeUtils.getCurrentDateTime().plusDays(15));
+	}
+
+	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
+		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
@@ -1432,7 +1434,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		return DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().toString().contains(discountTag);
 	}
 
-	private void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
+	void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
