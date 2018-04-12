@@ -2,8 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.List;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -16,6 +14,10 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestRestrictedPaymentPlanAbstract extends PolicyBaseTest {
 

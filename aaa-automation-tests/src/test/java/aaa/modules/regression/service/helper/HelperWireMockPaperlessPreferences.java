@@ -1,13 +1,15 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.modules.BaseTest.printToLog;
-import java.util.LinkedList;
-import java.util.List;
-import org.testng.annotations.Test;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.wiremock.dto.WireMockMappingRequest;
 import aaa.modules.regression.service.helper.wiremock.factory.PaperlessPreferencesWMRequestFactory;
+import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static aaa.modules.BaseTest.printToLog;
 
 public class HelperWireMockPaperlessPreferences {
 	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/__admin/mappings";

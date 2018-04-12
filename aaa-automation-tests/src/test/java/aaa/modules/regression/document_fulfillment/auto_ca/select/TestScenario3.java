@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.datetime.DateTimeUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -13,6 +12,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * Validate if AH34XX and AHTPCCA are generated
@@ -38,7 +38,7 @@ public class TestScenario3 extends AutoCaSelectBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 	}
 	
 	@Parameters({ "state" })
