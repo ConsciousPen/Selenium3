@@ -182,14 +182,12 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 		);
 		documentActionTab.generateDocuments(DocGenEnum.Documents.DSIQXX);
 		WebDriverHelper.switchToDefault();
-		//WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.DSIQXX, DocGenEnum.Documents.AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(DocGenEnum.Documents.DS11.setState(getState()), DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
 		WebDriverHelper.switchToDefault();
-		//WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.DS11, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX, DocGenEnum.Documents.AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
