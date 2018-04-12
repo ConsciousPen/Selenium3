@@ -222,10 +222,10 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("innerText")).contains(euimPDExpectedText);
 
         //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
-//        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
-//        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
-//        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
-//
+        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+
 //        // AC1 PAS-11209. Display EUIM UIPD/UIMBI in VRD page.
 //        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 //        List<TestData> vehicleVRDTestData = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
