@@ -2,18 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
@@ -27,12 +21,20 @@ import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperRfi;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 
 public class TestServiceRFI extends HomeSSHO3BaseTest {
 
@@ -88,6 +90,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 10));//XML doesn't appear in DB at once
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "OldHoModrnDiscYN", "Y");
@@ -169,6 +172,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		goddTab.generateDocuments(DocGenEnum.Documents.HSRFIXX);
 
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "HSRFIXX", "ADHOC_DOC_ON_DEMAND_GENERATE");
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 10));//XML doesn't appear in DB at once
 		DocGenHelper.getDocumentDataSectionsByName("FormData", DocGenEnum.Documents.HSRFIXX, query).get(0).getDocumentDataElements();
 		rfiTagCheck(HSRFIXX, query, "AtBndFlg", "Y");
 		rfiTagCheck(HSRFIXX, query, "NewHoModrnDiscYN", "Y");

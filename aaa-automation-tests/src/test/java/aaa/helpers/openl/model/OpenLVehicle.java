@@ -5,7 +5,7 @@ import java.util.List;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class OpenLVehicle {
+public abstract class OpenLVehicle {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
@@ -15,9 +15,16 @@ public class OpenLVehicle {
 	protected String id;
 	protected Integer modelYear;
 	protected String statCode;
+	protected String oldStatCode;
+	protected String biLiabilitySymbol;
+	protected String pdLiabilitySymbol;
+	protected String mpLiabilitySymbol;
+	protected String umLiabilitySymbol;
 
 	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowIndex = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	protected List<OpenLAddress> address;
+
+	public abstract List<? extends AutoOpenLCoverage> getCoverages();
 
 	public Integer getNumber() {
 		return number;
@@ -75,6 +82,46 @@ public class OpenLVehicle {
 		this.statCode = statCode;
 	}
 
+	public String getOldStatCode() {
+		return oldStatCode;
+	}
+
+	public void setOldStatCode(String oldStatCode) {
+		this.oldStatCode = oldStatCode;
+	}
+
+	public String getBiLiabilitySymbol() {
+		return biLiabilitySymbol;
+	}
+
+	public void setBiLiabilitySymbol(String biLiabilitySymbol) {
+		this.biLiabilitySymbol = biLiabilitySymbol;
+	}
+
+	public String getPdLiabilitySymbol() {
+		return pdLiabilitySymbol;
+	}
+
+	public void setPdLiabilitySymbol(String pdLiabilitySymbol) {
+		this.pdLiabilitySymbol = pdLiabilitySymbol;
+	}
+
+	public String getMpLiabilitySymbol() {
+		return mpLiabilitySymbol;
+	}
+
+	public void setMpLiabilitySymbol(String mpLiabilitySymbol) {
+		this.mpLiabilitySymbol = mpLiabilitySymbol;
+	}
+
+	public String getUmLiabilitySymbol() {
+		return umLiabilitySymbol;
+	}
+
+	public void setUmLiabilitySymbol(String umLiabilitySymbol) {
+		this.umLiabilitySymbol = umLiabilitySymbol;
+	}
+
 	public List<OpenLAddress> getAddress() {
 		return new ArrayList<>(address);
 	}
@@ -92,7 +139,11 @@ public class OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
+				", oldStatCode='" + oldStatCode + '\'' +
+				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
+				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
+				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
+				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
 				", address=" + address +
 				'}';
 	}

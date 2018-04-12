@@ -207,8 +207,10 @@ public final class DocGenEnum {
 		HS02("Owners Policy Declaration"),
 		HS02_4("HS02", "HS02_4", "Renters Policy Declarations"),
 		HS02_6("HS02", "HS02_6", "Condominium Owners Policy Declarations"),
+		HS0312("HS 03 12", "Windstorm or Hail Deductible"),
 		HS0420("HS 04 20", "HS 04 20 Endorsement"),
 		HS0435("HS 04 35", "Loss Assessment Coverage Endorsement"),
+		HS0454("HS 04 54", "Earthquake"),
 		HS0455("HS 04 55", "Identity Fraud Expense endorsement"),
 		HS0465("HS 04 65", "Coverage C Increased Special Limits of Liability endorsement"),
 		HS0477("HS 04 77", "Building Code Upgrade endorsement"),
@@ -224,10 +226,12 @@ public final class DocGenEnum {
 		HS0934("HS 09 34", "Rebuild to Green endorsement"),
 		HS0965("HS 09 65", "Jewelry, watches, furs, precious and semiprecious stones Theft Limit endorsement"),
 		HS0988("HS 09 88", "Additional Insured - Special Event"),
+		HS2473("HS 24 73", "Farmers Personal Liability"),
 		HS11("Application for Homeowners Insurance"),
 		HS11_4("HS11", "HS11_4", "Application for Renters Insurance"),
 		HS11_6("HS11", "HS11_6", "Application for Condominium Owners Insurance"),
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
+		HS65PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		HSAUDVA("Virginia Adverse Action Underwriting Decision Notice"),
 		HSCSNA("Homeowners Insurance"),
 		HSCSND("Rental Property Insurance"),
@@ -280,6 +284,10 @@ public final class DocGenEnum {
 		HSSNMDC("Annual Summary of Maryland Condominium Owner’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
 		HSSNMDB("Annual Summary of Maryland Renter’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
 		IL_09_10("IL 09 10","IL 09 10","Pennsylvania Notice"),
+		HSSCCOA("HSSCCOA", "Summary of Coverage"),
+		HSSCCOB("HSSCCOB", "Summary of Coverage"),
+		HSSCCOC("HSSCCOC", "Summary of Coverage"),
+		HSSCCOD("HSSCCOD", "Summary of Coverage"),
 		PS02("Personal Umbrella Policy Declarations"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
@@ -473,20 +481,20 @@ public final class DocGenEnum {
 	}
 
 	public static class DataElementChoiceTag {
-		public final static String TEXTFIELD = "TextField";
-		public final static String DATETIMEFIELD = "DateTimeField";
+		public static final String TEXTFIELD = "TextField";
+		public static final String DATETIMEFIELD = "DateTimeField";
 	}
 
 	public static class XmlnsNamespaces {
-		public final static String DOC_PREFIX = "doc";
-		public final static String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
-		public final static String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
+		public static final String DOC_PREFIX = "doc";
+		public static final String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
+		public static final String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
 
-		public final static String AAAN_PREFIX = "aaan";
-		public final static String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
+		public static final String AAAN_PREFIX = "aaan";
+		public static final String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
 
-		public final static String XSI_PREFIX = "xsi";
-		public final static String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+		public static final String XSI_PREFIX = "xsi";
+		public static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 	}
 
 	public enum XmlnsDbFormat {

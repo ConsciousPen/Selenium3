@@ -37,7 +37,7 @@ import toolkit.datax.TestData;
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
-			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob),
+			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob, Jobs.aaaDocGenBatchJob),
 					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob),
 					RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob),
 					BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob),
@@ -173,6 +173,51 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	public void pas2309_renewalCoverLetterHSRNHODPXX(String state) throws NoSuchFieldException {
 		renewalCoverLetterFormGeneration(getConversionPolicyDefaultTD(), HSRNHODPXX, false);
+	}
+
+	/**
+	 * @name Test Conversion Document generation (Renewal cover letters)
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data for Home
+	 * 4. Check that HS65PA documents are getting generated
+	 * @details
+	 */
+	public void pas8405_noticeOfNonRenewalLetterHS65PA(String state) throws NoSuchFieldException {
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HS65PA, false, state);
+		assertThat(numberOfLetters).isEqualTo(2);
+	}
+
+	/**
+	 * @name Creation converted policy for checking Renewal Cover letters
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data based on Test Data
+	 * 4. Check that forms are getting generated with correct content
+	 * @details
+	 * @return number of documents
+	 */
+	private int renewalCoverLetterFormsGeneration(TestData testData, DocGenEnum.Documents form, boolean isPupPresent, String state) throws NoSuchFieldException {
+		String policyNumber = createPolicyForTD(testData);
+		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
+		String legacyPolicyNumber = policy.policyInquiry().start().getView().getTab(GeneralTab.class).getInquiryAssetList().
+				getAsset(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER.getLabel()).getValue().toString();
+		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
+
+		renewalOfferCoverLetterJobExecution(effectiveDate, policyNumber);
+
+		Document organicDocument = DocGenHelper.waitForDocumentsAppearanceInDB(HSRNXX, policyNumber, RENEWAL_OFFER, false);
+		assertThat(organicDocument).isEqualTo(null);
+
+		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
+		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
+		for (Document document : documents) {
+			verifyRenewalDocumentTagData(document, testData, isPupPresent, RENEWAL_OFFER);
+			if(state.equals("NJ") || state.equals("PA")){
+				verifyTagData(document, "UwCoNm", "CSAA General Insurance Company");
+			}
+		}
+		return documents.size();
 	}
 
 	/**
@@ -614,7 +659,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private void verifyRenewalDocumentTagData(Document document, TestData testData, boolean isPupPresent, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
 		assertThat(document.getxPathInfo()).isEqualTo("/Policy/Renewal");
-		if(RENEWAL_BILL.equals(eventName)){
+		if(RENEWAL_BILL.equals(eventName) || RENEWAL_OFFER.equals(eventName)){
 			verifyTagData(document, "ConvFlgYN", "Y");
 		}
 		else{

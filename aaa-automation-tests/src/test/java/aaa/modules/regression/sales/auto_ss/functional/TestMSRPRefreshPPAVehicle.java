@@ -62,7 +62,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		PremiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Values from VIN comp and coll symbol in excel sheet

@@ -182,14 +182,12 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 		);
 		documentActionTab.generateDocuments(DocGenEnum.Documents.DSIQXX);
 		WebDriverHelper.switchToDefault();
-		//WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.DSIQXX, DocGenEnum.Documents.AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(DocGenEnum.Documents.DS11.setState(getState()), DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
 		WebDriverHelper.switchToDefault();
-		//WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, DocGenEnum.Documents.DS11, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX, DocGenEnum.Documents.AHPNXX);
 
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
@@ -245,6 +243,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.HSRFIXX
 		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.AHRCTXX,
 				DocGenEnum.Documents.HSEIXX,
@@ -467,6 +466,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.HSRFIXX,
 				DocGenEnum.Documents.HSU01XX,

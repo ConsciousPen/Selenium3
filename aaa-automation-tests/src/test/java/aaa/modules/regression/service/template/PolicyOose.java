@@ -2,12 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -34,7 +36,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
 
         getCopiedPolicy();
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
         TestData tdEndorsement = getTestSpecificTD("TestData_E1");
@@ -42,7 +44,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
         //Create Endorsement Policy effective date + 10 days: Add second Vehicle
         getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
         TestData tdEndorsement2 = getTestSpecificTD("TestData_E2");
@@ -50,22 +52,33 @@ public abstract class PolicyOose extends PolicyBaseTest {
         //Create OOSE Policy effective date + 5 days: Add second NI/Driver
         getPolicyType().get().createEndorsement(tdEndorsement2.adjust(getPolicyTD("Endorsement", "TestData_Plus5Day")));
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-        
-        CustomAssert.enableSoftMode();
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         
         //Execute action 'Roll on Changes' and select values manually
         rollOnPerformManual();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
+		SoftAssertions.assertSoftly(softly -> {
         //check if there is 2nd NI, Driver & Vehicle
-        PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.contains("Violeta Minolta");
-        PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").verify.contains("Violeta Minolta");
-        PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell("Make").verify.present();
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").getValue()).isEqualTo("Violeta Minolta");
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Name").getValue()).isEqualTo("Violeta Minolta");
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRow(2).getCell("Make")).isNotNull();
 
-        CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		});	
+        
+		SoftAssertions.assertSoftly(softly -> {
+			
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles.getRowsCount()).isEqualTo(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(2);
+			
+
+			
+		});	
     }
 	
 	private void rollOnPerformManual(){

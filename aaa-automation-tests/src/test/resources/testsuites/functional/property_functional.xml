@@ -998,6 +998,9 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingOperations"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyPayments"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestSeniorDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.TestSeniorDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.TestSeniorDiscount"/>
         </classes>
     </test>
     <test name="CA PUP Functional Tests" parallel="methods">

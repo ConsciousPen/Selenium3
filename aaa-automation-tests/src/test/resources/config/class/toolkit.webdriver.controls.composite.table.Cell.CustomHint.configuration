@@ -1,0 +1,5 @@
+{
+  "cellHintTriggerLocator": {
+    "xpath":"(./span/span[not(contains(translate(@style, ' ', ''),'display:none')) and not(@text='')])"
+  }
+}

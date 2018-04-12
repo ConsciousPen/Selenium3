@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -39,11 +38,6 @@ public class DriverTab extends Tab {
 			@Override
 			protected boolean sectionExists(int index) {
 				return tableDriverList.getRow(index + 1).isPresent();
-			}
-
-			@Override
-			protected void selectSection(int index) {
-				tableDriverList.selectRow(index + 1);
 			}
 		};
 	}

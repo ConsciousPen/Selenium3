@@ -227,4 +227,8 @@ public interface EvalueInsertSetupPreConditions {
 	String DXP_AUTHENTICATION_PARAMETERS_INSERT = "INSERT\n"
 			+ " INTO PROPERTYCONFIGURERENTITY (author, description, PROPERTYNAME, VALUE)\n"
 			+ " values('%s', '%s', '%s', '%s')\n";
+
+	String PROPERTY_CONFIGURER_ENTITY_INSERT = "INSERT\n"
+			+ " INTO PROPERTYCONFIGURERENTITY (author, description, PROPERTYNAME, VALUE)\n"
+			+ " values('%s', '%s', '%s', '%s')\n";
 }

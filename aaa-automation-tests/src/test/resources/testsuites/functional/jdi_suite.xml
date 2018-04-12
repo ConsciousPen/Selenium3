@@ -103,6 +103,9 @@
                     <include name="pas3694_eValueBlueBoxAndStaticText"/>
                     <include name="pas333_eValueDiscountRemovedBySystem"/>
                     <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
+                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
+                    <include name="pas12294_PriorCarrierNone"/>
                     <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
                 </methods>
             </class>
@@ -127,6 +130,8 @@
                     <include name="pas3693_eValueConfiguration5"/>
                     <include name="pas3007_eValueMembershipConfiguration"/>
                     <include name="pas233_eValueTerritoryChannelDependency"/>
+                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierNotRequired"/>
+                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired"/>
                 </methods>
             </class>
         </classes>
@@ -214,13 +219,6 @@
                     <include name="pas7185_messagingConfigurablePayPlan9"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-    <test name="TestSeniorDiscount" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
         </classes>
     </test>
     <test name="TestContactInformation" parallel="methods" thread-count="1024">
@@ -328,7 +326,7 @@
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
                     <include name="pas508_BindManualEndorsement"/>
                     <include name="pas508_BindServiceEndorsement"/>
-                </methods>
+                    </methods>
             </class>
         </classes>
     </test>
@@ -338,6 +336,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
                 <methods>
                     <include name="pas10484_ViewDriverAssignment"/>
+                    <include name="pas11932_viewDrivers"/>
                 </methods>
             </class>
         </classes>
@@ -383,7 +382,6 @@
             <class name="aaa.modules.regression.service.home_ca.dp3.functional.TestRatingServices"/>
         </classes>
     </test>
-
     <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -403,6 +401,8 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
+                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
+                    <include name="pas11741_ManageVehicleLevelCoverages"/>
                 </methods>
             </class>
         </classes>

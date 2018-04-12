@@ -101,7 +101,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
         vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
 
         //PAS-2777 start
-        PremiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         vehicleTab.saveAndExit();
 
         TestEValueDiscount testEValueDiscount = new TestEValueDiscount();

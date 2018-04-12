@@ -1,11 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -19,9 +13,17 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
+
+import java.time.LocalDateTime;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMembershipOverride extends AutoSSBaseTest {
 
@@ -394,12 +396,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		LocalDateTime nbPlus15 = policyEffectiveDate.plusDays(15);
-		LocalDateTime nbPlus30 = policyEffectiveDate.plusDays(30);
-
-		TimeSetterUtil.getInstance().nextPhase(nbPlus15);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -413,8 +410,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab(true, false, "Yes", "", "01/04/2009");
 
-		TimeSetterUtil.getInstance().nextPhase(nbPlus30);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -462,12 +458,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		LocalDateTime nbPlus15 = policyEffectiveDate.plusDays(15);
-		LocalDateTime nbPlus30 = policyEffectiveDate.plusDays(30);
-
-		TimeSetterUtil.getInstance().nextPhase(nbPlus15);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -481,8 +472,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab(true, false, "Yes", "", "");
 
-		TimeSetterUtil.getInstance().nextPhase(nbPlus30);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

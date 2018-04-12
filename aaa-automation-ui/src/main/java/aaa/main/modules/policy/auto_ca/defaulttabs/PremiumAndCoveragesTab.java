@@ -10,6 +10,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -26,8 +27,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class PremiumAndCoveragesTab extends Tab {
 
-	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
 	public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
+	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
 	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 	public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
@@ -42,17 +43,11 @@ public class PremiumAndCoveragesTab extends Tab {
 	// --
 	public PremiumAndCoveragesTab() {
 		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
+		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 	}
 
 	public static Dollar getPolicyTermPremium() {
 		return new Dollar(tablePremiumSummary.getRow(1).getCell(4).getValue());
-	}
-
-	public static void calculatePremium() {
-		if (!buttonCalculatePremium.isPresent()) {
-			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		}
-		buttonCalculatePremium.click();
 	}
 
 	@Override
@@ -60,15 +55,26 @@ public class PremiumAndCoveragesTab extends Tab {
 		super.fillTab(td);
 		if (td.getTestData(getMetaKey()) != null && !td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
 			hideHeader();
-			buttonCalculatePremium.click();
+			btnCalculatePremium().click();
 			showHeader();
 		}
 		return this;
+	}
+
+	public void calculatePremium() {
+		if (!btnCalculatePremium().isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		}
+		btnCalculatePremium().click();
 	}
 
 	@Override
 	public Tab submitTab() {
 		btnContinue.click();
 		return this;
+	}
+
+	public JavaScriptButton btnCalculatePremium() {
+		return getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
 	}
 }

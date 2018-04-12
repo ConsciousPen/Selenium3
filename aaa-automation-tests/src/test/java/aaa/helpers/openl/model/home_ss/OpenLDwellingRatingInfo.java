@@ -10,10 +10,10 @@ public class OpenLDwellingRatingInfo {
 	@ExcelTableColumnElement(name = "IsSecondaryHome")
 	private Boolean isSecondaryHome;
 
-	private Integer dwellingLossFreq;
+	private Double dwellingLossFreq;
 	private Integer familyUnits;
 	private Integer homeAge;
-	private Integer noOfFloors;
+	private Double noOfFloors;
 	private String protectionClass;
 	private Integer roofAge;
 	private String roofType;
@@ -37,11 +37,11 @@ public class OpenLDwellingRatingInfo {
 		isSecondaryHome = secondaryHome;
 	}
 
-	public Integer getDwellingLossFreq() {
+	public Double getDwellingLossFreq() {
 		return dwellingLossFreq;
 	}
 
-	public void setDwellingLossFreq(Integer dwellingLossFreq) {
+	public void setDwellingLossFreq(Double dwellingLossFreq) {
 		this.dwellingLossFreq = dwellingLossFreq;
 	}
 
@@ -61,11 +61,11 @@ public class OpenLDwellingRatingInfo {
 		this.homeAge = homeAge;
 	}
 
-	public Integer getNoOfFloors() {
+	public Double getNoOfFloors() {
 		return noOfFloors;
 	}
 
-	public void setNoOfFloors(Integer noOfFloors) {
+	public void setNoOfFloors(Double noOfFloors) {
 		this.noOfFloors = noOfFloors;
 	}
 

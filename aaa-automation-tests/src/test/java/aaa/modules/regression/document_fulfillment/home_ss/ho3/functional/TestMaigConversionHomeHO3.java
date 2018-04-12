@@ -257,6 +257,22 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
         super.pas8762_mortgageeBillFirstRenewalReminderHSRRXX(state);
     }
 
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home - PA
+     * 4. Check that HS65PA documents are getting generated
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-6235"})
+    public void pas8405_noticeOfNonRenewalLetterHS65PA(@Optional("PA") String state) throws NoSuchFieldException {
+        super.pas8405_noticeOfNonRenewalLetterHS65PA(state);
+    }
+
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO3;
