@@ -197,6 +197,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition tealeafToggle.enabled to improve performance", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void preconditionsTealeaf() {
-		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "tealeafToggle", "tealeafToggle, disable for perf improvement", "tealeafToggle.enabled", "FALSE"));
+		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "nivanans", "tealeafToggle, disable for perf improvement", "tealeafToggle.enabled", "false"));
 	}
 }
