@@ -1,15 +1,14 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 public class TestScenario3 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})

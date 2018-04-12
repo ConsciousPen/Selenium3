@@ -1,20 +1,5 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -32,12 +17,29 @@ import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.StaticElement;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
+import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
+import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
