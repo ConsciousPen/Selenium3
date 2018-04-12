@@ -322,7 +322,6 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
 					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
 		}
-
 	}
 
 	public static final class RatingDetailReportsTab extends MetaData {
