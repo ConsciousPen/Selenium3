@@ -20,7 +20,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -115,7 +114,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		//Change system date to get policy reinstated with lapse
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 
 		//Reinstate policy
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
@@ -141,7 +140,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(10);
 		TimeSetterUtil.getInstance().nextPhase(reneweff);
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
 		policy.renew().start();
@@ -205,7 +204,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Issue Renewal
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
@@ -349,7 +348,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
 		TimeSetterUtil.getInstance().nextPhase(reneweff);
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+		SearchPage.openPolicy(policyNum);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
 		policy.renew().start();
