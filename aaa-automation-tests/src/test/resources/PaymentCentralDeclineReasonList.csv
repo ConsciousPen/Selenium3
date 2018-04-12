@@ -1,0 +1,249 @@
+DTYPE,CODE,DISPLAYVALUE,DOCUMENTNAME,CATEGORYCD
+AAABofaRejectReasonsLookup,1,Requested Transaction Data Not Received,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,2,Requested/Required Item Illegible or Missing,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,7,Warning Bulletin File,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,8,Requested/Required Authorization Not Obtained,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,12,Account Number Not on File,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,30,Services Not Provided or Merchandise Not Received,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,31,Transaction Amount Differs,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,34,Duplicate Processing,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,35,Card Not Valid or Expired,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,37,No Cardholder Authorization,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,40,Fraudulent Processing of Transactions,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,41,Cancelled Recurring Transaction,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,42,Late Presentment,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,46,Correct Transaction Currency Code Not Provided,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,47,Exceeds Floor Limit - Not Authorized and Fraudulent Transaction,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,49,Questionable Merchant Activity,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,50,Credit Posted as a Purchase,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,53,Not as Described or Defective Merchandise,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,54,Cardholder Dispute - Not Elsewhere Classified,CKRT_LETTER,
+AAABofaRejectReasonsLookup,55,Non-Receipt of Merchandise,CKRT_LETTER,
+AAABofaRejectReasonsLookup,57,Fraudulent Multiple Transactions,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,59,Services Not Rendered,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,60,Requested Copy Illegible or Invalid,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,62,Counterfeit Transaction,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,63,Cardholder Does Not Recognize - Potential Fraud,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,70,Account Number on Exception File,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,71,Declined Authorization,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,73,Expired Card,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,74,Late Presentment,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,75,Cardholder Does Not Recognize Transaction,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,76,Incorrect Transaction Code,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,78,Service Code Violation,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,79,Requested Transaction Information Not Received,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,80,Incorrect Transaction Amount or Account Number,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,81,Fraudulent Transaction - Card-Present Environment,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,82,Duplicate Processing,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,83,Fraudulent Transaction - Card-Absent Environment,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,85,Credit Not Processed,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,86,Paid By Other Means,CKRT_LETTER,VISA
+AAABofaRejectReasonsLookup,201,INSUFFICNT FUNDS,NSF_NOTICE,
+AAABofaRejectReasonsLookup,202,UNCOLLECT FNDS,NSF_NOTICE,
+AAABofaRejectReasonsLookup,203,ACCOUNT CLOSED,NSF_NOTICE,
+AAABofaRejectReasonsLookup,204,REFER TO MAKER,NSF_NOTICE,
+AAABofaRejectReasonsLookup,205,PAYMENT STOPPED,NSF_NOTICE,
+AAABofaRejectReasonsLookup,206,ACCOUNT FROZEN,NSF_NOTICE,
+AAABofaRejectReasonsLookup,207,UNABLE TO LOCATE ACCOUNT,NSF_NOTICE,
+AAABofaRejectReasonsLookup,208,BANKRUPTCY,NSF_NOTICE,
+AAABofaRejectReasonsLookup,209,NO ACCOUNT,NSF_NOTICE,
+AAABofaRejectReasonsLookup,210,GARNISHMENT,NSF_NOTICE,
+AAABofaRejectReasonsLookup,211,SIG MISSING,NSF_NOTICE,
+AAABofaRejectReasonsLookup,212,SIG INCOMPLETE,NSF_NOTICE,
+AAABofaRejectReasonsLookup,213,TWO SIGS REQRD,CKRT_LETTER,
+AAABofaRejectReasonsLookup,214,SIG NOT ON FILE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,215,MAKER DECEASED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,216,NON NEGOTIABLE ITEM,CKRT_LETTER,
+AAABofaRejectReasonsLookup,217,AMOUNT OVERLIMIT,NSF_NOTICE,
+AAABofaRejectReasonsLookup,218,PAYEE NOT AMEX,CKRT_LETTER,
+AAABofaRejectReasonsLookup,219,BETTER BANK ADDRESS,CKRT_LETTER,
+AAABofaRejectReasonsLookup,220,POST DATED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,221,STALE DATED,NSF_NOTICE,
+AAABofaRejectReasonsLookup,222,AMOUNTS DIFFER,CKRT_LETTER,
+AAABofaRejectReasonsLookup,223,BALANCE HELD,NSF_NOTICE,
+AAABofaRejectReasonsLookup,224,COURT PROCEEDING,NSF_NOTICE,
+AAABofaRejectReasonsLookup,225,MISCELLANIOUS DEROG,NSF_NOTICE,
+AAABofaRejectReasonsLookup,226,AMT UNDERLIMIT,CKRT_LETTER,
+AAABofaRejectReasonsLookup,227,NO CODE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,228,FRAUD,CKRT_LETTER,
+AAABofaRejectReasonsLookup,229,LOST OR STOLEN,CKRT_LETTER,
+AAABofaRejectReasonsLookup,230,NO AUTH TO PAY,CKRT_LETTER,
+AAABofaRejectReasonsLookup,231,ENDORSEMT MISSING,CKRT_LETTER,
+AAABofaRejectReasonsLookup,232,MISC NON DEROG,CKRT_LETTER,
+AAABofaRejectReasonsLookup,300,LOAN ACT REDEPOSIT,NSF_NOTICE,
+AAABofaRejectReasonsLookup,301,LOAN ACT RETURNED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,302,FOREIGN ITEM,CKRT_LETTER,
+AAABofaRejectReasonsLookup,303,ENCODING ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,304,MISSING ITEM,CKRT_LETTER,
+AAABofaRejectReasonsLookup,305,PHOTOCOPY PREVIOUSLY PROCESSED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,306,UNIDENTIFIED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,307,NOT DEP BY AMEX,CKRT_LETTER,
+AAABofaRejectReasonsLookup,308,MUTILATED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,309,MULTIPLE CM ACCOUNT NUMBER,CKRT_LETTER,
+AAABofaRejectReasonsLookup,CKRT,No Fee + No Restriction,CKRT_LETTER,
+AAABofaRejectReasonsLookup,FNR,Fee + No Restriction,FNR_LETTER,
+AAABofaRejectReasonsLookup,M41,Cancelled Recurring Transaction,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,M53,Cardholder Dispute - Defective/Not asDescribed,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,M57,Card-Activated Telephone Transaction,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,M60,Credit Not Processed,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,M62,Counterfeit Transaction Magnetic Stripe POS Fraud,CKRT_LETTER,MC
+AAABofaRejectReasonsLookup,NOLTR,No Fee + No Restriction + No Letter,NO_LETTER,
+AAABofaRejectReasonsLookup,NSF,Fee + Restriction,NSF_NOTICE,
+AAABofaRejectReasonsLookup,R01,INSUFFICIENT FUNDS,NSF_NOTICE,
+AAABofaRejectReasonsLookup,R02,ACCOUNT CLOSED,NSF_NOTICE,
+AAABofaRejectReasonsLookup,R03,NO ACCOUNT/UNABLE TO LOCATE ACCOUNT,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R04,INVALID ACCOUNT NUMBER,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R05,RESERVED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R06,RETURNED PER ODFIS REQUEST,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R07,AUTHORIZATION REVOKED BY CUSTOMER (ADJ ENTRIES),NSF_NOTICE,
+AAABofaRejectReasonsLookup,R08,PAYMENT STOPPED OR STOP PAYMENT ON ITEM,NSF_NOTICE,
+AAABofaRejectReasonsLookup,R09,UNCOLLECTED FUNDS,NSF_NOTICE,
+AAABofaRejectReasonsLookup,R10,CUSTOMER ADVISES NOT AUTHORIZED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R11,TRUNCATION RETURN,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R12,BRANCH SOLD,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R13,RFDI NOT PARTICPATE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R14,DECEASED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R15,BENEFICIARY DECEASED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R16,ACCOUNT FROZEN,NSF_NOTICE,
+AAABofaRejectReasonsLookup,R17,FILE RECORD EDIT CRITERIA,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R18,IMPROPER EFFECTIVE ENTRY DATE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R19,AMOUNT FIELD ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R20,NON-TRANSACTION ACCOUNT,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R21,INVALID COMPANY IDENTIFICATION,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R22,INVALID INDIVIDUAL ID NUMBER,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R23,CREDIT ENTRY REFUSED BY RECEIVER,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R24,DUPLICATE ENTRY,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R25,ADDENDA ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R26,MANDATORY FIELD ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R27,TRACT NUMBER ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R28,ROUTING NUMBER ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R29,CORPORATE CUSTOMER ADVISES NOT AUTHORIZED,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R30,RDFI NON-SETTLEMENT,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R31,PERMISSIBLE RETURN ENTRY (CCD AND CTX ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R33,RETURN OF XCK ENTRY,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R34,LIMITED PARTIC DFI,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R37,SOURCE DOCUMENT PRES,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R38,STOP PAYMENT ON SOURCE DOCUMENT/ARC,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R40,RETURN OF ENR ENTRY FEDERAL GOVERNMENT AGENCY (ENR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R41,INVALID TRANSACTION CODE (ENR ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R42,ROUTING NUMBER/CHECK DIGIT ERROR (ENR ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R43,INVALID DFI ACCOUNT NUMBER (ENR ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R44,INVALID INDIVIDUAL ID NUMBER (ENR  ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R45,INVALID INDIVIDUAL NAME/COMPANY NAME (ENR ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R46,INVALID REPRESENTATIVE PAYEE INDICATOR (ENR ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R47,DUPLICATE ENROLLMENT (ENR ONLY),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R50,STATE LAW AFFECTING RCK ACCEPTANCE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R51,ITEM IS INELIGIBLE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R52,STOP PAYMENT ON ITEM (ADJUSTMENT ENTRIES),CKRT_LETTER,
+AAABofaRejectReasonsLookup,R61,MISROUTED RETURN,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R62,INCORRECT TRACE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R63,INCORRECT DOLLAR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R64,INCORRECT ID,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R65,INCORRECT TRANCODE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R66,INCORRECT COMPANY ID,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R67,DUPLICATE RETURN,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R68,UNTIMELY RETURN,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R69,MULTIPLE ERRORS,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R70,PERMISSIBLE NOT ACC,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R80,CROSS-BORDER PAYMENT CODING ERROR,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R81,NON-PARTICIPANT IN CROSS-BORDER PROGRAM,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R82,INVALID FOREIGN RECEIVING DFI IDENTIFICATION,CKRT_LETTER,
+AAABofaRejectReasonsLookup,R83,FOREIGN RECEIVING DFI UNABLE TO SETTLE,CKRT_LETTER,
+AAABofaRejectReasonsLookup,RF1,Duplicate Payment,NO_LETTER,
+AAABofaRejectReasonsLookup,RF2,Overpayment,NO_LETTER,
+AAABofaRejectReasonsLookup,RF3,Cancelled Policy,NO_LETTER,
+AAABofaRejectReasonsLookup,RF4,Payment Replaced,NO_LETTER,
+AAABofaRejectReasonsLookup,RF5,Charged in Error,NO_LETTER,
+AAABofaRejectReasonsLookup,RF6,Other,NO_LETTER,
+AAABofaRejectReasonsLookup,RSWP,Reverse Sweep,NO_LETTER,
+AAABofaRejectReasonsLookup,RV1,Incorrect payment method used ,NO_LETTER,
+AAABofaRejectReasonsLookup,RV2,Incorrect payment account used ,NO_LETTER,
+AAABofaRejectReasonsLookup,RV3,Payment to incorrect policy ,NO_LETTER,
+AAABofaRejectReasonsLookup,RV4,Incorrect amount used ,NO_LETTER,
+AAABofaRejectReasonsLookup,RV5,Requested by Customer,NO_LETTER,
+AAABofaRejectReasonsLookup,RV6,Error recording payment ,NO_LETTER,
+AAABofaRejectReasonsLookup,X1,Cash Payment Declined,NO_LETTER,
+AAABofaRejectReasonsLookup,ADJ1,Misapplied Payments,NO_LETTER,
+AAABofaRejectReasonsLookup,ADJ2,Other,NO_LETTER,
+AAABofaRejectReasonsLookup,A01,Amount authorized less than the amount of the charge submitted,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,A02,Charge submitted did not receive a valid Authorization Approval,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,A08,Charge submitted after the Authorization Approval expired,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C02,We have not received the Credit (or partial Credit) you were to apply to the Card,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C04,The goods or services were returned but the Cardmember did not receive Credit,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C05,The Cardmember claims that the goods/services ordered were cancelled,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C08,The Cardmember claims to have not received (or only partially received) the goods/services,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C14,The Cardmember has provided us with proof of payment by another method,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C18,The Cardmember claims to have cancelled but credit not received,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C28,Cancelled Recurring Billing Charges.  Discontinue all future Recurring Billing Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C31,Cardmember received goods different than description provided at the time of the Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,C32,The Cardmember claims to have received damaged or defective goods/services,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,F10,The Cardmember claims they did not participate in this Charge - did not provide imprint,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,F14,The Cardmember claims they did not participate in this Charge - did not provide copy of signature,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,F22,Card was expired or was not yet valid when you processed the Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,F24,The Cardmember denies participation in the Charge - you have failed to provide proof,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,F29,"The Cardmember denies participation in a mail order, telephone order, or internet Charge",CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,FR2,The Cardmember denies authorizing the Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,FR4,The Cardmember has disputed the Charge - placed in the Immediate Chargeback Program,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,FR6,Charge disputed - you have been placed in the Partial Immediate Chargeback Program,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M01,We have received your authorization to process Chargeback for the Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M10,The Cardmember claims to have been incorrectly billed for Capital Damages,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M49,"Cardmember claims to have been incorrectly Charged for theft, loss of use, or other related fees",CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P01,You have submitted a Charge using an invalid or otherwise incorrect Card Number,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P03,The Cardmember claims the Charge you submitted should have been submitted as a Credit,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P04,The Cardmember claims the Credit you submitted should have been submitted as a Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P05,The Charge amount you submitted differs from the amount the Cardmember agreed to pay,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P07,The Charge was not submitted within the required timeframe,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P08,The individual Charge was submitted more than once,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P22,The Card Number in the Submission does not match the Card Number in the original Charge,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P23,The Charge was incurred in an invalid currency,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,A03,Complete support and/or documentation were not provided as requested,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,A13,We did not receive your response to our Inquiry within the specified timeframe,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M11,We recently debited your account.   We are reversing the debit and crediting your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M38,We recently debited your account. We are now reversing the debit and crediting your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M19,A credit was inadvertently deducted from another account; a debit for this amount will be issued,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M21,Your charge or summary was inadvertently paid to another merchant.  A credit has been issued,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M22,An adjustment debiting your account has been processed,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M23,Erroneous Check -  Please submit your charges to cover this amount,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M24,We have processed an adjustment transferring a debit balance from your previous account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M25,Your account has an outstanding debit balance - we have processed an adjustment,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M27,Your check was returned to us by your bank.  Please send us a replacement cheque immediately,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M28,An incorrect discount rate was applied - a credit has been issued,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M29,Discount fees for  charges processed for the month  will be debited to your bank account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M32,We have processed an adjustment to your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M33,"In accordance with your request, an adjustment to your account has been processed",CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M39,We have issued an adjustment to your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M43,We have processed an adjustment to your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M44,We have processed an adjustment to your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M45,An adjustment has been processed to debit your account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M46,You were debited for item(s) in error. An adjustment has been processed,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,P09,We have processed duplicate payments to your account for the same transaction,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,FR5,Chargebacks cannot be reversed unless you issue a credit to the account,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M02,The Cardmember no longer disputes the charge(s). Please discontinue further investigation,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M04,Please deal directly with the Cardholder for resolution on this matter,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M36,Please see the additional notes related to this dispute,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,M42,We are unable to review this for reversal,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,S01,"The chargeback will remain, and your account will not be credited",CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,S03,Support received,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,S04,We have received your request for a chargeback reversal. Please allow 2 to 3 weeks for research,CKRT_LETTER,AMEX
+AAABofaRejectReasonsLookup,AA,Cardholder Does not Recognize,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,AT,Authorization Non-Compliance,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,AP,Recurring Payments,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,AW,Transaction Amount Differs,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,CA,Cash Advance Dispute - replaced by reason code RN2,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,CD,Credit Posted as a Card Sale,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,CR, Cancelled Reservation,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,DP, Duplicate Processing,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,IC, Illegible Transaction Documentation,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,IN, Invalid Card Number,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,IS,Missing Signature - replaced by reason code AA,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,LP,Late Presentation,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,NC,No Classified - replaced by reason code AA,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,NR,Non-Response to Ticket Retrieval Request - retired 10/18/2013,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,RG,Non-Receipt of Goods or Services,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,RM,Cardholder Disputes Quality of Goods or Services,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,RN2,Credit not Processed,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,TF,Violation of Operating Regulations,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,U01,Fraud - Card Present,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,U02, Fraud - Card Not Present TXN,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,U03,Processing Error - Fraudulent Transaction - retired 4/13/2013,CKRT_LETTER,DISC
+AAABofaRejectReasonsLookup,UNR,Fraud: Non-Response to Ticket Retrieval Request - retired effective 10/18/2013,CKRT_LETTER,DISC

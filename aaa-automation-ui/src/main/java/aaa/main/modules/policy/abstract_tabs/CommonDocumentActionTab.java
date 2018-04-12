@@ -7,6 +7,7 @@ import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -90,6 +91,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 
 			getAssetList().getAsset("Delivery Method", RadioGroup.class).setValue(deliveryMethod.get());
 			submitTab();
+			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		}
 	}
 

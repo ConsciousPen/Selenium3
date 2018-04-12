@@ -163,6 +163,16 @@ public class TimeSetterUtil {
 		return LocalDateTime.of(date, time); 
 	}
 
+    /**
+     * Used to compare the current date/time to a given date/time and verify the date is on or after this date
+     * @param algoEffectiveDate LocalDateTime that is needed to be on or after
+     */
+    public void confirmDateIsAfter(LocalDateTime algoEffectiveDate) {
+        if (getCurrentTime().isBefore(algoEffectiveDate)) {
+            nextPhase(algoEffectiveDate);
+        }
+    }
+
 	private void closeAllApps() {
 		CSAAApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
 		CSAAApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();

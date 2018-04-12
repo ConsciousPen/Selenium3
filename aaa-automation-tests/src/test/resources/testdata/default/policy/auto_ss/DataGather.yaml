@@ -665,7 +665,7 @@ PremiumAndCoveragesTab_MD: {
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
   Collision Deductible: 'contains=$500',
-  Special Equipment: 1100
+  #Special Equipment: 1100
 }
 
 DocumentsAndBindTab_MD: {

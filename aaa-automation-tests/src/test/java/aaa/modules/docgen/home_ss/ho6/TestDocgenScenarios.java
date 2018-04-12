@@ -307,6 +307,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
+		WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(policyNum,
 				DocGenEnum.Documents.AHRCTXX,
 				DocGenEnum.Documents.HSEIXX,

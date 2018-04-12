@@ -108,6 +108,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEMBER_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MEM_SINCE_DATE = declare("Member Since Date", TextBox.class, Waiters.AJAX);
 		}
 
 		// Dwelling Address
@@ -1229,31 +1230,31 @@ public final class HomeSSMetaData {
 	// (add endorsement HS 04 61 to show this tab)
 	public static final class PersonalPropertyTab extends MetaData {
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> BICYCLES = declare("Bicycles", PersonalPropertyMultiAssetList.class, Bicycles.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyBicyclesItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyBicyclesItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> CAMERAS = declare("Cameras", PersonalPropertyMultiAssetList.class, Cameras.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCamerasItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyCamerasItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> COINS = declare("Coins", PersonalPropertyMultiAssetList.class, Coins.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCoinsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyCoinsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FINE_ARTS = declare("Fine arts", PersonalPropertyMultiAssetList.class, FineArts.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFineArtsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyFineArtsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FIREARMS = declare("Firearms", PersonalPropertyMultiAssetList.class, Firearms.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFirearmsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyFirearmsItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> FURS = declare("Furs", PersonalPropertyMultiAssetList.class, Furs.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFursItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyFursItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> GOLF_EQUIPMENT = declare("Golf equipment", PersonalPropertyMultiAssetList.class, GolfEquipment.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyGolfItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyGolfItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> JEWELRY = declare("Jewelry", PersonalPropertyMultiAssetList.class, Jewelry.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyJewelryItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> MEDICAL_DEVICES = declare("Medical devices", PersonalPropertyMultiAssetList.class, MedicalDevices.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMedicalItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyMedicalItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> MUSICAL_INSTRUMENTS = declare("Musical instruments", PersonalPropertyMultiAssetList.class, MusicalInstruments.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyMusicalItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> POSTAGE_STAMPS = declare("Postage stamps", PersonalPropertyMultiAssetList.class, PostageStamps.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyPostageItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyPostageItem']"));
 		public static final AssetDescriptor<PersonalPropertyMultiAssetList> SILVERWARE = declare("Silverware", PersonalPropertyMultiAssetList.class, Silverware.class, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertySilverwareItem']"));
-		public static final AssetDescriptor<PersonalPropertyMultiAssetList> TRADING_CARDS_OR_COMICS = declare("Trading cards or comics", PersonalPropertyMultiAssetList.class,
-				TradingCardsOrComics.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyTradingCardsItem']"));
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertySilverwareItem']"));
+		public static final AssetDescriptor<PersonalPropertyMultiAssetList> TRADING_CARDS_OR_COMICS = declare("Trading cards or comics", PersonalPropertyMultiAssetList.class, TradingCardsOrComics.class, By
+				.xpath("//span[@id='policyDataGatherForm:componentRegion_ScheduledPropertyTradingCardsItem']"));
 
 		public static final class Bicycles extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
