@@ -17,7 +17,7 @@
     <test name="AutoSS [CO] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CO"/>
         <parameter name="fileName" value="COTests-20171006.xls"/>
-        <parameter name="policyNumbers" value="1,2"/>
+        <parameter name="policyNumbers" value="1,9"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

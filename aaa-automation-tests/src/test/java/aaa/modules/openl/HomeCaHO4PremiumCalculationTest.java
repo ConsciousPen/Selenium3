@@ -3,7 +3,6 @@ package aaa.modules.openl;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.Tab;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLFile;
 import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLPolicy;
@@ -32,7 +31,7 @@ public class HomeCaHO4PremiumCalculationTest extends OpenLRatingBaseTest<HomeCaH
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 		new PremiumsAndCoveragesQuoteTab().fillTab(quoteRatingData);
-		return Tab.labelPolicyNumber.getValue();
+		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().toString();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

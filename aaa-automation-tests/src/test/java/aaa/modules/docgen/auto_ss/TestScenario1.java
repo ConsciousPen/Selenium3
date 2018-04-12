@@ -86,7 +86,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
 		TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
 		log.info("Installment Generatetion Date" + billingGenerationDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		mainApp().open();

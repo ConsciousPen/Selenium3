@@ -170,7 +170,7 @@ public class Scenario13 extends ScenarioBaseTest {
 	protected void payFifthBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(5));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
