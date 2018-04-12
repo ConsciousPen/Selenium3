@@ -120,24 +120,16 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		//Reinstate policy
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
-		// Initiate Endorsement and Navigate to P&C Page.
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
-
-		// Override insurance score
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
+		// Initiate Endorsement
+		endorsementChanges();
 
 		openVRD();
 
 		// Verify that UW Points are the same
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		// Endorsement for NB which is initiated should show behave the same as NB
-		verifyLockedLimitsNB();
+		// Endorsement Validations
+		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -337,23 +329,15 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		purchaseRenewal(effDate, policyNum);
 
-		// Initiate Endorsement and Navigate to P&C Page.
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
-
-		// Override insurance score
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
+		// Initiate Endorsement
+		endorsementChanges();
 
 		openVRD();
 
 		// Verify that UW Points are the same
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		// Endorsement for NB which is initiated should show behave the same as NB
+		// Endorsement Validations
 		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
@@ -392,6 +376,19 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Verify that Total UW score is shown and other UW components are hidden
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 		verifyLockedLimitsRenewalAndEndorsement();
+	}
+
+	private void endorsementChanges(){
+		// Initiate Endorsement
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
+
+		// Override insurance score
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
 	}
 
 	private void openVRD(){
@@ -442,5 +439,4 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		pas9063FieldsRow2.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 	}
-
 }
