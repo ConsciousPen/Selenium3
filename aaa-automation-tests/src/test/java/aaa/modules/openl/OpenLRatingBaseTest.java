@@ -3,7 +3,10 @@ package aaa.modules.openl;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +29,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.entity.area.CellsQueue;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
@@ -91,8 +95,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			}
 			// Find policies table and exclude not needed test rows and store it in ExcelManager instance to reduce time required for further excel unmarshalling of this table
 			ExcelTable policiesTable = ((ExcelSheet) openLFileManager.getSheet(policySheetName).considerRowsOnComparison(false)).getTable(OpenLFile.POLICY_HEADER_ROW_NUMBER);
-			Integer[] rowsToExclude = policiesTable.getRowsIndexes().stream().filter(i -> !policyNumbers.contains(i)).toArray(Integer[]::new);
-			policiesTable.excludeRows(rowsToExclude);
+			Integer[] rowsIndexesToExclude = policiesTable.getRows().stream().filter(r -> !policyNumbers.contains(r.getIntValue(OpenLFile.PRIMARY_KEY_COLUMN_NAME))).map(CellsQueue::getIndex).toArray(Integer[]::new);
+			policiesTable.excludeRows(rowsIndexesToExclude);
 		}
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
@@ -129,7 +133,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		openLFileManager.close();
 
 		//Sort policies list by effective date for further valid time shifts
-		openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toCollection(LinkedList::new));
+		openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		return openLPoliciesList;
 	}
 

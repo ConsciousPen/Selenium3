@@ -1,9 +1,9 @@
 package aaa.helpers.openl.testdata_builder;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -11,6 +11,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -52,8 +53,28 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 
 	public TestData getRenewalEntryData(P openLPolicy) {
 		List<String> maigSourceSystemStates = Arrays.asList(Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA);
-		assertThat(openLPolicy.getUnderwriterCode()).as("Unknown maping for underwriterCode=%s", openLPolicy.getUnderwriterCode()).isIn(null, "WUIC", "ACAIC");
-		String underwritingCompany = openLPolicy.getUnderwriterCode() == null || "WUIC".equals(openLPolicy.getUnderwriterCode()) ? "CSAA General Insurance Company" : "CSAA Fire & Casualty Insurance Company";
+		String underwritingCompany;
+		switch (openLPolicy.getUnderwriterCode()) {
+			case "WUIC":
+				underwritingCompany = "CSAA General Insurance Company";
+				break;
+			case "ACAIC":
+				underwritingCompany = "CSAA Fire & Casualty Insurance Company";
+				break;
+			case "CSAAIB":
+				underwritingCompany = "CSAA Interinsurance Bureau";
+				break;
+			case "KICO":
+				underwritingCompany = "CSAA Affinity Insurance Company";
+				break;
+			default:
+				if (StringUtils.isBlank(openLPolicy.getUnderwriterCode())) {
+					underwritingCompany = AdvancedComboBox.RANDOM_MARK;
+					break;
+				}
+				throw new IstfException("Unknown maping for underwriterCode=" + openLPolicy.getUnderwriterCode());
+		}
+
 		Double termCappingFactor = openLPolicy.getTermCappingFactor() != null ? openLPolicy.getTermCappingFactor() : 1;
 		String renewalPolicyPremium = openLPolicy.getExpectedPremium().multiply(termCappingFactor).toString();
 

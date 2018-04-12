@@ -81,6 +81,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [OH] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OH"/>
+        <parameter name="fileName" value="OHTests-20170803_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 6"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="OR"/>
         <parameter name="fileName" value="ORTests-20170915.xls"/>
