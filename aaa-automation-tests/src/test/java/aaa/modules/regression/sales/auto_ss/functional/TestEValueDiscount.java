@@ -194,6 +194,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB);
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -1568,7 +1569,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
 	public void pas12294_PriorCarrierWithLapsePriorCarrierNotRequired(@Optional("OR") String state) {
 		eValueQuoteCreation();
@@ -1579,7 +1580,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
 	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired(@Optional("VA") String state) {
 		eValueQuoteCreation();
@@ -1596,7 +1597,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
 	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired(@Optional("OR") String state) {
 		eValueQuoteCreation();
@@ -1607,7 +1608,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
 	public void pas12294_PriorCarrierNone(@Optional("VA") String state) {
 		eValueQuoteCreation();
@@ -2019,7 +2020,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 *
 	 * @param paymentMethod - DC - Debit Card, CC - Credit Card, ACH - EFT
 	 */
-	private String simplifiedQuoteIssue(String paymentMethod) {
+	public String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
 		if (generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE.getLabel()).isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());

@@ -120,6 +120,8 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT", "A valid insurance score report for at least one named insured or insurance sc..."),
 
 		// Auto Errors
+		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
+		ERROR_AAA__200009_PA("200009_PA", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ", "Policies with unsuccessful membership validation results require prior approval."),

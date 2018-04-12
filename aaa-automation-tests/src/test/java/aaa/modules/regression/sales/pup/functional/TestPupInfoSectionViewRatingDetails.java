@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -71,6 +72,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397, PAS-10391")
     public void pas10397_testPupInfoSectionViewRatingDetails(@Optional("PA") String state) {
 
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+
         List<String> rangeTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeTier.add("N/A");
 
@@ -79,8 +82,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
         String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
         Map<String, String> policies = new HashMap<>();
-
-        verifyAlgoDate();
 
         // Create Customer
         mainApp().open();
@@ -156,11 +157,11 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397")
     public void pas10397_testPupInfoSectionViewRatingDetailsNoAuto(@Optional("PA") String state) {
 
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+
         TestData tdHO3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData");
 
         Map<String, String> policies = new HashMap<>();
-
-        verifyAlgoDate();
 
         // Create Customer
         mainApp().open();
@@ -225,6 +226,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-10397, PAS-10391")
     public void pas10397_testPupInfoSectionViewRatingDetailsNonPAAuto(@Optional("PA") String state) {
 
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 1, 0, 0));
+
         TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData_AZ")
                 .adjust(PrefillTab.class.getSimpleName(), getTestSpecificTD("PrefillTab_AZ"))
                 .adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab_AZ"));
@@ -232,8 +235,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
         String otherActiveKeyPath = TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel());
         Map<String, String> policies = new HashMap<>();
-
-        verifyAlgoDate();
 
         // Create Customer
         mainApp().open();
@@ -324,11 +325,5 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
         purchaseTab.submitTab();
     }
 
-    //TODO remove verify algo date after 2018-06-01
-    private void verifyAlgoDate() {
-        LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.JUNE, 1, 0, 0);
-        if (TimeSetterUtil.getInstance().getCurrentTime().isBefore(algoEffectiveDate)) {
-            TimeSetterUtil.getInstance().nextPhase(algoEffectiveDate);
-        }
 }
-}
+

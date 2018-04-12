@@ -6,6 +6,16 @@ TestData_Vehicle: {
     VehicleTab: ['@VehicleTab_First','@VehicleTab_Van','@VehicleTab_Second','@VehicleTab_Motor_Home'],
 }
 
+TestData_AllVehiclesCoverage: {
+    VehicleTab: ['@VehicleTab_2018'],
+}
+
+VehicleTab_First: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
 VehicleTab_Other: {
     Usage: Pleasure,
     VIN: 1FM5K8D86JGA29926,
@@ -18,10 +28,14 @@ VehicleTab_Other: {
     'Stated Amount': '10000',
 }
 
-VehicleTab_First: {
+VehicleTab_2018: {
     Add Vehicle: Click,
     Usage: Pleasure,
-    VIN: WDCYC7BB0B6729451
+    VIN: 1FM5K8D86JGA29926,
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
 }
 
 VehicleTab_Van: {
@@ -94,6 +108,8 @@ Driver_three: {
     DriverSearchDialog: {},
    "Policy #": '123456788',
     Rel. to First Named Insured: Child,
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
     First Name: 'Laura',
     Middle Name: 'Sara',
     Last Name: 'Smith',
