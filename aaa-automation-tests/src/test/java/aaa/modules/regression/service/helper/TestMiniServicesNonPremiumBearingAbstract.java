@@ -744,21 +744,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas11932_viewDriversInfo(PolicyType policyType, String state){
-
-		mainApp().open();
-		createCustomerIndividual();
+	protected void pas11932_viewDriversInfo(PolicyType policyType, String state) {
+		//mainApp().open();
+		//createCustomerIndividual();
 
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_ThreeDrivers").getTestDataList("DriverTab")).resolveLinks();
 
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = "VASS952918711";
+		//policyType.get().createPolicy(testData);
+		//String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Drivers info from testData
-		String firstName1 = firstNameFull.substring(0, firstNameFull.length()-5);
+		String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
 		String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
 
 		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
@@ -989,7 +989,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 					softly.assertThat(response1.series).isEqualTo("ENZO");
 					softly.assertThat(response1.model).isEqualTo("ENZO");
 					softly.assertThat(response1.bodyStyle).isEqualTo("COUPE");
-			        softly.assertThat(response1.oid).isNotNull();
+					softly.assertThat(response1.oid).isNotNull();
 					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
 					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
 				}
@@ -1082,7 +1082,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
 
 			PolicySummary responsePolicyPendingRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 404);
-			assertThat(responsePolicyPendingRenewal.errorCode).isEqualTo("400");
+			assertThat(responsePolicyPendingRenewal.errorCode).isEqualTo("ERROR_SERVICE_OBJECT_NOT_FOUND");
 			assertThat(responsePolicyPendingRenewal.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNumber + ".");
 
 			TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
@@ -1099,7 +1099,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
 
 			PolicySummary responsePolicyActiveRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 404);
-			assertThat(responsePolicyActiveRenewal.errorCode).isEqualTo("400");
+			assertThat(responsePolicyActiveRenewal.errorCode).isEqualTo("ERROR_SERVICE_OBJECT_NOT_FOUND");
 			assertThat(responsePolicyActiveRenewal.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNumber + ".");
 		});
 	}
@@ -1294,7 +1294,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			eValueStatusCheck(softly, responsePolicyOfferExpired, state, "ACTIVE");
 
 			PolicySummary responsePolicyPending = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", 404);
-			softly.assertThat(responsePolicyPending.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyPending.errorCode).isEqualTo("ERROR_SERVICE_OBJECT_NOT_FOUND");
 			softly.assertThat(responsePolicyPending.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNumber + ".");
 		});
 	}
@@ -1510,7 +1510,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActivated.renewalCycle).isEqualTo(1);
 
 			PolicySummary responsePolicyStubExpired = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", 404);
-			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo("ERROR_SERVICE_OBJECT_NOT_FOUND");
 			softly.assertThat(responsePolicyStubExpired.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNum + ".");
 		});
 	}
@@ -1622,7 +1622,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActivated.renewalCycle).isEqualTo(1);
 
 			PolicySummary responsePolicyStubExpired = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", 404);
-			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo("400");
+			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo("ERROR_SERVICE_OBJECT_NOT_FOUND");
 			softly.assertThat(responsePolicyStubExpired.message).contains("Renewal quote version or issued pending renewal not found for policy number " + policyNum + ".");
 		});
 	}
@@ -1661,7 +1661,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Try to lock policy with id2
 		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response1.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response1.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response1.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
@@ -1676,7 +1676,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Try unlock policy with id2
 		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response2.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response2.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response2.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
@@ -1693,14 +1693,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Check if policy can be locked using lock service
 		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response4.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response4.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		//Check if policy can be unlocked using unlock service
 		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response5.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response5.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response5.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 	}
@@ -1791,7 +1791,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//View vehicles status after endorsement was bind
 		Vehicle[] response4 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 
-		if (response3[0].vehIdentificationNo.contains(vin1)) {
+		if (response4[0].vehIdentificationNo.contains(vin1)) {
 			assertSoftly(softly -> {
 				softly.assertThat(response4[0].vehIdentificationNo).isEqualTo(vin1);
 				softly.assertThat(response4[0].vehicleStatus).isEqualTo("active");
