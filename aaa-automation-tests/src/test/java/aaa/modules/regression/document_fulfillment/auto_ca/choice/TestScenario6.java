@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -16,6 +15,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import toolkit.datax.TestData;
 
 public class TestScenario6 extends AutoCaChoiceBaseTest {
 	private String policyNumber;
@@ -38,14 +38,14 @@ public class TestScenario6 extends AutoCaChoiceBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 	}
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC03_DeclineRecurringPayment(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd1));
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);

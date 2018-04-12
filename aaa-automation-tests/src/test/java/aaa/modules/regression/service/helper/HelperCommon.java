@@ -44,7 +44,10 @@ public class HelperCommon {
 	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
 	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
 	private static final String DXP_VIEW_DRIVERS = "/api/v1/policies/%s/drivers";
+	private static final String DXP_ENDORSEMENT_VIEW_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
+	private static final String DXP_VIEW_VEHICLE_COVERAGES = "/api/v1/policies/%s/coverages";
+	private static final String DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
@@ -142,6 +145,11 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
 	}
 
+	public static DriversDto[] executeEndorsementViewDrivers(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_VIEW_DRIVERS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
+	}
+
 	public static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_ADD_VEHICLE_ENDPOINT, policyNumber));
 		Vehicle request = new Vehicle();
@@ -163,6 +171,16 @@ public class HelperCommon {
 	public static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
+	}
+
+	static PolicyCoverageInfo viewCoverageInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_COVERAGES, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
+	}
+
+	static PolicyCoverageInfo viewCoverageInfoEndorsement(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
 	public static PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse(String policyNumber) {
