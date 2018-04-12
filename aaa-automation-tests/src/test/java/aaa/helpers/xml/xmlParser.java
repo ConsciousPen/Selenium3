@@ -24,14 +24,13 @@ public class xmlParser
     static DocumentBuilderFactory _docFactory;
     static DocumentBuilder _docBuilder;
     static Document _doc;
-    static String _systemUsername = System.getProperty("user.name");
-    static String _defaultFullPath = "C:/Users/"+_systemUsername+"/Desktop/test.xml";
+    static String _defaultFullPath = "src\\test\\resources\\uploadingfiles\\xmlParser\\";
 
     public static ArrayList<String> ReturnValueFromXMLNode(String xmlFileName, String tagName) throws IOException, SAXException {
         try {
             _docFactory = DocumentBuilderFactory.newInstance();
             _docBuilder = _docFactory.newDocumentBuilder();
-            File inputFile = new File("src\\test\\resources\\uploadingfiles\\xmlParser\\" + xmlFileName);
+            File inputFile = new File(_defaultFullPath + xmlFileName);
             _doc = _docBuilder.parse(inputFile);
             _doc.normalize();
         } catch (ParserConfigurationException e) {
@@ -60,7 +59,7 @@ public class xmlParser
             _doc = _docBuilder.parse(inputFile);
             _doc.normalize();
         } catch (ParserConfigurationException e) {
-            System.out.println("Failed creating document using default location of:" + _defaultFullPath);
+            System.out.println("Failed creating document using location of:" + filePath + xmlFileName);
             e.printStackTrace();
         }
 
