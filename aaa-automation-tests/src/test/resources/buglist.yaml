@@ -302,3 +302,11 @@ BUG-10001:
     - tests: [
     aaa.modules.regression.*]
       messages: ["Cannot set value of AssetList {PrefillTab: By.xpath: //div[@id='contentWrapper']} to '{Validate Address=click, Validate Address Dialog={}, Order Prefill=click}'"]
+PAS-12726:
+  summary: "License Status Not Populating in Underlying Risks Auto Tab for a PUP Policy with Underlying SS Auto"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.pas6971_TestOverrideBindLimitsNB,
+    aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.pas6971_TestOverrideBindLimitsConversion]
+      messages: ["is not in within range"]
