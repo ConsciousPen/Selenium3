@@ -67,6 +67,7 @@ public class WebDriverHelper {
 		WebDriver driver = BrowserController.get().driver();
 		driver.switchTo().defaultContent();
 		closeAllSecondaryWindows(driver.getWindowHandle());
+
 	}
 
 	public static void closeAllSecondaryWindows(String primaryHandle) {
@@ -75,9 +76,11 @@ public class WebDriverHelper {
 		if (handles.size() > 1) {
 			handles.remove(primaryHandle);
 			for (String handle : handles) {
-				driver.switchTo().window(handle).close();
+				if (!primaryHandle.equals(handle)) {
+					driver.switchTo().window(handle).close();
+				}
 			}
-			driver.switchTo().defaultContent();
 		}
+		driver.switchTo().window(primaryHandle);
 	}
 }
