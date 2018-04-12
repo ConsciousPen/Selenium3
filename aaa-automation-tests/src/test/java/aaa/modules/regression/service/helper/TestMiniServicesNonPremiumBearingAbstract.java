@@ -1685,7 +1685,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Try to lock policy with id2
 		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response1.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response1.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response1.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
@@ -1700,7 +1700,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Try unlock policy with id2
 		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response2.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response2.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response2.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
@@ -1717,14 +1717,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Check if policy can be locked using lock service
 		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response4.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response4.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		//Check if policy can be unlocked using unlock service
 		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response5.getErrorCode()).isEqualTo("300");
+			softly.assertThat(response5.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
 			softly.assertThat(response5.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 	}
