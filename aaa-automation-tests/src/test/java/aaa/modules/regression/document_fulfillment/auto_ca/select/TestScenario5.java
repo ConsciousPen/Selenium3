@@ -40,7 +40,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd6));
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 	}
 	
 	@Parameters({ "state" })

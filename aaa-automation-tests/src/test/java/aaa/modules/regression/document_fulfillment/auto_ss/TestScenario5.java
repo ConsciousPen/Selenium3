@@ -1,12 +1,10 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import java.time.LocalDateTime;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.utils.datetime.DateTimeUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -14,8 +12,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * Check AH34XX for DC
@@ -41,7 +38,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_GenerateBillingInvoice(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDD1));
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 	}
 	
 	@Parameters({ "state" })

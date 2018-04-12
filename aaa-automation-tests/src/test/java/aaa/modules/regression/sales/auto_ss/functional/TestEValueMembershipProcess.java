@@ -4,7 +4,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -1263,8 +1263,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	//@Test
-	public static void jobsNBplus15plus30runNoChecks() {
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+	static void jobsNBplus15plus30runNoChecks() {
+		jobsNBplus15plus30runNoChecks(DateTimeUtils.getCurrentDateTime().plusDays(15));
+	}
+
+	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
+		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
 		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
@@ -1430,7 +1434,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		return DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().toString().contains(discountTag);
 	}
 
-	private void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
+	void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
