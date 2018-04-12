@@ -46,7 +46,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 		if (openLPolicy.getForms().stream().filter(c -> "HS0904".equals(c.getFormCode())).findFirst().isPresent()) {
 			premiumsAndCoveragesQuoteTab.submitTab();
-			TestData policyIssueData = ((HomeSSTestDataGenerator)tdGenerator).getPolicyIssueData(openLPolicy, getPolicyTD());
+			TestData policyIssueData = ((HomeSSTestDataGenerator)tdGenerator).getPolicyIssueData(openLPolicy);
 
 			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class,false);
 			ErrorTab errorTab = new ErrorTab();
@@ -65,8 +65,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		}
 
-		Dollar finalTestPremium = PremiumsAndCoveragesQuoteTab.getPolicyDwellingPremium();
-		return finalTestPremium.toString();
+		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().toString();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})
