@@ -1,11 +1,9 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import aaa.common.Tab;
+import aaa.main.enums.ErrorEnum;
+import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.api.SoftAssertions;
@@ -13,16 +11,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.common.Tab;
-import aaa.main.enums.ErrorEnum;
-import aaa.toolkit.webdriver.WebDriverHelper;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
+
+import java.util.*;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * Created by lkazarnovskiy on 8/8/2017.

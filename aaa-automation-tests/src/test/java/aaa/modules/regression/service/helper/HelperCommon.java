@@ -1,26 +1,28 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.admin.modules.IAdmin.log;
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.jna.platform.win32.Guid;
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
+
+import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -41,6 +43,7 @@ public class HelperCommon {
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT = "/api/v1/policies/%s/endorsement/assignments";
 	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
 	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
+	private static final String DXP_VIEW_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
@@ -132,6 +135,11 @@ public class HelperCommon {
 	public static Vehicle[] executeVehicleInfoValidate(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_VEHICLES_ENDPOINT, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, Vehicle[].class);
+	}
+
+	public static DriversDto[] executeViewDrivers(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_DRIVERS, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, DriversDto[].class);
 	}
 
 	public static Vehicle executeVehicleAddVehicle(String policyNumber, String purchaseDate, String vin) {
