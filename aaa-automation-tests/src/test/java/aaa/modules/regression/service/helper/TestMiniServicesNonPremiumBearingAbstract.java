@@ -648,7 +648,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		mainApp().open();
 		createCustomerIndividual();
-
 		VehicleTab vehicleTab = new VehicleTab();
 		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -659,7 +658,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		//BUG PAS-9722 Random sequence for Vehicles on DXP
 		String modelYear1 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
 		String manufacturer1 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
 		String series1 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
@@ -676,20 +674,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
-		assertSoftly(softly -> {
-			//BUG PAS-9722 Random sequence for Vehicles on DXP
-			softly.assertThat(response[0].getModelYear()).isEqualTo(modelYear1);
-			softly.assertThat(response[0].getManufacturer()).isEqualTo(manufacturer1);
-			softly.assertThat(response[0].getSeries()).isEqualTo(series1);
-			softly.assertThat(response[0].getModel()).isEqualTo(model1);
-			softly.assertThat(response[0].getBodyStyle()).isEqualTo(bodyStyle1);
-			softly.assertThat(response[0].vehIdentificationNo).isEqualTo(vehIdentificationNo1);
+		Vehicle vehicleSt= Arrays.stream(response).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicleNd= Arrays.stream(response).filter(vehicle -> vehIdentificationNo2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 
-			softly.assertThat(response[1].getModelYear()).isEqualTo(modelYear2);
-			softly.assertThat(response[1].getManufacturer()).isEqualTo(manufacturer2);
-			softly.assertThat(response[1].getSeries()).isEqualTo(series2);
-			softly.assertThat(response[1].getModel()).isEqualTo(model2);
-			softly.assertThat(response[1].getBodyStyle()).isEqualTo(bodyStyle2);
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleSt).isNotNull();
+			softly.assertThat(vehicleSt.getModelYear()).isEqualTo(modelYear1);
+			softly.assertThat(vehicleSt.getManufacturer()).isEqualTo(manufacturer1);
+			softly.assertThat(vehicleSt.getSeries()).isEqualTo(series1);
+			softly.assertThat(vehicleSt.getModel()).isEqualTo(model1);
+			softly.assertThat(vehicleSt.getBodyStyle()).isEqualTo(bodyStyle1);
+			softly.assertThat(vehicleSt.getVehicleStatus()).isEqualTo("active");
+
+			softly.assertThat(vehicleNd).isNotNull();
+			softly.assertThat(vehicleNd.getModelYear()).isEqualTo(modelYear2);
+			softly.assertThat(vehicleNd.getManufacturer()).isEqualTo(manufacturer2);
+			softly.assertThat(vehicleNd.getSeries()).isEqualTo(series2);
+			softly.assertThat(vehicleNd.getModel()).isEqualTo(model2);
+			softly.assertThat(vehicleNd.getBodyStyle()).isEqualTo(bodyStyle2);
+			softly.assertThat(vehicleNd.getVehicleStatus()).isEqualTo("active");
 		});
 
 		VehicleTab.buttonCancel.click();
@@ -703,20 +706,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		premiumAndCoveragesTab.saveAndExit();
 
 		Vehicle[] response1 = HelperCommon.executeVehicleInfoValidate(policyNumber);
-		assertSoftly(softly -> {
-			softly.assertThat(response1[0].getModelYear()).isEqualTo(modelYear1);
-			softly.assertThat(response1[0].getManufacturer()).isEqualTo(manufacturer1);
-			softly.assertThat(response1[0].getSeries()).isEqualTo(series1);
-			softly.assertThat(response1[0].getModel()).isEqualTo(model1);
-			softly.assertThat(response1[0].getBodyStyle()).isEqualTo(bodyStyle1);
-			softly.assertThat(response1[0].vehIdentificationNo).isEqualTo(vehIdentificationNo1);
+		Vehicle vehicleSt1= Arrays.stream(response1).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicleNd1= Arrays.stream(response1).filter(vehicle -> vehIdentificationNo2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 
-			softly.assertThat(response1[1].getModelYear()).isEqualTo(modelYear2);
-			softly.assertThat(response1[1].getManufacturer()).isEqualTo(manufacturer2);
-			softly.assertThat(response1[1].getSeries()).isEqualTo(series2);
-			softly.assertThat(response1[1].getModel()).isEqualTo(model2);
-			softly.assertThat(response1[1].getBodyStyle()).isEqualTo(bodyStyle2);
-			softly.assertThat(response1[1].vehIdentificationNo).isEqualTo(vehIdentificationNo2);
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleSt1).isNotNull();
+			softly.assertThat(vehicleSt1.getModelYear()).isEqualTo(modelYear1);
+			softly.assertThat(vehicleSt1.getManufacturer()).isEqualTo(manufacturer1);
+			softly.assertThat(vehicleSt1.getSeries()).isEqualTo(series1);
+			softly.assertThat(vehicleSt1.getModel()).isEqualTo(model1);
+			softly.assertThat(vehicleSt1.getBodyStyle()).isEqualTo(bodyStyle1);
+			softly.assertThat(vehicleSt1.getVehicleStatus()).isEqualTo("pending");
+
+			softly.assertThat(vehicleNd1).isNotNull();
+			softly.assertThat(vehicleNd1.getModelYear()).isEqualTo(modelYear2);
+			softly.assertThat(vehicleNd1.getManufacturer()).isEqualTo(manufacturer2);
+			softly.assertThat(vehicleNd1.getSeries()).isEqualTo(series2);
+			softly.assertThat(vehicleNd1.getModel()).isEqualTo(model2);
+			softly.assertThat(vehicleNd1.getBodyStyle()).isEqualTo(bodyStyle2);
+			softly.assertThat(vehicleNd1.getVehicleStatus()).isEqualTo("pending");
 		});
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -733,20 +741,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
 
 		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
-		assertSoftly(softly -> {
-			softly.assertThat(response2[0].getModelYear()).isEqualTo(modelYear1);
-			softly.assertThat(response2[0].getManufacturer()).isEqualTo(manufacturer1);
-			softly.assertThat(response2[0].getSeries()).isEqualTo(series1);
-			softly.assertThat(response2[0].getModel()).isEqualTo(model1);
-			softly.assertThat(response2[0].getBodyStyle()).isEqualTo(bodyStyle1);
-			softly.assertThat(response2[0].vehIdentificationNo).isEqualTo(vehIdentificationNo1);
+		Vehicle vehicleSt2= Arrays.stream(response2).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicleRd2= Arrays.stream(response2).filter(vehicle -> vehIdentificationNo3.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 
-			softly.assertThat(response2[1].getModelYear()).isEqualTo(modelYear3);
-			softly.assertThat(response2[1].getManufacturer()).isEqualTo(manufacturer3);
-			softly.assertThat(response2[1].getSeries()).isEqualTo(series3);
-			softly.assertThat(response2[1].getModel()).isEqualTo(model3);
-			softly.assertThat(response2[1].getBodyStyle()).isEqualTo(bodyStyle3);
-			softly.assertThat(response2[1].vehIdentificationNo).isEqualTo(vehIdentificationNo3);
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleSt2).isNotNull();
+			softly.assertThat(vehicleSt2.getModelYear()).isEqualTo(modelYear1);
+			softly.assertThat(vehicleSt2.getManufacturer()).isEqualTo(manufacturer1);
+			softly.assertThat(vehicleSt2.getSeries()).isEqualTo(series1);
+			softly.assertThat(vehicleSt2.getModel()).isEqualTo(model1);
+			softly.assertThat(vehicleSt2.getBodyStyle()).isEqualTo(bodyStyle1);
+			softly.assertThat(vehicleSt2.getVehicleStatus()).isEqualTo("active");
+
+			softly.assertThat(vehicleRd2).isNotNull();
+			softly.assertThat(vehicleRd2.getModelYear()).isEqualTo(modelYear3);
+			softly.assertThat(vehicleRd2.getManufacturer()).isEqualTo(manufacturer3);
+			softly.assertThat(vehicleRd2.getSeries()).isEqualTo(series3);
+			softly.assertThat(vehicleRd2.getModel()).isEqualTo(model3);
+			softly.assertThat(vehicleRd2.getBodyStyle()).isEqualTo(bodyStyle3);
+			softly.assertThat(vehicleRd2.getVehicleStatus()).isEqualTo("active");
 		});
 	}
 

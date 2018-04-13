@@ -19,13 +19,6 @@ VehicleTab_First: {
 VehicleTab_Other: {
     Usage: Pleasure,
     VIN: 1FM5K8D86JGA29926,
-    Make: 'OTHER',
-    Other Make: 'Other Make',
-    Other Model: 'Model',
-    Other Series: 'Series',
-    'Other Body Style': 'Sedan',
-    Stat Code: 'Small SUV',
-    'Stated Amount': '10000',
 }
 
 VehicleTab_2018: {
