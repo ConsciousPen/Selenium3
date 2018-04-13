@@ -17,6 +17,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -116,6 +117,44 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 		CustomAssert.enableSoftMode();
 		renewAndEndorsementSteps();
+		CustomAssert.assertAll();
+	}
+
+	/** @author Dominykas Razgunas
+	 * @name Test Conversion - Defensive Driver Discount, Minor Violation
+	 * @scenario
+	 * 1. Create Auto SS PA conversion.
+	 * 2. Add drivers eligible for 'Defensive Driver Course'.
+	 * 3. Fill All other required data up to Premium&Coverages Tab.
+	 * 4. Verify that Defensive driver Discount is applied.
+	 * 5. Navigate to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
+	 * 8. Check DDD discount applied to.
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
+	public void pas3663_DddForDriverWithMinorViolationCheckConversion(@Optional("PA") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		TestData testData = getConversionPolicyDefaultTD();
+		testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd()).
+				adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()),
+						getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
+
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
+		DriverTab.tableDriverList.removeRow(1);
+		new DriverTab().submitTab();
+		policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), RatingDetailReportsTab.class, DocumentsAndBindTab.class);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+
+		CustomAssert.enableSoftMode();
+		verifyDrivers();
 		CustomAssert.assertAll();
 	}
 
