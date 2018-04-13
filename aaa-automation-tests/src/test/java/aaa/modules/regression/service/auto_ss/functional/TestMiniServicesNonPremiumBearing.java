@@ -2,6 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,17 +21,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -399,7 +398,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
-	public void pas7082_AddVehicle(@Optional("VA") String state) {
+	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
 	}
@@ -557,8 +556,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForConversionManual(@Optional("AZ") String state) {
-
-		pas9716_policySummaryForConversionManualBody();
+		assertSoftly(softly -> {
+			pas9716_policySummaryForConversionManualBody();
+		});
 	}
 
 	@Parameters({"state"})
@@ -645,7 +645,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
-	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
+	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("AZ") String state) {
 
 		pas9490_ViewVehicleServiceCheckVehiclesStatus();
 	}

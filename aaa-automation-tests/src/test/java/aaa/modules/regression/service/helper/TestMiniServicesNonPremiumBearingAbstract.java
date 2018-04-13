@@ -601,12 +601,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
 		assertSoftly(softly -> {
-			softly.assertThat(response0.getVehicles().get(0).getVin()).isEqualTo(vin0);
-			softly.assertThat(response0.getVehicles().get(0).getYear().toString()).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).getMake()).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).getModelText()).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).getSeriesText()).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).getBodyStyleCd()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).vin).isEqualTo(vin0);
+			softly.assertThat(response0.getVehicles().get(0).year.toString()).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).make).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).modelText).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).seriesText).isNotEmpty();
+			softly.assertThat(response0.getVehicles().get(0).bodyStyleCd).isNotEmpty();
 			softly.assertThat(response0.getValidationMessage()).isEmpty();
 		});
 	}
@@ -672,18 +672,18 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
 			//BUG PAS-9722 Random sequence for Vehicles on DXP
-			softly.assertThat(response[0].getModelYear()).isEqualTo(modelYear1);
-			softly.assertThat(response[0].getManufacturer()).isEqualTo(manufacturer1);
-			softly.assertThat(response[0].getSeries()).isEqualTo(series1);
-			softly.assertThat(response[0].getModel()).isEqualTo(model1);
-			softly.assertThat(response[0].getBodyStyle()).isEqualTo(bodyStyle1);
+			softly.assertThat(response[0].modelYear).isEqualTo(modelYear1);
+			softly.assertThat(response[0].manufacturer).isEqualTo(manufacturer1);
+			softly.assertThat(response[0].series).isEqualTo(series1);
+			softly.assertThat(response[0].model).isEqualTo(model1);
+			softly.assertThat(response[0].bodyStyle).isEqualTo(bodyStyle1);
 			softly.assertThat(response[0].vehIdentificationNo).isEqualTo(vehIdentificationNo1);
 
-			softly.assertThat(response[1].getModelYear()).isEqualTo(modelYear2);
-			softly.assertThat(response[1].getManufacturer()).isEqualTo(manufacturer2);
-			softly.assertThat(response[1].getSeries()).isEqualTo(series2);
-			softly.assertThat(response[1].getModel()).isEqualTo(model2);
-			softly.assertThat(response[1].getBodyStyle()).isEqualTo(bodyStyle2);
+			softly.assertThat(response[1].modelYear).isEqualTo(modelYear2);
+			softly.assertThat(response[1].manufacturer).isEqualTo(manufacturer2);
+			softly.assertThat(response[1].series).isEqualTo(series2);
+			softly.assertThat(response[1].model).isEqualTo(model2);
+			softly.assertThat(response[1].bodyStyle).isEqualTo(bodyStyle2);
 		});
 
 		VehicleTab.buttonCancel.click();
@@ -698,18 +698,18 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		Vehicle[] response1 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response1[0].getModelYear()).isEqualTo(modelYear1);
-			softly.assertThat(response1[0].getManufacturer()).isEqualTo(manufacturer1);
-			softly.assertThat(response1[0].getSeries()).isEqualTo(series1);
-			softly.assertThat(response1[0].getModel()).isEqualTo(model1);
-			softly.assertThat(response1[0].getBodyStyle()).isEqualTo(bodyStyle1);
+			softly.assertThat(response1[0].modelYear).isEqualTo(modelYear1);
+			softly.assertThat(response1[0].manufacturer).isEqualTo(manufacturer1);
+			softly.assertThat(response1[0].series).isEqualTo(series1);
+			softly.assertThat(response1[0].model).isEqualTo(model1);
+			softly.assertThat(response1[0].bodyStyle).isEqualTo(bodyStyle1);
 			softly.assertThat(response1[0].vehIdentificationNo).isEqualTo(vehIdentificationNo1);
 
-			softly.assertThat(response1[1].getModelYear()).isEqualTo(modelYear2);
-			softly.assertThat(response1[1].getManufacturer()).isEqualTo(manufacturer2);
-			softly.assertThat(response1[1].getSeries()).isEqualTo(series2);
-			softly.assertThat(response1[1].getModel()).isEqualTo(model2);
-			softly.assertThat(response1[1].getBodyStyle()).isEqualTo(bodyStyle2);
+			softly.assertThat(response1[1].modelYear).isEqualTo(modelYear2);
+			softly.assertThat(response1[1].manufacturer).isEqualTo(manufacturer2);
+			softly.assertThat(response1[1].series).isEqualTo(series2);
+			softly.assertThat(response1[1].model).isEqualTo(model2);
+			softly.assertThat(response1[1].bodyStyle).isEqualTo(bodyStyle2);
 			softly.assertThat(response1[1].vehIdentificationNo).isEqualTo(vehIdentificationNo2);
 		});
 
@@ -728,18 +728,18 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response2[0].getModelYear()).isEqualTo(modelYear1);
-			softly.assertThat(response2[0].getManufacturer()).isEqualTo(manufacturer1);
-			softly.assertThat(response2[0].getSeries()).isEqualTo(series1);
-			softly.assertThat(response2[0].getModel()).isEqualTo(model1);
-			softly.assertThat(response2[0].getBodyStyle()).isEqualTo(bodyStyle1);
+			softly.assertThat(response2[0].modelYear).isEqualTo(modelYear1);
+			softly.assertThat(response2[0].manufacturer).isEqualTo(manufacturer1);
+			softly.assertThat(response2[0].series).isEqualTo(series1);
+			softly.assertThat(response2[0].model).isEqualTo(model1);
+			softly.assertThat(response2[0].bodyStyle).isEqualTo(bodyStyle1);
 			softly.assertThat(response2[0].vehIdentificationNo).isEqualTo(vehIdentificationNo1);
 
-			softly.assertThat(response2[1].getModelYear()).isEqualTo(modelYear3);
-			softly.assertThat(response2[1].getManufacturer()).isEqualTo(manufacturer3);
-			softly.assertThat(response2[1].getSeries()).isEqualTo(series3);
-			softly.assertThat(response2[1].getModel()).isEqualTo(model3);
-			softly.assertThat(response2[1].getBodyStyle()).isEqualTo(bodyStyle3);
+			softly.assertThat(response2[1].modelYear).isEqualTo(modelYear3);
+			softly.assertThat(response2[1].manufacturer).isEqualTo(manufacturer3);
+			softly.assertThat(response2[1].series).isEqualTo(series3);
+			softly.assertThat(response2[1].model).isEqualTo(model3);
+			softly.assertThat(response2[1].bodyStyle).isEqualTo(bodyStyle3);
 			softly.assertThat(response2[1].vehIdentificationNo).isEqualTo(vehIdentificationNo3);
 		});
 	}
@@ -780,22 +780,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		assertSoftly(softly -> {
 			softly.assertThat(driverSt).isNotNull();
-			softly.assertThat(driverSt.getLastName()).isEqualTo(lastName1);
-			softly.assertThat(driverSt.getOid()).isNotEmpty();
+			softly.assertThat(driverSt.lastName).isEqualTo(lastName1);
+			softly.assertThat(driverSt.oid).isNotEmpty();
 
 			softly.assertThat(driverNd).isNotNull();
-			softly.assertThat(driverNd.getMiddleName()).isEqualTo(middleName2);
-			softly.assertThat(driverNd.getLastName()).isEqualTo(lastName2);
-			softly.assertThat(driverNd.getSuffix()).isEqualTo(suffix2);
-			softly.assertThat(driverNd.getDriverType()).isEqualTo(availableForRating);
-			softly.assertThat(driverNd.getOid()).isNotEmpty();
+			softly.assertThat(driverNd.middleName).isEqualTo(middleName2);
+			softly.assertThat(driverNd.lastName).isEqualTo(lastName2);
+			softly.assertThat(driverNd.suffix).isEqualTo(suffix2);
+			softly.assertThat(driverNd.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverNd.oid).isNotEmpty();
 
 			softly.assertThat(driverRd).isNotNull();
-			softly.assertThat(driverRd.getMiddleName()).isEqualTo(middleName3);
-			softly.assertThat(driverRd.getLastName()).isEqualTo(lastName3);
-			softly.assertThat(driverRd.getSuffix()).isEqualTo(suffix3);
-			softly.assertThat(driverRd.getDriverType()).isEqualTo(notAvailableForRating);
-			softly.assertThat(driverRd.getOid()).isNotEmpty();
+			softly.assertThat(driverRd.middleName).isEqualTo(middleName3);
+			softly.assertThat(driverRd.lastName).isEqualTo(lastName3);
+			softly.assertThat(driverRd.suffix).isEqualTo(suffix3);
+			softly.assertThat(driverRd.driverType).isEqualTo(notAvailableForRating);
+			softly.assertThat(driverRd.oid).isNotEmpty();
 		});
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -815,21 +815,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		assertSoftly(softly -> {
 			softly.assertThat(driverSt2).isNotNull();
-			softly.assertThat(driverSt2.getLastName()).isEqualTo(lastName1);
-			softly.assertThat(driverSt2.getDriverType()).isEqualTo(availableForRating);
-			softly.assertThat(driverSt2.getOid()).isNotEmpty();
+			softly.assertThat(driverSt2.lastName).isEqualTo(lastName1);
+			softly.assertThat(driverSt2.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverSt2.oid).isNotEmpty();
 
 			softly.assertThat(driverNd2).isNotNull();
-			softly.assertThat(driverNd2.getMiddleName()).isEqualTo(middleName2);
-			softly.assertThat(driverNd2.getLastName()).isEqualTo(lastName2);
-			softly.assertThat(driverNd2.getSuffix()).isEqualTo(suffix2);
-			softly.assertThat(driverNd2.getOid()).isNotEmpty();
+			softly.assertThat(driverNd2.middleName).isEqualTo(middleName2);
+			softly.assertThat(driverNd2.lastName).isEqualTo(lastName2);
+			softly.assertThat(driverNd2.suffix).isEqualTo(suffix2);
+			softly.assertThat(driverNd2.oid).isNotEmpty();
 
 			softly.assertThat(driverRd2).isNotNull();
-			softly.assertThat(driverRd2.getMiddleName()).isEqualTo(middleName3);
-			softly.assertThat(driverRd2.getLastName()).isEqualTo(lastName3);
-			softly.assertThat(driverRd2.getSuffix()).isEqualTo(suffix3);
-			softly.assertThat(driverRd2.getOid()).isNotEmpty();
+			softly.assertThat(driverRd2.middleName).isEqualTo(middleName3);
+			softly.assertThat(driverRd2.lastName).isEqualTo(lastName3);
+			softly.assertThat(driverRd2.suffix).isEqualTo(suffix3);
+			softly.assertThat(driverRd2.oid).isNotEmpty();
 		});
 
 		//Check dxp service what we have in endorsement
@@ -839,15 +839,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		assertSoftly(softly -> {
 			softly.assertThat(driverSt3).isNotNull();
-			softly.assertThat(driverSt3.getLastName()).isEqualTo(lastName1);
-			softly.assertThat(driverSt3.getDriverType()).isEqualTo(availableForRating);
-			softly.assertThat(driverSt3.getOid()).isNotEmpty();
+			softly.assertThat(driverSt3.lastName).isEqualTo(lastName1);
+			softly.assertThat(driverSt3.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverSt3.oid).isNotEmpty();
 
 			softly.assertThat(driverNd3).isNotNull();
-			softly.assertThat(driverNd3.getMiddleName()).isEqualTo("Kevin");
-			softly.assertThat(driverNd3.getLastName()).isEqualTo(lastName2);
-			softly.assertThat(driverNd3.getSuffix()).isEqualTo(suffix2);
-			softly.assertThat(driverNd3.getOid()).isNotEmpty();
+			softly.assertThat(driverNd3.middleName).isEqualTo("Kevin");
+			softly.assertThat(driverNd3.lastName).isEqualTo(lastName2);
+			softly.assertThat(driverNd3.suffix).isEqualTo(suffix2);
+			softly.assertThat(driverNd3.oid).isNotEmpty();
 		});
 
 		//Issue pended endorsement
@@ -861,15 +861,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		assertSoftly(softly -> {
 			softly.assertThat(driverSt4).isNotNull();
-			softly.assertThat(driverSt4.getLastName()).isEqualTo(lastName1);
-			softly.assertThat(driverSt4.getDriverType()).isEqualTo(availableForRating);
-			softly.assertThat(driverSt4.getOid()).isNotEmpty();
+			softly.assertThat(driverSt4.lastName).isEqualTo(lastName1);
+			softly.assertThat(driverSt4.driverType).isEqualTo(availableForRating);
+			softly.assertThat(driverSt4.oid).isNotEmpty();
 
 			softly.assertThat(driverNd4).isNotNull();
-			softly.assertThat(driverNd4.getMiddleName()).isEqualTo("Kevin");
-			softly.assertThat(driverNd4.getLastName()).isEqualTo(lastName2);
-			softly.assertThat(driverNd4.getSuffix()).isEqualTo(suffix2);
-			softly.assertThat(driverNd4.getOid()).isNotEmpty();
+			softly.assertThat(driverNd4.middleName).isEqualTo("Kevin");
+			softly.assertThat(driverNd4.lastName).isEqualTo(lastName2);
+			softly.assertThat(driverNd4.suffix).isEqualTo(suffix2);
+			softly.assertThat(driverNd4.oid).isNotEmpty();
 		});
 	}
 
@@ -959,8 +959,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ErrorResponseDto response = HelperCommon.validateEndorsementResponseError(policyNumber, null, 422);
 		assertSoftly(softly -> {
-			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
-			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
+			softly.assertThat(response.errorCode).isEqualTo("PFW093");
+			softly.assertThat(response.message).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
 		});
 
 		//Policy reinstatement
@@ -986,6 +986,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
 		mainApp().open();
+
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -1032,6 +1033,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		premiumAndCoveragesTab.saveAndExit();
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		//BUG PAS-12756 When endorsement is started through service, issueing it triggers Members Last Name error
+		//BUG PAS-11468 When endorsement is started through service, issueing it triggers Members Last Name error
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
 		//View added vehicle in view vehicle service
@@ -1039,16 +1042,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		if (response3[0].vehIdentificationNo.contains(vin1)) {
 			assertSoftly(softly -> {
 				softly.assertThat(response3[0].vehIdentificationNo).isEqualTo(vin1);
-
 				softly.assertThat(response3[1].vehIdentificationNo).isEqualTo(vin2);
-
 			});
 		} else {
 			assertSoftly(softly -> {
 				softly.assertThat(response3[0].vehIdentificationNo).isEqualTo(vin2);
-
 				softly.assertThat(response3[1].vehIdentificationNo).isEqualTo(vin1);
-
 			});
 		}
 	}
@@ -1073,8 +1072,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		ErrorResponseDto response = HelperCommon.validateEndorsementResponseError(policyNumber, endorsementDate, 422);
 		assertSoftly(softly -> {
-			softly.assertThat(response.getErrorCode()).isEqualTo("PFW093");
-			softly.assertThat(response.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
+			softly.assertThat(response.errorCode).isEqualTo("PFW093");
+			softly.assertThat(response.message).isEqualTo(START_ENDORSEMENT_INFO_ERROR_2);
 		});
 	}
 
@@ -1346,8 +1345,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String driverNameFromAssignment1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("Driver");
 		String driverNameFromAssignment2 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(1).getValue("Driver");
 		DriversDto[] responseViewDriver = HelperCommon.executeViewDrivers(policyNumber);
-		String driverOid1 = Arrays.stream(responseViewDriver).filter(driver -> driverNameFromAssignment1.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).getOid();
-		String driverOid2 = Arrays.stream(responseViewDriver).filter(driver -> driverNameFromAssignment2.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).getOid();
+		String driverOid1 = Arrays.stream(responseViewDriver).filter(driver -> driverNameFromAssignment1.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
+		String driverOid2 = Arrays.stream(responseViewDriver).filter(driver -> driverNameFromAssignment2.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
 
 		DriverAssignmentDto[] response = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 		assertSoftly(softly -> {
@@ -1384,8 +1383,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String driverNameFromAssignment3 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("Driver");
 		String driverNameFromAssignment4 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(1).getValue("Driver");
 		DriversDto[] responseViewDriver2 = HelperCommon.executeViewDrivers(policyNumber);
-		String driverOid3 = Arrays.stream(responseViewDriver2).filter(driver -> driverNameFromAssignment3.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).getOid();
-		String driverOid4 = Arrays.stream(responseViewDriver2).filter(driver -> driverNameFromAssignment4.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).getOid();
+		String driverOid3 = Arrays.stream(responseViewDriver2).filter(driver -> driverNameFromAssignment3.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
+		String driverOid4 = Arrays.stream(responseViewDriver2).filter(driver -> driverNameFromAssignment4.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
 
 		assertThat(driverOid1).isEqualTo(driverOid3);
 		assertThat(driverOid2).isEqualTo(driverOid4);
@@ -1689,8 +1688,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Lock policy id1 and check service response
 		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, 200, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response.getPolicyNumber()).isEqualTo(policyNumber);
-			softly.assertThat(response.getStatus()).isEqualTo("Locked");
+			softly.assertThat(response.policyNumber).isEqualTo(policyNumber);
+			softly.assertThat(response.status).isEqualTo("Locked");
 		});
 
 		//Hit start endorsement info service with Id1
@@ -1704,8 +1703,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Try to lock policy with id2
 		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response1.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
-			softly.assertThat(response1.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+			softly.assertThat(response1.errorCode).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
+			softly.assertThat(response1.message).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		mainApp().open();
@@ -1719,15 +1718,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Try unlock policy with id2
 		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId2);
 		assertSoftly(softly -> {
-			softly.assertThat(response2.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
-			softly.assertThat(response2.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+			softly.assertThat(response2.errorCode).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
+			softly.assertThat(response2.message).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		//Unlock policy with id1
 		PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, 200, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response3.getPolicyNumber()).isEqualTo(policyNumber);
-			softly.assertThat(response3.getStatus()).isEqualTo("Unlocked");
+			softly.assertThat(response3.policyNumber).isEqualTo(policyNumber);
+			softly.assertThat(response3.status).isEqualTo("Unlocked");
 		});
 
 		//Start do endorsement
@@ -1736,15 +1735,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Check if policy can be locked using lock service
 		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response4.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
-			softly.assertThat(response4.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+			softly.assertThat(response4.errorCode).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
+			softly.assertThat(response4.message).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 
 		//Check if policy can be unlocked using unlock service
 		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, 500, sessionId1);
 		assertSoftly(softly -> {
-			softly.assertThat(response5.getErrorCode()).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
-			softly.assertThat(response5.getMessage()).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
+			softly.assertThat(response5.errorCode).isEqualTo("ERROR_SERVICE_INTERNAL_ERROR");
+			softly.assertThat(response5.message).isEqualTo(START_ENDORSEMENT_INFO_ERROR_5);
 		});
 	}
 
@@ -1765,10 +1764,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Check premium
 		PolicyPremiumInfo[] rateResponse = HelperCommon.executeEndorsementRate(policyNumber, 200);
 		assertSoftly(softly -> {
-			softly.assertThat(rateResponse[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(rateResponse[0].getPremiumCode()).isEqualTo("GWT");
+			softly.assertThat(rateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(rateResponse[0].premiumCode).isEqualTo("GWT");
 		});
-		Dollar dxpPremium = new Dollar(rateResponse[0].getActualAmt());
+		Dollar dxpPremium = new Dollar(rateResponse[0].actualAmt);
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -1815,7 +1814,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Check premium after new vehicle was added
 		PolicyPremiumInfo[] rateResponse2 = HelperCommon.executeEndorsementRate(policyNumber, 200);
-		Dollar dxpPremium2 = new Dollar(rateResponse2[0].getActualAmt());
+		Dollar dxpPremium2 = new Dollar(rateResponse2[0].actualAmt);
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").getValue()).isEqualTo(PREMIUM_CALCULATED);
@@ -2015,9 +2014,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
 			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.executeEndorsementRate(policyNumber, 200);
-			softly.assertThat(endorsementRateResponse[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].getPremiumCode()).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].getActualAmt()).isNotBlank();
+			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
+			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 
 			//Create pended endorsement
 			SearchPage.openPolicy(policyNumber);
@@ -2063,10 +2062,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(response[0].getPremiumCode()).isEqualTo("GWT");
-			softly.assertThat(new Dollar(response[0].getActualAmt())).isEqualTo(new Dollar(actualPremium));
-			softly.assertThat(new Dollar(response[0].getTermPremium())).isEqualTo(new Dollar(totalPremium));
+			softly.assertThat(response[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
+			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
+			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
 		});
 	}
 
@@ -2102,10 +2101,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfoPendedEndorsementResponse(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response[0].getPremiumType()).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(response[0].getPremiumCode()).isEqualTo("GWT");
-			softly.assertThat(new Dollar(response[0].getActualAmt())).isEqualTo(new Dollar(actualPremium));
-			softly.assertThat(new Dollar(response[0].getTermPremium())).isEqualTo(new Dollar(totalPremium));
+			softly.assertThat(response[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
+			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
+			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
 		});
 	}
 
