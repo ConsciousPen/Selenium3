@@ -9,29 +9,12 @@ import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeCaDP3TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import toolkit.datax.TestData;
 
-public class HomeCaDP3PremiumCalculationTest extends OpenLRatingBaseTest<HomeCaDP3OpenLPolicy> {
+public class HomeCaDP3PremiumCalculationTest extends HomeCaPremiumCalculationTest<HomeCaDP3OpenLPolicy> {
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_DP3;
-	}
-
-	@Override
-	protected TestData getRatingDataPattern() {
-		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());
-	}
-
-	@Override
-	protected String createAndRateQuote(TestDataGenerator<HomeCaDP3OpenLPolicy> tdGenerator, HomeCaDP3OpenLPolicy openLPolicy) {
-		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
-		new PremiumsAndCoveragesQuoteTab().fillTab(quoteRatingData);
-		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().toString();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})
