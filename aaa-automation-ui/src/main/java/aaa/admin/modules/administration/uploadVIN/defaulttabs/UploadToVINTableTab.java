@@ -48,6 +48,13 @@ public class UploadToVINTableTab extends DefaultTab {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
 
 		buttonUpload.click();
-		//Removed the checks that were here because they can be found in the stand alone test "pas6203_VinAndControlTablesUpload"
+
+		//TODO - Fix these 'upload successful' checks. The loading animations on the page are causing the upload checks to fail, even though the upload passed with no issues.
+//		if (labelUploadSuccessful.getValue().contains("Rows added")) {
+//			// check successfull
+//			log.info("File {} was uploaded successfully", fileName);
+//		}
+//		else {
+//			fail("File " + fileName + " was not uploaded. See error: \n" + labelUploadFailed.getValue());
+		}
 	}
-}
