@@ -22,7 +22,6 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLTest;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
@@ -101,25 +100,22 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
 		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
-		List<P> openLPoliciesList;
-		if (CollectionUtils.isEmpty(policyNumbers)) {
-			openLPoliciesList = openLFile.getPolicies();
-		} else {
-			openLPoliciesList = openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
-			assertThat(openLPoliciesList).as("Found policy objects amount is not equal to number of policies to be tested. Probably excel file has missed tests").hasSameSizeAs(policyNumbers);
-		}
 
-		String testsSheetName = OpenLFile.TESTS_SHEET_NAME;
-		String policyColumnName = "policy";
-		if ("Homeowners Signature Series".equals(getPolicyType().getName())) {
-			testsSheetName = HomeSSOpenLFile.TESTS_SHEET_NAME;
-			policyColumnName = "p";
-		}
+		List<P> openLPoliciesList = getOpenLPoliciesWithExpectedPremiums(openLFileManager, openLFile);
+		openLFileManager.close();
+		assertThat(openLPoliciesList).as("Found policy objects amount is not equal to number of policies to be tested. Probably excel file has missed tests").hasSameSizeAs(policyNumbers);
 
-		ExcelTable testsTable = openLFileManager.getSheet(testsSheetName).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER);
-		Dollar expectedPremium;
+		//Sort policies list by effective date for further valid time shifts
+		openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
+		return openLPoliciesList;
+	}
+
+	protected List<P> getOpenLPoliciesWithExpectedPremiums(ExcelManager openLFileManager, OpenLFile<P> openLFile) {
+		ExcelTable testsTable = openLFileManager.getSheet(openLFile.getTestsSheetName()).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER);
+		List<P> openLPoliciesList = openLFile.getPolicies();
 		for (P openLPolicy : openLPoliciesList) {
-			TableRow row = testsTable.getRow(policyColumnName, openLPolicy.getNumber());
+			Dollar expectedPremium;
+			TableRow row = testsTable.getRow(openLFile.getTestsPolicyHeaderColumnName(), openLPolicy.getNumber());
 			if (row.hasColumn(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME) && !row.isEmpty(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME)) {
 				expectedPremium = new Dollar(row.getValue(OpenLTest.TOTAL_PREMIUM_COLUMN_NAME));
 			} else {
@@ -130,10 +126,6 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			}
 			openLPolicy.setExpectedPremium(expectedPremium);
 		}
-		openLFileManager.close();
-
-		//Sort policies list by effective date for further valid time shifts
-		openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
 		return openLPoliciesList;
 	}
 

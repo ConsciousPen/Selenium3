@@ -159,6 +159,16 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	}
 
 	@Override
+	public String getTestsSheetName() {
+		return TESTS_SHEET_NAME;
+	}
+
+	@Override
+	public String getTestsPolicyHeaderColumnName() {
+		return "p";
+	}
+
+	@Override
 	public String toString() {
 		return "HomeSSOpenLFile{" +
 				"policies=" + policies +
