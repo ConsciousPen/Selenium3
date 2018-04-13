@@ -36,8 +36,8 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
     /**
      * * @author Sarunas Jaraminas
      *
-     *@name Test Capping Configuration for ID and OR states
-     *@scenario
+     * @name Test Capping Configuration for ID and OR states
+     * @scenario
      *1. Create customer.
      *2. Create Auto SS Quote.
      *2.1. If it's OR state, adjust specific VIN code.
@@ -50,7 +50,12 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
      *9. Select "Data Gathering" mode and Calculate Premium.
      *10. Check Capping details
      *
-     *@details
+     * @details
+     *
+     * This test was created on temporary capping rating branches
+     * as such the test will need to be stabilized when capping is
+     * actually implemented for organic PAS policies (non conversion)
+     *
      */
 
     private String policyNumber;
