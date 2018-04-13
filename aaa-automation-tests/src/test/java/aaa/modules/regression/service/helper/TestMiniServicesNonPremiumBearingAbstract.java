@@ -16,6 +16,7 @@ import java.util.List;
 
 import aaa.helpers.TestDataManager;
 import aaa.main.modules.customer.CustomerType;
+import org.apache.commons.lang.BooleanUtils;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -664,6 +665,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(OWNERSHIP.getLabel()).getValue().replace("Owned", "OWN");
+		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
+		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
+		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
+		String vehType1 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
 		VehicleTab.tableVehicleList.selectRow(2);
 
 		String modelYear2 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
@@ -672,6 +678,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String model2 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle2 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		String ownership2 = vehicleTab.getInquiryAssetList().getStaticElement(OWNERSHIP.getLabel()).getValue().replace("Owned", "OWN");
+		String usage2 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
+		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
+		String antiTheft2 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
+		String vehType2 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		Vehicle vehicleSt= Arrays.stream(response).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
@@ -685,6 +696,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicleSt.model).isEqualTo(model1);
 			softly.assertThat(vehicleSt.bodyStyle).isEqualTo(bodyStyle1);
 			softly.assertThat(vehicleSt.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicleSt.ownership).isEqualTo(ownership1);
+			softly.assertThat(vehicleSt.usage).isEqualTo(usage1);
+			softly.assertThat(vehicleSt.salvaged).isEqualTo(false);
+			softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt.garagingDifferent))
+					.isEqualTo(garagingDifferent1);
+			softly.assertThat(vehicleSt.antiTheft).isEqualTo(antiTheft1);
+			softly.assertThat(vehicleSt.vehTypeCd).isEqualTo(vehType1);
+			softly.assertThat(vehicleSt.oid).isNotEmpty();
+
 
 			softly.assertThat(vehicleNd).isNotNull();
 			softly.assertThat(vehicleNd.modelYear).isEqualTo(modelYear2);
@@ -693,6 +713,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicleNd.model).isEqualTo(model2);
 			softly.assertThat(vehicleNd.bodyStyle).isEqualTo(bodyStyle2);
 			softly.assertThat(vehicleNd.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicleNd.ownership).isEqualTo(ownership2);
+			softly.assertThat(vehicleNd.usage).isEqualTo(usage2);
+			softly.assertThat(vehicleNd.salvaged).isEqualTo(false);
+			softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd.garagingDifferent))
+					.isEqualTo(garagingDifferent2);
+			softly.assertThat(vehicleNd.antiTheft).isEqualTo(antiTheft2);
+			softly.assertThat(vehicleNd.vehTypeCd).isEqualTo(vehType2);
+			softly.assertThat(vehicleNd.oid).isNotEmpty();
 		});
 
 		VehicleTab.buttonCancel.click();
@@ -717,6 +745,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicleSt1.model).isEqualTo(model1);
 			softly.assertThat(vehicleSt1.bodyStyle).isEqualTo(bodyStyle1);
 			softly.assertThat(vehicleSt1.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicleSt1.ownership).isEqualTo(ownership1);
+			softly.assertThat(vehicleSt1.usage).isEqualTo(usage1);
+			softly.assertThat(vehicleSt1.salvaged).isEqualTo(false);
+			softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt1.garagingDifferent))
+					.isEqualTo(garagingDifferent1);
+			softly.assertThat(vehicleSt1.antiTheft).isEqualTo(antiTheft1);
+			softly.assertThat(vehicleSt1.vehTypeCd).isEqualTo(vehType1);
+			softly.assertThat(vehicleSt1.oid).isNotEmpty();
 
 			softly.assertThat(vehicleNd1).isNotNull();
 			softly.assertThat(vehicleNd1.modelYear).isEqualTo(modelYear2);
@@ -725,6 +761,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicleNd1.model).isEqualTo(model2);
 			softly.assertThat(vehicleNd1.bodyStyle).isEqualTo(bodyStyle2);
 			softly.assertThat(vehicleNd1.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicleNd1.ownership).isEqualTo(ownership2);
+			softly.assertThat(vehicleNd1.usage).isEqualTo(usage2);
+			softly.assertThat(vehicleNd1.salvaged).isEqualTo(false);
+			softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd1.garagingDifferent))
+					.isEqualTo(garagingDifferent2);
+			softly.assertThat(vehicleNd1.antiTheft).isEqualTo(antiTheft2);
+			softly.assertThat(vehicleNd1.vehTypeCd).isEqualTo(vehType2);
+			softly.assertThat(vehicleNd1.oid).isNotEmpty();
 		});
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -739,6 +783,11 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String model3 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle3 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
+		String ownership3 = vehicleTab.getInquiryAssetList().getStaticElement(OWNERSHIP.getLabel()).getValue().replace("Owned", "OWN");
+		String usage3 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
+		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
+		String antiTheft3 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
+		String vehType3 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
 
 		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		Vehicle vehicleSt2= Arrays.stream(response2).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
@@ -752,6 +801,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicleSt2.model).isEqualTo(model1);
 			softly.assertThat(vehicleSt2.bodyStyle).isEqualTo(bodyStyle1);
 			softly.assertThat(vehicleSt2.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicleSt2.ownership).isEqualTo(ownership1);
+			softly.assertThat(vehicleSt2.usage).isEqualTo(usage1);
+			softly.assertThat(vehicleSt2.salvaged).isEqualTo(false);
+			softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt2.garagingDifferent))
+					.isEqualTo(garagingDifferent2);
+			softly.assertThat(vehicleSt2.antiTheft).isEqualTo(antiTheft1);
+			softly.assertThat(vehicleSt2.vehTypeCd).isEqualTo(vehType1);
+			softly.assertThat(vehicleSt2.oid).isNotEmpty();
 
 			softly.assertThat(vehicleRd2).isNotNull();
 			softly.assertThat(vehicleRd2.modelYear).isEqualTo(modelYear3);
@@ -760,6 +817,14 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicleRd2.model).isEqualTo(model3);
 			softly.assertThat(vehicleRd2.bodyStyle).isEqualTo(bodyStyle3);
 			softly.assertThat(vehicleRd2.vehicleStatus).isEqualTo("active");
+			softly.assertThat(vehicleRd2.ownership).isEqualTo(ownership3);
+			softly.assertThat(vehicleRd2.usage).isEqualTo(usage3);
+			softly.assertThat(vehicleRd2.salvaged).isEqualTo(false);
+			softly.assertThat(BooleanUtils.toStringYesNo(vehicleRd2.garagingDifferent))
+					.isEqualTo(garagingDifferent3);
+			softly.assertThat(vehicleRd2.antiTheft).isEqualTo(antiTheft3);
+			softly.assertThat(vehicleRd2.vehTypeCd).isEqualTo(vehType3);
+			softly.assertThat(vehicleRd2.oid).isNotEmpty();
 		});
 	}
 
