@@ -41,6 +41,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		processLapsedAndCollectionsJobs(expirationDate);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentLess(endorsementAmount);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee(String state) {
@@ -51,8 +52,9 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		processRenewalAndBillGenerationJobs(expirationDate);
 		endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
-		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
-		acceptManualPaymentLess(endorsementAmount);
+		String earnedPremium = processEarnedPremiumJobWithAPEndorsementMortgagee(expirationDate, policyNumber, endorsementAmount);
+		acceptManualPaymentLess(earnedPremium);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffLessProposed(String state) {
@@ -66,6 +68,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		changeStatusFromDeclineToProposed(policyNumber);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentLess(endorsementAmount);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffEqualDecline(String state) {
@@ -78,6 +81,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		processLapsedAndCollectionsJobs(expirationDate);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentEqual(endorsementAmount);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffEqualProposed(String state) {
@@ -91,6 +95,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		changeStatusFromDeclineToProposed(policyNumber);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentEqual(endorsementAmount);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee(String state) {
@@ -102,8 +107,9 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		changeStatusFromDeclineToProposed(policyNumber);
-		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
-		acceptManualPaymentEqual(endorsementAmount);
+		String earnedPremium = processEarnedPremiumJobWithAPEndorsementMortgagee(expirationDate, policyNumber, endorsementAmount);
+		acceptManualPaymentEqual(earnedPremium);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffMoreDecline(String state) {
@@ -126,8 +132,9 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		processRenewalAndBillGenerationJobs(expirationDate);
 		endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
-		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
-		acceptManualPaymentMore(endorsementAmount);
+		String earnedPremium = processEarnedPremiumJobWithAPEndorsementMortgagee(expirationDate, policyNumber, endorsementAmount);
+		acceptManualPaymentMore(earnedPremium);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffMoreProposed(String state) {
@@ -141,6 +148,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		changeStatusFromDeclineToProposed(policyNumber);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentMore(endorsementAmount);
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
 	public void pas11697_testEarnedPremiumWriteOffNoAP(String state){
@@ -151,16 +159,11 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		processLapsedAndCollectionsJobs(expirationDate);
 		processEarnedPremiumJobWithoutAPEndorsement(expirationDate, policyNumber);
 		acceptManualPaymentMoreNoAP();
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	private void processEarnedPremiumJobWithAPEndorsement(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
-		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
-		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
-		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
-		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		processEarnedPremiumJob(expirationDate, policyNumber);
 		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
 		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(endorsementAmount);
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
@@ -169,7 +172,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
 	}
 
-	private void processEarnedPremiumJobWithoutAPEndorsement(LocalDateTime expirationDate, String policyNumber) {
+	private void processEarnedPremiumJob(LocalDateTime expirationDate, String policyNumber) {
 		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
 		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
@@ -177,6 +180,25 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+	}
+
+	private String processEarnedPremiumJobWithAPEndorsementMortgagee(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
+		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
+		processEarnedPremiumJob(expirationDate, policyNumber);
+		String policyPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRow("Subtype/Reason", "Policy").getCell(AMOUNT).getValue();
+		String earnedPremiumAmount = new Dollar(endorsementAmount).add(new Dollar(policyPremium)).toString();
+		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
+		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(earnedPremiumAmount);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+earnedPremiumAmount+")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		return earnedPremiumAmount;
+	}
+
+	private void processEarnedPremiumJobWithoutAPEndorsement(LocalDateTime expirationDate, String policyNumber) {
+		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
+		processEarnedPremiumJob(expirationDate, policyNumber);
 		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
 	}
 
@@ -279,7 +301,6 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+ newEndorsementAmount +")");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
-		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	private void acceptManualPaymentEqual(String endorsementAmount) {
@@ -301,7 +322,6 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+ newEndorsementAmount +")");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
-		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	private void acceptManualPaymentMore(String endorsementAmount) {
@@ -323,7 +343,6 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+ newEndorsementAmount +")");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
-		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	private void acceptManualPaymentMoreNoAP() {
@@ -340,7 +359,6 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(paymentAmount);
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
-		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
 	private void adjustWithMortgageeData(TestData policyTD) {
