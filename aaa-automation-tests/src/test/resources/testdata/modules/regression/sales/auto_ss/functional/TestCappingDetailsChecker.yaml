@@ -1,0 +1,79 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_ID',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_ID',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+}
+
+GeneralTab_ID: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_ID'
+}
+
+PolicyInformation_ID: {
+  Policy Type: Standard,
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Beaverton - 500005277 - Portland',
+  Agent: 'House Agent Pocatello',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+TestData_Endorsement: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {
+  ActivityInformation: [
+  {
+   Activity Source : 'Company Input',
+   Type: 'At-Fault Accident',
+   Description: 'Accident (Property Damage Only)',
+   Occurrence Date: '$<today-1d:MM/dd/yyyy>',
+   Loss Payment Amount : '1200'
+  },
+  {
+   Activity Source : 'Company Input',
+   Type: 'At-Fault Accident',
+   Description: 'Accident (Property Damage Only)',
+   Occurrence Date: '$<today-2d:MM/dd/yyyy>',
+   Loss Payment Amount : '1001'
+  },
+  {
+   Activity Source : 'Company Input',
+   Type: 'At-Fault Accident',
+   Description: 'Accident (Property Damage Only)',
+   Occurrence Date: '$<today-lt3d:MM/dd/yyyy>',
+   Loss Payment Amount : '500'
+  }
+  ]
+  },
+  RatingDetailReportsTab: {
+   Order Report: click
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+   Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+
+}
+
+EndorsementActionTab: {
+  Endorsement Date: $<today>,
+  Endorsement Reason: Maintain Vehicle(s)
+}
