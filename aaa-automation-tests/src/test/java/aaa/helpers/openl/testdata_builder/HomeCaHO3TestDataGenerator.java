@@ -7,6 +7,8 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLDwelling;
 import aaa.helpers.openl.model.home_ca.ho3.HomeCaHO3OpenLForm;
@@ -39,6 +41,8 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 			ratingDataPattern.adjust(new ApplicantTab().getMetaKey(), maskedMembershipData);	
 			ratingDataPattern.adjust(new ReportsTab().getMetaKey(), maskedReportsData);
 		}
+		
+		//openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse("09/14/2017", DateTimeUtils.MM_DD_YYYY));
 			
 		TestData td = DataProviderFactory.dataOf(
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
@@ -59,6 +63,8 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 	
 	private TestData getGeneralTabData(HomeCaHO3OpenLPolicy openLPolicy) {
 		TestData policyInfo = DataProviderFactory.emptyData();
+		//TestData policyInfo = DataProviderFactory.dataOf(
+		//		HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 		TestData currentCarrier = DataProviderFactory.dataOf(
 				HomeCaMetaData.GeneralTab.CurrentCarrier.CONTINUOUS_YEARS_WITH_HO_INSURANCE.getLabel(), openLPolicy.getYearsOfPriorInsurance(),
 				HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel(),
@@ -84,9 +90,12 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		}
 
 		TestData dwellingAddress = DataProviderFactory.dataOf(
-				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwellings().get(0).getAddress().get(0).getZipCode()); 
-				//HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), "111 Test street", 
-				//HomeCaMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "Los Angeles County");
+				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwellings().get(0).getAddress().get(0).getZipCode(), 
+				HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), "265 CHIPMAN AVE", 
+				HomeCaMetaData.ApplicantTab.DwellingAddress.CITY.getLabel(), "LOS ANGELES",
+				HomeCaMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "Los Angeles", 
+				HomeCaMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_BTN.getLabel(), "click", 
+				HomeCaMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData());
 		
 		TestData otherActiveAAAPolicies = DataProviderFactory.emptyData();
 		if (Boolean.TRUE.equals(openLPolicy.getHasMultiPolicyDiscount())) {
@@ -155,11 +164,11 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		
 		TestData constructionData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getDwellings().get(0).getAgeOfHome()).getYear(),
-				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), openLPolicy.getDwellings().get(0).getConstructionType());
+				HomeCaMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getDwellings().get(0).getConstructionType());
 		
 		TestData theftProtectiveDeviceData = getTheftProtectiveDevice(openLPolicy.getDwellings().get(0));
 		
-		List<TestData> detachedStructuresDataList = getDetachedStructuresData(openLPolicy);
+		//List<TestData> detachedStructuresDataList = getDetachedStructuresData(openLPolicy);
 
 		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getExpClaimPoints(), openLPolicy.getClaimPoints());
 		
@@ -169,7 +178,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 				//HomeCaMetaData.PropertyInfoTab.FIRE_REPORT.getLabel(), wildfireScoreData, 
 				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
-				HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructuresDataList, 
+				//HomeCaMetaData.PropertyInfoTab.DETACHED_STRUCTURES.getLabel(), detachedStructuresDataList, 
 				HomeCaMetaData.PropertyInfoTab.THEFT_PROTECTIVE_DD.getLabel(), theftProtectiveDeviceData, 
 				HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
 	}
