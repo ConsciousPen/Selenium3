@@ -7,7 +7,6 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGR
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,9 +16,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import toolkit.utils.TestInfo;
@@ -30,6 +32,8 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
 
     private ReportsTab reportTab = new ReportsTab();
     private ApplicantTab applicant = new ApplicantTab();
+    private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+    private BindTab bindTab = new BindTab();
 
     /**
      * @author Igor Garkusha
@@ -69,6 +73,14 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
         assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
 
+        // Bind the policy
+        reportTab.tblClueReport.getRow(1).getCell(6).controls.links.get("Re-order report").click();
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+        bindTab.submitTab();
+
+        // Verify the policy was bound without rules
+        assertThat(PolicySummaryPage.labelPolicyNumber).isPresent();
     }
 
     /**
