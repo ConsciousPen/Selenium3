@@ -2,6 +2,10 @@ package aaa.modules.regression.service.helper;
 
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
+import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +52,13 @@ public class HelperCommon {
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 	private static final String DXP_VIEW_VEHICLE_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_VIEW_VEHICLE_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
+
+	private static final String AAA_VEHICLE_INFO_RS_PREFIX = "/aaa-admin/services/aaa-vehicle-info-rs/v1/vin-info/";
+	private static final String DXP_RETRIEVE_MAKE_BY_YEAR = AAA_VEHICLE_INFO_RS_PREFIX + "make-by-year?year=%s";
+	private static final String DXP_RETRIEVE_MODEL_BY_YEAR_MAKE = AAA_VEHICLE_INFO_RS_PREFIX + "model-by-make-year?year=%1$s&make=%2$s";
+	private static final String DXP_SERIES_BY_YEAR_MAKE_MODEL = AAA_VEHICLE_INFO_RS_PREFIX + "series-by-make-year-model?year=%1$s&make=%2$s&model=%3$s";
+	private static final String DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES = AAA_VEHICLE_INFO_RS_PREFIX + "bodystyle-by-make-year-model?year=%1$s&make=%2$s&model=%3$s&Series=%4$s";
+
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
@@ -354,7 +365,7 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
-	public static <T> T runJsonRequestGetDxp(RestRequestInfo<T> request) {
+	public static <T> T  runJsonRequestGetDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -458,4 +469,29 @@ public class HelperCommon {
 			throw new IstfException("Failed to create application context");
 		}
 	}
+
+	public static AAAMakeByYear getMakes(String year) {
+		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_MAKE_BY_YEAR, year));
+
+		return runJsonRequestGetAdmin(url, AAAMakeByYear.class);
+	}
+
+	public static AAAModelByYearMake getModels(String make, String year) {
+		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_MODEL_BY_YEAR_MAKE, year, make));
+
+		return runJsonRequestGetAdmin(url, AAAModelByYearMake.class);
+	}
+
+	public static AAABodyStyleByYearMakeModelSeries getBodyStyle(String year, String make, String model, String series) {
+		String url = urlBuilderAdmin(String.format(DXP_RETRIEVE_BODYSTYLE_BY_YEAR_MAKE_MODEL_SERIES, year, make, model , series));
+
+		return runJsonRequestGetAdmin(url, AAABodyStyleByYearMakeModelSeries.class);
+	}
+
+	public static AAASeriesByYearMakeModel getSeries(String year, String make, String model) {
+		String url = urlBuilderAdmin(String.format(DXP_SERIES_BY_YEAR_MAKE_MODEL, year, make, model));
+
+		return runJsonRequestGetAdmin(url, AAASeriesByYearMakeModel.class);
+	}
+
 }
