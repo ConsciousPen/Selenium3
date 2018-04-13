@@ -294,7 +294,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	private void pas730_addMotorHomeVehicleToDBSelect() {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000", formTypeSelect));
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_SELECT", formTypeSelect));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
@@ -308,7 +308,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 	}
 
 	private void pas730_addRegularVehicleToDBSelect() {
-		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000", formTypeSelect));
+		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_MSRPVERSION_FORMTYPE, 20150101, getState(), "MSRP_2000_SELECT", formTypeSelect));
 
 		// Add new VEHICLEREFDATAVINCONTROL version
 		BigInteger getUniqId = getAvailableIdFromVehicleDataVinControl();
