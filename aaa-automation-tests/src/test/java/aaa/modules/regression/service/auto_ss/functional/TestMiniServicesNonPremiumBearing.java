@@ -707,6 +707,24 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	}
 
 	/**
+	 * @author Megha Gubbala
+	 * Create a policy with 1 driver and 1 vehicle
+	 * Create pended endorsement using DXP
+	 * Add vehicle Using DXP
+	 * Hit driver assignement service to verify Response
+	 * Pas go to assign page and get information
+	 * Hit driver assignement service to verify 1 driver is assigned to both vehicle
+	 * Verify primary for first vehicle and ocasional for 2nd vehicle
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
+	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
+
+		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Bind Manually created endorsement
 	 * @scenario 1. Create active policy
