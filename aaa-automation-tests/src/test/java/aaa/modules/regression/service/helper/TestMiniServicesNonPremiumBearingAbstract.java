@@ -750,7 +750,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas11932_viewDriversInfo(PolicyType policyType, String state){
+	protected void pas11932_viewDriversInfo(PolicyType policyType, String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -1386,25 +1386,25 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		List<TestData> assignmentsUnassigned = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
 		String driverAssignment5 = assignmentsUnassigned.get(0).toString();
 
-		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponce = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponse = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].vehicleDisplayValue));
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].vehicleOid).isNotNull();
-			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponce[0].driverDisplayValue));
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].driverOid).isNotNull();
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[0].relationshipType).isEqualTo("primary");
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse[0].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[0].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment3.contains(driverAssignmentAfterAddingVehicleResponse[0].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[0].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[0].relationshipType).isEqualTo("primary");
 
-			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponce[1].vehicleDisplayValue));
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].vehicleOid).isNotNull();
-			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponce[1].driverDisplayValue));
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].driverOid).isNotNull();
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[1].relationshipType).isEqualTo("primary");
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponse[1].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[1].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignment4.contains(driverAssignmentAfterAddingVehicleResponse[1].driverDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[1].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[1].relationshipType).isEqualTo("primary");
 
-			softly.assertThat(driverAssignment5.contains(driverAssignmentAfterAddingVehicleResponce[2].vehicleDisplayValue));
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].vehicleOid).isNotNull();
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverDisplayValue).isEqualTo("unassigned");
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].driverOid).isNotNull();
-			softly.assertThat(driverAssignmentAfterAddingVehicleResponce[2].relationshipType).isEqualTo("unassigned");
+			softly.assertThat(driverAssignment5.contains(driverAssignmentAfterAddingVehicleResponse[2].vehicleDisplayValue));
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[2].vehicleOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[2].driverDisplayValue).isEqualTo("unassigned");
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[2].driverOid).isNotNull();
+			softly.assertThat(driverAssignmentAfterAddingVehicleResponse[2].relationshipType).isEqualTo("unassigned");
 		});
 		assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1).getCell("Select Driver").controls.comboBoxes.getFirst().setValue("index=1");
 		Tab.buttonTopSave.click();
