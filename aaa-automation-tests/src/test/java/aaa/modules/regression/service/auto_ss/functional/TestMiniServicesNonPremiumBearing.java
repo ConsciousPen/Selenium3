@@ -329,8 +329,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas8275_vinValidate(@Optional("") String state) {
-
-		pas8275_vinValidateCheck(getPolicyType());
+		assertSoftly(softly ->
+				pas8275_vinValidateCheck(softly, getPolicyType())
+		);
 	}
 
 	/**
@@ -347,8 +348,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
-
-		pas8273_CheckIfOnlyActiveVehiclesAreAllowed(getPolicyType());
+		assertSoftly(softly ->
+				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
+		);
 	}
 
 	/**
@@ -590,8 +592,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455", "PAS-10825"})
 	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
-
-		pas9456_9455_PolicyLockUnlockServices();
+		assertSoftly(softly ->
+				pas9456_9455_PolicyLockUnlockServicesBody(softly)
+		);
 	}
 
 	/**

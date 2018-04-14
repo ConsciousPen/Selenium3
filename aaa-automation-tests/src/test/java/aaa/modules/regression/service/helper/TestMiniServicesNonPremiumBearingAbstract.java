@@ -533,8 +533,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		getPremiumAndCoverageTabElement().saveAndExit();
 	}
 
-	protected void pas8275_vinValidateCheck(PolicyType policyType) {
-
+	protected void pas8275_vinValidateCheck(SoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
 				+ "where 1=1\n"
@@ -557,50 +556,38 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String vin1 = "aaaa"; //VIN too short
 		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinValidate(policyNumber, vin1, endorsementDate);
-		assertSoftly(softly -> {
-			softly.assertThat(response.getVehicles()).isEmpty();
-			softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid VIN length");
-		});
+		softly.assertThat(response.getVehicles()).isEmpty();
+		softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid VIN length");
 
 		String vin2 = "12345678901234567890"; //VIN too long
 		AAAVehicleVinInfoRestResponseWrapper response2 = HelperCommon.executeVinValidate(policyNumber, vin2, null);
-		assertSoftly(softly -> {
-			softly.assertThat(response2.getVehicles()).isEmpty();
-			softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
-		});
+		softly.assertThat(response2.getVehicles()).isEmpty();
+		softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
 
 		String vin3 = "4T1BF1FK0H1234567"; //VIN check digit failed
 		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
-		assertSoftly(softly -> {
-			softly.assertThat(response3.getVehicles()).isEmpty();
-			softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
-		});
+		softly.assertThat(response3.getVehicles()).isEmpty();
+		softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
 
 		String vin4 = "4T1BF1FK0H"; //VIN from VIN table but too short
 		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
-		assertSoftly(softly -> {
-			softly.assertThat(response4.getVehicles()).isEmpty();
-			softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid VIN length");
-		});
+		softly.assertThat(response4.getVehicles()).isEmpty();
+		softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid VIN length");
 
 		String vin5 = "1D30E42J451234567"; //VIN NOT from VIN table to Check VIN service
 		AAAVehicleVinInfoRestResponseWrapper response5 = HelperCommon.executeVinValidate(policyNumber, vin5, null);
-		assertSoftly(softly -> {
-			softly.assertThat(response5.getVehicles()).isEmpty();
-			softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
-		});
+		softly.assertThat(response5.getVehicles()).isEmpty();
+		softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
 
 		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
-		assertSoftly(softly -> {
-			softly.assertThat(response0.getVehicles().get(0).vin).isEqualTo(vin0);
-			softly.assertThat(response0.getVehicles().get(0).year.toString()).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).make).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).modelText).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).seriesText).isNotEmpty();
-			softly.assertThat(response0.getVehicles().get(0).bodyStyleCd).isNotEmpty();
-			softly.assertThat(response0.getValidationMessage()).isEmpty();
-		});
+		softly.assertThat(response0.getVehicles().get(0).vin).isEqualTo(vin0);
+		softly.assertThat(response0.getVehicles().get(0).year.toString()).isNotEmpty();
+		softly.assertThat(response0.getVehicles().get(0).make).isNotEmpty();
+		softly.assertThat(response0.getVehicles().get(0).modelText).isNotEmpty();
+		softly.assertThat(response0.getVehicles().get(0).seriesText).isNotEmpty();
+		softly.assertThat(response0.getVehicles().get(0).bodyStyleCd).isNotEmpty();
+		softly.assertThat(response0.getValidationMessage()).isEmpty();
 	}
 
 	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
@@ -620,9 +607,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Start endorsement service call
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
-		assertSoftly(softly ->
-				softly.assertThat(response.policyNumber).isEqualTo(policyNumber)
-		);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
 		//check that new endorsement was created
 		mainApp().reopen();
@@ -630,7 +615,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		pas8785_createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
 	}
 
-	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(PolicyType policyType) {
+	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(SoftAssertions softly, PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		VehicleTab vehicleTab = new VehicleTab();
@@ -672,39 +657,35 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle vehicleSt = Arrays.stream(response).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 		Vehicle vehicleNd = Arrays.stream(response).filter(vehicle -> vehIdentificationNo2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 
-		assertSoftly(softly -> {
-			softly.assertThat(vehicleSt).isNotNull();
-			softly.assertThat(vehicleSt.modelYear).isEqualTo(modelYear1);
-			softly.assertThat(vehicleSt.manufacturer).isEqualTo(manufacturer1);
-			softly.assertThat(vehicleSt.series).isEqualTo(series1);
-			softly.assertThat(vehicleSt.model).isEqualTo(model1);
-			softly.assertThat(vehicleSt.bodyStyle).isEqualTo(bodyStyle1);
-			softly.assertThat(vehicleSt.vehicleStatus).isEqualTo("active");
-			softly.assertThat(vehicleSt.ownership).isEqualTo(ownership1);
-			softly.assertThat(vehicleSt.usage).isEqualTo(usage1);
-			softly.assertThat(vehicleSt.salvaged).isEqualTo(false);
-			softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt.garagingDifferent))
-					.isEqualTo(garagingDifferent1);
-			softly.assertThat(vehicleSt.antiTheft).isEqualTo(antiTheft1);
-			softly.assertThat(vehicleSt.vehTypeCd).isEqualTo(vehType1);
-			softly.assertThat(vehicleSt.oid).isNotEmpty();
+		softly.assertThat(vehicleSt).isNotNull();
+		softly.assertThat(vehicleSt.modelYear).isEqualTo(modelYear1);
+		softly.assertThat(vehicleSt.manufacturer).isEqualTo(manufacturer1);
+		softly.assertThat(vehicleSt.series).isEqualTo(series1);
+		softly.assertThat(vehicleSt.model).isEqualTo(model1);
+		softly.assertThat(vehicleSt.bodyStyle).isEqualTo(bodyStyle1);
+		softly.assertThat(vehicleSt.vehicleStatus).isEqualTo("active");
+		softly.assertThat(vehicleSt.ownership).isEqualTo(ownership1);
+		softly.assertThat(vehicleSt.usage).isEqualTo(usage1);
+		softly.assertThat(vehicleSt.salvaged).isEqualTo(false);
+		softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt.garagingDifferent)).isEqualTo(garagingDifferent1);
+		softly.assertThat(vehicleSt.antiTheft).isEqualTo(antiTheft1);
+		softly.assertThat(vehicleSt.vehTypeCd).isEqualTo(vehType1);
+		softly.assertThat(vehicleSt.oid).isNotEmpty();
 
-			softly.assertThat(vehicleNd).isNotNull();
-			softly.assertThat(vehicleNd.modelYear).isEqualTo(modelYear2);
-			softly.assertThat(vehicleNd.manufacturer).isEqualTo(manufacturer2);
-			softly.assertThat(vehicleNd.series).isEqualTo(series2);
-			softly.assertThat(vehicleNd.model).isEqualTo(model2);
-			softly.assertThat(vehicleNd.bodyStyle).isEqualTo(bodyStyle2);
-			softly.assertThat(vehicleNd.vehicleStatus).isEqualTo("active");
-			softly.assertThat(vehicleNd.ownership).isEqualTo(ownership2);
-			softly.assertThat(vehicleNd.usage).isEqualTo(usage2);
-			softly.assertThat(vehicleNd.salvaged).isEqualTo(false);
-			softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd.garagingDifferent))
-					.isEqualTo(garagingDifferent2);
-			softly.assertThat(vehicleNd.antiTheft).isEqualTo(antiTheft2);
-			softly.assertThat(vehicleNd.vehTypeCd).isEqualTo(vehType2);
-			softly.assertThat(vehicleNd.oid).isNotEmpty();
-		});
+		softly.assertThat(vehicleNd).isNotNull();
+		softly.assertThat(vehicleNd.modelYear).isEqualTo(modelYear2);
+		softly.assertThat(vehicleNd.manufacturer).isEqualTo(manufacturer2);
+		softly.assertThat(vehicleNd.series).isEqualTo(series2);
+		softly.assertThat(vehicleNd.model).isEqualTo(model2);
+		softly.assertThat(vehicleNd.bodyStyle).isEqualTo(bodyStyle2);
+		softly.assertThat(vehicleNd.vehicleStatus).isEqualTo("active");
+		softly.assertThat(vehicleNd.ownership).isEqualTo(ownership2);
+		softly.assertThat(vehicleNd.usage).isEqualTo(usage2);
+		softly.assertThat(vehicleNd.salvaged).isEqualTo(false);
+		softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd.garagingDifferent)).isEqualTo(garagingDifferent2);
+		softly.assertThat(vehicleNd.antiTheft).isEqualTo(antiTheft2);
+		softly.assertThat(vehicleNd.vehTypeCd).isEqualTo(vehType2);
+		softly.assertThat(vehicleNd.oid).isNotEmpty();
 
 		VehicleTab.buttonCancel.click();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -720,39 +701,35 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle vehicleSt1 = Arrays.stream(response1).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 		Vehicle vehicleNd1 = Arrays.stream(response1).filter(vehicle -> vehIdentificationNo2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 
-		assertSoftly(softly -> {
-			softly.assertThat(vehicleSt1).isNotNull();
-			softly.assertThat(vehicleSt1.modelYear).isEqualTo(modelYear1);
-			softly.assertThat(vehicleSt1.manufacturer).isEqualTo(manufacturer1);
-			softly.assertThat(vehicleSt1.series).isEqualTo(series1);
-			softly.assertThat(vehicleSt1.model).isEqualTo(model1);
-			softly.assertThat(vehicleSt1.bodyStyle).isEqualTo(bodyStyle1);
-			softly.assertThat(vehicleSt1.vehicleStatus).isEqualTo("active");
-			softly.assertThat(vehicleSt1.ownership).isEqualTo(ownership1);
-			softly.assertThat(vehicleSt1.usage).isEqualTo(usage1);
-			softly.assertThat(vehicleSt1.salvaged).isEqualTo(false);
-			softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt1.garagingDifferent))
-					.isEqualTo(garagingDifferent1);
-			softly.assertThat(vehicleSt1.antiTheft).isEqualTo(antiTheft1);
-			softly.assertThat(vehicleSt1.vehTypeCd).isEqualTo(vehType1);
-			softly.assertThat(vehicleSt1.oid).isNotEmpty();
+		softly.assertThat(vehicleSt1).isNotNull();
+		softly.assertThat(vehicleSt1.modelYear).isEqualTo(modelYear1);
+		softly.assertThat(vehicleSt1.manufacturer).isEqualTo(manufacturer1);
+		softly.assertThat(vehicleSt1.series).isEqualTo(series1);
+		softly.assertThat(vehicleSt1.model).isEqualTo(model1);
+		softly.assertThat(vehicleSt1.bodyStyle).isEqualTo(bodyStyle1);
+		softly.assertThat(vehicleSt1.vehicleStatus).isEqualTo("active");
+		softly.assertThat(vehicleSt1.ownership).isEqualTo(ownership1);
+		softly.assertThat(vehicleSt1.usage).isEqualTo(usage1);
+		softly.assertThat(vehicleSt1.salvaged).isEqualTo(false);
+		softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt1.garagingDifferent)).isEqualTo(garagingDifferent1);
+		softly.assertThat(vehicleSt1.antiTheft).isEqualTo(antiTheft1);
+		softly.assertThat(vehicleSt1.vehTypeCd).isEqualTo(vehType1);
+		softly.assertThat(vehicleSt1.oid).isNotEmpty();
 
-			softly.assertThat(vehicleNd1).isNotNull();
-			softly.assertThat(vehicleNd1.modelYear).isEqualTo(modelYear2);
-			softly.assertThat(vehicleNd1.manufacturer).isEqualTo(manufacturer2);
-			softly.assertThat(vehicleNd1.series).isEqualTo(series2);
-			softly.assertThat(vehicleNd1.model).isEqualTo(model2);
-			softly.assertThat(vehicleNd1.bodyStyle).isEqualTo(bodyStyle2);
-			softly.assertThat(vehicleNd1.vehicleStatus).isEqualTo("active");
-			softly.assertThat(vehicleNd1.ownership).isEqualTo(ownership2);
-			softly.assertThat(vehicleNd1.usage).isEqualTo(usage2);
-			softly.assertThat(vehicleNd1.salvaged).isEqualTo(false);
-			softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd1.garagingDifferent))
-					.isEqualTo(garagingDifferent2);
-			softly.assertThat(vehicleNd1.antiTheft).isEqualTo(antiTheft2);
-			softly.assertThat(vehicleNd1.vehTypeCd).isEqualTo(vehType2);
-			softly.assertThat(vehicleNd1.oid).isNotEmpty();
-		});
+		softly.assertThat(vehicleNd1).isNotNull();
+		softly.assertThat(vehicleNd1.modelYear).isEqualTo(modelYear2);
+		softly.assertThat(vehicleNd1.manufacturer).isEqualTo(manufacturer2);
+		softly.assertThat(vehicleNd1.series).isEqualTo(series2);
+		softly.assertThat(vehicleNd1.model).isEqualTo(model2);
+		softly.assertThat(vehicleNd1.bodyStyle).isEqualTo(bodyStyle2);
+		softly.assertThat(vehicleNd1.vehicleStatus).isEqualTo("active");
+		softly.assertThat(vehicleNd1.ownership).isEqualTo(ownership2);
+		softly.assertThat(vehicleNd1.usage).isEqualTo(usage2);
+		softly.assertThat(vehicleNd1.salvaged).isEqualTo(false);
+		softly.assertThat(BooleanUtils.toStringYesNo(vehicleNd1.garagingDifferent)).isEqualTo(garagingDifferent2);
+		softly.assertThat(vehicleNd1.antiTheft).isEqualTo(antiTheft2);
+		softly.assertThat(vehicleNd1.vehTypeCd).isEqualTo(vehType2);
+		softly.assertThat(vehicleNd1.oid).isNotEmpty();
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
@@ -776,75 +753,71 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		Vehicle vehicleSt2 = Arrays.stream(response2).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 		Vehicle vehicleRd2 = Arrays.stream(response2).filter(vehicle -> vehIdentificationNo3.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
 
-		assertSoftly(softly -> {
-			softly.assertThat(vehicleSt2).isNotNull();
-			softly.assertThat(vehicleSt2.modelYear).isEqualTo(modelYear1);
-			softly.assertThat(vehicleSt2.manufacturer).isEqualTo(manufacturer1);
-			softly.assertThat(vehicleSt2.series).isEqualTo(series1);
-			softly.assertThat(vehicleSt2.model).isEqualTo(model1);
-			softly.assertThat(vehicleSt2.bodyStyle).isEqualTo(bodyStyle1);
-			softly.assertThat(vehicleSt2.vehicleStatus).isEqualTo("active");
-			softly.assertThat(vehicleSt2.ownership).isEqualTo(ownership1);
-			softly.assertThat(vehicleSt2.usage).isEqualTo(usage1);
-			softly.assertThat(vehicleSt2.salvaged).isEqualTo(false);
-			softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt2.garagingDifferent))
-					.isEqualTo(garagingDifferent2);
-			softly.assertThat(vehicleSt2.antiTheft).isEqualTo(antiTheft1);
-			softly.assertThat(vehicleSt2.vehTypeCd).isEqualTo(vehType1);
-			softly.assertThat(vehicleSt2.oid).isNotEmpty();
+		softly.assertThat(vehicleSt2).isNotNull();
+		softly.assertThat(vehicleSt2.modelYear).isEqualTo(modelYear1);
+		softly.assertThat(vehicleSt2.manufacturer).isEqualTo(manufacturer1);
+		softly.assertThat(vehicleSt2.series).isEqualTo(series1);
+		softly.assertThat(vehicleSt2.model).isEqualTo(model1);
+		softly.assertThat(vehicleSt2.bodyStyle).isEqualTo(bodyStyle1);
+		softly.assertThat(vehicleSt2.vehicleStatus).isEqualTo("active");
+		softly.assertThat(vehicleSt2.ownership).isEqualTo(ownership1);
+		softly.assertThat(vehicleSt2.usage).isEqualTo(usage1);
+		softly.assertThat(vehicleSt2.salvaged).isEqualTo(false);
+		softly.assertThat(BooleanUtils.toStringYesNo(vehicleSt2.garagingDifferent)).isEqualTo(garagingDifferent2);
+		softly.assertThat(vehicleSt2.antiTheft).isEqualTo(antiTheft1);
+		softly.assertThat(vehicleSt2.vehTypeCd).isEqualTo(vehType1);
+		softly.assertThat(vehicleSt2.oid).isNotEmpty();
 
-			softly.assertThat(vehicleRd2).isNotNull();
-			softly.assertThat(vehicleRd2.modelYear).isEqualTo(modelYear3);
-			softly.assertThat(vehicleRd2.manufacturer).isEqualTo(manufacturer3);
-			softly.assertThat(vehicleRd2.series).isEqualTo(series3);
-			softly.assertThat(vehicleRd2.model).isEqualTo(model3);
-			softly.assertThat(vehicleRd2.bodyStyle).isEqualTo(bodyStyle3);
-			softly.assertThat(vehicleRd2.vehicleStatus).isEqualTo("active");
-			softly.assertThat(vehicleRd2.ownership).isEqualTo(ownership3);
-			softly.assertThat(vehicleRd2.usage).isEqualTo(usage3);
-			softly.assertThat(vehicleRd2.salvaged).isEqualTo(false);
-			softly.assertThat(BooleanUtils.toStringYesNo(vehicleRd2.garagingDifferent))
-					.isEqualTo(garagingDifferent3);
-			softly.assertThat(vehicleRd2.antiTheft).isEqualTo(antiTheft3);
-			softly.assertThat(vehicleRd2.vehTypeCd).isEqualTo(vehType3);
-			softly.assertThat(vehicleRd2.oid).isNotEmpty();
-		});
+		softly.assertThat(vehicleRd2).isNotNull();
+		softly.assertThat(vehicleRd2.modelYear).isEqualTo(modelYear3);
+		softly.assertThat(vehicleRd2.manufacturer).isEqualTo(manufacturer3);
+		softly.assertThat(vehicleRd2.series).isEqualTo(series3);
+		softly.assertThat(vehicleRd2.model).isEqualTo(model3);
+		softly.assertThat(vehicleRd2.bodyStyle).isEqualTo(bodyStyle3);
+		softly.assertThat(vehicleRd2.vehicleStatus).isEqualTo("active");
+		softly.assertThat(vehicleRd2.ownership).isEqualTo(ownership3);
+		softly.assertThat(vehicleRd2.usage).isEqualTo(usage3);
+		softly.assertThat(vehicleRd2.salvaged).isEqualTo(false);
+		softly.assertThat(BooleanUtils.toStringYesNo(vehicleRd2.garagingDifferent)).isEqualTo(garagingDifferent3);
+		softly.assertThat(vehicleRd2.antiTheft).isEqualTo(antiTheft3);
+		softly.assertThat(vehicleRd2.vehTypeCd).isEqualTo(vehType3);
+		softly.assertThat(vehicleRd2.oid).isNotEmpty();
 	}
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType, String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		String notAvailableForRating = "nafr";
-		String availableForRating = "afr";
-		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_ThreeDrivers").getTestDataList("DriverTab")).resolveLinks();
-
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		//Drivers info from testData
-		String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
-		String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
-
-		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
-		String middleName2 = td.getTestDataList("DriverTab").get(1).getValue("Middle Name");
-		String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
-		String suffix2 = td.getTestDataList("DriverTab").get(1).getValue("Suffix");
-
-		String firstName3 = td.getTestDataList("DriverTab").get(2).getValue("First Name");
-		String middleName3 = td.getTestDataList("DriverTab").get(2).getValue("Middle Name");
-		String lastName3 = td.getTestDataList("DriverTab").get(2).getValue("Last Name");
-		String suffix3 = td.getTestDataList("DriverTab").get(2).getValue("Suffix");
-
-		//Hit service for the first time
-		DriversDto[] response = HelperCommon.executeViewDrivers(policyNumber);
-		DriversDto driverSt = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-		DriversDto driverNd = Arrays.stream(response).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
-		DriversDto driverRd = Arrays.stream(response).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
-
 		assertSoftly(softly -> {
+			mainApp().open();
+			createCustomerIndividual();
+			String notAvailableForRating = "nafr";
+			String availableForRating = "afr";
+			TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
+			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_ThreeDrivers").getTestDataList("DriverTab")).resolveLinks();
+
+			policyType.get().createPolicy(testData);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+			//Drivers info from testData
+			String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
+			String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
+
+			String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
+			String middleName2 = td.getTestDataList("DriverTab").get(1).getValue("Middle Name");
+			String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
+			String suffix2 = td.getTestDataList("DriverTab").get(1).getValue("Suffix");
+
+			String firstName3 = td.getTestDataList("DriverTab").get(2).getValue("First Name");
+			String middleName3 = td.getTestDataList("DriverTab").get(2).getValue("Middle Name");
+			String lastName3 = td.getTestDataList("DriverTab").get(2).getValue("Last Name");
+			String suffix3 = td.getTestDataList("DriverTab").get(2).getValue("Suffix");
+
+			//Hit service for the first time
+			DriversDto[] response = HelperCommon.executeViewDrivers(policyNumber);
+			DriversDto driverSt = Arrays.stream(response).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driverNd = Arrays.stream(response).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+			DriversDto driverRd = Arrays.stream(response).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
+
 			softly.assertThat(driverSt).isNotNull();
 			softly.assertThat(driverSt.lastName).isEqualTo(lastName1);
 			softly.assertThat(driverSt.oid).isNotEmpty();
@@ -862,24 +835,22 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverRd.suffix).isEqualTo(suffix3);
 			softly.assertThat(driverRd.driverType).isEqualTo(notAvailableForRating);
 			softly.assertThat(driverRd.oid).isNotEmpty();
-		});
 
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		DriverTab.tableDriverList.removeRow(3);
-		DriverTab.tableDriverList.selectRow(2);
-		driverTab.getAssetList().getAsset(MIDDLE_NAME).setValue("Kevin");
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			DriverTab.tableDriverList.removeRow(3);
+			DriverTab.tableDriverList.selectRow(2);
+			driverTab.getAssetList().getAsset(MIDDLE_NAME).setValue("Kevin");
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			new PremiumAndCoveragesTab().calculatePremium();
+			premiumAndCoveragesTab.saveAndExit();
 
-		//Check dxp service with pending endorsement
-		DriversDto[] response2 = HelperCommon.executeViewDrivers(policyNumber);
-		DriversDto driverSt2 = Arrays.stream(response2).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-		DriversDto driverNd2 = Arrays.stream(response2).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
-		DriversDto driverRd2 = Arrays.stream(response2).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
+			//Check dxp service with pending endorsement
+			DriversDto[] response2 = HelperCommon.executeViewDrivers(policyNumber);
+			DriversDto driverSt2 = Arrays.stream(response2).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driverNd2 = Arrays.stream(response2).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+			DriversDto driverRd2 = Arrays.stream(response2).filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
 
-		assertSoftly(softly -> {
 			softly.assertThat(driverSt2).isNotNull();
 			softly.assertThat(driverSt2.lastName).isEqualTo(lastName1);
 			softly.assertThat(driverSt2.driverType).isEqualTo(availableForRating);
@@ -896,14 +867,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverRd2.lastName).isEqualTo(lastName3);
 			softly.assertThat(driverRd2.suffix).isEqualTo(suffix3);
 			softly.assertThat(driverRd2.oid).isNotEmpty();
-		});
 
-		//Check dxp service what we have in endorsement
-		DriversDto[] response3 = HelperCommon.executeEndorsementViewDrivers(policyNumber);
-		DriversDto driverSt3 = Arrays.stream(response3).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-		DriversDto driverNd3 = Arrays.stream(response3).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+			//Check dxp service what we have in endorsement
+			DriversDto[] response3 = HelperCommon.executeEndorsementViewDrivers(policyNumber);
+			DriversDto driverSt3 = Arrays.stream(response3).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driverNd3 = Arrays.stream(response3).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
 
-		assertSoftly(softly -> {
 			softly.assertThat(driverSt3).isNotNull();
 			softly.assertThat(driverSt3.lastName).isEqualTo(lastName1);
 			softly.assertThat(driverSt3.driverType).isEqualTo(availableForRating);
@@ -914,18 +883,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverNd3.lastName).isEqualTo(lastName2);
 			softly.assertThat(driverNd3.suffix).isEqualTo(suffix2);
 			softly.assertThat(driverNd3.oid).isNotEmpty();
-		});
 
-		//Issue pended endorsement
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
+			//Issue pended endorsement
+			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+			testEValueDiscount.simplifiedPendedEndorsementIssue();
 
-		//Check dxp service if endorsement changes were applied
-		DriversDto[] response4 = HelperCommon.executeViewDrivers(policyNumber);
-		DriversDto driverSt4 = Arrays.stream(response4).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-		DriversDto driverNd4 = Arrays.stream(response4).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
+			//Check dxp service if endorsement changes were applied
+			DriversDto[] response4 = HelperCommon.executeViewDrivers(policyNumber);
+			DriversDto driverSt4 = Arrays.stream(response4).filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
+			DriversDto driverNd4 = Arrays.stream(response4).filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
 
-		assertSoftly(softly -> {
 			softly.assertThat(driverSt4).isNotNull();
 			softly.assertThat(driverSt4.lastName).isEqualTo(lastName1);
 			softly.assertThat(driverSt4.driverType).isEqualTo(availableForRating);
@@ -1511,7 +1478,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas9716_policySummaryForConversionManualBody() {
 		assertSoftly(softly -> {
-
 			LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 			mainApp().open();
 			createCustomerIndividual();
@@ -1738,7 +1704,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 	}
 
-	protected void pas9456_9455_PolicyLockUnlockServices() {
+	protected void pas9456_9455_PolicyLockUnlockServicesBody(SoftAssertions softly) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 		mainApp().open();
@@ -1747,10 +1713,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Lock policy id1 and check service response
 		PolicyLockUnlockDto response = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), sessionId1);
-		assertSoftly(softly -> {
-			softly.assertThat(response.policyNumber).isEqualTo(policyNumber);
-			softly.assertThat(response.status).isEqualTo("Locked");
-		});
+		softly.assertThat(response.policyNumber).isEqualTo(policyNumber);
+		softly.assertThat(response.status).isEqualTo("Locked");
 
 		//Hit start endorsement info service with Id1
 		ValidateEndorsementResponse endorsementInfoResp1 = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate, sessionId1);
@@ -1762,10 +1726,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Try to lock policy with id2
 		PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), sessionId2);
-		assertSoftly(softly -> {
-			softly.assertThat(response1.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response1.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
-		});
+		softly.assertThat(response1.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
+		softly.assertThat(response1.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1777,34 +1739,26 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Try unlock policy with id2
 		PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), sessionId2);
-		assertSoftly(softly -> {
-			softly.assertThat(response2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response2.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
-		});
+		softly.assertThat(response2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
+		softly.assertThat(response2.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 		//Unlock policy with id1
 		PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), sessionId1);
-		assertSoftly(softly -> {
-			softly.assertThat(response3.policyNumber).isEqualTo(policyNumber);
-			softly.assertThat(response3.status).isEqualTo("Unlocked");
-		});
+		softly.assertThat(response3.policyNumber).isEqualTo(policyNumber);
+		softly.assertThat(response3.status).isEqualTo("Unlocked");
 
 		//Start do endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		//Check if policy can be locked using lock service
 		PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), sessionId1);
-		assertSoftly(softly -> {
-			softly.assertThat(response4.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response4.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
-		});
+		softly.assertThat(response4.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
+		softly.assertThat(response4.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 		//Check if policy can be unlocked using unlock service
 		PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), sessionId1);
-		assertSoftly(softly -> {
-			softly.assertThat(response5.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response5.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
-		});
+		softly.assertThat(response5.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
+		softly.assertThat(response5.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 	}
 
 	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus() {
@@ -1950,29 +1904,23 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(vehicle4.vehicleStatus).isEqualTo("active");
 			softly.assertThat(vehicle4.vehTypeCd).isEqualTo("Conversion");
 
+			// Perform endorsement
+			AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+			SearchPage.openPolicy(policyNumber);
+
+			//Add new vehicle to have pending vehicle
+			String purchaseDate = "2013-02-22";
+			String vin2 = "1HGFA16526L081415";
+			Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+			assertThat(addVehicleResponse.oid).isNotEmpty();
+
+			Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+			List<Vehicle> sortedVehicles1 = Arrays.asList(viewVehicleEndorsementResponse);
+			sortedVehicles1.sort(new Vehicle.VehicleComparator());
+			softly.assertThat(viewVehicleEndorsementResponse).containsAll(sortedVehicles1);
 		});
-
-		// Perform endorsement
-		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(response.policyNumber).isEqualTo(policyNumber);
-
-		SearchPage.openPolicy(policyNumber);
-
-		//Add new vehicle to have pending vehicle
-		String purchaseDate = "2013-02-22";
-		String vin2 = "1HGFA16526L081415";
-		Vehicle addVehicleResponse = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-		assertThat(addVehicleResponse.oid).isNotEmpty();
-
-		Vehicle[] viewVehicleEndorsementResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-		List<Vehicle> sortedVehicles1 = Arrays.asList(viewVehicleEndorsementResponse);
-		sortedVehicles1.sort(new Vehicle.VehicleComparator());
-		assertSoftly(softly ->
-
-				assertThat(viewVehicleEndorsementResponse).containsAll(sortedVehicles1)
-
-		);
-
 	}
 
 	protected void pas9610_UpdateVehicleService() {
@@ -2004,11 +1952,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
 			softly.assertThat(updateVehicleResponse.antiTheft).isEqualTo("STD");
 			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
-		});
 
-		//verify updated information with pendedEndorsementValidateVehicleInfo
-		Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-		assertSoftly(softly -> {
+			//verify updated information with pendedEndorsementValidateVehicleInfo
+			Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].modelYear).isEqualTo(updateVehicleResponse.modelYear);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].manufacturer).isEqualTo(updateVehicleResponse.manufacturer);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].series).isEqualTo(updateVehicleResponse.series);
@@ -2143,9 +2089,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin = "4S2CK58W8X4307498";
 		VehicleTab vehicleTab = new VehicleTab();
 		Vehicle addVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
-		assertSoftly(softly ->
-				softly.assertThat(addVehicle.oid).isNotEmpty()
-		);
+		assertThat(addVehicle.oid).isNotEmpty();
 
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
