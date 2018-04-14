@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import org.openqa.selenium.By;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
