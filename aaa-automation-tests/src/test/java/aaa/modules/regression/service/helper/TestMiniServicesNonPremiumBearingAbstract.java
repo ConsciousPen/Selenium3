@@ -1108,7 +1108,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas9716_policySummaryForPolicy(PolicyType policyType, String state) {
 		assertSoftly(softly -> {
-/*			TestData td = getPolicyTD("DataGather", "TestData").adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
+			TestData td = getPolicyTD("DataGather", "TestData").adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
 					AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 					AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
 					DateTimeUtils.getCurrentDateTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
@@ -1116,10 +1116,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			mainApp().open();
 			createCustomerIndividual();
 			policyType.get().createPolicy(td);
-			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);*/
+			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
 
-			mainApp().open();
-			SearchPage.openPolicy("CAAC952918997");
+/*			mainApp().open();
+			SearchPage.openPolicy("CAAC952918997");*/
 
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
