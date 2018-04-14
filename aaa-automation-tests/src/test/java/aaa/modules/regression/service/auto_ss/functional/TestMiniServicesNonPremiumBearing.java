@@ -556,9 +556,8 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
 	public void pas9716_policySummaryForConversionManual(@Optional("AZ") String state) {
-		assertSoftly(softly -> {
-			pas9716_policySummaryForConversionManualBody();
-		});
+
+		pas9716_policySummaryForConversionManualBody();
 	}
 
 	@Parameters({"state"})

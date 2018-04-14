@@ -1324,8 +1324,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		mainApp().open();
-		//String policyNumber = "VASS952918570";
-
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_AllDrivers").getTestDataList("DriverTab")).resolveLinks();
@@ -2155,7 +2153,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
 			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible);
-			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);//premiumAndCoveragesTab.saveAndExit();
+			softly.assertThat(new Dollar(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay)).isEqualTo(collisionDeductible);
 
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
 			softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
@@ -2205,7 +2203,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageDescription).isEqualTo("Collision Deductible");
 			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimit)).isEqualTo(collisionDeductible);
 			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageLimitDisplay))
-					.isEqualTo(collisionDeductible);//premiumAndCoveragesTab.saveAndExit();
+					.isEqualTo(collisionDeductible);
 
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageType).isEqualTo("Deductible");
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
