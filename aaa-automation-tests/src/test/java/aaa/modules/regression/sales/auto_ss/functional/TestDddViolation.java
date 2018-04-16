@@ -191,7 +191,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private void checkDriverDiscount(TestData driverTD) {
 		String driverWithDiscountName = getDriverFullName(driverTD);
-		//BUG QC 26288: PAS2_REGR_070-301CL Defensive driver discount is not displayed in driver discount section of policy consolidated page.
+		//BUG PAS-12755: Defensive driver discount is not displayed properly in driver discount section.
 		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.
 				contains(String.format("Defensive Driving Course Discount(%s)", driverWithDiscountName));
 	}
