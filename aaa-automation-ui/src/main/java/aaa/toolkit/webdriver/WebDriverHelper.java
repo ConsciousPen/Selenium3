@@ -1,8 +1,10 @@
 package aaa.toolkit.webdriver;
 
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -12,6 +14,10 @@ import toolkit.webdriver.BrowserController;
 
 public class WebDriverHelper {
 	protected static Logger log = LoggerFactory.getLogger(WebDriverHelper.class);
+
+	public static String getWindowHandle() {
+		return BrowserController.get().driver().getWindowHandle();
+	}
 
 	public static String getInnerText(By locator) {
 		return getInnerText(locator, false);
@@ -53,15 +59,28 @@ public class WebDriverHelper {
 		return number;
 	}
 
-	public static String getWindowHandle() {
-		return BrowserController.get().driver().getWindowHandle();
-	}
-
 	public static void switchToWindow(String windowHandle) {
 		BrowserController.get().driver().switchTo().window(windowHandle);
 	}
 
 	public static void switchToDefault() {
-		BrowserController.get().driver().switchTo().defaultContent();
+		WebDriver driver = BrowserController.get().driver();
+		driver.switchTo().defaultContent();
+		closeAllSecondaryWindows(driver.getWindowHandle());
+
+	}
+
+	public static void closeAllSecondaryWindows(String primaryHandle) {
+		WebDriver driver = BrowserController.get().driver();
+		Set<String> handles = driver.getWindowHandles();
+		if (handles.size() > 1) {
+			handles.remove(primaryHandle);
+			for (String handle : handles) {
+				if (!primaryHandle.equals(handle)) {
+					driver.switchTo().window(handle).close();
+				}
+			}
+		}
+		driver.switchTo().window(primaryHandle);
 	}
 }
