@@ -31,16 +31,16 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	/**
 	* * @author Igor Garkusha
-	* @name Test Paperless Preferences properties and Inquiry mode
-	* @scenario 1. Create Customer1.
+	* @name Test NB - Defensive Driver Discount, Minor Violation
+	* @scenario
+	 * 1. Create Customer.
 	* 2. Create Auto SS PA Quote.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
+	* 5. Fill All other required data up to Driver Activity Reports Tab.
+	* 6. Order Reports.
+	* 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	* @details
 	*/
 	@Parameters({"state"})
@@ -68,15 +68,15 @@ public class TestDddViolation extends AutoSSBaseTest {
 	/**
 	* @author Igor Garkusha
 	* @name Test Endorsement - Defensive Driver Discount, Minor Violation
-	* @scenario 1. Create Auto SS PA policy1.
-	* 2. Endorse policy1.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS PA Policy and Endorse it.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	* @details
 	*/
 	@Parameters({"state"})
@@ -95,15 +95,15 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	/** @author Igor Garkusha
 	* @name Test Renewal- Defensive Driver Discount, Minor Violation
-	* @scenario 1. Create Auto SS PA policy1.
-	* 2. Renew policy1.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS PA Policy and Renew it.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	* @details
 	*/
 	@Parameters({"state"})
@@ -123,14 +123,14 @@ public class TestDddViolation extends AutoSSBaseTest {
 	/** @author Dominykas Razgunas
 	 * @name Test Conversion - Defensive Driver Discount, Minor Violation
 	 * @scenario
-	 * 1. Create Auto SS PA conversion.
-	 * 2. Add drivers eligible for 'Defensive Driver Course'.
-	 * 3. Fill All other required data up to Premium&Coverages Tab.
-	 * 4. Verify that Defensive driver Discount is applied.
-	 * 5. Navigate to Driver Activity Reports Tab.
+	 * 1. Create Customer.
+	 * 2. Create Auto SS PA Conversion Policy.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M). Remove one driver as there can only be 6 for the conversion policy
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
 	 * 6. Order Reports.
 	 * 7. Navigate to P&C Tab.
-	 * 8. Check DDD discount applied to.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	 * @details
 	 */
 	@Parameters({"state"})
