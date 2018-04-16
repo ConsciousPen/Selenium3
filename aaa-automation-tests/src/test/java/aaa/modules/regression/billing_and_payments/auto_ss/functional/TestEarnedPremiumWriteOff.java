@@ -11,6 +11,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.functional.TestEarnedPremiumWriteOffAbstract;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -31,7 +32,8 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	public void changeStatusFromDeclineToProposed(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
-		policy.renew().perform();
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
