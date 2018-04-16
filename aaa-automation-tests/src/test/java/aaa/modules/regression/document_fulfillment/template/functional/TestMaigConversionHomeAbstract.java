@@ -1,17 +1,5 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
-import static org.apache.commons.lang.StringUtils.defaultIfBlank;
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.inject.internal.ImmutableList;
-import com.google.inject.internal.ImmutableMap;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -32,7 +20,21 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.inject.internal.ImmutableList;
+import com.google.inject.internal.ImmutableMap;
 import toolkit.datax.TestData;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static org.apache.commons.lang.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang.StringUtils.substringAfterLast;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
@@ -212,7 +214,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		for (Document document : documents) {
-			verifyRenewalDocumentTagData(document, testData, isPupPresent, RENEWAL_OFFER);
+			verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
 			if(state.equals("NJ") || state.equals("PA")){
 				verifyTagData(document, "UwCoNm", "CSAA General Insurance Company");
 			}
@@ -659,7 +661,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private void verifyRenewalDocumentTagData(Document document, TestData testData, boolean isPupPresent, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
 		assertThat(document.getxPathInfo()).isEqualTo("/Policy/Renewal");
-		if(RENEWAL_BILL.equals(eventName) || RENEWAL_OFFER.equals(eventName)){
+		if(RENEWAL_BILL.equals(eventName)){
 			verifyTagData(document, "ConvFlgYN", "Y");
 		}
 		else{
@@ -674,6 +676,28 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 			verifyTagData(document, "ThrdPrtyLnNum", "12345678");
 		}
 	}
+
+	/**
+	 * Method to verify tags are present and contain specific values in Document
+	 * Note: Will be refactored after the refactoring of {@link DocGenHelper}
+	 *
+	 * @param document
+	 * @param testData
+	 * @param isPupPresent
+	 */
+	private void verifyRenewalDocumentTagDataConvFlgYN(Document document, TestData testData, boolean isPupPresent, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
+		assertThat(document.getxPathInfo()).isEqualTo("/Policy/Renewal");
+		if(RENEWAL_BILL.equals(eventName) || RENEWAL_OFFER.equals(eventName)){
+			verifyTagData(document, "ConvFlgYN", "Y");
+		}
+		else{
+			if (isPupPresent) {
+				verifyTagData(document, "PupCvrgYN", "Y");
+			} else {
+				verifyTagData(document, "PupCvrgYN", "N");
+			}
+		}}
+
 
 	private void verifyTagDataBill(Document document, String policyNumber, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
 		assertThat(document.getxPathInfo()).isEqualTo("/Billing/Invoice Bills Statements");
