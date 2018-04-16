@@ -22,6 +22,20 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		return getTestSpecificTD("TestData_Endorsement");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment less that earned premium write off.
+	 * 10. Verify that earned premium became less (earned premium write off reversal transaction).
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -29,6 +43,20 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffLessDecline(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment equal to earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -36,6 +64,20 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffEqualDecline(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment more than earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -43,6 +85,21 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffMoreDecline(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment less that earned premium write off.
+	 * 11. Verify that earned premium became less (earned premium write off reversal transaction).
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -50,6 +107,21 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffLessProposed(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment equal to earned premium write off.
+	 * 11. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -57,6 +129,21 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffEqualProposed(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment more than earned premium write off.
+	 * 11. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -64,6 +151,18 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffMoreProposed(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Move time to R and run status update job.
+	 * 5. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 6. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 7. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 8. Earned premium write off is absent on policy
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -71,6 +170,20 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffNoAP(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy with Mortgagee.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment equal to earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -78,6 +191,21 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy with Mortgagee.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment equal to earned premium write off.
+	 * 11. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})
@@ -85,6 +213,20 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		super.pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee(state);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy with Mortgagee.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment more than earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-11697"})

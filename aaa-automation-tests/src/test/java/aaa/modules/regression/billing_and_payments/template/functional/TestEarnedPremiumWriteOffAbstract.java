@@ -11,10 +11,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -25,12 +23,24 @@ import toolkit.datax.TestData;
 
 public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 
-	ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 	protected abstract TestData getTdPolicy();
 	protected abstract TestData getTestSpecificTDForTestEndorsement();
-	protected BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment less that earned premium write off.
+	 * 10. Verify that earned premium became less (earned premium write off reversal transaction).
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffLessDecline(String state) {
 		String endorsementAmount;
 		createPolicyWithoutMortgagee();
@@ -44,26 +54,53 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy with Mortgagee.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment equal to earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee(String state) {
-		String endorsementAmount;
 		createPolicyWithMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		String earnedPremium = processEarnedPremiumJobWithAPEndorsementMortgagee(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentLess(earnedPremium);
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment less that earned premium write off.
+	 * 11. Verify that earned premium became less (earned premium write off reversal transaction).
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffLessProposed(String state) {
-		String endorsementAmount;
 		createPolicyWithoutMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		changeStatusFromDeclineToProposed(policyNumber);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
@@ -71,26 +108,53 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment equal to earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffEqualDecline(String state) {
-		String endorsementAmount;
 		createPolicyWithoutMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentEqual(endorsementAmount);
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment equal to earned premium write off.
+	 * 11. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffEqualProposed(String state) {
-		String endorsementAmount;
 		createPolicyWithoutMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		changeStatusFromDeclineToProposed(policyNumber);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
@@ -98,13 +162,27 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy with Mortgagee.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment equal to earned premium write off.
+	 * 11. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee(String state) {
-		String endorsementAmount;
 		createPolicyWithMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		changeStatusFromDeclineToProposed(policyNumber);
 		String earnedPremium = processEarnedPremiumJobWithAPEndorsementMortgagee(expirationDate, policyNumber, endorsementAmount);
@@ -112,38 +190,78 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment more than earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffMoreDecline(String state) {
-		String endorsementAmount;
 		createPolicyWithoutMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentMore(endorsementAmount);
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy with Mortgagee.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Make payment more than earned premium write off.
+	 * 10. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee(String state) {
-		String endorsementAmount;
 		createPolicyWithMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		String earnedPremium = processEarnedPremiumJobWithAPEndorsementMortgagee(expirationDate, policyNumber, endorsementAmount);
 		acceptManualPaymentMore(earnedPremium);
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Customer Declined");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Do AP Endorsement at R-10.
+	 * 5. Move time to R and run status update job.
+	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 9. Change status to Proposed.
+	 * 10. Make payment more than earned premium write off.
+	 * 11. Verify that earned premium is fully reversed.
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffMoreProposed(String state) {
-		String endorsementAmount;
 		createPolicyWithoutMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
+		String endorsementAmount = perfomAPEndorsement(policyNumber);
 		processLapsedAndCollectionsJobs(expirationDate);
 		changeStatusFromDeclineToProposed(policyNumber);
 		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
@@ -151,6 +269,18 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_STATUS).getValue()).isEqualTo("Proposed");
 	}
 
+	/**
+	 * @name Test Earned premium write off generation
+	 * @scenario 1. Create Customer
+	 * 2. Create active policy.
+	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * 4. Move time to R and run status update job.
+	 * 5. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * 6. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * 7. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * 8. Earned premium write off is absent on policy
+	 * @details
+	 */
 	public void pas11697_testEarnedPremiumWriteOffNoAP(String state){
 		createPolicyWithoutMortgagee();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -168,8 +298,12 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(endorsementAmount);
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+endorsementAmount+")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(endorsementAmount));
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+	}
+
+	private String toNegateAmount(String amount) {
+		return new Dollar(amount).negate().toString();
 	}
 
 	public void processEarnedPremiumJob(LocalDateTime expirationDate, String policyNumber) {
@@ -191,7 +325,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(earnedPremiumAmount);
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+earnedPremiumAmount+")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(earnedPremiumAmount));
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
 		return earnedPremiumAmount;
 	}
@@ -238,13 +372,12 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 	}
 
 	private String perfomAPEndorsement(String policyNumber) {
-		String endorsementAmount;
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTD = getTestSpecificTDForTestEndorsement().adjust(getStateTestData(getTdPolicy(), "Endorsement", "TestData_Plus10Day"));
 		policy.endorse().performAndFill(endorsementTD);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		endorsementAmount = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
+		String endorsementAmount = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
 		return endorsementAmount;
 	}
 
@@ -282,7 +415,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 	}
 
 	private void acceptManualPaymentLess(String endorsementAmount) {
-		//pay payment by cash
+		//pay payment by cash less that earned premium write off
 		String newEndorsementAmount;
 		BillingSummaryPage.linkAcceptPayment.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
@@ -299,12 +432,12 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+ newEndorsementAmount +")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
 	}
 
 	private void acceptManualPaymentEqual(String endorsementAmount) {
-		//pay payment by cash
+		//pay payment by cash equal to earned premium write off
 		String newEndorsementAmount;
 		BillingSummaryPage.linkAcceptPayment.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
@@ -320,12 +453,12 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+ newEndorsementAmount +")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
 	}
 
 	private void acceptManualPaymentMore(String endorsementAmount) {
-		//pay payment by cash
+		//pay payment by cash more than earned premium write off
 		String newEndorsementAmount;
 		BillingSummaryPage.linkAcceptPayment.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
@@ -341,7 +474,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+ newEndorsementAmount +")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
 	}
 
@@ -357,7 +490,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+paymentAmount+")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(paymentAmount));
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
 	}
 
