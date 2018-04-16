@@ -36,8 +36,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
     private ComboBox uninsuredBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox uninsuredPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE);
-    private ComboBox enhancedBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
-    private ComboBox enhancedPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE);
 
     /**
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
@@ -157,49 +155,48 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
     private void verifyEnhancedUIMCoverage() {
 
-        // Prepare to check AC1 PAS-11200.
+        // Prepare to check AC1 PAS-11620
         propertyDamage.setValueByIndex(0);
         bodilyInjury.setValueByIndex(0);
         uninsuredBodilyInjury.setValueByIndex(1);
         uninsuredPropertyDamage.setValueByIndex(1);
 
-        //AC1,AC2 PAS-11200. for Quotes and Policies created on or after 2018/07/01 EUIM should be present.
-        //AC1 PAS-11620. EUIM BI and PD limits are defaulted to BI/PD limits.
+        //AC1 PAS-11620. Quotes and Policies created on or after 2018/07/01 EUIM should be present and EUIM BI and PD limits are defaulted to BI/PD limits
         enhancedUIM.setValue(true);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
-        //AC2 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
+        //AC1 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
         propertyDamage.setValueByIndex(2);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
         bodilyInjury.setValueByIndex(2);
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
         propertyDamage.setValueByIndex(4);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
         bodilyInjury.setValueByIndex(4);
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
-        //AC3 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
-        enhancedBodilyInjury.setValueByIndex(1);
+        //AC2 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
+        uninsuredBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
 
-        //AC3 PAS-11620. Rating Error if EUIM PD limits do not match PD limits.
+        //AC2 PAS-11620. Rating Error if EUIM PD limits do not match PD limits.
         bodilyInjury.setValueByIndex(3);
-        enhancedPropertyDamage.setValueByIndex(1);
+        uninsuredPropertyDamage.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.cancel();
 
-        //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
-        enhancedBodilyInjury.setValueByIndex(1);
+        //AC2 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
+        uninsuredBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
 
-        //AC4 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
+        //AC3 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
         propertyDamage.setValueByIndex(3);
         bodilyInjury.setValueByIndex(2);
         premiumAndCoveragesTab.calculatePremium();
