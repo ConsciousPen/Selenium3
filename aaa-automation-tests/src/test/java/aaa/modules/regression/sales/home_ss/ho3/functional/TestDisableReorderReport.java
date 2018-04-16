@@ -7,7 +7,6 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGR
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

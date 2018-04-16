@@ -1,12 +1,11 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import aaa.modules.regression.service.helper.RestBodyRequest;
+import java.util.Comparator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.ComparisonChain;
+import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Comparator;
 
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
@@ -59,65 +58,7 @@ public class Vehicle implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String vehTypeCd;
 
-	public String getModelYear() {
-		return modelYear;
-	}
 
-	public void setModelYear(String modelYear) {
-		this.modelYear = modelYear;
-	}
-
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-
-	public String getSeries() {
-		return series;
-	}
-
-	public void setSeries(String series) {
-		this.series = series;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getBodyStyle() {
-		return bodyStyle;
-	}
-
-	public void setBodyStyle(String bodyStyle) {
-		this.bodyStyle = bodyStyle;
-	}
-
-	public String getPurchaseDate() {
-		return purchaseDate;
-	}
-
-	public void setPurchaseDate(String purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
-
-	public String getVehicleStatus() {
-		return vehicleStatus;
-	}
-
-	public void setVehicleStatus(String vehicleStatus) {
-		this.vehicleStatus = vehicleStatus;
-	}
-
-	public String getVehTypeCd() { return vehTypeCd; }
-
-	public void setVehTypeCd(String vehTypeCd) {this.vehTypeCd = vehTypeCd; }
 
 	public static class VehicleComparator implements Comparator<Vehicle> {
 		private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
