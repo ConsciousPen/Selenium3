@@ -435,12 +435,12 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 				maxCellsNumber = row.getLastCellNum();
 			}
 		}
-		List<Integer> columnsIndexes = IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toCollection(LinkedList::new));
+		List<Integer> columnsIndexes = IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toList());
 		return ImmutableList.copyOf(columnsIndexes);
 	}
 
 	private ImmutableList<Integer> getRowsIndexes(Sheet sheet) {
-		List<Integer> rowsIndexes = IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toCollection(LinkedList::new));
+		List<Integer> rowsIndexes = IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toList());
 		return ImmutableList.copyOf(rowsIndexes);
 	}
 }

@@ -24,6 +24,7 @@ import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentAction
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -383,6 +384,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 				.getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(false);
 		TestData td = DataProviderFactory.dataOf(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow.FREE_FORM_TEXT.getLabel(), "Free Text");
 		goddTab.generateDocuments(td);
+		WebDriverHelper.switchToDefault();
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());
 		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 	}

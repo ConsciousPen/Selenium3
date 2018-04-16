@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -50,9 +52,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		assertThat(openLPolicy.getCappingDetails()).as("Policies cappingDetails list should have only one element").hasSize(1);
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().get(0).getState());
 
-		if (openLPolicy.getCappingDetails().get(0).getTermCappingFactor() != null && openLPolicy.getCappingDetails().get(0).getTermCappingFactor() != 1) {
+		if (!isLegacyConvPolicy && openLPolicy.getTermCappingFactor() != null && openLPolicy.getTermCappingFactor() != 1) {
 			//TODO-dchubkov: to be implemented...
-			throw new NotImplementedException("Test data generation for \"termCappingFactor\" not equal to 1 is not implemented.");
+			throw new NotImplementedException("Test data generation for \"termCappingFactor\" not equal to 1 is not implemented for non-legacy policy.");
 		}
 
 		/*if (openLPolicy.getCappingDetails().get(0).getPreviousCappingFactor() != null && openLPolicy.getCappingDetails().get(0).getPreviousCappingFactor() != 1) {
@@ -160,8 +162,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Integer aggregateCompClaims = openLPolicy.getAggregateCompClaims();
 		Integer nafAccidents = openLPolicy.getNafAccidents();
 
+		if (Constants.States.VA.equals(getState())) {
+			int nonTrailersAndMotorHomesVehicleNumber = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> !isTrailerOrMotorHomeType(v.getUsage())).count());
+			List<String> nonTrailersAndMotorHomesVehicleIds = IntStream.range(1, nonTrailersAndMotorHomesVehicleNumber + 1).boxed().map(String::valueOf).collect(Collectors.toList());
+			Iterator<String> iterator = nonTrailersAndMotorHomesVehicleIds.iterator();
+			openLPolicy.getDrivers().forEach(d -> d.setVehicleAssignedId(iterator.hasNext() ? iterator.next() : nonTrailersAndMotorHomesVehicleIds.get(0)));
+		}
+
 		for (AutoSSOpenLDriver driver : openLPolicy.getDrivers()) {
-			if (driver.getDsr() != null && driver.getDsr() != 0) {
+			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
+			if (dsr != 0) {
 				//TODO-dchubkov: to be implemented but at the moment don't have openL files with this value greater than 0
 				throw new NotImplementedException("Test data generation for \"dsr\" greater than 0 is not implemented.");
 			}
@@ -175,15 +185,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new IstfException("\"exposure\" openL field value should be always TRUE");
 			}
 
+			String martialStatus = getDriverTabMartialStatus(driver.getMaritalStatus());
 			TestData driverData = DataProviderFactory.dataOf(
 					AutoSSMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(driver.getGender()),
-					AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), getDriverTabMartialStatus(driver.getMaritalStatus()),
+					AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), martialStatus,
 					AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()),
 					AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde(),
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
 					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
-					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|Student",
+					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
 
@@ -191,8 +202,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				driverData.adjust(VEHICLE_ASSIGNED_ID_TESTDATA_KEY, driver.getVehicleAssignedId()); // for searching valid vehicle for driver assignment, should be masked in result test data
 			}
 
-			if (driver.getDriverAge() < 26) {
-				driverData.adjust(AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
+			if (driver.getDriverAge() < 26 && ("Single".equals(martialStatus) || "Divorced".equals(martialStatus) || "Separated".equals(martialStatus))) {
+				if (Boolean.TRUE.equals(driver.isGoodStudent())) {
+					String mostRecentGpa = getRandom("College Graduate", "A Student", "B Student", "Pass");
+					driverData.adjust(AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), mostRecentGpa);
+					if (!"College Graduate".equals(mostRecentGpa)) {
+						driverData.adjust(AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), "Student");
+					}
+				} else {
+					driverData.adjust(AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel(), getRandom("C or Below Student", "None", "Fail"));
+				}
 			}
 
 			if (!isFirstDriver) {
@@ -273,19 +292,21 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				nafAccidents--;
 			}
 
-			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet) {
+			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet && dsr > 0) {
+				//TODO-dchubkov: add activity information with dsr > 0
 				activityInformationList.add(getActivityInformationData(true, openLPolicy.getEffectiveDate(), openLPolicy.getYearsAtFaultAccidentFree()));
 				isAtFaultAccidentFreeSet = true;
 			}
 
-			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet) {
+			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet && dsr > 0) {
+				//TODO-dchubkov: add activity information with dsr > 0
 				activityInformationList.add(getActivityInformationData(false, openLPolicy.getEffectiveDate(), openLPolicy.getYearsIncidentFree()));
 				isAccidentFreeSet = true;
 			}
 
 			if (!activityInformationList.isEmpty()) {
 				driverData.adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), activityInformationList);
-				if ("WUIC".equals(openLPolicy.getUnderwriterCode())) {
+				if (isCleanDriverRenewalActive(openLPolicy, driver.getDsr())) {
 					driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
 					if (Boolean.TRUE.equals(driver.isCleanDriver())) {
 						driverData.adjust(AutoSSMetaData.DriverTab.REASON.getLabel(), "some clean driver renewal reason $<rx:\\d{3}>");
@@ -297,6 +318,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			isFirstDriver = false;
 		}
 		return driversTestDataList;
+	}
+
+	private boolean isCleanDriverRenewalActive(AutoSSOpenLPolicy openLPolicy, Integer dsr) {
+		int baseDateYear = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).getYear();
+		int dsrPoints = dsr == null ? 0 : dsr;
+		return getState().equals(Constants.States.MD) && openLPolicy.getEffectiveDate().getYear() - baseDateYear > 2 && dsrPoints < 2;
 	}
 
 	private TestData getActivityInformationData(boolean atFaultAccident, LocalDateTime policyEffectiveDate, int yearsAccidentFree) {
@@ -390,7 +417,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				assignedDriver = driverData.getValue(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()) + " " + driverData.getValue(AutoSSMetaData.DriverTab.LAST_NAME.getLabel());
 			}
 			String vehicleIndex = driverData.getValue(VEHICLE_ASSIGNED_ID_TESTDATA_KEY).replaceAll(".*vehicle#", "");
-
 			TestData assignmentData = DataProviderFactory.dataOf(
 					AutoSSMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.DRIVER.getLabel(), assignedDriver,
 					AutoSSMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.SELECT_VEHICLE.getLabel(), "index=" + vehicleIndex);
@@ -440,6 +466,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeType(vehicle.getUsage());
 			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
+				if (getState().equals(Constants.States.NJ) && "PIP".equals(coverage.getCoverageCd())) {
+					// for NJ state PIP coverage should be set by covering aaaPIPMedExpLimit field ("Medical Expense" on UI)
+					continue;
+				}
+
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -488,6 +519,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		if (getState().equals(Constants.States.IN)) {
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT.getLabel(), "starts=No Coverage");
+		}
+
+		if (getState().equals(Constants.States.VA)) {
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS.getLabel(), "starts=No Coverage");
 		}
 
 		return DataProviderFactory.dataOf(
