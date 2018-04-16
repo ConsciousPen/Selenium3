@@ -1,7 +1,7 @@
 package aaa.modules.regression.billing_and_payments.template.functional;
 
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
-import static toolkit.verification.CustomAssertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -41,15 +41,14 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas11697_testEarnedPremiumWriteOffLessDecline(String state) {
-		String endorsementAmount;
-		createPolicyWithoutMortgagee();
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
-		processRenewalAndBillGenerationJobs(expirationDate);
-		endorsementAmount = perfomAPEndorsement(policyNumber);
-		processLapsedAndCollectionsJobs(expirationDate);
-		processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
-		acceptManualPaymentLess(endorsementAmount);
+			createPolicyWithoutMortgagee();
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+			processRenewalAndBillGenerationJobs(expirationDate);
+			String endorsementAmount = perfomAPEndorsement(policyNumber);
+			processLapsedAndCollectionsJobs(expirationDate);
+			processEarnedPremiumJobWithAPEndorsement(expirationDate, policyNumber, endorsementAmount);
+			acceptManualPaymentLess(endorsementAmount);
 	}
 
 	/**
@@ -284,12 +283,14 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 
 	private void processEarnedPremiumJobWithAPEndorsement(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
 		processEarnedPremiumJob(expirationDate, policyNumber);
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
-		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(endorsementAmount);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(endorsementAmount));
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isTrue();
+			softly.assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(endorsementAmount);
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(endorsementAmount));
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		});
 	}
 
 	private String toNegateAmount(String amount) {
@@ -311,19 +312,23 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		processEarnedPremiumJob(expirationDate, policyNumber);
 		String policyPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRow("Subtype/Reason", "Policy").getCell(AMOUNT).getValue();
 		String earnedPremiumAmount = new Dollar(endorsementAmount).add(new Dollar(policyPremium)).toString();
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
-		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(earnedPremiumAmount);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(earnedPremiumAmount));
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isTrue();
+			softly.assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(earnedPremiumAmount);
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(earnedPremiumAmount));
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		});
 		return earnedPremiumAmount;
 	}
 
 	private void processEarnedPremiumJobWithoutAPEndorsement(LocalDateTime expirationDate, String policyNumber) {
 		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
 		processEarnedPremiumJob(expirationDate, policyNumber);
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isFalse();
+		});
 	}
 
 	public void changeStatusFromDeclineToProposed(String policyNumber) {
@@ -412,19 +417,23 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
 		newEndorsementAmount = new Dollar(endorsementAmount).subtract(new Dollar(1)).toString();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(newEndorsementAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo(newEndorsementAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo("$0.00");
+		assertSoftly(softly -> {
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo(newEndorsementAmount);
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo("$0.00");
+		});
 		AcceptPaymentActionTab.buttonOk.click();
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
-		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(new Dollar(endorsementAmount).subtract(new Dollar(newEndorsementAmount)).toString());
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).getValue()).isEqualTo("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off Reversed");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue()).isEqualTo(newEndorsementAmount);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isTrue();
+			softly.assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(new Dollar(endorsementAmount).subtract(new Dollar(newEndorsementAmount)).toString());
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off Reversed");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue()).isEqualTo(newEndorsementAmount);
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		});
 	}
 
 	private void acceptManualPaymentEqual(String endorsementAmount) {
@@ -434,18 +443,22 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
 		newEndorsementAmount = new Dollar(endorsementAmount).toString();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(newEndorsementAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo(newEndorsementAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo("$0.00");
+		assertSoftly(softly -> {
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo(newEndorsementAmount);
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo("$0.00");
+		});
 		AcceptPaymentActionTab.buttonOk.click();
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).getValue()).isEqualTo("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off Reversed");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue()).isEqualTo(newEndorsementAmount);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isFalse();
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off Reversed");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue()).isEqualTo(newEndorsementAmount);
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		});
 	}
 
 	private void acceptManualPaymentMore(String endorsementAmount) {
@@ -455,18 +468,23 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
 		newEndorsementAmount = new Dollar(endorsementAmount).multiply(2).subtract(new Dollar(1)).toString();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(newEndorsementAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo(endorsementAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo(new Dollar(newEndorsementAmount).subtract(new Dollar(endorsementAmount)).toString());
+		assertSoftly(softly -> {
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo(endorsementAmount);
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue())
+					.isEqualTo(new Dollar(newEndorsementAmount).subtract(new Dollar(endorsementAmount)).toString());
+		});
 		AcceptPaymentActionTab.buttonOk.click();
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).getValue()).isEqualTo("Adjustment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off Reversed");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue()).isEqualTo(endorsementAmount);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isFalse();
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off Reversed");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue()).isEqualTo(endorsementAmount);
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(STATUS).getValue()).isEqualTo("Applied");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(newEndorsementAmount));
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		});
 	}
 
 	private void acceptManualPaymentMoreNoAP() {
@@ -475,14 +493,18 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
 		String paymentAmount = new Dollar(30).toString();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(paymentAmount);
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo("$0.00");
-		assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo(paymentAmount);
+		assertSoftly(softly -> {
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_PREVIOS_TERM.getLabel()).getValue()).isEqualTo("$0.00");
+			softly.assertThat(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT_RENEWAL_TERM.getLabel()).getValue()).isEqualTo(paymentAmount);
+		});
 		AcceptPaymentActionTab.buttonOk.click();
-		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(paymentAmount));
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isFalse();
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(paymentAmount));
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
+		});
 	}
 
 	private void adjustWithMortgageeData(TestData policyTD) {
