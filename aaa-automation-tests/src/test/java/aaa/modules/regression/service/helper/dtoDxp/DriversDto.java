@@ -1,7 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import aaa.modules.regression.service.helper.RestBodyRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import aaa.modules.regression.service.helper.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,53 +28,6 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Suffix", example ="III")
 	public String suffix;
 
-	public String getFirstName() {
-		return firstName;
 	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getSuffix() {
-		return suffix;
-	}
-
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
-
-	public String getDriverType() {
-		return driverType;
-	}
-
-	public void setDriverType(String driverType) {
-		this.driverType = driverType;
-	}
-
-	public String getOid() {
-		return oid;
-	}
-
-	public void setOid(String oid) {
-		this.oid = oid;
-	}
-}
 
 
