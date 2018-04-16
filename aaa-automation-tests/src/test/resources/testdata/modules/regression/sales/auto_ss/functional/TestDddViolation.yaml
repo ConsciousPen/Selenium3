@@ -2,6 +2,8 @@ TestData: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab_PA','@DriverInformationMinor1']
 }
 
+####################  Dates For Defensive Driver Course Completion are specific because they align to Violation dates returned (today-8Months) from VDM mock MVR report
+
 #Drivers for Minor Violation
 DriverInformationMinor1: {
   DriverSearchDialog: {},
@@ -17,14 +19,14 @@ DriverInformationMinor1: {
   License Number: 10144433,
   Age First Licensed: 18,
   'Defensive Driver Course Completed?': 'Yes',
-  'Defensive Driver Course Completion Date': '10/10/2016'
+  'Defensive Driver Course Completion Date':  $<today-1y>,
 }
 
 DriverInformationMinor2: {
    First Name: Curry,
    Last Name: King,
    License Number: 10144434,
-   'Defensive Driver Course Completion Date': '4/11/2016'
+   'Defensive Driver Course Completion Date': $<today-6M>,
 }
 
 #Drivers for Major Violation
@@ -32,13 +34,13 @@ DriverInformationMajor1: {
    First Name: Paul1,
    Last Name: Magic,
    License Number: 10144435,
-   'Defensive Driver Course Completion Date': '10/10/2016'
+   'Defensive Driver Course Completion Date': $<today-1y>,
 }
 DriverInformationMajor2: {
    First Name: Curry1,
    Last Name: King,
    License Number: 10144436,
-   'Defensive Driver Course Completion Date': '4/11/2016'
+   'Defensive Driver Course Completion Date': $<today-6M>,
 }
 
 #Drivers for alcohol Violation
@@ -46,13 +48,13 @@ DriverInformationAlcohol1: {
    First Name: Paul2,
    Last Name: Magic,
    License Number: 10144437,
-   'Defensive Driver Course Completion Date': '10/10/2016'
+   'Defensive Driver Course Completion Date': $<today-1y>,
 }
 DriverInformationAlcohol2: {
    First Name: Curry2,
    Last Name: King,
    License Number: 10144438,
-   'Defensive Driver Course Completion Date': '4/11/2016'
+   'Defensive Driver Course Completion Date': $<today-6M>,
 }
 
 DriverActivityReportsTab: {

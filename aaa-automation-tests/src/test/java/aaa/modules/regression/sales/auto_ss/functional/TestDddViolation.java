@@ -147,11 +147,10 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
-		DriverTab.tableDriverList.removeRow(1);
+		DriverTab.tableDriverList.removeRow(5);
 		new DriverTab().submitTab();
 		policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), RatingDetailReportsTab.class, DocumentsAndBindTab.class);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
 
 		CustomAssert.enableSoftMode();
 		verifyDrivers();
