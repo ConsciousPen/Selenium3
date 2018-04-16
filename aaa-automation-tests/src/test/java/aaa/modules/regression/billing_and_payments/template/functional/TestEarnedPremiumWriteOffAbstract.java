@@ -238,7 +238,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 	}
 
 	private String perfomAPEndorsement(String policyNumber) {
-		String endorsementAmount;//do AP endorsement, less that $100
+		String endorsementAmount;
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTD = getTestSpecificTDForTestEndorsement().adjust(getStateTestData(getTdPolicy(), "Endorsement", "TestData_Plus10Day"));
@@ -267,16 +267,16 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 	}
 
 	private void createPolicyWithoutMortgagee() {
-		TestData policyCreationTD = getPolicyDefaultTD();
 		mainApp().open();
 		createCustomerIndividual();
+		TestData policyCreationTD = getPolicyDefaultTD();
 		createPolicy(policyCreationTD);
 	}
 
 	private void createPolicyWithMortgagee() {
+		mainApp().open();
 		TestData policyCreationTD = getPolicyDefaultTD();
 		adjustWithMortgageeData(policyCreationTD);
-		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(policyCreationTD);
 	}
@@ -357,7 +357,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Payment");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Manual Payment");
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(paymentAmount);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+paymentAmount+")");
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Cleared");
 	}
 

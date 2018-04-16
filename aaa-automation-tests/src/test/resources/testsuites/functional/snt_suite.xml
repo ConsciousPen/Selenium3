@@ -277,4 +277,122 @@
         </classes>
     </test>
 
+    <test name="Earned premium write-off Home SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Earned premium write-off Home CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Earned premium write-off Auto SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Earned premium write-off Auto CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Earned premium write-off Auto CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Earned premium write-off PUP SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Earned premium write-off PUP CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
+                <methods>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
