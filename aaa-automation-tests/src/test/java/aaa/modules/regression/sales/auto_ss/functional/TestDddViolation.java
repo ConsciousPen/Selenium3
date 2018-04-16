@@ -17,6 +17,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -30,16 +31,16 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	/**
 	* * @author Igor Garkusha
-	* @name Test Paperless Preferences properties and Inquiry mode
-	* @scenario 1. Create Customer1.
+	* @name Test NB - Defensive Driver Discount, Minor Violation
+	* @scenario
+	 * 1. Create Customer.
 	* 2. Create Auto SS PA Quote.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
+	* 5. Fill All other required data up to Driver Activity Reports Tab.
+	* 6. Order Reports.
+	* 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	* @details
 	*/
 	@Parameters({"state"})
@@ -67,15 +68,15 @@ public class TestDddViolation extends AutoSSBaseTest {
 	/**
 	* @author Igor Garkusha
 	* @name Test Endorsement - Defensive Driver Discount, Minor Violation
-	* @scenario 1. Create Auto SS PA policy1.
-	* 2. Endorse policy1.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS PA Policy and Endorse it.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	* @details
 	*/
 	@Parameters({"state"})
@@ -94,15 +95,15 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	/** @author Igor Garkusha
 	* @name Test Renewal- Defensive Driver Discount, Minor Violation
-	* @scenario 1. Create Auto SS PA policy1.
-	* 2. Renew policy1.
-	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	* 5. Fill All other required data up to Premium&Coverages Tab.
-	* 6. Verify that Defensive driver Discount is applied.
-	* 7. Navigate to Driver Activity Reports Tab.
-	* 8. Order Reports.
-	* 9. Navigate to P&C Tab.
+	* @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS PA Policy and Renew it.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
 	* @details
 	*/
 	@Parameters({"state"})
@@ -116,6 +117,43 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 		CustomAssert.enableSoftMode();
 		renewAndEndorsementSteps();
+		CustomAssert.assertAll();
+	}
+
+	/** @author Dominykas Razgunas
+	 * @name Test Conversion - Defensive Driver Discount, Minor Violation
+	 * @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS PA Conversion Policy.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M). Remove one driver as there can only be 6 for the conversion policy
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
+	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
+	public void pas3663_DddForDriverWithMinorViolationCheckConversion(@Optional("PA") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		TestData testData = getConversionPolicyDefaultTD();
+		testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd()).
+				adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()),
+						getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
+
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+		policy.getDefaultView().fillUpTo(testData, DriverTab.class, true);
+		DriverTab.tableDriverList.removeRow(5);
+		new DriverTab().submitTab();
+		policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), RatingDetailReportsTab.class, DocumentsAndBindTab.class);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		CustomAssert.enableSoftMode();
+		verifyDrivers();
 		CustomAssert.assertAll();
 	}
 
@@ -153,7 +191,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private void checkDriverDiscount(TestData driverTD) {
 		String driverWithDiscountName = getDriverFullName(driverTD);
-		//BUG QC 26288: PAS2_REGR_070-301CL Defensive driver discount is not displayed in driver discount section of policy consolidated page.
+		//BUG PAS-12755: Defensive driver discount is not displayed properly in driver discount section.
 		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.
 				contains(String.format("Defensive Driving Course Discount(%s)", driverWithDiscountName));
 	}
