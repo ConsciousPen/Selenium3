@@ -1,11 +1,20 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3.functional;
 
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.template.functional.TestEarnedPremiumWriteOffAbstract;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -20,6 +29,29 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	@Override
 	protected TestData getTestSpecificTDForTestEndorsement() {
 		return getTestSpecificTD("TestData_Endorsement");
+	}
+
+	public void changeStatusFromDeclineToProposed(String policyNumber) {
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		policy.renew().perform();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		new BindTab().submitTab();
+	}
+
+	@Override
+	public String processEarnedPremiumJobWithAPEndorsementMortgagee(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
+		processEarnedPremiumJob(expirationDate, policyNumber);
+		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isPresent();
+		assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff.getValue()).isEqualTo(endorsementAmount);
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue()).isEqualTo("Adjustment");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON).getValue()).isEqualTo("Earned Premium Write-off");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo("("+endorsementAmount+")");
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
+		return endorsementAmount;
 	}
 
 	@Parameters({STATE_PARAM})

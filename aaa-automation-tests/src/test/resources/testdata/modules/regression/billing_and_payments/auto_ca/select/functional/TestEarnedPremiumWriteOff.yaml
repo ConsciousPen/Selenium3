@@ -11,9 +11,7 @@ TestData_Endorsement: {
     Uninsured Motorists Bodily Injury: 'contains=$1,000,000/$1,000,000',
     Comprehensive Deductible: 'contains=$150',
     Collision Deductible: 'contains=$150'
-
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
-  PurchaseTab: {}
 }

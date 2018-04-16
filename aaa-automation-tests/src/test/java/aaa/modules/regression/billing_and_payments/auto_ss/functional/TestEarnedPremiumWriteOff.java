@@ -3,9 +3,14 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.billing_and_payments.template.functional.TestEarnedPremiumWriteOffAbstract;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -20,6 +25,17 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	@Override
 	protected TestData getTestSpecificTDForTestEndorsement() {
 		return getTestSpecificTD("TestData_Endorsement");
+	}
+
+	@Override
+	public void changeStatusFromDeclineToProposed(String policyNumber) {
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		policy.renew().perform();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
 	}
 
 	@Parameters({STATE_PARAM})

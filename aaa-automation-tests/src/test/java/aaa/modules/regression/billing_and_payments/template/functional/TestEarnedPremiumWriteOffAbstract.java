@@ -172,7 +172,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS).getValue()).isEqualTo("Applied");
 	}
 
-	private void processEarnedPremiumJob(LocalDateTime expirationDate, String policyNumber) {
+	public void processEarnedPremiumJob(LocalDateTime expirationDate, String policyNumber) {
 		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
 		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
@@ -182,7 +182,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 	}
 
-	private String processEarnedPremiumJobWithAPEndorsementMortgagee(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
+	public String processEarnedPremiumJobWithAPEndorsementMortgagee(LocalDateTime expirationDate, String policyNumber, String endorsementAmount) {
 		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
 		processEarnedPremiumJob(expirationDate, policyNumber);
 		String policyPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRow("Subtype/Reason", "Policy").getCell(AMOUNT).getValue();
@@ -202,7 +202,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff).isAbsent();
 	}
 
-	private void changeStatusFromDeclineToProposed(String policyNumber) {
+	public void changeStatusFromDeclineToProposed(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		policy.renew().perform();
