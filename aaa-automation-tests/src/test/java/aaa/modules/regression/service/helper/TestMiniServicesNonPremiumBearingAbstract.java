@@ -2024,6 +2024,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
+		//Get garage address from UI
+		policy.policyInquiry().start();
+		GeneralTab generalTab = new GeneralTab();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+		GeneralTab.buttonCancel.click();
+
 		//Create pended endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
@@ -2042,6 +2051,54 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateVehicleRequest.registeredOwner = false;
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponse.ownership).isEqualTo("OWN");
+			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Pleasure");
+			softly.assertThat(updateVehicleResponse.salvaged).isEqualTo(false);
+			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
+			softly.assertThat(updateVehicleResponse.antiTheft).isEqualTo("STD");
+			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
+
+
+
+			//verify updated information with pendedEndorsementValidateVehicleInfo
+			Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].modelYear).isEqualTo(updateVehicleResponse.modelYear);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].manufacturer).isEqualTo(updateVehicleResponse.manufacturer);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].series).isEqualTo(updateVehicleResponse.series);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].model).isEqualTo(updateVehicleResponse.model);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].bodyStyle).isEqualTo(updateVehicleResponse.bodyStyle);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehIdentificationNo).isEqualTo(updateVehicleResponse.vehIdentificationNo);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].ownership).isEqualTo("OWN");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].usage).isEqualTo("Pleasure");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].salvaged).isEqualTo(false);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingDifferent).isEqualTo(false);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityDefault);
+		});
+
+		//PAS-7145 Start
+		//Check vehicle update service when  garage address is different
+		//send request to update vehicle service
+
+		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
+		updateGaragingAddressVehicleRequest.ownership = "OWN";
+		updateGaragingAddressVehicleRequest.usage = "Pleasure";
+		updateGaragingAddressVehicleRequest.salvaged = false;
+		updateGaragingAddressVehicleRequest.garagingDifferent = false;
+		updateGaragingAddressVehicleRequest.antiTheft = "STD";
+		updateGaragingAddressVehicleRequest.registeredOwner = false;
+		//updateGaragingAddressVehicleRequest.
+
+		Vehicle updateVehicleResponseNd = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.ownership).isEqualTo("OWN");
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Pleasure");
