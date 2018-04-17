@@ -68,35 +68,6 @@ public class Vehicle implements RestBodyRequest {
 
 	public String stateProvCd;
 
-	public String getModelYear() {
-		return modelYear;
-	}
-
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	public String getSeries() {
-		return series;
-	}
-
-	public void setSeries(String series) {
-		this.series = series;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public String getBodyStyle() {
-		return bodyStyle;
-	}
-
-
 	public static class VehicleComparator implements Comparator<Vehicle> {
 		private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
 		private static final String VEHICLE_STATUS_PENDING = "pending";
