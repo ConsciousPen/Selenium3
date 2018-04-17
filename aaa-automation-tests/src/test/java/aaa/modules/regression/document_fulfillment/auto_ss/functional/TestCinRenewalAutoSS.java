@@ -34,8 +34,8 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinMVR(@Optional("AZ") String state) {
-        TestData policyTD = getPolicyDefaultTD()
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
+        TestData policyTD = getPolicyDefaultTD();
+               // .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
         String policyNumber = createPolicy(policyTD);
 
@@ -68,8 +68,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinCLUE(@Optional("AZ") String state) {
         Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
-        TestData policyTD = getPolicyDefaultTD()
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
+        TestData policyTD = getPolicyDefaultTD();
 
         String policyNumber = createPolicy(policyTD);
 
@@ -108,8 +107,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testNewDriverBetterScore(@Optional("AZ") String state) {
         Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
-        TestData policyTD = getPolicyDefaultTD()
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
+        TestData policyTD = getPolicyDefaultTD();
 
         TestData renewalTD = getTestSpecificTD("TestData_Renewal")
                 .adjust(getTestSpecificTD("Driver_Score_840").resolveLinks())
@@ -145,8 +143,7 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @Parameters({STATE_PARAM})
     public void testReorderBetterScore(@Optional("AZ") String state) {
         Assertions.assertThat(asList("MD", "CO").contains(state)).as("Test does not support this state: " + state).isFalse();
-        TestData policyTD = getPolicyDefaultTD()
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
+        TestData policyTD = getPolicyDefaultTD();
 
         TestData renewalTD = getTestSpecificTD("TestData_Renewal")
                 .adjust(NAMED_INSURED_OVERRIDE, getTestSpecificTD("NamedInsured_Update_Score_840").resolveLinks().getTestDataList("NamedInsuredInformation"))
@@ -186,7 +183,6 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @Parameters({STATE_PARAM})
     public void testPriorBILimitNoPriorCarrier(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_940"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
                 .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));

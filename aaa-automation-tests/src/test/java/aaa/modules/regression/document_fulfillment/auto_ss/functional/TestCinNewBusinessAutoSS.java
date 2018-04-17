@@ -288,7 +288,6 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitNoPriorCarrier(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
                 .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));
