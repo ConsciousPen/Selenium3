@@ -388,16 +388,21 @@ public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(algoDate);
 
+        // Create HO Policy
         mainApp().open();
         createPolicyVerifyOverrideLink(policyType);
 
+        // Initiate Renewal, navigate to Reports Tab
         policyType.get().renew().perform();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+
+        // Verify 'Override Score' link is disabled
         assertThat(reportsTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst()).isPresent(false);
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        applicantTab.getNamedInsuredAssetList().getAsset("First name", TextBox.class).setValue("Hello");
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(false);
+
+        // Verify 'View report' link is displayed (instead of Reorder report) and enabled
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").getValue()).isEqualTo("View report");
+        assertThat(reportsTab.tblInsuranceScoreReport.getRow(1).getCell("Report").controls.links.getFirst()).isPresent(true);
+        
     }
 
 
