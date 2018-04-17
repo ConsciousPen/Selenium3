@@ -821,7 +821,7 @@ public class AAADriver {
      *     {@link String }
      *     
      */
-    public void setinsuredOid(String value) {
+    public void setInsuredOid(String value) {
         this.insuredOid = value;
     }
 

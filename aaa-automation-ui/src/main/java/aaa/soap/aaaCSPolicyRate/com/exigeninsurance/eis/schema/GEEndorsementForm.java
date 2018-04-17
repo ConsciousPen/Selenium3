@@ -46,7 +46,7 @@ import java.util.List;
     "name",
     "premiumEntry",
     "secondName",
-    "state5",
+    "state",
     "zip"
 })
 public class GEEndorsementForm {
@@ -64,13 +64,13 @@ public class GEEndorsementForm {
     @XmlElement(required = true)
     protected String secondName;
     @XmlElement(required = true)
-    protected String state5;
+    protected String state;
     @XmlElement(required = true)
     protected String zip;
     @XmlAttribute(name = "oid")
     protected String oid;
     @XmlAttribute(name = "state")
-    protected ComponentState state;
+    protected ComponentState stateComponent;
 
     /**
      * Gets the value of the address1 property.
@@ -246,27 +246,27 @@ public class GEEndorsementForm {
     }
 
     /**
-     * Gets the value of the state5 property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getState5() {
-        return state5;
+    public String getState() {
+        return state;
     }
 
     /**
-     * Sets the value of the state5 property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setState5(String value) {
-        this.state5 = value;
+    public void setState(String value) {
+        this.state = value;
     }
 
     /**
@@ -325,8 +325,8 @@ public class GEEndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public ComponentState getState() {
-        return state;
+    public ComponentState getStateComponent() {
+        return stateComponent;
     }
 
     /**
@@ -337,8 +337,8 @@ public class GEEndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public void setState(ComponentState value) {
-        this.state = value;
+    public void setStateComponent(ComponentState value) {
+        this.stateComponent = value;
     }
 
 }
