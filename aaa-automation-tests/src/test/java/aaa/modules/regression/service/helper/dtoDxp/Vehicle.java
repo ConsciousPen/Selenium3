@@ -58,6 +58,43 @@ public class Vehicle implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String vehTypeCd;
 
+	public String garagingAddressPostalCode;
+
+	public String addressLine1;
+
+	public String addressLine2;
+
+	public String city;
+
+	public String stateProvCd;
+
+	public String getModelYear() {
+		return modelYear;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public String getSeries() {
+		return series;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getBodyStyle() {
+		return bodyStyle;
+	}
 
 
 	public static class VehicleComparator implements Comparator<Vehicle> {
