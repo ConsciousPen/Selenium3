@@ -814,6 +814,15 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		pas10227_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	public void pas7147_ManageVehicleLevelCoverages(@Optional("VA") String state) {
+
+		pas7147();
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();

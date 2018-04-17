@@ -45,15 +45,10 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
@@ -1923,6 +1918,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 	}
 
+
+
 	protected void pas10449_ViewVehicleServiceCheckOrderOfVehicle(PolicyType policyType, String state) {
 
 		mainApp().open();
@@ -2297,9 +2294,33 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit)).isEqualTo(excessElectronicEquipment);
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(false);
-
 		});
+	}
 
+	protected void pas7147() {
+		mainApp().open();
+		String policyNumber = "VASS952918540";
+		//String policyNumber = getCopiedPolicy();
+
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+
+		//Add new vehicle
+		String purchaseDate = "2013-02-22";
+		String vin2 = "1HGFA16526L081415";
+		Vehicle response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		assertThat(response2.oid).isNotEmpty();
+
+
+		//Check premium after new vehicle was added
+		PolicyPremiumInfo[] rateResponse2 = HelperCommon.executeEndorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		Dollar dxpPremium2 = new Dollar(rateResponse2[0].actualAmt);
+
+
+		HelperCommon.executeEndorsementBind(policyNumber, "PAS-7147", Response.Status.OK.getStatusCode());
 	}
 
 	private void endorsePolicyAddEvalue() {
