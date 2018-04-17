@@ -367,7 +367,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob);
 	}
 
-	private String perfomAPEndorsement(String policyNumber) {
+	public String perfomAPEndorsement(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTD = getTestSpecificTDForTestEndorsement().adjust(getStateTestData(getTdPolicy(), "Endorsement", "TestData_Plus10Day"));

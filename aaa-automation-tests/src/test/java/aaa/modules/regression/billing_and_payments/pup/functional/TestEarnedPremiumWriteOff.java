@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.pup.functional;
 
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -8,9 +9,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.functional.TestEarnedPremiumWriteOffAbstract;
 import toolkit.datax.TestData;
@@ -40,6 +44,19 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		new BindTab().submitTab();
 	}
 
+	@Override
+	public String perfomAPEndorsement(String policyNumber) {
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		TestData endorsementTD = getTestSpecificTDForTestEndorsement().adjust(getStateTestData(getTdPolicy(), "Endorsement", "TestData_Plus10Day"));
+		policy.endorse().performAndFill(endorsementTD);
+		new ErrorTab().overrideErrors(ErrorEnum.Errors.ERROR_AAA_PUP_SS7121080);
+		new ErrorTab().override();
+		new BindTab().submitTab();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		String endorsementAmount = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
+		return endorsementAmount;
+	}
 	/**
 	 * @name Test Earned premium write off generation
 	 * @scenario 1. Create Customer
