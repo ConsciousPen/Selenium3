@@ -46,7 +46,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
 
 	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
 	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
@@ -398,7 +397,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	}
 
 	private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
-
 		// Open Billing account and Pay min due for the renewal
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
