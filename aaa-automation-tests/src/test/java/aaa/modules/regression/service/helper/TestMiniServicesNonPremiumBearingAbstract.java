@@ -1060,14 +1060,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
+
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
 		VehicleTab vehicleTab = new VehicleTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
 		policy.policyInquiry().start();
+		GeneralTab generalTab = new GeneralTab();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
 		mainApp().close();
@@ -1090,13 +1097,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 					softly.assertThat(response1.oid).isNotNull();
 					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
 					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
-					softly.assertThat(response1.vehTypeCd).isEqualTo(false);
+					softly.assertThat(response1.vehTypeCd).isEqualTo("PPA");
+					softly.assertThat(response1.garagingAddressPostalCode).isEqualTo(zipCodeDefault);
+					softly.assertThat(response1.addressLine1).isEqualTo(addressDefault);
+					softly.assertThat(response1.city).isEqualTo(cityDefault);
+					softly.assertThat(response1.stateProvCd).isEqualTo(stateDefault);
 				}
 		);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -1108,10 +1118,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		premiumAndCoveragesTab.saveAndExit();
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		//BUG PAS-12756 When endorsement is started through service, issueing it triggers Members Last Name error
 		//BUG PAS-11468 When endorsement is started through service, issueing it triggers Members Last Name error
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-
 		//View added vehicle in view vehicle service
 		Vehicle[] response3 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		if (response3[0].vehIdentificationNo.contains(vin1)) {
