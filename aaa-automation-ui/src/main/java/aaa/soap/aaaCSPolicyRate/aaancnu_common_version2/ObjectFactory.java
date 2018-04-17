@@ -51,35 +51,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ApplicationContext }
+     * 
+     */
+    public ApplicationContext createApplicationContext() {
+        return new ApplicationContext();
+    }
+
+    /**
      * Create an instance of {@link Status }
      * 
      */
     public Status createStatus() {
         return new Status();
-    }
-
-    /**
-     * Create an instance of {@link ObjectProperty }
-     * 
-     */
-    public ObjectProperty createObjectProperty() {
-        return new ObjectProperty();
-    }
-
-    /**
-     * Create an instance of {@link RuleResponse }
-     * 
-     */
-    public RuleResponse createRuleResponse() {
-        return new RuleResponse();
-    }
-
-    /**
-     * Create an instance of {@link ServiceOptions }
-     * 
-     */
-    public ServiceOptions createServiceOptions() {
-        return new ServiceOptions();
     }
 
     /**
@@ -91,11 +75,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Amount }
+     * Create an instance of {@link RuleResponse }
      * 
      */
-    public Amount createAmount() {
-        return new Amount();
+    public RuleResponse createRuleResponse() {
+        return new RuleResponse();
     }
 
     /**
@@ -107,19 +91,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UserInfo }
+     * Create an instance of {@link RuleAttribute }
      * 
      */
-    public UserInfo createUserInfo() {
-        return new UserInfo();
-    }
-
-    /**
-     * Create an instance of {@link ResponseSort }
-     * 
-     */
-    public ResponseSort createResponseSort() {
-        return new ResponseSort();
+    public RuleAttribute createRuleAttribute() {
+        return new RuleAttribute();
     }
 
     /**
@@ -131,19 +107,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CurrencyAmount }
+     * Create an instance of {@link ServiceOptions }
      * 
      */
-    public CurrencyAmount createCurrencyAmount() {
-        return new CurrencyAmount();
+    public ServiceOptions createServiceOptions() {
+        return new ServiceOptions();
     }
 
     /**
-     * Create an instance of {@link ApplicationContext }
+     * Create an instance of {@link ResponseSort }
      * 
      */
-    public ApplicationContext createApplicationContext() {
-        return new ApplicationContext();
+    public ResponseSort createResponseSort() {
+        return new ResponseSort();
+    }
+
+    /**
+     * Create an instance of {@link UserInfo }
+     * 
+     */
+    public UserInfo createUserInfo() {
+        return new UserInfo();
     }
 
     /**
@@ -155,11 +139,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RuleAttribute }
+     * Create an instance of {@link CurrencyAmount }
      * 
      */
-    public RuleAttribute createRuleAttribute() {
-        return new RuleAttribute();
+    public CurrencyAmount createCurrencyAmount() {
+        return new CurrencyAmount();
+    }
+
+    /**
+     * Create an instance of {@link Amount }
+     * 
+     */
+    public Amount createAmount() {
+        return new Amount();
+    }
+
+    /**
+     * Create an instance of {@link ObjectProperty }
+     * 
+     */
+    public ObjectProperty createObjectProperty() {
+        return new ObjectProperty();
     }
 
     /**

@@ -14,27 +14,27 @@ import java.util.List;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="RuleResult">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="ruleId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="ruleDescription" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="action" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="severity" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}RuleSeverity"/>
- *         &lt;element name="isOverridable" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="overrideAuthorityLevel" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="instanceId" type="{http://www.w3.org/2001/XMLSchema}integer"/>
- *         &lt;element name="sourceSystem" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="timestamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="category" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}RuleCategory" minOccurs="0"/>
- *         &lt;element name="correlationId" type="{http://www.w3.org/2001/XMLSchema}integer"/>
- *         &lt;element name="ruleattribute" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}RuleAttribute" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="ruleResultExtension" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}ExtensionArea" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="RuleResult"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="ruleId" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="ruleDescription" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="action" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="severity" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}RuleSeverity"/&gt;
+ *         &lt;element name="isOverridable" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
+ *         &lt;element name="overrideAuthorityLevel" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="instanceId" type="{http://www.w3.org/2001/XMLSchema}integer"/&gt;
+ *         &lt;element name="sourceSystem" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="timestamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/&gt;
+ *         &lt;element name="category" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}RuleCategory" minOccurs="0"/&gt;
+ *         &lt;element name="correlationId" type="{http://www.w3.org/2001/XMLSchema}integer"/&gt;
+ *         &lt;element name="ruleattribute" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}RuleAttribute" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="ruleResultExtension" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}ExtensionArea" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

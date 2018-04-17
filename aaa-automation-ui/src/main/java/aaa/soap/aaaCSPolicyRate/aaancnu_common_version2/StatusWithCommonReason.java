@@ -15,15 +15,15 @@ import java.util.List;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="StatusWithCommonReason">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.aaancnuit.com.AAANCNU_Common_version2}Status">
- *       &lt;sequence>
- *         &lt;element name="statusWithCommonReasonExtension" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}ExtensionArea" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="StatusWithCommonReason"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base="{http://www.aaancnuit.com.AAANCNU_Common_version2}Status"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="statusWithCommonReasonExtension" type="{http://www.aaancnuit.com.AAANCNU_Common_version2}ExtensionArea" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

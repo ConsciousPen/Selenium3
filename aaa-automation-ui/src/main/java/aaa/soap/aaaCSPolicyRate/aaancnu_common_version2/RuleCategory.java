@@ -12,16 +12,16 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="RuleCategory">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Product Constraint"/>
- *     &lt;enumeration value="Mandatory Data"/>
- *     &lt;enumeration value="Eligibility"/>
- *     &lt;enumeration value="Underwriting"/>
- *     &lt;enumeration value="Informational"/>
- *     &lt;enumeration value="Clerical"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="RuleCategory"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="Product Constraint"/&gt;
+ *     &lt;enumeration value="Mandatory Data"/&gt;
+ *     &lt;enumeration value="Eligibility"/&gt;
+ *     &lt;enumeration value="Underwriting"/&gt;
+ *     &lt;enumeration value="Informational"/&gt;
+ *     &lt;enumeration value="Clerical"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */

@@ -12,15 +12,15 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="RuleSeverity">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="Informational"/>
- *     &lt;enumeration value="High"/>
- *     &lt;enumeration value="Medium"/>
- *     &lt;enumeration value="Low"/>
- *     &lt;enumeration value="Error"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
+ * &lt;simpleType name="RuleSeverity"&gt;
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
+ *     &lt;enumeration value="Informational"/&gt;
+ *     &lt;enumeration value="High"/&gt;
+ *     &lt;enumeration value="Medium"/&gt;
+ *     &lt;enumeration value="Low"/&gt;
+ *     &lt;enumeration value="Error"/&gt;
+ *   &lt;/restriction&gt;
+ * &lt;/simpleType&gt;
  * </pre>
  * 
  */
