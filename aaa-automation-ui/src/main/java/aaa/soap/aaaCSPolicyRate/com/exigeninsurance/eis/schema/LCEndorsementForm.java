@@ -275,7 +275,7 @@ public class LCEndorsementForm {
     }
 
     /**
-     * Gets the value of the state4 property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
@@ -287,7 +287,7 @@ public class LCEndorsementForm {
     }
 
     /**
-     * Sets the value of the state4 property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
