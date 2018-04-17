@@ -66,17 +66,18 @@ public class CSPolicyRateWSClient implements IRestClient {
 		String lastName = "Petrovich";
 		String middleName = "Middle Name";
 
-
 		XMLGregorianCalendar insuredBirthDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(26).format(dateTimeFormatter));
 		// Create request body
-		RatePolicyRequest request = new RatePolicyRequest();
-		PolicyComponent policyComponent = new PolicyComponent();
-		Policy policy = new Policy();
 
 		AAACSAAutoPolicy aaaCSAAutoPolicy = prepareAAACsaAutoPolicy(firstName, lastName, middleName, insuredBirthDate);
 
+		PolicyComponent policyComponent = new PolicyComponent();
 		policyComponent.setAAACSAAutoPolicy(aaaCSAAutoPolicy);
+
+		Policy policy = new Policy();
 		policy.setPolicy(policyComponent);
+
+		RatePolicyRequest request = new RatePolicyRequest();
 		request.setPolicy(policy);
 		return request;
 	}
