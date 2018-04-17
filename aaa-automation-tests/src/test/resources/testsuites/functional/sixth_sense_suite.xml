@@ -66,14 +66,13 @@
     </test>
 -->
 
-    <!-- Commented until PAS-9063 is merged to master.
     <test name="Test Locked BI Limits And UW Points">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
         </classes>
     </test>
--->
+
                                                           <!--Tests for Property-->
 
     <test name="Test Renovation Discount for KS DP3, HO3">
