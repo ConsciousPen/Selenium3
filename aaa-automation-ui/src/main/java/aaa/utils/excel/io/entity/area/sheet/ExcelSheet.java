@@ -8,7 +8,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.ss.usermodel.Sheet;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelArea;
@@ -45,7 +44,7 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 		return this.tables;
 	}
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, SheetRow> gatherAreaIndexesAndRowsMap(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, SheetRow> indexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
 		for (int rowIndex : rowsIndexes) {
@@ -53,9 +52,9 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 			indexesAndRowsBuilder.put(rowIndex, row);
 		}
 		return indexesAndRowsBuilder.build();
-	}
+	}*/
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, SheetColumn> gatherAreaIndexesAndColumnsMap(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, SheetColumn> indexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
 		for (Integer columnIndex : columnsIndexes) {
@@ -63,6 +62,26 @@ public class ExcelSheet extends ExcelArea<SheetCell, SheetRow, SheetColumn> {
 			indexesAndColumnsBuilder.put(columnIndex, column);
 		}
 		return indexesAndColumnsBuilder.build();
+	}*/
+
+	@Override
+	protected List<SheetRow> gatherRows(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
+		List<SheetRow> rows = new ArrayList<>(rowsIndexes.size());
+		for (int rowIndex : rowsIndexes) {
+			SheetRow row = new SheetRow(getPoiSheet().getRow(rowIndex - 1), rowIndex, columnsIndexes, this, cellTypes);
+			rows.add(row);
+		}
+		return rows;
+	}
+
+	@Override
+	protected List<SheetColumn> gatherColumns(List<Integer> rowsIndexes, List<Integer> columnsIndexes, List<CellType<?>> cellTypes) {
+		List<SheetColumn> columns = new ArrayList<>(columnsIndexes.size());
+		for (Integer columnIndex : columnsIndexes) {
+			SheetColumn column = new SheetColumn(columnIndex, rowsIndexes, this, cellTypes);
+			columns.add(column);
+		}
+		return columns;
 	}
 
 	/**

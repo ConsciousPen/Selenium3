@@ -201,11 +201,11 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public <T> boolean hasValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... formatters) {
-		//return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
 		if (isDate(formatters)) {
 			return Objects.equals(getDateValue(formatters), expectedValue);
 		}
-		return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
+		//return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
+		return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
 	}
 
 	public boolean hasStringValue(String expectedValue) {

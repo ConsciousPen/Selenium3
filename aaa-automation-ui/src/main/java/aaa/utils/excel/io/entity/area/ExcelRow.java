@@ -1,8 +1,10 @@
 package aaa.utils.excel.io.entity.area;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.celltype.CellType;
+import toolkit.exceptions.IstfException;
 
 public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> {
 	private final Row row;
@@ -18,6 +20,23 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 
 	public Row getPoiRow() {
 		return this.row;
+	}
+
+	@Override
+	public List<Integer> getCellsIndexes() {
+		return getCells().stream().map(ExcelCell::getColumnIndex).collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean hasCell(int cellIndexInRow) {
+		return getCells().stream().anyMatch(c -> c.getColumnIndex() == cellIndexInRow);
+	}
+
+	@Override
+	public CELL getCell(int cellIndexInRow) {
+		//assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %1$s index in %2$s", cellIndexInQueue, this).isTrue();
+		return getCells().stream().filter(c -> c.getColumnIndex() == cellIndexInRow).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no cell with %1$s index in %2$s", cellIndexInRow, this)));
 	}
 
 	@Override

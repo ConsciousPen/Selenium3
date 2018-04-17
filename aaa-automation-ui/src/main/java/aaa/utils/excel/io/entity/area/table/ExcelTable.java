@@ -8,10 +8,10 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelArea;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
+import toolkit.exceptions.IstfException;
 
 public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	private final Row headerRow;
@@ -110,7 +110,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 		return true;
 	}
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, TableRow> gatherAreaIndexesAndRowsMap(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, TableRow> indexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
 		int rowIndexInTable = 1;
@@ -120,9 +120,9 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 			rowIndexInTable++;
 		}
 		return indexesAndRowsBuilder.build();
-	}
+	}*/
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, TableColumn> gatherAreaIndexesAndColumnsMap(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, TableColumn> indexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
 		int columnIndexInTable = 1;
@@ -132,6 +132,30 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 			columnIndexInTable++;
 		}
 		return indexesAndColumnsBuilder.build();
+	}*/
+
+	@Override
+	protected List<TableRow> gatherRows(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		List<TableRow> rows = new ArrayList<>(rowsIndexesOnSheet.size());
+		int rowIndexInTable = 1;
+		for (Integer sheetRowIndex : rowsIndexesOnSheet) {
+			TableRow row = new TableRow(getSheet().getPoiSheet().getRow(sheetRowIndex - 1), rowIndexInTable, sheetRowIndex, columnsIndexesOnSheet, this, cellTypes);
+			rows.add(row);
+			rowIndexInTable++;
+		}
+		return rows;
+	}
+
+	@Override
+	protected List<TableColumn> gatherColumns(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		List<TableColumn> columns = new ArrayList<>(columnsIndexesOnSheet.size());
+		int columnIndexInTable = 1;
+		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
+			TableColumn column = new TableColumn(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, this, cellTypes);
+			columns.add(column);
+			columnIndexInTable++;
+		}
+		return columns;
 	}
 
 	@Override
@@ -205,7 +229,9 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	public TableRow getRow(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
-		return getRows(headerColumnName, ignoreHeaderColumnCase, cellValue).get(0);
+		//return getRows(headerColumnName, ignoreHeaderColumnCase, cellValue).get(0);
+		return getRows().stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
 	}
 
 	public List<TableRow> getRows(String headerColumnName, Object cellValue) {

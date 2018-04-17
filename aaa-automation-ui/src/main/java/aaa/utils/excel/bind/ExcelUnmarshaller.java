@@ -52,7 +52,7 @@ public class ExcelUnmarshaller {
 			boolean ignoreCaseForAllFields = TableFieldHelper.isCaseIgnored(tableRowField);
 			Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(excelManager, tableRowField, ignoreCaseForAllFields, strictMatch);
 
-			List<Object> tableRowsObjects = new ArrayList<>();
+			List<Object> tableRowsObjects = new ArrayList<>(tableAndColumnsFields.getLeft().getRowsNumber());
 			for (TableRow row : tableAndColumnsFields.getLeft()) {
 				Object rowObject = BindHelper.getInstance(BindHelper.getTableRowType(tableRowField));
 				for (Field columnField : tableAndColumnsFields.getRight()) {
@@ -185,16 +185,33 @@ public class ExcelUnmarshaller {
 				}
 				Class<?> tableRowClass = BindHelper.getTableRowType(tableColumnField);
 				Field primaryKeyField = ColumnFieldHelper.getPrimaryKeyField(tableRowClass);
-				List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(ColumnFieldHelper.getPrimaryKeysSeparator(primaryKeyField)));
+				//List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(ColumnFieldHelper.getPrimaryKeysSeparator(primaryKeyField)));
+				List<String> linkedTableRowIds = Arrays.stream(linkedRowsIds.split(ColumnFieldHelper.getPrimaryKeysSeparator(primaryKeyField))).collect(Collectors.toList());
 
 				Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(row.getTable().getExcelManager(), tableColumnField, ignoreColumnNameCase, strictMatch);
 				boolean ignorePrimaryKeyColumnNameCase = ignoreColumnNameCase || ColumnFieldHelper.isCaseIgnored(primaryKeyField);
 				int primaryKeyColumnIndex = tableAndColumnsFields.getLeft().getColumnIndex(ColumnFieldHelper.getHeaderColumnName(primaryKeyField), ignorePrimaryKeyColumnNameCase);
-				List<TableRow> linkedTableRows = tableAndColumnsFields.getLeft().getRows().stream().filter(r -> linkedTableRowIds.contains(r.getStringValue(primaryKeyColumnIndex)))
-						.collect(Collectors.toList());
+				/*List<TableRow> linkedTableRows = tableAndColumnsFields.getLeft().getRows().stream().filter(r -> linkedTableRowIds.contains(r.getStringValue(primaryKeyColumnIndex)))
+						.collect(Collectors.toList());*/
+				List<TableRow> linkedTableRows = new ArrayList<>(linkedTableRowIds.size());
+				for (TableRow linkedTableRow : tableAndColumnsFields.getLeft().getRows()) {
+					if (linkedTableRowIds.isEmpty()) {
+						break;
+					}
+					String cellValue = linkedTableRow.getStringValue(primaryKeyColumnIndex);
+					if (linkedTableRowIds.contains(cellValue)) {
+						linkedTableRows.add(linkedTableRow);
+						linkedTableRowIds.remove(cellValue);
+					}
+				}
+				/*List<String> primaryKeyColumnValues = tableAndColumnsFields.getLeft().getColumn(primaryKeyColumnIndex).getStringValues();
+				for (String id : linkedTableRowIds) {
+					int linkedTableRowIndex = primaryKeyColumnValues.indexOf(id) + 1;
+					linkedTableRows.add(tableAndColumnsFields.getLeft().getRow(linkedTableRowIndex));
+				}*/
 
 				//TODO-dchubkov: cache same tableRowObjects
-				List<Object> tableRowObjects = new ArrayList<>();
+				List<Object> tableRowObjects = new ArrayList<>(linkedTableRows.size());
 				for (TableRow linkedTableRow : linkedTableRows) {
 					Object tableRowObject = BindHelper.getInstance(tableRowClass);
 					for (Field linkedTableRowField : tableAndColumnsFields.getRight()) {

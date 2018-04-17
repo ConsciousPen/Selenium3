@@ -1,8 +1,10 @@
 package aaa.utils.excel.io.entity.area;
 
+import java.util.ArrayList;
 import java.util.List;
-import com.google.common.collect.ImmutableSortedMap;
+import java.util.stream.Collectors;
 import aaa.utils.excel.io.celltype.CellType;
+import toolkit.exceptions.IstfException;
 
 public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CELL> {
 	protected ExcelColumn(int columnIndexInArea, int columnIndexOnSheet, List<Integer> rowsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
@@ -11,6 +13,23 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 
 	protected ExcelColumn(int columnIndexInArea, int columnIndexOnSheet, List<Integer> rowsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, List<CellType<?>> cellTypes) {
 		super(columnIndexInArea, columnIndexOnSheet, rowsIndexesOnSheet, excelArea, cellTypes);
+	}
+
+	@Override
+	public List<Integer> getCellsIndexes() {
+		return getCells().stream().map(ExcelCell::getRowIndex).collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean hasCell(int cellIndexInColumn) {
+		return getCells().stream().anyMatch(c -> c.getRowIndex() == cellIndexInColumn);
+	}
+
+	@Override
+	public CELL getCell(int cellIndexInColumn) {
+		//assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %1$s index in %2$s", cellIndexInQueue, this).isTrue();
+		return getCells().stream().filter(c -> c.getRowIndex() == cellIndexInColumn).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no cell with %1$s index in %2$s", cellIndexInColumn, this)));
 	}
 
 	@Override
@@ -42,7 +61,7 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 				'}';
 	}
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, CELL> gatherQueueIndexesAndCellsMap(List<Integer> rowsIndexesOnSheet, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, CELL> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
 		List<? extends ExcelRow<CELL>> areaRows = getArea().getRows();
@@ -50,6 +69,16 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 			queueIndexesAndCellsBuilder.put(row.getIndex(), row.getCell(getIndex()));
 		}
 		return queueIndexesAndCellsBuilder.build();
+	}*/
+
+	@Override
+	protected List<CELL> gatherCells(List<Integer> rowsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		List<CELL> columnCells = new ArrayList<>(rowsIndexesOnSheet.size());
+		List<? extends ExcelRow<CELL>> areaRows = getArea().getRows();
+		for (ExcelRow<CELL> row : areaRows) {
+			columnCells.add(row.getCell(getIndex()));
+		}
+		return columnCells;
 	}
 
 	@Override

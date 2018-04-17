@@ -1,13 +1,13 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.ws.rs.NotSupportedException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
@@ -20,7 +20,7 @@ public class TableHeader extends TableRow {
 		return getStringValues();
 	}
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, TableCell> gatherQueueIndexesAndCellsMap(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, TableCell> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
 		int columnIndexInTable = 1;
@@ -31,6 +31,19 @@ public class TableHeader extends TableRow {
 			columnIndexInTable++;
 		}
 		return queueIndexesAndCellsBuilder.build();
+	}*/
+
+	@Override
+	protected List<TableCell> gatherCells(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		List<TableCell> tableHeaderCells = new ArrayList<>(columnsIndexesOnSheet.size());
+		int columnIndexInTable = 1;
+		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
+			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
+			HeaderCell headerCell = new HeaderCell(poiCell, columnIndexInTable, columnIndexOnSheet, this);
+			tableHeaderCells.add(headerCell);
+			columnIndexInTable++;
+		}
+		return tableHeaderCells;
 	}
 
 	@Override

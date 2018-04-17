@@ -3,13 +3,13 @@ package aaa.utils.excel.io.entity.area.table;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelRow;
 
@@ -42,7 +42,7 @@ public class TableRow extends ExcelRow<TableCell> {
 		return values;
 	}
 
-	@Override
+	/*@Override
 	protected ImmutableSortedMap<Integer, TableCell> gatherQueueIndexesAndCellsMap(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
 		ImmutableSortedMap.Builder<Integer, TableCell> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
 		int columnIndexInTable = 1;
@@ -53,6 +53,19 @@ public class TableRow extends ExcelRow<TableCell> {
 			columnIndexInTable++;
 		}
 		return queueIndexesAndCellsBuilder.build();
+	}*/
+
+	@Override
+	protected List<TableCell> gatherCells(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		List<TableCell> tableRowCells = new ArrayList<>(columnsIndexesOnSheet.size());
+		int columnIndexInTable = 1;
+		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
+			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
+			TableCell tableCell = new TableCell(poiCell, columnIndexInTable, columnIndexOnSheet, this, cellTypes);
+			tableRowCells.add(tableCell);
+			columnIndexInTable++;
+		}
+		return tableRowCells;
 	}
 
 	@Override
