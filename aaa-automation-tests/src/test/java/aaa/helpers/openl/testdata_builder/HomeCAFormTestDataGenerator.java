@@ -42,7 +42,13 @@ public class HomeCAFormTestDataGenerator {
 	
 	//Form is included
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO29DataFunction =  (openLPolicy) -> {
-		return null;
+		if (Boolean.FALSE.equals(openLPolicy.getHasPolicySupportingForm())) {
+			List<TestData> tdList = new ArrayList<>();
+			tdList.add(DataProviderFactory.dataOf("Action", "Remove"));
+			return tdList;
+		}
+		else 
+			return null;
 	}; 
 	
 	//Form is included if Detached Structure (Rented to Other = Yes) is added on Property Info Tab
