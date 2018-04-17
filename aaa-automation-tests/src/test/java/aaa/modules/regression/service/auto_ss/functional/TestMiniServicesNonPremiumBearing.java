@@ -346,7 +346,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
