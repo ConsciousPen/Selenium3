@@ -24,7 +24,7 @@ import java.util.List;
  *         &lt;element name="expirationDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="filingDate" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/&gt;
  *         &lt;element name="PremiumEntry" type="{http://exigeninsurance.com/eis/product/schema/AAA_CSA/1.0}PremiumEntry" maxOccurs="unbounded" minOccurs="0"/&gt;
- *         &lt;element name="state1" type="{http://www.exigeninsurance.com/data/AAA_CSA_Lookup/1.0}StateProvCd"/&gt;
+ *         &lt;element name="state" type="{http://www.exigeninsurance.com/data/AAA_CSA_Lookup/1.0}StateProvCd"/&gt;
  *       &lt;/sequence&gt;
  *       &lt;attribute name="oid" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
  *       &lt;attribute name="state" type="{http://www.exigeninsurance.com/data/EIS/1.0}ComponentState" /&gt;
@@ -41,7 +41,7 @@ import java.util.List;
     "expirationDate",
     "filingDate",
     "premiumEntry",
-    "state1"
+    "state"
 })
 public class CIPCS22EndorsementForm {
 
@@ -54,11 +54,11 @@ public class CIPCS22EndorsementForm {
     protected List<PremiumEntry> premiumEntry;
     @XmlElement(required = true)
     @XmlSchemaType(name = "string")
-    protected StateProvCd state1;
+    protected StateProvCd state;
     @XmlAttribute(name = "oid")
     protected String oid;
     @XmlAttribute(name = "state")
-    protected ComponentState state;
+    protected ComponentState componentState;
 
     /**
      * Gets the value of the caseNumber property.
@@ -162,27 +162,27 @@ public class CIPCS22EndorsementForm {
     }
 
     /**
-     * Gets the value of the state1 property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
      *     {@link StateProvCd }
      *     
      */
-    public StateProvCd getState1() {
-        return state1;
+    public StateProvCd getState() {
+        return state;
     }
 
     /**
-     * Sets the value of the state1 property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
      *     {@link StateProvCd }
      *     
      */
-    public void setState1(StateProvCd value) {
-        this.state1 = value;
+    public void setState(StateProvCd value) {
+        this.state = value;
     }
 
     /**
@@ -217,8 +217,8 @@ public class CIPCS22EndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public ComponentState getState() {
-        return state;
+    public ComponentState getComponentState() {
+        return componentState;
     }
 
     /**
@@ -229,8 +229,8 @@ public class CIPCS22EndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public void setState(ComponentState value) {
-        this.state = value;
+    public void setComponentState(ComponentState value) {
+        this.componentState = value;
     }
 
 }

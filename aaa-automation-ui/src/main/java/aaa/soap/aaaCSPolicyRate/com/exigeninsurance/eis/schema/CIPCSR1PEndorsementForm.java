@@ -56,7 +56,7 @@ public class CIPCSR1PEndorsementForm {
 	@XmlAttribute(name = "oid")
 	protected String oid;
 	@XmlAttribute(name = "state")
-	protected ComponentState stateComponent;
+	protected ComponentState componentState;
 
 	/**
 	 * Gets the value of the caseNumber property.
@@ -158,7 +158,7 @@ public class CIPCSR1PEndorsementForm {
 	/**
 	 * Sets the value of the state property.
 	 *
-	 * @param value allowed object is
+	 * @param state allowed object is
 	 *              {@link StateProvCd }
 	 */
 	public void setState(StateProvCd state) {
@@ -191,12 +191,12 @@ public class CIPCSR1PEndorsementForm {
 	 * @return possible object is
 	 * {@link ComponentState }
 	 */
-	public ComponentState getStateComponent() {
-		return stateComponent;
+	public ComponentState getComponentState() {
+		return componentState;
 	}
 
-	public void setStateComponent(ComponentState stateComponent) {
-		this.stateComponent = stateComponent;
+	public void setComponentState(ComponentState componentState) {
+		this.componentState = componentState;
 	}
 
 }

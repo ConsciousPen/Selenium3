@@ -70,7 +70,7 @@ public class GEEndorsementForm {
     @XmlAttribute(name = "oid")
     protected String oid;
     @XmlAttribute(name = "state")
-    protected ComponentState stateComponent;
+    protected ComponentState componentState;
 
     /**
      * Gets the value of the address1 property.
@@ -325,8 +325,8 @@ public class GEEndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public ComponentState getStateComponent() {
-        return stateComponent;
+    public ComponentState getComponentState() {
+        return componentState;
     }
 
     /**
@@ -337,8 +337,8 @@ public class GEEndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public void setStateComponent(ComponentState value) {
-        this.stateComponent = value;
+    public void setComponentState(ComponentState value) {
+        this.componentState = value;
     }
 
 }

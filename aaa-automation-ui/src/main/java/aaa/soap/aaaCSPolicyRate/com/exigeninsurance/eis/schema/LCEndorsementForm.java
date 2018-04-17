@@ -75,7 +75,7 @@ public class LCEndorsementForm {
     @XmlAttribute(name = "oid")
     protected String oid;
     @XmlAttribute(name = "state")
-    protected ComponentState stateComponent;
+    protected ComponentState componentState;
 
     /**
      * Gets the value of the address1 property.
@@ -355,7 +355,7 @@ public class LCEndorsementForm {
      *     
      */
     public ComponentState getComponentState() {
-        return stateComponent;
+        return componentState;
     }
 
     /**
@@ -367,7 +367,7 @@ public class LCEndorsementForm {
      *     
      */
     public void setComponentState(ComponentState value) {
-        this.stateComponent = value;
+        this.componentState = value;
     }
 
 }

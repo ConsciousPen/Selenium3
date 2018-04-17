@@ -26,7 +26,7 @@ import java.util.List;
  *         &lt;element name="otherName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="PremiumEntry" type="{http://exigeninsurance.com/eis/product/schema/AAA_CSA/1.0}PremiumEntry" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="secondName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="state3" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="state" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="zip" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *       &lt;attribute name="oid" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
@@ -48,7 +48,7 @@ import java.util.List;
     "otherName",
     "premiumEntry",
     "secondName",
-    "state3",
+    "state",
     "zip"
 })
 public class LCEndorsementOptForm {
@@ -62,12 +62,12 @@ public class LCEndorsementOptForm {
     @XmlElement(name = "PremiumEntry")
     protected List<PremiumEntry> premiumEntry;
     protected String secondName;
-    protected String state3;
+    protected String state;
     protected String zip;
     @XmlAttribute(name = "oid")
     protected String oid;
     @XmlAttribute(name = "state")
-    protected ComponentState state;
+    protected ComponentState componentState;
 
     /**
      * Gets the value of the address1 property.
@@ -267,27 +267,27 @@ public class LCEndorsementOptForm {
     }
 
     /**
-     * Gets the value of the state3 property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getState3() {
-        return state3;
+    public String getState() {
+        return state;
     }
 
     /**
-     * Sets the value of the state3 property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setState3(String value) {
-        this.state3 = value;
+    public void setState(String value) {
+        this.state = value;
     }
 
     /**
@@ -346,20 +346,20 @@ public class LCEndorsementOptForm {
      *     {@link ComponentState }
      *     
      */
-    public ComponentState getState() {
-        return state;
+    public ComponentState getComponentState() {
+        return componentState;
     }
 
     /**
      * Sets the value of the state property.
      * 
-     * @param value
+     * @param componentState
      *     allowed object is
      *     {@link ComponentState }
      *     
      */
-    public void setState(ComponentState value) {
-        this.state = value;
+    public void setComponentState(ComponentState componentState) {
+        this.componentState = componentState;
     }
 
 }
