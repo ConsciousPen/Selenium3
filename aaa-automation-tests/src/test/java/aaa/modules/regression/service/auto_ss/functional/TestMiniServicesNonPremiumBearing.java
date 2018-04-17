@@ -2,6 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import org.assertj.core.api.SoftAssertions;
+import org.testng.ITestContext;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,17 +21,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
@@ -330,8 +329,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas8275_vinValidate(@Optional("") String state) {
-
-		pas8275_vinValidateCheck(getPolicyType());
+		assertSoftly(softly ->
+				pas8275_vinValidateCheck(softly, getPolicyType())
+		);
 	}
 
 	/**
@@ -348,8 +348,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
-
-		pas8273_CheckIfOnlyActiveVehiclesAreAllowed(getPolicyType());
+		assertSoftly(softly ->
+				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
+		);
 	}
 
 	/**
@@ -399,7 +400,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
-	public void pas7082_AddVehicle(@Optional("VA") String state) {
+	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
 	}
@@ -591,8 +592,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455", "PAS-10825"})
 	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
-
-		pas9456_9455_PolicyLockUnlockServices();
+		assertSoftly(softly ->
+				pas9456_9455_PolicyLockUnlockServicesBody(softly)
+		);
 	}
 
 	/**
@@ -645,7 +647,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
-	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
+	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("AZ") String state) {
 
 		pas9490_ViewVehicleServiceCheckVehiclesStatus();
 	}
@@ -704,6 +706,24 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
 		pas10484_ViewDriverAssignmentService(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy with 1 driver and 1 vehicle
+	 * Create pended endorsement using DXP
+	 * Add vehicle Using DXP
+	 * Hit driver assignement service to verify Response
+	 * Pas go to assign page and get information
+	 * Hit driver assignement service to verify 1 driver is assigned to both vehicle
+	 * Verify primary for first vehicle and ocasional for 2nd vehicle
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
+	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
+
+		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
 	}
 
 	/**

@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,8 +20,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -49,7 +46,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
 
 	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
 	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
@@ -117,31 +113,21 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		//Change system date to get policy reinstated with lapse
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 
 		//Reinstate policy
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
-		// Initiate Endorsement and Navigate to P&C Page.
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		// Initiate Endorsement
+		endorsementChanges();
 
-		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
-
-		// Override insurance score
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that UW Points are the same
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		// Endorsement for NB which is initiated should show behave the same as NB
-		verifyLockedLimitsNB();
+		// Endorsement Validations
+		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -153,15 +139,13 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(10);
 		TimeSetterUtil.getInstance().nextPhase(reneweff);
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that UW Points are the same
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 		verifyLockedLimitsRenewalAndEndorsement();
 
@@ -174,22 +158,16 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
-		// Open Billing account and Pay min due for the renewal
-		SearchPage.openBilling(policyNumber);
-		Dollar minDue1 = new Dollar(BillingHelper.getBillCellValue(reneweff, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue1);
+		purchaseRenewal(reneweff, policyNumber);
 
 		// Navigate to Renewal
-		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that Total UW points are shown and other UW components are hidden
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 		verifyLockedLimitsRenewalAndEndorsement();
 	}
@@ -225,29 +203,23 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Issue Renewal
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		// Open Billing account and Pay min due for the renewal
-		SearchPage.openBilling(policyNumber);
-		Dollar minDue1 = new Dollar(BillingHelper.getBillCellValue(reneweff, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue1);
+		purchaseRenewal(reneweff, policyNumber);
 
 		// Navigate to Renewal
-		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that Total UW points are shown and other UW components are hidden
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		verifyLockedLimitsRenewalAndEndorsement();
 	}
 
@@ -275,11 +247,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Initiate Renewal and Navigate to P&C Page.
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that Total UW points are shown and other UW components are hidden
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		verifyLockedLimitsRenewalAndEndorsement();
 	}
 
@@ -355,35 +325,18 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
-		// Open Billing account and Pay min due
-		SearchPage.openBilling(policyNum);
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(effDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+		purchaseRenewal(effDate, policyNum);
 
-		// Open Policy
-		SearchPage.openPolicy(policyNum);
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		// Initiate Endorsement
+		endorsementChanges();
 
-		// Initiate Endorsement and Navigate to P&C Page.
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
-
-		// Override insurance score
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that UW Points are the same
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 
-		// Endorsement for NB which is initiated should show behave the same as NB
-		verifyLockedLimitsNB();
+		// Endorsement Validations
+		verifyLockedLimitsRenewalAndEndorsement();
 
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -394,15 +347,13 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
 		TimeSetterUtil.getInstance().nextPhase(reneweff);
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+		SearchPage.openPolicy(policyNum);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that UW Points are the same
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 		verifyLockedLimitsRenewalAndEndorsement();
 
@@ -411,24 +362,48 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		// Open Billing account and Pay min due for the renewal
-		SearchPage.openBilling(policyNum);
-		Dollar minDue1 = new Dollar(BillingHelper.getBillCellValue(reneweff, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue1);
+		purchaseRenewal(reneweff, policyNum);
 
 		// Navigate to Renewal
-		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.click();
 
 		// Initiate Endorsement and Navigate to P&C Page.
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		openVRD();
 
 		// Verify that Total UW score is shown and other UW components are hidden
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue()).contains(lockedTotalUWPoints);
 		verifyLockedLimitsRenewalAndEndorsement();
+	}
+
+	private void endorsementChanges(){
+		// Initiate Endorsement
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		// Add At Fault Accident, Add Conviction date, Add Comprehensive Claim, Add 2 Non-Fault Accidents
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		driverTab.fillTab(getTestSpecificTD("TestData_DriverTab"));
+
+		// Override insurance score
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_ASD"));
+	}
+
+	private void openVRD(){
+		// Navigate to P&C. Calculate Premium. Open VRD.
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+	}
+
+	private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
+		// Open Billing account and Pay min due for the renewal
+		SearchPage.openBilling(policyNumber);
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		// Open Policy
+		SearchPage.openPolicy(policyNumber);
 	}
 
 	private void verifyLockedLimitsNB(){
@@ -461,5 +436,4 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		pas9063FieldsRow2.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 	}
-
 }

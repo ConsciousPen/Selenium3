@@ -6,8 +6,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-
-
     <test name="ContactInfoUpdateServiceCA" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
@@ -22,35 +20,6 @@
             </class>
         </classes>
     </test>
-
-    <test name="TestRFI-AutoSS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-            <methods>
-                <include name="pas349_rfiAuto"/>
-            </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRFI-AutoSSNano" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, IN, OH, OK, NV"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiNano"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="TestRFI-Ho3SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
-        </classes>
-    </test>
-
     <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -80,6 +49,21 @@
                     <include name="pas9997_paymentPlansLookup"/>
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
+                    <include name="pas10227_ViewPremiumServicePolicy"/>
+                    <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
+                    <include name="pas508_BindManualEndorsement"/>
+                    <include name="pas508_BindServiceEndorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="GreenButtonServiceVA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas10484_ViewDriverAssignment"/>
+                    <include name="pas11932_viewDrivers"/>
                 </methods>
             </class>
         </classes>
@@ -116,7 +100,6 @@
             </class>
         </classes>
     </test>
-
     <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -136,17 +119,9 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
+                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="ViewDrivers VA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                <methods>
-                    <include name="pas11932_viewDrivers"/>
+                    <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
                 </methods>
             </class>
         </classes>

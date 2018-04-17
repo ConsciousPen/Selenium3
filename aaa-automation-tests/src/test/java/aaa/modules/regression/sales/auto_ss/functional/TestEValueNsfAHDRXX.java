@@ -36,6 +36,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 
@@ -176,7 +177,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		BillingSummaryPage.linkUpdateBillingAccount.click();
 		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION)).hasValue("");
-		UpdateBillingAccountActionTab.buttonSave.click();
+		UpdateBillingAccountActionTab.buttonCancel.click();
 
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(EVALUE_STATUS)).hasValue("");
@@ -198,6 +199,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
+		Waiters.SLEEP(5000).go();
 	}
 
 	private void verifyPaymentDeclinedTransactionPresent(String amount) {
