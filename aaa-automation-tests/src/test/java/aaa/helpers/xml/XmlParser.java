@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Contains method for value validation.
  * Can be used to parse SoapMessages if Messages are first converted to XML File using [src/test/java/aaa/helpers/soap/SoapClient.java]
  */
-public class xmlParser
+public class XmlParser
 {
     /** Class Variables */
     static DocumentBuilderFactory _docFactory;
@@ -26,7 +26,7 @@ public class xmlParser
     static Document _doc;
     static String _defaultFullPath = "src\\test\\resources\\uploadingfiles\\xmlParser\\";
 
-    public static ArrayList<String> ReturnValueFromXMLNode(String xmlFileName, String tagName) throws IOException, SAXException {
+    public static ArrayList<String> returnValueFromXMLNode(String xmlFileName, String tagName) throws IOException, SAXException {
         try {
             _docFactory = DocumentBuilderFactory.newInstance();
             _docBuilder = _docFactory.newDocumentBuilder();
@@ -51,7 +51,7 @@ public class xmlParser
         return valuesFound;
     }
 
-    public static ArrayList<String> ReturnValueFromXMLNode(String filePath, String xmlFileName, String tagName) throws IOException, SAXException {
+    public static ArrayList<String> returnValueFromXMLNode(String filePath, String xmlFileName, String tagName) throws IOException, SAXException {
         try {
             _docFactory = DocumentBuilderFactory.newInstance();
             _docBuilder = _docFactory.newDocumentBuilder();
@@ -76,7 +76,7 @@ public class xmlParser
         return valuesFound;
     }
 
-    public static Boolean DoesArrayListContainValue(ArrayList<String> arrayValuesReturned, String valueToValidate) {
+    public static Boolean bDoesArrayListContainValue(ArrayList<String> arrayValuesReturned, String valueToValidate) {
         Boolean bFoundValue = false;
         for (String value : arrayValuesReturned) {
             if (value.equalsIgnoreCase(valueToValidate)) {
