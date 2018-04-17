@@ -25,7 +25,7 @@ import java.util.List;
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="PremiumEntry" type="{http://exigeninsurance.com/eis/product/schema/AAA_CSA/1.0}PremiumEntry" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="secondName" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="state5" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="state" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="zip" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *       &lt;attribute name="oid" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;

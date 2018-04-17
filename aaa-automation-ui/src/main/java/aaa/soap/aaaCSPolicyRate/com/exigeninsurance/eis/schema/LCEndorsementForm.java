@@ -27,7 +27,7 @@ import java.util.List;
  *         &lt;element name="otherName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="PremiumEntry" type="{http://exigeninsurance.com/eis/product/schema/AAA_CSA/1.0}PremiumEntry" maxOccurs="unbounded" minOccurs="0"/&gt;
  *         &lt;element name="secondName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="state4" type="{http://www.exigeninsurance.com/data/AAA_CSA_Lookup/1.0}StateProvCd"/&gt;
+ *         &lt;element name="state" type="{http://www.exigeninsurance.com/data/AAA_CSA_Lookup/1.0}StateProvCd"/&gt;
  *         &lt;element name="zip" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *       &lt;attribute name="oid" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
@@ -49,7 +49,7 @@ import java.util.List;
     "otherName",
     "premiumEntry",
     "secondName",
-    "state4",
+    "state",
     "zip"
 })
 public class LCEndorsementForm {
@@ -69,13 +69,13 @@ public class LCEndorsementForm {
     protected String secondName;
     @XmlElement(required = true)
     @XmlSchemaType(name = "string")
-    protected StateProvCd state4;
+    protected StateProvCd state;
     @XmlElement(required = true)
     protected String zip;
     @XmlAttribute(name = "oid")
     protected String oid;
     @XmlAttribute(name = "state")
-    protected ComponentState state;
+    protected ComponentState stateComponent;
 
     /**
      * Gets the value of the address1 property.
@@ -282,8 +282,8 @@ public class LCEndorsementForm {
      *     {@link StateProvCd }
      *     
      */
-    public StateProvCd getState4() {
-        return state4;
+    public StateProvCd getState() {
+        return state;
     }
 
     /**
@@ -294,8 +294,8 @@ public class LCEndorsementForm {
      *     {@link StateProvCd }
      *     
      */
-    public void setState4(StateProvCd value) {
-        this.state4 = value;
+    public void setState(StateProvCd value) {
+        this.state = value;
     }
 
     /**
@@ -354,8 +354,8 @@ public class LCEndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public ComponentState getState() {
-        return state;
+    public ComponentState getComponentState() {
+        return stateComponent;
     }
 
     /**
@@ -366,8 +366,8 @@ public class LCEndorsementForm {
      *     {@link ComponentState }
      *     
      */
-    public void setState(ComponentState value) {
-        this.state = value;
+    public void setComponentState(ComponentState value) {
+        this.stateComponent = value;
     }
 
 }

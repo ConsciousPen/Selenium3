@@ -7,6 +7,7 @@ import aaa.soap.aaaCSPolicyRate.CSPolicyRateWSClient;
 import aaa.soap.aaaCSPolicyRate.com.exigeninsurance.data.aaa_csa_db.AntiTheftCode;
 import aaa.soap.aaaCSPolicyRate.com.exigeninsurance.data.aaa_csa_lookup.*;
 import aaa.soap.aaaCSPolicyRate.com.exigeninsurance.eis.schema.*;
+import aaa.soap.aaaCSPolicyRate.com.exigenservices.MessageStatusEnum;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.Policy;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.RatePolicyRequest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -35,6 +38,7 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 	public void test(@Optional("") String state) throws DatatypeConfigurationException {
 
 		RatePolicyRequest actualResponse = csPolicyRateWSClient.getcsPolicyRateServiceResponse(pas11722_RatePolicyRequest());
+		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
 
 	}
 
