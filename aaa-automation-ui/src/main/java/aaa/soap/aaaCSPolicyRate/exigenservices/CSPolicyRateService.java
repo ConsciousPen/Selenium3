@@ -1,5 +1,5 @@
 
-package aaa.soap.aaaCSPolicyRate;
+package aaa.soap.aaaCSPolicyRate.exigenservices;
 
 import aaa.soap.AAAHTTPConfigurer;
 import org.apache.cxf.Bus;

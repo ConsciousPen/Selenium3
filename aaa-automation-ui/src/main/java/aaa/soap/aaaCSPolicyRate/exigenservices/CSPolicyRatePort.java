@@ -1,8 +1,7 @@
 
-package aaa.soap.aaaCSPolicyRate;
+package aaa.soap.aaaCSPolicyRate.exigenservices;
 
-import aaa.soap.aaaCSPolicyRate.exigenservices.ErrorInfo;
-import aaa.soap.aaaCSPolicyRate.exigenservices.ObjectFactory;
+import aaa.soap.aaaCSPolicyRate.RatePolicyRequest;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
