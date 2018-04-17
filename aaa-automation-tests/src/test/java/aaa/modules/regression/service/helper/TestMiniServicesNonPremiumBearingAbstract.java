@@ -625,6 +625,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		policy.policyInquiry().start();
+		//All info about first vehicle
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String modelYear1 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
 		String manufacturer1 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
@@ -632,24 +633,35 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String model1 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle1 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(OWNERSHIP.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership1 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
 		String vehType1 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
+		//Garaging address for first vehicle
+		String zipCode1 = vehicleTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String address1 = vehicleTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String city1 = vehicleTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String state1 = vehicleTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
 		VehicleTab.tableVehicleList.selectRow(2);
 
+		//Get all info about second vehicle
 		String modelYear2 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
 		String manufacturer2 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
 		String series2 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
 		String model2 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle2 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo2 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership2 = vehicleTab.getInquiryAssetList().getStaticElement(OWNERSHIP.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership2 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage2 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft2 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
 		String vehType2 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
+		//Get garaging address for second vehicle
+		String zipCode2 = vehicleTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String address2 = vehicleTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String city2 = vehicleTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String state2 = vehicleTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
 
 		Vehicle[] response = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		Vehicle vehicleSt = Arrays.stream(response).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
@@ -669,6 +681,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt.antiTheft).isEqualTo(antiTheft1);
 		softly.assertThat(vehicleSt.vehTypeCd).isEqualTo(vehType1);
 		softly.assertThat(vehicleSt.oid).isNotEmpty();
+		softly.assertThat(vehicleSt.garagingAddressPostalCode).isEqualTo(zipCode1);
+		softly.assertThat(vehicleSt.addressLine1).isEqualTo(address1);
+		softly.assertThat(vehicleSt.stateProvCd).isEqualTo(state1);
+		softly.assertThat(vehicleSt.city).isEqualTo(city1);
 
 		softly.assertThat(vehicleNd).isNotNull();
 		softly.assertThat(vehicleNd.modelYear).isEqualTo(modelYear2);
@@ -684,6 +700,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleNd.antiTheft).isEqualTo(antiTheft2);
 		softly.assertThat(vehicleNd.vehTypeCd).isEqualTo(vehType2);
 		softly.assertThat(vehicleNd.oid).isNotEmpty();
+		softly.assertThat(vehicleNd.garagingAddressPostalCode).isEqualTo(zipCode2);
+		softly.assertThat(vehicleNd.addressLine1).isEqualTo(address2);
+		softly.assertThat(vehicleNd.stateProvCd).isEqualTo(state2);
+		softly.assertThat(vehicleNd.city).isEqualTo(city2);
 
 		VehicleTab.buttonCancel.click();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -713,6 +733,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt1.antiTheft).isEqualTo(antiTheft1);
 		softly.assertThat(vehicleSt1.vehTypeCd).isEqualTo(vehType1);
 		softly.assertThat(vehicleSt1.oid).isNotEmpty();
+		softly.assertThat(vehicleSt1.garagingAddressPostalCode).isEqualTo(zipCode1);
+		softly.assertThat(vehicleSt1.addressLine1).isEqualTo(address1);
+		softly.assertThat(vehicleSt1.stateProvCd).isEqualTo(state1);
+		softly.assertThat(vehicleSt1.city).isEqualTo(city1);
 
 		softly.assertThat(vehicleNd1).isNotNull();
 		softly.assertThat(vehicleNd1.modelYear).isEqualTo(modelYear2);
@@ -728,24 +752,33 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleNd1.antiTheft).isEqualTo(antiTheft2);
 		softly.assertThat(vehicleNd1.vehTypeCd).isEqualTo(vehType2);
 		softly.assertThat(vehicleNd1.oid).isNotEmpty();
+		softly.assertThat(vehicleNd1.garagingAddressPostalCode).isEqualTo(zipCode2);
+		softly.assertThat(vehicleNd1.addressLine1).isEqualTo(address2);
+		softly.assertThat(vehicleNd1.stateProvCd).isEqualTo(state2);
+		softly.assertThat(vehicleNd1.city).isEqualTo(city2);
 
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 
 		policy.policyInquiry().start();
+		//Gel all info about third vehicle
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-
 		String modelYear3 = vehicleTab.getInquiryAssetList().getStaticElement(YEAR.getLabel()).getValue();
 		String manufacturer3 = vehicleTab.getInquiryAssetList().getStaticElement(MAKE.getLabel()).getValue();
 		String series3 = vehicleTab.getInquiryAssetList().getStaticElement(SERIES.getLabel()).getValue();
 		String model3 = vehicleTab.getInquiryAssetList().getStaticElement(MODEL.getLabel()).getValue();
 		String bodyStyle3 = vehicleTab.getInquiryAssetList().getStaticElement(BODY_STYLE.getLabel()).getValue();
 		String vehIdentificationNo3 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
-		String ownership3 = vehicleTab.getInquiryAssetList().getStaticElement(OWNERSHIP.getLabel()).getValue().replace("Owned", "OWN");
+		String ownership3 = vehicleTab.getInquiryAssetList().getStaticElement(Ownership.OWNERSHIP_TYPE.getLabel()).getValue().replace("Owned", "OWN");
 		String usage3 = vehicleTab.getInquiryAssetList().getStaticElement(USAGE.getLabel()).getValue();
 		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel()).getValue().toLowerCase();
 		String antiTheft3 = vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT.getLabel()).getValue().toUpperCase();
 		String vehType3 = vehicleTab.getInquiryAssetList().getStaticElement(TYPE.getLabel()).getValue().replace("Private Passenger Auto", "PPA");
+		//Garaging address for third vehicle
+		String zipCode3 = vehicleTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String address3 = vehicleTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String city3 = vehicleTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String state3 = vehicleTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
 
 		Vehicle[] response2 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		Vehicle vehicleSt2 = Arrays.stream(response2).filter(vehicle -> vehIdentificationNo1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
@@ -765,6 +798,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleSt2.antiTheft).isEqualTo(antiTheft1);
 		softly.assertThat(vehicleSt2.vehTypeCd).isEqualTo(vehType1);
 		softly.assertThat(vehicleSt2.oid).isNotEmpty();
+		softly.assertThat(vehicleSt2.garagingAddressPostalCode).isEqualTo(zipCode1);
+		softly.assertThat(vehicleSt2.addressLine1).isEqualTo(address1);
+		softly.assertThat(vehicleSt2.stateProvCd).isEqualTo(state1);
+		softly.assertThat(vehicleSt2.city).isEqualTo(city1);
 
 		softly.assertThat(vehicleRd2).isNotNull();
 		softly.assertThat(vehicleRd2.modelYear).isEqualTo(modelYear3);
@@ -780,6 +817,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		softly.assertThat(vehicleRd2.antiTheft).isEqualTo(antiTheft3);
 		softly.assertThat(vehicleRd2.vehTypeCd).isEqualTo(vehType3);
 		softly.assertThat(vehicleRd2.oid).isNotEmpty();
+		softly.assertThat(vehicleRd2.garagingAddressPostalCode).isEqualTo(zipCode3);
+		softly.assertThat(vehicleRd2.addressLine1).isEqualTo(address3);
+		softly.assertThat(vehicleRd2.stateProvCd).isEqualTo(state3);
+		softly.assertThat(vehicleRd2.city).isEqualTo(city3);
 	}
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType, String state) {
@@ -1014,14 +1055,21 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 	}
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
+
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
 		VehicleTab vehicleTab = new VehicleTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
 		policy.policyInquiry().start();
+		GeneralTab generalTab = new GeneralTab();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN.getLabel()).getValue();
 		mainApp().close();
@@ -1044,12 +1092,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 					softly.assertThat(response1.oid).isNotNull();
 					softly.assertThat(response1.vehIdentificationNo).isEqualTo(vin2);
 					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
+					softly.assertThat(response1.vehTypeCd).isEqualTo("PPA");
+					softly.assertThat(response1.garagingAddressPostalCode).isEqualTo(zipCodeDefault);
+					softly.assertThat(response1.addressLine1).isEqualTo(addressDefault);
+					softly.assertThat(response1.city).isEqualTo(cityDefault);
+					softly.assertThat(response1.stateProvCd).isEqualTo(stateDefault);
 				}
 		);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -1061,10 +1113,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		premiumAndCoveragesTab.saveAndExit();
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		//BUG PAS-12756 When endorsement is started through service, issueing it triggers Members Last Name error
 		//BUG PAS-11468 When endorsement is started through service, issueing it triggers Members Last Name error
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
-
 		//View added vehicle in view vehicle service
 		Vehicle[] response3 = HelperCommon.executeVehicleInfoValidate(policyNumber);
 		if (response3[0].vehIdentificationNo.contains(vin1)) {
@@ -1986,6 +2036,15 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
+		//Get garage address from UI
+		policy.policyInquiry().start();
+		GeneralTab generalTab = new GeneralTab();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE.getLabel()).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1.getLabel()).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY.getLabel()).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE.getLabel()).getValue();
+		GeneralTab.buttonCancel.click();
+
 		//Create pended endorsement
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
@@ -2029,6 +2088,68 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingDifferent).isEqualTo(false);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateDefault);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityDefault);
+		});
+
+		//PAS-7145 Start
+		//Check vehicle update service when  garage address is different
+		String zipCodeGarage = "23703";
+		String addressGarage = "4112 FORREST HILLS DR";
+		String cityGarage = "PORTSMOUTH";
+		String stateGarage = "VA";
+
+		//send request to update vehicle service
+		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
+		updateGaragingAddressVehicleRequest.ownership = "OWN";
+		updateGaragingAddressVehicleRequest.usage = "Pleasure";
+		updateGaragingAddressVehicleRequest.salvaged = false;
+		updateGaragingAddressVehicleRequest.garagingDifferent = false;
+		updateGaragingAddressVehicleRequest.antiTheft = "STD";
+		updateGaragingAddressVehicleRequest.registeredOwner = false;
+		updateGaragingAddressVehicleRequest.garagingDifferent = true;
+		updateGaragingAddressVehicleRequest.stateProvCd = zipCodeGarage;
+		updateGaragingAddressVehicleRequest.addressLine1 = addressGarage;
+		updateGaragingAddressVehicleRequest.city = cityGarage;
+		updateGaragingAddressVehicleRequest.stateProvCd = stateGarage;
+
+		Vehicle updateVehicleResponseGaragingAddress = HelperCommon.updateVehicle(policyNumber, oid, updateGaragingAddressVehicleRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponseGaragingAddress.ownership).isEqualTo("OWN");
+			softly.assertThat(updateVehicleResponseGaragingAddress.usage).isEqualTo("Pleasure");
+			softly.assertThat(updateVehicleResponseGaragingAddress.salvaged).isEqualTo(false);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingDifferent).isEqualTo(true);
+			softly.assertThat(updateVehicleResponseGaragingAddress.antiTheft).isEqualTo("STD");
+			softly.assertThat(updateVehicleResponseGaragingAddress.registeredOwner).isEqualTo(false);
+			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.addressLine1).isEqualTo(addressGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.city).isEqualTo(cityGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
+
+			Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].modelYear).isEqualTo(updateVehicleResponse.modelYear);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].manufacturer).isEqualTo(updateVehicleResponse.manufacturer);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].series).isEqualTo(updateVehicleResponse.series);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].model).isEqualTo(updateVehicleResponse.model);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].bodyStyle).isEqualTo(updateVehicleResponse.bodyStyle);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].vehIdentificationNo).isEqualTo(updateVehicleResponse.vehIdentificationNo);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].ownership).isEqualTo("OWN");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].usage).isEqualTo("Pleasure");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].salvaged).isEqualTo(false);
+
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingDifferent).isEqualTo(true);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
+
+		 	softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityGarage);
 		});
 	}
 
