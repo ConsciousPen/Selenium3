@@ -420,7 +420,7 @@ public class Scenario11 extends ScenarioBaseTest {
 					BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query_renew).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
 			Dollar premiumAmount = new Dollar(premiumRenewal.substring(1, premiumRenewal.length()-1)); 
 			refundAmount = refundAmount.add(premiumAmount); 
-			refundAmount = refundAmount.subtract(new Dollar(20));
+			//refundAmount = refundAmount.subtract(new Dollar(20)); commented according to PASBB-492: Reinstatement fee 20$ should not be applied
 		}		
 		return refundAmount;		
 	}

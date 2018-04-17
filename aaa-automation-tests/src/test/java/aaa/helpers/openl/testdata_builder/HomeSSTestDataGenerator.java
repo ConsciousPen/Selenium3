@@ -3,6 +3,8 @@ package aaa.helpers.openl.testdata_builder;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import aaa.helpers.mock.MockDataHelper;
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
@@ -14,6 +16,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 
@@ -41,8 +44,12 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 
 		TestData ratingDataPattern = getRatingDataPattern()
-				.mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()))
-				.mask(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()));
+				.mask(TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()))
+				.mask(TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()));
+
+		if (Boolean.FALSE.equals(openLPolicy.getPolicyDiscountInformation().get(0).isCurrAAAMember())) {
+			ratingDataPattern.mask(TestData.makeKeyPath(new ReportsTab().getMetaKey(), HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel()));
+		}
 
 		td = TestDataHelper.merge(ratingDataPattern, td);
 		if (isLegacyConvPolicy) {
@@ -82,8 +89,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 //		documentsToBindData.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().get(0).getProofOfPEHCR()));
 
 		TestData adjustmentData = DataProviderFactory.dataOf(
-		DocumentsTab.class.getSimpleName(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(documentsToBindData)));
-		return TestDataHelper.merge(adjustmentData,policyIssueData);
+				DocumentsTab.class.getSimpleName(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(documentsToBindData)));
+		return TestDataHelper.merge(adjustmentData, policyIssueData);
 	}
 
 
@@ -145,7 +152,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (Boolean.TRUE.equals(openLPolicy.getPolicyDiscountInformation().get(0).isCurrAAAMember())) {
 			aaaMembershipData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes",
-					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "4290023667710001",
+					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "1111222200020182",    //1111222200020182  4290023667710001
+//					HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), MockDataHelper.getMembershipData().getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getPolicyDiscountInformation().get(0).getMemberPersistency(), 0.0),
 					HomeSSMetaData.ApplicantTab.AAAMembership.LAST_NAME.getLabel(), "Smith"
 			);
 		} else {
@@ -197,6 +205,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click"
 				)
 		);
+
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.ReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData
 		);
@@ -252,23 +261,23 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				// plumbing
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_RENOVATION.getLabel(), "100% Copper",
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovPlumbing()).getYear(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovPlumbing() * 12 + 1).getMonthValue(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.PLUMBING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovPlumbing() * 12 + 1).getYear(),
 				// electrical
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_RENOVATION.getLabel(), "100% Circuit/Romex",
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovElectrical()).getYear(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovElectrical() * 12 + 1).getMonthValue(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ELECTRICAL_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovElectrical() * 12 + 1).getYear(),
 				// roof
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel(), "100% Replace",
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOFG_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovRoof()).getYear(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOFG_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovRoof() * 12 + 1).getMonthValue(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovRoof() * 12 + 1).getYear(),
 				// heating/cooling
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_RENOVATION.getLabel(), "Forced Air",
 				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_PERCENT_COMPLETE.getLabel(), "100",
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().getMonthValue(),
-				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovHeatOrCooling()).getYear()
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_MONTH_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovHeatOrCooling() * 12 + 1).getMonthValue(),
+				HomeSSMetaData.PropertyInfoTab.HomeRenovation.HEATING_COOLING_YEAR_OF_COMPLECTION.getLabel(), openLPolicy.getEffectiveDate().minusMonths(openLPolicy.getPolicyDiscountInformation().get(0).getTimeSinceRenovHeatOrCooling() * 12 + 1).getYear()
 		);
 
 		TestData petsOrAnimals = DataProviderFactory.dataOf(
@@ -297,7 +306,15 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	private TestData getProductOfferingTabData(HomeSSOpenLPolicy openLPolicy) {
-		return DataProviderFactory.emptyData();
+		if (HomeSSMetaData.ProductOfferingTab.HERITAGE.getLabel().equals(openLPolicy.getLevel()))
+			return DataProviderFactory.emptyData();
+		String polisyLevel = HomeSSMetaData.ProductOfferingTab.LEGACY.getLabel().equals(openLPolicy.getLevel()) ? HomeSSMetaData.ProductOfferingTab.LEGACY.getLabel() : HomeSSMetaData.ProductOfferingTab.PRESTIGE.getLabel();
+		TestData policyLevelData = DataProviderFactory.dataOf(
+				polisyLevel, DataProviderFactory.dataOf(
+						HomeSSMetaData.ProductOfferingTab.VariationControls.SELECT_VARIATION.getLabel(), "true"
+				)
+		);
+		return policyLevelData;
 	}
 
 	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
@@ -325,6 +342,13 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				if (personalPropertyData == null)
 					personalPropertyData = new SimpleDataProvider();
 				switch (form.getType()) {
+					case "Bicycles":
+						TestData bicyclesData = DataProviderFactory.dataOf(
+								HomeSSMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
+								HomeSSMetaData.PersonalPropertyTab.Furs.DESCRIPTION.getLabel(), "Description"
+						);
+						personalPropertyData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.PersonalPropertyTab.BICYCLES.getLabel(), bicyclesData));
+						break;
 					case "Furs":
 						TestData fursData = DataProviderFactory.dataOf(
 								HomeSSMetaData.PersonalPropertyTab.Furs.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
@@ -355,7 +379,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		Double covD = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimit());
 
 		return DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + openLPolicy.getPolicyDiscountInformation().get(0).getPaymentPlan(),
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy.getPolicyDiscountInformation().get(0).getPaymentPlan()),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covB * 100 / covA)),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit(),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
@@ -372,4 +396,40 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			return noOfFloors.toString();
 		return "3+";
 	}
+
+	private String getPaymentPlan(String paymentPlan) {
+		switch (paymentPlan) {
+			case "Pay in Full":
+				return "Pay in Full";
+			case "Mortgagee Bill":
+				return "Mortgagee Bill";
+			case "Semi-Annual":
+				return "Semi-Annual";
+			case "Quarterly":
+				return "Quarterly";
+			case "Monthly Zero down":
+				return "Eleven Pay Low Down";
+			case "Monthly Standard":
+				return "Eleven Pay Standard";
+			case "Monthly Low down":
+				return "Monthly Low Down";
+			default:
+				throw new IstfException("Unknown mapping for payment plan : " + paymentPlan);
+		}
+	}
+
+//	private TestData addMembershipSinceDateToTestData(TestData testData, String sinceDate) {
+//		TestData addMemberSinceDialog = new SimpleDataProvider()
+//				.adjust(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), sinceDate)
+//				.adjust(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
+//
+//		TestData aaaMembershipReportRow = new SimpleDataProvider()
+//				.adjust("Action", "Add Member Since")
+//				.adjust(HomeSSMetaData.ReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
+//
+//		TestData ratingDetailsReportTab = testData.getTestData(new ReportsTab().getMetaKey())
+//				.adjust(HomeSSMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
+//
+//		return testData.adjust(new ReportsTab().getMetaKey(), ratingDetailsReportTab).resolveLinks();
+//	}
 }
