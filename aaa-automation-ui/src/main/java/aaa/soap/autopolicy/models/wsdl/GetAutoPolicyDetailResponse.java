@@ -6,9 +6,9 @@ import aaa.soap.autopolicy.models.common.ApplicationContext;
 import aaa.soap.autopolicy.models.common.RuleResponses;
 import aaa.soap.autopolicy.models.getautopolicydetail.AutoPolicySummary;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.*;
 
 
 /**

@@ -27,7 +27,7 @@ import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
+public class TestAAACSPolicyRate extends AutoCaChoiceBaseTest {
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
 	private CSPolicyRateWSClient csPolicyRateWSClient = new CSPolicyRateWSClient();
@@ -37,7 +37,7 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "")
 	public void test(@Optional("") String state) throws DatatypeConfigurationException {
 
-		RatePolicyRequest actualResponse = csPolicyRateWSClient.getcsPolicyRateServiceResponse(pas11722_RatePolicyRequest());
+		RatePolicyRequest actualResponse = csPolicyRateWSClient.getCSPolicyRateServiceResponse(pas11722_CSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
 
 	}
@@ -50,16 +50,13 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 	private String Oid = "N15";
 	private String insuredOid = "N15";
 	private String principalDriverOID = "r6HQzISCEvahaNZYnixEsg";
+	private String firstName = "Alexander";
+	private String lastName = "Petrovich";
+	private String middleName = "Middle Name";
 
-	private RatePolicyRequest pas11722_RatePolicyRequest() throws DatatypeConfigurationException {
-		String firstName = "Alexander";
-		String lastName = "Petrovich";
-		String middleName = "Middle Name";
-
-		XMLGregorianCalendar insuredBirthDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(26).format(dateTimeFormatter));
+	private RatePolicyRequest pas11722_CSRatePolicyRequest() throws DatatypeConfigurationException {
 		// Create request body
-
-		AAACSAAutoPolicy aaaCSAAutoPolicy = prepareAAACsaAutoPolicy(firstName, lastName, middleName, insuredBirthDate);
+		AAACSAAutoPolicy aaaCSAAutoPolicy = prepareAAACsaAutoPolicy();
 
 		PolicyComponent policyComponent = new PolicyComponent();
 		policyComponent.setAAACSAAutoPolicy(aaaCSAAutoPolicy);
@@ -72,7 +69,9 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		return request;
 	}
 
-	private AAACSAAutoPolicy prepareAAACsaAutoPolicy(String firstName, String lastName, String middleName, XMLGregorianCalendar insuredBirthDate) throws DatatypeConfigurationException {
+	private AAACSAAutoPolicy prepareAAACsaAutoPolicy() throws DatatypeConfigurationException {
+		XMLGregorianCalendar insuredBirthDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(26).format(dateTimeFormatter));
+
 		AAACSAAutoPolicy aaaCSAAutoPolicy = new AAACSAAutoPolicy();
 		// Create and fill aaa driver body
 		aaaCSAAutoPolicy.setAAADriver(Arrays.asList(prepareDriver(firstName, lastName, middleName,insuredBirthDate)));
@@ -102,16 +101,13 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		aaaCSAAutoPolicy.setAgentGeneralNumber("003");
 		aaaCSAAutoPolicy.setAgencyLocation("500001005");
 		aaaCSAAutoPolicy.setUnderwriterCd("CSAAIB");
-		// Empty in this case
-		// aaaCSAAutoPolicy.setTollNumberCd("");
 		return aaaCSAAutoPolicy;
 	}
 
 	private List<OtherOrPriorPolicy> prepareOtherOrPriorPolicy() {
 		OtherOrPriorPolicy otherOrPriorPolicy = new OtherOrPriorPolicy();
 		otherOrPriorPolicy.setInsurerCd("Yes");
-		//todo change to firstname variable
-		otherOrPriorPolicy.setInsurerName("Alexander");
+		otherOrPriorPolicy.setInsurerName(firstName);
 		otherOrPriorPolicy.setPolicyNumber("4290041592172402");
 		otherOrPriorPolicy.setProductCd(OtherProductCode.MEMBERSHIP);
 		return Arrays.asList(otherOrPriorPolicy);
@@ -130,7 +126,7 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		aaaVehicle.setOid(vehicleOID);
 		aaaVehicle.setAAAAllRiskCoverage(prepareAAAAllRiskCoverage());
 		aaaVehicle.setAAACOLLCoverage(prepareAAACOLLCoverage());
-		aaaVehicle.setAAACOMPCoverage(prepareaaaCOMPCoverage());
+		aaaVehicle.setAAACOMPCoverage(prepareAAACOMPCoverage());
 		aaaVehicle.setAAAETECoverage(prepareAAAETECoverage());
 		aaaVehicle.setAAAGaragingAddress(prepareAAAGaragingAddress());
 		/* Vehicle Coverages */
@@ -185,7 +181,6 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		aaaVehicleRatingInfo.setWaivedLiabilityInd(false);
 
 		return aaaVehicleRatingInfo;
-
 	}
 
 	private AAASpecialEquipmentCoverage prepareAAASpecialEquipmentCoverage() {
@@ -292,7 +287,7 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		return aaaETECoverage;
 	}
 
-	private AAACOMPCoverage prepareaaaCOMPCoverage(){
+	private AAACOMPCoverage prepareAAACOMPCoverage(){
 		AAACOMPCoverage aaaCOMPCoverage = new AAACOMPCoverage();
 		aaaCOMPCoverage.setCoverageCd(CoverageCode.COMPDED);
 		aaaCOMPCoverage.setDeductibleAmount("500");
@@ -343,11 +338,8 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 	}
 
 	private AAAInsured prepareAAAInsured(String firstName,String lastName,String middleName,XMLGregorianCalendar insuredBirthDate) throws DatatypeConfigurationException {
-		AAAInsured aaaInsured = new AAAInsured();
 
 		AAAInsuredMailingAddress aaaInsuredMailingAddress = new AAAInsuredMailingAddress();
-		AAAInsuredPrimaryAddress aaaInsuredPrimaryAddress = new AAAInsuredPrimaryAddress();
-
 		aaaInsuredMailingAddress.setAddressLine1(addressLine1);
 		aaaInsuredMailingAddress.setCity(city);
 		aaaInsuredMailingAddress.setCountryCd(Country.US);
@@ -356,6 +348,7 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		aaaInsuredMailingAddress.setStateProvCd(StateProvCd.CA);
 		aaaInsuredMailingAddress.setUsageType(AddressType.MAILING);
 
+		AAAInsuredPrimaryAddress aaaInsuredPrimaryAddress = new AAAInsuredPrimaryAddress();
 		aaaInsuredPrimaryAddress.setAddressLine1(addressLine1);
 		aaaInsuredPrimaryAddress.setCity(city);
 		aaaInsuredPrimaryAddress.setCountryCd(Country.US);
@@ -364,6 +357,7 @@ public class TestWSDL2JAVA extends AutoCaChoiceBaseTest {
 		aaaInsuredPrimaryAddress.setStateProvCd(StateProvCd.CA);
 		aaaInsuredPrimaryAddress.setUsageType(AddressType.LIVING);
 
+		AAAInsured aaaInsured = new AAAInsured();
 		aaaInsured.setCommunicationInfoEmail("aedutra1337@gmail.com");
 		aaaInsured.setCommunicationInfoPhoneNumber1("(760) 525-7914");
 		aaaInsured.setDateOfBirth(insuredBirthDate);

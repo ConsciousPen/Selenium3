@@ -21,15 +21,15 @@ import static aaa.admin.modules.IAdmin.log;
  */
 public class CSPolicyRateWSClient implements IRestClient {
 
-	private CSPolicyRateService csPolicyRateService;
-	private CSPolicyRatePort csPolicyRatePort;
-
 	public CSPolicyRateWSClient() {
 		csPolicyRateService = new CSPolicyRateService();
 		csPolicyRatePort = csPolicyRateService.getCSPolicyRatePort();
 	}
 
-	public RatePolicyRequest getcsPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest) throws DatatypeConfigurationException {
+	private CSPolicyRateService csPolicyRateService;
+	private CSPolicyRatePort csPolicyRatePort;
+
+	public RatePolicyRequest getCSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest) throws DatatypeConfigurationException {
 		RatePolicyRequest request = ratePolicyRequest;
 		log.info("SOAP: REQUEST");
 		log.info(AAAMarshaller.modelToXml(request));
