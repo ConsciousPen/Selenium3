@@ -2,7 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions.MY_POLICY_USER_CONFIG_CHECK;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
@@ -44,6 +46,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 
 	private static void miniServicesEndorsementDeleteDelayConfigCheckAssertion(SoftAssertions softly, int i, String s) {
 		softly.assertThat(DBService.get().getValue(String.format(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_CHECK, i, s)).get()).isNotEmpty();
+	}
+
+	@Test(description = "Precondition adding MyPolicy as a user for Digital", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void myPolicyUserAddedConfigCheck() {
+		assertThat(DBService.get().getValue(MY_POLICY_USER_CONFIG_CHECK)).hasValue("MyPolicy");
 	}
 
 	/**
@@ -346,7 +353,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
@@ -399,7 +406,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145"})
 	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
@@ -491,6 +498,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 2. Check policy details
 	 * 3. Change date, run policyStatusUpdate
 	 * 4. Check policy details
+	 * @Megha Added Term and actual premium  //Pas-11809
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -511,6 +519,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 6. Make a payment for the renewal amount for the next term
 	 * 7. change date to R, run policy status update job
 	 * 8. Check policy and renewal details
+	 * @Megha Added Term and actual premium //Pas-11809
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -812,6 +821,23 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas10227_ViewManageVehicleLevelCoverages(getPolicyType());
+	}
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	public void pas7147_VehicleUpdateBusiness(@Optional("VA") String state) {
+
+		pas7147_VehicleUpdateBusinessBody();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	public void pas7147_VehicleUpdateRegisteredOwner(@Optional("VA") String state) {
+
+		pas7147_VehicleUpdateRegisteredOwnerBody();
 	}
 
 	@Override

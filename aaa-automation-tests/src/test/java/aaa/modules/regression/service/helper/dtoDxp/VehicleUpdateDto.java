@@ -29,4 +29,18 @@ public class VehicleUpdateDto  implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean registeredOwner;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String garagingAddressPostalCode;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String addressLine1;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String addressLine2;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String city;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String stateProvCd;
 }
