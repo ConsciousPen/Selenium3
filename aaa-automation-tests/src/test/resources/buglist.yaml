@@ -72,21 +72,6 @@ PAS-6667:
       messages: ['WUAUCA']
     - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
       messages: ['WUAUCA']
-PAS-6539:
-  summary: "View eRefunds and the Debit/Credit Card - Auto"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
-      messages: ['paymentMethod']
-PAS-7427:
-  summary: "Regression: The Membership Validation rule is displayed wrongly"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e]
-      messages: ["Errors: AAA_HO_SS_MEM_LASTNAME; Error; Membership Validation Failed. Please review the Membership Report and confirm"]
 PAS-7673:
   summary: "The 'Payment Method' section is missing on Purchase tab when 'Apply eValue Discount' is set to 'Yes'"
   reason: PROD
@@ -107,40 +92,6 @@ OSI-1116:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
       messages: ["rfiName"]
-PAS-7702:
-  summary: "When issuing some policies, documents are not generated"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiAuto]
-      messages: ["No value present"]
-PAS-8994:
-  summary: "Entity of type VASS926232462 and with a number of 1 was not found"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-    - tests: [aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-    - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing.pas1441_emailChangeOutOfPas]
-      messages: ["Entity input stream has already been closed"]
-PAS-8288:
-  summary: "Last Payment Method stub implementation and test refactoring to use it"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsDC,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsACH,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC,
-    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingAutomatedRefundsCC]
-      messages: ["Check"]
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsDC,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsACH,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
-    aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7298_pendingManualRefundsCC,
-    aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess.pas7298_pendingManualRefundsCC]
-      messages: ["by zero"]
 PAS-9157:
   summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
   reason: PROD
@@ -149,12 +100,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-9661:
   summary: "Regression: Auto CA: Exception on changing payment plan by link on Billing tab"
   reason: PROD
@@ -165,24 +110,6 @@ PAS-9661:
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
     - tests: [aaa.modules.e2e.auto_ca.TestScenario13.TC01_createPolicy]
       messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual"]
-PAS-9337:
-  summary: "Green Button Service - Abracradabra"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas6562_endorsementValidateNotAllowedOutOfBound]
-      messages: ["Expected empty*UpdateVehicle"]
-PAS-9722:
-  summary: "Random sequence for Vehicles on DXP - closed, new story will be created"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing.pas8273_OnlyActiveVehiclesAreAllowed]
-      messages: [" "]
-PAS-10350:
-  summary: "Regression: CA Home: Unable to switch to next tab from Property Info,'Roof Type' is not in within range"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules]
-      messages: ['Cannot get value of StaticElement', "Errors: 'Roof Type' is not in within range"]
 PAS-10661:
   summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
