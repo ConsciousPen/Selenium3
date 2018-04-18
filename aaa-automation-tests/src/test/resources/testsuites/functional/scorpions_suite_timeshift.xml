@@ -226,4 +226,16 @@
         </classes>
     </test>
 
+    <test name="DP3 pas9114 Pre Renewal Print Sequence" thread-count="200">
+        <parameter name="state" value="PA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas9114_PreRenewalPrintSequenceMortgagee"/>
+                    <include name="pas9114_PreRenewalPrintSequence"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

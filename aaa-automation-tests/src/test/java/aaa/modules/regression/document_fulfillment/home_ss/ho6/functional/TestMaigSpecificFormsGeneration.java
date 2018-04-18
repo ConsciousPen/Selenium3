@@ -28,10 +28,9 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacket(@Optional("MD") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD())
-				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
+		verifyConversionFormsSequence(getTestDataWithAdditionalInterest(getSpecificFormsTestData()));
 	}
 
 	/**
@@ -45,10 +44,9 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacketMortgagee(@Optional("NJ") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(adjustWithMortgageeData(getTestDataWithAdditionalInterest(getConversionPolicyDefaultTD()))
-				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
+		verifyConversionFormsSequence(adjustWithMortgageeData(getTestDataWithAdditionalInterest(getSpecificFormsTestData())));
 	}
 
 	/**
@@ -62,7 +60,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9816"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-9816"})
 	public void pas9816_BillingPacketGeneration(@Optional("DE") String state) throws NoSuchFieldException {
 		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
 	}
