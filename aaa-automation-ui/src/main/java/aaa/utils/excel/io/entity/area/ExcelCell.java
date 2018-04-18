@@ -188,7 +188,7 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public <T> T getValue(CellType<T> cellType) {
-		assertThat(hasType(cellType)).as("Unable to get value with type %s from cell %s", cellType.getEndType(), this).isTrue();
+		//assertThat(hasType(cellType)).as("Unable to get value with type %s from cell %s", cellType.getEndType(), this).isTrue();
 		return cellType.getValueFrom(this);
 	}
 

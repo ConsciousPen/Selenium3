@@ -14,7 +14,11 @@ public class ColumnFieldHelper {
 	private static final String PRIMARY_KEY_SSEPARATOR_METHOD_NAME = "primaryKeysSeparator";
 
 	public static Field getPrimaryKeyField(Class<?> tableRowClass) {
-		for (Field field : BindHelper.getAllAccessibleFieldsFromThisAndSuperClasses(tableRowClass)) {
+		return getPrimaryKeyField(tableRowClass, BindHelper.getAllAccessibleFieldsFromThisAndSuperClasses(tableRowClass));
+	}
+
+	public static Field getPrimaryKeyField(Class<?> tableRowClass, List<Field> tableColumnsFields) {
+		for (Field field : tableColumnsFields) {
 			if (field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
 				return field;
 			}
