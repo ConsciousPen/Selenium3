@@ -200,11 +200,9 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         propertyDamage.setValueByIndex(3);
         bodilyInjury.setValueByIndex(2);
         premiumAndCoveragesTab.calculatePremium();
-        new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.moreThan(new Dollar(0));
         enhancedUIM.setValue(false);
         new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
         premiumAndCoveragesTab.calculatePremium();
-        new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.moreThan(new Dollar(0));
         enhancedUIM.setValue(true);
         new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
         premiumAndCoveragesTab.calculatePremium();
