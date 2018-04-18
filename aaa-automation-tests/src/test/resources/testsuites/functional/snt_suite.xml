@@ -283,15 +283,11 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestEarnedPremiumWriteOff">
                 <methods>
                     <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee"/>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee"/>
                 </methods>
             </class>
         </classes>
@@ -302,15 +298,9 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestEarnedPremiumWriteOff">
                 <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDeclineMortgagee"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposedMortgagee"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee"/>
                 </methods>
             </class>
@@ -322,12 +312,8 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestEarnedPremiumWriteOff">
                 <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
                 </methods>
             </class>
@@ -340,10 +326,6 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestEarnedPremiumWriteOff">
                 <methods>
                     <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
                 </methods>
@@ -356,13 +338,8 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestEarnedPremiumWriteOff">
                 <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
                 </methods>
             </class>
         </classes>
@@ -373,11 +350,8 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
                 <methods>
-                    <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
                 </methods>
