@@ -491,7 +491,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 2. Check policy details
 	 * 3. Change date, run policyStatusUpdate
 	 * 4. Check policy details
-	  * @Megha Added Term and actual premium  //Pas-11809
+	 * @Megha Added Term and actual premium  //Pas-11809
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
