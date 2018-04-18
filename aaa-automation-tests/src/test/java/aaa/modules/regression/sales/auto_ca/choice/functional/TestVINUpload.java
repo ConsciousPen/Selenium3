@@ -221,7 +221,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 this after method should be updated. But such updates are not supposed to be done.
 	 Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
-	@AfterMethod(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T')";
 		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());

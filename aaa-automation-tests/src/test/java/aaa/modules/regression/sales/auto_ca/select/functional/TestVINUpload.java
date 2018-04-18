@@ -301,7 +301,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	* Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	*/
 
-	@AfterMethod(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CA_SELECT')";
 		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
