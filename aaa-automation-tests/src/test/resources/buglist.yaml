@@ -304,7 +304,7 @@ PAS-12726:
   failures:
     - tests: [
     aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
-      messages: ["Cannot set value of AssetList"]
+      messages: ["Cannot set value"]
 PT-1576:
   summary: "Auto SS Defensive Driver Discount is not displayed correctly"
   reason: PROD
