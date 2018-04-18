@@ -22,6 +22,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -60,6 +61,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
         String inceptionDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
 
         createConvPolicyAndMoveToPropertyInfoTab(td, inceptionDate);
+        SoftAssertions.assertSoftly(softly -> {
         assertMasonryVaneerFirstRenewal();
         assertOilStorageTankFirstRenewal(state);
         String policyNumber = saveAndExitPolicyOnBindTab(td);
@@ -67,7 +69,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
         initiateSecondRenewal(policyNumber);
         navigateToPropertyInfoOnSecondRenewal();
         assertMasonryVaneerSecondRenewal();
-        assertOilStorageTankSecondRenewal();
+        assertOilStorageTankSecondRenewal();});
     }
 
     /*
@@ -92,11 +94,11 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
 
         mainApp().reopen();
         SearchPage.openBilling(policyNumber);
-        Dollar totDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
+        Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies
                 .getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber)
                 .getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount
-                .getTestData("AcceptPayment", "TestData_Cash"), totDue);
+                .getTestData("AcceptPayment", "TestData_Cash"), totalDue);
     }
 
     /*
@@ -106,7 +108,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         policy.getDefaultView().fillFromTo(td, PremiumsAndCoveragesQuoteTab.class, BindTab.class, true).getTab(BindTab.class).btnPurchase.click();
-        Page.dialogConfirmation.buttonYes.click();
+        Page.dialogConfirmation.confirm();
         return PolicySummaryPage.linkPolicy.getValue();
     }
 
@@ -129,14 +131,14 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO3
             /*Specific for HO3 and DP3*/
             case "NJ": {
                 propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
-                        .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.OIL_FUEL_OR_PROPANE_STORAGE_TANK).setValueContains("Active underground propane tank");
+                        .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.OIL_FUEL_OR_PROPANE_STORAGE_TANK).setValue("Active underground propane tank");
                 assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
                         .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.ADD_FUEL_SYSTEM_STORAGE_TANK_COVERAGE)).isEnabled(true);
                 assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
                         .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.AGE_OF_OIL_OR_PROPANE_FUEL_STORAGE_TANK)).isEnabled(true);
 
                 propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
-                        .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.OIL_FUEL_OR_PROPANE_STORAGE_TANK).setValueContains("Above ground oil or propane tank on slab");
+                        .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.OIL_FUEL_OR_PROPANE_STORAGE_TANK).setValue("Above ground oil or propane tank on slab");
                 assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
                         .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.ADD_FUEL_SYSTEM_STORAGE_TANK_COVERAGE)).isEnabled(true);
                 assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
