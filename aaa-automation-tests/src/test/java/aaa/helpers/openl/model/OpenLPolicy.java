@@ -40,7 +40,9 @@ public abstract class OpenLPolicy {
 
 	public abstract Integer getTerm();
 
-	public abstract Double getTermCappingFactor();
+	public Double getPreviousPolicyPremium() {
+		return null;
+	}
 
 	public abstract String getUnderwriterCode();
 

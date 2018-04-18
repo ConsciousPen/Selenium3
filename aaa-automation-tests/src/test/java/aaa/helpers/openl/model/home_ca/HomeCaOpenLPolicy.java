@@ -84,11 +84,6 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenL
 	}
 
 	@Override
-	public Double getTermCappingFactor() {
-		return null;
-	}
-
-	@Override
 	public String getUnderwriterCode() {
 		return null;
 	}

@@ -64,6 +64,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public PremiumAndCoveragesTab() {
 		super(AutoSSMetaData.PremiumAndCoveragesTab.class);
 		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
+		assetList.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES).applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 	}
 
 	public static Dollar getPreEndorsementPremium() {
@@ -148,7 +149,7 @@ public class PremiumAndCoveragesTab extends Tab {
 			if (tableTermPremiumbyVehicle.getColumn(column).getValue().stream().allMatch(String::isEmpty)) {
 				continue; // empty column means absent vehicle
 			}
-			List<String> values = new ArrayList<String>();
+			List<String> values = new ArrayList<>();
 			if (column == 1) {
 				values.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[2]")).getColumn(2).getValue());
 				values.addAll(new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]//table[3]")).getColumn(2).getValue());
