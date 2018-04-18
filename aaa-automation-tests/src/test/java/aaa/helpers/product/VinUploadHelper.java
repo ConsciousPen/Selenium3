@@ -87,7 +87,8 @@ public class VinUploadHelper {
 
 	public enum UploadFilesTypes {
 		UPDATED_VIN("Updated"),
-		ADDED_VIN("Added");
+		ADDED_VIN("Added"),
+		R45("R45");
 
 		private String type;
 
@@ -102,5 +103,6 @@ public class VinUploadHelper {
 		public String get() {
 			return type;
 		}
+
 	}
 }

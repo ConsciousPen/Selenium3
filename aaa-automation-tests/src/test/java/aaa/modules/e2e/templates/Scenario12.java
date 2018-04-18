@@ -347,7 +347,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void payRenewalBill(){
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate.plusHours(1));
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

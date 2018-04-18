@@ -11,7 +11,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -92,7 +92,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String MESSAGE_BULLET_4_A = "Coverage and BI Limits: Maintain continuous insurance coverage and bodily injury limits of at least $50,000/$100,000";
 	private static final String MESSAGE_BULLET_7 = "Has held CSAA Insurance for less than one term";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
-	private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
+	private static final String MESSAGE_BULLET_9 = "Has not maintained continuous insurance coverage and bodily injury limits";//TODO replace PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE with this bullet point afer 2018/04/20 if nightly run passes
 	private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
 	private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
 	private static final String PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE = "Has not maintained continuous insurance coverage and bodily injury limits";
@@ -194,6 +194,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB);
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -1318,7 +1319,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		eValueEnabledForRenewal();
 	}
 
-	@AfterClass(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	public void deleteAllPaperlessPreferencesRequests() {
 		deleteMultiplePaperlessPreferencesRequests();
 	}
@@ -2019,7 +2020,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 *
 	 * @param paymentMethod - DC - Debit Card, CC - Credit Card, ACH - EFT
 	 */
-	private String simplifiedQuoteIssue(String paymentMethod) {
+	public String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
 		if (generalTabHome.getAssetList().getAsset(HomeSSMetaData.GeneralTab.POLICY_TYPE.getLabel()).isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());

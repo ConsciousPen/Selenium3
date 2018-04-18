@@ -2,10 +2,6 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
@@ -14,6 +10,10 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
+import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
+import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -577,6 +577,9 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<RadioGroup> SUPPLEMENTAL_SPOUSAL_LIABILITY = declare("Supplemental Spousal Liability", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> PROPERTY_DAMAGE_LIABILITY = declare("Property Damage Liability", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM)", ComboBox.class);
+		public static final AssetDescriptor<CheckBox> ENHANCED_UIM = declare("Enhanced UIM", CheckBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Enhanced Uninsured/Underinsured Motorist Bodily Injury", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Enhanced Uninsured Motorist Property Damage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured Motorists Bodily Injury", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_BODILY_INJURY = declare("Uninsured Motorist Bodily Injury", ComboBox.class); // MT state
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_STACKED_UNSTACKED = declare("Uninsured Motorist Stacked/Unstacked", ComboBox.class);
@@ -613,7 +616,10 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_MD = declare("Special Equipment", TextBox.class);
 		public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> TRANSPORTATION_EXPENSE = declare("Transportation Expense", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class);
+		public static final AssetDescriptor<TextBox> EXCESS_ELECTRONIC_EQUIPMENT = declare("Excess Electronic Equipment", TextBox.class);
+		public static final AssetDescriptor<ComboBox> AUTO_LOAN_LEASE_COVERAGE = declare("Auto Loan/Lease Coverage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
 		public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
 

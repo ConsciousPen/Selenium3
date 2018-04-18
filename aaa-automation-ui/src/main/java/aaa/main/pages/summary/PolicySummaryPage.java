@@ -3,17 +3,26 @@
 package aaa.main.pages.summary;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class PolicySummaryPage extends SummaryPage {
@@ -124,6 +133,55 @@ public class PolicySummaryPage extends SummaryPage {
 		}
 		return linkPolicy.getValue();
 	}
+
+    /**
+     * Returns the text at the given row/column in the Auto Coverages Summary Table
+     * Row 1 is the first vehicle, such as '#1, 2011, CHEVROLET, EXPRESS VAN'
+     * Column 1 is 'Vehicle'
+     */
+	public static String getAutoCoveragesSummaryTextAt(int row, int column) {
+        return getAutoCoveragesSummaryTables().get(row).getRow(1).getCell(column).getValue();
+    }
+
+    /**
+     * Returns entire Auto Coverages Summary section as test data
+     */
+    public static TestData getAutoCoveragesSummaryTestData() {
+        List<Table> coveragesTables = getAutoCoveragesSummaryTables();
+        int numTables = coveragesTables.size();
+        Map<String, Object> coverageDataList = new LinkedHashMap<>();
+
+        Row labels = coveragesTables.get(0).getRow(1);
+        String limit = labels.getCell(3).getValue();
+        String deductible = labels.getCell(4).getValue();
+        String premium = labels.getCell(5).getValue();
+
+        for (int tableRow = 1; tableRow < numTables; tableRow++) {
+            String firstValue = coveragesTables.get(tableRow).getRow(1).getCell(1).getValue();
+            if (firstValue.startsWith("#")) {
+                String thisVehicle = firstValue;
+                Map<String, Object> coverages = new LinkedHashMap<>();
+                tableRow++;
+                do {
+                    Map<String, String> limitsPremiumsData = new LinkedHashMap<>();
+                    limitsPremiumsData.put(limit, coveragesTables.get(tableRow).getRow(1).getCell(3).getValue());
+                    limitsPremiumsData.put(deductible, coveragesTables.get(tableRow).getRow(1).getCell(4).getValue());
+                    limitsPremiumsData.put(premium, coveragesTables.get(tableRow).getRow(1).getCell(5).getValue());
+                    coverages.put(coveragesTables.get(tableRow).getRow(1).getCell(2).getValue(), limitsPremiumsData);
+                    firstValue = coveragesTables.get(++tableRow).getRow(1).getCell(1).getValue();
+                } while (firstValue.isEmpty());
+                coverageDataList.put(thisVehicle, coverages);
+            }
+            coverageDataList.put(firstValue, coveragesTables.get(tableRow).getRow(1).getCell(2).getValue());
+        }
+        return new SimpleDataProvider(coverageDataList);
+    }
+
+    private static List<Table> getAutoCoveragesSummaryTables() {
+        int numTables = BrowserController.get().driver().findElements(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table")).size();
+        return IntStream.range(1, numTables + 1).mapToObj(i -> new Table(By.xpath(".//div[@id='productConsolidatedViewForm:consolidatedInfoPanelCoveragesConsView_body']//table//table[" + i + "]")))
+                .collect(Collectors.toList());
+    }
 
 	public static void verifyCancelNoticeFlagPresent() {
 		labelCancelNotice.verify.present("'Cancel Notice' flag is present");

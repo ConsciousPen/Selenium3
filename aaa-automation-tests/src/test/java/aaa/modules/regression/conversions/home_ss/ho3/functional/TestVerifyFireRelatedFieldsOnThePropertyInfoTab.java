@@ -1,12 +1,5 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -22,7 +15,16 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3BaseTest {
 
@@ -53,7 +55,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("NJ") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("PA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -110,7 +112,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("NJ") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("PA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();

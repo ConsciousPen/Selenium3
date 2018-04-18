@@ -4,12 +4,14 @@ import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransaction
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
 import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,7 +39,9 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
@@ -854,6 +858,42 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		stubRequestCC.cleanUp();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
+	public void pas5743_EnterTooMuchAndGetMessage(@org.testng.annotations.Optional("VA") String state) {
+		String policyNumber = policyCreation();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		assertSoftly(softly -> {
+			try {
+				HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, AMOUNT_CREDIT_CARD);
+				errorExceedingAmountCheck(MESSAGE_CREDIT_CARD, AMOUNT_CREDIT_CARD, softly);
+				stubRequestCC.cleanUp();
+
+				HelperWireMockStub stubRequestDC = helperWireMockLastPaymentMethod.getHelperWireMockStubDC(policyNumber, AMOUNT_DEBIT_CARD);
+				errorExceedingAmountCheck(MESSAGE_DEBIT_CARD, AMOUNT_DEBIT_CARD, softly);
+				stubRequestDC.cleanUp();
+
+				HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, AMOUNT_ACH);
+				errorExceedingAmountCheck(MESSAGE_ACH, AMOUNT_ACH, softly);
+				stubRequestACH.cleanUp();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	private void errorExceedingAmountCheck(String messagePaymentMethod, String amountPaymentMethod, SoftAssertions softly) throws IllegalAccessException {
+		billingAccount.refund().start();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(messagePaymentMethod);
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(new Dollar(amountPaymentMethod).add(0.01).toString());
+		softly.assertThat(acceptPaymentActionTab.getAssetList().getWarning(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()).getValue()).isEqualTo("The amount you entered exceeds the maximum amount for this payment method.");
+		acceptPaymentActionTab.submitTab();
+		softly.assertThat(acceptPaymentActionTab.getAssetList().getWarning(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()).getValue()).isEqualTo("The amount you entered exceeds the maximum amount for this payment method.");
+		acceptPaymentActionTab.cancel();
 	}
 
 	@Parameters({"state"})

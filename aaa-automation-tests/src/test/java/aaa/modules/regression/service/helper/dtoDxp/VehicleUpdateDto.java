@@ -1,7 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import aaa.modules.regression.service.helper.RestBodyRequest;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Internal DTO used to hold and transfer vehicle related information. Vehicle MVO representative in PAS.
@@ -29,4 +29,18 @@ public class VehicleUpdateDto  implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Boolean registeredOwner;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String garagingAddressPostalCode;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String addressLine1;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String addressLine2;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String city;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public String stateProvCd;
 }

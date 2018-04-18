@@ -329,8 +329,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
 	public void pas8275_vinValidate(@Optional("") String state) {
-
-		pas8275_vinValidateCheck(getPolicyType());
+		assertSoftly(softly ->
+				pas8275_vinValidateCheck(softly, getPolicyType())
+		);
 	}
 
 	/**
@@ -345,10 +346,11 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
-
-		pas8273_CheckIfOnlyActiveVehiclesAreAllowed(getPolicyType());
+		assertSoftly(softly ->
+				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
+		);
 	}
 
 	/**
@@ -397,8 +399,8 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082"})
-	public void pas7082_AddVehicle(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145"})
+	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
 	}
@@ -590,8 +592,9 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9456", "PAS-9455", "PAS-10825"})
 	public void pas9456_9455_PolicyLockUnlockServices(@Optional("VA") String state) {
-
-		pas9456_9455_PolicyLockUnlockServices();
+		assertSoftly(softly ->
+				pas9456_9455_PolicyLockUnlockServicesBody(softly)
+		);
 	}
 
 	/**
@@ -644,7 +647,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9490", "PAS-479"})
-	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("VA") String state) {
+	public void pas9490_ViewVehicleServiceCheckVehiclesStatus(@Optional("AZ") String state) {
 
 		pas9490_ViewVehicleServiceCheckVehiclesStatus();
 	}
@@ -703,6 +706,24 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
 		pas10484_ViewDriverAssignmentService(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a policy with 1 driver and 1 vehicle
+	 * Create pended endorsement using DXP
+	 * Add vehicle Using DXP
+	 * Hit driver assignement service to verify Response
+	 * Pas go to assign page and get information
+	 * Hit driver assignement service to verify 1 driver is assigned to both vehicle
+	 * Verify primary for first vehicle and ocasional for 2nd vehicle
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
+	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
+
+		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
 	}
 
 	/**
@@ -773,6 +794,24 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
 
 		pas10227_ViewPremiumServiceForPendedEndorsement();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * Create a active policy with 2008 vehicle
+	 * Get vehicle coverages from Pas
+	 * run Dxp ViewManageVehicleLevelCoverages
+	 * verify coverages are same like pas coverages
+	 * calculate premium save and exit
+	 * run ViewManageVehicleLevelCoverages for endorsemnt
+	 * validate they are matching with pas.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
+
+		pas10227_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
 	@Override
