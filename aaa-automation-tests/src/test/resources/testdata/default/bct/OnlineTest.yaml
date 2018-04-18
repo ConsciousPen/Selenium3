@@ -31,11 +31,11 @@ BCT_ONL_005_CancelPolicy: {
 }
 
 BCT_ONL_006_ReinstatePolicy: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype = 'cancellation' and policystatuscd = 'cancelled' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'AUTO' and riskstatecd ='/STATE/' and EXPIRATION > '/EXECDATE/' and rownum = 1"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype = 'cancellation' and policystatuscd = 'cancelled' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'AUTO' and riskstatecd ='/STATE/' and EXPIRATION - 49 > '/EXECDATE/' and rownum = 1"
 }
 
 BCT_ONL_007_ReinstatePolicy: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'AUTO' and riskstatecd ='/STATE/' and EXPIRATION > '/EXECDATE/' and rownum = 1"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'AUTO' and riskstatecd ='/STATE/' AND EXPIRATION - 49 >= '/EXECDATE/' and rownum = 1"
 }
 
 BCT_ONL_008_CancelPolicy: {
@@ -47,7 +47,7 @@ BCT_ONL_009_CancelPolicy: {
 }
 
 BCT_ONL_010_ReinstatePolicy: {
-  SelectPolicy: "select policynumber, LASTACTIONEFFECTIVEDATE from pasadm.policysummary  where LOB = 'HOME' and riskstatecd = '/STATE/' and txtype = 'cancellation' and policystatuscd = 'cancelled' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LASTACTIONEFFECTIVEDATE + 30 >= '/EXECDATE/' AND EXPIRATION > '/EXECDATE/' and rownum = 1"
+  SelectPolicy: "select policynumber, LASTACTIONEFFECTIVEDATE from pasadm.policysummary  where LOB = 'HOME' and riskstatecd = '/STATE/' and txtype = 'cancellation' and policystatuscd = 'cancelled' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LASTACTIONEFFECTIVEDATE + 30 >= '/EXECDATE/' AND EXPIRATION - 49 > '/EXECDATE/' and rownum = 1"
 }
 
 BCT_ONL_011_ReinstatePolicy: {
