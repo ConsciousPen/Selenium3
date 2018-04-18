@@ -30,12 +30,11 @@ public class CSPolicyRateWSClient implements IRestClient {
 	private CSPolicyRatePort csPolicyRatePort;
 
 	public RatePolicyRequest getCSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest) throws DatatypeConfigurationException {
-		RatePolicyRequest request = ratePolicyRequest;
 		log.info("SOAP: REQUEST");
-		log.info(AAAMarshaller.modelToXml(request));
+		log.info(AAAMarshaller.modelToXml(ratePolicyRequest));
 		RatePolicyRequest response = null;
 		try {
-			response = csPolicyRatePort.rateQuote(request);
+			response = csPolicyRatePort.rateQuote(ratePolicyRequest);
 		} catch (ErrorInfo errorInfo) {
 			errorInfo.printStackTrace();
 		}
