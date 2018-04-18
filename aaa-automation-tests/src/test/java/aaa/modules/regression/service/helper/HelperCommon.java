@@ -153,7 +153,7 @@ public class HelperCommon {
 		Vehicle request = new Vehicle();
 		request.purchaseDate = purchaseDate;
 		request.vehIdentificationNo = vin;
-		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201)
+		return runJsonRequestPostDxp(requestUrl, request, Vehicle.class, 201);
 	}
 
 	public static Vehicle[] pendedEndorsementValidateVehicleInfo(String policyNumber) {
