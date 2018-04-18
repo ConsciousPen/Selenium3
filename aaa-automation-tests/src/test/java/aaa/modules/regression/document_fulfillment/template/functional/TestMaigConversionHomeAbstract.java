@@ -1,5 +1,17 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static org.apache.commons.lang.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang.StringUtils.substringAfterLast;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.inject.internal.ImmutableList;
+import com.google.inject.internal.ImmutableMap;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,30 +32,18 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.inject.internal.ImmutableList;
-import com.google.inject.internal.ImmutableMap;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
-import static org.apache.commons.lang.StringUtils.defaultIfBlank;
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
-import static toolkit.verification.CustomAssertions.assertThat;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
-	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT =
-			ImmutableMap.of(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob, Jobs.aaaDocGenBatchJob),
-					RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob),
-					RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob),
-					BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob),
-					MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob));
+	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT  = ImmutableMap.<AaaDocGenEntityQueries.EventNames, List<Job>>builder()
+			.put(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
+			.put(RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob))
+			.put(RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob))
+			.put(BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
+			.put(MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
+			.build();
 
 	ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
 
@@ -560,6 +560,9 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 	private void billFirstReminderNoticeJobExecution(LocalDateTime effectiveDate){
 		renewalBillJobExecution(effectiveDate);
+		LocalDateTime statusUpdate = getTimePoints().getUpdatePolicyStatusDate(effectiveDate);
+		TimeSetterUtil.getInstance().nextPhase(statusUpdate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		LocalDateTime mortgageeBillFirstRenewalReminder = getTimePoints().getMortgageeBillFirstRenewalReminder(effectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(mortgageeBillFirstRenewalReminder);
 		JOBS_FOR_EVENT.get(BILL_FIRST_RENEW_REMINDER_NOTICE).forEach(job -> JobUtils.executeJob(job));
@@ -567,8 +570,10 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 	private void billFinalxpNoticeJobExecution(LocalDateTime effectiveDate){
 		billFirstReminderNoticeJobExecution(effectiveDate);
-		LocalDateTime mortgageeBillFinalExpNotice = getTimePoints().getMortgageeBillFinalExpirationNotice(effectiveDate);
-		TimeSetterUtil.getInstance().nextPhase(mortgageeBillFinalExpNotice);
+		LocalDateTime lapsedRenewal = getTimePoints().getRenewCustomerDeclineDate(effectiveDate);
+		TimeSetterUtil.getInstance().nextPhase(lapsedRenewal);
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		TimeSetterUtil.getInstance().nextPhase(effectiveDate.plusMonths(2).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
 		JOBS_FOR_EVENT.get(MORTGAGEE_BILL_FINAL_EXP_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}
 
