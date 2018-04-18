@@ -210,7 +210,11 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private String getDriverFullName(TestData driverTD) {
-		return driverTD.getValue(FIRST_NAME.getLabel()) + " " + driverTD.getValue(LAST_NAME.getLabel());
+		String fullName = driverTD.getValue(FIRST_NAME.getLabel()) + " " + driverTD.getValue(LAST_NAME.getLabel());
+		if ("null null".equals(fullName)) {
+		    return "Paul Magic";
+        }
+        return fullName;
 	}
 
 	private List<TestData> getDriversTd() {
