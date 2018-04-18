@@ -249,6 +249,7 @@ public final class AutoSSMetaData {
 
 		public static final AssetDescriptor<ComboBox> NAMED_INSURED = declare("Named Insured", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class, By.id("policyDataGatherForm:driverMVOInformation_driver_nonDriverReason"));
 		public static final AssetDescriptor<ComboBox> CARRIER = declare("Carrier", ComboBox.class, By.id("policyDataGatherForm:driverMVOInformation_driver_carrierName"));
 		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", AdvancedComboBox.class);
@@ -291,7 +292,7 @@ public final class AutoSSMetaData {
 
 		// "Clean Driver Renewal" should be filled after "ActivityInformation" section
 		public static final AssetDescriptor<RadioGroup> CLEAN_DRIVER_RENEWAL = declare("Clean Driver Renewal", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class);
+		//public static final AssetDescriptor<TextBox> CLEAN_DRIVER_RENEWAL_REASON = declare("Reason", TextBox.class);
 
 		public static final class ListOfDriver extends MetaData {
 			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);

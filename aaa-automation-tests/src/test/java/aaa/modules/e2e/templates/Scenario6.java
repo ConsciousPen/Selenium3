@@ -140,7 +140,11 @@ public class Scenario6 extends ScenarioBaseTest {
 		// TODO
 		// Replace with verify.less if 42369 Defect will be fixed
 		for (int i = 2; i < installmentsAmounts.size(); i++) {
-			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.equals(installmentsAmounts.get(i));
+			if (getState().equals(States.KY)) {
+				BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.moreThan(installmentsAmounts.get(i)); // include tax
+			} else {
+				BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.equals(installmentsAmounts.get(i));
+			}
 		}
 	}
 
