@@ -846,13 +846,13 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * this after method should be updated. But such updates are not supposed to be done.
 	 * Please refer to the files with appropriate names in each test     in /resources/uploadingfiles/vinUploadFiles.
 	 */
-	@AfterSuite(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_SS_TEST','BACKDATED_SS','BACKDATED2_SS')";
 		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
 	}
 
-	@AfterSuite(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)
 	protected void resetDefault() {
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}

@@ -301,13 +301,13 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	* Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	*/
 
-	@AfterSuite(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CA_SELECT')";
 		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
 	}
 
-	@AfterSuite(alwaysRun = true)
+	@AfterMethod(alwaysRun = true)
 	protected void resetDefault() {
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
