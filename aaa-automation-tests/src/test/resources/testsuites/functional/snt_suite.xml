@@ -374,22 +374,12 @@
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
                 <methods>
                     <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
-                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Earned premium write-off PUP CA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
-                <methods>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffMoreDecline"/>
                     <include name="pas11697_testEarnedPremiumWriteOffLessProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
                     <include name="pas11697_testEarnedPremiumWriteOffMoreProposed"/>
+                    <include name="pas11697_testEarnedPremiumWriteOffNoAP"/>
                 </methods>
             </class>
         </classes>
