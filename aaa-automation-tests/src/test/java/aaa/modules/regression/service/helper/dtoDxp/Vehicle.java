@@ -58,7 +58,15 @@ public class Vehicle implements RestBodyRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String vehTypeCd;
 
+	public String garagingAddressPostalCode;
 
+	public String addressLine1;
+
+	public String addressLine2;
+
+	public String city;
+
+	public String stateProvCd;
 
 	public static class VehicleComparator implements Comparator<Vehicle> {
 		private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
