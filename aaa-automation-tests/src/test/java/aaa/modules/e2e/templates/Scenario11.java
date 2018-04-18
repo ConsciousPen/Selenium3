@@ -300,7 +300,7 @@ public class Scenario11 extends ScenarioBaseTest {
 
 	//For AutoSS, HomeSS, PUP
 	protected void payRenewalBillNotInFullAmount(Dollar toleranceAmount) {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate)); 
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).minusHours(1)); 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -319,7 +319,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	
 	//For AutoCA, HomeCA
 	protected void payRenewalOfferNotInFullAmount(Dollar toleranceAmount) {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate)); //.plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		
 		mainApp().open();
@@ -420,7 +420,7 @@ public class Scenario11 extends ScenarioBaseTest {
 					BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query_renew).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
 			Dollar premiumAmount = new Dollar(premiumRenewal.substring(1, premiumRenewal.length()-1)); 
 			refundAmount = refundAmount.add(premiumAmount); 
-			refundAmount = refundAmount.subtract(new Dollar(20));
+			//refundAmount = refundAmount.subtract(new Dollar(20)); commented according to PASBB-492: Reinstatement fee 20$ should not be applied
 		}		
 		return refundAmount;		
 	}
