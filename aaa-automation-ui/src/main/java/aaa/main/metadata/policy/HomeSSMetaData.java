@@ -1193,12 +1193,9 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS = declare(
 					"Is the employee a Private Estate - Full Time Outservant including drivers?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability coverage limit", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_EMPLOYEES_VALUE1 = declare("Number of Employees Value1", ComboBox.class, Waiters.AJAX, false, By
-					.xpath("//input[@id='policyDataGatherForm:sedit__HS2494EndorsementForm_value1]"));
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_EMPLOYEES_VALUE2 = declare("Number of Employees Value2", ComboBox.class, Waiters.AJAX, false, By
-					.xpath("//input[@id='policyDataGatherForm:sedit__HS2494EndorsementForm_value2]"));
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_EMPLOYEES_VALUE3 = declare("Number of Employees Value3", ComboBox.class, Waiters.AJAX, false, By
-					.xpath("//input[@id='policyDataGatherForm:sedit__HS2494EndorsementForm_value3]"));
+			public static final AssetDescriptor<TextBox> NUMBER_OF_EMPLOYEES_VALUE1 = declare("Number of Employees Value1", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:sedit_AAAHoPolicyEndorsementFormManager_HS2494EndorsementForm_value1"));
+			public static final AssetDescriptor<TextBox> NUMBER_OF_EMPLOYEES_VALUE2 = declare("Number of Employees Value2", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:sedit_AAAHoPolicyEndorsementFormManager_HS2494EndorsementForm_value2"));
+			public static final AssetDescriptor<TextBox> NUMBER_OF_EMPLOYEES_VALUE3 = declare("Number of Employees Value3", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:sedit_AAAHoPolicyEndorsementFormManager_HS2494EndorsementForm_value3"));
 		}
 
 		public static final class EndorsementDS2494 extends MetaData {
