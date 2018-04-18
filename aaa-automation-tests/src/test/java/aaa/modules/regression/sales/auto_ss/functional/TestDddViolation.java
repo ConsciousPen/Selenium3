@@ -31,6 +31,7 @@ import toolkit.webdriver.controls.Button;
 public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2"));
 	private static final List<String> DRIVERS_WITH_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1"));
+	private List<TestData> driversTD;
 
 	/**
 	* * @author Igor Garkusha
@@ -54,8 +55,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
 
+		driversTD = getDriversTd();
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd())
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		policy.initiate();
@@ -159,7 +161,7 @@ public class TestDddViolation extends AutoSSBaseTest {
         createCustomerIndividual(getCustomerTD());
 
 		TestData testData = getConversionPolicyDefaultTD()
-                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd())
+                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
@@ -174,7 +176,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private void renewAndEndorsementSteps() {
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd());
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		new DriverTab().fillTab(testData).submitTab();
