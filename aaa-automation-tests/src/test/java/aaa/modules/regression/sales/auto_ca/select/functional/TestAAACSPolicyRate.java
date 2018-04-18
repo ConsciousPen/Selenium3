@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.choice.functional;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -35,7 +35,7 @@ public class TestAAACSPolicyRate extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "")
-	public void test(@Optional("") String state) throws DatatypeConfigurationException {
+	public void pas11722_TestAAACSPolicyRate(@Optional("") String state) throws DatatypeConfigurationException {
 
 		RatePolicyRequest actualResponse = csPolicyRateWSClient.getCSPolicyRateServiceResponse(pas11722_CSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
@@ -49,7 +49,6 @@ public class TestAAACSPolicyRate extends AutoCaChoiceBaseTest {
 	private String vehicleOID = "N100";
 	private String Oid = "N15";
 	private String insuredOid = "N15";
-	private String principalDriverOID = "r6HQzISCEvahaNZYnixEsg";
 	private String firstName = "Alexander";
 	private String lastName = "Petrovich";
 	private String middleName = "Middle Name";

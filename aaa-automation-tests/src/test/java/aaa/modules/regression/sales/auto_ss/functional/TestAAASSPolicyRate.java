@@ -38,7 +38,7 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "")
-	public void test(@Optional("") String state) throws DatatypeConfigurationException {
+	public void pas11722_TestAAASSPolicyRate(@Optional("") String state) throws DatatypeConfigurationException {
 
 		RatePolicyRequest actualResponse = ssPolicyRateWSClient.getSSPolicyRateServiceResponse(pas11722_SSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
@@ -52,7 +52,6 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	private String vehicleOid = "N63";
 	private String Oid = "N15";
 	private String insuredOid = "N13";
-	private String principalDriverOID = "r6HQzISCEvahaNZYnixEsg";
 	private String firstName = "Igor";
 	private String lastName = "Akrapovic";
 	private String middleName = "EvolutionMN";
@@ -118,7 +117,7 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	private AAAPrefill prepareAAAPrefill(XMLGregorianCalendar insuredBirthDate) {
 		AAAPrefill aaaPrefill = new AAAPrefill();
 		aaaPrefill.setFirstName(firstName);
-		aaaPrefill.setFirstName(lastName);
+		aaaPrefill.setLastName(lastName);
 		aaaPrefill.setBirthDate(insuredBirthDate);
 		aaaPrefill.setRiskStateCd(StateProvCd.AZ);
 
