@@ -34,25 +34,25 @@ public class AAAVehicleVinInfoRestResponse {
 	public String bodyStyleCd;
 	
 	@ApiModelProperty
-	private String restraintsCode;
+	public String restraintsCode;
 	
 	@ApiModelProperty
-	private String restraintsCodeText;
+	public String restraintsCodeText;
 	
 	@ApiModelProperty
-	private String antiLockCodeText;
+	public String antiLockCodeText;
 	
 	@ApiModelProperty
-	private String antiTheftCode;
+	public String antiTheftCode;
 	
 	@ApiModelProperty
-	private String antiTheftCodeText;
+	public String antiTheftCodeText;
 	
 	@ApiModelProperty
-	private Boolean altFuel;
+	public Boolean altFuel;
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
-	private String entryDate;
+	public String entryDate;
 
 	public AAAVehicleVinInfoRestResponse() {
 	}

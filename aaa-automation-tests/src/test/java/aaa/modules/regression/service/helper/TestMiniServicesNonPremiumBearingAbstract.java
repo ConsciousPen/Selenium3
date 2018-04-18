@@ -551,38 +551,38 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String vin1 = "aaaa"; //VIN too short
 		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinValidate(policyNumber, vin1, endorsementDate);
-		softly.assertThat(response.getVehicles()).isEmpty();
-		softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid VIN length");
+		softly.assertThat(response.vehicles).isEmpty();
+		softly.assertThat(response.validationMessage).isEqualTo("Invalid VIN length");
 
 		String vin2 = "12345678901234567890"; //VIN too long
 		AAAVehicleVinInfoRestResponseWrapper response2 = HelperCommon.executeVinValidate(policyNumber, vin2, null);
-		softly.assertThat(response2.getVehicles()).isEmpty();
-		softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
+		softly.assertThat(response2.vehicles).isEmpty();
+		softly.assertThat(response2.validationMessage).isEqualTo("Invalid VIN length");
 
 		String vin3 = "4T1BF1FK0H1234567"; //VIN check digit failed
 		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
-		softly.assertThat(response3.getVehicles()).isEmpty();
-		softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
+		softly.assertThat(response3.vehicles).isEmpty();
+		softly.assertThat(response3.validationMessage).isEqualTo("Check Digit is Incorrect");
 
 		String vin4 = "4T1BF1FK0H"; //VIN from VIN table but too short
 		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
-		softly.assertThat(response4.getVehicles()).isEmpty();
-		softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid VIN length");
+		softly.assertThat(response4.vehicles).isEmpty();
+		softly.assertThat(response4.validationMessage).isEqualTo("Invalid VIN length");
 
 		String vin5 = "1D30E42J451234567"; //VIN NOT from VIN table to Check VIN service
 		AAAVehicleVinInfoRestResponseWrapper response5 = HelperCommon.executeVinValidate(policyNumber, vin5, null);
-		softly.assertThat(response5.getVehicles()).isEmpty();
-		softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
+		softly.assertThat(response5.vehicles).isEmpty();
+		softly.assertThat(response5.validationMessage).isEqualTo("VIN is not on AAA VIN Table");
 
 		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
-		softly.assertThat(response0.getVehicles().get(0).vin).isEqualTo(vin0);
-		softly.assertThat(response0.getVehicles().get(0).year.toString()).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).make).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).modelText).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).seriesText).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).bodyStyleCd).isNotEmpty();
-		softly.assertThat(response0.getValidationMessage()).isEmpty();
+		softly.assertThat(response0.vehicles.get(0).vin).isEqualTo(vin0);
+		softly.assertThat(response0.vehicles.get(0).year.toString()).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).make).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).modelText).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).seriesText).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).bodyStyleCd).isNotEmpty();
+		softly.assertThat(response0.validationMessage).isEmpty();
 	}
 
 	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
@@ -2139,7 +2139,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
 
-		 	softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeGarage);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressGarage);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateGarage);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityGarage);

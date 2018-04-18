@@ -31,8 +31,8 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 		}
 	}
 
-	@Test(description = "Precondition adding MyPolicy as a user for Digital", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void MyPolicyUserAddedConfigInsert() {
-		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "vzhytkevych", "MyPolicy user", "aaaDigitalValidationService.pasDxpUser", "MyPolicy"));
+	@Test(enabled = false, description = "Precondition adding MyPolicy as a user for Digital", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void myPolicyUserAddedConfigInsert() {
+		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "gn3zhyt", "MyPolicy user", "aaaDigitalValidationService.pasDxpUser", "MyPolicy"));
 	}
 }

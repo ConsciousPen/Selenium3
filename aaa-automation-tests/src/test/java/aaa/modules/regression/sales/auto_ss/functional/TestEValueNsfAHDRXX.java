@@ -147,8 +147,6 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd1));
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
-		//String policyNumber = "VASS952918554";
-
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		String billingAccount = BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(ID).getValue();
