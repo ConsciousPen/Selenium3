@@ -6,7 +6,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="ContactInfoUpdateServiceCA" parallel="methods" thread-count="1024">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
@@ -21,7 +20,6 @@
             </class>
         </classes>
     </test>
-
     <test name="GreenButtonServiceAZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -102,7 +100,6 @@
             </class>
         </classes>
     </test>
-
     <test name="PolicySummaryService AZ" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -124,6 +121,7 @@
                     <include name="pas9716_policySummaryForConversion"/>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
+                    <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
                 </methods>
             </class>
         </classes>
@@ -140,4 +138,16 @@
             </class>
         </classes>
     </test>
+    <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas7147_VehicleUpdateBusiness"/>
+                    <include name="pas7147_VehicleUpdateRegisteredOwner"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

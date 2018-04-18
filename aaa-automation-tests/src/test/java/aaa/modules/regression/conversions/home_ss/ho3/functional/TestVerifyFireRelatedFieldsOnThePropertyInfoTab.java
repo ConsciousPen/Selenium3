@@ -55,7 +55,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("NJ") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("PA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -112,7 +112,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO3Ba
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-10703")
-	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("NJ") String state) {
+	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("PA") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();

@@ -1,5 +1,11 @@
 package aaa.modules.regression.service.helper;
-
+import static aaa.admin.modules.IAdmin.log;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
@@ -16,6 +22,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.sun.jna.platform.win32.Guid;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
+import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
@@ -232,6 +245,16 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, HashMap.class);
 	}
 
+	public static PolicyPremiumInfo[] executeEndorsementRate(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
+	}
+
+	public static HashMap<String, String> executeEndorsementRateError(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
+		return runJsonRequestPostDxp(requestUrl, null, HashMap.class, status);
+	}
+
 	public static String executeEndorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
@@ -239,10 +262,13 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
 	}
 
-	public static PolicyPremiumInfo[] executeEndorsementRate(String policyNumber, int status) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_RATE_ENDPOINT, policyNumber));
-		return runJsonRequestPostDxp(requestUrl, null, PolicyPremiumInfo[].class, status);
+	public static HashMap<String, String> executeEndorsementBindError(String policyNumber, String authorizedBy, int status) {
+		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
+		String requestUrl = urlBuilderDxp(String.format(DXP_ENDORSEMENT_BIND_ENDPOINT, policyNumber));
+		request.authorizedBy = authorizedBy;
+		return runJsonRequestPostDxp(requestUrl, request, HashMap.class, status);
 	}
+
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
 		return runJsonRequestPostDxp(url, bodyRequest, String.class);
@@ -365,7 +391,7 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(restRequestInfo);
 	}
 
-	public static <T> T  runJsonRequestGetDxp(RestRequestInfo<T> request) {
+	public static <T> T runJsonRequestGetDxp(RestRequestInfo<T> request) {
 		Client client = null;
 		Response response = null;
 		try {

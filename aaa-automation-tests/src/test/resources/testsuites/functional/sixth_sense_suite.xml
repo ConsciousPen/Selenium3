@@ -15,14 +15,13 @@
         </classes>
     </test>
 
-    <!--- Commented until QC-26288 is fixed.
     <test name="Test Defensive Driver Discount">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
--->
+
     <test name="Test Calculate Tier for NY converted policies">
         <parameter name="state" value="NY"/>
         <classes>
@@ -57,6 +56,15 @@
           <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
       </classes>
     </test>
+
+    <!-- Commented out until dev feature branch is merged
+    <test name="Test Enhanced UIM Coverage Behavior">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+        </classes>
+    </test>
+-->
 
     <!-- Commented until PAS-9063 is merged to master.
     <test name="Test Locked BI Limits And UW Points">
@@ -107,7 +115,10 @@
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
         <parameter name="state" value="PA"/>
         <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport"/>
         </classes>
     </test>
 

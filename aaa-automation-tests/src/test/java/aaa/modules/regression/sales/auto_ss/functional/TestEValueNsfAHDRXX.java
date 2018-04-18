@@ -177,7 +177,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		BillingSummaryPage.linkUpdateBillingAccount.click();
 		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		assertThat(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION)).hasValue("");
-		UpdateBillingAccountActionTab.buttonSave.click();
+		UpdateBillingAccountActionTab.buttonCancel.click();
 
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(EVALUE_STATUS)).hasValue("");

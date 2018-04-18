@@ -1,5 +1,5 @@
 TestData_AllVehicles: {
-    VehicleTab: ['@VehicleTab_First', '@VehicleTab_Other'],
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
 }
 
 TestData_Vehicle: {
@@ -16,16 +16,35 @@ VehicleTab_First: {
     VIN: WDCYC7BB0B6729451
 }
 
-VehicleTab_Other: {
+ErrorTab: {
+  ErrorsOverride: {
+  Override: 'true',
+  'Reason for override': 'index=1',
+  Duration: 'Term'
+  }
+  }
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    'Is Garaging different from Residential?': 'Yes',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+    Order Prefill: click
+}
+
+VehicleTab_2: {
     Usage: Pleasure,
     VIN: 1FM5K8D86JGA29926,
-    Make: 'OTHER',
-    Other Make: 'Other Make',
-    Other Model: 'Model',
-    Other Series: 'Series',
-    'Other Body Style': 'Sedan',
-    Stat Code: 'Small SUV',
-    'Stated Amount': '10000',
+    'Is Garaging different from Residential?': 'Yes',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+   Order Prefill: click
 }
 
 VehicleTab_2018: {

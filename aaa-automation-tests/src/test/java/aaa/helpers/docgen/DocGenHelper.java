@@ -226,7 +226,6 @@ public class DocGenHelper {
 				.findFirst().orElseThrow(() -> new NoSuchFieldException("Tag " + tag + " not found."))
 				.getDataElementChoice().getTextField();
 	}
-
 	/**
 	 * Extracts list of documents from {@link DocumentPackage} model
 	 *
@@ -414,6 +413,20 @@ public class DocGenHelper {
 		}
 
 		return listOfDocumentPackages;
+	}
+
+
+	/**
+	 * Get All Documents from Document Package List
+	 * @param allDocumentPackages getAllDocumentPackages()
+	 * @return List<Document>
+	 */
+	public static List<Document> getDocumentsFromDocumentPackagesList(List<DocumentPackage> allDocumentPackages) {
+		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
+		for( DocumentPackage documentPackage: allDocumentPackages){
+			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
+		}
+		return actualDocumentsListAfterFirstRenewal;
 	}
 
 	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
