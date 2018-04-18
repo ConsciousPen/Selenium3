@@ -114,7 +114,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Popup to avoid conflicting transactions
 		policy.endorse().start();
-		CustomAssert.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it.".equals(Page.dialogConfirmation.labelMessage.getValue()));
+		CustomAssert
+				.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it."
+						.equals(Page.dialogConfirmation.labelMessage.getValue()));
 		Page.dialogConfirmation.reject();
 
 		SearchPage.openPolicy(policyNumber);
@@ -1322,7 +1324,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
-
 			PolicySummary responsePolicyActive = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
@@ -1528,7 +1529,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-	   //add vehicle
+		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin2 = "4S2CK58W8X4307498";
 
@@ -1543,15 +1544,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 
-		String vehicle1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1).getCell("Select Vehicle").controls.comboBoxes.getFirst().getValue();
+		String vehicle1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1).getCell("Select Vehicle").controls.comboBoxes.getFirst()
+				.getValue();
 		List<TestData> assignmentsPrimary = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue();
 		String driver1 = assignmentsPrimary.get(0).getValue("Driver");
 		List<TestData> assignmentsPrimary1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
 		String vehicle2 = assignmentsPrimary1.get(0).getValue("Excess Vehicle(s)");
 
 		Vehicle[] viewVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-		String vehicleOid1=viewVehicleResponse[0].oid;
-		String vehicleOid2=viewVehicleResponse[1].oid;
+		String vehicleOid1 = viewVehicleResponse[0].oid;
+		String vehicleOid2 = viewVehicleResponse[1].oid;
 
 		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponse = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 		assertSoftly(softly -> {
@@ -1578,7 +1580,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String policyNum = PolicySummaryPage.linkPolicy.getValue();
 			SearchPage.openPolicy(policyNum);
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
-
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
@@ -1627,7 +1628,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferProposed.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyOfferProposed.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyOfferProposed.renewalCycle).isEqualTo(1);
-
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
 			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
@@ -1693,7 +1693,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			MaigConversionTest maigConversionTest = new MaigConversionTest();
 			maigConversionTest.fillPolicy();
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
-
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
@@ -1784,7 +1783,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActivated.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyActivated.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyActivated.renewalCycle).isEqualTo(1);
-
 
 			PolicySummary responsePolicyStubExpired = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -1960,8 +1958,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 	}
 
-
-
 	protected void pas10449_ViewVehicleServiceCheckOrderOfVehicle(PolicyType policyType, String state) {
 
 		mainApp().open();
@@ -2059,8 +2055,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
 			softly.assertThat(updateVehicleResponse.antiTheft).isEqualTo("STD");
 			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
-
-
 
 			//verify updated information with pendedEndorsementValidateVehicleInfo
 			Vehicle[] pendedEndorsementValidateVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
@@ -2396,30 +2390,78 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas7147() {
+	protected void pas7147_VehicleUpdateBusinessBody() {
 		mainApp().open();
-		String policyNumber = "VASS952918540";
-		//String policyNumber = getCopiedPolicy();
-
+		String policyNumber = getCopiedPolicy();
 
 		//Create pended endorsement
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
-
+		SearchPage.openPolicy(policyNumber);
 
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
-		String vin2 = "1HGFA16526L081415";
-		Vehicle response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
-		assertThat(response2.oid).isNotEmpty();
+		String vin = "1HGFA16526L081415";
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String oid = responseAddVehicle.oid;
+		printToLog("oid: " + oid);
+		SearchPage.openPolicy(policyNumber);
 
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.usage = "Business";
+		//TODO remove garaging address from code once it is not necessary to pass it
+		updateVehicleRequest.garagingDifferent = false;
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
+		});
 
 		//Check premium after new vehicle was added
-		PolicyPremiumInfo[] rateResponse2 = HelperCommon.executeEndorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		Dollar dxpPremium2 = new Dollar(rateResponse2[0].actualAmt);
+		HashMap<String, String> rateResponse = HelperCommon.executeEndorsementRateError(policyNumber, 422);
+		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 
+		HashMap<String, String> bindResponse = HelperCommon.executeEndorsementBindError(policyNumber, "PAS-7147", 422);
+		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
+	}
 
-		HelperCommon.executeEndorsementBind(policyNumber, "PAS-7147", Response.Status.OK.getStatusCode());
+	protected void pas7147_VehicleUpdateRegisteredOwnerBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Add new vehicle
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String oid = responseAddVehicle.oid;
+		printToLog("oid: " + oid);
+		SearchPage.openPolicy(policyNumber);
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.registeredOwner = false;
+		//TODO remove garaging address from code once it is not necessary to pass it
+		updateVehicleRequest.garagingDifferent = false;
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Registered Owners");
+		});
+
+		//Check premium after new vehicle was added
+		HashMap<String, String> rateResponse = HelperCommon.executeEndorsementRateError(policyNumber, 422);
+		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+
+		HashMap<String, String> bindResponse = HelperCommon.executeEndorsementBindError(policyNumber, "PAS-7147", 422);
+		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
 	}
 
 	private void endorsePolicyAddEvalue() {
