@@ -29,6 +29,7 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 
 public class TestDddViolation extends AutoSSBaseTest {
+
 	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2"));
 	private static final List<String> DRIVERS_WITH_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1"));
 	private List<TestData> driversTD;
@@ -198,8 +199,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private void verifyDrivers() {
 		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.contains("Defensive Driving Course Discount");
 		DRIVERS_WITH_DISCOUNT.forEach(driver -> checkDriverDiscount(getTestSpecificTD(driver)));
-		DRIVERS_WITHOUT_DISCOUNT.forEach(v ->
-				CustomAssert.assertFalse(getDriverFullName(getTestSpecificTD(v)) + " should not have discount",
+		DRIVERS_WITHOUT_DISCOUNT.forEach(v -> CustomAssert.assertFalse(getDriverFullName(getTestSpecificTD(v)) + " should not have discount",
 						PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(getDriverFullName(getTestSpecificTD(v))))
 		);
 	}
@@ -207,8 +207,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private void checkDriverDiscount(TestData driverTD) {
 		String driverWithDiscountName = getDriverFullName(driverTD);
 		//BUG PAS-12755: Defensive driver discount is not displayed properly in driver discount section.
-		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.
-				contains(String.format("Defensive Driving Course Discount(%s)", driverWithDiscountName));
+		PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).verify.contains(String.format("Defensive Driving Course Discount(%s)", driverWithDiscountName));
 	}
 
 	private String getDriverFullName(TestData driverTD) {
@@ -221,8 +220,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private List<TestData> getDriversTd() {
 		List<TestData> drivers = new ArrayList<>();
-		getTestSpecificTD("TestData").getTestDataList(DriverTab.class.getSimpleName())
-                .forEach(v -> drivers.add(DataProviderFactory.emptyData().adjust(v).resolveLinks()));
+		getTestSpecificTD("TestData").getTestDataList(DriverTab.class.getSimpleName()).forEach(v -> drivers.add(DataProviderFactory.emptyData().adjust(v).resolveLinks()));
 
 		DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(drivers, v));
 		DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(drivers, v));
