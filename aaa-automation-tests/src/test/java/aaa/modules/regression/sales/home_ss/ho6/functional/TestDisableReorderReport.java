@@ -1,15 +1,15 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.policy.HomeSSHO6BaseTest;
 import aaa.modules.regression.sales.home_ss.helper.HelperRevisedHomeTierPA;
 import toolkit.utils.TestInfo;
 
-public class TestDisableReorderReport extends HomeSSHO3BaseTest {
+public class TestDisableReorderReport extends HomeSSHO6BaseTest {
 
     /**
      * @author Igor Garkusha
@@ -25,7 +25,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3, testCaseId = "PAS-6795")
+    @TestInfo(component = ComponentConstant.Service.HOME_SS_HO6, testCaseId = "PAS-6795")
     public void pas6795_disableReorderReportEndorsement(@Optional("PA") String state) {
 
         new HelperRevisedHomeTierPA().pas6795_disableReorderReportEndorsement(getPolicyType());
@@ -46,7 +46,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Renewal.HOME_SS_HO3, testCaseId = "PAS-6827")
+    @TestInfo(component = ComponentConstant.Renewal.HOME_SS_HO6, testCaseId = "PAS-6827")
     public void pas6827_disableReorderReportRenewal(@Optional("PA") String state) {
 
         new HelperRevisedHomeTierPA().pas6827_disableReorderReportRenewal(getPolicyType());
@@ -54,3 +54,4 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     }
 
 }
+

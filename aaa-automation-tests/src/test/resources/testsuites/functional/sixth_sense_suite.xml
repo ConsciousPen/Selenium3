@@ -115,7 +115,10 @@
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
         <parameter name="state" value="PA"/>
         <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport"/>
         </classes>
     </test>
 
