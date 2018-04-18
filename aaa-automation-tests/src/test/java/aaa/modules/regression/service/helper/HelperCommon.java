@@ -43,6 +43,7 @@ public class HelperCommon {
 	private static final String DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT = "/api/v1/policies/%s/endorsement/assignments";
 	private static final String DXP_VIEW_PREMIUM_POLICY = "/api/v1/policies/%s/premiums";
 	private static final String DXP_VIEW_PREMIUM_ENDORSEMENT = "/api/v1/policies/%s/endorsement/premiums";
+	private static final String DXP_VIEW_PREMIUM_RENEWAL="/api/v1/policies/%s/renewal/premiums";
 	private static final String DXP_VIEW_DRIVERS = "/api/v1/policies/%s/drivers";
 	private static final String DXP_ENDORSEMENT_VIEW_DRIVERS = "/api/v1/policies/%s/endorsement/drivers";
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
@@ -170,6 +171,11 @@ public class HelperCommon {
 
 	public static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
+	}
+
+	public static PolicyPremiumInfo[] viewPremiumInfoRenewal(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_RENEWAL, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
 	}
 
