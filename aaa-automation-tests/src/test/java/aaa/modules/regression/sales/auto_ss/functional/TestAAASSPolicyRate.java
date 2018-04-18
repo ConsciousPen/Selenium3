@@ -40,7 +40,7 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "")
 	public void test(@Optional("") String state) throws DatatypeConfigurationException {
 
-		RatePolicyRequest actualResponse = ssPolicyRateWSClient.getCSPolicyRateServiceResponse(pas11722_SSRatePolicyRequest());
+		RatePolicyRequest actualResponse = ssPolicyRateWSClient.getSSPolicyRateServiceResponse(pas11722_SSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
 
 	}
@@ -73,7 +73,7 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	}
 
 	private AAASSAutoPolicy prepareSSAutoPolicy() throws DatatypeConfigurationException {
-		XMLGregorianCalendar insuredBirthDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(62).format(dateTimeFormatter));
+		XMLGregorianCalendar insuredBirthDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(63).format(dateTimeFormatter));
 		XMLGregorianCalendar expirationDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(5).format(dateTimeFormatter));
 		XMLGregorianCalendar effectiveDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(5).minusYears(1).format(dateTimeFormatter));
 
@@ -110,9 +110,7 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 		aaaSSAutoPolicy.setOrderCreditScore(true);
 		aaaSSAutoPolicy.setTollNumberCd("8669282602");
 
-
 		aaaSSAutoPolicy.setAAAPrefill(prepareAAAPrefill(insuredBirthDate));
-
 
 		return aaaSSAutoPolicy;
 	}
@@ -198,13 +196,13 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 
 	private AAAVehicleRatingInfo prepareAAAVehicleRatingInfo() throws DatatypeConfigurationException {
 		AAAVehicleRatingInfo aaaVehicleRatingInfo = new AAAVehicleRatingInfo();
-		aaaVehicleRatingInfo.setCompCollSymbol(22);
-		aaaVehicleRatingInfo.setDistanceOneWayToWork(BigDecimal.valueOf(60));
+		aaaVehicleRatingInfo.setCompCollSymbol(28);
+		aaaVehicleRatingInfo.setDistanceOneWayToWork(BigDecimal.valueOf(10));
 		aaaVehicleRatingInfo.setStat("AI");
 		aaaVehicleRatingInfo.setVehicleUsageCd(AAAVehicleUseCd.WORK_COMMUTE);
 		aaaVehicleRatingInfo.setVehSymbolCd("0");
 		aaaVehicleRatingInfo.setFullGlassCoverageInd(true);
-		aaaVehicleRatingInfo.setPurchaseDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(dateTimeFormatter)));
+		aaaVehicleRatingInfo.setPurchaseDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().minusYears(2).format(dateTimeFormatter)));
 
 		return aaaVehicleRatingInfo;
 	}
@@ -321,14 +319,14 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	private AAAPDCoverage prepareAAAPDCoverage() {
 		AAAPDCoverage aaaPDCoverage = new AAAPDCoverage();
 		aaaPDCoverage.setCoverageCd(CoverageCode.PD);
-		aaaPDCoverage.setLimitAmount(BigDecimal.valueOf(100000));
+		aaaPDCoverage.setLimitAmount(BigDecimal.valueOf(15000));
 		return aaaPDCoverage;
 	}
 
 	private AAAMPCoverage prepareAAAMPCoverage() {
 		AAAMPCoverage aaampCoverage = new AAAMPCoverage();
 		aaampCoverage.setCoverageCd(CoverageCode.MEDPM);
-		aaampCoverage.setLimitAmount(BigDecimal.valueOf(5000));
+		aaampCoverage.setLimitAmount(BigDecimal.valueOf(0));
 		return aaampCoverage;
 	}
 
@@ -374,12 +372,16 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 
 	private AAADriver prepareDriver(XMLGregorianCalendar date) {
 		AAADriver aaaDriver = new AAADriver();
+
 		aaaDriver.setOid(driverOidAttribute);
 		aaaDriver.setAAADriverRatingInfo(prepareAAADriverRatingInfo());
 		aaaDriver.setAAADrivingLicense(prepareAAADrivingLicense());
+
 		aaaDriver.setAdbCoverageInd(false);
 		aaaDriver.setAge(BigDecimal.valueOf(62));
+
 		aaaDriver.setBirthDate(date);
+
 		aaaDriver.setDriverRelToApplicantCd(AAARelationshipFNInsured.IN);
 		aaaDriver.setDriverTypeCd(AAADriverType.AFR);
 		aaaDriver.setEmployeeBenefitType(AAAEmployeeBenefitCd.NONE);
@@ -398,8 +400,8 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	// Prepare prepareAAADriverRatingInfo
 	private AAADriverRatingInfo prepareAAADriverRatingInfo() {
 		AAADriverRatingInfo aaaDriverRatingInfo = new AAADriverRatingInfo();
-		aaaDriverRatingInfo.setMatureDriverInd(false);
 		aaaDriverRatingInfo.setNewDriverInd(false);
+		aaaDriverRatingInfo.setSmartDrCrsInd(false);
 		return aaaDriverRatingInfo;
 	}
 

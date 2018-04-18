@@ -1,5 +1,12 @@
 package aaa.soap.aaaSSPolicyRate.version1_6.com.exigenservices;
 
+import aaa.soap.AAAHTTPConfigurer;
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.CXFBusFactory;
+import org.apache.cxf.transport.http.HTTPConduitConfigurer;
+import org.mortbay.log.Log;
+import toolkit.config.PropertyProvider;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -15,8 +22,8 @@ import java.net.URL;
  *
  */
 @WebServiceClient(name = "SSPolicyRateService",
-                  wsdlLocation = "file:/C:/Tools/apache-cxf-3.2.4/workspace/aaaSSPolicyRate/aaaSSPolicyRate.wsdl",
-                  targetNamespace = "http://exigenservices.com/ipb/policy/integration")
+        wsdlLocation = "http://nvdxpas2agl006.tent.trt.csaa.pri:9095/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl",
+        targetNamespace = "http://exigenservices.com/ipb/policy/integration")
 public class SSPolicyRateService extends Service {
 
     public final static URL WSDL_LOCATION;
@@ -26,12 +33,16 @@ public class SSPolicyRateService extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("file:/C:/Tools/apache-cxf-3.2.4/workspace/aaaSSPolicyRate/aaaSSPolicyRate.wsdl");
+            url = new URL(String.format("http://%1$s%2$s/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl", PropertyProvider.getProperty("app.host"), PropertyProvider.getProperty("admin.port")));
         } catch (MalformedURLException e) {
             java.util.logging.Logger.getLogger(SSPolicyRateService.class.getName())
-                .log(java.util.logging.Level.INFO,
-                     "Can not initialize the default wsdl from {0}", "file:/C:/Tools/apache-cxf-3.2.4/workspace/aaaSSPolicyRate/aaaSSPolicyRate.wsdl");
+                    .log(java.util.logging.Level.INFO,
+                            "Can not initialize the default wsdl from {0}", "http://%1$s%2$s/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl");
         }
+        Bus bus = CXFBusFactory.getThreadDefaultBus();
+        HTTPConduitConfigurer conf = new AAAHTTPConfigurer("qa", "qa");
+        Log.info("Logged as : qa");
+        bus.setExtension(conf, HTTPConduitConfigurer.class);
         WSDL_LOCATION = url;
     }
 
@@ -59,9 +70,6 @@ public class SSPolicyRateService extends Service {
         super(wsdlLocation, serviceName, features);
     }
 
-
-
-
     /**
      *
      * @return
@@ -75,7 +83,7 @@ public class SSPolicyRateService extends Service {
     /**
      *
      * @param features
-     *     A list of {@link WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
      *     returns SSPolicyRatePort
      */

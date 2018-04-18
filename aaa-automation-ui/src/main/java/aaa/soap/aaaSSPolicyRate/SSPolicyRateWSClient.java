@@ -20,7 +20,7 @@ public class SSPolicyRateWSClient implements IRestClient {
 	private SSPolicyRateService ssPolicyRateService;
 	private SSPolicyRatePort ssPolicyRate;
 
-	public RatePolicyRequest getCSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest){
+	public RatePolicyRequest getSSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest){
 		RatePolicyRequest request = ratePolicyRequest;
 		log.info("SOAP: REQUEST");
 		log.info(AAAMarshaller.modelToXml(request));

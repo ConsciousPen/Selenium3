@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 3.2.4
  */
 
-@WebFault(name = "ErrorInfo", targetNamespace = "http://www.aaancnuit.com.AAANCNU_Common_version2")
+@WebFault(name = "ErrorInfo", targetNamespace = "http://exigenservices.com/ipb/policy/integration")
 public class ErrorInfo extends Exception {
 //aaancnu_common_version2.com.aaancnuit.
     private ErrorInfo errorInfo;
