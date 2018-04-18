@@ -2104,7 +2104,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateGaragingAddressVehicleRequest.antiTheft = "STD";
 		updateGaragingAddressVehicleRequest.registeredOwner = false;
 		updateGaragingAddressVehicleRequest.garagingDifferent = true;
-		updateGaragingAddressVehicleRequest.stateProvCd = zipCodeGarage;
+		updateGaragingAddressVehicleRequest.garagingAddressPostalCode = zipCodeGarage;
 		updateGaragingAddressVehicleRequest.addressLine1 = addressGarage;
 		updateGaragingAddressVehicleRequest.city = cityGarage;
 		updateGaragingAddressVehicleRequest.stateProvCd = stateGarage;
@@ -2117,7 +2117,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(updateVehicleResponseGaragingAddress.garagingDifferent).isEqualTo(true);
 			softly.assertThat(updateVehicleResponseGaragingAddress.antiTheft).isEqualTo("STD");
 			softly.assertThat(updateVehicleResponseGaragingAddress.registeredOwner).isEqualTo(false);
-			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddressPostalCode).isEqualTo(zipCodeGarage);
 			softly.assertThat(updateVehicleResponseGaragingAddress.addressLine1).isEqualTo(addressGarage);
 			softly.assertThat(updateVehicleResponseGaragingAddress.city).isEqualTo(cityGarage);
 			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
