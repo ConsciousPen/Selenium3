@@ -229,7 +229,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterSuite(alwaysRun = true)
 	protected void resetDefault() {
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
+		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION));
 	}
 
 }
