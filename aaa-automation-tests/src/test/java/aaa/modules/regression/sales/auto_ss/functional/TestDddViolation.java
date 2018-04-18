@@ -14,6 +14,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.CustomerMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
@@ -28,7 +29,7 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 
 public class TestDddViolation extends AutoSSBaseTest {
-	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Arrays.asList("DriverInformationMinor2", "DriverInformationMajor2", "DriverInformationAlcohol2");
+	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2"));
 	private static final List<String> DRIVERS_WITH_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1"));
 
 	/**
@@ -48,7 +49,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
-	public void pas3663_DddForDriverWithMinorViolationCheckNb(@Optional("PA") String state) {
+	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
 
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
@@ -84,11 +85,17 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
-	public void pas3663_DddForDriverWithMinorViolationCheckEndorsement(@Optional("PA") String state) {
+	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
-		createPolicy();
+
+        TestData testData = getPolicyTD()
+                .adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("DriverInformationMinor1"))
+                .adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
+                        AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel()), "Yes");
+
+		createPolicy(testData);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		CustomAssert.enableSoftMode();
@@ -112,11 +119,17 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
-	public void pas3663_DddForDriverWithMinorViolationCheckRenewal(@Optional("PA") String state) {
+	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
-		createPolicy(getBackDatedPolicyTD());
+
+        TestData testData = getBackDatedPolicyTD()
+                .adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("DriverInformationMinor1"))
+                .adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
+                        AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel()), "Yes");
+
+		createPolicy(testData);
 		policy.renew().start();
 
 		CustomAssert.enableSoftMode();
@@ -140,7 +153,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
-	public void pas3663_DddForDriverWithMinorViolationCheckConversion(@Optional("PA") String state) {
+	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -161,9 +174,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private void renewAndEndorsementSteps() {
-		TestData testData = getPolicyTD();
-		testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()),
-				getDriversTd());
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd());
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		new DriverTab().fillTab(testData).submitTab();
@@ -210,6 +221,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(drivers, v));
 		DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(drivers, v));
 		DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor1");
+        DRIVERS_WITHOUT_DISCOUNT.add(0, "DriverInformationMinor2");
 		return drivers;
 	}
 
