@@ -229,7 +229,10 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
 	@AfterMethod(alwaysRun = true)
 	protected void resetDefault() {
+		DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_MSRPVERSION));
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION));
 	}
+
+
 
 }

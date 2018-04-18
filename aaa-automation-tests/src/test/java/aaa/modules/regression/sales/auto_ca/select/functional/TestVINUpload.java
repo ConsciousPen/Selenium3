@@ -311,4 +311,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	protected void resetDefault() {
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
+
+
 }
