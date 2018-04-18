@@ -2411,7 +2411,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
 		updateVehicleRequest.usage = "Business";
 		//TODO remove garaging address from code once it is not necessary to pass it
-		updateVehicleRequest.garagingDifferent = false;
+		//updateVehicleRequest.garagingDifferent = false;
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
@@ -2448,7 +2448,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
 		updateVehicleRequest.registeredOwner = false;
 		//TODO remove garaging address from code once it is not necessary to pass it
-		updateVehicleRequest.garagingDifferent = false;
+		//updateVehicleRequest.garagingDifferent = false;
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
