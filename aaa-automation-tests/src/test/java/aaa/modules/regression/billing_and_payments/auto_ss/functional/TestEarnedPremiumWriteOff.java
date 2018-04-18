@@ -18,6 +18,9 @@ import toolkit.utils.TestInfo;
 
 public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract{
 
+	private PremiumAndCoveragesTab premiumAndCoverages = new PremiumAndCoveragesTab();
+	private DocumentsAndBindTab documentsAndBind = new DocumentsAndBindTab();
+
 	@Override
 	protected TestData getTdPolicy() {
 		return testDataManager.policy.get(getPolicyType());
@@ -35,9 +38,9 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoverages.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		documentsAndBind.submitTab();
 	}
 
 	/**

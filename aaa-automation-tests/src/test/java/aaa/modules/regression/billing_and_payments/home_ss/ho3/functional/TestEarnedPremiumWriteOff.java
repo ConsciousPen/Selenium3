@@ -25,7 +25,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	/**
 	 * @name Test Earned premium write off generation
 	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
+	 * 2. Create active policy.n
 	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
 	 * 4. Do AP Endorsement at R-10.
 	 * 5. Move time to R and run status update job.

@@ -22,6 +22,9 @@ import toolkit.utils.TestInfo;
 
 public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract{
 
+	private PremiumAndCoveragesQuoteTab premiumAndCoverage = new PremiumAndCoveragesQuoteTab();
+	private BindTab bindTab = new BindTab();
+
 	@Override
 	protected TestData getTdPolicy() {
 		return testDataManager.policy.get(getPolicyType());
@@ -39,9 +42,9 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesQuoteTab().calculatePremium();
+		premiumAndCoverage.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
-		new BindTab().submitTab();
+		bindTab.submitTab();
 	}
 
 	@Override
@@ -95,7 +98,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
-	public void pas11697_testEarnedPremiumWriteOffEqualDecline(@Optional("CA") String state)  {
+	public void pas11697_testEarnedPremiumWriteOffEqualDecline(@Optional("AZ") String state)  {
 		super.pas11697_testEarnedPremiumWriteOffEqualDecline(state);
 	}
 
@@ -138,7 +141,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
-	public void pas11697_testEarnedPremiumWriteOffLessProposed(@Optional("CA") String state)  {
+	public void pas11697_testEarnedPremiumWriteOffLessProposed(@Optional("AZ") String state)  {
 		super.pas11697_testEarnedPremiumWriteOffLessProposed(state);
 	}
 
@@ -182,7 +185,7 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-11697"})
-	public void pas11697_testEarnedPremiumWriteOffMoreProposed(@Optional("CA") String state)  {
+	public void pas11697_testEarnedPremiumWriteOffMoreProposed(@Optional("AZ") String state)  {
 		super.pas11697_testEarnedPremiumWriteOffMoreProposed(state);
 	}
 

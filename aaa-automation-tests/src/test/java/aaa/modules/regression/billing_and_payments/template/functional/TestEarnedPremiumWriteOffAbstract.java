@@ -24,7 +24,9 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 
 	protected abstract TestData getTdPolicy();
 	protected abstract TestData getTestSpecificTDForTestEndorsement();
+	private PremiumsAndCoveragesQuoteTab premiumAndCoverage = new PremiumsAndCoveragesQuoteTab();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+	private BindTab bindTab = new BindTab();
 
 	/**
 	 * @name Test Earned premium write off generation
@@ -338,9 +340,9 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		premiumAndCoverage.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		new BindTab().submitTab();
+		bindTab.submitTab();
 	}
 
 	private void processLapsedAndCollectionsJobs(LocalDateTime expirationDate) {
@@ -373,8 +375,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		TestData endorsementTD = getTestSpecificTDForTestEndorsement().adjust(getStateTestData(getTdPolicy(), "Endorsement", "TestData_Plus10Day"));
 		policy.endorse().performAndFill(endorsementTD);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		String endorsementAmount = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
-		return endorsementAmount;
+		return BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
 	}
 
 	private void processRenewalAndBillGenerationJobs(LocalDateTime expirationDate) {
