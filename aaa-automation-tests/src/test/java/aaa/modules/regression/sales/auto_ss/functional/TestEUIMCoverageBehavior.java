@@ -243,19 +243,19 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(totalTermPremiumKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(totalTermPremiumKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
 
-//        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
-//        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-//        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("Yes");
-//        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-//        enhancedUIM.setValue(false);
-//        premiumAndCoveragesTab.calculatePremium();
-//        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-//        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("No");
-//        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-//        PremiumAndCoveragesTab.buttonSaveAndExit.click();
-//
-//        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
-//        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1)).getTestData("Enhanced UIM")
-//                .getValue("Limit")).isEqualTo("Yes");
+        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("Yes");
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        enhancedUIM.setValue(false);
+        premiumAndCoveragesTab.calculatePremium();
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("No");
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
+        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1)).getTestData("Enhanced UIM")
+                .getValue("Limit")).isEqualTo("Yes");
     }
 }
