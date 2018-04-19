@@ -31,7 +31,6 @@ import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
 
 public class HelperRevisedHomeTierPA extends PolicyBaseTest {
 

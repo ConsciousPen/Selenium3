@@ -3,8 +3,9 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
-import aaa.main.pages.summary.PolicySummaryPage;
+import java.util.stream.IntStream;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -19,8 +20,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -36,8 +37,6 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
     private ComboBox uninsuredBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
     private ComboBox uninsuredPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE);
-    private ComboBox enhancedBodilyInjury = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
-    private ComboBox enhancedPropertyDamage = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UNINSURED_MOTORIST_PROPERTY_DAMAGE);
 
     /**
      *@author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
@@ -50,8 +49,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
-    public void pas11200_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    public void pas11620_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
@@ -77,8 +76,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
-    public void pas11200_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    public void pas11620_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
@@ -108,8 +107,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
-    public void pas11200_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
+    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    public void pas11620_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
@@ -138,8 +137,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11200, PAS-11620, PAS-11204, PAS-11448, PAS-11209")
-    public void pas11200_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
+    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
+    public void pas11620_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
         TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
 
@@ -157,49 +156,48 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
     private void verifyEnhancedUIMCoverage() {
 
-        // Prepare to check AC1 PAS-11200.
+        // Prepare to check AC1 PAS-11620
         propertyDamage.setValueByIndex(0);
         bodilyInjury.setValueByIndex(0);
         uninsuredBodilyInjury.setValueByIndex(1);
         uninsuredPropertyDamage.setValueByIndex(1);
 
-        //AC1,AC2 PAS-11200. for Quotes and Policies created on or after 2018/07/01 EUIM should be present.
-        //AC1 PAS-11620. EUIM BI and PD limits are defaulted to BI/PD limits.
+        //AC1 PAS-11620. Quotes and Policies created on or after 2018/07/01 EUIM should be present and EUIM BI and PD limits are defaulted to BI/PD limits
         enhancedUIM.setValue(true);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
-        //AC2 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
+        //AC1 PAS-11620. Changing BI/PD limits also changes EUIM BI/PD.
         propertyDamage.setValueByIndex(2);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
         bodilyInjury.setValueByIndex(2);
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
         propertyDamage.setValueByIndex(4);
-        assertThat(enhancedPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
+        assertThat(uninsuredPropertyDamage.getValue()).isEqualTo(propertyDamage.getValue());
         bodilyInjury.setValueByIndex(4);
-        assertThat(enhancedBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
+        assertThat(uninsuredBodilyInjury.getValue()).isEqualTo(bodilyInjury.getValue());
 
-        //AC3 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
-        enhancedBodilyInjury.setValueByIndex(1);
+        //AC2 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
+        uninsuredBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
 
-        //AC3 PAS-11620. Rating Error if EUIM PD limits do not match PD limits.
+        //AC2 PAS-11620. Rating Error if EUIM PD limits do not match PD limits.
         bodilyInjury.setValueByIndex(3);
-        enhancedPropertyDamage.setValueByIndex(1);
+        uninsuredPropertyDamage.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.cancel();
 
-        //AC3 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
-        enhancedBodilyInjury.setValueByIndex(1);
+        //AC2 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
+        uninsuredBodilyInjury.setValueByIndex(1);
         premiumAndCoveragesTab.calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
 
-        //AC4 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
+        //AC3 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
         propertyDamage.setValueByIndex(3);
         bodilyInjury.setValueByIndex(2);
         premiumAndCoveragesTab.calculatePremium();
@@ -210,34 +208,54 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
         premiumAndCoveragesTab.calculatePremium();
 
-        //PAS-11448. Validate Help text when moused over EUIM, EUIMPD and EUIMBI
-        String euimExpectedText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
+        //PAS-11448. Validate Help text when moused over EUIM, UIMPD, and UIMBI
+        String euimHelpText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
                 + "Insured has the option to choose EUIM coverage in place of UM coverage. Coverage applies to both EUIMBI and EUIMPD.";
-        String euimBIExpectedText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured in an accident and the driver "
+        String euimBIHelpText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured in an accident and the driver "
                 + "who is legally liable does not have insurance or has insufficient limits of liability insurance. Please see policy contract and EUIM endorsement.";
-        String euimPDExpectedText = "Pays up to the specified limit the insured is legally entitled to recover or waives the collision deductible to cover damages resulting from an accident "
+        String euimPDHelpText = "Pays up to the specified limit the insured is legally entitled to recover or waives the collision deductible to cover damages resulting from an accident "
                 + "with an uninsured motor vehicle. Please see policy contract and EUIM endorsement.";
-        assertThat(PremiumAndCoveragesTab.enhancedUIMHelpText.getAttribute("innerText")).contains(euimExpectedText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("innerText")).contains(euimBIExpectedText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("innerText")).contains(euimPDExpectedText);
+        String uimBIHelpText = "Pays up to the specified limit if the insured, resident family members, or occupants of an insured vehicle are injured or killed in an accident in which the owner "
+                + "or operator of a motor vehicle who is legally liable does not have liability insurance. Please see policy contract.";
+        String uimPDHelpText = "Pays up to the limit the insured is legally entitled to recover or waives the collision deductible, to cover damages resulting from an accident with an "
+                + "uninsured motor vehicle. Please see policy contract.";
 
-        //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
-        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
-        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
-        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+        assertThat(PremiumAndCoveragesTab.euimHelpText.getAttribute("innerText")).contains(euimHelpText);
+        assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(euimBIHelpText);
+        assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(euimPDHelpText);
 
-        // AC1 PAS-11209. Display EUIM UIPD/UIMBI in VRD page.
+        enhancedUIM.setValue(false);
+        premiumAndCoveragesTab.calculatePremium();
+        assertThat(PremiumAndCoveragesTab.euimHelpText.getAttribute("innerText")).contains(euimHelpText);
+        assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
+        assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
+
+        //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
+        String euimSelectedText = "Enhanced UIM Selected";
+        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
+        enhancedUIM.setValue(true);
+        premiumAndCoveragesTab.calculatePremium();
+        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains(euimSelectedText);
+
+        //Verify the next 2 lines in the Total Term Premium are UIM/BI and PD
+        List<String> totalTermPremiumKeys = new ArrayList<>(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys());
+        int euimIndex = IntStream.range(0, totalTermPremiumKeys.size() - 1).filter(i -> totalTermPremiumKeys.get(i).equals(euimSelectedText)).findFirst().orElse(-3);
+        assertThat(totalTermPremiumKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(totalTermPremiumKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
+
+        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        List<TestData> vehicleVRDTestData = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-        assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
-        assertThat(vehicleVRDTestData.get(0).getKeys()).contains("Enhanced Uninsured Motorist Property Damage");
+        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("Yes");
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        enhancedUIM.setValue(false);
+        premiumAndCoveragesTab.calculatePremium();
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("No");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(2,2)).isEqualTo("Bodily Injury Liability");
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(3,2)).isEqualTo("Property Damage Liability");
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(4,2)).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTextAt(5,2)).isEqualTo("Enhanced Uninsured Motorist Property Damage");
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1)).getTestData("Enhanced UIM")
+                .getValue("Limit")).isEqualTo("Yes");
     }
 }
