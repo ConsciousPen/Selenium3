@@ -35,8 +35,8 @@ public class TestAAACSPolicyRate extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "")
-	public void pas11722_TestAAACSPolicyRate(@Optional("") String state) throws DatatypeConfigurationException {
-		RatePolicyRequest actualResponse = csPolicyRateWSClient.getCSPolicyRateServiceResponse(pas11722_CSRatePolicyRequest());
+	public void pas12465_TestAAACSPolicyRate(@Optional("") String state) throws DatatypeConfigurationException {
+		RatePolicyRequest actualResponse = csPolicyRateWSClient.getCSPolicyRateServiceResponse(pas12465_CSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
 
 	}
@@ -52,7 +52,7 @@ public class TestAAACSPolicyRate extends AutoCaChoiceBaseTest {
 	private String lastName = "Petrovich";
 	private String middleName = "Middle Name";
 
-	private RatePolicyRequest pas11722_CSRatePolicyRequest() throws DatatypeConfigurationException {
+	private RatePolicyRequest pas12465_CSRatePolicyRequest() throws DatatypeConfigurationException {
 		// Create request body
 		AAACSAAutoPolicy aaaCSAAutoPolicy = prepareAAACsaAutoPolicy();
 
