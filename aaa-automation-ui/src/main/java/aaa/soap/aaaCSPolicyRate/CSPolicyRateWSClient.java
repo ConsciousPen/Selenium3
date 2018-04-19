@@ -1,13 +1,11 @@
 
 package aaa.soap.aaaCSPolicyRate;
 
-import aaa.rest.IRestClient;
 import aaa.soap.AAAMarshaller;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.CSPolicyRatePort;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.CSPolicyRateService;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.ErrorInfo;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.RatePolicyRequest;
-import toolkit.rest.RestServiceUtil;
 
 import static aaa.admin.modules.IAdmin.log;
 
@@ -17,7 +15,7 @@ import static aaa.admin.modules.IAdmin.log;
  * JAX-WS RI 2.2.9-b130926.1035
  * Generated source version: 2.2
  */
-public class CSPolicyRateWSClient implements IRestClient {
+public class CSPolicyRateWSClient{
 
 	private CSPolicyRateService csPolicyRateService;
 	private CSPolicyRatePort csPolicyRatePort;
@@ -40,11 +38,6 @@ public class CSPolicyRateWSClient implements IRestClient {
 		assert response != null;
 		log.info(AAAMarshaller.modelToXml(response));
 		return response;
-	}
-
-	@Override
-	public RestServiceUtil getRestClient() {
-		throw new UnsupportedOperationException("Permitted for Soap services");
 	}
 
 }
