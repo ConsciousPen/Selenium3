@@ -1,5 +1,6 @@
 package aaa.utils.excel.io.entity.area;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Row;
@@ -86,7 +87,13 @@ public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> 
 	}
 
 	@Override
-	protected Integer getCellIndexOnSheet(Integer cellIndexInQueue) {
-		return getCell(cellIndexInQueue).getColumnIndexOnSheet();
+	protected Integer getCellIndexOnSheet(Integer columnIndexInRow) {
+		return getCell(columnIndexInRow).getColumnIndexOnSheet();
+	}
+
+	@Override
+	protected void removeCellsIndexes(Integer... columnIndexesInRow) {
+		super.removeCellsIndexes(columnIndexesInRow);
+		this.cells.removeIf(c -> Arrays.asList(columnIndexesInRow).contains(c.getColumnIndex()));
 	}
 }

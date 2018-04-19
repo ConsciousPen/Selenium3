@@ -2,12 +2,12 @@ package aaa.utils.excel.io.entity.area;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
@@ -22,7 +22,7 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	private List<CellType<?>> cellTypes;
 	private List<Integer> cellsIndexesOnSheet;
 	//private ImmutableSortedMap<Integer, CELL> queueIndexesAndCellsMap;
-	private List<CELL> cells;
+	protected List<CELL> cells;
 
 	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, List<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
 		this(queueIndexInArea, queueIndexOnSheet, cellsIndexesOnSheet, excelArea, excelArea.getCellTypes());
@@ -229,15 +229,18 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	public abstract CellsQueue<CELL> copy(int destinationQueueIndex);
 
 	protected void removeCellsIndexes(Integer... cellsIndexesInQueue) {
-		List<Integer> newCellsIndexesOnSheet = new ArrayList<>(this.cellsIndexesOnSheet);
+		List<Integer> cellsIndexesToExclude = Arrays.asList(cellsIndexesInQueue);
+		//TODO-dchubkov: replace with forEach and throw exception with exact missing index
+		assertThat(cellsIndexesInQueue).as("Can't exclude cells with indexes %s", cellsIndexesToExclude).allMatch(this::hasCell);
+
+		//List<Integer> newCellsIndexesOnSheet = new ArrayList<>(this.cellsIndexesOnSheet);
 		///>>>>>>>>>>>>>>>>>>Map<Integer, CELL> newQueueIndexesAndCellsMap = new LinkedHashMap<>(getQueueIndexesAndCellsMap());
 
 		for (Integer cellIndex : cellsIndexesInQueue) {
-			newCellsIndexesOnSheet.remove(getCellIndexOnSheet(cellIndex));
+			this.cellsIndexesOnSheet.remove(getCellIndexOnSheet(cellIndex));
 			///>>>>>>>>>>>>>>>>>>newQueueIndexesAndCellsMap.remove(cellIndex);
 		}
-
-		this.cellsIndexesOnSheet = ImmutableList.copyOf(newCellsIndexesOnSheet);
+		//this.cellsIndexesOnSheet = ImmutableList.copyOf(newCellsIndexesOnSheet);
 		///>>>>>>>>>>>>>>>>>>this.queueIndexesAndCellsMap = ImmutableSortedMap.copyOf(newQueueIndexesAndCellsMap);
 	}
 

@@ -117,8 +117,8 @@ public class TableHeader extends TableRow {
 	}
 
 	@Override
-	protected void removeCellsIndexes(Integer... cellsIndexesInQueue) {
-		super.removeCellsIndexes(cellsIndexesInQueue);
+	protected void removeCellsIndexes(Integer... columnIndexesInRow) {
+		super.removeCellsIndexes(columnIndexesInRow);
 	}
 
 	public boolean hasColumn(int columnIndex) {

@@ -12,9 +12,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
@@ -374,34 +372,44 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeColumns(Integer... columnsIndexes) {
 		List<Integer> columnsIndexesToExclude = Arrays.asList(columnsIndexes);
+		//TODO-dchubkov: replace with forEach and throw exception with exact missing index
 		assertThat(columnsIndexes).as("Can't exclude columns with indexes %s", columnsIndexesToExclude).allMatch(this::hasColumn);
-		List<Integer> newColumnsIndexesOnSheet = new ArrayList<>(this.columnsIndexesOnSheet);
-		ImmutableSortedMap.Builder<Integer, COLUMN> areaIndexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
+
+		//ImmutableSortedMap.Builder<Integer, COLUMN> areaIndexesAndColumnsBuilder = ImmutableSortedMap.naturalOrder();
 
 		getRows().forEach(r -> r.removeCellsIndexes(columnsIndexes));
-		for (Integer columnIndex : columnsIndexesToExclude) {
-			newColumnsIndexesOnSheet.remove(new Integer(getColumn(columnIndex).getIndexOnSheet()));
-		}
-		getColumns().stream().filter(c -> newColumnsIndexesOnSheet.contains(c.getIndexOnSheet())).forEach(c -> areaIndexesAndColumnsBuilder.put(c.getIndex(), c));
 
-		this.columnsIndexesOnSheet = ImmutableList.copyOf(newColumnsIndexesOnSheet);
+		//List<Integer> newColumnsIndexesOnSheet = new ArrayList<>(this.columnsIndexesOnSheet);
+		for (Integer columnIndex : columnsIndexesToExclude) {
+			this.columnsIndexesOnSheet.remove(new Integer(getColumn(columnIndex).getIndexOnSheet()));
+		}
+
+		this.columns.removeIf(c -> columnsIndexesToExclude.contains(c.getIndex()));
+		//this.columnsIndexesOnSheet = newColumnsIndexesOnSheet;
+
+		//getColumns().stream().filter(c -> newColumnsIndexesOnSheet.contains(c.getIndexOnSheet())).forEach(c -> areaIndexesAndColumnsBuilder.put(c.getIndex(), c));
 		////>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>this.areaIndexesAndColumnsMap = areaIndexesAndColumnsBuilder.build();
 		return this;
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> excludeRows(Integer... rowsIndexes) {
 		List<Integer> rowsIndexesToExclude = Arrays.asList(rowsIndexes);
+		//TODO-dchubkov: replace with forEach and throw exception with exact missing index
 		assertThat(rowsIndexes).as("Can't exclude rows with indexes %s", rowsIndexesToExclude).allMatch(this::hasRow);
-		List<Integer> newRowsIndexesOnSheet = new ArrayList<>(this.rowsIndexesOnSheet);
-		ImmutableSortedMap.Builder<Integer, ROW> areaIndexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
+
+		//ImmutableSortedMap.Builder<Integer, ROW> areaIndexesAndRowsBuilder = ImmutableSortedMap.naturalOrder();
 
 		getColumns().forEach(c -> c.removeCellsIndexes(rowsIndexes));
-		for (Integer rowIndex : rowsIndexesToExclude) {
-			newRowsIndexesOnSheet.remove(new Integer(getRow(rowIndex).getIndexOnSheet()));
-		}
-		getRows().stream().filter(r -> newRowsIndexesOnSheet.contains(r.getIndexOnSheet())).forEach(r -> areaIndexesAndRowsBuilder.put(r.getIndex(), r));
 
-		this.rowsIndexesOnSheet = ImmutableList.copyOf(newRowsIndexesOnSheet);
+		//List<Integer> newRowsIndexesOnSheet = new ArrayList<>(this.rowsIndexesOnSheet);
+		for (Integer rowIndex : rowsIndexesToExclude) {
+			this.rowsIndexesOnSheet.remove(new Integer(getRow(rowIndex).getIndexOnSheet()));
+		}
+
+		this.rows.removeIf(r -> rowsIndexesToExclude.contains(r.getIndex()));
+		//getRows().stream().filter(r -> newRowsIndexesOnSheet.contains(r.getIndexOnSheet())).forEach(r -> areaIndexesAndRowsBuilder.put(r.getIndex(), r));
+		//this.rowsIndexesOnSheet = newRowsIndexesOnSheet;
+
 		////>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>this.areaIndexesAndRowsMap = areaIndexesAndRowsBuilder.build();
 		return this;
 	}

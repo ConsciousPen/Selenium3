@@ -1,6 +1,7 @@
 package aaa.utils.excel.io.entity.area;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import aaa.utils.excel.io.celltype.CellType;
@@ -94,7 +95,13 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 	}
 
 	@Override
-	protected Integer getCellIndexOnSheet(Integer cellIndexInQueue) {
-		return getCell(cellIndexInQueue).getRowIndexOnSheet();
+	protected Integer getCellIndexOnSheet(Integer rowIndexInColumn) {
+		return getCell(rowIndexInColumn).getRowIndexOnSheet();
+	}
+
+	@Override
+	protected void removeCellsIndexes(Integer... rowIndexesInColumn) {
+		super.removeCellsIndexes(rowIndexesInColumn);
+		this.cells.removeIf(c -> Arrays.asList(rowIndexesInColumn).contains(c.getRowIndex()));
 	}
 }

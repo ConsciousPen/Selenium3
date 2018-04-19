@@ -51,6 +51,9 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
+		/*ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/PATests-20180312_part1.xls"));
+		OpenLFile<AutoSSOpenLPolicy> openLFile = ExcelUnmarshaller.unmarshal(openLFileManager, AutoSSOpenLFile.class, false, false);*/
+
 		TestDataGenerator<AutoSSOpenLPolicy> tdGenerator = new AutoSSTestDataGenerator(getState(), getRatingDataPattern());
 		verifyPremiums(fileName, AutoSSOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
