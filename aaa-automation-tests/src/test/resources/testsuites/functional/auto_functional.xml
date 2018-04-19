@@ -433,6 +433,7 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteGeneralTab"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteManualTask"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancellation"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelNoticeAddDelete"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
