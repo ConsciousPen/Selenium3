@@ -12,28 +12,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Vehicle VIN Information with validation error message if any")
 public class AAAVehicleVinInfoRestResponseWrapper {
 
-    @ApiModelProperty(value = "Vehicles list", required = true)
-	private List<AAAVehicleVinInfoRestResponse> vehicles;
+	@ApiModelProperty(value = "Vehicles list", required = true)
+	public List<AAAVehicleVinInfoRestResponse> vehicles;
 
 	@ApiModelProperty(value = "Validation message", readOnly = true)
-	private String validationMessage;
+	public String validationMessage;
 
 	public AAAVehicleVinInfoRestResponseWrapper() {
-	}
-
-	public List<AAAVehicleVinInfoRestResponse> getVehicles() {
-		return vehicles;
-	}
-
-	public void setVehicles(List<AAAVehicleVinInfoRestResponse> vehicles) {
-		this.vehicles = vehicles;
-	}
-
-	public String getValidationMessage() {
-		return validationMessage;
-	}
-
-	public void setValidationMessage(String validationMessage) {
-		this.validationMessage = validationMessage;
 	}
 }
