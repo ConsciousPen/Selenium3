@@ -1941,7 +1941,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
 		String vin2 = "1HGFA16526L081415";
-		Vehicle response2 =  HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
+		Vehicle response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
 		assertThat(response2.oid).isNotEmpty();
 		String newVehicleOid = response2.oid;
 
