@@ -891,6 +891,15 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		);
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
+	public void pas11684_DriverAssignmentExistsForState(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas11684_DriverAssignmentExistsForStateBody(state, softly)
+		);
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoSSTab.GENERAL.get();

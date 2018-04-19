@@ -2663,7 +2663,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(driverOid.equals(originalDriver)).isTrue();
 
 		//View driver assignment if VA
-		if("VA".equals(state)) {
+		if ("VA".equals(state)) {
 			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 			softly.assertThat(responseDriverAssignment[0].vehicleOid).isEqualTo(originalVehicle);
 			softly.assertThat(responseDriverAssignment[0].driverOid).isEqualTo(driverOid);
@@ -2696,6 +2696,30 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		PolicyLockUnlockDto responseUnlock = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
 		assertThat(responseUnlock.policyNumber).isEqualTo(policyNumber);
 		assertThat(responseUnlock.status).isEqualTo("Unlocked");
+	}
+
+	protected void pas11684_DriverAssignmentExistsForStateBody(String state, SoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		//String policyNumber = "AZSS952918552";
+
+		//View driver assignment if VA
+		if ("VA".equals(state) || "CA".equals(state) || "NY".equals(state)) {
+			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+			softly.assertThat(responseDriverAssignment[0].vehicleOid).isNotNull();
+			softly.assertThat(responseDriverAssignment[0].driverOid).isNotNull();
+			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
+		} else {
+			ErrorResponseDto responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfoError(policyNumber, 422);
+			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
+			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
+		}
 	}
 
 	private void endorsePolicyAddEvalue() {
