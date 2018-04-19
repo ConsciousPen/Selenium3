@@ -1164,12 +1164,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			policyType.get().createPolicy(td);
 			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
 
-/*			mainApp().open();
-			SearchPage.openPolicy("CAAC952918997");*/
-
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 			LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
+			String totalPremium = response[0].termPremium;
+			String actualPremium = response[0].actualAmt;
 
 			PolicySummary responsePolicyPending = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyPending.policyNumber).isEqualTo(policyNumber);
@@ -1180,6 +1181,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyPending.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyPending.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
+			assertThat(responsePolicyPending.actualAmt).isEqualTo(actualPremium);
+			assertThat(responsePolicyPending.termPremium).isEqualTo(totalPremium);
 
 			PolicySummary responsePolicyPendingRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyPendingRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -1197,6 +1200,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
+			assertThat(responsePolicyPending.actualAmt).isEqualTo(null);
+			assertThat(responsePolicyPending.termPremium).isEqualTo(null);
 
 			PolicySummary responsePolicyActiveRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyActiveRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -1223,6 +1228,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
+			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
+			String totalPremium = response[0].termPremium;
+			String actualPremium = response[0].actualAmt;
+
 			PolicySummary responsePolicyActive = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
@@ -1232,6 +1241,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyActive, state, "NOTENROLLED");
+			softly.assertThat(responsePolicyActive.actualAmt).isEqualTo(actualPremium);
+			softly.assertThat(responsePolicyActive.termPremium).isEqualTo(totalPremium);
+
+			PolicyPremiumInfo[] viewPremiumRenewalResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalActualPremium = viewPremiumRenewalResponse[0].actualAmt;
+			String renewalTermPremium = viewPremiumRenewalResponse[0].termPremium;
 
 			PolicySummary responsePolicyRenewalPreview = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalPreview.policyNumber).isEqualTo(policyNumber);
@@ -1242,6 +1257,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalPreview, state, "NOTENROLLED");
+			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(null);
+			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(null);
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -1257,6 +1274,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyOffer, state, "NOTENROLLED");
 
+			PolicyPremiumInfo[] viewPremiumRenewalResponse1 = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalActualPremium1 = viewPremiumRenewalResponse1[0].actualAmt;
+			String renewalTermPremium1 = viewPremiumRenewalResponse1[0].termPremium;
+
 			PolicySummary responsePolicyRenewalOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalOffer.policyStatus).isEqualTo("proposed");
@@ -1266,6 +1287,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, "NOTENROLLED");
+			softly.assertThat(responsePolicyRenewalOffer.actualAmt).isEqualTo(renewalActualPremium1);
+			softly.assertThat(responsePolicyRenewalOffer.termPremium).isEqualTo(renewalTermPremium1);
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -1318,7 +1341,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas9716_policySummaryForActiveRenewalBody(String state) {
 		assertSoftly(softly -> {
-
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
 			if ("VA".equals(state)) {
@@ -1332,6 +1354,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
+			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
+			String totalPremium = response[0].termPremium;
+			String actualPremium = response[0].actualAmt;
+
 			PolicySummary responsePolicyActive = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
@@ -1341,6 +1367,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyActive, state, "ACTIVE");
+			softly.assertThat(responsePolicyActive.actualAmt).isEqualTo(totalPremium);
+			softly.assertThat(responsePolicyActive.termPremium).isEqualTo(actualPremium);
+
+			PolicyPremiumInfo[] viewPremiumRenewalResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalActualPremium = viewPremiumRenewalResponse[0].actualAmt;
+			String renewalTermPremium = viewPremiumRenewalResponse[0].termPremium;
 
 			PolicySummary responsePolicyRenewalPreview = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalPreview.policyNumber).isEqualTo(policyNumber);
@@ -1351,6 +1383,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalPreview, state, "ACTIVE");
+			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(renewalActualPremium);
+			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(renewalTermPremium);
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -1361,6 +1395,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
 			new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
+			PolicyPremiumInfo[] viewPremiumRenewalResponseAfterRating = HelperCommon.viewPremiumInfo(policyNumber);
+			String renewalActualPremiumAfterRating = viewPremiumRenewalResponseAfterRating[0].actualAmt;
+			String renewalPremiumAfterRating = viewPremiumRenewalResponseAfterRating[0].termPremium;
+
 			PolicySummary responsePolicyOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOffer.policyStatus).isEqualTo("issued");
@@ -1370,6 +1408,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyOffer, state, "ACTIVE");
+			softly.assertThat(responsePolicyOffer.actualAmt).isEqualTo(renewalActualPremiumAfterRating);
+			softly.assertThat(responsePolicyOffer.termPremium).isEqualTo(renewalPremiumAfterRating);
+
+			PolicyPremiumInfo[] viewPremiumRenewalOfferResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalOfferActualPremium = viewPremiumRenewalOfferResponse[0].actualAmt;
+			String renewalOfferTermPremium = viewPremiumRenewalOfferResponse[0].termPremium;
 
 			PolicySummary responsePolicyRenewalOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalOffer.policyNumber).isEqualTo(policyNumber);
@@ -1380,6 +1424,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, "ACTIVE");
+			softly.assertThat(responsePolicyRenewalOffer.actualAmt).isEqualTo(renewalOfferActualPremium);
+			softly.assertThat(responsePolicyRenewalOffer.termPremium).isEqualTo(renewalOfferTermPremium);
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);

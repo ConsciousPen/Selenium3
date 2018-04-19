@@ -98,6 +98,7 @@ public final class ErrorEnum {
 		ERROR_AAA_PUP_SS7150344("AAA_PUP_SS7150344", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 		ERROR_AAA_PUP_SS7160072("AAA_PUP_SS7160072", "Trustees/LLCs on underlying risks are ineligible. (AAA_PUP_SS7160072) [for AA..."),
 		ERROR_AAA_PUP_SS7160090("AAA_PUP_SS7160090", "Risks with a property liability limit less than $500,000 are ineligible. (AAA..."),
+		ERROR_AAA_PUP_SS7121080("AAA_PUP_SS7121080", "Underwriting approval required for Liability Coverage limits greater than $1,..."),
 		ERROR_AAA_PUP_SSER10054("AAA_PUP_SSER10054", "Applicants/drivers with an alcohol-related or major violation in the last 5 y..."),
         AAA_PUP_UWApp_AddRes_OtherThanPrimary("AAA_PUP_UWApp_AddRes_OtherThanPrimary", "Applicants with 6 or more additional residences are ineligible. (AAA_PUP_UWAp..."),
         AAA_PUP_UWApp_AddRes_Rental("AAA_PUP_UWApp_AddRes_Rental", "Applicants with 7 or more rental residences are ineligible. (AAA_PUP_UWApp_Ad..."),
