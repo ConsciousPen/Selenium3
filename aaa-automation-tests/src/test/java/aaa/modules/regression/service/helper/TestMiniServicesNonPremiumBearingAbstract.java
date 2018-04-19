@@ -2707,8 +2707,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
 
-		//String policyNumber = "AZSS952918552";
-
 		//View driver assignment if VA
 		if ("VA".equals(state) || "CA".equals(state) || "NY".equals(state)) {
 			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
