@@ -1,0 +1,17 @@
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+    Property Damage Liability: 'contains=$1,000,000',
+    Uninsured Motorists Bodily Injury: 'contains=$1,000,000/$1,000,000',
+    Comprehensive Deductible: 'contains=$150',
+    Collision Deductible: 'contains=$150'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}

@@ -19,55 +19,53 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 
 	/**
 	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA  with mortgagee payment plan
+	 *
+	 * @throws NoSuchFieldException See detailed steps in template file
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
 	 * PAS-8777
 	 * PAS-8766
 	 * PAS-9651
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacket(@Optional("PA") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getConversionPolicyDefaultTD()
-				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
+		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
 	}
 
 	/**
 	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA  with mortgagee payment plan
+	 *
+	 * @throws NoSuchFieldException See detailed steps in template file
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
 	 * PAS-8777
 	 * PAS-8766
 	 * PAS-9651
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2674"})
 	public void pas2674_ConversionPacketMortgagee(@Optional("DE") String state) throws NoSuchFieldException {
-		verifyConversionFormsSequence(getConversionPolicyDefaultTD()
-				.adjust("EndorsementTab",getTestSpecificTD("EndorsementTab")));
+		verifyConversionFormsSequence(getConversionPolicyDefaultTD());
 	}
 
 	/**
 	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA
+	 *
+	 * @throws NoSuchFieldException See detailed steps in template file
 	 * @author Viktor Petrenko
 	 * PAS-9816
 	 * PAS-9607
 	 * PAS-9650
-	 * @throws NoSuchFieldException
-	 * See detailed steps in template file
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9816"})
 	public void pas9816_BillingPacketGeneration(@Optional("DE") String state) throws NoSuchFieldException {
-		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks());
 	}
 }

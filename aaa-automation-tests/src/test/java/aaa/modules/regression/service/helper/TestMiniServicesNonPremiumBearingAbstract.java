@@ -45,15 +45,10 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.ITestContext;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
@@ -119,7 +114,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		//Popup to avoid conflicting transactions
 		policy.endorse().start();
-		CustomAssert.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it.".equals(Page.dialogConfirmation.labelMessage.getValue()));
+		CustomAssert
+				.assertTrue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it."
+						.equals(Page.dialogConfirmation.labelMessage.getValue()));
 		Page.dialogConfirmation.reject();
 
 		SearchPage.openPolicy(policyNumber);
@@ -554,38 +551,38 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		String vin1 = "aaaa"; //VIN too short
 		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinValidate(policyNumber, vin1, endorsementDate);
-		softly.assertThat(response.getVehicles()).isEmpty();
-		softly.assertThat(response.getValidationMessage()).isEqualTo("Invalid VIN length");
+		softly.assertThat(response.vehicles).isEmpty();
+		softly.assertThat(response.validationMessage).isEqualTo("Invalid VIN length");
 
 		String vin2 = "12345678901234567890"; //VIN too long
 		AAAVehicleVinInfoRestResponseWrapper response2 = HelperCommon.executeVinValidate(policyNumber, vin2, null);
-		softly.assertThat(response2.getVehicles()).isEmpty();
-		softly.assertThat(response2.getValidationMessage()).isEqualTo("Invalid VIN length");
+		softly.assertThat(response2.vehicles).isEmpty();
+		softly.assertThat(response2.validationMessage).isEqualTo("Invalid VIN length");
 
 		String vin3 = "4T1BF1FK0H1234567"; //VIN check digit failed
 		AAAVehicleVinInfoRestResponseWrapper response3 = HelperCommon.executeVinValidate(policyNumber, vin3, null);
-		softly.assertThat(response3.getVehicles()).isEmpty();
-		softly.assertThat(response3.getValidationMessage()).isEqualTo("Check Digit is Incorrect");
+		softly.assertThat(response3.vehicles).isEmpty();
+		softly.assertThat(response3.validationMessage).isEqualTo("Check Digit is Incorrect");
 
 		String vin4 = "4T1BF1FK0H"; //VIN from VIN table but too short
 		AAAVehicleVinInfoRestResponseWrapper response4 = HelperCommon.executeVinValidate(policyNumber, vin4, null);
-		softly.assertThat(response4.getVehicles()).isEmpty();
-		softly.assertThat(response4.getValidationMessage()).isEqualTo("Invalid VIN length");
+		softly.assertThat(response4.vehicles).isEmpty();
+		softly.assertThat(response4.validationMessage).isEqualTo("Invalid VIN length");
 
 		String vin5 = "1D30E42J451234567"; //VIN NOT from VIN table to Check VIN service
 		AAAVehicleVinInfoRestResponseWrapper response5 = HelperCommon.executeVinValidate(policyNumber, vin5, null);
-		softly.assertThat(response5.getVehicles()).isEmpty();
-		softly.assertThat(response5.getValidationMessage()).isEqualTo("VIN is not on AAA VIN Table");
+		softly.assertThat(response5.vehicles).isEmpty();
+		softly.assertThat(response5.validationMessage).isEqualTo("VIN is not on AAA VIN Table");
 
 		String vin0 = "4T1BF1FK0HU624693"; //VIN from VIN table
 		AAAVehicleVinInfoRestResponseWrapper response0 = HelperCommon.executeVinValidate(policyNumber, vin0, endorsementDate);
-		softly.assertThat(response0.getVehicles().get(0).vin).isEqualTo(vin0);
-		softly.assertThat(response0.getVehicles().get(0).year.toString()).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).make).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).modelText).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).seriesText).isNotEmpty();
-		softly.assertThat(response0.getVehicles().get(0).bodyStyleCd).isNotEmpty();
-		softly.assertThat(response0.getValidationMessage()).isEmpty();
+		softly.assertThat(response0.vehicles.get(0).vin).isEqualTo(vin0);
+		softly.assertThat(response0.vehicles.get(0).year.toString()).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).make).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).modelText).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).seriesText).isNotEmpty();
+		softly.assertThat(response0.vehicles.get(0).bodyStyleCd).isNotEmpty();
+		softly.assertThat(response0.validationMessage).isEmpty();
 	}
 
 	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
@@ -1167,12 +1164,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			policyType.get().createPolicy(td);
 			PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
 
-/*			mainApp().open();
-			SearchPage.openPolicy("CAAC952918997");*/
-
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 			LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
+			String totalPremium = response[0].termPremium;
+			String actualPremium = response[0].actualAmt;
 
 			PolicySummary responsePolicyPending = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyPending.policyNumber).isEqualTo(policyNumber);
@@ -1183,6 +1181,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyPending.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyPending.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
+			assertThat(responsePolicyPending.actualAmt).isEqualTo(actualPremium);
+			assertThat(responsePolicyPending.termPremium).isEqualTo(totalPremium);
 
 			PolicySummary responsePolicyPendingRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyPendingRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -1200,6 +1200,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
+			assertThat(responsePolicyPending.actualAmt).isEqualTo(null);
+			assertThat(responsePolicyPending.termPremium).isEqualTo(null);
 
 			PolicySummary responsePolicyActiveRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyActiveRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -1226,6 +1228,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
+			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
+			String totalPremium = response[0].termPremium;
+			String actualPremium = response[0].actualAmt;
+
 			PolicySummary responsePolicyActive = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
@@ -1235,6 +1241,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyActive, state, "NOTENROLLED");
+			softly.assertThat(responsePolicyActive.actualAmt).isEqualTo(actualPremium);
+			softly.assertThat(responsePolicyActive.termPremium).isEqualTo(totalPremium);
+
+			PolicyPremiumInfo[] viewPremiumRenewalResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalActualPremium = viewPremiumRenewalResponse[0].actualAmt;
+			String renewalTermPremium = viewPremiumRenewalResponse[0].termPremium;
 
 			PolicySummary responsePolicyRenewalPreview = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalPreview.policyNumber).isEqualTo(policyNumber);
@@ -1245,6 +1257,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalPreview, state, "NOTENROLLED");
+			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(null);
+			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(null);
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -1260,6 +1274,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyOffer, state, "NOTENROLLED");
 
+			PolicyPremiumInfo[] viewPremiumRenewalResponse1 = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalActualPremium1 = viewPremiumRenewalResponse1[0].actualAmt;
+			String renewalTermPremium1 = viewPremiumRenewalResponse1[0].termPremium;
+
 			PolicySummary responsePolicyRenewalOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyRenewalOffer.policyStatus).isEqualTo("proposed");
@@ -1269,6 +1287,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, "NOTENROLLED");
+			softly.assertThat(responsePolicyRenewalOffer.actualAmt).isEqualTo(renewalActualPremium1);
+			softly.assertThat(responsePolicyRenewalOffer.termPremium).isEqualTo(renewalTermPremium1);
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -1321,7 +1341,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected void pas9716_policySummaryForActiveRenewalBody(String state) {
 		assertSoftly(softly -> {
-
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
 			if ("VA".equals(state)) {
@@ -1335,6 +1354,9 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
+			PolicyPremiumInfo[] response = HelperCommon.viewPremiumInfo(policyNumber);
+			String totalPremium = response[0].termPremium;
+			String actualPremium = response[0].actualAmt;
 
 			PolicySummary responsePolicyActive = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
@@ -1345,6 +1367,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyActive, state, "ACTIVE");
+			softly.assertThat(responsePolicyActive.actualAmt).isEqualTo(totalPremium);
+			softly.assertThat(responsePolicyActive.termPremium).isEqualTo(actualPremium);
+
+			PolicyPremiumInfo[] viewPremiumRenewalResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalActualPremium = viewPremiumRenewalResponse[0].actualAmt;
+			String renewalTermPremium = viewPremiumRenewalResponse[0].termPremium;
 
 			PolicySummary responsePolicyRenewalPreview = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalPreview.policyNumber).isEqualTo(policyNumber);
@@ -1355,6 +1383,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalPreview, state, "ACTIVE");
+			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(renewalActualPremium);
+			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(renewalTermPremium);
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -1365,6 +1395,10 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
 			new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
+			PolicyPremiumInfo[] viewPremiumRenewalResponseAfterRating = HelperCommon.viewPremiumInfo(policyNumber);
+			String renewalActualPremiumAfterRating = viewPremiumRenewalResponseAfterRating[0].actualAmt;
+			String renewalPremiumAfterRating = viewPremiumRenewalResponseAfterRating[0].termPremium;
+
 			PolicySummary responsePolicyOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOffer.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyOffer.policyStatus).isEqualTo("issued");
@@ -1374,6 +1408,12 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyOffer.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyOffer, state, "ACTIVE");
+			softly.assertThat(responsePolicyOffer.actualAmt).isEqualTo(renewalActualPremiumAfterRating);
+			softly.assertThat(responsePolicyOffer.termPremium).isEqualTo(renewalPremiumAfterRating);
+
+			PolicyPremiumInfo[] viewPremiumRenewalOfferResponse = HelperCommon.viewPremiumInfoRenewal(policyNumber);
+			String renewalOfferActualPremium = viewPremiumRenewalOfferResponse[0].actualAmt;
+			String renewalOfferTermPremium = viewPremiumRenewalOfferResponse[0].termPremium;
 
 			PolicySummary responsePolicyRenewalOffer = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyRenewalOffer.policyNumber).isEqualTo(policyNumber);
@@ -1384,6 +1424,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalOffer.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalOffer.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalOffer, state, "ACTIVE");
+			softly.assertThat(responsePolicyRenewalOffer.actualAmt).isEqualTo(renewalOfferActualPremium);
+			softly.assertThat(responsePolicyRenewalOffer.termPremium).isEqualTo(renewalOfferTermPremium);
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -1442,7 +1484,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(driverAssignment2).contains(response[1].driverDisplayValue);
 			softly.assertThat(response[1].driverOid).isEqualTo(driverOid2);
 			softly.assertThat(response[1].relationshipType).isEqualTo("primary");
-
 		});
 		assignmentTab.saveAndExit();
 
@@ -1541,7 +1582,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		AAAEndorseResponse endorsementResponse = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
 
-	   //add vehicle
+		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin2 = "4S2CK58W8X4307498";
 
@@ -1556,15 +1597,16 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 
-		String vehicle1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1).getCell("Select Vehicle").controls.comboBoxes.getFirst().getValue();
+		String vehicle1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1).getCell("Select Vehicle").controls.comboBoxes.getFirst()
+				.getValue();
 		List<TestData> assignmentsPrimary = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue();
 		String driver1 = assignmentsPrimary.get(0).getValue("Driver");
 		List<TestData> assignmentsPrimary1 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue();
 		String vehicle2 = assignmentsPrimary1.get(0).getValue("Excess Vehicle(s)");
 
 		Vehicle[] viewVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
-		String vehicleOid1=viewVehicleResponse[0].oid;
-		String vehicleOid2=viewVehicleResponse[1].oid;
+		String vehicleOid1 = viewVehicleResponse[0].oid;
+		String vehicleOid2 = viewVehicleResponse[1].oid;
 
 		DriverAssignmentDto[] driverAssignmentAfterAddingVehicleResponse = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 		assertSoftly(softly -> {
@@ -1591,7 +1633,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			String policyNum = PolicySummaryPage.linkPolicy.getValue();
 			SearchPage.openPolicy(policyNum);
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
-
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
@@ -1640,7 +1681,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyOfferProposed.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyOfferProposed.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyOfferProposed.renewalCycle).isEqualTo(1);
-
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
 			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
@@ -1706,7 +1746,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			MaigConversionTest maigConversionTest = new MaigConversionTest();
 			maigConversionTest.fillPolicy();
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
-
 
 			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
 			PolicySummary responsePolicyStub = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
@@ -1797,7 +1836,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActivated.sourcePolicyNumber).isNotEmpty();
 			softly.assertThat(responsePolicyActivated.sourceOfBusiness).isEqualTo("CONV");
 			softly.assertThat(responsePolicyActivated.renewalCycle).isEqualTo(1);
-
 
 			PolicySummary responsePolicyStubExpired = HelperCommon.executeViewPolicyRenewalSummary(policyNum, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			softly.assertThat(responsePolicyStubExpired.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -2111,7 +2149,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		updateGaragingAddressVehicleRequest.antiTheft = "STD";
 		updateGaragingAddressVehicleRequest.registeredOwner = false;
 		updateGaragingAddressVehicleRequest.garagingDifferent = true;
-		updateGaragingAddressVehicleRequest.stateProvCd = zipCodeGarage;
+		updateGaragingAddressVehicleRequest.garagingAddressPostalCode = zipCodeGarage;
 		updateGaragingAddressVehicleRequest.addressLine1 = addressGarage;
 		updateGaragingAddressVehicleRequest.city = cityGarage;
 		updateGaragingAddressVehicleRequest.stateProvCd = stateGarage;
@@ -2124,7 +2162,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(updateVehicleResponseGaragingAddress.garagingDifferent).isEqualTo(true);
 			softly.assertThat(updateVehicleResponseGaragingAddress.antiTheft).isEqualTo("STD");
 			softly.assertThat(updateVehicleResponseGaragingAddress.registeredOwner).isEqualTo(false);
-			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
+			softly.assertThat(updateVehicleResponseGaragingAddress.garagingAddressPostalCode).isEqualTo(zipCodeGarage);
 			softly.assertThat(updateVehicleResponseGaragingAddress.addressLine1).isEqualTo(addressGarage);
 			softly.assertThat(updateVehicleResponseGaragingAddress.city).isEqualTo(cityGarage);
 			softly.assertThat(updateVehicleResponseGaragingAddress.stateProvCd).isEqualTo(stateGarage);
@@ -2146,7 +2184,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].antiTheft).isEqualTo("STD");
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].registeredOwner).isEqualTo(false);
 
-		 	softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeGarage);
+			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].garagingAddressPostalCode).isEqualTo(zipCodeGarage);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].addressLine1).isEqualTo(addressGarage);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].stateProvCd).isEqualTo(stateGarage);
 			softly.assertThat(pendedEndorsementValidateVehicleResponse[0].city).isEqualTo(cityGarage);
@@ -2292,7 +2330,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		});
 	}
 
-	protected void pas10227_ViewManageVehicleLevelCoverages(PolicyType policyType) {
+	protected void pas11741_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -2418,9 +2456,246 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageLimit)).isEqualTo(excessElectronicEquipment);
 			softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).customerDisplayed).isEqualTo(false);
+		});
+	}
 
+	protected void pas7147_VehicleUpdateBusinessBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Add new vehicle
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String oid = responseAddVehicle.oid;
+		printToLog("oid: " + oid);
+		SearchPage.openPolicy(policyNumber);
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.usage = "Business";
+		//TODO remove garaging address from code once it is not necessary to pass it
+		//updateVehicleRequest.garagingDifferent = false;
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
 		});
 
+		//Check premium after new vehicle was added
+		HashMap<String, String> rateResponse = HelperCommon.executeEndorsementRateError(policyNumber, 422);
+		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+
+		HashMap<String, String> bindResponse = HelperCommon.executeEndorsementBindError(policyNumber, "PAS-7147", 422);
+		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
+	}
+
+	protected void pas7147_VehicleUpdateRegisteredOwnerBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Add new vehicle
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String oid = responseAddVehicle.oid;
+		printToLog("oid: " + oid);
+		SearchPage.openPolicy(policyNumber);
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.registeredOwner = false;
+		//TODO remove garaging address from code once it is not necessary to pass it
+		//updateVehicleRequest.garagingDifferent = false;
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Registered Owners");
+		});
+
+		//Check premium after new vehicle was added
+		HashMap<String, String> rateResponse = HelperCommon.executeEndorsementRateError(policyNumber, 422);
+		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+
+		HashMap<String, String> bindResponse = HelperCommon.executeEndorsementBindError(policyNumber, "PAS-7147", 422);
+		assertThat(bindResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.VALIDATION_ERROR_HAPPENED_DURING_BIND.getMessage());
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation on Update/Rate/Bind for vehicle use = Business
+	 * @scenario 1. Create active policy
+	 * 2. Run through the flow using services
+	 * //View Policy
+	 * //View Renewal which doesn't exist
+	 * //get all vehicles
+	 * //get all drivers
+	 * //get all coverages
+	 * //Check endorsement is allowed
+	 * //Lock the policy
+	 * //Create pended endorsement
+	 * //Validate VIN
+	 * //Add new vehicle
+	 * //Update Vehicle with proper Usage and Registered Owner
+	 * //Check vehicle update service when  garage address is different
+	 * //View endorsement vehicles
+	 * //View endorsement drivers
+	 * //View driver assignment if VA
+	 * //Rate endorsement
+	 * //View premium after new vehicle was added
+	 * //Bind endorsement
+	 * //Unlock policy
+	 */
+	protected void pas12866_e2eBctBody(String state, boolean isNewPolicy, SoftAssertions softly) {
+		String policyNumber = "";
+		if (isNewPolicy) {
+			mainApp().open();
+			policyNumber = getCopiedPolicy();
+		} else {
+			if ("AZ".equals(state)) {
+				policyNumber = "AZSS926232005";
+			} else if ("KY".equals(state)) {
+				policyNumber = "KYSS926232030";
+			}
+		}
+
+		mainApp().open();
+		//View Policy
+		PolicySummary responseViewPolicy = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
+		softly.assertThat(responseViewPolicy.policyNumber).isEqualTo(policyNumber);
+		softly.assertThat(responseViewPolicy.policyStatus).isEqualTo("issued");
+
+		//View Renewal which doesn't exist
+		PolicySummary responseViewRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
+		softly.assertThat(responseViewRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
+		softly.assertThat(responseViewRenewal.message).contains(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getMessage() + policyNumber + ".");
+
+		//get all vehicles
+		Vehicle[] responseViewVehicles = HelperCommon.executeVehicleInfoValidate(policyNumber);
+		String originalVehicle = responseViewVehicles[0].oid;
+
+		//get all drivers
+		DriversDto[] responseViewDrivers = HelperCommon.executeViewDrivers(policyNumber);
+		String originalDriver = responseViewDrivers[0].oid;
+
+		//get all coverages
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewCoverageInfo(policyNumber);
+		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+
+		//Check endorsement is allowed
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse responseValidateEndorse = HelperCommon.executeEndorsementsValidate(policyNumber, endorsementDate);
+		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+
+		//Lock the policy
+		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
+		assertThat(responseLock.policyNumber).isEqualTo(policyNumber);
+		assertThat(responseLock.status).isEqualTo("Locked");
+
+		//Create pended endorsement
+		AAAEndorseResponse response = HelperCommon.executeEndorseStart(policyNumber, endorsementDate);
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+
+		//Validate VIN
+		AAAVehicleVinInfoRestResponseWrapper vinValidateResponse = HelperCommon.executeVinValidate(policyNumber, vin, endorsementDate);
+		softly.assertThat(vinValidateResponse.vehicles.get(0).vin).isEqualTo(vin);
+
+		//Add new vehicle
+		Vehicle responseAddVehicle = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String newVehicleOid = responseAddVehicle.oid;
+		printToLog("newVehicleOid: " + newVehicleOid);
+		SearchPage.openPolicy(policyNumber);
+
+		//Update Vehicle with proper Usage and Registered Owner
+		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.usage = "Pleasure";
+		updateVehicleUsageRequest.registeredOwner = true;
+		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+
+		//Check vehicle update service when  garage address is different
+		String zipCodeGarage = "23703";
+		String addressGarage = "4112 FORREST HILLS DR";
+		String cityGarage = "PORTSMOUTH";
+		String stateGarage = "VA";
+		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
+		updateGaragingAddressVehicleRequest.garagingDifferent = true;
+		updateGaragingAddressVehicleRequest.garagingAddressPostalCode = zipCodeGarage;
+		updateGaragingAddressVehicleRequest.addressLine1 = addressGarage;
+		updateGaragingAddressVehicleRequest.city = cityGarage;
+		updateGaragingAddressVehicleRequest.stateProvCd = stateGarage;
+		Vehicle updateVehicleGaragingAddressResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest);
+		softly.assertThat(updateVehicleGaragingAddressResponse.garagingDifferent).isEqualTo(true);
+		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddressPostalCode).isEqualTo(zipCodeGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.addressLine1).isEqualTo(addressGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.city).isEqualTo(cityGarage);
+		softly.assertThat(updateVehicleGaragingAddressResponse.stateProvCd).isEqualTo(stateGarage);
+		SearchPage.openPolicy(policyNumber);
+
+		//View endorsement vehicles
+		Vehicle[] viewEndorsementVehicleResponse = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
+		List<Vehicle> sortedVehicles = Arrays.asList(viewEndorsementVehicleResponse);
+		sortedVehicles.sort(new Vehicle.VehicleComparator());
+		assertThat(viewEndorsementVehicleResponse).containsAll(sortedVehicles);
+		Vehicle newVehicle = Arrays.stream(viewEndorsementVehicleResponse).filter(veh -> newVehicleOid.equals(veh.oid)).findFirst().orElse(null);
+		assertThat(newVehicle.vehIdentificationNo).isEqualTo(vin);
+
+		//View endorsement drivers
+		DriversDto[] responseViewDriver = HelperCommon.executeEndorsementViewDrivers(policyNumber);
+		String driverOid = responseViewDriver[0].oid;
+		assertThat(driverOid.equals(originalDriver)).isTrue();
+
+		//View driver assignment if VA
+		if("VA".equals(state)) {
+			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
+			softly.assertThat(responseDriverAssignment[0].vehicleOid).isEqualTo(originalVehicle);
+			softly.assertThat(responseDriverAssignment[0].driverOid).isEqualTo(driverOid);
+			softly.assertThat(responseDriverAssignment[0].relationshipType).isEqualTo("primary");
+
+			softly.assertThat(responseDriverAssignment[1].vehicleOid).isEqualTo(newVehicleOid);
+			softly.assertThat(responseDriverAssignment[1].driverOid).isEqualTo(driverOid);
+			softly.assertThat(responseDriverAssignment[1].relationshipType).isEqualTo("occasional");
+		}
+
+		//Rate endorsement
+		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.executeEndorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+		softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
+		softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+
+		//View premium after new vehicle was added
+		PolicyPremiumInfo[] viewPremiumInfoPendedEndorsementResponse = HelperCommon.viewPremiumInfoPendedEndorsementResponse(policyNumber);
+		softly.assertThat(viewPremiumInfoPendedEndorsementResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+		softly.assertThat(viewPremiumInfoPendedEndorsementResponse[0].premiumCode).isEqualTo("GWT");
+		softly.assertThat(new Dollar(viewPremiumInfoPendedEndorsementResponse[0].actualAmt)).isNotNull();
+		softly.assertThat(new Dollar(viewPremiumInfoPendedEndorsementResponse[0].termPremium)).isNotNull();
+
+		//Bind endorsement
+		HelperCommon.executeEndorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		SearchPage.openPolicy(policyNumber);
+		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+
+		//Unlock policy
+		PolicyLockUnlockDto responseUnlock = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
+		assertThat(responseUnlock.policyNumber).isEqualTo(policyNumber);
+		assertThat(responseUnlock.status).isEqualTo("Unlocked");
 	}
 
 	private void endorsePolicyAddEvalue() {

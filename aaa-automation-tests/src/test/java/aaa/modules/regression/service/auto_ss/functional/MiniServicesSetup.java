@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.PROPERTY_CONFIGURER_ENTITY_INSERT;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import aaa.helpers.config.CustomTestProperties;
@@ -28,5 +29,10 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			DBService.get().executeUpdate(MiniServicesSetupPreconditions.MY_POLICY_USER_ADD_ALL_PRIVILEGES_UPDATE);
 		}
+	}
+
+	@Test(enabled = false, description = "Precondition adding MyPolicy as a user for Digital", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void myPolicyUserAddedConfigInsert() {
+		DBService.get().executeUpdate(String.format(PROPERTY_CONFIGURER_ENTITY_INSERT, "gn3zhyt", "MyPolicy user", "aaaDigitalValidationService.pasDxpUser", "MyPolicy"));
 	}
 }

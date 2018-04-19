@@ -632,7 +632,7 @@ MailingAddress_OR: {
 TestData_PA: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_PA',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_PA',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -657,6 +657,12 @@ MailingAddress_PA: {
     Street number: '111', 
     Street Name: Test street
   }
+}
+
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  #InsuranceScoreReport: ['@InsuranceScoreReport'],
+  CLUEreport: [{Report: 'Re-order report'}]
 }
 
 # -------------------- SD ----------------------
