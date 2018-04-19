@@ -200,11 +200,6 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public Double getTermCappingFactor() {
-		return null;
-	}
-
-	@Override
 	public String getUnderwriterCode() {
 		return null;
 	}

@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.mock.MockDataHelper;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
@@ -13,6 +15,7 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import org.apache.xpath.res.XPATHMessages;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -64,10 +67,15 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	@Override
 	public TestData getRenewalEntryData(HomeSSOpenLPolicy openLPolicy) {
 		TestData initiateRenewalEntryActionData = super.getRenewalEntryData(openLPolicy);
-		initiateRenewalEntryActionData
-				.adjust(CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel(), "Homeowners Signature Series")
-				.adjust(CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TYPE.getLabel(), openLPolicy.getPolicyType())
-				.adjust(CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT.getLabel(), "No");
+		TestData td = DataProviderFactory.dataOf(
+				new InitiateRenewalEntryActionTab().getMetaKey(), DataProviderFactory.dataOf(
+						CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel(), "Homeowners Signature Series",
+						CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TYPE.getLabel(), openLPolicy.getPolicyType(),
+						CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().get(0).getPlcyInceptionDate().format(DateTimeUtils.MM_DD_YYYY),
+						CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT.getLabel(), "No"
+				)
+		);
+		initiateRenewalEntryActionData = TestDataHelper.merge(td, initiateRenewalEntryActionData);
 		return initiateRenewalEntryActionData;
 	}
 
@@ -123,6 +131,26 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 	}
 
+	public TestData getFormHS0492Data(HomeSSOpenLPolicy openLPolicy) {
+		TestData formHS0492Data = DataProviderFactory.dataOf(
+				"HS 04 92", DataProviderFactory.dataOf(
+						"Report", "Order Report"
+				)
+		);
+
+		TestData reportsTabData = DataProviderFactory.dataOf(
+				HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), "I Agree",
+				HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), formHS0492Data
+		);
+
+		return DataProviderFactory.dataOf(
+				new ReportsTab().getMetaKey(), reportsTabData,
+				new PropertyInfoTab().getMetaKey(), DataProviderFactory.emptyData(),
+				new ProductOfferingTab().getMetaKey(), DataProviderFactory.emptyData(),
+				new EndorsementTab().getMetaKey(), DataProviderFactory.emptyData()
+		);
+	}
+
 	@Override
 	public void setRatingDataPattern(TestData ratingDataPattern) {
 		//TODO-dchubkov: to be implemented
@@ -136,6 +164,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel(),
 				openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyNamedInsured().get(0).getaAAPropPersistency()).format(DateTimeUtils.MM_DD_YYYY),
+				HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), openLPolicy.getCappingDetails().get(0).getCarrierCode(),
 				HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel(), String.format("%d", openLPolicy.getPolicyNamedInsured().get(0).getaAAPropPersistency() + openLPolicy.getPolicyDiscountInformation().get(0).getHomeInsPersistency())
 		);
 	}
@@ -162,7 +191,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 
 		TestData dwellingAddressData = DataProviderFactory.dataOf(
-				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip()
+				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
+				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), "000 Street Address"
 		);
 
 		TestData otherActiveAAAPoliciesData = DataProviderFactory.emptyData();
@@ -220,6 +250,14 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		TestData publicProtectionClassData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().get(0).getProtectionClass()
 		);
+
+		TestData riskMeterData = null;
+		if (isCoastalState(openLPolicy.getPolicyAddress().get(0).getState())) {
+			riskMeterData = DataProviderFactory.dataOf(
+		HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel(), openLPolicy.getRiskMeterData().get(0).getDistanceToCoast().toString(),
+		HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel(), openLPolicy.getRiskMeterData().get(0).getElevation().toString()
+			);
+		}
 
 		TestData propertyValueData = DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCoverageCd())).findFirst().get().getLimit(),
@@ -294,6 +332,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeSSMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionClassData,
+				HomeSSMetaData.PropertyInfoTab.RISKMETER.getLabel(), riskMeterData,
 				HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData,
 				HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), constructionData,
 				HomeSSMetaData.PropertyInfoTab.INTERIOR.getLabel(), interiorData,
@@ -418,7 +457,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 	}
 
-//	private TestData addMembershipSinceDateToTestData(TestData testData, String sinceDate) {
+	//	private TestData addMembershipSinceDateToTestData(TestData testData, String sinceDate) {
 //		TestData addMemberSinceDialog = new SimpleDataProvider()
 //				.adjust(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), sinceDate)
 //				.adjust(HomeSSMetaData.ReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
@@ -432,4 +471,16 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 //
 //		return testData.adjust(new ReportsTab().getMetaKey(), ratingDetailsReportTab).resolveLinks();
 //	}
+	private boolean isCoastalState(String state) {
+		switch (state) {
+			case Constants.States.CT:
+			case Constants.States.DE:
+			case Constants.States.MD:
+			case Constants.States.NJ:
+			case Constants.States.VA:
+				return true;
+			default:
+				return false;
+		}
+	}
 }
