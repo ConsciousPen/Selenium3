@@ -209,3 +209,10 @@ BUG-10001:
     - tests: [
     aaa.modules.regression.*]
       messages: ["Cannot set value of AssetList {PrefillTab: By.xpath: //div[@id='contentWrapper']} to '{Validate Address=click, Validate Address Dialog={}, Order Prefill=click}'"]
+PT-1576:
+  summary: "Auto SS Defensive Driver Discount is not displayed correctly"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
+      messages: ["Defensive Driving Course Discount"]
