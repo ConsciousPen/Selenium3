@@ -202,6 +202,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         premiumAndCoveragesTab.calculatePremium();
         enhancedUIM.setValue(true);
         new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
+        premiumAndCoveragesTab.calculatePremium();
 
         //PAS-11448. Validate Help text when moused over EUIM, UIMPD, and UIMBI
         String euimHelpText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
@@ -220,6 +221,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(euimPDHelpText);
 
         enhancedUIM.setValue(false);
+        premiumAndCoveragesTab.calculatePremium();
         assertThat(PremiumAndCoveragesTab.euimHelpText.getAttribute("innerText")).contains(euimHelpText);
         assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
