@@ -1941,6 +1941,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String vin2 = "1HGFA16526L081415";
 		Vehicle response2 = HelperCommon.executeVehicleAddVehicle(policyNumber, purchaseDate, vin2);
 		assertThat(response2.oid).isNotEmpty();
+		String newVehicleOid = response2.oid;
 
 		//View vehicles status
 		Vehicle[] response3 = HelperCommon.pendedEndorsementValidateVehicleInfo(policyNumber);
@@ -1962,14 +1963,13 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		}
 
 		SearchPage.openPolicy(policyNumber);
-		//Add usage (this part should be removed when usage dxp service will be added)
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
 
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.tableVehicleList.selectRow(2);
-		vehicleTab.getAssetList().getAsset(USAGE.getLabel(), ComboBox.class).setValue("Pleasure");
-		vehicleTab.saveAndExit();
+		//Update Vehicle with proper Usage and Registered Owner
+		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.usage = "Pleasure";
+		updateVehicleUsageRequest.registeredOwner = true;
+		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
 
 		//Check premium after new vehicle was added
 		PolicyPremiumInfo[] rateResponse2 = HelperCommon.executeEndorsementRate(policyNumber, Response.Status.OK.getStatusCode());
