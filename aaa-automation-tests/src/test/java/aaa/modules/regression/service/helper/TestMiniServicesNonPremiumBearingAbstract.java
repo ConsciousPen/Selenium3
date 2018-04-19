@@ -1200,8 +1200,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
-			assertThat(responsePolicyPending.actualAmt).isEqualTo(null);
-			assertThat(responsePolicyPending.termPremium).isEqualTo(null);
 
 			PolicySummary responsePolicyActiveRenewal = HelperCommon.executeViewPolicyRenewalSummary(policyNumber, "renewal", Response.Status.NOT_FOUND.getStatusCode());
 			assertThat(responsePolicyActiveRenewal.errorCode).isEqualTo(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getCode());
@@ -1257,8 +1255,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responsePolicyRenewalPreview.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyRenewalPreview.renewalCycle).isEqualTo(1);
 			eValueStatusCheck(softly, responsePolicyRenewalPreview, state, "NOTENROLLED");
-			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(null);
-			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(null);
+			softly.assertThat(responsePolicyRenewalPreview.actualAmt).isEqualTo(renewalActualPremium);
+			softly.assertThat(responsePolicyRenewalPreview.termPremium).isEqualTo(renewalTermPremium);
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -2663,7 +2661,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		assertThat(driverOid.equals(originalDriver)).isTrue();
 
 		//View driver assignment if VA
-		if("VA".equals(state)) {
+		if ("VA".equals(state)) {
 			DriverAssignmentDto[] responseDriverAssignment = HelperCommon.pendedEndorsementDriverAssignmentInfo(policyNumber);
 			softly.assertThat(responseDriverAssignment[0].vehicleOid).isEqualTo(originalVehicle);
 			softly.assertThat(responseDriverAssignment[0].driverOid).isEqualTo(driverOid);
