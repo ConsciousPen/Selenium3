@@ -159,6 +159,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 			generateFileForRecurringPaymentResponseJob(policyNumber, billingAccount, paymentAmountPlain, "SUCC");
 
 			//Generate file for PaymentCentralRejectFeed and run job
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 			String paymentReferenceId = DBService.get().getValue(String.format(GET_PAYMENT_REFERENCE_ID_BY_BILLING_ACCOUNT, billingAccount)).get();
 			File paymentCentralFile = paymentCentralHelper.createFile(policyNumber, paymentAmountPlain, paymentReferenceId);
 			PaymentCentralHelper.copyFileToServer(paymentCentralFile);
@@ -193,6 +194,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	}
 
 	private void generateFileForRecurringPaymentResponseJob(String policyNumber, String billingAccount, String paymentAmountPlain, String err) {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccount)).get();
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
