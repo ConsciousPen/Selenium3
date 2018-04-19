@@ -9,8 +9,6 @@ import aaa.soap.aaaCSPolicyRate.com.exigenservices.ErrorInfo;
 import aaa.soap.aaaCSPolicyRate.com.exigenservices.RatePolicyRequest;
 import toolkit.rest.RestServiceUtil;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import static aaa.admin.modules.IAdmin.log;
 
 
@@ -21,15 +19,15 @@ import static aaa.admin.modules.IAdmin.log;
  */
 public class CSPolicyRateWSClient implements IRestClient {
 
+	private CSPolicyRateService csPolicyRateService;
+	private CSPolicyRatePort csPolicyRatePort;
+
 	public CSPolicyRateWSClient() {
 		csPolicyRateService = new CSPolicyRateService();
 		csPolicyRatePort = csPolicyRateService.getCSPolicyRatePort();
 	}
 
-	private CSPolicyRateService csPolicyRateService;
-	private CSPolicyRatePort csPolicyRatePort;
-
-	public RatePolicyRequest getCSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest) throws DatatypeConfigurationException {
+	public RatePolicyRequest getCSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest){
 		log.info("SOAP: REQUEST");
 		log.info(AAAMarshaller.modelToXml(ratePolicyRequest));
 		RatePolicyRequest response = null;
@@ -39,6 +37,7 @@ public class CSPolicyRateWSClient implements IRestClient {
 			errorInfo.printStackTrace();
 		}
 		log.info("SOAP: RESPONSE");
+		assert response != null;
 		log.info(AAAMarshaller.modelToXml(response));
 		return response;
 	}

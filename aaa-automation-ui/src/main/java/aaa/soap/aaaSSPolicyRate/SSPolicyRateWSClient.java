@@ -12,13 +12,13 @@ import static aaa.admin.modules.IAdmin.log;
 
 public class SSPolicyRateWSClient implements IRestClient {
 
+	private SSPolicyRateService ssPolicyRateService;
+	private SSPolicyRatePort ssPolicyRate;
+
 	public SSPolicyRateWSClient() {
 		ssPolicyRateService = new SSPolicyRateService();
 		ssPolicyRate = ssPolicyRateService.getSSPolicyRatePort();
 	}
-
-	private SSPolicyRateService ssPolicyRateService;
-	private SSPolicyRatePort ssPolicyRate;
 
 	public RatePolicyRequest getSSPolicyRateServiceResponse(RatePolicyRequest ratePolicyRequest){
 		log.info("SOAP: REQUEST");
@@ -30,6 +30,7 @@ public class SSPolicyRateWSClient implements IRestClient {
 			errorInfo.printStackTrace();
 		}
 		log.info("SOAP: RESPONSE");
+		assert response != null;
 		log.info(AAAMarshaller.modelToXml(response));
 		return response;
 	}
