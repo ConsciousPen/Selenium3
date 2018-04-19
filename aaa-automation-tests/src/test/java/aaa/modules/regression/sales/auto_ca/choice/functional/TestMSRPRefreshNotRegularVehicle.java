@@ -23,7 +23,7 @@ public class TestMSRPRefreshNotRegularVehicle extends TestMSRPRefreshTemplate{
 	 * 2. Calculate premium and validate comp/coll symbols
 	 * 3. Add new Active MSRP versions to DB, Adjust values in MSRP tables
 	 * 4. Retrieve created quote
-	 * 5. Navigate to P&C page and validate comp/coll symbols
+	 * 5. Navigate to P&C page and validate comp/coll symbolsloc
 	 * @details
 	 */
 	@Parameters({"state"})
