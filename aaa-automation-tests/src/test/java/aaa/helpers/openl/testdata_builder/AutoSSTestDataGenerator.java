@@ -708,7 +708,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					.as("Unknown mapping for value \"%s\" of \"noOfAPIPAddlNamedRel\" field. It should be >= 0 and <= 6", openLPolicy.getNoOfAPIPAddlNamedRel())
 					.isGreaterThanOrEqualTo(0).isLessThanOrEqualTo(6);
 			if (openLPolicy.getNoOfAPIPAddlNamedRel() == 0) {
-				td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.COVERAGE_INCLUDES.getLabel(), "Named Insureds");
+				td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.ADDITIONAL_PERSONAL_INJURY_PROTECTION_BENEFIT.getLabel(), "No");
 			} else {
 				List<String> relativesNamesControls = Arrays.asList(
 						AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME1.getLabel(),
@@ -723,10 +723,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					td.put(relativesNamesControls.get(i), "$<rx:relative\\d{5}>");
 				}
 			}
-		}
-
-		if (getState().equals(Constants.States.NJ) && (openLPolicy.getNoOfAPIPAddlNamedRel() == null || Objects.equals(openLPolicy.getNoOfAPIPAddlNamedRel(), 0))) {
-			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.ADDITIONAL_PERSONAL_INJURY_PROTECTION_BENEFIT.getLabel(), "No");
 		}
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel(), new SimpleDataProvider(td));
