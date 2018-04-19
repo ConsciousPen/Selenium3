@@ -3,6 +3,9 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -228,9 +231,17 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
 
         //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
+        String euimSelectedText = "Enhanced UIM Selected";
+        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
-        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains("Enhanced UIM Selected");
+        assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains(euimSelectedText);
+
+        //Verify the next 2 lines in the Total Term Premium are UIM/BI and PD
+        List<String> totalTermPremiumKeys = new ArrayList<>(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys());
+        int euimIndex = IntStream.range(0, totalTermPremiumKeys.size() - 1).filter(i -> totalTermPremiumKeys.get(i).equals(euimSelectedText)).findFirst().orElse(-3);
+        assertThat(totalTermPremiumKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(totalTermPremiumKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
 
 //        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
 //        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
