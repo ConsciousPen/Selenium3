@@ -217,20 +217,31 @@ public class ExcelUnmarshaller {
 					linkedTableRows.add(tableAndColumnsFields.getLeft().getRow(linkedTableRowIndex));
 				}*/
 
+				//cache.ofTableField(tableColumnField).getRows(linkedTableRowIds);
+
 				List<TableRow> linkedTableRows = cache.ofTableField(tableColumnField).getRows(linkedTableRowIds);
 
 				//TODO-dchubkov: cache same tableRowObjects
 				List<Object> tableRowObjects = new ArrayList<>(linkedTableRows.size());
 				for (TableRow linkedTableRow : linkedTableRows) {
-					Object tableRowObject = BindHelper.getInstance(tableRowClass);
-					for (Field linkedTableRowField : cache.ofTableField(tableColumnField).getTableColumnsFields()) {
-						///boolean ignoreCase = ignoreColumnNameCase || ColumnFieldHelper.isCaseIgnored(linkedTableRowField);
-						boolean ignoreCase = cache.ofTableField(tableColumnField).isCaseIgnoredForAllColumns() || cache.ofTableField(tableColumnField).isCaseIgnored(linkedTableRowField);
-						//setFieldValue(linkedTableRowField, tableRowObject, linkedTableRow, ignoreCase, strictMatch);
-						setFieldValue(linkedTableRowField, tableRowObject, linkedTableRow, ignoreCase, strictMatch);
+					//Object tableRowObject = BindHelper.getInstance(tableRowClass);
+					Object tableRowObject;
+					if (cache.ofTableField(tableColumnField).hasObject(linkedTableRow.getIndex())) {
+						tableRowObject = cache.ofTableField(tableColumnField).getObject(linkedTableRow.getIndex());
+					} else {
+						tableRowObject = BindHelper.getInstance(tableRowClass);
+						for (Field linkedTableRowField : cache.ofTableField(tableColumnField).getTableColumnsFields()) {
+							///boolean ignoreCase = ignoreColumnNameCase || ColumnFieldHelper.isCaseIgnored(linkedTableRowField);
+							boolean ignoreCase = cache.ofTableField(tableColumnField).isCaseIgnoredForAllColumns() || cache.ofTableField(tableColumnField).isCaseIgnored(linkedTableRowField);
+							//setFieldValue(linkedTableRowField, tableRowObject, linkedTableRow, ignoreCase, strictMatch);
+							setFieldValue(linkedTableRowField, tableRowObject, linkedTableRow, ignoreCase, strictMatch);
+						}
+						cache.ofTableField(tableColumnField).setObject(linkedTableRow.getIndex(), tableRowObject);
 					}
+
 					tableRowObjects.add(tableRowObject);
 				}
+
 				BindHelper.setFieldValue(tableColumnField, rowObject, tableRowObjects);
 				break;
 			default:

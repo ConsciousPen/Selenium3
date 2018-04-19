@@ -3,9 +3,7 @@ package aaa.modules.openl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -95,14 +93,34 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		OpenLFile<P> openLFile = ExcelUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
 		//((AutoSSOpenLFile) openLFile).getPolicies().stream().filter(p -> p.getVehicles().stream().anyMatch(v -> v.getNumber() == 5900)).findFirst().get();
+		/*OpenLPolicy p;
+		boolean policyFound = false;
+		for (OpenLPolicy policy : openLFile.getPolicies()) {
+			for (AutoSSOpenLVehicle vehicle : ((AutoSSOpenLPolicy)policy).getVehicles()) {
+				if (vehicle.getNumber() == 5900) {
+					p = policy;
+					policyFound = true;
+					break;
+				}
+			}
+			if (policyFound) {
+				break;
+			}
+		}*/
 
-		List<P> openLPoliciesList = getOpenLPoliciesWithExpectedPremiums(openLFileManager, openLFile);
+		//List<P> openLPoliciesList = getOpenLPoliciesWithExpectedPremiums(openLFileManager, openLFile);
 		openLFileManager.close();
+
+
+		/*((AutoSSOpenLPolicy)openLFile.getPolicies().get(0)).getVehicles().get(4).getCoverages().get(0).getAdditionalLimitAmount();
+		((AutoSSOpenLPolicy)openLFile.getPolicies().get(0)).getVehicles().get(4).getCoverages().get(0).setAdditionalLimitAmount(999);
+		((AutoSSOpenLPolicy)openLFile.getPolicies().get(0)).getVehicles().get(5).getCoverages().get(0).getAdditionalLimitAmount();*/
 		//assertThat(openLPoliciesList).as("Found policy objects amount is not equal to number of policies to be tested. Probably excel file has missed tests").hasSameSizeAs(policyNumbers);
 
 		//Sort policies list by effective date for further valid time shifts
-		openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
-		return openLPoliciesList;
+		//openLPoliciesList = openLPoliciesList.stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate)).collect(Collectors.toList());
+		//return openLPoliciesList;
+		return null;
 	}
 
 	protected List<P> getOpenLPoliciesWithExpectedPremiums(ExcelManager openLFileManager, OpenLFile<P> openLFile) {

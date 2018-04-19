@@ -18,10 +18,11 @@ public final class TableFieldInfo extends FieldInfo {
 	private final String sheetName;
 	private final int headerRowIndex;
 	//private final FieldsInfoCache columnFieldsCache;
-	private Map<String, Integer> primaryKeyColumnValuesAndRowIndexes;
-	private Map<String, TableRow> primaryKeyColumnValuesAndRowIndexes2;
-	private List<Integer> primaryKeyColumnIndexesWithUnknownValues;
+	private final Map<String, Integer> primaryKeyColumnValuesAndRowIndexes;
+	private final Map<Integer, Object> rowIndexesAndCreatedObjects;
+	//private Map<String, TableRow> primaryKeyColumnValuesAndRowIndexes2;
 
+	private List<Integer> primaryKeyColumnIndexesWithUnknownValues;
 	private List<Field> tableColumnsFields;
 	private ExcelTable excelTable;
 	private String primaryKeysSeparator;
@@ -37,6 +38,7 @@ public final class TableFieldInfo extends FieldInfo {
 		//this.columnFieldsCache = new FieldsInfoCache<>(excelManager, strictMatch);
 		this.primaryKeyColumnValuesAndRowIndexes = new HashMap<>();
 		//this.primaryKeyColumnValuesAndRowIndexes2 = new HashMap<>();
+		this.rowIndexesAndCreatedObjects = new HashMap<>();
 		this.primaryKeyColumnIndexesWithUnknownValues = new ArrayList<>();
 	}
 
@@ -169,6 +171,19 @@ public final class TableFieldInfo extends FieldInfo {
 
 	public Class<?> getTableFieldType(Field tableColumnField) {
 		return getFieldsInfoCache().ofColumnField(tableColumnField).getTableFieldType();
+	}
+
+	public boolean hasObject(int rowIndex) {
+		return this.rowIndexesAndCreatedObjects.containsKey(rowIndex);
+		//return false;
+	}
+
+	public Object getObject(int rowIndex) {
+		return this.rowIndexesAndCreatedObjects.get(rowIndex);
+	}
+
+	public void setObject(int rowIndex, Object object) {
+		this.rowIndexesAndCreatedObjects.put(rowIndex, object);
 	}
 
 	private ExcelTable findTable() {
