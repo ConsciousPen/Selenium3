@@ -21,15 +21,27 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 	}
 
 	@Override
-	public boolean hasCell(int cellIndexInColumn) {
-		return getCells().stream().anyMatch(c -> c.getRowIndex() == cellIndexInColumn);
+	public boolean hasCell(int rowIndexInColumn) {
+		//return getCells().stream().anyMatch(c -> c.getRowIndex() == rowIndexInColumn);
+		for (CELL cell : getCells()) {
+			if (cell.getRowIndex() == rowIndexInColumn) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
-	public CELL getCell(int cellIndexInColumn) {
+	public CELL getCell(int rowIndexInColumn) {
 		//assertThat(hasCell(cellIndexInQueue)).as("There is no cell with %1$s index in %2$s", cellIndexInQueue, this).isTrue();
-		return getCells().stream().filter(c -> c.getRowIndex() == cellIndexInColumn).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no cell with %1$s index in %2$s", cellIndexInColumn, this)));
+		/*return getCells().stream().filter(c -> c.getRowIndex() == rowIndexInColumn).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no cell with %1$s index in %2$s", rowIndexInColumn, this)));*/
+		for (CELL cell : getCells()) {
+			if (cell.getRowIndex() == rowIndexInColumn) {
+				return cell;
+			}
+		}
+		throw new IstfException(String.format("There is no cell with %1$s index in %2$s", rowIndexInColumn, this));
 	}
 
 	@Override
@@ -39,7 +51,7 @@ public abstract class ExcelColumn<CELL extends ExcelCell> extends CellsQueue<CEL
 
 	@Override
 	public ExcelColumn<CELL> copy(int destinationColumnIndex) {
-		for (CELL cell : this) {
+		for (CELL cell : getCells()) {
 			cell.copy(cell.getRowIndex(), destinationColumnIndex);
 		}
 		return this;

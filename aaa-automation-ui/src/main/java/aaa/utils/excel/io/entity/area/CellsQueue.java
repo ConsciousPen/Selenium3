@@ -1,5 +1,6 @@
 package aaa.utils.excel.io.entity.area;
 
+import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,22 +32,24 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		this.queueIndexInArea = queueIndexInArea;
 		this.queueIndexOnSheet = queueIndexOnSheet;
 		this.excelArea = excelArea;
-		this.cellTypes = ImmutableList.copyOf(cellTypes);
-		LinkedHashSet<Integer> cellsIndexesSet = cellsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
-		this.cellsIndexesOnSheet = ImmutableList.copyOf(cellsIndexesSet);
+		//this.cellTypes = ImmutableList.copyOf(cellTypes);
+		this.cellTypes = new ArrayList<>(cellTypes);
+		/*LinkedHashSet<Integer> cellsIndexesSet = cellsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+		this.cellsIndexesOnSheet = ImmutableList.copyOf(cellsIndexesSet);*/
+		this.cellsIndexesOnSheet = cellsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ArrayList::new));
 	}
 
 	public String getSheetName() {
 		return getArea().getSheetName();
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<CELL> getCells() {
 		//return getQueueIndexesAndCellsMap().values().asList();
 		if (this.cells == null) {
-			this.cells = Collections.unmodifiableList(gatherCells(getCellsIndexesOnSheet(), getCellTypes()));
+			this.cells = gatherCells(getCellsIndexesOnSheet(), getCellTypes());
 		}
-		return this.cells;
+		return Collections.unmodifiableList(this.cells);
 	}
 
 
@@ -104,9 +107,9 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).min().orElse(0);
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<CellType<?>> getCellTypes() {
-		return this.cellTypes;
+		return Collections.unmodifiableList(this.cellTypes);
 	}
 
 	public int getIndex() {
@@ -117,9 +120,9 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 		return this.queueIndexOnSheet;
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<Integer> getCellsIndexesOnSheet() {
-		return this.cellsIndexesOnSheet;
+		return Collections.unmodifiableList(this.cellsIndexesOnSheet);
 	}
 
 	protected ExcelArea<CELL, ?, ?> getArea() {

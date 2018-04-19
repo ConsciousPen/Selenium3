@@ -1,6 +1,5 @@
 package aaa.utils.excel.io.entity.area.table;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class TableRow extends ExcelRow<TableCell> {
 
 	public Map<String, Object> getTableValues() {
 		Map<String, Object> values = new LinkedHashMap<>(getCellsNumber());
-		for (TableCell cell : this) {
+		for (TableCell cell : getCells()) {
 			values.put(cell.getHeaderColumnName(), cell.getValue());
 		}
 		return values;
@@ -36,7 +35,7 @@ public class TableRow extends ExcelRow<TableCell> {
 
 	public Map<String, String> getTableStringValues() {
 		Map<String, String> values = new LinkedHashMap<>(getCellsNumber());
-		for (TableCell cell : this) {
+		for (TableCell cell : getCells()) {
 			values.put(cell.getHeaderColumnName(), cell.getStringValue());
 		}
 		return values;
@@ -116,7 +115,7 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	public TableCell getCell(String headerColumnName, boolean ignoreCase) {
-		assertThat(hasColumn(headerColumnName, ignoreCase)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
+		//assertThat(hasColumn(headerColumnName, ignoreCase)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
 		return getTable().getColumn(headerColumnName, ignoreCase).getCell(getIndex());
 	}
 

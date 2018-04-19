@@ -53,7 +53,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public List<Map<String, Object>> getValues() {
 		List<Map<String, Object>> values = new ArrayList<>();
-		for (TableRow row : this) {
+		for (TableRow row : getRows()) {
 			values.add(row.getTableValues());
 		}
 		return values;
@@ -61,7 +61,7 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public List<Map<String, String>> getStringValues() {
 		List<Map<String, String>> values = new ArrayList<>();
-		for (TableRow row : this) {
+		for (TableRow row : getRows()) {
 			values.add(row.getTableStringValues());
 		}
 		return values;
@@ -230,8 +230,14 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 
 	public TableRow getRow(String headerColumnName, boolean ignoreHeaderColumnCase, Object cellValue) {
 		//return getRows(headerColumnName, ignoreHeaderColumnCase, cellValue).get(0);
-		return getRows().stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
+		//		return getRows().stream().filter(r -> r.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)).findFirst()
+		//				.orElseThrow(() -> new IstfException(String.format("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
+		for (TableRow row : getRows()) {
+			if (row.hasValue(headerColumnName, ignoreHeaderColumnCase, cellValue)) {
+				return row;
+			}
+		}
+		throw new IstfException(String.format("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName));
 	}
 
 	public List<TableRow> getRows(String headerColumnName, Object cellValue) {
@@ -245,7 +251,24 @@ public class ExcelTable extends ExcelArea<TableCell, TableRow, TableColumn> {
 	}
 
 	public TableRow getRow(Map<String, Object> query) {
-		return getRows(query).get(0);
+		//return getRows(query).get(0);
+		for (TableRow row : getRows()) {
+			boolean searchInNextRow = false;
+
+			for (Map.Entry<String, Object> columnNameAndCellValue : query.entrySet()) {
+				if (!row.hasValue(columnNameAndCellValue.getKey(), columnNameAndCellValue.getValue())) {
+					searchInNextRow = true;
+					break;
+				}
+			}
+
+			if (!searchInNextRow) {
+				return row;
+			}
+		}
+		//assertThat(foundRows).as("There are no rows in table with column names and cell values query: " + query.entrySet()).isNotEmpty();
+		//return foundRows;
+		throw new IstfException("There is no row in table with column names and cell values query: " + query.entrySet());
 	}
 
 	public List<TableRow> getRows(Map<String, Object> query) {

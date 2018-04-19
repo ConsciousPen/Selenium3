@@ -45,13 +45,15 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	protected ExcelArea(Sheet sheet, List<Integer> columnsIndexesOnSheet, List<Integer> rowsIndexesOnSheet, ExcelManager excelManager, List<CellType<?>> cellTypes) {
 		this.sheet = sheet;
 		this.columnsIndexesOnSheet = CollectionUtils.isNotEmpty(columnsIndexesOnSheet)
-				? columnsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ImmutableList::copyOf))
+				//? columnsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ImmutableList::copyOf))
+				? columnsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ArrayList::new))
 				: getColumnsIndexes(sheet);
 		this.rowsIndexesOnSheet = CollectionUtils.isNotEmpty(rowsIndexesOnSheet)
-				? rowsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ImmutableList::copyOf))
+				? rowsIndexesOnSheet.stream().sorted().collect(collectingAndThen(Collectors.toCollection(LinkedHashSet::new), ArrayList::new))
 				: getRowsIndexes(sheet);
 		this.excelManager = excelManager;
-		this.cellTypes = ImmutableList.copyOf(cellTypes);
+		//this.cellTypes = ImmutableList.copyOf(cellTypes);
+		this.cellTypes = new ArrayList<>(cellTypes);
 		this.considerRowsOnComparison = true;
 		this.considerColumnsOnComparison = true;
 	}
@@ -74,9 +76,9 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return getRows().stream().map(CellsQueue::getIndex).collect(Collectors.toList());
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<CellType<?>> getCellTypes() {
-		return this.cellTypes;
+		return Collections.unmodifiableList(this.cellTypes);
 	}
 
 	public int getRowsNumber() {
@@ -137,14 +139,14 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this.considerColumnsOnComparison;
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<Integer> getColumnsIndexesOnSheet() {
-		return this.columnsIndexesOnSheet;
+		return Collections.unmodifiableList(this.columnsIndexesOnSheet);
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<Integer> getRowsIndexesOnSheet() {
-		return this.rowsIndexesOnSheet;
+		return Collections.unmodifiableList(this.rowsIndexesOnSheet);
 	}
 
 	@Override
@@ -230,25 +232,50 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	public ROW getRow(int rowIndex) {
 		//assertThat(hasRow(rowIndex)).as("There is no row number %1$s int %2$s", rowIndex, this).isTrue();
 		//return getAreaIndexesAndRowsMap().get(rowIndex);
-		return getRows().stream().filter(r -> r.getIndex() == rowIndex).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no row number %1$s int %2$s", rowIndex, this)));
+		/*return getRows().stream().filter(r -> r.getIndex() == rowIndex).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no row number %1$s int %2$s", rowIndex, this)));*/
+		for (ROW row : getRows()) {
+			if (row.getIndex() == rowIndex) {
+				return row;
+			}
+		}
+		throw new IstfException(String.format("There is no row number %1$s int %2$s", rowIndex, this));
 	}
 
 	public COLUMN getColumn(int columnIndex) {
 		//assertThat(hasColumn(columnIndex)).as("There is no column number %1$s in %2$s", columnIndex, this).isTrue();
 		//return getAreaIndexesAndColumnsMap().get(columnIndex);
-		return getColumns().stream().filter(c -> c.getIndex() == columnIndex).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no column number %1$s in %2$s", columnIndex, this)));
+
+		/*return getColumns().stream().filter(c -> c.getIndex() == columnIndex).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no column number %1$s in %2$s", columnIndex, this)));*/
+		for (COLUMN column : getColumns()) {
+			if (column.getIndex() == columnIndex) {
+				return column;
+			}
+		}
+		throw new IstfException(String.format("There is no column number %1$s in %2$s", columnIndex, this));
 	}
 
 	public boolean hasRow(int rowIndex) {
 		//return getAreaIndexesAndRowsMap().containsKey(rowIndex);
-		return getRows().stream().anyMatch(r -> r.getIndex() == rowIndex);
+		//return getRows().stream().anyMatch(r -> r.getIndex() == rowIndex);
+		for (ROW row : getRows()) {
+			if (row.getIndex() == rowIndex) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean hasColumn(int columnIndex) {
 		//return getAreaIndexesAndColumnsMap().containsKey(columnIndex);
-		return getColumns().stream().anyMatch(c -> c.getIndex() == columnIndex);
+		//return getColumns().stream().anyMatch(c -> c.getIndex() == columnIndex);
+		for (COLUMN column : getColumns()) {
+			if (column.getIndex() == columnIndex) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public CELL getCell(int rowIndex, int columnIndex) {
@@ -316,7 +343,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	public ROW getRow(boolean ignoreCase, String... valuesInCells) {
 		Set<String> expectedCellValues = new HashSet<>(Arrays.asList(valuesInCells));
 		Pair<Integer, List<String>> bestMatchRowNumberWithMissedValues = null;
-		for (ROW row : this) {
+		for (ROW row : getRows()) {
 			List<String> cellValues = row.getStringValues();
 			List<String> missedCellValues = new ArrayList<>(expectedCellValues);
 
@@ -380,7 +407,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> clearColumns(Integer... columnsIndexes) {
-		for (ROW row : this) {
+		for (ROW row : getRows()) {
 			for (Integer index : columnsIndexes) {
 				row.getCell(index).clear();
 			}
@@ -396,7 +423,7 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 	}
 
 	public ExcelArea<CELL, ROW, COLUMN> copyColumn(int columnIndex, int destinationColumnIndex) {
-		for (ROW row : this) {
+		for (ROW row : getRows()) {
 			row.getCell(columnIndex).copy(row.getIndex(), row.getCell(destinationColumnIndex).getColumnIndex());
 		}
 		return this;
@@ -443,39 +470,41 @@ public abstract class ExcelArea<CELL extends ExcelCell, ROW extends ExcelRow<CEL
 		return this.areaIndexesAndRowsMap;
 	}*/
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<ROW> getRows() {
 		if (this.rows == null) {
-			this.rows = Collections.unmodifiableList(gatherRows(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes));
+			this.rows = gatherRows(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes);
 		}
-		return this.rows;
+		return Collections.unmodifiableList(this.rows);
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<COLUMN> getColumns() {
 		if (this.columns == null) {
-			this.columns = Collections.unmodifiableList(gatherColumns(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes));
+			this.columns = gatherColumns(this.rowsIndexesOnSheet, this.columnsIndexesOnSheet, this.cellTypes);
 		}
-		return this.columns;
+		return Collections.unmodifiableList(this.columns);
 	}
 
 	protected abstract List<ROW> gatherRows(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes);
 
 	protected abstract List<COLUMN> gatherColumns(List<Integer> rowsIndexesOnSheet, List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes);
 
-	private ImmutableList<Integer> getColumnsIndexes(Sheet sheet) {
+	private List<Integer> getColumnsIndexes(Sheet sheet) {
 		int maxCellsNumber = 1;
 		for (Row row : sheet) {
 			if (row.getLastCellNum() > maxCellsNumber) {
 				maxCellsNumber = row.getLastCellNum();
 			}
 		}
-		List<Integer> columnsIndexes = IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toList());
-		return ImmutableList.copyOf(columnsIndexes);
+		//List<Integer> columnsIndexes = IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toList());
+		//return ImmutableList.copyOf(columnsIndexes);
+		return IntStream.rangeClosed(1, maxCellsNumber).boxed().collect(Collectors.toList());
 	}
 
-	private ImmutableList<Integer> getRowsIndexes(Sheet sheet) {
-		List<Integer> rowsIndexes = IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toList());
-		return ImmutableList.copyOf(rowsIndexes);
+	private List<Integer> getRowsIndexes(Sheet sheet) {
+		//List<Integer> rowsIndexes = IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toList());
+		//return ImmutableList.copyOf(rowsIndexes);
+		return IntStream.rangeClosed(1, sheet.getLastRowNum() + 1).boxed().collect(Collectors.toList());
 	}
 }

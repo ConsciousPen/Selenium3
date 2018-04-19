@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -53,12 +54,12 @@ public abstract class ExcelCell implements Writable {
 		this.allowableCellTypes = ImmutableList.copyOf(new HashSet<>(allowableCellTypes));
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public static synchronized List<CellType<?>> getBaseTypes() {
 		if (baseCellTypes == null) {
 			baseCellTypes = Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(ImmutableList.toImmutableList());
 		}
-		return baseCellTypes;
+		return Collections.unmodifiableList(baseCellTypes);
 	}
 
 	public Cell getPoiCell() {
@@ -86,13 +87,13 @@ public abstract class ExcelCell implements Writable {
 		return this.columnIndexInArea;
 	}
 
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	//@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	public List<CellType<?>> getCellTypes() {
 		if (this.cellTypes == null) {
 			this.cellTypes = filterAndGetValidCellTypes(this.allowableCellTypes);
 			assertThat(this.cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
 		}
-		return this.cellTypes;
+		return Collections.unmodifiableList(this.cellTypes);
 	}
 
 	ExcelCell setCellTypes(List<CellType<?>> allowableCellTypes) {

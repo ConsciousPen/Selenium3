@@ -1,6 +1,5 @@
 package aaa.utils.excel.io.entity.area.table;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,7 +61,13 @@ public class TableHeader extends TableRow {
 
 	@Override
 	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
-		return getColumnsNames().stream().anyMatch(cn -> ignoreCase ? cn.equalsIgnoreCase(headerColumnName) : cn.equals(headerColumnName));
+		//return getColumnsNames().stream().anyMatch(cn -> ignoreCase ? cn.equalsIgnoreCase(headerColumnName) : cn.equals(headerColumnName));
+		for (String columnName : getColumnsNames()) {
+			if (ignoreCase ? columnName.equalsIgnoreCase(headerColumnName) : columnName.equals(headerColumnName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -72,13 +77,19 @@ public class TableHeader extends TableRow {
 
 	@Override
 	public TableCell getCell(String headerColumnName, boolean ignoreCase) {
-		assertThat(hasColumn(headerColumnName, ignoreCase)).as("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()).isTrue();
-		return getCells().stream().filter(c -> c.hasStringValue(headerColumnName, ignoreCase)).findFirst().get();
+		//assertThat(hasColumn(headerColumnName, ignoreCase)).as("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()).isTrue();
+		//return getCells().stream().filter(c -> c.hasStringValue(headerColumnName, ignoreCase)).findFirst().get();
+		for (TableCell cell : getCells()) {
+			if (cell.hasStringValue(headerColumnName, ignoreCase)) {
+				return cell;
+			}
+		}
+		throw new IllegalStateException(String.format("There is no column name \"%1$s\" in the table %2$s", headerColumnName, getTable()));
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		assertThat(hasCell(columnIndex)).as("There is no column with %s index in the table %2$s", columnIndex, getTable()).isTrue();
+		//assertThat(hasCell(columnIndex)).as("There is no column with %s index in the table %2$s", columnIndex, getTable()).isTrue();
 		return getCell(columnIndex).getStringValue();
 	}
 
@@ -131,7 +142,7 @@ public class TableHeader extends TableRow {
 	}
 
 	public int getColumnIndexOnSheet(int columnIndex) {
-		assertThat(hasColumn(columnIndex)).as("There is no column index %s in the table %2$s", columnIndex, getTable()).isTrue();
+		//assertThat(hasColumn(columnIndex)).as("There is no column index %s in the table %2$s", columnIndex, getTable()).isTrue();
 		return getCell(columnIndex).getColumnIndexOnSheet();
 	}
 }
