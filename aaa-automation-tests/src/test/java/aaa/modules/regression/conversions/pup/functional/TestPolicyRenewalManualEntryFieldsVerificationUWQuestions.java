@@ -27,7 +27,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
  *
  */
 
-public class TestPolicyRenewalManualEntryFieldsVerification_UWQuestions extends ConvPUPBaseTest {
+public class TestPolicyRenewalManualEntryFieldsVerificationUWQuestions extends ConvPUPBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
