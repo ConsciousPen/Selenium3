@@ -228,7 +228,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
 
-        //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
+        //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
         List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
