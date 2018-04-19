@@ -11,7 +11,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -20,6 +19,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
+import aaa.modules.regression.conversions.home_ss.helper;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.assertj.core.api.SoftAssertions;
@@ -31,8 +31,6 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author S. Sivaram
@@ -52,6 +50,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO6
     LocalDateTime policyExpirationDate;
     LocalDateTime renewImageGenDate;
     PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+    helper hc = new helper();
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -62,14 +61,14 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO6
 
         createConvPolicyAndMoveToPropertyInfoTab(td, inceptionDate);
         SoftAssertions.assertSoftly(softly -> {
-        assertMasonryVaneerFirstRenewal();
-        assertOilStorageTankFirstRenewal(state);
+        hc.assertMasonryVaneerFirstRenewal();
+        hc.assertOilStorageTankFirstRenewalHo4Ho6(state);
         String policyNumber = saveAndExitPolicyOnBindTab(td);
         activeFirstRenewal(policyNumber);
         initiateSecondRenewal(policyNumber);
         navigateToPropertyInfoOnSecondRenewal();
-        assertMasonryVaneerSecondRenewal();
-        assertOilStorageTankSecondRenewal();});
+        hc.assertMasonryVaneerSecondRenewal();
+        hc.assertOilStorageTankSecondRenewal();});
     }
 
     /*
@@ -112,54 +111,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO6
         return PolicySummaryPage.linkPolicy.getValue();
     }
 
-    /*
-    method asserts conditions based on state's presented
-    */
-    private void assertOilStorageTankFirstRenewal(@Optional("") String state) {
-        switch (state) {
-            case "PA":
-            case "VA":
-            case "DE":
-            case "NJ":
-            case "MD":
-            case "NY":
-            case "CT":
-            case "WY": {
-                assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
-                        .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.OIL_FUEL_OR_PROPANE_STORAGE_TANK)).isEnabled(true);
-                break;
-            }
-            default: {
-                assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)
-                        .getAsset(HomeSSMetaData.PropertyInfoTab.OilPropaneStorageTank.OIL_FUEL_OR_PROPANE_STORAGE_TANK)).isPresent(false);
-
-            }
-        }
-    }
-
-    /*
-   method asserts conditions
-   */
-    private void assertMasonryVaneerFirstRenewal() {
-        assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER)).isEnabled(true);
-        propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER).setValue("Yes");
-    }
-
-    /*
-   method asserts conditions
-   */
-    private void assertOilStorageTankSecondRenewal() {
-        assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.OIL_FUEL_OR_PROPANE_STORAGE_TANK)).isEnabled(true);
-    }
-
-    /*
-   method asserts conditions
-   */
-    private void assertMasonryVaneerSecondRenewal() {
-        assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER)).isEnabled(false);
-    }
-
-    /*
+   /*
    method creates customer initiates renewal entry and fills data up to the property info tab
    */
     private void createConvPolicyAndMoveToPropertyInfoTab(TestData td, String inceptionDate) {
@@ -180,5 +132,4 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO6
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
     }
-
 }
