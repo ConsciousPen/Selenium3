@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,6 +19,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -226,12 +228,12 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
 
-//        //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
-//        enhancedUIM.setValue(true);
-//        premiumAndCoveragesTab.calculatePremium();
-//        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
-//        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced UIM Selected");
-//
+        //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
+        enhancedUIM.setValue(true);
+        premiumAndCoveragesTab.calculatePremium();
+        List<TestData> totalTermPremiumTD = premiumAndCoveragesTab.getTermPremiumByVehicleData();
+        assertThat(totalTermPremiumTD.get(0).getKeys()).contains("Enhanced UIM Selected");
+
 //        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
 //        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 //        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("Yes");
