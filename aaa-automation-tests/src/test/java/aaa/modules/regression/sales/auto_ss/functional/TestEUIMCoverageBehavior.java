@@ -3,8 +3,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.List;
-import aaa.main.pages.summary.PolicySummaryPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -20,7 +18,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -219,14 +216,14 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String uimPDHelpText = "Pays up to the limit the insured is legally entitled to recover or waives the collision deductible, to cover damages resulting from an accident with an "
                 + "uninsured motor vehicle. Please see policy contract.";
 
-        assertThat(PremiumAndCoveragesTab.enhancedUIMHelpText.getAttribute("innerText")).contains(euimHelpText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("innerText")).contains(euimBIHelpText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("innerText")).contains(euimPDHelpText);
+        assertThat(PremiumAndCoveragesTab.euimHelpText.getAttribute("innerText")).contains(euimHelpText);
+        assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(euimBIHelpText);
+        assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(euimPDHelpText);
 
         enhancedUIM.setValue(false);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMHelpText.getAttribute("innerText")).contains(euimHelpText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
-        assertThat(PremiumAndCoveragesTab.enhancedUIMPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
+        assertThat(PremiumAndCoveragesTab.euimHelpText.getAttribute("innerText")).contains(euimHelpText);
+        assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
+        assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
 
 //        //PAS-11204. Display EUIM UIPD/UIMBI in 'Total Term Premium' section P&C Page.
 //        enhancedUIM.setValue(true);
