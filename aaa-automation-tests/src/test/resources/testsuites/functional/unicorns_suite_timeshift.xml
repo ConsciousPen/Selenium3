@@ -43,4 +43,13 @@
             </class>
         </classes>
     </test>
+    <test name="PAS-10704, PAS-10512 Enable Fuel related and Masonry Vaneer fields on the Property info tab " parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ, MD, PA, CT"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
+        </classes>
+    </test>
 </suite>
