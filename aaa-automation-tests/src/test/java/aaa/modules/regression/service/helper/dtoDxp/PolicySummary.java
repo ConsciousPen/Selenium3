@@ -49,4 +49,8 @@ public class PolicySummary {
 
     @ApiModelProperty(value = "Message ", example = "Renewal quote version or issued pending renewal not found for policy number AZSS952918544.")
     public String message;
+
+    public String actualAmt;
+
+    public String termPremium;
 }
