@@ -97,7 +97,11 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			policiesTable.excludeRows(rowsIndexesToExclude);
 		}
 
-		OpenLFile<P> openLFile = ExcelUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
+		//OpenLFile<P> openLFile = ExcelUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
+
+		ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(openLFileManager, false);//.unmarshal(openLFileManager, openLFileModelClass, false, false);
+		OpenLFile<P> openLFile = excelUnmarshaller.unmarshal(openLFileModelClass, false);
+
 		//((AutoSSOpenLFile) openLFile).getPolicies().stream().filter(p -> p.getVehicles().stream().anyMatch(v -> v.getNumber() == 5900)).findFirst().get();
 		/*OpenLPolicy p;
 		boolean policyFound = false;

@@ -16,66 +16,85 @@ import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller {
-	private static Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
-	//private static Map<Class<?>, Pair<ExcelTable, List<Field>>> tableClasses = new HashMap<>();
-	//private static FieldsInfoCache cache;
-	private static FieldsInfoCache cache;
+	private static final Object UNMARSHAL_LOCK = new Object();
+	private final ExcelManager excelManager;
+	private final boolean strictMatch;
+	private final FieldsInfoCache cache;
 
-	//TODO-dchubkov: implement registerCellType(CellType<?>... cellTypes) method
+	private Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
 
-	public static <T> T unmarshal(File excelFile, Class<T> excelFileModel) {
-		return unmarshal(excelFile, excelFileModel, false);
+	public ExcelUnmarshaller(File excelFile) {
+		this(excelFile, true);
 	}
 
-	public static <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch, int... rowsIndexes) {
-		return unmarshal(new ExcelManager(excelFile), excelFileModel, strictMatch, rowsIndexes);
+	public ExcelUnmarshaller(File excelFile, boolean strictMatch) {
+		this(new ExcelManager(excelFile), strictMatch);
 	}
 
-	public static <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, int... rowsIndexes) {
-		return unmarshal(excelManager, excelFileModel, false, rowsIndexes);
+	// TODO-dchubkov: sremove after implementation of getting objects by prvided excel rows (or kind of filter table)
+	public ExcelUnmarshaller(ExcelManager excelManager) {
+		this(excelManager, true);
 	}
 
-	public static <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, int... rowsIndexes) {
-		return unmarshal(excelManager, excelFileModel, strictMatch, true, rowsIndexes);
+	public ExcelUnmarshaller(ExcelManager excelManager, boolean strictMatch) {
+		this.excelManager = excelManager;
+		this.strictMatch = strictMatch;
+		this.cache = new FieldsInfoCache(excelManager, strictMatch);
 	}
 
-	public static synchronized <T> T unmarshal(ExcelManager excelManager, Class<T> excelFileModel, boolean strictMatch, boolean closeManagerOnFinish, int... rowsIndexes) {
+	public File getExcelFile() {
+		return this.excelManager.getFile();
+	}
+
+	public boolean isStrictMatch() {
+		return strictMatch;
+	}
+
+	public <T> T unmarshal(Class<T> excelFileModel) {
+		return unmarshal(excelFileModel, true);
+	}
+
+	public <T> T unmarshal(Class<T> excelFileModel, boolean closeManagerOnFinish) {
 		//TODO: check excelFileModel is valid class (not primitive, etc...)
 		log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
 				excelFileModel.getSimpleName(), excelManager.getFile().getAbsolutePath(), strictMatch ? "with" : "without"));
 
 		T excelFileObject = BindHelper.getInstance(excelFileModel);
 		//cache = new FieldsInfoCache(excelManager, strictMatch);
-		cache = new FieldsInfoCache(excelManager, strictMatch);
 
-		for (Field tableRowField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
-			///boolean ignoreCaseForAllFields = TableFieldHelper.isCaseIgnored(tableRowField);
-			///Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(excelManager, tableRowField, ignoreCaseForAllFields, strictMatch);
+		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously by multiple threads
+			for (Field tableRowField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
+				///boolean ignoreCaseForAllFields = TableFieldHelper.isCaseIgnored(tableRowField);
+				///Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(excelManager, tableRowField, ignoreCaseForAllFields, strictMatch);
 
-			List<Object> tableRowsObjects = new ArrayList<>(cache.ofTableField(tableRowField).getExcelTable().getRowsNumber());
-			for (TableRow row : cache.ofTableField(tableRowField).getExcelTable()) {
-				Object rowObject = BindHelper.getInstance(cache.ofTableField(tableRowField).getTableFieldType());
-				for (Field columnField : cache.ofTableField(tableRowField).getTableColumnsFields()) {
-					boolean ignoreCase = cache.ofTableField(tableRowField).isCaseIgnoredForAllColumns() || cache.ofTableField(tableRowField).isCaseIgnored(columnField);
-					setFieldValue(columnField, rowObject, row, ignoreCase, strictMatch);
+				List<Object> tableRowsObjects = new ArrayList<>(cache.ofTableField(tableRowField).getExcelTable().getRowsNumber());
+				for (TableRow row : cache.ofTableField(tableRowField).getExcelTable()) {
+					Object rowObject = BindHelper.getInstance(cache.ofTableField(tableRowField).getTableFieldType());
+					for (Field columnField : cache.ofTableField(tableRowField).getTableColumnsFields()) {
+						boolean ignoreCase = cache.ofTableField(tableRowField).isCaseIgnoredForAllColumns() || cache.ofTableField(tableRowField).isCaseIgnored(columnField);
+						setFieldValue(columnField, rowObject, row, ignoreCase, strictMatch);
+					}
+					tableRowsObjects.add(rowObject);
 				}
-				tableRowsObjects.add(rowObject);
+				BindHelper.setFieldValue(tableRowField, excelFileObject, tableRowsObjects);
 			}
-			BindHelper.setFieldValue(tableRowField, excelFileObject, tableRowsObjects);
-		}
 
-		if (closeManagerOnFinish) {
-			excelManager.close();
-		}
+			if (closeManagerOnFinish) {
+				excelManager.close();
+			}
 
-		cache.flushAll();
-		log.info("Excel unmarshalling was successful.");
+			log.info("Excel unmarshalling was successful.");
+		}
 		return excelFileObject;
 	}
 
 	public void marshal(Object excelFileObject, File excelFile) {
 		//TODO-dchubkov: To be implemented...
 		throw new NotImplementedException("Excel marshalling is not implemented yet");
+	}
+
+	public void flushCache() {
+		this.cache.flushAll();
 	}
 
 	/*private static Pair<ExcelTable, List<Field>> getTableAndColumnsFields(ExcelManager excelManager, Field tableRowField, boolean ignoreCaseForAllFields, boolean strictMatch) {
@@ -156,7 +175,7 @@ public class ExcelUnmarshaller {
 		return table;
 	}*/
 
-	private static void setFieldValue(Field tableColumnField, Object rowObject, TableRow row, boolean ignoreColumnNameCase, boolean strictMatch) {
+	private void setFieldValue(Field tableColumnField, Object rowObject, TableRow row, boolean ignoreColumnNameCase, boolean strictMatch) {
 		//String columnName = ColumnFieldHelper.getHeaderColumnName(tableColumnField);
 		//String columnName = cache.ofTableField(tableRowField).getHeaderColumnName(tableColumnField);
 		String columnName = cache.ofColumnField(tableColumnField).getHeaderColumnName();
