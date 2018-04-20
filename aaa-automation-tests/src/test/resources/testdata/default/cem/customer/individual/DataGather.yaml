@@ -19,6 +19,7 @@ CustomerGeneralTabAgency: {
   Agency Name: QA Agency
 }
 
+#TODO: @Aperapecha - Change to: First Name: '$<rx:Tim-[A-Z]{5}>', when story with special symbols will be implemented
 GeneralTab: {
   First Name: '$<rx:Tim\d{5}>',
   Last Name: Smith,
