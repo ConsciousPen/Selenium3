@@ -423,7 +423,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832"})
 	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";
@@ -450,7 +450,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832"})
 	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";
@@ -477,7 +477,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
@@ -506,7 +506,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
@@ -535,7 +535,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
@@ -568,7 +568,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10229")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
@@ -1187,8 +1187,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		testEValueDiscount.eValueQuoteCreation(defaultEvalueQuote);
 		policy.dataGather().start();
 		setMembershipAndRate(membershipStatus, eValueSet);
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-		return policyNumber;
+		return testEValueDiscount.simplifiedQuoteIssue();
 	}
 
 	void membershipEligibilityEndorsementCreation(String membershipStatus) {
@@ -1340,14 +1339,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
 
-		String transactionHistoryQuery = "select TXREASONTEXT \n"
-				+ "from PolicyTransaction \n"
+		String transactionHistoryQuery = "select * from(\n"
+				+ "select pt.TXREASONTEXT\n"
+				+ "from PolicyTransaction pt\n"
 				+ "where POLICYID in \n"
-				+ "    (select id from \n"
 				+ "        (select id from POLICYSUMMARY \n"
-				+ "        where POLICYNUMBER = '%s'\n"
-				+ "        order by id desc)\n"
-				+ "where rownum=1)";
+				+ "        where POLICYNUMBER = '%s')\n"
+				+ "    order by pt.TXDATE desc)\n"
+				+ "    where rownum=1";
 		assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
 	}
 
@@ -1435,7 +1434,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		return DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().toString().contains(discountTag);
 	}
 
-	void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
+	void checkDocumentContentAHDRXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent,
+			boolean isPaperlessDlvryDataPresent) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
@@ -1493,7 +1493,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 	}
 
-	private void checkDocumentContentAHDEXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent, boolean isPaperlessDlvryDataPresent) {
+	private void checkDocumentContentAHDEXX(String policyNumber, boolean isGenerated, boolean isMembershipDataPresent, boolean isEvalueDataPresent, boolean isPaperlessDiscDataPresent,
+			boolean isPaperlessDlvryDataPresent) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 
 		if (isGenerated) {
@@ -1516,7 +1517,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				//BUG no evalue info in AHDEXX
 				CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 				//PAS-1549 Start
-				CustomAssert.assertTrue("13.5%".equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+				CustomAssert.assertTrue("13.5%"
+						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
 				//PAS-1549 End
 			} else {
 				CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
@@ -1528,7 +1531,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 								.getTextField()));
 			} else {
 				if (!DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
-					CustomAssert.assertTrue("N".equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+					CustomAssert.assertTrue("N"
+							.equals(DocGenHelper.getDocumentDataElemByName("PapPrefDiscYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+									.getTextField()));
 				}
 			}
 
@@ -1538,7 +1543,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 								.getTextField()));
 			} else {
 				if (!DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).isEmpty()) {
-					CustomAssert.assertTrue("N".equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+					CustomAssert.assertTrue("N"
+							.equals(DocGenHelper.getDocumentDataElemByName("PaplssDlvryYN", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+									.getTextField()));
 				}
 			}
 		} else {
@@ -1560,7 +1567,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void ahdexxContentCheck(String membershipEligibilitySwitch, String policyNumber) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDEXX", "MEMBERSHIP_VALIDATE");
 
-		CustomAssert.assertTrue("Membership discount tag problem", "5.0%".equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
+		CustomAssert.assertTrue("Membership discount tag problem", "5.0%"
+				.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
 		CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
 		if ("TRUE".equals(membershipEligibilitySwitch)) {
