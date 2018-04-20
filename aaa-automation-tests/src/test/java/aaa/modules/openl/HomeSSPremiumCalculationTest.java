@@ -43,19 +43,19 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0492".equals(c.getFormCode()))) {
-			TestData formHS0492Data = ((HomeSSTestDataGenerator)tdGenerator).getFormHS0492Data(openLPolicy);
+			TestData formHS0492Data = ((HomeSSTestDataGenerator) tdGenerator).getFormHS0492Data(openLPolicy);
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class,false);
+			policy.getDefaultView().fillUpTo(formHS0492Data, PremiumsAndCoveragesQuoteTab.class, false);
 		}
 
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		premiumsAndCoveragesQuoteTab.fillTab(quoteRatingData);
 
-		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode()))&& !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
 			premiumsAndCoveragesQuoteTab.submitTab();
-			TestData policyIssueData = ((HomeSSTestDataGenerator)tdGenerator).getPolicyIssueData(openLPolicy);
+			TestData policyIssueData = ((HomeSSTestDataGenerator) tdGenerator).getPolicyIssueData(openLPolicy);
 
-			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class,false);
+			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class, false);
 			ErrorTab errorTab = new ErrorTab();
 			if (errorTab.isVisible()) {
 				errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
@@ -64,7 +64,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			}
 			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD().getTestData(PurchaseTab.class.getSimpleName())));
 
-			TestData endorsementData = ((HomeSSTestDataGenerator)tdGenerator).getEndorsementData(openLPolicy);
+			TestData endorsementData = ((HomeSSTestDataGenerator) tdGenerator).getEndorsementData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 			}

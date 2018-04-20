@@ -141,12 +141,15 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0465DataFunction = (openLPolicy, policyLevel) -> {
 		List<TestData> tdList = new ArrayList<>();
-		Map<String, String> td = new HashMap<>();
+		LinkedHashMap<String, String> td = new LinkedHashMap<>();
+		td.put("Action", isFormAdded("HS0465", policyLevel) ? "Edit" : "Add");
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS0465".equals(form.getFormCode())) {
 				switch (form.getType()) {
 					case "Money":
-						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.MONEY_AND_BANK_NOTES.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						if ("Heritage".equals(policyLevel)) {
+							td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.MONEY_AND_BANK_NOTES.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						}
 						break;
 					case "Securities":
 						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.SECURITIES.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
@@ -155,7 +158,9 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.LOSS_OF_SILVERWARE.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
 						break;
 					case "Trailers":
-						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.TRAILERS.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						if ("Heritage".equals(policyLevel)) {
+							td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.TRAILERS.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						}
 						break;
 					//TODO add all Special Limits
 					default:
@@ -193,7 +198,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 						"Action", instanceNum == 1 ? (isFormAdded("HS0492", policyLevel) ? "Edit" : "Add") : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
-						HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "Street address 1",
+						HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "000 Street Address",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_AS_A_DWELLING_OR_CAPABLE_OF_BEING_USED_AS_A_DWELLING.getLabel(), "No",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.IS_THE_STRUCTURE_USED_TO_CONDUCT_ANY_BUSINESS_OR_TO_STORE_ANY_BUSINESS_PROPERTY.getLabel(), "No",
