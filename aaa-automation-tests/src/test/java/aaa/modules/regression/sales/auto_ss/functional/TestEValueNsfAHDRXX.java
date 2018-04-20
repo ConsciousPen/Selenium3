@@ -170,6 +170,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		} else {
 			throw new IstfException("Bad Recurring Payment Response status");
 		}
+		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
 		verifyPaymentDeclinedTransactionPresent(paymentAmountPlain);
 		verifyPaymentTransactionBecameDeclined(paymentAmount);
