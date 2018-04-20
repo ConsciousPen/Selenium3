@@ -3,11 +3,12 @@ package aaa.helpers.openl.model;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public abstract class OpenLVehicle {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
+
+	protected List<OpenLAddress> address;
 
 	protected Integer annualMileage;
 	protected Integer collSymbol;
@@ -20,9 +21,6 @@ public abstract class OpenLVehicle {
 	protected String pdLiabilitySymbol;
 	protected String mpLiabilitySymbol;
 	protected String umLiabilitySymbol;
-
-	@ExcelTableElement(sheetName = OpenLFile.ADDRESS_SHEET_NAME, headerRowIndex = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
-	protected List<OpenLAddress> address;
 
 	public abstract List<? extends AutoOpenLCoverage> getCoverages();
 

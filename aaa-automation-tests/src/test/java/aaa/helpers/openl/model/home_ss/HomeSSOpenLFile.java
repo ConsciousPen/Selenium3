@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
@@ -14,51 +13,39 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	@ExcelTransient
 	public static final String TESTS_SHEET_NAME = "FinalTest";
 
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLPolicy> policies;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = NAMED_INSURED_SHEET_NAME, headerRowIndex = NAMED_INSURED_HEADER_ROW_NUMBER)
 	private List<OpenLNamedInsured> policyNamedInsured;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = CONSTRUCTION_INFO_SHEET_NAME, headerRowIndex = CONSTRUCTION_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLConstructionInfo> policyConstructionInfo;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = 4)
 	private List<HomeSSOpenLCoverage> coverages;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLForm> forms;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = LOSS_INFORMATION_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLLossInformation> policyLossInformation;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<HomeSSOpneLCappingDetails> cappingDetails;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	private List<HomeSSOpenLAddress> policyAddress;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_DEDUCTIBLE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverageDeductible> policyCoverageDeductible;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
 	private List<OpenLDiscountInformation> policyDiscountInformation;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = RISK_METER_DATA_SHEET_NAME, headerRowIndex = RISK_METER_DATA_HEADER_ROW_NUMBER)
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
 
 	public List<OpenLNamedInsured> getPolicyNamedInsured() {

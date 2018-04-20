@@ -2,7 +2,9 @@ package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.RISK_METER_DATA_SHEET_NAME, headerRowIndex = OpenLFile.RISK_METER_DATA_HEADER_ROW_NUMBER)
 public class OpenLRiskMeterData {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;

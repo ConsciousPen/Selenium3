@@ -7,7 +7,13 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = AutoSSOpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoSSOpenLPolicy extends OpenLPolicy {
+
+	private List<AutoSSOpenLCappingDetails> cappingDetails;
+	private List<AutoSSOpenLVehicle> vehicles;
+	private List<AutoSSOpenLDriver> drivers;
+
 	private LocalDateTime effectiveDate;
 	private Integer term;
 	private Boolean isHomeOwner;
@@ -54,15 +60,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer yafAfterInception; // NY specific
 	private Integer ycfAfterInception; // NY specific
 	private String tort; // PA specific
-
-	@ExcelTableElement(sheetName = OpenLFile.CAPPINGDETAILS_SHEET_NAME, headerRowIndex = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLCappingDetails> cappingDetails;
-
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLVehicle> vehicles;
-
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoSSOpenLDriver> drivers;
 
 	@Override
 	public Integer getTerm() {

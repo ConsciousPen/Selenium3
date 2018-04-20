@@ -6,11 +6,10 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoSSOpenLVehicle extends OpenLVehicle {
-	@ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-	protected List<AutoSSOpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME + "AZ", headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
+	protected List<AutoSSOpenLCoverage> coverages;
 	private List<AutoSSOpenLDriver> ratedDriver;
 
 	private String airbagCode;

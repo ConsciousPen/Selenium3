@@ -4,27 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class HomeCaHO6OpenLFile extends HomeCaOpenLFile<HomeCaHO6OpenLPolicy> {
 	@ExcelTransient
 	public static final int FORM_HEADER_ROW_NUMBER = 4;
 
-	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 	protected List<HomeCaHO6OpenLPolicy> policies;
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
 	@ExcelTransient
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLForm> forms;
 
 	@ExcelTransient
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaHO6OpenLDwelling> dwelling;
 
 	public List<HomeCaOpenLForm> getForms() {

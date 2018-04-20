@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.home_ca.ho4;
 
-import static aaa.helpers.openl.model.OpenLFile.*;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
@@ -8,14 +9,11 @@ import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> {
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
+
 	private List<HomeCaOpenLDwelling> dwelling;
-
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO4OpenLFile.FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaHO4OpenLForm> forms;
-
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLCoverage> coverages;
 
 	private String constructionGroup;

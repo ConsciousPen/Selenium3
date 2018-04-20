@@ -9,11 +9,10 @@ import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
+@ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenLDriver, AutoCaChoiceOpenLVehicle> {
-	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-	private List<AutoCaChoiceOpenLDriver> drivers;
 
-	@ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
+	private List<AutoCaChoiceOpenLDriver> drivers;
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	@ExcelTransient
@@ -21,6 +20,14 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 
 	private Integer term;
 	private Integer monsOfPriorIns; // unknown type, it's always empty in excel
+
+	public Integer getMonsOfPriorIns() {
+		return monsOfPriorIns;
+	}
+
+	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
+		this.monsOfPriorIns = monsOfPriorIns;
+	}
 
 	@Override
 	public List<AutoCaChoiceOpenLDriver> getDrivers() {
@@ -40,14 +47,6 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 		this.vehicles = new ArrayList<>(vehicles);
 	}
 
-	public Integer getMonsOfPriorIns() {
-		return monsOfPriorIns;
-	}
-
-	public void setMonsOfPriorIns(Integer monsOfPriorIns) {
-		this.monsOfPriorIns = monsOfPriorIns;
-	}
-
 	@Override
 	public Integer getTerm() {
 		return term;
@@ -57,16 +56,16 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 		this.term = term;
 	}
 
-	public void setEffectiveDate(LocalDateTime effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	@Override
 	public LocalDateTime getEffectiveDate() {
 		if (effectiveDate == null) {
 			return TimeSetterUtil.getInstance().getCurrentTime();
 		}
 		return effectiveDate;
+	}
+
+	public void setEffectiveDate(LocalDateTime effectiveDate) {
+		this.effectiveDate = effectiveDate;
 	}
 
 	@Override

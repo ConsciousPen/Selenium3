@@ -63,20 +63,20 @@ public class ExcelUnmarshaller {
 		//cache = new FieldsInfoCache(excelManager, strictMatch);
 
 		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously by multiple threads
-			for (Field field : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
-				///boolean ignoreCaseForAllFields = TableFieldHelper.isCaseIgnored(field);
-				///Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(excelManager, field, ignoreCaseForAllFields, strictMatch);
+			for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
+				///boolean ignoreCaseForAllFields = TableFieldHelper.isCaseIgnored(tableField);
+				///Pair<ExcelTable, List<Field>> tableAndColumnsFields = getTableAndColumnsFields(excelManager, tableField, ignoreCaseForAllFields, strictMatch);
 
-				List<Object> tablesObjects = new ArrayList<>(cache.of(field).getExcelTable().getRowsNumber());
-				for (TableRow row : cache.of(field).getExcelTable()) {
-					Object rowObject = BindHelper.getInstance(cache.of(field).getTableFieldType());
-					for (Field columnField : cache.of(field).getTableColumnsFields()) {
-						boolean ignoreCase = cache.of(field).isCaseIgnoredForAllColumns() || cache.of(field).isCaseIgnored(columnField);
-						setFieldValue(columnField, rowObject, row, ignoreCase, strictMatch);
+				List<Object> tablesObjects = new ArrayList<>(cache.of(tableField).getExcelTable().getRowsNumber());
+				for (TableRow row : cache.of(tableField).getExcelTable()) {
+					Object rowObject = BindHelper.getInstance(cache.of(tableField).getTableClass());
+					for (Field tableColumnField : cache.of(tableField).getTableColumnsFields()) {
+						boolean ignoreCase = cache.of(tableField).isCaseIgnoredForAllColumns() || cache.of(tableField).isCaseIgnored(tableColumnField);
+						setFieldValue(tableField, tableColumnField, rowObject, row, ignoreCase, strictMatch);
 					}
 					tablesObjects.add(rowObject);
 				}
-				BindHelper.setFieldValue(field, excelFileObject, tablesObjects);
+				BindHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
 			}
 
 			if (closeManagerOnFinish) {
@@ -175,10 +175,10 @@ public class ExcelUnmarshaller {
 		return table;
 	}*/
 
-	private void setFieldValue(Field tableColumnField, Object rowObject, TableRow row, boolean ignoreColumnNameCase, boolean strictMatch) {
+	private void setFieldValue(Field tableField, Field tableColumnField, Object rowObject, TableRow row, boolean ignoreColumnNameCase, boolean strictMatch) {
 		//String columnName = ColumnFieldHelper.getHeaderColumnName(tableColumnField);
 		//String columnName = cache.of(field).getHeaderColumnName(tableColumnField);
-		String columnName = cache.ofColumnField(tableColumnField).getHeaderColumnName();
+		String columnName = cache.of(tableField).getHeaderColumnName(tableColumnField);
 		TableCell cell = row.getCell(columnName, ignoreColumnNameCase);
 		switch (tableColumnField.getType().getName()) {
 			case "int":
@@ -205,7 +205,7 @@ public class ExcelUnmarshaller {
 					break;
 				}
 				//Class<?> tableClass = BindHelper.getTableClass(tableColumnField);
-				Class<?> tableClass = cache.ofColumnField(tableColumnField).getTableFieldType();
+				Class<?> tableClass = cache.of(tableField).getTableClass();
 				//Field primaryKeyField = ColumnFieldHelper.getPrimaryKeyField(tableClass);
 				//Field primaryKeyField = cache.of(field).getPrimaryKeyField();
 				//List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(ColumnFieldHelper.getPrimaryKeysSeparator(primaryKeyField)));
@@ -255,7 +255,7 @@ public class ExcelUnmarshaller {
 							///boolean ignoreCase = ignoreColumnNameCase || ColumnFieldHelper.isCaseIgnored(linkedfield);
 							boolean ignoreCase = cache.of(tableColumnField).isCaseIgnoredForAllColumns() || cache.of(tableColumnField).isCaseIgnored(linkedTableField);
 							//setFieldValue(linkedfield, tableObject, linkedTableRow, ignoreCase, strictMatch);
-							setFieldValue(linkedTableField, tableObject, linkedTableRow, ignoreCase, strictMatch);
+							setFieldValue(tableColumnField, linkedTableField, tableObject, linkedTableRow, ignoreCase, strictMatch);
 						}
 						cache.of(tableColumnField).setObject(linkedTableRow.getIndex(), tableObject);
 					}

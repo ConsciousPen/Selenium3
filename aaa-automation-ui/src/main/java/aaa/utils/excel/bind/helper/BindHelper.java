@@ -1,6 +1,5 @@
 package aaa.utils.excel.bind.helper;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -65,17 +64,15 @@ public class BindHelper {
 	}
 
 	public static boolean isTableClassField(Field field) {
-		boolean isTableField = List.class.equals(field.getType());
-		assertThat(!isTableField && field.isAnnotationPresent(ExcelTableElement.class))
-				.as("\"%1$s\" annotation should be assigned to the \"%2$s\" type only!", ExcelTableElement.class.getName(), List.class.getName()).isFalse();
-		return isTableField;
+		return getTableClass(field).isAnnotationPresent(ExcelTableElement.class);
 	}
 
 	public static Class<?> getTableClass(Field field) {
-		//TODO-dchubkov: assert that
-		assertThat(List.class.equals(field.getType())).as("Excel Table field has \"%1$s\" type but should be \"%2$s\"", field.getType(), List.class.getName()).isTrue();
-		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
-		return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+		if (List.class.equals(field.getType())) {
+			ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+			return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+		}
+		return field.getType();
 	}
 
 	public static <T> T getInstance(Class<T> clazz) {

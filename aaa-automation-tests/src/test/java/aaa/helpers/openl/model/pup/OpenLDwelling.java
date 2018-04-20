@@ -1,23 +1,17 @@
 package aaa.helpers.openl.model.pup;
 
-import static aaa.helpers.openl.model.OpenLFile.ADDRESS_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_ADDRESS_SHEET_NAME;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_REC_EQUIPMENT_INFO_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_REC_EQUIPMENT_INFO_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = PUPOpenLFile.PUP_DWELLING_SHEET_NAME, headerRowIndex = PUPOpenLFile.DWELLING_HEADER_ROW_NUMBER)
 public class OpenLDwelling {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	@ExcelTableElement(sheetName = PUP_ADDRESS_SHEET_NAME, headerRowIndex = ADDRESS_HEADER_ROW_NUMBER)
 	private List<PUPOpenLAddress> address;
-
-	@ExcelTableElement(sheetName = PUP_REC_EQUIPMENT_INFO_SHEET_NAME, headerRowIndex = PUP_REC_EQUIPMENT_INFO_HEADER_ROW_NUMBER)
 	private List<OpenLRecEquipmentInfo> recEquipmentInfo;
 
 	private Integer firearmsCount;

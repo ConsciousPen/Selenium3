@@ -2,7 +2,9 @@ package aaa.helpers.openl.model.pup;
 
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = PUPOpenLFile.PUP_REC_EQUIPMENT_INFO_SHEET_NAME, headerRowIndex = PUPOpenLFile.PUP_REC_EQUIPMENT_INFO_HEADER_ROW_NUMBER)
 public class OpenLRecEquipmentInfo {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;

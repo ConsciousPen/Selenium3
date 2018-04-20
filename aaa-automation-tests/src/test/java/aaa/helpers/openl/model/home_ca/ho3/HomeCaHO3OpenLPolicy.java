@@ -1,20 +1,18 @@
 package aaa.helpers.openl.model.home_ca.ho3;
 
-import static aaa.helpers.openl.model.OpenLFile.*;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
+import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> {
-	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
+
 	private List<HomeCaHO3OpenLDwelling> dwelling;
-
-	@ExcelTableElement(sheetName = FORM_SHEET_NAME, headerRowIndex = HomeCaHO3OpenLFile.FORM_HEADER_ROW_NUMBER)
 	private List<HomeCaHO3OpenLForm> forms;
-
-	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowIndex = COVERAGE_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLCoverage> coverages;
 
 	private Double covALimit;

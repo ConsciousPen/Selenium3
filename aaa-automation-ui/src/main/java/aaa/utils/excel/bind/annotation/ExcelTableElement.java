@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelTableElement {
 	/**

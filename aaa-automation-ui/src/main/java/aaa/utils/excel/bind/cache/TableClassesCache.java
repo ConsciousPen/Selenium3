@@ -17,18 +17,14 @@ public class TableClassesCache {
 		this.tableClassesMap = new HashMap<>();
 	}
 
-	/*public ExcelManager getExcelManager() {
-		return this.excelManager;
-	}
-
 	public boolean isStrictMatch() {
 		return this.strictMatch;
-	}*/
+	}
 
 	public TableClassInfo of(Field field) {
 		Class<?> tableClass = BindHelper.getTableClass(field);
 		if (!this.tableClassesMap.containsKey(tableClass)) {
-			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, field, this.excelManager, this.strictMatch);
+			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, this.excelManager, this.strictMatch);
 			this.tableClassesMap.put(tableClass, tableClassInfo);
 			return tableClassInfo;
 		}
