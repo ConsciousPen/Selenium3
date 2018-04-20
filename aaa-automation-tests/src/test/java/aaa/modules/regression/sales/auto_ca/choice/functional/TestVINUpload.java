@@ -237,5 +237,4 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION));
 	}
 
-
 }
