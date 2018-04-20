@@ -4,6 +4,10 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -12,11 +16,16 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+//import toolkit.verification.CustomAssert;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -33,6 +42,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 	public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
 	// -- old controls
@@ -50,6 +60,11 @@ public class PremiumAndCoveragesTab extends Tab {
 		return new Dollar(tablePremiumSummary.getRow(1).getCell(4).getValue());
 	}
 
+	public List<TestData> getRatingDetailsDriversData() {
+		ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");
+		return getTestDataFromTable(tableRatingDetailsDrivers, pagePattern);
+	}
+
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
@@ -61,6 +76,12 @@ public class PremiumAndCoveragesTab extends Tab {
 		return this;
 	}
 
+	@Override
+	public Tab submitTab() {
+		btnContinue.click();
+		return this;
+	}
+
 	public void calculatePremium() {
 		if (!btnCalculatePremium().isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
@@ -68,13 +89,51 @@ public class PremiumAndCoveragesTab extends Tab {
 		btnCalculatePremium().click();
 	}
 
-	@Override
-	public Tab submitTab() {
-		btnContinue.click();
-		return this;
-	}
-
 	public JavaScriptButton btnCalculatePremium() {
 		return getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
+	}
+
+	private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
+		List<TestData> testDataList = new ArrayList<>();
+
+		if (!table.isPresent()) {
+			buttonViewRatingDetails.click();
+		}
+
+		Map<String, Object> map = new LinkedHashMap<>();
+		List<String> keys = table.getColumn(1).getValue();
+
+		int pageNumber = 1;
+		while (new Link(pagePattern.format(pageNumber)).isPresent()) {
+			new Link(pagePattern.format(pageNumber)).click();
+
+			for (int column = 2; column <= table.getColumnsCount(); column++) {
+				List<String> values = table.getColumn(column).getValue();
+				if (values.stream().allMatch(String::isEmpty)) {
+					continue; // empty column means absent vehicle
+				}
+
+				List<String> _values = new ArrayList<>();
+				_values.addAll(values);
+				_values.removeIf(s -> "No Coverage".equals(s));
+				_values.removeIf(s -> "Unstacked".equals(s));
+				_values.removeIf(s -> "Yes".equals(s));
+				if (_values.stream().allMatch(String::isEmpty)) {
+					continue; // skip column with only "No Coverage"
+				}
+
+				//CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+				CustomAssertions.assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+
+				for (int i = 0; i < keys.size(); i++) {
+					map.put(keys.get(i), values.get(i));
+				}
+
+				testDataList.add(new SimpleDataProvider(map));
+				map.replaceAll((k, v) -> null);
+			}
+			pageNumber++;
+		}
+		return testDataList;
 	}
 }

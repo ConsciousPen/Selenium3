@@ -1,6 +1,6 @@
 package aaa.utils.excel.io.entity.area.sheet;
 
-import java.util.Set;
+import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.celltype.CellType;
@@ -11,7 +11,7 @@ public class SheetCell extends ExcelCell {
 		this(cell, columnIndexOnSheet, row, row.getCellTypes());
 	}
 
-	public SheetCell(Cell cell, int columnIndexOnSheet, SheetRow row, Set<CellType<?>> cellTypes) {
+	public SheetCell(Cell cell, int columnIndexOnSheet, SheetRow row, List<CellType<?>> cellTypes) {
 		super(cell, columnIndexOnSheet, columnIndexOnSheet, row, cellTypes);
 	}
 
@@ -22,6 +22,11 @@ public class SheetCell extends ExcelCell {
 	@Override
 	public SheetRow getRow() {
 		return (SheetRow) super.getRow();
+	}
+
+	@Override
+	public SheetColumn getColumn() {
+		return (SheetColumn) super.getColumn();
 	}
 
 	@Override

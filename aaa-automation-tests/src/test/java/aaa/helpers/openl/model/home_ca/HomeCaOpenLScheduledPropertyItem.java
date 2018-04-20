@@ -7,7 +7,7 @@ public class HomeCaOpenLScheduledPropertyItem {
 	@ExcelTableColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	private Integer limit;
+	private Double limit;
 	private String propertyType;
 
 	public Integer getNumber() {
@@ -18,11 +18,11 @@ public class HomeCaOpenLScheduledPropertyItem {
 		this.number = number;
 	}
 
-	public Integer getLimit() {
+	public Double getLimit() {
 		return limit;
 	}
 
-	public void setLimit(Integer limit) {
+	public void setLimit(Double limit) {
 		this.limit = limit;
 	}
 

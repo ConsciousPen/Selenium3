@@ -8,7 +8,7 @@ public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 	private String type;
 	private Integer yaf;
 
-	public Boolean getDrivesync() {
+	public Boolean isDrivesync() {
 		return drivesync;
 	}
 
@@ -16,7 +16,7 @@ public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 		this.drivesync = drivesync;
 	}
 
-	public Boolean getNewDriver() {
+	public Boolean isNewDriver() {
 		return newDriver;
 	}
 
