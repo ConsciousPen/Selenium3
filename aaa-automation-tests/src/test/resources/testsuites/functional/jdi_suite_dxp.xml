@@ -36,7 +36,6 @@
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                     <include name="pas7082_AddVehicle"/>
                     <include name="pas8275_vinValidate"/>
@@ -64,6 +63,7 @@
                 <methods>
                     <include name="pas10484_ViewDriverAssignment"/>
                     <include name="pas11932_viewDrivers"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                 </methods>
             </class>
         </classes>
@@ -138,4 +138,38 @@
             </class>
         </classes>
     </test>
+    <test name="Vehicle Errors VA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas7147_VehicleUpdateBusiness"/>
+                    <include name="pas7147_VehicleUpdateRegisteredOwner"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="DXP E2E" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas12866_e2e"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="DXP E2E BCT" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
+                <methods>
+                    <include name="pas12866_e2eBct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

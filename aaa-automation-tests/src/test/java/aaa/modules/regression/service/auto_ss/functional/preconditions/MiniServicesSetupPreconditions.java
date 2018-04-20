@@ -35,4 +35,7 @@ public class MiniServicesSetupPreconditions {
 	public static final String MY_POLICY_USER_ADD_ALL_PRIVILEGES_UPDATE = "INSERT INTO s_permissions (principal_ID, ALLOWED, AUTH_ID) \n"
 			+ "values ((SELECT ID FROM S_PRINCIPAL WHERE NAME = 'MyPolicy'), '1',\n"
 			+ "(SELECT ID FROM S_authority WHERE NAME = 'all' AND DTYPE = 'ROLE' AND DOMAIN = 'corporate'))";
+
+	public static final String MY_POLICY_USER_CONFIG_CHECK = "SELECT value FROM PROPERTYCONFIGURERENTITY" +
+			" WHERE PROPERTYNAME = 'aaaDigitalValidationService.pasDxpUser' and lower(value) = lower('MyPolicy')";
 }
