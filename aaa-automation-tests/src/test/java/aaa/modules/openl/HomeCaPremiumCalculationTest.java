@@ -11,7 +11,7 @@ import aaa.utils.excel.io.ExcelManager;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public abstract class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extends OpenLRatingBaseTest<P> {
+public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extends OpenLRatingBaseTest<P> {
 	@Override
 	protected TestData getRatingDataPattern() {
 		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());
@@ -31,11 +31,11 @@ public abstract class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?
 	}
 
 	@Override
-	protected String createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy) {
+	protected Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy) {
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 		new PremiumsAndCoveragesQuoteTab().fillTab(quoteRatingData);
-		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().toString();
+		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
 }

@@ -1,6 +1,5 @@
 package aaa.modules.openl;
 
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -14,6 +13,10 @@ import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
@@ -25,11 +28,11 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	}
 
 	@Override
-	protected String createAndRateQuote(TestDataGenerator<HomeSSOpenLPolicy> tdGenerator, HomeSSOpenLPolicy openLPolicy) {
+	protected Dollar createAndRateQuote(TestDataGenerator<HomeSSOpenLPolicy> tdGenerator, HomeSSOpenLPolicy openLPolicy) {
 		boolean isLegacyConvPolicy = false;
 		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
 			isLegacyConvPolicy = true;
-			TestData renewalEntryData = ((HomeSSTestDataGenerator) tdGenerator).getRenewalEntryData(openLPolicy);
+			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 			}
@@ -72,7 +75,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		}
 
-		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().toString();
+		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})
