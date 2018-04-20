@@ -4,16 +4,22 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.helper.BindHelper;
 import aaa.utils.excel.bind.helper.ColumnFieldHelper;
 import aaa.utils.excel.bind.helper.TableFieldHelper;
+import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
-public final class TableFieldInfo extends FieldInfo {
-	private final Class<?> tableFieldType;
+public class TableClassInfo {
+	protected static Logger log = LoggerFactory.getLogger(TableClassInfo.class);
+
+	private final Class<?> tableClass;
+	private final Field field;
 	private final boolean isCaseIgnoredForAllColumns;
 	private final String sheetName;
 	private final int headerRowIndex;
@@ -29,10 +35,9 @@ public final class TableFieldInfo extends FieldInfo {
 	private Field primaryKeyColumnField;
 	private Integer primaryKeyColumnIndex;
 
-	TableFieldInfo(Field tableField, FieldsInfoCache fieldsInfoCache) {
-		super(tableField, fieldsInfoCache);
-		this.tableFieldType = BindHelper.getTableRowType(tableField);
-		this.isCaseIgnoredForAllColumns = TableFieldHelper.isCaseIgnored(tableField);
+	TableClassInfo(Class<?> tableClass, Field field, ExcelManager excelManager, boolean strictMatch) {
+		this.tableClass = tableClass;
+		this.isCaseIgnoredForAllColumns = TableFieldHelper.isCaseIgnored(field);
 		this.sheetName = TableFieldHelper.getSheetName(getField());
 		this.headerRowIndex = TableFieldHelper.getHeaderRowIndex(getField());
 		//this.columnFieldsCache = new FieldsInfoCache<>(excelManager, strictMatch);
@@ -48,7 +53,7 @@ public final class TableFieldInfo extends FieldInfo {
 	}*/
 
 	public Class<?> getTableFieldType() {
-		return tableFieldType;
+		return fieldType;
 	}
 
 	public boolean isCaseIgnoredForAllColumns() {
@@ -114,14 +119,14 @@ public final class TableFieldInfo extends FieldInfo {
 	}
 
 	boolean isStrictMatch() {
-		return getFieldsInfoCache().isStrictMatch();
+		return getTableClassesCache().isStrictMatch();
 	}
 
 	public List<TableRow> getRows(String... valuesInPrimaryKeyColumnField) {
 		List<TableRow> foundRows = new ArrayList<>(valuesInPrimaryKeyColumnField.length);
 		for (String expectedValue : valuesInPrimaryKeyColumnField) {
 			if (!this.primaryKeyColumnValuesAndRowIndexes.containsKey(expectedValue)) {
-				//ExcelTable table = getFieldsInfoCache().ofTableField(getPrimaryKeyColumnField()).getExcelTable();
+				//ExcelTable table = getFieldsInfoCache().of(getPrimaryKeyColumnField()).getExcelTable();
 				List<Integer> rowIndexes = new ArrayList<>(getRowIndexesWithUnknownPrimaryKeyValues());
 				for (Integer index : rowIndexes) {
 					TableRow row = getExcelTable().getRow(index);
@@ -158,19 +163,19 @@ public final class TableFieldInfo extends FieldInfo {
 	}*/
 
 	public boolean isCaseIgnored(Field tableColumnField) {
-		return getFieldsInfoCache().ofColumnField(tableColumnField).isCaseIgnored();
+		return getTableClassesCache().ofColumnField(tableColumnField).isCaseIgnored();
 	}
 
 	public String getHeaderColumnName(Field tableColumnField) {
-		return getFieldsInfoCache().ofColumnField(tableColumnField).getHeaderColumnName();
+		return getTableClassesCache().ofColumnField(tableColumnField).getHeaderColumnName();
 	}
 
 	public boolean isTableField(Field tableColumnField) {
-		return getFieldsInfoCache().ofColumnField(tableColumnField).isTableField();
+		return getTableClassesCache().ofColumnField(tableColumnField).isTableField();
 	}
 
 	public Class<?> getTableFieldType(Field tableColumnField) {
-		return getFieldsInfoCache().ofColumnField(tableColumnField).getTableFieldType();
+		return getTableClassesCache().ofColumnField(tableColumnField).getTableFieldType();
 	}
 
 	public boolean hasObject(int rowIndex) {
@@ -190,7 +195,7 @@ public final class TableFieldInfo extends FieldInfo {
 		ExcelTable table;
 		List<Field> tableColumnsFields = getTableColumnsFields();
 
-		ExcelSheet sheet = getFieldsInfoCache().getExcelManager().getSheet(getSheetName());
+		ExcelSheet sheet = getTableClassesCache().getExcelManager().getSheet(getSheetName());
 		boolean ignoreCase = isCaseIgnoredForAllColumns() || isCaseIgnoredInAnyColumnField();
 		List<String> headerColumnNames = getHeaderColumnNames();
 		if (getHeaderRowIndex() < 0) {

@@ -8,23 +8,23 @@ public class FieldInfo {
 	protected static Logger log = LoggerFactory.getLogger(FieldInfo.class);
 
 	private final Field field;
-	private final FieldsInfoCache fieldsInfoCache;
+	private final TableClassesCache tableClassesCache;
 	/*private final ExcelManager excelManager;
 	private final boolean strictMatch; //TODO-dchubkov: remove this field?*/
 
-	public FieldInfo(Field field, FieldsInfoCache fieldsInfoCache) {
+	public FieldInfo(Field field, TableClassesCache tableClassesCache) {
 		this.field = field;
 		/*this.excelManager = excelManager;
 		this.strictMatch = strictMatch;*/
-		this.fieldsInfoCache = fieldsInfoCache;
+		this.tableClassesCache = tableClassesCache;
 	}
 
 	public Field getField() {
 		return field;
 	}
 
-	public FieldsInfoCache getFieldsInfoCache() {
-		return fieldsInfoCache;
+	public TableClassesCache getTableClassesCache() {
+		return tableClassesCache;
 	}
 
 	/*public ExcelManager getExcelManager() {

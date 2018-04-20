@@ -45,9 +45,9 @@ public class ColumnFieldHelper {
 		return tableColumnsFields.stream().map(ColumnFieldHelper::getHeaderColumnName).collect(Collectors.toList());
 	}
 
-	public static boolean isCaseIgnored(Field tableField) {
-		if (tableField.isAnnotationPresent(ExcelTableColumnElement.class)) {
-			return tableField.getAnnotation(ExcelTableColumnElement.class).ignoreCase();
+	public static boolean isCaseIgnored(Field field) {
+		if (field.isAnnotationPresent(ExcelTableColumnElement.class)) {
+			return field.getAnnotation(ExcelTableColumnElement.class).ignoreCase();
 		}
 		return (boolean) BindHelper.getAnnotationDefaultValue(ExcelTableColumnElement.class, IGNORE_CASE_METHOD_NAME);
 	}

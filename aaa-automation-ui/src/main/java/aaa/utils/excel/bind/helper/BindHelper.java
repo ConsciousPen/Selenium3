@@ -18,7 +18,7 @@ public class BindHelper {
 		List<Field> fields = new ArrayList<>();
 		for (Field field : getAllAccessibleFieldsFromThisAndSuperClasses(tableClass)) {
 			if (!field.isAnnotationPresent(ExcelTransient.class)) {
-				if (onlyTables && !isTableRowField(field)) {
+				if (onlyTables && !isTableClassField(field)) {
 					continue;
 				}
 				fields.add(field);
@@ -64,16 +64,17 @@ public class BindHelper {
 		}
 	}
 
-	public static boolean isTableRowField(Field field) {
+	public static boolean isTableClassField(Field field) {
 		boolean isTableField = List.class.equals(field.getType());
 		assertThat(!isTableField && field.isAnnotationPresent(ExcelTableElement.class))
 				.as("\"%1$s\" annotation should be assigned to the \"%2$s\" type only!", ExcelTableElement.class.getName(), List.class.getName()).isFalse();
 		return isTableField;
 	}
 
-	public static Class<?> getTableRowType(Field tableRowField) {
-		assertThat(List.class.equals(tableRowField.getType())).as("Excel Table field has \"%1$s\" type but should be \"%2$s\"", tableRowField.getType(), List.class.getName()).isTrue();
-		ParameterizedType parameterizedType = (ParameterizedType) tableRowField.getGenericType();
+	public static Class<?> getTableClass(Field field) {
+		//TODO-dchubkov: assert that
+		assertThat(List.class.equals(field.getType())).as("Excel Table field has \"%1$s\" type but should be \"%2$s\"", field.getType(), List.class.getName()).isTrue();
+		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
 		return (Class<?>) parameterizedType.getActualTypeArguments()[0];
 	}
 

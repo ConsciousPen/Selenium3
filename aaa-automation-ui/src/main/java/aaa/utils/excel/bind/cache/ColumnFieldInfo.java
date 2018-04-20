@@ -10,10 +10,10 @@ public final class ColumnFieldInfo extends FieldInfo {
 
 	private Boolean isTableField;
 	//private Boolean isPrimaryKeyField;
-	private Class<?> tableFieldType;
+	private Class<?> fieldType;
 
-	public ColumnFieldInfo(Field columnField, FieldsInfoCache fieldsInfoCache) {
-		super(columnField, fieldsInfoCache);
+	public ColumnFieldInfo(Field columnField, TableClassesCache tableClassesCache) {
+		super(columnField, tableClassesCache);
 		this.isCaseIgnored = ColumnFieldHelper.isCaseIgnored(columnField);
 		this.headerColumnName = ColumnFieldHelper.getHeaderColumnName(getField());
 	}
@@ -28,21 +28,21 @@ public final class ColumnFieldInfo extends FieldInfo {
 
 	public boolean isTableField() {
 		if (this.isTableField == null) {
-			this.isTableField = BindHelper.isTableRowField(getField());
+			this.isTableField = BindHelper.isTableClassField(getField());
 		}
 		return this.isTableField;
 	}
 
 	/*public boolean isPrimaryKeyField() {
 		if (this.isPrimaryKeyField == null) {
-			this.isPrimaryKeyField = BindHelper.isTableRowField(getField());
+			this.isPrimaryKeyField = BindHelper.istableField(getField());
 		}
 		return this.isPrimaryKeyField;
 	}*/
 
 	public Class<?> getTableFieldType() {
 		if (this.tableFieldType == null) {
-			this.tableFieldType = BindHelper.getTableRowType(getField());
+			this.tableFieldType = BindHelper.getTableClass(getField());
 		}
 		return this.tableFieldType;
 	}

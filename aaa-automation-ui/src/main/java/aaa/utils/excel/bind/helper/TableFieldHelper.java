@@ -12,20 +12,20 @@ public class TableFieldHelper {
 		return tableRow.getStringValue(ColumnFieldHelper.getHeaderColumnName(primaryKeyField));
 	}
 
-	public static int getHeaderRowIndex(Field tableField) {
-		if (tableField.isAnnotationPresent(ExcelTableElement.class)) {
-			return tableField.getAnnotation(ExcelTableElement.class).headerRowIndex();
+	public static int getHeaderRowIndex(Field field) {
+		if (field.isAnnotationPresent(ExcelTableElement.class)) {
+			return field.getAnnotation(ExcelTableElement.class).headerRowIndex();
 		}
 		return (int) BindHelper.getAnnotationDefaultValue(ExcelTableElement.class, HEADER_ROW_INDEX_METHOD_NAME);
 	}
 
-	public static String getSheetName(Field tableField) {
-		return tableField.isAnnotationPresent(ExcelTableElement.class) ? tableField.getAnnotation(ExcelTableElement.class).sheetName() : tableField.getName();
+	public static String getSheetName(Field field) {
+		return field.isAnnotationPresent(ExcelTableElement.class) ? field.getAnnotation(ExcelTableElement.class).sheetName() : field.getName();
 	}
 
-	public static boolean isCaseIgnored(Field tableField) {
-		if (tableField.isAnnotationPresent(ExcelTableElement.class)) {
-			return tableField.getAnnotation(ExcelTableElement.class).ignoreCase();
+	public static boolean isCaseIgnored(Field field) {
+		if (field.isAnnotationPresent(ExcelTableElement.class)) {
+			return field.getAnnotation(ExcelTableElement.class).ignoreCase();
 		}
 		return (boolean) BindHelper.getAnnotationDefaultValue(ExcelTableElement.class, IGNORE_CASE_METHOD_NAME);
 	}
