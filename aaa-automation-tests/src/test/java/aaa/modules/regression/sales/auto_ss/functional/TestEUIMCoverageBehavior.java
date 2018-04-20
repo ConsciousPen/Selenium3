@@ -243,19 +243,38 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(totalTermPremiumKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(totalTermPremiumKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
 
-        // AC1 PAS-11209. Display EUIM UIMPD/UIMBI in VRD page.
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("Yes");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        // PAS-11209. Display EUIM UIMPD/UIMBI on VRD and Policy Consolidated view Coverages section
+        verifyUIMVRD("Yes");
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+        verifyPolicySummaryPage("Yes");
+
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         enhancedUIM.setValue(false);
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("No");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        verifyUIMVRD("No");
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
+        verifyPolicySummaryPage("No");
+    }
 
-        // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
-        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1)).getTestData("Enhanced UIM")
-                .getValue("Limit")).isEqualTo("Yes");
+    private void verifyUIMVRD(String value) {
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        String euim = "Enhanced UIM";
+        assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue(euim)).isEqualTo(value);
+        List<String> vrdKeys = new ArrayList<>(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getKeys());
+        int euimIndex = IntStream.range(0, vrdKeys.size() - 1).filter(i -> vrdKeys.get(i).equals(euim)).findFirst().orElse(-3);
+        assertThat(vrdKeys.get(euimIndex + 1)).isEqualTo("Uninsured Motorist/Underinsured Motorist");
+        assertThat(vrdKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage Limit");
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+    }
+
+    private void verifyPolicySummaryPage(String value) {
+        String euim = "Enhanced UIM";
+        String firstVehicle = PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1);
+        assertThat(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);
+        List<String> summaryKeys = new ArrayList<>(PolicySummaryPage.getAutoCoveragesSummaryTestData().getTestData(firstVehicle).getKeys());
+        int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
+        assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
+        assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
     }
 }
