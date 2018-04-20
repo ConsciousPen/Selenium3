@@ -1,10 +1,12 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import java.time.LocalDateTime;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -13,7 +15,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -226,15 +227,4 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		String configNames = "('SYMBOL_2000_CHOICE_T')";
 		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
 	}
-
-	@AfterMethod(alwaysRun = true)
-	protected void resetDefault() {
-		DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_CHOICE_FROM_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION));
-	}
-
-	@AfterMethod(alwaysRun = true)
-	protected void resetDefaultMSRP() {
-		DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_CHOICE_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION));
-	}
-
 }
