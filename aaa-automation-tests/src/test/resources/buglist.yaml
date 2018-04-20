@@ -216,3 +216,11 @@ PT-1576:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
       messages: ["Defensive Driving Course Discount"]
+PAS-11810:
+  summary: "View Premium Service - Pended endorsement and renewal not rated"
+  reason: PROD
+  failures:
+    - tests: [
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
+    aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal]
+      messages: ["expected:<null> but was:<"]
