@@ -18,6 +18,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
+import org.testng.reporters.jq.Main;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.CheckBox;
@@ -61,8 +62,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
         policy.initiate();
         policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
-        verifyForms();
-
+        verifyFormsAndAmnt();
+        mainApp().close();
     }
 
     /**
@@ -95,8 +96,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdEUIM, PremiumAndCoveragesTab.class, true);
-        verifyForms();
-
+        verifyFormsAndAmnt();
+        mainApp().close();
     }
 
     /**
@@ -126,9 +127,8 @@ public class TestEUIMForms extends AutoSSBaseTest {
         //Perform mid-term endorsement and switch to EUIM coverage
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         switchToEUIMCoverage();
-
-        verifyForms();
-
+        verifyFormsAndAmnt();
+        mainApp().close();
     }
 
     /**
@@ -159,13 +159,11 @@ public class TestEUIMForms extends AutoSSBaseTest {
         // Create renewal and switch to EUIM coverage
         policy.renew().perform();
         switchToEUIMCoverage();
-
-        verifyForms();
-
+        verifyFormsAndAmnt();
+        mainApp().close();
     }
 
-    private void verifyForms() {
-
+    private void verifyFormsAndAmnt() {
         //PAS-11302 AC1
         TestData formsData = premiumAndCoveragesTab.getFormsData();
         assertThat(formsData.getKeys()).contains(formId);
@@ -176,21 +174,11 @@ public class TestEUIMForms extends AutoSSBaseTest {
         AutoSSForms.AutoSSPolicyFormsController policyForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.POLICY_FORMS);
         assertThat(policyForms.tableSelectedForms.getRowContains("Name", formId).getCell(2).getValue()).isEqualTo(formDesc);
         assertThat(policyForms.getRemoveLink(formId)).isPresent(false);
-
     }
 
     private void switchToEUIMCoverage() {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
-
     }
-
-    //TODO May not be needed but verifies GoDD page contains EUIMMD form
-    private void verifyGoddPage() {
-        policy.policyDocGen().start();
-        generateOnDemandDocumentActionTab.verify.documentsEnabled(DocGenEnum.Documents.AAEUIMMD);
-    }
-
-
 }
