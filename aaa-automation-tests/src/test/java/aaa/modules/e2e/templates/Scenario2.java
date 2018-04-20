@@ -207,6 +207,9 @@ public class Scenario2 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+		if (DateTimeUtils.getCurrentDateTime().isAfter(renewPreviewGenDate)) { //case: payTenthBill() is Saturday -> Monday
+			renewPreviewGenDate = DateTimeUtils.getCurrentDateTime();
+		}
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();

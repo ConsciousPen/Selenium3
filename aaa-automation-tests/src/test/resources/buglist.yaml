@@ -224,3 +224,9 @@ PAS-11810:
     aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForLapsedRenewal,
     aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing.pas9716_policySummaryForActiveRenewal]
       messages: ["expected:<null> but was:<"]
+PAS-12464:
+  summary: "Comp symbol error appears when VIN is returned from prefill for CA quote or policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.testPolicyPrefill2]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Error; Comp Symbol must be set for vehicle"]

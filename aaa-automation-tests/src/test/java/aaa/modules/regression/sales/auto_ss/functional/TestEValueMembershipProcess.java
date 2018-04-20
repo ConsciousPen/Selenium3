@@ -1259,7 +1259,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 			}
 		}
-		premiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
 

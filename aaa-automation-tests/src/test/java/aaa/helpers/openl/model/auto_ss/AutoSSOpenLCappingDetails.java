@@ -12,6 +12,7 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 	private String programCode;
 	private Double termCappingFactor;
 	private String underwriterCode;
+	private Double previousPolicyPremium;
 
 	public String getState() {
 		return state;
@@ -85,12 +86,18 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 		this.underwriterCode = underwriterCode;
 	}
 
+	public Double getPreviousPolicyPremium() {
+		return previousPolicyPremium;
+	}
+
+	public void setPreviousPolicyPremium(Double previousPolicyPremium) {
+		this.previousPolicyPremium = previousPolicyPremium;
+	}
+
 	@Override
 	public String toString() {
-		return "OpenLCappingDetails{" +
-				"number=" + number +
-				", plcyInceptionDate=" + plcyInceptionDate +
-				", state='" + state + '\'' +
+		return "AutoSSOpenLCappingDetails{" +
+				"state='" + state + '\'' +
 				", term=" + term +
 				", carrierCode='" + carrierCode + '\'' +
 				", lineOfBusiness='" + lineOfBusiness + '\'' +
@@ -99,6 +106,9 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 				", programCode='" + programCode + '\'' +
 				", termCappingFactor=" + termCappingFactor +
 				", underwriterCode='" + underwriterCode + '\'' +
+				", previousPolicyPremium=" + previousPolicyPremium +
+				", number=" + number +
+				", plcyInceptionDate=" + plcyInceptionDate +
 				'}';
 	}
 }

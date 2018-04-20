@@ -30,9 +30,9 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	@Override
 	protected String createAndRateQuote(TestDataGenerator<AutoSSOpenLPolicy> tdGenerator, AutoSSOpenLPolicy openLPolicy) {
 		boolean isLegacyConvPolicy = false;
-		if (AutoSSTestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
+		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().get(0).getProgramCode())) {
 			isLegacyConvPolicy = true;
-			TestData renewalEntryData = ((AutoSSTestDataGenerator) tdGenerator).getRenewalEntryData(openLPolicy);
+			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
 
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());

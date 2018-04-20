@@ -9,29 +9,12 @@ import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeCaHO4TestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import toolkit.datax.TestData;
 
-public class HomeCaHO4PremiumCalculationTest extends OpenLRatingBaseTest<HomeCaHO4OpenLPolicy> {
+public class HomeCaHO4PremiumCalculationTest extends HomeCaPremiumCalculationTest<HomeCaHO4OpenLPolicy> {
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO4;
-	}
-
-	@Override
-	protected TestData getRatingDataPattern() {
-		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());
-	}
-
-	@Override
-	protected String createAndRateQuote(TestDataGenerator<HomeCaHO4OpenLPolicy> tdGenerator, HomeCaHO4OpenLPolicy openLPolicy) {
-		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
-		new PremiumsAndCoveragesQuoteTab().fillTab(quoteRatingData);
-		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().toString();
 	}
 
 	@Parameters({"state", "fileName", "policyNumbers"})

@@ -88,7 +88,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -119,7 +119,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Renewal
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -179,20 +179,20 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
         //AC2 PAS-11620. Rating Error if EUIM BI limits do not match BI limits.
         uninsuredBodilyInjury.setValueByIndex(1);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
 
         //AC2 PAS-11620. Rating Error if EUIM PD limits do not match PD limits.
         bodilyInjury.setValueByIndex(3);
         uninsuredPropertyDamage.setValueByIndex(1);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.cancel();
 
         //AC2 PAS-11620. Rating Error if EUIM BI/PD limits do not match BI/PD limits.
         uninsuredBodilyInjury.setValueByIndex(1);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800881_MD);
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS41800882_MD);
         errorTab.cancel();
@@ -200,13 +200,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         //AC3 PAS-11620. Switching between Standard and Enhanced UIM sets Vehicle and Policy Level Liability Coverages Premium to 0.
         propertyDamage.setValueByIndex(3);
         bodilyInjury.setValueByIndex(2);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         enhancedUIM.setValue(false);
         new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         enhancedUIM.setValue(true);
         new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium")).verify.zero();
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
 
         //PAS-11448. Validate Help text when moused over EUIM, UIMPD, and UIMBI
         String euimHelpText = "Allows the insured to collect up to the limits of their coverage regardless of how much is recovered from the at-fault third party. "
@@ -225,7 +225,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(euimPDHelpText);
 
         enhancedUIM.setValue(false);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         assertThat(PremiumAndCoveragesTab.euimHelpText.getAttribute("innerText")).contains(euimHelpText);
         assertThat(PremiumAndCoveragesTab.uimBIHelpText.getAttribute("innerText")).contains(uimBIHelpText);
         assertThat(PremiumAndCoveragesTab.uimPDHelpText.getAttribute("innerText")).contains(uimPDHelpText);
@@ -234,7 +234,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String euimSelectedText = "Enhanced UIM Selected";
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
         enhancedUIM.setValue(true);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).contains(euimSelectedText);
 
         //Verify the next 2 lines in the Total Term Premium are UIM/BI and PD
@@ -248,7 +248,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("Yes");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         enhancedUIM.setValue(false);
-        premiumAndCoveragesTab.calculatePremium();
+	    new PremiumAndCoveragesTab().calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         assertThat(premiumAndCoveragesTab.getRatingDetailsVehiclesData().get(0).getValue("Enhanced UIM")).isEqualTo("No");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
