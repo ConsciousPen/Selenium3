@@ -74,8 +74,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public Double getTermCappingFactor() {
-		return getCappingDetails().get(0).getTermCappingFactor();
+	public Double getPreviousPolicyPremium() {
+		return getCappingDetails().get(0).getPreviousPolicyPremium();
 	}
 
 	@Override

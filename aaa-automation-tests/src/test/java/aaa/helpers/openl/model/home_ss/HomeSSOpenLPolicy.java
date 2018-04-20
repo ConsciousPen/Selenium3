@@ -226,11 +226,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public Double getTermCappingFactor() {
-		return getCappingDetails().get(0).getTermCappingFactor();
-	}
-
-	@Override
 	public String getUnderwriterCode() {
 		return getCappingDetails().get(0).getUnderwriterCode();
 	}

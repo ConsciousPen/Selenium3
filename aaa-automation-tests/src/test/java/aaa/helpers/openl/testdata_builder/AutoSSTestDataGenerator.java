@@ -52,7 +52,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		assertThat(openLPolicy.getCappingDetails()).as("Policies cappingDetails list should have only one element").hasSize(1);
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().get(0).getState());
 
-		if (!isLegacyConvPolicy && openLPolicy.getTermCappingFactor() != null && openLPolicy.getTermCappingFactor() != 1) {
+		if (!isLegacyConvPolicy && openLPolicy.getCappingDetails().get(0).getTermCappingFactor() != null && openLPolicy.getCappingDetails().get(0).getTermCappingFactor() != 1) {
 			//TODO-dchubkov: to be implemented...
 			throw new NotImplementedException("Test data generation for \"termCappingFactor\" not equal to 1 is not implemented for non-legacy policy.");
 		}
@@ -130,8 +130,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.adjust(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		//TODO-dchubkov: all CT and ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but is's missed. To be investigated...
-		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().get(0).getCarrierCode()) && !getState().equals(Constants.States.CT) && !getState().equals(Constants.States.ID)) {
+		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but is's missed. To be investigated...
+		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().get(0).getCarrierCode()) && !getState().equals(Constants.States.ID)) {
 			//TODO-dchubkov: add common method for replacing values from excel?
 			String carrierCode = openLPolicy.getCappingDetails().get(0).getCarrierCode().trim().replaceAll("\u00A0", "");
 			currentCarrierInformationData.adjust(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
@@ -309,7 +309,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				if (isCleanDriverRenewalActive(openLPolicy, driver.getDsr())) {
 					driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL.getLabel(), getYesOrNo(driver.isCleanDriver()));
 					if (Boolean.TRUE.equals(driver.isCleanDriver())) {
-						driverData.adjust(AutoSSMetaData.DriverTab.REASON.getLabel(), "some clean driver renewal reason $<rx:\\d{3}>");
+						driverData.adjust(AutoSSMetaData.DriverTab.CLEAN_DRIVER_RENEWAL_REASON.getLabel(), "some clean driver renewal reason $<rx:\\d{3}>");
 					}
 				}
 			}
@@ -443,8 +443,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		Map<String, Object> unverifiableDrivingRecordSurchargeData = new HashMap<>();
-		//TODO-dchubkov: There are no drivers list in "Unacceptable Risk Surcharge" section for NY state, to be investigated
-		if (!getState().equals(Constants.States.NY)) {
+		//TODO-dchubkov: There are no drivers list in "Unacceptable Risk Surcharge" section for NY and NJ states, to be investigated
+		if (!getState().equals(Constants.States.NY) && !getState().equals(Constants.States.NJ)) {
 			boolean isFirstDriver = true;
 			for (AutoSSOpenLDriver driver : openLPolicy.getDrivers()) {
 				if (isFirstDriver) {
@@ -581,16 +581,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		int streetNumber = RandomUtils.nextInt(100, 1000);
 		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
+
+		String zipCode = vehicle.getAddress().get(0).getZip();
 		if (getState().equals(Constants.States.CT)) {
-			// For CT state ZIP code in Address tab actually means Location Code from "Geography" tab of rater file CT_SS_Auto_Eff_20171101_Update_20171020.xlsm
-			//TODO-dchubkov: replace hardcoded value with getting appropriate value from DB (if possible) or from rater file
-			if (!"60003".equals(vehicle.getAddress().get(0).getZip())) {
-				throw new IstfException("Vehicle's ZIP code test data generation for Location Code !=60003 for CT state is not implemented");
-			}
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), "06010");
-		} else {
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip());
+			zipCode = getZipCodeFromDb(zipCode);
 		}
+		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), zipCode);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click");
@@ -642,6 +638,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return new SimpleDataProvider(vehicleInformation);
 	}
 
+	private String getZipCodeFromDb(String locationCode) {
+		String getZipCodeQuery = "select POSTALCODE from LOOKUPVALUE where CODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
+		return DBService.get().getValue(getZipCodeQuery, locationCode, getState()).get();
+	}
+
 	private String getVinFromDb(AutoSSOpenLVehicle vehicle) {
 		String vin = "";
 		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
@@ -690,7 +691,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE_DEDUCTIBLE.getLabel(), getDollarValue(openLPolicy.getAaaPIPMedExpDeductible()));
 		}
 		if (openLPolicy.getAaaPIPMedExpLimit() != null) {
-			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE.getLabel(), getDollarValue(openLPolicy.getAaaPIPMedExpLimit()));
+			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE.getLabel(),
+					new Dollar(openLPolicy.getAaaPIPMedExpLimit()).multiply(1000).toString().replaceAll("\\.00", ""));
 		}
 		if (openLPolicy.getAaaPIPNonMedExp() != null) {
 			assertThat(openLPolicy.getAaaPIPNonMedExp()).as("Unknown mapping for value \"%s\" of \"aaaPIPNonMedExp\" field", openLPolicy.getAaaPIPNonMedExp()).isIn("B", "D");
@@ -706,7 +708,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					.as("Unknown mapping for value \"%s\" of \"noOfAPIPAddlNamedRel\" field. It should be >= 0 and <= 6", openLPolicy.getNoOfAPIPAddlNamedRel())
 					.isGreaterThanOrEqualTo(0).isLessThanOrEqualTo(6);
 			if (openLPolicy.getNoOfAPIPAddlNamedRel() == 0) {
-				td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.COVERAGE_INCLUDES.getLabel(), "Named Insureds");
+				td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.ADDITIONAL_PERSONAL_INJURY_PROTECTION_BENEFIT.getLabel(), "No");
 			} else {
 				List<String> relativesNamesControls = Arrays.asList(
 						AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME1.getLabel(),

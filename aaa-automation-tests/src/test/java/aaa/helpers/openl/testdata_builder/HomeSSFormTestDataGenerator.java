@@ -3,21 +3,17 @@ package aaa.helpers.openl.testdata_builder;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-
-import aaa.helpers.openl.model.OpenLPolicy;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
-
-import static aaa.helpers.openl.testdata_builder.TestDataGenerator.LEGACY_CONV_PROGRAM_CODE;
 
 public class HomeSSFormTestDataGenerator extends BaseTest {
 	private static Map<String, List<String>> selectedForms = new HashMap<>();
@@ -117,7 +113,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS0459".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
-						"Action", instanceNum == 1 ? (isFormAdded("HS0459", policyLevel) ? "Edit" : "Add") : "Add",
+						"Action", instanceNum == 1 ? isFormAdded("HS0459", policyLevel) ? "Edit" : "Add" : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_RELATIVE.getLabel(), "Name of relative",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.DOES_THE_FACILITY_PROVIDE_LIVING_SERVICES_SUCH_AS_DINING_THERAPY_MEDICAL_SUPERVISION_HOUSEKEEPING_AND_SOCIAL_ACTIVITIES.getLabel(), "Yes",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0459.NAME_OF_FACILITY.getLabel(), "Name of facility",
@@ -195,7 +191,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS0492".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
-						"Action", instanceNum == 1 ? (isFormAdded("HS0492", policyLevel) ? "Edit" : "Add") : "Add",
+						"Action", instanceNum == 1 ? isFormAdded("HS0492", policyLevel) ? "Edit" : "Add" : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().get(0).getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "000 Street Address",
@@ -303,7 +299,7 @@ public class HomeSSFormTestDataGenerator extends BaseTest {
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
 			if ("HS2464".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
-						"Action", instanceNum == 1 ? (isFormAdded("HS2464", policyLevel) ? "Edit" : "Add") : "Add",
+						"Action", instanceNum == 1 ? isFormAdded("HS2464", policyLevel) ? "Edit" : "Add" : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS2464.MAKE_OR_MODEL.getLabel(), "Model" + String.format("%d", instanceNum),
 						HomeSSMetaData.EndorsementTab.EndorsementHS2464.SERIAL_OR_MOTOR_NUMBER.getLabel(), "1234567" + String.format("%d", instanceNum)));
 				instanceNum++;

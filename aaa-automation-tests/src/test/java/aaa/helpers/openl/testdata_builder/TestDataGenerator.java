@@ -75,15 +75,12 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 				throw new IstfException("Unknown maping for underwriterCode=" + openLPolicy.getUnderwriterCode());
 		}
 
-		Double termCappingFactor = openLPolicy.getTermCappingFactor() != null ? openLPolicy.getTermCappingFactor() : 1;
-		String renewalPolicyPremium = openLPolicy.getExpectedPremium().multiply(termCappingFactor).toString();
-
 		TestData initiateRenewalEntryActionData = DataProviderFactory.dataOf(
 				CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_POLICY_NUMBER.getLabel(), "$<rx:\\d{10}>",
 				CustomerMetaData.InitiateRenewalEntryActionTab.PREVIOUS_SOURCE_SYSTEM.getLabel(), maigSourceSystemStates.contains(getState()) ? "MAIG" : "SIS",
 				CustomerMetaData.InitiateRenewalEntryActionTab.RISK_STATE.getLabel(), getState(),
 				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel(), renewalPolicyPremium,
+				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel(), openLPolicy.getPreviousPolicyPremium() != null ? openLPolicy.getPreviousPolicyPremium() : 1000,
 				CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TERM.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getTerm()),
 				CustomerMetaData.InitiateRenewalEntryActionTab.PROGRAM_CODE.getLabel(), LEGACY_CONV_PROGRAM_CODE,
 				CustomerMetaData.InitiateRenewalEntryActionTab.ENROLLED_IN_AUTOPAY.getLabel(), "No",

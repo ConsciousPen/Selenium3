@@ -225,3 +225,9 @@ PAS-11538:
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho4.TestScenario9.TC01_createPolicy]
       messages: ["Column Status was not found in the table"]
+PAS-12464:
+  summary: "Comp symbol error appears when VIN is returned from prefill for CA quote or policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.testPolicyPrefill2]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Error; Comp Symbol must be set for vehicle"]
