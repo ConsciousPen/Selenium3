@@ -706,6 +706,7 @@ public final class AutoCaMetaData {
 		public static final class RequiredToIssue extends MetaData {
 			public static final AssetDescriptor<RadioGroup> POLICY_APPLICATION = declare("Policy Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AUTO_BILLING_PLAN_EXPLANATION = declare("Auto Billing Plan Explanation", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_GOOD_STUDENT_DISCOUNT = declare("Proof of Good Student Discount", RadioGroup.class);
 		}
 
 		public static final class VehicleInformation extends MetaData {
