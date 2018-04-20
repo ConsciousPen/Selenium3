@@ -58,7 +58,7 @@
     </test>
     <test name="AutoSS [MD - WUIC] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="MD"/>
-        <parameter name="fileName" value="MDTests-WUIC-20171201.xls"/>
+        <parameter name="fileName" value="MDTests-WUIC-20171201_part1.xls"/>
         <parameter name="policyNumbers" value="208, 210"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
