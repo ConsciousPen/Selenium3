@@ -4,10 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -34,9 +35,9 @@ public class GeneralTab extends Tab {
 	public AssetList getNamedInsuredInfoAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
-    public AssetList getValidateAddressDialogAssetList() {
+    public AddressValidationDialog getValidateAddressDialogAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
-    			.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
+    			.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AddressValidationDialog.class);
 	}
     public AssetList getAAAProductOwnedAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
