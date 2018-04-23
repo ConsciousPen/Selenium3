@@ -120,7 +120,7 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 			docsToCheck = getEnumList(Arrays.asList("_55_4000"));
 		}
 		else{
-			generateDocument(selectDocument, policyNumber);
+			generateDocument(choiceDocument, policyNumber);
 			query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, choiceDocument.getId(), ADHOC_DOC_ON_DEMAND_GENERATE);
 			docsToCheck = getEnumList(Arrays.asList(AA11CA.getId()));
 		}
