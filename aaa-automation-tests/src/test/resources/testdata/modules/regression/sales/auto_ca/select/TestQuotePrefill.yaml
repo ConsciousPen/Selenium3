@@ -1,0 +1,138 @@
+# ------ CA case 1 ----
+
+TestData1_CA: {
+  PrefillTab: '@PrefillTab1_CA',
+  VerificationData: '@VerificationData_CA'
+}
+
+
+PrefillTab1_CA: {
+  First Name: Susie,
+  Last Name: Jones20,
+  Zip Code: 94544,
+  Address Line 1: 8416 Briggs Drive,
+  City: Hayward, 
+  State: CA,
+  Date of Birth: '07/08/1976',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+VerificationData_CA: {
+ First Named Insured: 'Susie Jones20',
+ First Name: Susie,
+ Last Name: Jones20,
+ Zip Code: 94544,
+ Address Line 1: '8416 Briggs Drive',
+ Date of Birth: '07/08/1976',
+ "License #": '983245675'
+}
+
+
+# ------ CA case 2 ----
+
+TestData2_CA: {
+  PrefillTab: '@PrefillTab2_CA',
+  VerificationData: ['@VerificationData1_CA', '@VerificationData2_CA']
+}
+
+
+PrefillTab2_CA: {
+  First Name: Donna,
+  Last Name: Armstrong,
+  Zip Code: 94544,
+  Address Line 1: 8416 Briggs Drive,
+  City: Hayward, 
+  State: CA,
+  Date of Birth: '01/08/1970',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+VerificationData1_CA: {
+ First Named Insured: 'Donna Armstrong',
+ VIN: '1GAHG35U651234567',
+}
+
+VerificationData2_CA: {
+ First Named Insured: 'Frank Armstrong',
+ VIN: '5N1AR18UX6C662422'
+}
+
+# ----------- Test data to bind policy -------
+
+TestDataFill_1_CA: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@<auto_ca_select>@DataGather@DriverTab',
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+   AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+   ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+   PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+
+DriverTab1: {
+  DriverTab:{
+   Occupation: Self Employed,
+   Age First Licensed: 18,
+   Permit Before License: 'No',
+  }
+}
+
+DriverTab2: {
+  DriverTab:{
+   "Rel. to First Named Insured": Spouse,
+   Marital Status: Married,
+   Occupation: Self Employed,
+   Age First Licensed: 18,
+   Permit Before License: 'No',
+  }
+}
+
+MembershipTab: {
+ MembershipTab: {
+  Order Report: click,
+  AAAMembershipReport: [{}]
+  }
+}
+
+VehicleTab: {
+ VehicleTab: 
+  [{Primary Use: Pleasure (recreational driving only)},
+  {Primary Use: Pleasure (recreational driving only)}]
+}
+
+
+TestDataFill_2_CA: {
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  },
+  {
+    Primary Driver: index=2,
+    Manually Rated Driver: index=2
+  }]
+}
+

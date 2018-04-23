@@ -1,6 +1,7 @@
 package aaa.utils.excel.io.entity.iterator;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.annotation.Nonnull;
@@ -15,7 +16,7 @@ public class CellIterator<CELL extends ExcelCell> implements Iterator<CELL> {
 	@Nonnull
 	public CellIterator(CellsQueue<CELL> cellsQueue) {
 		this.cellsQueue = cellsQueue;
-		this.cellsIndexes = cellsQueue.getCellsIndexes();
+		this.cellsIndexes = new LinkedList<>(cellsQueue.getCellsIndexes());
 		this.currentIndex = cellsQueue.getFirstCellIndex();
 	}
 

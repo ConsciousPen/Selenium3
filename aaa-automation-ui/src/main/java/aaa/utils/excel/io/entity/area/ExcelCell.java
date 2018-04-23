@@ -1,15 +1,22 @@
 package aaa.utils.excel.io.entity.area;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.*;
 import aaa.utils.excel.io.entity.Writable;
@@ -22,11 +29,15 @@ public abstract class ExcelCell implements Writable {
 	public static final CellType<Double> DOUBLE_TYPE = new DoubleCellType(Double.class);
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType(LocalDateTime.class);
 
-	private ExcelRow<? extends ExcelCell> row;
+	private static List<CellType<?>> baseCellTypes;
+
+	private final ExcelRow<? extends ExcelCell> row;
+	private final int columnIndexInArea;
+	private final int columnIndexOnSheet;
+
+	private List<CellType<?>> allowableCellTypes;
+	private List<CellType<?>> cellTypes;
 	private Cell cell;
-	private int columnIndexInArea;
-	private int columnIndexOnSheet;
-	private Set<CellType<?>> cellTypes;
 
 	protected ExcelCell(Cell cell, int columnIndexOnSheet, ExcelRow<? extends ExcelCell> row) {
 		this(cell, columnIndexOnSheet, columnIndexOnSheet, row, row.getCellTypes());
@@ -36,15 +47,20 @@ public abstract class ExcelCell implements Writable {
 		this(cell, columnIndexInArea, columnIndexOnSheet, row, row.getCellTypes());
 	}
 
-	protected ExcelCell(Cell cell, int columnIndexInArea, int columnIndexOnSheet, ExcelRow<? extends ExcelCell> row, Set<CellType<?>> cellTypes) {
+	protected ExcelCell(Cell cell, int columnIndexInArea, int columnIndexOnSheet, ExcelRow<? extends ExcelCell> row, List<CellType<?>> allowableCellTypes) {
 		this.row = row; // should be initialized first!
 		this.cell = normalizeCell(cell);
 		this.columnIndexInArea = columnIndexInArea;
 		this.columnIndexOnSheet = columnIndexOnSheet;
+		this.allowableCellTypes = ImmutableList.copyOf(new HashSet<>(allowableCellTypes));
 	}
 
-	public static Set<CellType<?>> getBaseTypes() {
-		return Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(Collectors.toCollection(LinkedHashSet::new));
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public static synchronized List<CellType<?>> getBaseTypes() {
+		if (baseCellTypes == null) {
+			baseCellTypes = Stream.of(INTEGER_TYPE, DOUBLE_TYPE, BOOLEAN_TYPE, LOCAL_DATE_TIME_TYPE, STRING_TYPE).collect(ImmutableList.toImmutableList());
+		}
+		return baseCellTypes;
 	}
 
 	public Cell getPoiCell() {
@@ -72,16 +88,18 @@ public abstract class ExcelCell implements Writable {
 		return this.columnIndexInArea;
 	}
 
-	public Set<CellType<?>> getCellTypes() {
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<CellType<?>> getCellTypes() {
 		if (this.cellTypes == null) {
-			this.cellTypes = filterAndGetValidCellTypes(getRow().getCellTypes());
-			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
+			this.cellTypes = filterAndGetValidCellTypes(this.allowableCellTypes);
+			assertThat(this.cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
 		}
-		return new HashSet<>(this.cellTypes);
+		return this.cellTypes;
 	}
 
-	ExcelCell setCellTypes(Set<CellType<?>> cellTypes) {
-		this.cellTypes = new HashSet<>(cellTypes);
+	ExcelCell setCellTypes(List<CellType<?>> allowableCellTypes) {
+		this.allowableCellTypes = ImmutableList.copyOf(allowableCellTypes);
+		this.cellTypes = null;
 		return this;
 	}
 
@@ -99,19 +117,15 @@ public abstract class ExcelCell implements Writable {
 
 	public Object getValue() {
 		// Let's try to obtain numeric value first (non-floating types are checked first)
-		Set<NumberCellType<?>> numericTypes = getCellTypes().stream().filter(NumberCellType.class::isInstance).map(t -> (NumberCellType<?>) t).collect(Collectors.toSet());
-		for (NumberCellType<?> type : numericTypes) {
-			if (type.isTypeOf(this)) {
+		for (CellType<?> type : getCellTypes()) {
+			if (type instanceof NumberCellType && type.isTypeOf(this)) {
 				return getValue(type);
 			}
 		}
 
 		// If no numeric value has been obtained then let's try to get non string value
-		Set<CellType<?>> nonNumericAndStringCellTypes = getCellTypes();
-		nonNumericAndStringCellTypes.removeAll(numericTypes);
-		nonNumericAndStringCellTypes.remove(STRING_TYPE);
-		for (CellType<?> type : nonNumericAndStringCellTypes) {
-			if (type.isTypeOf(this)) {
+		for (CellType<?> type : getCellTypes()) {
+			if (!type.equals(STRING_TYPE) && !(type instanceof NumberCellType) && type.isTypeOf(this)) {
 				return getValue(type);
 			}
 		}
@@ -188,8 +202,12 @@ public abstract class ExcelCell implements Writable {
 		return hasValue(expectedValue, getType(expectedValue));
 	}
 
-	public <T> boolean hasValue(T expectedValue, CellType<T> cellType) {
-		return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
+	public <T> boolean hasValue(T expectedValue, CellType<T> cellType, DateTimeFormatter... formatters) {
+		//return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
+		if (isDate(formatters)) {
+			return Objects.equals(getDateValue(formatters), expectedValue);
+		}
+		return getCellTypes().stream().anyMatch(cType -> Objects.equals(getValue(cType), expectedValue));
 	}
 
 	public boolean hasStringValue(String expectedValue) {
@@ -210,10 +228,8 @@ public abstract class ExcelCell implements Writable {
 	}
 
 	public ExcelCell registerCellType(CellType<?>... cellTypes) {
-		Set<CellType<?>> typesCopy = getCellTypes();
-		typesCopy.addAll(Arrays.asList(cellTypes));
-		this.cellTypes = typesCopy;
-		return this;
+		List<CellType<?>> allowableCellTypes = ImmutableSet.<CellType<?>>builder().addAll(this.allowableCellTypes).add(cellTypes).build().asList();
+		return setCellTypes(allowableCellTypes);
 	}
 
 	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
@@ -223,8 +239,8 @@ public abstract class ExcelCell implements Writable {
 			Cell poiCell = row.createCell(getColumnIndex() - 1);
 			setPoiCell(poiCell);
 		}
+		registerCellType(valueType);
 		valueType.setValueTo(this, value);
-		this.cellTypes = filterAndGetValidCellTypes(getCellTypes());
 		return this;
 	}
 
@@ -232,7 +248,7 @@ public abstract class ExcelCell implements Writable {
 		if (!isEmpty()) {
 			getRow().getPoiRow().removeCell(getPoiCell());
 			setPoiCell(null);
-			this.cellTypes = Collections.singleton(STRING_TYPE);
+			setCellTypes(ImmutableList.of(STRING_TYPE));
 		}
 		return this;
 	}
@@ -272,8 +288,8 @@ public abstract class ExcelCell implements Writable {
 
 	public abstract ExcelCell delete();
 
-	protected Set<CellType<?>> filterAndGetValidCellTypes(Set<CellType<?>> cellTypes) {
-		return cellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());
+	protected ImmutableList<CellType<?>> filterAndGetValidCellTypes(List<CellType<?>> cellTypes) {
+		return cellTypes.stream().filter(t -> t.isTypeOf(this)).collect(collectingAndThen(toSet(), ImmutableList::copyOf));
 	}
 
 	@SuppressWarnings("resource")

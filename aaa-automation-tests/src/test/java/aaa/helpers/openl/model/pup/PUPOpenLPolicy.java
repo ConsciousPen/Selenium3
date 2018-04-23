@@ -200,6 +200,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public String getUnderwriterCode() {
+		return null;
+	}
+
+	@Override
 	public String toString() {
 		return "PUPOpenLPolicy{" +
 				"coverages=" + coverages +

@@ -7,7 +7,7 @@ import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
+public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenLDriver, AutoCaSelectOpenLVehicle> {
 	@ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<AutoCaSelectOpenLDriver> drivers;
 
@@ -28,14 +28,6 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 
 	public void setBaseYear(Integer baseYear) {
 		this.baseYear = baseYear;
-	}
-
-	public Boolean isAaaMember() {
-		return aaaMember;
-	}
-
-	public void setAaaMember(Boolean aaaMember) {
-		this.aaaMember = aaaMember;
 	}
 
 	public Boolean getGoodDriverPolicy() {
@@ -68,6 +60,10 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 
 	public void setLifemoto(String lifemoto) {
 		this.lifemoto = lifemoto;
+	}
+
+	public void setAaaMember(Boolean aaaMember) {
+		this.aaaMember = aaaMember;
 	}
 
 	@Override
@@ -120,5 +116,9 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy {
 				", number=" + number +
 				", policyNumber='" + policyNumber + '\'' +
 				'}';
+	}
+
+	public Boolean isAaaMember() {
+		return aaaMember;
 	}
 }

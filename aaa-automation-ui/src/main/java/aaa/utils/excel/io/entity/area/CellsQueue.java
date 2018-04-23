@@ -1,34 +1,40 @@
 package aaa.utils.excel.io.entity.area;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.Writable;
 import aaa.utils.excel.io.entity.iterator.CellIterator;
 
 public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, Iterable<CELL> {
-	private int queueIndexInArea;
-	private int queueIndexOnSheet;
-	private Set<Integer> cellsIndexesOnSheet;
-	private ExcelArea<CELL, ?, ?> excelArea;
-	private Set<CellType<?>> cellTypes;
-	private Map<Integer, CELL> queueIndexesAndCellsMap;
+	private final int queueIndexInArea;
+	private final int queueIndexOnSheet;
+	private final ExcelArea<CELL, ?, ?> excelArea;
 
-	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, Set<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
+	private List<CellType<?>> cellTypes;
+	private List<Integer> cellsIndexesOnSheet;
+	private ImmutableSortedMap<Integer, CELL> queueIndexesAndCellsMap;
+
+	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, List<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
 		this(queueIndexInArea, queueIndexOnSheet, cellsIndexesOnSheet, excelArea, excelArea.getCellTypes());
 	}
 
-	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, Set<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
+	protected CellsQueue(int queueIndexInArea, int queueIndexOnSheet, List<Integer> cellsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, List<CellType<?>> cellTypes) {
 		this.queueIndexInArea = queueIndexInArea;
 		this.queueIndexOnSheet = queueIndexOnSheet;
-		this.cellsIndexesOnSheet = new HashSet<>(cellsIndexesOnSheet);
 		this.excelArea = excelArea;
-		this.cellTypes = new HashSet<>(cellTypes);
+		this.cellTypes = ImmutableList.copyOf(cellTypes);
+		LinkedHashSet<Integer> cellsIndexesSet = cellsIndexesOnSheet.stream().sorted().collect(Collectors.toCollection(LinkedHashSet::new));
+		this.cellsIndexesOnSheet = ImmutableList.copyOf(cellsIndexesSet);
 	}
 
 	public String getSheetName() {
@@ -36,11 +42,11 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public List<CELL> getCells() {
-		return new ArrayList<>(getQueueIndexesAndCellsMap().values());
+		return getQueueIndexesAndCellsMap().values().asList();
 	}
 
 	public List<Integer> getCellsIndexes() {
-		return new ArrayList<>(getQueueIndexesAndCellsMap().keySet());
+		return getQueueIndexesAndCellsMap().keySet().asList();
 	}
 
 	public int getFirstCellIndex() {
@@ -69,39 +75,41 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public List<Object> getValues() {
-		return getCells().stream().map(ExcelCell::getValue).collect(Collectors.toList());
+		return getCells().stream().map(ExcelCell::getValue).collect(toList());
 	}
 
 	public List<String> getStringValues() {
-		return getCells().stream().map(ExcelCell::getStringValue).collect(Collectors.toList());
+		return getCells().stream().map(ExcelCell::getStringValue).collect(toList());
 	}
 
 	public int getSum() {
-		return getSum(getCellsIndexes().toArray(new Integer[getQueueIndexesAndCellsMap().size()]));
+		return getSum(getCellsIndexes().toArray(new Integer[getCellsNumber()]));
 	}
 
-	public int getMaxValue() {
+	public int getMaxIntValue() {
 		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).max().orElse(0);
 	}
 
-	public int getMinValue() {
+	public int getMinIntValue() {
 		return getCells().stream().filter(c -> !c.isEmpty() && c.hasType(ExcelCell.INTEGER_TYPE)).mapToInt(ExcelCell::getIntValue).min().orElse(0);
 	}
 
-	public Set<CellType<?>> getCellTypes() {
-		return new HashSet<>(this.cellTypes);
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<CellType<?>> getCellTypes() {
+		return this.cellTypes;
 	}
 
 	public int getIndex() {
 		return this.queueIndexInArea;
 	}
 
-	protected int getIndexOnSheet() {
+	public int getIndexOnSheet() {
 		return this.queueIndexOnSheet;
 	}
 
-	protected List<Integer> getCellsIndexesOnSheet() {
-		return new ArrayList<>(this.cellsIndexesOnSheet);
+	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+	public List<Integer> getCellsIndexesOnSheet() {
+		return this.cellsIndexesOnSheet;
 	}
 
 	protected ExcelArea<CELL, ?, ?> getArea() {
@@ -183,15 +191,11 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	}
 
 	public boolean hasValue(int cellIndexInQueue, Object expectedValue, DateTimeFormatter... formatters) {
-		CELL cell = getCell(cellIndexInQueue);
-		if (cell.isDate(formatters)) {
-			return Objects.equals(cell.getDateValue(formatters), expectedValue);
-		}
-		return cell.getCellTypes().stream().anyMatch(cellType -> Objects.equals(cell.getValue(cellType), expectedValue));
+		return getCell(cellIndexInQueue).hasValue(expectedValue);
 	}
 
 	public CellsQueue<CELL> registerCellType(CellType<?>... cellTypes) {
-		this.cellTypes.addAll(Arrays.asList(cellTypes));
+		this.cellTypes = ImmutableSet.<CellType<?>>builder().addAll(getCellTypes()).add(cellTypes).build().asList();
 		getCells().forEach(c -> c.registerCellType(cellTypes));
 		return this;
 	}
@@ -208,19 +212,25 @@ public abstract class CellsQueue<CELL extends ExcelCell> implements Writable, It
 	public abstract CellsQueue<CELL> copy(int destinationQueueIndex);
 
 	protected void removeCellsIndexes(Integer... cellsIndexesInQueue) {
+		List<Integer> newCellsIndexesOnSheet = new ArrayList<>(this.cellsIndexesOnSheet);
+		Map<Integer, CELL> newQueueIndexesAndCellsMap = new LinkedHashMap<>(getQueueIndexesAndCellsMap());
+
 		for (Integer cellIndex : cellsIndexesInQueue) {
-			this.cellsIndexesOnSheet.remove(getCellIndexOnSheet(cellIndex));
-			getQueueIndexesAndCellsMap().remove(cellIndex);
+			newCellsIndexesOnSheet.remove(getCellIndexOnSheet(cellIndex));
+			newQueueIndexesAndCellsMap.remove(cellIndex);
 		}
+
+		this.cellsIndexesOnSheet = ImmutableList.copyOf(newCellsIndexesOnSheet);
+		this.queueIndexesAndCellsMap = ImmutableSortedMap.copyOf(newQueueIndexesAndCellsMap);
 	}
 
-	protected abstract Map<Integer, CELL> gatherQueueIndexesAndCellsMap(Set<Integer> cellsIndexesOnSheet, Set<CellType<?>> cellTypes);
+	protected abstract ImmutableSortedMap<Integer, CELL> gatherQueueIndexesAndCellsMap(List<Integer> cellsIndexesOnSheet, List<CellType<?>> cellTypes);
 
 	protected abstract Integer getCellIndexOnSheet(Integer cellIndexInQueue);
 
-	private Map<Integer, CELL> getQueueIndexesAndCellsMap() {
+	private ImmutableSortedMap<Integer, CELL> getQueueIndexesAndCellsMap() {
 		if (this.queueIndexesAndCellsMap == null) {
-			this.queueIndexesAndCellsMap = gatherQueueIndexesAndCellsMap(this.cellsIndexesOnSheet, this.cellTypes);
+			this.queueIndexesAndCellsMap = gatherQueueIndexesAndCellsMap(getCellsIndexesOnSheet(), getCellTypes());
 		}
 		return this.queueIndexesAndCellsMap;
 	}

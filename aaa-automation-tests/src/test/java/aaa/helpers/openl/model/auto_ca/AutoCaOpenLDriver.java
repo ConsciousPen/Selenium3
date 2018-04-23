@@ -36,16 +36,4 @@ public class AutoCaOpenLDriver extends OpenLDriver {
 	public Boolean isMatureDriver() {
 		return matureDriver;
 	}
-
-	public Boolean isOccasionalUse() {
-		return null;
-	}
-
-	public Boolean isNonSmoker() {
-		return null;
-	}
-
-	public Boolean hasDriverTrainingDiscount() {
-		return null;
-	}
 }
