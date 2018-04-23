@@ -99,6 +99,7 @@ public final class DocGenEnum {
 		AADNPAD(""),
 		AADNPAE(""),
 		AADNUBI(""),
+		AAEUIMMD("AAEUIMMD 07 18", "Maryland Enhanced Uninsured Motorists Coverage"),
 		AAFPPA(""),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
 		AAIFNY2(""),
