@@ -104,7 +104,8 @@ DriverTab_5: {
 }
 
 PremiumAndCoveragesTab: {
-  Product: CA Choice
+  Product: CA Choice, 
+  Payment Plan: Annual
 }
 
 DocumentsAndBindTab: {
@@ -114,7 +115,16 @@ DocumentsAndBindTab: {
 }
 
 # --------- Driver tab ---------- 
+TestData_Activity: {
+  DriverTab: '@DriverTab_Activity'
+}
+
+DriverTab_Activity: {
+  ActivityInformation: ['@Activity1']
+}
+
 Activity1: {
+  Activity Source: Customer Input,
   Type: Major Violation, 
   Occurrence Date: $<today-2y>, 
   Description: Drag Racing, 
