@@ -1305,7 +1305,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-294")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12294")
 	public void pas12294_PriorCarrierWithLapsePriorCarrierRequired(@Optional("VA") String state) {
 		eValueQuoteCreation();
 
