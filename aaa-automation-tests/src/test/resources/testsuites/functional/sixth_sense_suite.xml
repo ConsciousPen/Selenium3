@@ -64,6 +64,13 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
         </classes>
     </test>
+
+    <test name="Test Enhanced UIM Coverage Forms">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
+        </classes>
+    </test>
 -->
 
     <test name="Test Locked BI Limits And UW Points">
