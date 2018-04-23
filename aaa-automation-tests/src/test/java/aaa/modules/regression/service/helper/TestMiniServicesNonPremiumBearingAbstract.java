@@ -2718,6 +2718,8 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
 			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
 		}
+
+		endorsementRateAndBind(policyNumber);
 	}
 
 	private void endorsePolicyAddEvalue() {
@@ -2727,6 +2729,24 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		new PremiumAndCoveragesTab().calculatePremium();
 		getPremiumAndCoverageTabElement().saveAndExit();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
+	}
+
+	private void endorsementRateAndBind(String policyNumber) {
+		assertSoftly(softly -> {
+			//Rate endorsement
+			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.executeEndorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
+			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+
+			//Bind endorsement
+			HelperCommon.executeEndorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+			SearchPage.openPolicy(policyNumber);
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
+			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+		});
 	}
 
 	private void pas8785_createdEndorsementTransactionProperties(String status, String date, String user) {
