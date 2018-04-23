@@ -6,7 +6,10 @@ import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
@@ -98,12 +101,27 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		}
 		TestData ppcData = DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.PublicProtectionClass.PUBLIC_PROTECTION_CLASS.getLabel(), openLPolicy.getDwellings().get(0).getPpcValue());
+		TestData propertyValueData = DataProviderFactory.dataOf(
+				HomeCaMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE.getLabel(), new Dollar(openLPolicy.getCovCLimit()));
 		
+		TestData interiorData = DataProviderFactory.emptyData();
+		if ("Renter".equals(openLPolicy.getOccupancyType())) {
+			interiorData = DataProviderFactory.dataOf(
+					HomeCaMetaData.PropertyInfoTab.Interior.OCCUPANCY_TYPE.getLabel(), "Tenant occupied");
+		}
+		if ("Owner".equals(openLPolicy.getOccupancyType())) {
+			interiorData = DataProviderFactory.dataOf(
+					//TODO need clarify this value
+					HomeCaMetaData.PropertyInfoTab.Interior.OCCUPANCY_TYPE.getLabel(), "Tenant occupied");
+		}
+
 		List<TestData> claimHistoryData = getClaimsHistoryData(openLPolicy, openLPolicy.getExpClaimPoints(), openLPolicy.getClaimPoints());
 		
 		return DataProviderFactory.dataOf(
 				HomeCaMetaData.PropertyInfoTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData,
 				HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcData,
+				HomeCaMetaData.PropertyInfoTab.PROPERTY_VALUE.getLabel(), propertyValueData, 
+				HomeCaMetaData.PropertyInfoTab.INTERIOR.getLabel(), interiorData, 
 				HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), claimHistoryData);
 	}
 	
@@ -166,8 +184,55 @@ public class HomeCaHO4TestDataGenerator extends TestDataGenerator<HomeCaHO4OpenL
 		return null;
 	}
 	
-	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO4OpenLPolicy openLPolicy) {
-		return null;
+	private TestData getPremiumsAndCoveragesQuoteTabData(HomeCaHO4OpenLPolicy openLPolicy) { 
+		Double covD = openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+		Double covE = openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimitAmount();
+
+		return DataProviderFactory.dataOf( 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), covD.toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(covE).toString().split("\\.")[0], 
+				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), getDeductibleValueByForm(openLPolicy));
+	}
+	
+	private String getDeductibleValueByForm(HomeCaHO4OpenLPolicy openLPolicy) {
+		String deductible = "index=1";
+		
+		for(HomeCaHO4OpenLForm form: openLPolicy.getForms()) {
+			if (form.getFormCode().contains("HO-58")){
+				deductible = "contains=" + new Dollar(250).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-59")) {
+				deductible = "contains=" + new Dollar(500).toString().split("\\.")[0];
+			}
+			else if (form.getFormCode().contains("HO-60")) {
+				deductible = "contains=" + new Dollar(1000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-76")) {
+				deductible = "contains=" + new Dollar(1500).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-77")) {
+				deductible = "contains=" + new Dollar(2000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-78")) {
+				deductible = "contains=" + new Dollar(2500).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-79")) {
+				deductible = "contains=" + new Dollar(3000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-80")) {
+				deductible = "contains=" + new Dollar(4000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-81")) {
+				deductible = "contains=" + new Dollar(5000).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-82")) {
+				deductible = "contains=" + new Dollar(7500).toString().split("\\.")[0]; 
+			}
+			else if (form.getFormCode().contains("HO-177")) {
+				deductible = "contains=Theft";
+			}
+		}
+		return deductible;
 	}
 	
 	@Override
