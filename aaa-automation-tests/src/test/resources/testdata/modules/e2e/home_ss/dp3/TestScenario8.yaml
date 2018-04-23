@@ -51,6 +51,22 @@ TestData_Endorsement: {
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {
     Payment plan: Quarterly,
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement_NJ: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Quarterly,
     Hurricane Deductible: 'index=1'
   },
   MortgageesTab: {},
