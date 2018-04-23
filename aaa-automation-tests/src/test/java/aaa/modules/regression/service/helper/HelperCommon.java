@@ -167,6 +167,11 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, DriverAssignmentDto[].class);
 	}
 
+	public static ErrorResponseDto pendedEndorsementDriverAssignmentInfoError(String policyNumber, int status) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_ENDORSEMENT_DRIVER_ASSIGNMENT, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, ErrorResponseDto.class, status);
+	}
+
 	public static PolicyPremiumInfo[] viewPremiumInfo(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_PREMIUM_POLICY, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyPremiumInfo[].class);
