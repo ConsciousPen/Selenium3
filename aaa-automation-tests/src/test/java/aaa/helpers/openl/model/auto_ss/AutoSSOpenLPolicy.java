@@ -10,7 +10,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = AutoSSOpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoSSOpenLPolicy extends OpenLPolicy {
 
-	private List<AutoSSOpenLCappingDetails> cappingDetails;
+	private AutoSSOpenLCappingDetails cappingDetails;
 	private List<AutoSSOpenLVehicle> vehicles;
 	private List<AutoSSOpenLDriver> drivers;
 
@@ -72,12 +72,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public Double getPreviousPolicyPremium() {
-		return getCappingDetails().get(0).getPreviousPolicyPremium();
+		return getCappingDetails().getPreviousPolicyPremium();
 	}
 
 	@Override
 	public String getUnderwriterCode() {
-		return getCappingDetails().get(0).getUnderwriterCode();
+		return getCappingDetails().getUnderwriterCode();
 	}
 
 	public Integer getCreditScore() {
@@ -224,12 +224,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.insuredAge = insuredAge;
 	}
 
-	public List<AutoSSOpenLCappingDetails> getCappingDetails() {
-		return new ArrayList<>(cappingDetails);
+	public AutoSSOpenLCappingDetails getCappingDetails() {
+		return cappingDetails;
 	}
 
-	public void setCappingDetails(List<AutoSSOpenLCappingDetails> cappingDetails) {
-		this.cappingDetails = new ArrayList<>(cappingDetails);
+	public void setCappingDetails(AutoSSOpenLCappingDetails cappingDetails) {
+		this.cappingDetails = cappingDetails;
 	}
 
 	public List<AutoSSOpenLVehicle> getVehicles() {

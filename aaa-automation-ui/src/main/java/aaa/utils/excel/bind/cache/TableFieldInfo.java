@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
 import aaa.utils.excel.bind.helper.BindHelper;
 import aaa.utils.excel.bind.helper.ColumnFieldHelper;
+import aaa.utils.excel.io.entity.area.table.TableHeader;
 
 public final class TableFieldInfo {
 	private final Field tableField;
@@ -12,6 +13,7 @@ public final class TableFieldInfo {
 	private Boolean isTableField;
 	private Boolean isPrimaryKeyField;
 	private String headerColumnName;
+	private Integer headerColumnIndex;
 	private Class<?> tableClass;
 
 	public TableFieldInfo(Field tableField) {
@@ -34,6 +36,13 @@ public final class TableFieldInfo {
 			this.headerColumnName = ColumnFieldHelper.getHeaderColumnName(tableField);
 		}
 		return this.headerColumnName;
+	}
+
+	public int getHeaderColumnIndex(TableHeader header, boolean isCaseIgnoredForAllColumns) {
+		if (this.headerColumnIndex == null) {
+			this.headerColumnIndex = header.getColumnIndex(getHeaderColumnName(), isCaseIgnoredForAllColumns || isCaseIgnored());
+		}
+		return this.headerColumnIndex;
 	}
 
 	public boolean isTableField() {

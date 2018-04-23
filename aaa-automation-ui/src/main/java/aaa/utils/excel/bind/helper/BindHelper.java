@@ -67,12 +67,13 @@ public class BindHelper {
 		return getTableClass(field).isAnnotationPresent(ExcelTableElement.class);
 	}
 
-	public static Class<?> getTableClass(Field field) {
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> getTableClass(Field field) {
 		if (List.class.equals(field.getType())) {
 			ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
-			return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+			return (Class<T>) parameterizedType.getActualTypeArguments()[0];
 		}
-		return field.getType();
+		return (Class<T>) field.getType();
 	}
 
 	public static <T> T getInstance(Class<T> clazz) {
@@ -92,7 +93,7 @@ public class BindHelper {
 			//TODO check set null value to primitive type
 			field.set(classInstance, value);
 		} catch (IllegalAccessException | IllegalArgumentException e) {
-			throw new IstfException(String.format("Unable set value to the field \"%1$s\" in class \"%2$s\"", field.getName(), classInstance.getClass().getName()), e);
+			throw new IstfException(String.format("Unable set value \"%1$s\" to the field \"%2$s\" in class \"%3$s\"", value.toString(), field.getName(), classInstance.getClass().getName()), e);
 		}
 	}
 }

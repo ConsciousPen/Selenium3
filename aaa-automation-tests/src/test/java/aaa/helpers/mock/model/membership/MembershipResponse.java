@@ -2,8 +2,10 @@ package aaa.helpers.mock.model.membership;
 
 import java.time.LocalDateTime;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
+@ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE")
 public class MembershipResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN_1 = "M/d/yyyy";

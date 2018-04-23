@@ -2,8 +2,10 @@ package aaa.helpers.mock.model.vehicle;
 
 import java.time.LocalDateTime;
 import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
+@ExcelTableElement(sheetName = "VEHICLE_UBI_DETAILS_RESPONSE")
 public class VehicleUbiDetailsResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN = "dd-MM-yy";

@@ -2,24 +2,14 @@ package aaa.helpers.mock.model.membership;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.exceptions.IstfException;
 
 public class MembershipMockData {
-	@ExcelTableElement(sheetName = "MEMBERSHIP_REQUEST")
 	private List<MembershipRequest> membershipRequests;
-
-	@ExcelTableElement(sheetName = "MEMBERSHIP_RESPONSE")
 	private List<MembershipResponse> membershipResponses;
 
 	public List<MembershipRequest> getMembershipRequests() {

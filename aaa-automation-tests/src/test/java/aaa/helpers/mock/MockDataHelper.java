@@ -43,7 +43,7 @@ public class MockDataHelper {
 		File mockTempFile = new File(mockTempDestinationPath);
 		M mockObject;
 		try {
-			mockObject = ExcelUnmarshaller.unmarshal(mockTempFile, mockDataClass);
+			mockObject = new ExcelUnmarshaller(mockTempFile).unmarshalFile(mockDataClass);
 		} finally {
 			assertThat(mockTempFile.delete()).as("Unambe to delete temp mock file: %s", mockTempDestinationPath).isTrue();
 		}

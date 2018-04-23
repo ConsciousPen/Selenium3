@@ -12,19 +12,19 @@ public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
 
 	protected List<AutoSSOpenLPolicy> policies;
 
-	@ExcelTransient
+	//@ExcelTransient
 	private List<AutoSSOpenLCappingDetails> cappingDetails;
 
-	@ExcelTransient
+	//@ExcelTransient
 	private List<AutoSSOpenLVehicle> vehicles;
 
-	@ExcelTransient
+	//@ExcelTransient
 	private List<OpenLAddress> address;
 
-	@ExcelTransient
+	//@ExcelTransient
 	private List<AutoSSOpenLDriver> drivers;
 
-	@ExcelTransient
+	//@ExcelTransient
 	private List<AutoSSOpenLCoverage> coverages;
 
 	public List<AutoSSOpenLCappingDetails> getCappingDetails() {
