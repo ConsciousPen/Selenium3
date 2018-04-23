@@ -1,46 +1,51 @@
 TestData_1: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
   DriverTab: '@DriverTab_1', 
-  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
-  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab', 
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
 TestData_2: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
   DriverTab: '@DriverTab_2', 
-  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
-  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
 TestData_3: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
   DriverTab: '@DriverTab_3', 
-  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
-  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
 TestData_4: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
   DriverTab: '@DriverTab_4', 
-  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
-  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
 TestData_5: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
   DriverTab: '@DriverTab_5', 
-  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
-  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
 CopyFromPolicyActionTab: {
@@ -93,9 +98,13 @@ DriverTab_5: {
   Date of Birth: $<today-24y>, 
   Marital Status: Separated, 
   Occupation: Homemaker, 
-  Age First Licensed: 14, 
+  Age First Licensed: 16, 
   Most Recent GPA: College Graduate,
-  ActivityInformation: ['@Activity1']
+  #ActivityInformation: ['@Activity1']
+}
+
+PremiumAndCoveragesTab: {
+  Product: CA Choice
 }
 
 DocumentsAndBindTab: {
@@ -104,12 +113,11 @@ DocumentsAndBindTab: {
   }
 }
 
+# --------- Driver tab ---------- 
 Activity1: {
-  Type: Accident, 
+  Type: Major Violation, 
   Occurrence Date: $<today-2y>, 
-  Description: Fault accident with injury, 
-  Loss Payment Amount: 2000, 
-  Liability Code: CA AT FAULT PD, 
+  Description: Drag Racing, 
 }
 
 # ------ TestData for Rating Details verification ------

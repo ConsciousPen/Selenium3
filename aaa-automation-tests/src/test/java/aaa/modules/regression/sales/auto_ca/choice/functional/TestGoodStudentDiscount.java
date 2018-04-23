@@ -84,6 +84,7 @@ public class TestGoodStudentDiscount extends AutoCaChoiceBaseTest {
         new MembershipTab().fillTab(td_quote).submitTab();
         
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().fillTab(td_quote);
 		PremiumAndCoveragesTab.calculatePremium();
         softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Good Student Discount"); 
               
