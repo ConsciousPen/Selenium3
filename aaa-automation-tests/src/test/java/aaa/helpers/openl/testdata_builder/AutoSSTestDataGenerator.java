@@ -3,7 +3,6 @@ package aaa.helpers.openl.testdata_builder;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.commons.lang3.NotImplementedException;
@@ -361,8 +360,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
 		if (openLPolicy.getNoOfVehiclesExcludingTrailer() != null) {
-			Predicate<AutoSSOpenLVehicle> trailersFilter = v -> v.getStatCode() != null ? isTrailerType(v.getStatCode()) : isTrailerType(v.getBiLiabilitySymbol());
-			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(trailersFilter).count());
+			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(getStatCode(v))).count());
 			int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 			assertThat(trailersCount).as("Number of vehicles recognized by their stat codes set [%s] is not equal to "
 					+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount).isEqualTo(expectedTrailersCount);
@@ -529,6 +527,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel(), "starts=No Coverage");
 		}
 
+		if (getState().equals(Constants.States.NV)) {
+			for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
+				if (!isTrailerType(getStatCode(openLPolicy.getVehicles().get(i)))) {
+					detailedVehicleCoveragesList.get(i).adjust(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UMPD_CDW.getLabel(), "starts=No Coverage");
+				}
+			}
+		}
+
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType(), openLPolicy.getCappingDetails().get(0).getTerm()),
 				AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk(),
@@ -544,7 +550,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		assertThat(vehicle.getAddress()).as("Vehicle's address list should have only one address").hasSize(1);
 		String vin = getVinFromDb(vehicle);
 		Map<String, Object> vehicleInformation = new HashMap<>();
-		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
+		String statCode = getStatCode(vehicle);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
 		if (StringUtils.isNotBlank(vin)) {
@@ -649,11 +655,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private String getVinFromDb(AutoSSOpenLVehicle vehicle) {
 		String vin = "";
-		String statCode = vehicle.getStatCode() != null ? vehicle.getStatCode() : vehicle.getBiLiabilitySymbol();
 
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
 		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(statCode)) {
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(getStatCode(vehicle))) {
 			//TODO-dchubkov: add argument for stat code
 			String getVinQuery = String.format("select VIN \n"
 							+ "from VEHICLEREFDATAVIN\n"

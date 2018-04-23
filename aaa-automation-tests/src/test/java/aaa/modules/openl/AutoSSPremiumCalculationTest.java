@@ -46,7 +46,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		TestData quoteRatingData = ((AutoSSTestDataGenerator) tdGenerator).getRatingData(openLPolicy, isLegacyConvPolicy);
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().fillTab(quoteRatingData);
-		Dollar totalPremium = PremiumAndCoveragesTab.getActualPremium();
+		Dollar totalPremium = PremiumAndCoveragesTab.getTotalTermPremium();
 		if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
 			totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getStateAndLocalTaxesAndPremiumSurchargesPremium());
 		}
