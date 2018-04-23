@@ -35,7 +35,6 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinMVR(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD();
-               // .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"));
 
         String policyNumber = createPolicy(policyTD);
 
