@@ -7,7 +7,7 @@ import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
+public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> {
 	@ExcelTableElement(sheetName = DWELLING_SHEET_NAME, headerRowIndex = DWELLING_HEADER_ROW_NUMBER)
 	private List<HomeCaHO3OpenLDwelling> dwelling;
 
@@ -32,6 +32,7 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy {
 		this.dwelling = new ArrayList<>(dwelling);
 	}
 
+	@Override
 	public List<HomeCaHO3OpenLForm> getForms() {
 		return new ArrayList<>(forms);
 	}

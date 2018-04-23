@@ -318,7 +318,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785", "PAS-11622"})
 	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
 
 		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "Agent");
@@ -353,7 +353,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273", "PAS-7145", "PAS-11622"})
 	public void pas8273_OnlyActiveVehiclesAreAllowed(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
@@ -373,7 +373,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11932", "PAS-12768" })
 	public void pas11932_viewDrivers(@Optional("VA") String state) {
 
 		pas11932_viewDriversInfo(getPolicyType(), state);
@@ -406,7 +406,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145", "PAS-11622"})
 	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
@@ -498,6 +498,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 2. Check policy details
 	 * 3. Change date, run policyStatusUpdate
 	 * 4. Check policy details
+	 * @Megha Added Term and actual premium  //Pas-11809
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -518,6 +519,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * 6. Make a payment for the renewal amount for the next term
 	 * 7. change date to R, run policy status update job
 	 * 8. Check policy and renewal details
+	 * @Megha Added Term and actual premium //Pas-11809
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -818,24 +820,84 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
-		pas10227_ViewManageVehicleLevelCoverages(getPolicyType());
+		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
 	}
 
-
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation on Update/Rate/Bind for vehicle use = Business
+	 * @scenario 1. Create active policy
+	 * 2. Add a vehicle
+	 * 3. Update vehicle, set usage = Business
+	 * Error expected
+	 * 4. Rate the endorsement
+	 * Error expected
+	 * 5. Bind the endorsement
+	 * Error expected
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7147"})
 	public void pas7147_VehicleUpdateBusiness(@Optional("VA") String state) {
 
 		pas7147_VehicleUpdateBusinessBody();
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation on Update/Rate/Bind for vehicle use = Registered Owner
+	 * @scenario 1. Create active policy
+	 * 2. Add a vehicle
+	 * 3. Update vehicle, set usage = Business
+	 * Error expected
+	 * 4. Rate the endorsement
+	 * Error expected
+	 * 5. Bind the endorsement
+	 * Error expected
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "myPolicyUserAddedConfigCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7147"})
 	public void pas7147_VehicleUpdateRegisteredOwner(@Optional("VA") String state) {
 
 		pas7147_VehicleUpdateRegisteredOwnerBody();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation of E2E flow in DXP
+	 * @scenario 1. see script body
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
+	public void pas12866_e2e(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12866_e2eBctBody(state, true, softly)
+		);
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Validation of E2E flow in DXP
+	 * @scenario 1. see script body
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12866"})
+	public void pas12866_e2eBct(@Optional("KY") String state) {
+		assertSoftly(softly ->
+				pas12866_e2eBctBody(state, false, softly)
+		);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
+	public void pas11684_DriverAssignmentExistsForState(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas11684_DriverAssignmentExistsForStateBody(state, softly)
+		);
 	}
 
 	@Override

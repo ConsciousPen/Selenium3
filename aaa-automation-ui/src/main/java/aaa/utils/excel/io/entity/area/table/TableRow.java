@@ -6,19 +6,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelRow;
 
 public class TableRow extends ExcelRow<TableCell> {
-	public TableRow(Row row, int rowIndexInTable, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelTable table) {
+	public TableRow(Row row, int rowIndexInTable, int rowIndexOnSheet, List<Integer> columnsIndexesOnSheet, ExcelTable table) {
 		this(row, rowIndexInTable, rowIndexOnSheet, columnsIndexesOnSheet, table, table.getCellTypes());
 	}
 
-	public TableRow(Row row, int rowIndexInTable, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelTable table, Set<CellType<?>> cellTypes) {
+	public TableRow(Row row, int rowIndexInTable, int rowIndexOnSheet, List<Integer> columnsIndexesOnSheet, ExcelTable table, List<CellType<?>> cellTypes) {
 		super(row, rowIndexInTable, rowIndexOnSheet, columnsIndexesOnSheet, table, cellTypes);
 	}
 
@@ -43,26 +43,16 @@ public class TableRow extends ExcelRow<TableCell> {
 	}
 
 	@Override
-	protected Map<Integer, TableCell> gatherQueueIndexesAndCellsMap(Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
-		Map<Integer, TableCell> columnsIndexesAndCellsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
+	protected ImmutableSortedMap<Integer, TableCell> gatherQueueIndexesAndCellsMap(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		ImmutableSortedMap.Builder<Integer, TableCell> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
 		int columnIndexInTable = 1;
 		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
 			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
 			TableCell tableCell = new TableCell(poiCell, columnIndexInTable, columnIndexOnSheet, this, cellTypes);
-			columnsIndexesAndCellsMap.put(columnIndexInTable, tableCell);
+			queueIndexesAndCellsBuilder.put(columnIndexInTable, tableCell);
 			columnIndexInTable++;
 		}
-		return columnsIndexesAndCellsMap;
-	}
-
-	@Override
-	public int getIndexOnSheet() {
-		return super.getIndexOnSheet();
-	}
-
-	@Override
-	public List<Integer> getCellsIndexesOnSheet() {
-		return super.getCellsIndexesOnSheet();
+		return queueIndexesAndCellsBuilder.build();
 	}
 
 	@Override

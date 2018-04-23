@@ -7,6 +7,7 @@ package aaa.main.modules.policy.auto_ca.defaulttabs;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -32,8 +33,8 @@ public class GeneralTab extends Tab {
         return this;
     }
 
-	public AssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+	public MultiInstanceAfterAssetList getNamedInsuredInfoAssetList() {
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
     public AddressValidationDialog getValidateAddressDialogAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)

@@ -1,9 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
-import aaa.helpers.openl.model.OpenLVehicle;
+import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.choice.AutoCaChoiceOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -13,7 +17,7 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
-public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoCaChoiceOpenLPolicy> {
+public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoCaChoiceOpenLDriver, AutoCaChoiceOpenLVehicle, AutoCaChoiceOpenLPolicy> {
 
 	public AutoCaChoiceTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -34,11 +38,63 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected TestData getVehicleTabInformationData(OpenLVehicle vehicle) {
-		TestData vehicleInformation = super.getVehicleTabInformationData(vehicle);
-		AutoCaChoiceOpenLVehicle choiceVehicle = (AutoCaChoiceOpenLVehicle) vehicle;
+	protected TestData getDriverTabInformationData(AutoCaChoiceOpenLDriver openLDriver, boolean isFirstDriver, LocalDateTime policyEffectiveDate) {
+		TestData driverData = super.getDriverTabInformationData(openLDriver, isFirstDriver, policyEffectiveDate);
+		driverData.adjust(AutoCaMetaData.DriverTab.SMOKER_CIGARETTES_OR_PIPES.getLabel(), Boolean.TRUE.equals(openLDriver.isNonSmoker()) ? "No" : "Yes");
+		return driverData;
+	}
 
-		switch (choiceVehicle.getVehicleUsageCd()) {
+	@Override
+	protected List<TestData> getDriverTabActivityInformationData(AutoCaChoiceOpenLDriver openLDriver, LocalDateTime policyEffectiveDate) {
+		List<TestData> activityInformationList = new ArrayList<>();
+
+		if (Boolean.TRUE.equals(openLDriver.hasDriverTrainingDiscount())) {
+			assertThat(openLDriver.getDsr()).as("Unable to set \"driverTrainingDiscount\"=%1$s with \"dsr\"=%2$s (less than 4)", openLDriver.hasDriverTrainingDiscount(), openLDriver.getDsr())
+					.isGreaterThanOrEqualTo(4);
+		}
+		switch (openLDriver.getDsr()) {
+			//TODO-dchubkov: implement logic to add incidents with any violation points number
+			case 3:
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, null));
+				break;
+			case 4:
+				activityInformationList.add(get4ViolationPointsActivityInformationData(policyEffectiveDate, openLDriver.hasDriverTrainingDiscount(), null));
+				break;
+			case 13:
+				//For Choice product we should always add "3" points if driver has at least 3 activities with non-zero violation points included in rating.
+				// Therefore if we need driver with 13 points we can add 3 incidents with 10 points in total
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, null));
+				activityInformationList.add(get3ViolationPointsActivityInformationData(policyEffectiveDate, null));
+				activityInformationList.add(get4ViolationPointsActivityInformationData(policyEffectiveDate, openLDriver.hasDriverTrainingDiscount(), null));
+				break;
+			default:
+				throw new IstfException(String.format("Unknown mapping for dsr=%s value", openLDriver.getDsr()));
+		}
+		return activityInformationList;
+	}
+
+	@Override
+	protected int getDriverAge(AutoCaChoiceOpenLDriver openLDriver) {
+		int driverAge;
+		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
+			driverAge = getRandomAge(50, 80, openLDriver.getTyde());
+		} else {
+			if (Boolean.TRUE.equals(openLDriver.isOccasionalUse())) {
+				assertThat(openLDriver.getMaritalStatus()).as("Unable to generate driver's test data for occasionalUse=true if marital status is not single").isEqualTo("S");
+				assertThat(openLDriver.getTyde()).as("Unable to generate driver's test data for occasionalUse=true if total years of driving experience is less than 8").isLessThan(8);
+				driverAge = getRandomAge(16, 24, openLDriver.getTyde());
+			} else {
+				driverAge = getRandomAge(25, 49, openLDriver.getTyde());
+			}
+		}
+		return driverAge;
+	}
+
+	@Override
+	protected TestData getVehicleTabInformationData(AutoCaChoiceOpenLVehicle openLVehicle) {
+		TestData vehicleInformation = super.getVehicleTabInformationData(openLVehicle);
+
+		switch (openLVehicle.getVehicleUsageCd()) {
 			case "WC":
 				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Commute (to/from work and school)");
 				break;
@@ -59,26 +115,26 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 				vehicleInformation.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)");
 				break;
 			default:
-				throw new IstfException("Unknown mapping for vehicleUsageCd: " + choiceVehicle.getVehicleUsageCd());
+				throw new IstfException("Unknown mapping for vehicleUsageCd: " + openLVehicle.getVehicleUsageCd());
 		}
 
-		if (Boolean.TRUE.equals(choiceVehicle.getAntiTheft())) {
+		if (Boolean.TRUE.equals(openLVehicle.getAntiTheft())) {
 			vehicleInformation
 					.adjust(AutoCaMetaData.VehicleTab.ANTI_THEFT.getLabel(), "STD")
 					.adjust(AutoCaMetaData.VehicleTab.ANTI_THEFT_RECOVERY_DEVICE.getLabel(), "Vehicle Recovery Device");
 		}
 
-		if (!"Trailer".equals(getVehicleTabType(choiceVehicle)) && !"Camper".equals(getVehicleTabType(choiceVehicle))) {
+		if (!"Trailer".equals(getVehicleTabType(openLVehicle)) && !"Camper".equals(getVehicleTabType(openLVehicle))) {
 			vehicleInformation
-					.adjust(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), choiceVehicle.getAntiLock() ? "Rear only Standard" : "Not available")
+					.adjust(AutoCaMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), openLVehicle.getAntiLock() ? "Rear only Standard" : "Not available")
 					.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "3000");
 		}
 		return vehicleInformation;
 	}
 
 	@Override
-	protected String getVehicleTabType(OpenLVehicle vehicle) {
-		String vehType = ((AutoCaChoiceOpenLVehicle) vehicle).getVehType();
+	protected String getVehicleTabType(AutoCaChoiceOpenLVehicle openLVehicle) {
+		String vehType = openLVehicle.getVehType();
 		switch (vehType) {
 			case "M":
 				return "Motor Home";
@@ -126,5 +182,14 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			default:
 				throw new IstfException(String.format("Unknown UI \"Stat Code\" combo box value for openl statCode %s", statCode));
 		}
+	}
+
+	private TestData getAssignmentTabData(AutoCaChoiceOpenLPolicy openLPolicy) {
+		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(openLPolicy.getVehicles().size());
+		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
+			TestData assignmentData = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
+			driverVehicleRelationshipTable.add(assignmentData);
+		}
+		return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
 	}
 }

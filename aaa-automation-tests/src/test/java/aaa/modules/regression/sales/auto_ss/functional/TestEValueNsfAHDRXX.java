@@ -147,8 +147,6 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd1));
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
-		//String policyNumber = "VASS952918554";
-
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		String billingAccount = BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(ID).getValue();
@@ -161,6 +159,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 			generateFileForRecurringPaymentResponseJob(policyNumber, billingAccount, paymentAmountPlain, "SUCC");
 
 			//Generate file for PaymentCentralRejectFeed and run job
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 			String paymentReferenceId = DBService.get().getValue(String.format(GET_PAYMENT_REFERENCE_ID_BY_BILLING_ACCOUNT, billingAccount)).get();
 			File paymentCentralFile = paymentCentralHelper.createFile(policyNumber, paymentAmountPlain, paymentReferenceId);
 			PaymentCentralHelper.copyFileToServer(paymentCentralFile);
@@ -171,6 +170,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		} else {
 			throw new IstfException("Bad Recurring Payment Response status");
 		}
+		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
 		verifyPaymentDeclinedTransactionPresent(paymentAmountPlain);
 		verifyPaymentTransactionBecameDeclined(paymentAmount);
@@ -195,6 +195,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	}
 
 	private void generateFileForRecurringPaymentResponseJob(String policyNumber, String billingAccount, String paymentAmountPlain, String err) {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccount)).get();
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);

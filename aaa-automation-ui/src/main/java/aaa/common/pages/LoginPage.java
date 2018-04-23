@@ -22,24 +22,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class LoginPage extends Page implements ILogin {
 
-	public String user;
-	public String password;
-	public String state;
-
-	public LoginPage(String appUser, String appPw) {
-		user = appUser;
-		password = appPw;
-		state = null;
-	}
-	
-	public LoginPage(TestData td) {
-		user = td.getValue(LoginPageMeta.USER.getLabel());
-		password = td.getValue(LoginPageMeta.PASSWORD.getLabel());
-		state = td.getValue(LoginPageMeta.STATES.getLabel());
-	}
-
 	public static StaticElement lblHeader = new StaticElement(By.xpath("//form[@id='loginForm']/table[1]/tbody/tr/td"));
-	private static Button btnLogin = new Button(By.xpath("//input[@id='submit']"), Waiters.AJAX.then(Waiters.AJAX));
 	public static Link closeSession = new Link(By.xpath("//form[@id='loginForm']//a[contains(.,'Close CAS Session')]"), Waiters.AJAX);
 	public static Link lnkLogout = new Link(By.xpath("//*[@id='logoutForm:logout_link']"), Waiters.AJAX);
 	public static Dialog logoutDialog = new Dialog("//div[@id='logoutConfirmDialogDialog']");
@@ -47,52 +30,41 @@ public class LoginPage extends Page implements ILogin {
 	public static Link timeOutStartPage = new Link(By.xpath("//input[contains(.,'Start Page.')]"), Waiters.AJAX);
 	public static Link lnkSwitchToAdmin = new Link(By.xpath("//*[@id='logoutForm:switchToAdmin']"), Waiters.AJAX);
 	public static AssetList login = new AssetList(By.tagName("body"), LoginPageMeta.class);
+	private static Button btnLogin = new Button(By.xpath("//input[@id='submit']"), Waiters.AJAX.then(Waiters.AJAX));
+	public String user;
+	public String password;
+	public String state;
+	public LoginPage(String appUser, String appPw) {
+		user = appUser;
+		password = appPw;
+		state = null;
+	}
+	public LoginPage(TestData td) {
+		user = td.getValue(LoginPageMeta.USER.getLabel());
+		password = td.getValue(LoginPageMeta.PASSWORD.getLabel());
+		state = td.getValue(LoginPageMeta.STATES.getLabel());
+	}
 
 	public static boolean isPageDisplayed() {
 		TextBox user = login.getAsset(LoginPageMeta.USER.getLabel(), TextBox.class);
 		return user.isPresent() && user.isVisible();
 	}
 
-	public void verifyDisplayed() {
-		CustomAssert.assertTrue("LoginPanel is displayed", isPageDisplayed());
-	}
-
-	public void fillLogin(String user, String pw) {
-		startLogin();
-
-		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), user);
-		td.put(LoginPageMeta.PASSWORD.getLabel(), pw);
-		SimpleDataProvider dp = new SimpleDataProvider(td);
-		login.setValue(dp);
-		btnLogin.click();
-	}
-
-	public TestData fillLogin(TestData td) {
-		startLogin();
-		if (td.containsKey(LoginPageMeta.STATES.getLabel()))
-			login.getAsset(LoginPageMeta.STATES.getLabel(), ListBox.class).unsetAllValues();
-		if (td.containsKey(LoginPageMeta.GROUPS.getLabel()))
-			login.getAsset(LoginPageMeta.GROUPS.getLabel(), ListBox.class).unsetAllValues();
-		login.setValue(td);
-		btnLogin.click();
-		return td;
-	}
-
-	public void switchToAdmin() {
-		lnkSwitchToAdmin.click();
-	}
-
 	@Override
 	public void logout() {
-		if (Tab.buttonSaveAndExit.isPresent() && Tab.buttonSaveAndExit.isVisible()) {
-			Tab.buttonSaveAndExit.click();
+		BrowserController.get().executeScript("$(\'#headerForm\').show();");
+		try {
+			if (Tab.buttonSaveAndExit.isPresent() && Tab.buttonSaveAndExit.isVisible()) {
+				Tab.buttonSaveAndExit.click();
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e.getCause());
 		}
 		if (lnkLogout.isPresent() && lnkLogout.isVisible()) {
 			try {
 				lnkLogout.click();
 				logoutDialog.confirm();
-			}catch (Exception e){
+			} catch (Exception e) {
 				// Logout when when dialog overlaps logout button
 				String logoutUri = "/aaa-app/flow?_j_acegi_logout=_j_acegi_logout&local=true&_admin_app=false";
 				try {
@@ -103,19 +75,12 @@ public class LoginPage extends Page implements ILogin {
 				}
 			}
 		}
-		if(timeOutStartPage.isPresent() && timeOutStartPage.isVisible()) {
+		if (timeOutStartPage.isPresent() && timeOutStartPage.isVisible()) {
 			timeOutStartPage.click();
 		}
 		if (closeSession.isPresent() && closeSession.isVisible()) {
 			closeSession.click();
 		}
-	}
-
-	private void startLogin() {
-		logout();
-		if (startPage.isPresent())
-			startPage.click();
-		verifyDisplayed();
 	}
 
 	@Override
@@ -124,10 +89,12 @@ public class LoginPage extends Page implements ILogin {
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
 			// Session time-out screen
-			if (startPage.isPresent())
+			if (startPage.isPresent()) {
 				startPage.click();
-			if(isPageDisplayed())
+			}
+			if (isPageDisplayed()) {
 				fillLogin(username, password);
+			}
 		}
 		//setApplicationLogFileName();
 	}
@@ -162,12 +129,54 @@ public class LoginPage extends Page implements ILogin {
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
 			// Session time-out screen
-			if (startPage.isPresent())
+			if (startPage.isPresent()) {
 				startPage.click();
-			if(isPageDisplayed())
+			}
+			if (isPageDisplayed()) {
 				fillLogin(td);
+			}
 		}
 		setApplicationLogFileName(td.getValue(LoginPageMeta.STATES.getLabel()));
+	}
+
+	public void verifyDisplayed() {
+		CustomAssert.assertTrue("LoginPanel is displayed", isPageDisplayed());
+	}
+
+	public void fillLogin(String user, String pw) {
+		startLogin();
+
+		Map<String, Object> td = new LinkedHashMap<>();
+		td.put(LoginPageMeta.USER.getLabel(), user);
+		td.put(LoginPageMeta.PASSWORD.getLabel(), pw);
+		SimpleDataProvider dp = new SimpleDataProvider(td);
+		login.setValue(dp);
+		btnLogin.click();
+	}
+
+	public TestData fillLogin(TestData td) {
+		startLogin();
+		if (td.containsKey(LoginPageMeta.STATES.getLabel())) {
+			login.getAsset(LoginPageMeta.STATES.getLabel(), ListBox.class).unsetAllValues();
+		}
+		if (td.containsKey(LoginPageMeta.GROUPS.getLabel())) {
+			login.getAsset(LoginPageMeta.GROUPS.getLabel(), ListBox.class).unsetAllValues();
+		}
+		login.setValue(td);
+		btnLogin.click();
+		return td;
+	}
+
+	public void switchToAdmin() {
+		lnkSwitchToAdmin.click();
+	}
+
+	private void startLogin() {
+		logout();
+		if (startPage.isPresent()) {
+			startPage.click();
+		}
+		verifyDisplayed();
 	}
 
 	private void setApplicationLogFileName(String state) {

@@ -24,16 +24,9 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -63,7 +56,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 * 7. Change system date +2months.
 	 * 8. Reinstate Policy.
 	 * 9. Endorse Policy and Navigate to P&C View Rating Details.
-	 * 10. Check the sum of UW Points. Check that all of the UW components are not blank.
+	 * 10. Check the sum of UW Points. Check that all of the UW components are blank.
 	 * 11. Bind Endorsement.
 	 * 12. Change system date to Have upcoming renewal active.
 	 * 13. Initiate Renewal.
@@ -82,9 +75,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
+        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 		// Get Reinstatement with lapse date.
 		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
-        TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JUNE, 20, 0, 0));
 
 		TestData testData = getPolicyTD();
 
@@ -206,7 +199,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
@@ -274,7 +267,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 * 11. Initiate Renewal
 	 * 12. Navigate to P&C
 	 * 13. Calculate Premium
-	 * 14. Check that Total UW score is the same as in Conversion policy
+	 * 14. Check that Total UW score is the same as in Conversion policies Endorsement
 	 * 15. Check that all UW components scores are hidden
 	 * 16. Issue Renewal
 	 * 17. Pay for the renewal
@@ -392,7 +385,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private void openVRD(){
 		// Navigate to P&C. Calculate Premium. Open VRD.
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	}
 
