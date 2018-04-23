@@ -1,7 +1,6 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
-import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
-import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
+import static aaa.helpers.openl.model.OpenLFile.*;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
@@ -9,10 +8,9 @@ import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaOpenLForm> {
-
+public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
 	private List<HomeCaHO6OpenLDwelling> dwelling;
-	private List<HomeCaOpenLForm> forms;
+	private List<HomeCaHO6OpenLForm> forms;
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
 	private Integer covALimit;
@@ -36,11 +34,11 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaOpenLForm> {
 	}
 
 	@Override
-	public List<HomeCaOpenLForm> getForms() {
+	public List<HomeCaHO6OpenLForm> getForms() {
 		return new ArrayList<>(forms);
 	}
 
-	public void setForms(List<HomeCaOpenLForm> forms) {
+	public void setForms(List<HomeCaHO6OpenLForm> forms) {
 		this.forms = new ArrayList<>(forms);
 	}
 

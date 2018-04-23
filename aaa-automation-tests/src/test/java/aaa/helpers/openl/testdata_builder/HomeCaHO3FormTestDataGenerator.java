@@ -13,7 +13,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public class HomeCAFormTestDataGenerator {		
+public class HomeCaHO3FormTestDataGenerator {		
 	//Form is included
 	private static Function<HomeCaHO3OpenLPolicy, List<TestData>> formHO29DataFunction =  (openLPolicy) -> {
 		if (Boolean.FALSE.equals(openLPolicy.getHasPolicySupportingForm())) {
@@ -325,3 +325,4 @@ public class HomeCAFormTestDataGenerator {
 		}
 	}
 }
+

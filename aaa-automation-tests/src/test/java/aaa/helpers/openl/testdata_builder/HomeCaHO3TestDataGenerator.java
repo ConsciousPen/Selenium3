@@ -307,10 +307,10 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		for (HomeCaHO3OpenLForm openLForm: openLPolicy.getForms()) {			
 			String formCode = openLForm.getFormCode();
 			if (!"premium".equals(formCode)) {
-				if (!endorsementData.containsKey(HomeCAFormTestDataGenerator.getFormMetaKey(formCode))) {
-					List<TestData> tdList = HomeCAFormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+				if (!endorsementData.containsKey(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode))) {
+					List<TestData> tdList = HomeCaHO3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
 					if (tdList != null) {
-						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCAFormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCAFormTestDataGenerator.getFormMetaKey(formCode), tdList);
+						TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
 						endorsementData.adjust(td);
 					}
 				}
@@ -318,8 +318,8 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		}	
 		
 		if (Boolean.FALSE.equals(openLPolicy.getHasPolicySupportingForm())) {
-			List<TestData> tdList = HomeCAFormTestDataGenerator.getFormTestData(openLPolicy, "HO-29"); 
-			endorsementData.adjust(DataProviderFactory.dataOf(HomeCAFormTestDataGenerator.getFormMetaKey("HO-29"), tdList));
+			List<TestData> tdList = HomeCaHO3FormTestDataGenerator.getFormTestData(openLPolicy, "HO-29"); 
+			endorsementData.adjust(DataProviderFactory.dataOf(HomeCaHO3FormTestDataGenerator.getFormMetaKey("HO-29"), tdList));
 		}
 		
 		return endorsementData;
