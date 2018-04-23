@@ -33,6 +33,39 @@ public class TestGoodStudentDiscount extends AutoCaChoiceBaseTest {
 	private String policyNum4;
 	private String policyNum5;
 	
+	/**
+	 * @author Olga Reva
+	 * @name Validation of Good Student discount for New Quote in the Premium & Coverages Discount section and Rating Details
+	 * @scenario
+	 * 1. Verify Good Student Discount at new quote creation. 
+	 * 1.1. Initiate a new Auto Quote with the Authority to create a Quote. Provide the required information to create a quote. 
+	 * 1.2. Select the following field values for at least one driver: 
+	 * 	Quote# 1: Driver Type = Available for Rating, Age = 24, Marital status = Separated, Occupation = Homemaker, Most Recent GPA = College Graduate; 
+	 * 	Quote# 2: Driver Type = Available for Rating, Age = 23, Marital status = Single, Occupation = Farmer, Most Recent GPA = College Graduate; 
+	 * 	Quote# 3: Driver Type = Available for Rating, Age = 16, Marital status = Single, Occupation = Student, Most Recent GPA = B Student; 
+	 * 	Quote# 4: Driver Type = Available for Rating, Age = 25, Marital status = Divorced, Occupation = Student, Most Recent GPA = Pass; 
+	 * 	Quote# 5: Driver Type = Available for Rating, Age = 24, Marital status = Separated, Occupation = Homemaker, Most Recent GPA = College Graduate, 
+	 * 				Total Years Driving Experience = 10, DSR points >1, Has chargeable suspension within last 3 years; 
+	 * 1.3. Calculate premium. 
+	 * 1.4. Verify Good Student discount is applied to the driver and display Premium and Coverages Discount section.
+	 * 1.5. Verify Good Student discount is applied to the driver and display as 'Yes' in Rating Details. 
+	 * 1.6. Bind the quote. 
+	 * 
+	 * 2. Verify Good Student Discount at endorsement. 
+	 * 2.1. Retrieve Policy# 2 and initiate an endorsement for it. 
+	 * 2.2. Navigate to Driver tab and change Marital Status to "Married". 
+	 * 2.3. Calculate premium. 
+	 * 2.4. Verify Good Student discount is removed and doesn't display on Premium and Coverages Discount section.
+	 * 2.5. Verify Good Student discount is removed and display as 'No' in Rating Details. 
+	 * 2.6. Bind endorsement. 
+	 * 
+	 * 3. Verify Good Student Discount at Renewal image. 
+	 * 3.1. Retrieve for Policies# 1, 3-5 renewal image in status Premium calculated in Iquiry mode. 
+	 * 3.2. Navigate to Premium & Coverages tab. 
+	 * 3.3. Verify Good Student discount is applied to the driver and display Premium and Coverages Discount section.
+	 * 3.4. Verify Good Student discount is applied to the driver and display as 'Yes' in Rating Details.
+	 */
+	
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
