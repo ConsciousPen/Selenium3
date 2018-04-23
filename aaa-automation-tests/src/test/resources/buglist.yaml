@@ -56,14 +56,6 @@ QC-44890:
       messages: ["Row with values {Type=Cancellation Notice"]
     - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
       messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
-QC-26288:
-  summary: "Regression: Exception on approve underwriting rule"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckNb,
-              aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckEndorsement,
-              aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckRenewal]
-      messages: ['Defensive Driving Course Discount']
 PAS-6667:
   summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
   reason: PROD
