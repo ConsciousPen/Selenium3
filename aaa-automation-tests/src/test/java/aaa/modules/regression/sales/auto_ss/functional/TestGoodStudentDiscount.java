@@ -33,7 +33,6 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	private String policyNum2;
 	private String policyNum3;
 	private String policyNum4;
-	private String policyNum5;
 	
 	/**
 	 * @author Olga Reva
@@ -45,9 +44,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	 * 	Quote# 1: Driver Type = Available for Rating, Age = 24, Marital status = Separated, Occupation = Homemaker, Most Recent GPA = College Graduate; 
 	 * 	Quote# 2: Driver Type = Available for Rating, Age = 23, Marital status = Single, Occupation = Farmer, Most Recent GPA = College Graduate; 
 	 * 	Quote# 3: Driver Type = Available for Rating, Age = 16, Marital status = Single, Occupation = Student, Most Recent GPA = B Student; 
-	 * 	Quote# 4: Driver Type = Available for Rating, Age = 25, Marital status = Divorced, Occupation = Student, Most Recent GPA = Pass; 
-	 * 	Quote# 5: Driver Type = Available for Rating, Age = 24, Marital status = Separated, Occupation = Homemaker, Most Recent GPA = College Graduate, 
-	 * 				Total Years Driving Experience = 10, DSR points >1, Has chargeable suspension within last 3 years; 
+	 * 	Quote# 4: Driver Type = Available for Rating, Age = 25, Marital status = Divorced, Occupation = Student, Most Recent GPA = Pass;  
 	 * 1.3. Calculate premium. 
 	 * 1.4. Verify Good Student discount is applied to the driver and display Premium and Coverages Discount section.
 	 * 1.5. Verify Good Student discount is applied to the driver and display as 'Yes' in Rating Details. 
@@ -77,8 +74,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 		TestData td_quote1 = getTestSpecificTD("TestData_1");
 		TestData td_quote2 = getTestSpecificTD("TestData_2");
 		TestData td_quote3 = getTestSpecificTD("TestData_3");
-		TestData td_quote4 = getTestSpecificTD("TestData_4");
-		TestData td_quote5 = getTestSpecificTD("TestData_5"); 
+		TestData td_quote4 = getTestSpecificTD("TestData_4"); 
 		TestData td_endorse = getTestSpecificTD("TestData_Endorsement");
 		TestData td_GSDisNotApplied = getTestSpecificTD("TestData_GSDisNotApplied");
 		TestData td_GSDisApplied = getTestSpecificTD("TestData_GSDisApplied");  
@@ -96,15 +92,12 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 		log.info("TEST: Policy 3 is created with #" +policyNum3);		
 		policyNum4 = createPolicyAndVerifyGoodStudentDiscount(td_quote4, td_GSDisApplied);	
 		log.info("TEST: Policy 4 is created with #" +policyNum4);		
-		policyNum5 = createPolicyAndVerifyGoodStudentDiscount(td_quote5, td_GSDisApplied);
-		log.info("TEST: Policy 5 is created with #" +policyNum5);
 		
 		verifyGoodStudentDiscountOnEndorsement(policyNum2, td_endorse, td_GSDisNotApplied); 
 		
 		verifyGoodStudentDiscountOnRenewal(policyNum1, td_GSDisApplied);
 		verifyGoodStudentDiscountOnRenewal(policyNum3, td_GSDisApplied);
 		verifyGoodStudentDiscountOnRenewal(policyNum4, td_GSDisApplied);
-		verifyGoodStudentDiscountOnRenewal(policyNum5, td_GSDisApplied);
 		
 	}
 	
