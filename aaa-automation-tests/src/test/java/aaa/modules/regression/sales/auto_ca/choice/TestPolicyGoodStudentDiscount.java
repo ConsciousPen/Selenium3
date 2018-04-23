@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.choice.functional;
+package aaa.modules.regression.sales.auto_ca.choice;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Parameters;
@@ -22,7 +22,7 @@ import aaa.modules.policy.AutoCaChoiceBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestGoodStudentDiscount extends AutoCaChoiceBaseTest {
+public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 	
 	protected SoftAssertions softly = new SoftAssertions();
 	protected TestData tdPolicy;
@@ -68,7 +68,7 @@ public class TestGoodStudentDiscount extends AutoCaChoiceBaseTest {
 	
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void TestValidationGoodStudentDiscount() {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		
@@ -217,3 +217,4 @@ public class TestGoodStudentDiscount extends AutoCaChoiceBaseTest {
 		new PremiumAndCoveragesTab().cancel();	
 	}
 }
+
