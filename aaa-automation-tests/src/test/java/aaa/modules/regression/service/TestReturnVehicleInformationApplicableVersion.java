@@ -26,20 +26,22 @@ public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTes
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
-	public void pas12708_MakeByYear(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	public void pas12465_MakeByYear(@Optional("CA") String state) {
 
-		AAAMakeByYear aaaMakeByYearResponse = HelperCommon.getMakes("2001");
+		AAAMakeByYear aaaMakeByYearResponse =
+				HelperCommon.getMakes("2001", "AAA_SS", "UT", "", "2000-01-01");
 
 		log.info("\n\nList of Makes : " + aaaMakeByYearResponse.getListMake().toString() + "\n");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
-	public void pas12708_ModelByMakeYear(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	public void pas12465_ModelByMakeYear(@Optional("CA") String state) {
 
-		AAAModelByYearMake aaaModelByMakeYearResponse = HelperCommon.getModels("BMW", "2001");
+		AAAModelByYearMake aaaModelByMakeYearResponse =
+				HelperCommon.getModels("2001","BMW", "AAA_SS", "AZ","", "2000-01-01" );
 
 		log.info("\n\nList of Makes : " + aaaModelByMakeYearResponse.getModels().toString() + "\n");
 	}
@@ -47,24 +49,24 @@ public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTes
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
-	public void pas12708_BodyStyleByYearMakeModelSeries(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	public void pas12465_BodyStyleByYearMakeModelSeries(@Optional("CA") String state) {
 
 		AAABodyStyleByYearMakeModelSeries aaaBodyStyleByYearMakeModelSeriesResponse =
-				HelperCommon.getBodyStyle("2001", "BMW", "740I", "740IL%20PROTECTION");
+				HelperCommon.getBodyStyle("2001", "BMW", "740I", "740IL%20PROTECTION", "AAA_SS", "AZ","", "2017-12-31");
 
-		log.info("\n\nBodyStyle : " + aaaBodyStyleByYearMakeModelSeriesResponse.getBodyStyle() + "\n");
+		log.info("\n\nList of Body Styles : " + aaaBodyStyleByYearMakeModelSeriesResponse.getBodyStyle() + "\n");
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9716"})
-	public void pas12708_SeriesByYearMakeModel(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	public void pas12465_SeriesByYearMakeModel(@Optional("CA") String state) {
 
 		AAASeriesByYearMakeModel aaaSeriesByYearMakeModel =
-				HelperCommon.getSeries("2001", "BMW", "740I");
+				HelperCommon.getSeries("2001", "BMW", "740I", "AAA_SS", "AZ","", "2017-12-31");
 
-		log.info("\n\nBodyStyle : " + aaaSeriesByYearMakeModel.getSeries() + "\n");
+		log.info("\n\nSeries : " + aaaSeriesByYearMakeModel.getSeries() + "\n");
 	}
 
 
