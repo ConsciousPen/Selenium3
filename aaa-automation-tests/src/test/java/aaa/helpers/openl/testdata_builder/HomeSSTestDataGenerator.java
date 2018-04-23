@@ -1,5 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.xpath.res.XPATHMessages;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -132,22 +134,42 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	public TestData getFormHS0492Data(HomeSSOpenLPolicy openLPolicy) {
-		TestData formHS0492Data = DataProviderFactory.dataOf(
-				"HS 04 92", DataProviderFactory.dataOf(
+		List<TestData> publicProtectionClassData = new ArrayList<>();
+		List<TestData> editFormHS0492Data= new ArrayList<>();
+
+		publicProtectionClassData.add(new SimpleDataProvider());
+		int instanceNum = 1;
+		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
+			if ("HS0492".equals(form.getFormCode())) {
+				publicProtectionClassData.add(DataProviderFactory.dataOf(
 						"Report", "Order Report"
-				)
-		);
+				));
+				editFormHS0492Data.add(DataProviderFactory.dataOf(
+						"Action", "Edit",
+						"Instance", String.format("%d", instanceNum),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0492.PUBLIC_PROTECTION_CLASS.getLabel(),form.getType()
+				));
+				instanceNum++;
+			}
+		}
 
 		TestData reportsTabData = DataProviderFactory.dataOf(
 				HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), "I Agree",
-				HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), formHS0492Data
+				HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), publicProtectionClassData
 		);
+
+		TestData endorsementTabData = DataProviderFactory.dataOf(
+		HomeSSMetaData.EndorsementTab.HS_04_92.getLabel(), editFormHS0492Data
+		);
+
+		TestData personalPropertyTabData = openLPolicy.getForms().stream().anyMatch(c -> "HS0461".equals(c.getFormCode())) ? DataProviderFactory.emptyData() : null;
 
 		return DataProviderFactory.dataOf(
 				new ReportsTab().getMetaKey(), reportsTabData,
 				new PropertyInfoTab().getMetaKey(), DataProviderFactory.emptyData(),
 				new ProductOfferingTab().getMetaKey(), DataProviderFactory.emptyData(),
-				new EndorsementTab().getMetaKey(), DataProviderFactory.emptyData()
+				new EndorsementTab().getMetaKey(), endorsementTabData,
+				new PersonalPropertyTab().getMetaKey(), personalPropertyTabData
 		);
 	}
 
@@ -164,7 +186,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel(),
 				openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyNamedInsured().get(0).getaAAPropPersistency()).format(DateTimeUtils.MM_DD_YYYY),
-				HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), openLPolicy.getCappingDetails().get(0).getCarrierCode(),
+				HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), getImmediatePriorCarrier(openLPolicy.getCappingDetails().get(0).getCarrierCode()),
 				HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel(), String.format("%d", openLPolicy.getPolicyNamedInsured().get(0).getaAAPropPersistency() + openLPolicy.getPolicyDiscountInformation().get(0).getHomeInsPersistency())
 		);
 	}
@@ -254,8 +276,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		TestData riskMeterData = null;
 		if (isCoastalState(openLPolicy.getPolicyAddress().get(0).getState())) {
 			riskMeterData = DataProviderFactory.dataOf(
-		HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel(), openLPolicy.getRiskMeterData().get(0).getDistanceToCoast().toString(),
-		HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel(), openLPolicy.getRiskMeterData().get(0).getElevation().toString()
+					HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel(), openLPolicy.getRiskMeterData().get(0).getDistanceToCoast().toString(),
+					HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel(), openLPolicy.getRiskMeterData().get(0).getElevation().toString()
 			);
 		}
 
@@ -417,6 +439,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		Double covB = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovB".equals(c.getCoverageCd())).findFirst().get().getLimit());
 		Double covD = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCoverageCd())).findFirst().get().getLimit());
 
+		String coverageDeductible = openLPolicy.getPolicyCoverageDeductible().get(0).getCoverageDeductible().split("/")[0];
+
+
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy.getPolicyDiscountInformation().get(0).getPaymentPlan()),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covB * 100 / covA)),
@@ -424,7 +449,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCoverageCd())).findFirst().get().getLimit()).toString().split("\\.")[0],
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(openLPolicy.getPolicyCoverageDeductible().get(0).getCoverageDeductible()).toString().split("\\.")[0]
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(coverageDeductible).toString().split("\\.")[0]
 		);
 	}
 
@@ -482,5 +507,21 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			default:
 				return false;
 		}
+	}
+
+	private String getImmediatePriorCarrier(String carrierCode) {
+		String immediatePriorCarrier = carrierCode;
+		switch (carrierCode) {
+			case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company) ":
+				immediatePriorCarrier = "CSAA Affinity Insurance Company";
+				break;
+			default:
+				if (StringUtils.isBlank(carrierCode)) {
+					immediatePriorCarrier = "index=2";
+					break;
+				}
+
+		}
+		return immediatePriorCarrier;
 	}
 }

@@ -70,16 +70,15 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 					SearchPage.openCustomer(customerNumber);
 				}
 
-				String actualPremium = createAndRateQuote(tdGenerator, openLPolicy);
-				String expectedPremium = openLPolicy.getExpectedPremium().toString();
-				softly.assertThat(actualPremium).as("Total premium is not equal to expected one").isEqualTo(expectedPremium);
-				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(expectedPremium) ? "passed" : "failed");
+				Dollar actualPremium = createAndRateQuote(tdGenerator, openLPolicy);
+				softly.assertThat(actualPremium).as("Total premium is not equal to expected one").isEqualTo(openLPolicy.getExpectedPremium());
+				log.info("Premium calculation verification for policy #{} has been {}", Tab.labelPolicyNumber.getValue(), actualPremium.equals(openLPolicy.getExpectedPremium()) ? "passed" : "failed");
 				Tab.buttonSaveAndExit.click();
 			}
 		});
 	}
 
-	protected abstract String createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
+	protected abstract Dollar createAndRateQuote(TestDataGenerator<P> tdGenerator, P openLPolicy);
 
 	protected <O extends OpenLFile<P>> List<P> getOpenLPolicies(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/" + openLFileName));

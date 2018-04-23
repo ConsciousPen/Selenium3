@@ -365,7 +365,16 @@ public class Scenario7 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		
+		// verify using installment amount in separate cases
+		if ((getState().equals(States.OK) && getPolicyType().equals(PolicyType.PUP)) ||
+			(getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) ||
+			(getState().equals(States.NJ) && getPolicyType().equals(PolicyType.AUTO_SS))) {
+			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billDate);
+		} else {
+			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		}
+		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE).verifyPresent();
 		if (getState().equals(States.NY)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(pligaOrMvleFeeLastTransactionDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE).verifyPresent();

@@ -176,10 +176,6 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 	protected abstract String getVehicleTabStatCode(String statCode, int modelYear);
 
-	protected String getStatCode(V openLVehicle) {
-		return openLVehicle.getStatCode() != null ? openLVehicle.getStatCode() : openLVehicle.getBiLiabilitySymbol();
-	}
-
 	protected int getRandomAge(int minAgeInclusive, int maxAgeInclusive, int tyde) {
 		assertThat(minAgeInclusive)
 				.as("Can't get random driver's age for minAgeInclusive=%1$s and maxAgeInclusive=%2$s; minAgeInclusive should be positive and less than maxAgeInclusive argument", minAgeInclusive, maxAgeInclusive)
