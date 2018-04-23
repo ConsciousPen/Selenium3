@@ -1,16 +1,15 @@
 package aaa.utils.excel.io.entity.area.table;
 
 import java.util.List;
-import java.util.Set;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelColumn;
 
 public class TableColumn extends ExcelColumn<TableCell> {
-	public TableColumn(int columnIndexInTable, int columnIndexOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelTable table) {
+	public TableColumn(int columnIndexInTable, int columnIndexOnSheet, List<Integer> rowsIndexesOnSheet, ExcelTable table) {
 		this(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, table, table.getCellTypes());
 	}
 
-	public TableColumn(int columnIndexInTable, int columnIndexOnSheet, Set<Integer> rowsIndexesOnSheet, ExcelTable table, Set<CellType<?>> cellTypes) {
+	public TableColumn(int columnIndexInTable, int columnIndexOnSheet, List<Integer> rowsIndexesOnSheet, ExcelTable table, List<CellType<?>> cellTypes) {
 		super(columnIndexInTable, columnIndexOnSheet, rowsIndexesOnSheet, table, cellTypes);
 	}
 
@@ -20,16 +19,6 @@ public class TableColumn extends ExcelColumn<TableCell> {
 
 	public String getHeaderName() {
 		return getTable().getHeader().getColumnName(getIndex());
-	}
-
-	@Override
-	public int getIndexOnSheet() {
-		return super.getIndexOnSheet();
-	}
-
-	@Override
-	public List<Integer> getCellsIndexesOnSheet() {
-		return super.getCellsIndexesOnSheet();
 	}
 
 	@Override

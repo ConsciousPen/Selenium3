@@ -1,17 +1,17 @@
 package aaa.utils.excel.io.entity.area;
 
-import java.util.Set;
+import java.util.List;
 import org.apache.poi.ss.usermodel.Row;
 import aaa.utils.excel.io.celltype.CellType;
 
 public abstract class ExcelRow<CELL extends ExcelCell> extends CellsQueue<CELL> {
-	private Row row;
+	private final Row row;
 
-	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
+	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, List<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea) {
 		this(row, rowIndexInArea, rowIndexOnSheet, columnsIndexesOnSheet, excelArea, excelArea.getCellTypes());
 	}
 
-	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, Set<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, Set<CellType<?>> cellTypes) {
+	protected ExcelRow(Row row, int rowIndexInArea, int rowIndexOnSheet, List<Integer> columnsIndexesOnSheet, ExcelArea<CELL, ?, ?> excelArea, List<CellType<?>> cellTypes) {
 		super(rowIndexInArea, rowIndexOnSheet, columnsIndexesOnSheet, excelArea, cellTypes);
 		this.row = row;
 	}

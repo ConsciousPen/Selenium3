@@ -1,11 +1,12 @@
 package aaa.helpers.openl.model.home_ca;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
-public class HomeCaOpenLPolicy extends OpenLPolicy {
+public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenLPolicy {
 	protected Integer claimPoints;
 	protected Double covCLimit;
 	protected Integer expClaimPoints;
@@ -81,6 +82,13 @@ public class HomeCaOpenLPolicy extends OpenLPolicy {
 		//TODO-dchubkov: to be verified
 		return 12;
 	}
+
+	@Override
+	public String getUnderwriterCode() {
+		return null;
+	}
+
+	public abstract List<F> getForms();
 
 	@Override
 	public String toString() {

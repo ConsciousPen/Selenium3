@@ -3,19 +3,17 @@ package aaa.utils.excel.io.entity.area.table;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.ws.rs.NotSupportedException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import com.google.common.collect.ImmutableSortedMap;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public class TableHeader extends TableRow {
-	public TableHeader(Row headerRow, Set<Integer> columnsIndexesOnSheet, ExcelTable table) {
-		super(headerRow, 0, headerRow.getRowNum() + 1, columnsIndexesOnSheet, table, Collections.singleton(ExcelCell.STRING_TYPE));
+	public TableHeader(Row headerRow, List<Integer> columnsIndexesOnSheet, ExcelTable table) {
+		super(headerRow, 0, headerRow.getRowNum() + 1, columnsIndexesOnSheet, table, Collections.singletonList(ExcelCell.STRING_TYPE));
 	}
 
 	public List<String> getColumnsNames() {
@@ -23,16 +21,16 @@ public class TableHeader extends TableRow {
 	}
 
 	@Override
-	protected Map<Integer, TableCell> gatherQueueIndexesAndCellsMap(Set<Integer> columnsIndexesOnSheet, Set<CellType<?>> cellTypes) {
-		Map<Integer, TableCell> columnsIndexesAndCellsMap = new LinkedHashMap<>(columnsIndexesOnSheet.size());
+	protected ImmutableSortedMap<Integer, TableCell> gatherQueueIndexesAndCellsMap(List<Integer> columnsIndexesOnSheet, List<CellType<?>> cellTypes) {
+		ImmutableSortedMap.Builder<Integer, TableCell> queueIndexesAndCellsBuilder = ImmutableSortedMap.naturalOrder();
 		int columnIndexInTable = 1;
 		for (Integer columnIndexOnSheet : columnsIndexesOnSheet) {
 			Cell poiCell = getPoiRow() != null ? getPoiRow().getCell(columnIndexOnSheet - 1) : null;
 			HeaderCell headerCell = new HeaderCell(poiCell, columnIndexInTable, columnIndexOnSheet, this);
-			columnsIndexesAndCellsMap.put(columnIndexInTable, headerCell);
+			queueIndexesAndCellsBuilder.put(columnIndexInTable, headerCell);
 			columnIndexInTable++;
 		}
-		return columnsIndexesAndCellsMap;
+		return queueIndexesAndCellsBuilder.build();
 	}
 
 	@Override
@@ -51,7 +49,7 @@ public class TableHeader extends TableRow {
 
 	@Override
 	public boolean hasColumn(String headerColumnName, boolean ignoreCase) {
-		return getColumnsNames().stream().anyMatch(cn -> ignoreCase? cn.equalsIgnoreCase(headerColumnName) : cn.equals(headerColumnName));
+		return getColumnsNames().stream().anyMatch(cn -> ignoreCase ? cn.equalsIgnoreCase(headerColumnName) : cn.equals(headerColumnName));
 	}
 
 	@Override

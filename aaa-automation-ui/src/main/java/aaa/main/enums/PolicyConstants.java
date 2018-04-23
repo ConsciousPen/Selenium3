@@ -94,7 +94,8 @@ public final class PolicyConstants {
         public static final String POLICY_TYPE = "Policy Type";
         public static final String EVALUE_STATUS = "eValue Status";
         public static final String UNDERWRITER = "Underwriter";
-    }
+		public static final String CANCELLATION_EFFECTIVE_DATE = "Cancellation Effective Date";
+	}
 
     public static final class PolicyClassInformationTable {
         public static final String CLASS = "Class";

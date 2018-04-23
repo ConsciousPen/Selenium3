@@ -117,6 +117,14 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 		this.tests = new ArrayList<>(tests);
 	}
 
+	public String getTestsSheetName() {
+		return TESTS_SHEET_NAME;
+	}
+
+	public String getTestsPolicyHeaderColumnName() {
+		return "policy";
+	}
+
 	public abstract List<P> getPolicies();
 
 	@Override
