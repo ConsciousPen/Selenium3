@@ -12,10 +12,12 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	private Integer age;
+	private String coApplicantClass;
 	private Double deductible;
 	private String formClass;
-	private Boolean hasCorporalPunishmentSurcharge;
+	private Boolean hasCoApplicant;
 	private Integer numOfFamilies;
+	private Double percentage;
 	private String territoryCode;
 	private String type;
 
@@ -25,6 +27,14 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+	
+	public String getCoApplicantClass() {
+		return coApplicantClass;
+	}
+	
+	public void setCoApplicantClass(String coApplicantClass) {
+		this.coApplicantClass = coApplicantClass;
 	}
 
 	public Double getDeductible() {
@@ -53,12 +63,12 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 		this.limit = limit;
 	}
 	
-	public Boolean getHasCorporalPunishmentSurcharge() {
-		return hasCorporalPunishmentSurcharge;
+	public Boolean getHasCoApplicant() {
+		return hasCoApplicant;
 	}
 
-	public void setHasCorporalPunishmentSurcharge(Boolean hasCorporalPunishmentSurcharge) {
-		this.hasCorporalPunishmentSurcharge = hasCorporalPunishmentSurcharge;
+	public void setHasCoApplicant(Boolean hasCoApplicant) {
+		this.hasCoApplicant = hasCoApplicant;
 	}
 
 	public Integer getNumOfFamilies() {
@@ -67,6 +77,14 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 
 	public void setNumOfFamilies(Integer numOfFamilies) {
 		this.numOfFamilies = numOfFamilies;
+	}
+	
+	public Double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(Double percentage) {
+		this.percentage = percentage;
 	}
 
 	public List<HomeCaOpenLScheduledPropertyItem> getScheduledPropertyItems() {
@@ -99,8 +117,9 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 				"scheduledPropertyItems=" + scheduledPropertyItems +
 				", age=" + age +
 				", deductible=" + deductible +
+				", coApplicantClass" + coApplicantClass +
 				", formClass='" + formClass + '\'' +
-				", hasCorporalPunishmentSurcharge=" + hasCorporalPunishmentSurcharge +
+				", hasCoApplicant=" + hasCoApplicant +
 				", numOfFamilies=" + numOfFamilies +
 				", territoryCode='" + territoryCode + '\'' +
 				", type='" + type + '\'' +
