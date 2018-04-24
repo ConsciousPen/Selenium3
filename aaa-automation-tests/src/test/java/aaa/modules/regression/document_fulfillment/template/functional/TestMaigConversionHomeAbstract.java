@@ -191,6 +191,20 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	/**
+	 /**
+	 * @name Test Conversion Document generation (Non Renewal cover letters)
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data for Home
+	 * 4. Check that HS65MD documents are getting generated
+	 * @details
+	 */
+	public void pas12047_noticeOfNonRenewalLetterHS65MD(String state) throws NoSuchFieldException {
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HS65MD, false, state);
+		assertThat(numberOfLetters).isEqualTo(1);
+	}
+
+	/**
 	 * @name Creation converted policy for checking Renewal Cover letters
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
