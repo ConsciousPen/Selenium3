@@ -36,6 +36,8 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
 public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
+	private static final Object UNMARSHAL_LOCK = new Object();
+
 	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
 	private String testsDir;
 
@@ -97,11 +99,14 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			policiesTable.excludeRows(rowsIndexesToExclude);
 		}
 
-		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
+		List<P> openLPoliciesList;
+		synchronized (UNMARSHAL_LOCK) {
+			ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
+			OpenLFile<P> openLFile = eUnmarshaller.unmarshal(openLFileManager, openLFileModelClass, false, false);
 
-		List<P> openLPoliciesList = getOpenLPoliciesWithExpectedPremiums(openLFileManager, openLFile);
-		openLFileManager.close();
+			openLPoliciesList = getOpenLPoliciesWithExpectedPremiums(openLFileManager, openLFile);
+			openLFileManager.close();
+		}
 		assertThat(openLPoliciesList).as("Found policy objects amount is not equal to number of policies to be tested. Probably excel file has missed tests").hasSameSizeAs(policyNumbers);
 
 		//Sort policies list by effective date for further valid time shifts
