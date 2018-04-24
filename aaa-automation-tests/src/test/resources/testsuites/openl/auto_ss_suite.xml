@@ -128,6 +128,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [SD] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="SD"/>
+        <parameter name="fileName" value="SDTests-20170601.xls"/>
+        <parameter name="policyNumbers" value="1, 120"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [UT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="UT"/>
         <parameter name="fileName" value="UTTests-20180101.xls"/>
