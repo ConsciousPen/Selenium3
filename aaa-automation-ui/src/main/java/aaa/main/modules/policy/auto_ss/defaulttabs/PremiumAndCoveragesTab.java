@@ -187,6 +187,15 @@ public class PremiumAndCoveragesTab extends Tab {
 		return testDataList;
 	}
 
+	public TestData getFormsData() {
+		TestData td;
+		Map<String, String> forms = new LinkedHashMap<>();
+		for (int row = 1; row <= tableFormsSummary.getRowsCount(); row++) {
+			forms.put(tableFormsSummary.getRow(row).getCell(1).getValue(), tableFormsSummary.getRow(row).getCell(2).getValue());
+		}
+		return new SimpleDataProvider(forms);
+	}
+
 	public Dollar getPolicyLevelLiabilityCoveragesPremium() {
 		return new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
 	}

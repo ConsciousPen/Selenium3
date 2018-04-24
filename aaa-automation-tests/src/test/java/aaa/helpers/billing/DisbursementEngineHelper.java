@@ -440,4 +440,139 @@ public class DisbursementEngineHelper {
 					+ "]";
 		}
 	}
+
+	public static List readDisbursementVoidFile(String path) throws IOException {
+		List<DisbursementVoidFile> lines = new ArrayList<>();
+		BufferedReader br = new BufferedReader(new FileReader(path));
+
+		String line = br.readLine(); // Reading header, Ignoring
+		//String line = "";
+		try {
+			while ((line = br.readLine()) != null && !line.isEmpty()) {
+				String cvsSplitBy = "\\|";
+				String[] fields = line.split(cvsSplitBy);
+				String recordType = fields[0];
+				String requestReferenceId = fields[1];
+				String pcReferenceId = fields[2];
+				String refundDate = fields[3];
+				String issueDate = fields[4];
+				String refundType = fields[5];//VOID
+				String agreementNumber = fields[6];
+				String agreementSourceSystem = fields[7];
+				String productType = fields[8];
+				String companyId = fields[9];
+				String refundAmount = fields[10];
+				String dummy = fields[11];//dummy?
+				String refundReason = fields[12];
+
+				DisbursementVoidFile recordsVoid = new DisbursementVoidFile(recordType, requestReferenceId, pcReferenceId, refundDate, issueDate, refundType, agreementNumber, agreementSourceSystem, productType, companyId, refundAmount, dummy, refundReason);
+				lines.add(recordsVoid);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
+		br.close();
+		return lines;
+	}
+
+	public static class DisbursementVoidFile {
+		private String recordType;
+		private String requestReferenceId;
+		private String pcReferenceId;
+		private String refundDate;
+		private String issueDate;
+		private String refundType;
+		private String agreementNumber;
+		private String agreementSourceSystem;
+		private String productType;
+		private String companyId;
+		private String refundAmount;
+		private String dummy;
+		private String refundReason;
+
+		public DisbursementVoidFile(String recordType, String requestReferenceId, String pcReferenceId,String refundDate,
+				String issueDate, String refundType,String agreementNumber, String agreementSourceSystem, String productType, String companyId,
+				String refundAmount, String dummy,
+				String refundReason) {
+			this.recordType = recordType;
+			this.requestReferenceId = requestReferenceId;
+			this.pcReferenceId = pcReferenceId;
+			this.refundDate = refundDate;
+			this.issueDate = issueDate;
+
+			this.refundType = refundType;
+			this.agreementNumber = agreementNumber;
+			this.agreementSourceSystem = agreementSourceSystem;
+			this.productType = productType;
+			this.companyId = companyId;
+
+			this.refundAmount = refundAmount;
+			this.dummy = dummy;
+			this.refundReason = refundReason;
+		}
+
+		public String getRecordType() {
+			return recordType;
+		}
+
+		public String getRequestReferenceId() {
+			return requestReferenceId;
+		}
+
+		public String getPcReferenceId() {
+			return pcReferenceId;
+		}
+
+		public String getRefundType() {
+			return refundType;
+		}
+
+		public String getIssueDate() {
+			return issueDate;
+		}
+
+		public String getRefundDate() {
+			return refundDate;
+		}
+
+		public String getAgreementNumber() {
+			return agreementNumber;
+		}
+
+		public String getAgreementSourceSystem() {
+			return agreementSourceSystem;
+		}
+
+		public String getProductType() {
+			return productType;
+		}
+
+		public String getCompanyId() {
+			return companyId;
+		}
+
+		public String getDummy() {
+			return dummy;
+		}
+
+		public String getRefundAmount() {
+			return refundAmount;
+		}
+
+		public String getRefundReason() {
+			return refundReason;
+		}
+
+
+		@Override
+		public String toString() {
+			return "records [recordType=" + recordType + ", requestRefereceId=" + requestReferenceId + ", pcRefereceId=" + pcReferenceId
+					+ ", refundType=" + refundType
+					+ " issueDate=" + issueDate + ", agreementNumber=" + agreementNumber + ", agreementSourceSystem=" + agreementSourceSystem
+					+ ", productType=" + productType + ", companyId=" + companyId + ", productType=" + productType
+					+ ", companyId=" + companyId
+					+ ", dummy=" + dummy + ", refundAmount=" + refundAmount
+					+ ", refundReason=" + refundReason
+					+ "]";
+		}
+	}
 }
