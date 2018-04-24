@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.regression.sales.auto_ca.select;
 
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -22,8 +22,8 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestGoodStudentDiscount extends AutoCaSelectBaseTest {
-	SoftAssertions softly = new SoftAssertions();
+public class TestPolicyGoodStudentDiscount extends AutoCaSelectBaseTest {
+	protected SoftAssertions softly = new SoftAssertions();
 	protected TestData tdPolicy;
 	private String origPolicyNum;
 	private String policyNum1;
