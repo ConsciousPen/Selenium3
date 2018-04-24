@@ -29,6 +29,6 @@ public class TestSymbolsPresenceApplicationFormForPremCalcQuote extends TestSymb
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-9064")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-9064")
-	public void pas2713_ApplicationFormStatCodeNotNA(@Optional("CA") String state) {
+	public void pas9064_MapCompAndCollSymbolsForDCS(@Optional("CA") String state) {
 		verifySymbolsPresenceInDocsAfterPremCalc(); }
 }
