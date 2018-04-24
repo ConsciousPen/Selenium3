@@ -230,3 +230,9 @@ PAS-12464:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.testPolicyPrefill2]
       messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Error; Comp Symbol must be set for vehicle"]
+PAS-12949:
+  summary: "eValue discount is not removed though Autopay is removed by aaaPaymentCentralRejectFeedAsyncJob"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
+      messages: ["Checked value of Cell"]
