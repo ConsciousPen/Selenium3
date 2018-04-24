@@ -278,8 +278,8 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
      * @scenario
      * 1. Create Customer
      * 2. Initiate Renewal Entry
-     * 3. Fill Conversion Policy data for Home - PA
-     * 4. Check that HS65PA documents are getting generated
+     * 3. Fill Conversion Policy data for Home - MD
+     * 4. Check that HS65MD documents are getting generated
      * @details
      */
     @Parameters({STATE_PARAM})
