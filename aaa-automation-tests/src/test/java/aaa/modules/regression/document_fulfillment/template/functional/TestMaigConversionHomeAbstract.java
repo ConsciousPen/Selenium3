@@ -215,9 +215,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		for (Document document : documents) {
 			verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
-			if(state.equals("NJ") || state.equals("PA")){
-				verifyTagData(document, "UwCoNm", "CSAA General Insurance Company");
-			}
 		}
 		return documents.size();
 	}
