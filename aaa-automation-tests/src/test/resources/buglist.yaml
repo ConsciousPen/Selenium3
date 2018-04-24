@@ -56,14 +56,6 @@ QC-44890:
       messages: ["Row with values {Type=Cancellation Notice"]
     - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
       messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
-QC-26288:
-  summary: "Regression: Exception on approve underwriting rule"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckNb,
-              aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckEndorsement,
-              aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.pas3663_DddForDriverWithMinorViolationCheckRenewal]
-      messages: ['Defensive Driving Course Discount']
 PAS-6667:
   summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
   reason: PROD
@@ -164,12 +156,6 @@ PAS-11467:
   failures:
     - tests: [aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess.pas7039_newDataElementsDeceasedYes]
       messages: ["Order CLUE report before", "unknown error"]
-PAS-11906:
-  summary: "Regression: Reorder Insurance Score Report enabled during renewal process for PA"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport.pas6827_disableReorderReportRenewal]
-      messages: ["expected"]
 PAS-11445:
   summary: "500 Error happens after click on submit manual entry button"
   reason: PROD
@@ -230,3 +216,9 @@ PAS-12464:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.testPolicyPrefill2]
       messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Error; Comp Symbol must be set for vehicle"]
+PAS-12949:
+  summary: "eValue discount is not removed though Autopay is removed by aaaPaymentCentralRejectFeedAsyncJob"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
+      messages: ["Checked value of Cell"]

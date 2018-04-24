@@ -23,8 +23,7 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = "PAS-6848")
     public void testCinNewBusinessMVR() {
         TestData policyTD = getPolicyDefaultTD()
-                .adjust(PREFILL_TAB_FIRSTNAME, getTestSpecificTD("PrefillTabMVR").getValue("First Name"))
-                .adjust(PREFILL_TAB_LASTNAME, getTestSpecificTD("PrefillTabMVR").getValue("Last Name"))
+                .adjust(getTestSpecificTD("TestData_MVR").resolveLinks())
                 .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
         caNewBusinessMainFlow(policyTD);
     }

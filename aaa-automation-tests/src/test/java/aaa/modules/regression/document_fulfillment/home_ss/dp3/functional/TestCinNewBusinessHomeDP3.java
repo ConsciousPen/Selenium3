@@ -33,7 +33,7 @@ public class TestCinNewBusinessHomeDP3 extends TestCinAbstractHomeSS {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-7278")
-    public void testCinHomeSSCluePropertyViolation(@Optional("MD") String state) {
+    public void testCinHomeSSCluePropertyViolation(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NamedInsured_CluePropertyViolation")
                 .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership_CIN"))
                 .adjust(MEMBERSHIP_REPORT_PATH, getTestSpecificTD("MembershipReport_CIN"));
@@ -44,10 +44,10 @@ public class TestCinNewBusinessHomeDP3 extends TestCinAbstractHomeSS {
 
         String policyNumber = createPolicy(policyTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, false);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, false);
 
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
         });
     }
 
