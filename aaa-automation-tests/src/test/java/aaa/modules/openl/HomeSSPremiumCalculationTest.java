@@ -7,7 +7,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLFile;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.HomeSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -82,6 +81,6 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
 		TestDataGenerator<HomeSSOpenLPolicy> tdGenerator = new HomeSSTestDataGenerator(getState(), getRatingDataPattern());
-		verifyPremiums(fileName, HomeSSOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
+		verifyPremiums(fileName, HomeSSOpenLPolicy.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

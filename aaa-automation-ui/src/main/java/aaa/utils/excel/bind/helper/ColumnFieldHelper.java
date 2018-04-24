@@ -4,28 +4,37 @@ import java.lang.reflect.Field;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import toolkit.exceptions.IstfException;
 
 public class ColumnFieldHelper {
 	private static final String COLUMN_NAME_METHOD_NAME = "name";
+	private static final String CONTAINS_COLUMN_NAME_METHOD_NAME = "containsName";
 	private static final String IGNORE_CASE_METHOD_NAME = "ignoreCase";
 	private static final String PRIMARY_KEY_SSEPARATOR_METHOD_NAME = "primaryKeysSeparator";
 
 	public static String getPrimaryKeysSeparator(Field primaryKeyField) {
-		if (primaryKeyField.isAnnotationPresent(ExcelTableColumnElement.class)) {
-			return primaryKeyField.getAnnotation(ExcelTableColumnElement.class).primaryKeysSeparator();
+		if (primaryKeyField.isAnnotationPresent(ExcelColumnElement.class)) {
+			return primaryKeyField.getAnnotation(ExcelColumnElement.class).primaryKeysSeparator();
 		}
-		return (String) BindHelper.getAnnotationDefaultValue(ExcelTableColumnElement.class, PRIMARY_KEY_SSEPARATOR_METHOD_NAME);
+		return (String) BindHelper.getAnnotationDefaultValue(ExcelColumnElement.class, PRIMARY_KEY_SSEPARATOR_METHOD_NAME);
 	}
 
 	public static String getHeaderColumnName(Field field) {
-		String defaultNameMarker = (String) BindHelper.getAnnotationDefaultValue(ExcelTableColumnElement.class, COLUMN_NAME_METHOD_NAME);
-		if (field.isAnnotationPresent(ExcelTableColumnElement.class) && !field.getAnnotation(ExcelTableColumnElement.class).name().equals(defaultNameMarker)) {
-			return field.getAnnotation(ExcelTableColumnElement.class).name();
+		if (field.isAnnotationPresent(ExcelColumnElement.class) && !field.getAnnotation(ExcelColumnElement.class).name().equals(ExcelColumnElement.DEFAULT_FIELD_VALUE_MARK)) {
+			return field.getAnnotation(ExcelColumnElement.class).name();
 		}
 		return field.getName();
+	}
+
+	public static String getHeaderColumnNamePattern(Field field) {
+		//TODO-dchubkov: ignore if name argument is set
+		if (field.isAnnotationPresent(ExcelColumnElement.class) && !field.getAnnotation(ExcelColumnElement.class).containsName().equals(ExcelColumnElement.DEFAULT_FIELD_VALUE_MARK)) {
+			return field.getAnnotation(ExcelColumnElement.class).containsName();
+		}
+		return getHeaderColumnName(field);
 	}
 
 	public static List<String> getHeaderColumnNames(List<Field> fields) {
@@ -33,16 +42,21 @@ public class ColumnFieldHelper {
 	}
 
 	public static boolean isCaseIgnored(Field field) {
-		if (field.isAnnotationPresent(ExcelTableColumnElement.class)) {
-			return field.getAnnotation(ExcelTableColumnElement.class).ignoreCase();
+		if (field.isAnnotationPresent(ExcelColumnElement.class)) {
+			return field.getAnnotation(ExcelColumnElement.class).ignoreCase();
 		}
-		return (boolean) BindHelper.getAnnotationDefaultValue(ExcelTableColumnElement.class, IGNORE_CASE_METHOD_NAME);
+		return (boolean) BindHelper.getAnnotationDefaultValue(ExcelColumnElement.class, IGNORE_CASE_METHOD_NAME);
+	}
+
+	public static boolean hasHeaderColumnNamePattern(Field field) {
+		return field.isAnnotationPresent(ExcelColumnElement.class)
+				&& !Objects.equals(field.getAnnotation(ExcelColumnElement.class).containsName(), ExcelColumnElement.DEFAULT_FIELD_VALUE_MARK);
 	}
 
 	public static DateTimeFormatter[] getFormatters(Field field) {
 		List<DateTimeFormatter> dateTimeFormatters = new ArrayList<>();
-		if (field.isAnnotationPresent(ExcelTableColumnElement.class)) {
-			for (String datePattern : field.getAnnotation(ExcelTableColumnElement.class).dateFormatPatterns()) {
+		if (field.isAnnotationPresent(ExcelColumnElement.class)) {
+			for (String datePattern : field.getAnnotation(ExcelColumnElement.class).dateFormatPatterns()) {
 				try {
 					dateTimeFormatters.add(DateTimeFormatter.ofPattern(datePattern));
 				} catch (IllegalArgumentException e) {

@@ -14,38 +14,16 @@ public class HomeSSOpenLFile extends OpenLFile<HomeSSOpenLPolicy> {
 	public static final String TESTS_SHEET_NAME = "FinalTest";
 
 	private List<HomeSSOpenLPolicy> policies;
-
-	@ExcelTransient
 	private List<OpenLNamedInsured> policyNamedInsured;
-
-	@ExcelTransient
 	private List<OpenLConstructionInfo> policyConstructionInfo;
-
-	@ExcelTransient
 	private List<HomeSSOpenLCoverage> coverages;
-
-	@ExcelTransient
 	private List<HomeSSOpenLForm> forms;
-
-	@ExcelTransient
 	private List<OpenLLossInformation> policyLossInformation;
-
-	@ExcelTransient
 	private List<OpenLDwellingRatingInfo> policyDwellingRatingInfo;
-
-	@ExcelTransient
 	private List<HomeSSOpneLCappingDetails> cappingDetails;
-
-	@ExcelTransient
 	private List<HomeSSOpenLAddress> policyAddress;
-
-	@ExcelTransient
 	private List<OpenLCoverageDeductible> policyCoverageDeductible;
-
-	@ExcelTransient
 	private List<OpenLDiscountInformation> policyDiscountInformation;
-
-	@ExcelTransient
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
 
 	public List<OpenLNamedInsured> getPolicyNamedInsured() {

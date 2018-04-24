@@ -10,16 +10,11 @@ public class HomeCaHO6OpenLFile extends HomeCaOpenLFile<HomeCaHO6OpenLPolicy> {
 	@ExcelTransient
 	public static final int FORM_HEADER_ROW_NUMBER = 4;
 
-	protected List<HomeCaHO6OpenLPolicy> policies;
-
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelTransient
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
-	@ExcelTransient
+	private List<HomeCaHO6OpenLPolicy> policies;
 	private List<HomeCaOpenLForm> forms;
-
-	@ExcelTransient
 	private List<HomeCaHO6OpenLDwelling> dwelling;
 
 	public List<HomeCaOpenLForm> getForms() {

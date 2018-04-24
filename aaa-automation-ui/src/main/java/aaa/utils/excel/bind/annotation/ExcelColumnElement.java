@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExcelTableColumnElement {
+public @interface ExcelColumnElement {
+	String DEFAULT_FIELD_VALUE_MARK = "##default";
 	/**
 	 * Define whether field is related to table's primary key column. Values from primary key column is used as table rows filter for collecting List of objects with {@link ExcelTableElement} annotation
 	 */
@@ -17,7 +18,14 @@ public @interface ExcelTableColumnElement {
 	/**
 	 * Header column name to be searched in excel table. By default class field name is used as header column name in table.
 	 */
-	String name() default "##default";
+	String name() default DEFAULT_FIELD_VALUE_MARK;
+
+	/**
+	 * Column name substring pattern to be searched in header column names.
+	 * If field has {@link java.util.List} type then values from all columns with matched column name pattern will be collected to list of appropriate type.
+	 * Ignored if {@link #name} argument is set.
+	 */
+	String containsName() default DEFAULT_FIELD_VALUE_MARK;
 
 	/**
 	 * If true then ignore case while matching field name with header column name from excel file.
@@ -34,7 +42,4 @@ public @interface ExcelTableColumnElement {
 	 * Date format patterns array for {@link LocalDateTime} field types used for parsing cells with date values
 	 */
 	String[] dateFormatPatterns() default {};
-
-	//to be continued...
-	//String listByContains() default "##*";
 }

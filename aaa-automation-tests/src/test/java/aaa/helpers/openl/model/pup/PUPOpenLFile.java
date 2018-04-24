@@ -31,20 +31,10 @@ public class PUPOpenLFile extends OpenLFile<PUPOpenLPolicy> {
 	public static final String PUP_ADDRESS_SHEET_NAME = "Batch- PupAddress";
 
 	private List<PUPOpenLPolicy> policies;
-
-	@ExcelTransient
 	private List<OpenLDwelling> dwelling;
-
-	@ExcelTransient
 	private List<OpenLRecEquipmentInfo> recEquipmentInfo;
-
-	@ExcelTransient
 	private List<OpenLRiskItem> riskItems;
-
-	@ExcelTransient
 	private List<PUPOpenLCoverage> coverages;
-
-	@ExcelTransient
 	private List<PUPOpenLAddress> address;
 
 	public List<OpenLDwelling> getDwelling() {

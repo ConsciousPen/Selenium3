@@ -9,7 +9,7 @@ import aaa.utils.excel.io.ExcelManager;
 public class TableClassesCache {
 	private final ExcelManager excelManager;
 	private final boolean strictMatch;
-	private final Map<Class<?>, TableClassInfo<?>> tableClassesMap;
+	private final Map<Class<?>, TableClassInfo> tableClassesMap;
 
 	public TableClassesCache(ExcelManager excelManager, boolean strictMatch) {
 		this.excelManager = excelManager;
@@ -21,18 +21,17 @@ public class TableClassesCache {
 		return this.strictMatch;
 	}
 
-	public <T> TableClassInfo<T> of(Field field) {
+	public TableClassInfo of(Field field) {
 		return of(BindHelper.getTableClass(field));
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> TableClassInfo<T> of(Class<T> tableClass) {
+	public TableClassInfo of(Class<?> tableClass) {
 		if (!this.tableClassesMap.containsKey(tableClass)) {
-			TableClassInfo<T> tableClassInfo = new TableClassInfo<>(tableClass, this.excelManager, this.strictMatch);
+			TableClassInfo tableClassInfo = new TableClassInfo(tableClass, this.excelManager, this.strictMatch);
 			this.tableClassesMap.put(tableClass, tableClassInfo);
 			return tableClassInfo;
 		}
-		return (TableClassInfo<T>) this.tableClassesMap.get(tableClass);
+		return this.tableClassesMap.get(tableClass);
 	}
 
 	public void flush(Class<?> tableClass) {

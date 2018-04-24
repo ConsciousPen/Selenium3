@@ -1,7 +1,7 @@
 package aaa.utils.excel.bind.cache;
 
 import java.lang.reflect.Field;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.helper.BindHelper;
 import aaa.utils.excel.bind.helper.ColumnFieldHelper;
 import aaa.utils.excel.io.entity.area.table.TableHeader;
@@ -12,7 +12,9 @@ public final class TableFieldInfo {
 	private Boolean isCaseIgnored;
 	private Boolean isTableField;
 	private Boolean isPrimaryKeyField;
+	private Boolean hasHeaderColumnNamePattern;
 	private String headerColumnName;
+	private String headerColumnNamePattern;
 	private Integer headerColumnIndex;
 	private Class<?> tableClass;
 
@@ -38,6 +40,20 @@ public final class TableFieldInfo {
 		return this.headerColumnName;
 	}
 
+	public boolean hasHeaderColumnNamePattern() {
+		if (this.hasHeaderColumnNamePattern == null) {
+			this.hasHeaderColumnNamePattern = ColumnFieldHelper.hasHeaderColumnNamePattern(tableField);
+		}
+		return this.hasHeaderColumnNamePattern;
+	}
+
+	public String getHeaderColumnNamePattern() {
+		if (this.headerColumnNamePattern == null) {
+			this.headerColumnNamePattern = ColumnFieldHelper.getHeaderColumnNamePattern(tableField);
+		}
+		return this.headerColumnNamePattern;
+	}
+
 	public int getHeaderColumnIndex(TableHeader header, boolean isCaseIgnoredForAllColumns) {
 		if (this.headerColumnIndex == null) {
 			this.headerColumnIndex = header.getColumnIndex(getHeaderColumnName(), isCaseIgnoredForAllColumns || isCaseIgnored());
@@ -61,7 +77,7 @@ public final class TableFieldInfo {
 
 	public boolean isPrimaryKeyField() {
 		if (this.isPrimaryKeyField == null) {
-			this.isPrimaryKeyField = getTableField().isAnnotationPresent(ExcelTableColumnElement.class) && getTableField().getAnnotation(ExcelTableColumnElement.class).isPrimaryKey();
+			this.isPrimaryKeyField = getTableField().isAnnotationPresent(ExcelColumnElement.class) && getTableField().getAnnotation(ExcelColumnElement.class).isPrimaryKey();
 		}
 		return this.isPrimaryKeyField;
 	}

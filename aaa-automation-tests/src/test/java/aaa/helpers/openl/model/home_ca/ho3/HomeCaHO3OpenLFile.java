@@ -11,11 +11,7 @@ public class HomeCaHO3OpenLFile extends HomeCaOpenLFile<HomeCaHO3OpenLPolicy> {
 	static final int FORM_HEADER_ROW_NUMBER = 4;
 
 	private List<HomeCaHO3OpenLPolicy> policies;
-
-	@ExcelTransient
 	private List<HomeCaHO3OpenLForm> forms;
-
-	@ExcelTransient
 	private List<HomeCaHO3OpenLDwelling> dwelling;
 
 	@ExcelTransient

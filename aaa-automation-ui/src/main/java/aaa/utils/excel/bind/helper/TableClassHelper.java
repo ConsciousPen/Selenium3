@@ -2,7 +2,7 @@ package aaa.utils.excel.bind.helper;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
@@ -17,7 +17,7 @@ public class TableClassHelper {
 
 	public static Field getPrimaryKeyField(Class<?> tableClass, List<Field> tableColumnsFields) {
 		for (Field field : tableColumnsFields) {
-			if (field.isAnnotationPresent(ExcelTableColumnElement.class) && field.getAnnotation(ExcelTableColumnElement.class).isPrimaryKey()) {
+			if (field.isAnnotationPresent(ExcelColumnElement.class) && field.getAnnotation(ExcelColumnElement.class).isPrimaryKey()) {
 				return field;
 			}
 		}

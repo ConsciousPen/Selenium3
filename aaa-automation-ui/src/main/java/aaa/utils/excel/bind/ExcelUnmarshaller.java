@@ -12,6 +12,7 @@ import aaa.utils.excel.bind.cache.TableClassesCache;
 import aaa.utils.excel.bind.helper.BindHelper;
 import aaa.utils.excel.bind.helper.ColumnFieldHelper;
 import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 import aaa.utils.excel.io.entity.area.table.TableCell;
 import aaa.utils.excel.io.entity.area.table.TableRow;
@@ -29,37 +30,29 @@ public class ExcelUnmarshaller {
 		this(excelFile, true);
 	}
 
-	public ExcelUnmarshaller(File excelFile, boolean strictMatch) {
-		this(new ExcelManager(excelFile), strictMatch);
-	}
-
-	// TODO-dchubkov: sremove after implementation of getting objects by prvided excel rows (or kind of filter table)
-	public ExcelUnmarshaller(ExcelManager excelManager) {
-		this(excelManager, true);
-	}
-
-	public ExcelUnmarshaller(ExcelManager excelManager, boolean strictMatch) {
-		this.excelManager = excelManager;
+	public ExcelUnmarshaller(File excelFile, boolean strictMatch, CellType<?>... allowableCellTypes) {
+		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);
 		this.strictMatch = strictMatch;
 		this.cache = new TableClassesCache(excelManager, strictMatch);
 	}
 
 	public File getExcelFile() {
-		return this.excelManager.getFile();
+		return excelManager.getFile();
 	}
 
 	public boolean isStrictMatch() {
 		return strictMatch;
 	}
 
-	public <T> T unmarshalFile(Class<T> excelFileModel) {
+	@SuppressWarnings("unchecked")
+	public <T> T unmarshal(Class<T> excelFileModel) {
 		//TODO: check excelFileModel is valid class (not primitive, etc...)
 		log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
-				excelFileModel.getSimpleName(), excelManager.getFile().getAbsolutePath(), strictMatch ? "with" : "without"));
+				excelFileModel.getSimpleName(), getExcelFile().getAbsolutePath(), isStrictMatch() ? "with" : "without"));
 
-		T excelFileObject = BindHelper.getInstance(excelFileModel);
+		T excelFileObject = (T) BindHelper.getInstance(excelFileModel);
 		for (Field tableField : BindHelper.getAllAccessibleFields(excelFileModel, true)) {
-			List<Object> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
+			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
 			BindHelper.setFieldValue(tableField, excelFileObject, tablesObjects);
 		}
 
@@ -68,13 +61,18 @@ public class ExcelUnmarshaller {
 	}
 
 	public <T> List<T> unmarshalRows(Class<T> excelTableModel) {
+		return unmarshalRows(excelTableModel, null);
+	}
+
+	public <T> List<T> unmarshalRows(Class<T> excelTableModel, List<Integer> rowsWithPrimaryKeyValues) {
 		/*log.info(String.format("Getting \"%1$s\" object model from excel file \"%2$s\" %3$s strict match binding",
 				excelFileModel.getSimpleName(), excelManager.getFile().getAbsolutePath(), strictMatch ? "with" : "without"));*/
 
 		List<T> tableRowsObjects;
 		synchronized (UNMARSHAL_LOCK) { // Used to solve performance issues when parsing thousands of excel rows simultaneously by multiple threads
-			tableRowsObjects = new ArrayList<>(cache.of(excelTableModel).getExcelTable().getRows().size());
-			for (TableRow row : cache.of(excelTableModel).getExcelTable().getRows()) {
+			List<TableRow> rows = cache.of(excelTableModel).getRows(rowsWithPrimaryKeyValues);
+			tableRowsObjects = new ArrayList<>(rows.size());
+			for (TableRow row : rows) {
 				T tableRowObject = getTableObjectValue(excelTableModel, row);
 				tableRowsObjects.add(tableRowObject);
 			}
@@ -84,58 +82,88 @@ public class ExcelUnmarshaller {
 		return tableRowsObjects;
 	}
 
-	public void marshal(Object excelFileObject, File excelFile) {
+	public ExcelUnmarshaller marshal(Object excelFileObject) {
+		return marshal(excelFileObject, getExcelFile());
+	}
+
+	public ExcelUnmarshaller marshal(Object excelFileObject, File excelFile) {
 		//TODO-dchubkov: To be implemented...
 		throw new NotImplementedException("Excel marshalling is not implemented yet");
 	}
 
-	public void flushCache() {
+	public ExcelUnmarshaller flushCache() {
 		this.cache.flushAll();
+		return this;
 	}
 
-	private void setFieldValue(Field tableColumnField, Object tableObject, TableCell cell, boolean isTableField) {
-		//TableCell cell = row.getCell(cache.of(tableField).getHeaderColumnIndex(tableColumnField));
+	public ExcelUnmarshaller close() {
+		this.excelManager.close();
+		return this;
+	}
 
-		if (isTableField && !List.class.equals(tableColumnField.getType())) {
-			//setTableFieldValue(getLinkedTableRowIds(cell, tableColumnField), tableField, tableColumnField, tableObject);
-			Object tableObjectValue = getTableObjectValue(cache.of(tableColumnField).getTableClass(), cache.of(tableColumnField).getRow(cell.getIntValue()));
-			BindHelper.setFieldValue(tableColumnField, tableObject, tableObjectValue);
-			return;
+	@SuppressWarnings("unchecked")
+	private <T> T getTableObjectValue(Class<T> tableClass, TableRow row) {
+		if (cache.of(tableClass).hasObject(row.getIndex())) {
+			return (T) cache.of(tableClass).getObject(row.getIndex());
 		}
+
+		T tableObject = (T) BindHelper.getInstance(cache.of(tableClass).getTableClass());
+		for (Field tableColumnField : cache.of(tableClass).getTableColumnsFields()) {
+			TableCell cell = row.getCell(cache.of(tableClass).getHeaderColumnIndex(tableColumnField));
+			Object object;
+			if (cache.of(tableClass).isTableField(tableColumnField)) {
+				object = getFieldTableObject(tableColumnField, tableObject, cell);
+			} else {
+				object = getFieldObject(tableColumnField, tableObject, cell);
+			}
+			BindHelper.setFieldValue(tableColumnField, tableObject, object);
+		}
+		cache.of(tableClass).setObject(row.getIndex(), tableObject);
+
+		return tableObject;
+	}
+
+	private Object getFieldObject(Field tableColumnField, Object tableObject, TableCell cell) {
+		//TODO-dchubkov: add custom Cell Types
 
 		switch (tableColumnField.getType().getName()) {
 			case "int":
 			case "java.lang.Integer":
-				BindHelper.setFieldValue(tableColumnField, tableObject, cell.isEmpty() ? null : cell.getIntValue());
-				break;
+				return cell.isEmpty() ? null : cell.getIntValue();
+			//break;
 			case "boolean":
 			case "java.lang.Boolean":
-				BindHelper.setFieldValue(tableColumnField, tableObject, cell.isEmpty() ? null : cell.getBoolValue());
-				break;
+				return cell.isEmpty() ? null : cell.getBoolValue();
+			//break;
 			case "java.lang.String":
-				BindHelper.setFieldValue(tableColumnField, tableObject, cell.getStringValue());
-				break;
+				return cell.getStringValue();
+			//break;
 			case "java.time.LocalDateTime":
-				BindHelper.setFieldValue(tableColumnField, tableObject, cell.isEmpty() ? null : cell.getDateValue(ColumnFieldHelper.getFormatters(tableColumnField)));
-				break;
+				//break;
+				return cell.isEmpty() ? null : cell.getDateValue(ColumnFieldHelper.getFormatters(tableColumnField));
 			case "double":
 			case "java.lang.Double":
-				BindHelper.setFieldValue(tableColumnField, tableObject, cell.isEmpty() ? null : cell.getDoubleValue());
-				break;
+				return cell.isEmpty() ? null : cell.getDoubleValue();
+			//break;
 			case "java.util.List":
-				//if (BindHelper.isTableClassField(tableColumnField)) {
-				if (isTableField) {
-					//setTableFieldValue(getLinkedTableRowIds(cell, tableColumnField), tableField, tableColumnField, tableObject);
-					List<Object> tableObjectValues = getTableObjectValues(cache.of(tableColumnField).getTableClass(), getLinkedTableRowIds(cell, tableColumnField));
-					BindHelper.setFieldValue(tableColumnField, tableObject, tableObjectValues);
-				} else {
-					//TODO-dchubkov: add List of contains logic...
+				//BindHelper.getGenericTypeClass(tableColumnField)
+				List<TableCell> cells = cell.getRow().getCellsContains(ColumnFieldHelper.getHeaderColumnNamePattern(tableColumnField));
+				List<Object> fieldObjectsList = new ArrayList<>(cells.size());
+				for (TableCell c : cells) {
+					fieldObjectsList.add(c.getValue());
 				}
-
-				break;
+				return fieldObjectsList;
+			//break;
 			default:
 				throw new IstfException(String.format("Field type \"%s\" is not supported for unmarshalling", tableColumnField.getType().getName()));
 		}
+	}
+
+	private Object getFieldTableObject(Field tableColumnField, Object tableObject, TableCell cell) {
+		if (!List.class.equals(tableColumnField.getType())) {
+			return getTableObjectValue(cache.of(tableColumnField).getTableClass(), cache.of(tableColumnField).getRow(cell.getIntValue()));
+		}
+		return getTableObjectValues(cache.of(tableColumnField).getTableClass(), getLinkedTableRowIds(cell, tableColumnField));
 	}
 
 	private List<Integer> getLinkedTableRowIds(TableCell cell, Field tableColumnField) {
@@ -150,32 +178,14 @@ public class ExcelUnmarshaller {
 		return linkedTableRowIds;
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T> T getTableObjectValue(Class<T> tableClass, TableRow row) {
-		if (cache.of(tableClass).hasObject(row.getIndex())) {
-			return cache.of(tableClass).getObject(row.getIndex());
-		}
-
-		T tableObjectValue = BindHelper.getInstance(cache.of(tableClass).getTableClass());
-		for (Field tableColumnField : cache.of(tableClass).getTableColumnsFields()) {
-			TableCell cell = row.getCell(cache.of(tableClass).getHeaderColumnIndex(tableColumnField));
-			boolean isTableField = cache.of(tableClass).isTableField(tableColumnField);
-			setFieldValue(tableColumnField, tableObjectValue, cell, isTableField);
-		}
-		cache.of(tableClass).setObject(row.getIndex(), tableObjectValue);
-
-		return tableObjectValue;
-	}
-
 	private List<Object> getTableObjectValues(Class<?> tableClass) {
 		return getTableObjectValues(tableClass, null);
 	}
 
 	private List<Object> getTableObjectValues(Class<?> tableClass, List<Integer> tableRowsIds) {
-		/*if (tableRowsIds.isEmpty()) {
-			//TODO-dchubkov: think what is better in empty IDs case
+		if (tableRowsIds.isEmpty()) {
 			return null;
-		}*/
+		}
 		List<TableRow> tableRows = cache.of(tableClass).getRows(tableRowsIds);
 		List<Object> tableObjectValues = new ArrayList<>(tableRows.size());
 		for (TableRow row : tableRows) {

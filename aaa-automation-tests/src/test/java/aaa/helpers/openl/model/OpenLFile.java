@@ -104,7 +104,6 @@ public abstract class OpenLFile<P extends OpenLPolicy> {
 	@ExcelTransient
 	public static final String PRIMARY_KEY_COLUMN_NAME = "_PK_";
 
-	@ExcelTransient
 	protected List<OpenLTest> tests;
 
 	public List<OpenLTest> getTests() {

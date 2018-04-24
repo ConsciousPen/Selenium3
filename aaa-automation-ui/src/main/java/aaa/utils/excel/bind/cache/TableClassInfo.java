@@ -14,19 +14,21 @@ import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
+import aaa.utils.excel.io.entity.area.table.TableCell;
+import aaa.utils.excel.io.entity.area.table.TableColumn;
 import aaa.utils.excel.io.entity.area.table.TableRow;
 import toolkit.exceptions.IstfException;
 
-public class TableClassInfo<T> {
+public class TableClassInfo {
 	protected static Logger log = LoggerFactory.getLogger(TableClassInfo.class);
 
-	private final Class<T> tableClass;
+	private final Class<?> tableClass;
 	private final ExcelManager excelManager;
 	private final boolean strictMatch;
 	private final boolean isCaseIgnoredForAllColumns;
 	//private final FieldsInfoCache columnFieldsCache;
-	private final Map<Integer, TableRow> primaryKeyColumnValuesAndRows;
-	private final Map<Integer, T> rowsIndexesAndCreatedObjects;
+	private Map<Integer, TableRow> primaryKeyColumnValuesAndRows;
+	private final Map<Integer, Object> rowsIndexesAndCreatedObjects;
 	//private Map<String, TableRow> primaryKeyColumnValuesAndRowIndexes2;
 
 	private List<TableFieldInfo> tableFieldsInfos;
@@ -38,19 +40,19 @@ public class TableClassInfo<T> {
 	private Integer primaryKeyColumnIndex;
 	private CellType<?> primaryKeyCellType;
 
-	TableClassInfo(Class<T> tableClass, ExcelManager excelManager, boolean strictMatch) {
+	TableClassInfo(Class<?> tableClass, ExcelManager excelManager, boolean strictMatch) {
 		this.tableClass = tableClass;
 		this.excelManager = excelManager;
 		this.strictMatch = strictMatch;
 		this.isCaseIgnoredForAllColumns = TableClassHelper.isCaseIgnored(tableClass);
 		//this.columnFieldsCache = new FieldsInfoCache<>(excelManager, strictMatch);
-		this.primaryKeyColumnValuesAndRows = new HashMap<>();
+		//this.primaryKeyColumnValuesAndRows = new HashMap<>();
 		//this.primaryKeyColumnValuesAndRowIndexes2 = new HashMap<>();
 		this.rowsIndexesAndCreatedObjects = new HashMap<>();
 		this.primaryKeyColumnsIndexesWithUnknownValues = new ArrayList<>();
 	}
 
-	public Class<T> getTableClass() {
+	public Class<?> getTableClass() {
 		return tableClass;
 	}
 
@@ -112,7 +114,7 @@ public class TableClassInfo<T> {
 		return getTableColumnsFields().stream().map(this::getHeaderColumnName).collect(Collectors.toList());
 	}
 
-	public TableRow getRow(Integer primaryKeyExpectedValue) {
+	/*public TableRow getRow(Integer primaryKeyExpectedValue) {
 		if (!this.primaryKeyColumnValuesAndRows.containsKey(primaryKeyExpectedValue)) {
 			List<Integer> rowsIndexes = new ArrayList<>(getRowsIndexesWithUnknownPrimaryKeyValues());
 			for (Integer index : rowsIndexes) {
@@ -124,6 +126,25 @@ public class TableClassInfo<T> {
 					return row;
 				}
 			}
+		}
+
+		return this.primaryKeyColumnValuesAndRows.get(primaryKeyExpectedValue);
+	}*/
+
+	public TableRow getRow(Integer primaryKeyExpectedValue) {
+		if (this.primaryKeyColumnValuesAndRows == null) {
+			this.primaryKeyColumnValuesAndRows = new HashMap<>(getExcelTable().getRows().size());
+			/*for (TableRow row : getExcelTable().getRows()) {
+				this.primaryKeyColumnValuesAndRows.put(row.getCell(getPrimaryKeyColumnIndex()).getIntValue(), row);
+			}*/
+			TableColumn column = getExcelTable().getColumn(getPrimaryKeyColumnIndex());
+			for (TableCell cell : column.getCells()) {
+				this.primaryKeyColumnValuesAndRows.put(cell.getIntValue(), cell.getRow());
+			}
+		}
+
+		if (!this.primaryKeyColumnValuesAndRows.containsKey(primaryKeyExpectedValue)) {
+			throw new IstfException(String.format("There is no \"%1$s\" value in primary key column #%2$s in table %3$s", primaryKeyExpectedValue, getPrimaryKeyColumnIndex(), getExcelTable()));
 		}
 
 		return this.primaryKeyColumnValuesAndRows.get(primaryKeyExpectedValue);
@@ -192,11 +213,11 @@ public class TableClassInfo<T> {
 		//return false;
 	}
 
-	public T getObject(Integer rowIndex) {
+	public Object getObject(Integer rowIndex) {
 		return this.rowsIndexesAndCreatedObjects.get(rowIndex);
 	}
 
-	public void setObject(int rowIndex, T object) {
+	public void setObject(int rowIndex, Object object) {
 		this.rowsIndexesAndCreatedObjects.put(rowIndex, object);
 	}
 
@@ -232,6 +253,12 @@ public class TableClassInfo<T> {
 		for (Field columnField : tableColumnsFields) {
 			String fieldColumnName = getHeaderColumnName(columnField);
 			Predicate<String> fieldColumnExistsInTable = isCaseIgnored(columnField) ? fieldColumnName::equalsIgnoreCase : fieldColumnName::equals;
+
+			if (getFieldInfo(columnField).hasHeaderColumnNamePattern()) {
+				fieldColumnExistsInTable.and(c -> c.contains(getFieldInfo(columnField).getHeaderColumnNamePattern()));
+			}
+			//TODO-dchubkov: to be continued...
+
 			extraTableColumnNames.removeIf(fieldColumnExistsInTable);
 			if (extraTableColumnNames.isEmpty()) {
 				break;

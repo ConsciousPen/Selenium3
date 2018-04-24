@@ -1,7 +1,7 @@
 package aaa.helpers.mock.model.membership;
 
 import java.time.LocalDateTime;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
@@ -13,45 +13,45 @@ public class MembershipResponse {
 	@ExcelTransient
 	private static final String DATE_PATTERN_2 = "MM-dd-yy";
 
-	@ExcelTableColumnElement(name = "ID")
+	@ExcelColumnElement(name = "ID")
 	private String id;
 
-	@ExcelTableColumnElement(name = "membershipStatus_A_C_L")
+	@ExcelColumnElement(name = "membershipStatus_A_C_L")
 	private String membershipStatusAcl;
 
-	@ExcelTableColumnElement(name = "ersUsageCountPerActive_Member")
+	@ExcelColumnElement(name = "ersUsageCountPerActive_Member")
 	private Double ersUsageCountPerActiveMember;
 
-	@ExcelTableColumnElement(name = "ersUsage_Abuse")
+	@ExcelColumnElement(name = "ersUsage_Abuse")
 	private Boolean ersUsageAbuse;
 
 	private String responseMessageRuleDecision;
 
-	@ExcelTableColumnElement(name = "Service")
+	@ExcelColumnElement(name = "Service")
 	private String service;
 
-	@ExcelTableColumnElement(name = "faultcode")
+	@ExcelColumnElement(name = "faultcode")
 	private String faultCode;
 
-	@ExcelTableColumnElement(name = "faultstring")
+	@ExcelColumnElement(name = "faultstring")
 	private String faultString;
 
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime membershipEndDate;
 
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime membershipEffectiveDate;
 
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime memberStartDate;
 
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime serviceDate;
 
-	@ExcelTableColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
+	@ExcelColumnElement(dateFormatPatterns = {DATE_PATTERN_1, DATE_PATTERN_2})
 	private LocalDateTime birthDate;
 
-	@ExcelTableColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
+	@ExcelColumnElement(dateFormatPatterns = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
 	private LocalDateTime errorTimeStamp;
 
 	private Integer membershipEffectiveDateOffset;

@@ -5,21 +5,13 @@ import java.util.List;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLAddress;
 import aaa.helpers.openl.model.OpenLFile;
-import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public class AutoCaChoiceOpenLFile extends OpenLFile<AutoCaChoiceOpenLPolicy> {
-	protected List<AutoCaChoiceOpenLPolicy> policies;
 
-	@ExcelTransient
+	private List<AutoCaChoiceOpenLPolicy> policies;
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
-
-	@ExcelTransient
 	private List<OpenLAddress> address;
-
-	@ExcelTransient
 	private List<AutoCaChoiceOpenLDriver> drivers;
-
-	@ExcelTransient
 	private List<AutoOpenLCoverage> coverages;
 
 	public List<AutoCaChoiceOpenLVehicle> getVehicles() {

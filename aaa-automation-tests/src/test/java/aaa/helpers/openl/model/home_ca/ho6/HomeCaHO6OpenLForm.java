@@ -2,13 +2,10 @@ package aaa.helpers.openl.model.home_ca.ho6;
 
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.openl.model.home_ca.HomeCaOpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
-import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
-	@ExcelTableElement(sheetName = HomeCaOpenLFile.SCHEDULED_PROPERTY_ITEM_SHEET_NAME, headerRowIndex = HomeCaOpenLFile.SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER)
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 
 	private Integer age;
@@ -43,16 +40,6 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 		this.formClass = formClass;
 	}
 
-	@Override
-	public Double getLimit() {
-		return limit;
-	}
-
-	@Override
-	public void setLimit(Double limit) {
-		this.limit = limit;
-	}
-	
 	public Boolean getHasCorporalPunishmentSurcharge() {
 		return hasCorporalPunishmentSurcharge;
 	}
@@ -91,6 +78,16 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public Double getLimit() {
+		return limit;
+	}
+
+	@Override
+	public void setLimit(Double limit) {
+		this.limit = limit;
 	}
 
 	@Override

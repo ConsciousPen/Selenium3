@@ -12,10 +12,7 @@ public abstract class HomeCaOpenLFile<P extends HomeCaOpenLPolicy> extends OpenL
 	@ExcelTransient
 	public static final String SCHEDULED_PROPERTY_ITEM_SHEET_NAME = "Batch- ScheduledPropertyItem";
 
-	@ExcelTransient
 	protected List<HomeCaOpenLAddress> address;
-
-	@ExcelTransient
 	protected List<HomeCaOpenLCoverage> coverages;
 
 	public List<HomeCaOpenLAddress> getAddress() {

@@ -24,7 +24,7 @@ public @interface ExcelTableElement {
 
 	/**
 	 * If true then ignore case while matching each class field name with header column name from excel file.
-	 * <b>true</b> value on class level overrides all field's {@link ExcelTableColumnElement#ignoreCase()} values.
+	 * <b>true</b> value on class level overrides all field's {@link ExcelColumnElement#ignoreCase()} values.
 	 * Default value is false.
 	 */
 	boolean ignoreCase() default false;

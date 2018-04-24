@@ -1,6 +1,5 @@
 package aaa.modules.openl;
 
-import java.io.File;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -8,8 +7,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.openl.model.OpenLFile;
-import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
@@ -17,7 +14,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
-import aaa.utils.excel.bind.ExcelUnmarshaller;
 import toolkit.datax.TestData;
 
 public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy> {
@@ -59,14 +55,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
-		//ExcelManager openLFileManager = new ExcelManager(new File(getTestsDir() + "/PATests-20180312_part1.xls"));
-		ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(new File(getTestsDir() + "/PATests-20180312_part1.xls"), false);
-		OpenLFile<AutoSSOpenLPolicy> openLFile = excelUnmarshaller.unmarshalFile(AutoSSOpenLFile.class);
-		//List<AutoSSOpenLPolicy> openLPolicies = excelUnmarshaller.unmarshalRows(AutoSSOpenLPolicy.class);
-		//openLPolicies.get(0).getVehicles();
-		openLFile.getPolicies();
-
-		/*TestDataGenerator<AutoSSOpenLPolicy> tdGenerator = new AutoSSTestDataGenerator(getState(), getRatingDataPattern());
-		verifyPremiums(fileName, AutoSSOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));*/
+		TestDataGenerator<AutoSSOpenLPolicy> tdGenerator = new AutoSSTestDataGenerator(getState(), getRatingDataPattern());
+		verifyPremiums(fileName, AutoSSOpenLPolicy.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }

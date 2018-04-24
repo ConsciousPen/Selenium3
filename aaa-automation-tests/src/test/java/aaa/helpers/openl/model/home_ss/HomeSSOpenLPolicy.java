@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.annotation.ExcelTableColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
@@ -25,7 +25,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	private List<OpenLRiskMeterData> riskMeterData; // NJ Specific
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelTableColumnElement(name = "id")
+	@ExcelColumnElement(name = "id")
 	private String policyNumber;
 
 	private LocalDateTime effectiveDate;

@@ -70,13 +70,18 @@ public class BindHelper {
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getTableClass(Field field) {
 		if (List.class.equals(field.getType())) {
-			ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
-			return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+			return getGenericTypeClass(field);
 		}
 		return (Class<T>) field.getType();
 	}
 
-	public static <T> T getInstance(Class<T> clazz) {
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> getGenericTypeClass(Field field) {
+		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+		return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+	}
+
+	public static Object getInstance(Class<?> clazz) {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
