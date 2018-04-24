@@ -9,6 +9,7 @@ import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -22,38 +23,42 @@ public class GeneralTab extends Tab {
 
 	public static AdvancedTable tableInsuredList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListInsured"));
 
-    public GeneralTab() {
-        super(AutoCaMetaData.GeneralTab.class);
-    }
-
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
+	public GeneralTab() {
+		super(AutoCaMetaData.GeneralTab.class);
+	}
 
 	public MultiInstanceAfterAssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public AssetList getValidateAddressDialogAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
-    			.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
+
+	public AddressValidationDialog getValidateAddressDialogAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG);
 	}
-    public AssetList getAAAProductOwnedAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+
+	public AssetList getAAAProductOwnedAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
 	}
-    public AssetList getCurrentCarrierInfoAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
+
+	public AssetList getCurrentCarrierInfoAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
 	}
-    public AssetList getPolicyInfoAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+
+	public AssetList getPolicyInfoAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
 	}
-    public AssetList getThirdPartyDesigneeInfoAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE_INFORMATION.getLabel(), AssetList.class);
+
+	public AssetList getThirdPartyDesigneeInfoAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE_INFORMATION.getLabel(), AssetList.class);
 	}
 
 	public AssetList getContactInfoAssetList() {
 		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), AssetList.class);
+	}
+
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
 	}
 
 	/*

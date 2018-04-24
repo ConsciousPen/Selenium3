@@ -52,10 +52,12 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void logout() {
-		BrowserController.get().executeScript("$(\'#headerForm\').show();");
 		try {
-			if (Tab.buttonSaveAndExit.isPresent() && Tab.buttonSaveAndExit.isVisible()) {
-				Tab.buttonSaveAndExit.click();
+			if (!BrowserController.get().driver().findElements(By.xpath(NavigationPage.LINKS_NAVIGATION_VIEW_TREE)).isEmpty()) {
+				BrowserController.get().executeScript("$(\'#headerForm\').show();");
+				if (Tab.buttonSaveAndExit.isPresent() && Tab.buttonSaveAndExit.isVisible()) {
+					Tab.buttonSaveAndExit.click();
+				}
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e.getCause());
