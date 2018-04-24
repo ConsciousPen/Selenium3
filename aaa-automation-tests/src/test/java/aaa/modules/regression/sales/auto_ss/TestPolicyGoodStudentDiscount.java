@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.auto_ss;
 
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Parameters;
@@ -24,9 +24,8 @@ import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestGoodStudentDiscount extends AutoSSBaseTest {
-	SoftAssertions softly = new SoftAssertions();
-	
+public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
+	protected SoftAssertions softly = new SoftAssertions();	
 	protected TestData tdPolicy;
 	private String origPolicyNum;
 	private String policyNum1;
