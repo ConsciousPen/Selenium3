@@ -347,7 +347,7 @@ TestData_NY: {
   Refund: [10, NONE],
   Cancellation notice: [5, PREVIOUS],
   Mortgagee Bill First Renewal: [10, PREVIOUS],
-  Cancellation: [17, NONE],
+  Cancellation: [21, NONE], # set [17, NEXT] in case QC 44846 fix
   Renew customer decline: [22, NONE],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
