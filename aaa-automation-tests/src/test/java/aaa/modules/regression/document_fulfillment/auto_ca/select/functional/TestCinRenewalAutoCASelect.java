@@ -2,8 +2,13 @@ package aaa.modules.regression.document_fulfillment.auto_ca.select.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestCinAbstractAutoCA;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,6 +39,11 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA {
         TestData renewalTD = getTestSpecificTD("TestData_Renewal_Clue").resolveLinks()
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"));
         renewPolicy(policyNumber, renewalTD);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
     }
 
     /**
@@ -59,6 +69,11 @@ public class TestCinRenewalAutoCASelect extends TestCinAbstractAutoCA {
         TestData renewalTD = getTestSpecificTD("TestData_Renewal_Mvr").resolveLinks()
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"));
         renewPolicy(policyNumber, renewalTD);
+        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        });
     }
 
     @Override
