@@ -231,4 +231,18 @@ public interface EvalueInsertSetupPreConditions {
 	String PROPERTY_CONFIGURER_ENTITY_INSERT = "INSERT\n"
 			+ " INTO PROPERTYCONFIGURERENTITY (author, description, PROPERTYNAME, VALUE)\n"
 			+ " values('%s', '%s', '%s', '%s')\n";
+
+	String PAPERLESS_PREFERENCES_ELIGIBILITY_CHECK_FOR_PRODUCT = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
+			+ "from LOOKUPVALUE\n"
+			+ "where 1=1\n"
+			+ "and code = 'PaperlessPreferences'\n"
+			+ "and displayValue = 'TRUE'\n"
+			+ "and productCd = '%s'\n"
+			+ "and riskstatecd = '%s'";
+
+	String PAPERLESS_PREFERENCES_ELIGIBILITY_INSERT_FOR_PRODUCT = "INSERT ALL\\n\"\n"
+			+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+			+ " values ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', '%s', '%s',(select SYSDATE-27 from dual), (select SYSDATE-23 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+			+ " Select * from dual";
+
 }
