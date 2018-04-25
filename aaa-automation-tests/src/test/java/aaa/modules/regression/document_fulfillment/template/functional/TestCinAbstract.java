@@ -71,13 +71,6 @@ public abstract class TestCinAbstract extends BaseTest {
         performRenewal(renewalTD);
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String renewedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, renewedPolicyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
-        });
     }
 
     /**

@@ -360,7 +360,9 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 	private void lastTransactionHistoryExit() {
 		if (Tab.buttonCancel.isPresent()) {
 			premiumAndCoveragesTab.cancel();
-			Tab.buttonCancel.click();
+			if (Tab.buttonCancel.isPresent()) {
+				Tab.buttonCancel.click();
+			}
 		}
 	}
 
@@ -374,16 +376,16 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 		if (isGenerated) {
 			if (isMembershipDataPresent) {
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
 				//PAS-1549 Start
-				CustomAssert.assertTrue("5.0%"
+				CustomAssert.assertTrue("5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
 								.getTextField()));
 				//PAS-1549 End
 				CustomAssert.assertTrue("Y"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			} else {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Advantage Program"));
 				CustomAssert.assertTrue("N"
 						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemYN", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			}
