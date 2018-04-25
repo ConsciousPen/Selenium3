@@ -406,7 +406,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145", "PAS-11622"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7082", "PAS-7145","PAS-11621"})
 	public void pas7082_AddVehicle(@Optional("AZ") String state) {
 
 		pas7082_AddVehicle(getPolicyType());
@@ -813,11 +813,17 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * verify coverages are same like pas coverages
 	 * calculate premium save and exit
 	 * run ViewManageVehicleLevelCoverages for endorsemnt
-	 * validate they are matching with pas.
+	 * validate coverages are matching with pas and all delimators .
+	 * Go to pas and change all the coverages for vehicle
+	 * calculate premium save.
+	 * open pended endorsement go to P and C page.
+	 * get all vehicle coverages save them
+	 * hit view manage vehicle level coverages dxp
+	 * validate response aginst pas vehicle coverages.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741","PAS-11852","PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
@@ -897,6 +903,25 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	public void pas11684_DriverAssignmentExistsForState(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas11684_DriverAssignmentExistsForStateBody(state, softly)
+		);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Validate Meta data for Vehicle
+	 * Create a va policy
+	 * Create an endorsement using DXP
+	 * Hit view vehicle service to get OID
+	 * Hit Meta data service
+	 * Validate the response
+	 * @scenario
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12407"})
+	public void pas12407_BigMetaDataService(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas12407_bigDataService(state, true, softly)
 		);
 	}
 
